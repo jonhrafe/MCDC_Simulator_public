@@ -1,0 +1,378 @@
+\hypertarget{class_walker}{}\section{Walker Class Reference}
+\label{class_walker}\index{Walker@{Walker}}
+
+
+Spin Final class =============================================================/.  
+
+
+
+
+{\ttfamily \#include $<$walker.\+h$>$}
+
+
+
+Collaboration diagram for Walker\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_walker__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_walker_afcad3f5c11d0bd045de22fb0347dc44c}{state} \{ \newline
+{\bfseries on\+\_\+object}, 
+{\bfseries on\+\_\+edge}, 
+{\bfseries on\+\_\+vertex}, 
+{\bfseries on\+\_\+voxel}, 
+\newline
+{\bfseries free}, 
+{\bfseries bouncing}
+ \}\begin{DoxyCompactList}\small\item\em An enum. \end{DoxyCompactList}
+\item 
+enum \hyperlink{class_walker_a24246136a10754791b05cb570dbb8417}{Relative\+Location} \{ {\bfseries unknown}, 
+{\bfseries intra}, 
+{\bfseries extra}
+ \}\begin{DoxyCompactList}\small\item\em An enum. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_walker_acc0931305bedcf81ff621c31cdf2a92c}{Walker} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_walker_a562c14b600628c18ac689464bd0f7e35}{$\sim$\+Walker} ()
+\item 
+\hyperlink{class_walker_ada366966172eec6916690c01ac8f01db}{Walker} (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_walker_a682ea5a26950ba7a563ebbf1d1cfe62e}\label{class_walker_a682ea5a26950ba7a563ebbf1d1cfe62e}} 
+void {\bfseries get\+Real\+Position} (double \&, double \&, double \&) const
+\item 
+\mbox{\Hypertarget{class_walker_a85bf9ae51ffcfa9c797ac863bb0ed58a}\label{class_walker_a85bf9ae51ffcfa9c797ac863bb0ed58a}} 
+void {\bfseries get\+Real\+Position} (Eigen\+::\+Vector3d \&) const
+\item 
+\mbox{\Hypertarget{class_walker_a01b46473c4c9126531f86084644be87b}\label{class_walker_a01b46473c4c9126531f86084644be87b}} 
+void {\bfseries get\+Voxel\+Position} (double \&, double \&, double \&) const
+\item 
+\mbox{\Hypertarget{class_walker_aae6ee54e7ca18144ebc63ae30184ac57}\label{class_walker_aae6ee54e7ca18144ebc63ae30184ac57}} 
+void {\bfseries get\+Voxel\+Position} (Eigen\+::\+Vector3d \&) const
+\item 
+\mbox{\Hypertarget{class_walker_a0341476db76d217c0eec89b5f786dc87}\label{class_walker_a0341476db76d217c0eec89b5f786dc87}} 
+void {\bfseries get\+Initial\+Position} (double \&, double \&, double \&) const
+\item 
+\mbox{\Hypertarget{class_walker_a3aa5f7410325a5fc1096684e215e4e3f}\label{class_walker_a3aa5f7410325a5fc1096684e215e4e3f}} 
+void {\bfseries get\+Initial\+Position} (Eigen\+::\+Vector3d \&) const
+\item 
+\mbox{\Hypertarget{class_walker_adf89d9d3c6cd537d2587e51775f9b6ad}\label{class_walker_adf89d9d3c6cd537d2587e51775f9b6ad}} 
+void {\bfseries get\+Next\+Direction} (Eigen\+::\+Vector3d \&) const
+\item 
+\mbox{\Hypertarget{class_walker_a37969cac5ade61c75fb7407b56b535da}\label{class_walker_a37969cac5ade61c75fb7407b56b535da}} 
+unsigned int {\bfseries get\+Index} () const
+\item 
+\mbox{\Hypertarget{class_walker_a47cb165188d588ea04f090648b091654}\label{class_walker_a47cb165188d588ea04f090648b091654}} 
+void {\bfseries set\+Real\+Position} (const double \&, const double \&, const double \&)
+\item 
+\mbox{\Hypertarget{class_walker_ad25cfee48c03072212d9034069002819}\label{class_walker_ad25cfee48c03072212d9034069002819}} 
+void {\bfseries set\+Real\+Position} (const Eigen\+::\+Vector3d \&)
+\item 
+\mbox{\Hypertarget{class_walker_a4d87112b21f490f19e7b942ca94aae20}\label{class_walker_a4d87112b21f490f19e7b942ca94aae20}} 
+void {\bfseries set\+Voxel\+Position} (const double \&, const double \&, const double \&)
+\item 
+\mbox{\Hypertarget{class_walker_aba1f54b57de786fe550ebfcf9f4a7e31}\label{class_walker_aba1f54b57de786fe550ebfcf9f4a7e31}} 
+void {\bfseries set\+Voxel\+Position} (const Eigen\+::\+Vector3d \&)
+\item 
+\mbox{\Hypertarget{class_walker_a06a696a95f7678cb76be214e90e64337}\label{class_walker_a06a696a95f7678cb76be214e90e64337}} 
+void {\bfseries set\+Initial\+Position} (const double \&, const double \&, const double \&)
+\item 
+\mbox{\Hypertarget{class_walker_aafa361803280bc080049ea153867b61d}\label{class_walker_aafa361803280bc080049ea153867b61d}} 
+void {\bfseries set\+Initial\+Position} (const Eigen\+::\+Vector3d \&)
+\item 
+\mbox{\Hypertarget{class_walker_abdeb613b765c45fdabe2891accdbdfb6}\label{class_walker_abdeb613b765c45fdabe2891accdbdfb6}} 
+void {\bfseries set\+Next\+Direction} (Eigen\+::\+Vector3d \&)
+\item 
+\mbox{\Hypertarget{class_walker_aefd71f5bc3303af7e7748bcac5b6ce92}\label{class_walker_aefd71f5bc3303af7e7748bcac5b6ce92}} 
+void {\bfseries set\+Random\+Initial\+Position} (const Eigen\+::\+Vector3d \&min, const Eigen\+::\+Vector3d \&max)
+\item 
+\mbox{\Hypertarget{class_walker_aa6643451a4e13c1d7e121fe710a3bade}\label{class_walker_aa6643451a4e13c1d7e121fe710a3bade}} 
+void {\bfseries set\+Index} (unsigned int \&)
+\item 
+\mbox{\Hypertarget{class_walker_a1fff7bf0f8dde00b9909891f060ac009}\label{class_walker_a1fff7bf0f8dde00b9909891f060ac009}} 
+void {\bfseries set\+Real\+Pos\+Log} (const Eigen\+::\+Vector3d \&pos, unsigned t)
+\item 
+\mbox{\Hypertarget{class_walker_a00a41d2b11cfeffae9ea66f4ea80a568}\label{class_walker_a00a41d2b11cfeffae9ea66f4ea80a568}} 
+void {\bfseries set\+Real\+Pos\+Log} (double x, double y, double z, unsigned t)
+\item 
+\mbox{\Hypertarget{class_walker_adc7b7500ea403ce7dba872ef729c2c40}\label{class_walker_adc7b7500ea403ce7dba872ef729c2c40}} 
+void {\bfseries set\+Vox\+Pos\+Log} (const Eigen\+::\+Vector3d \&pos, unsigned t)
+\item 
+\mbox{\Hypertarget{class_walker_adb197a756c457adc604b6605111e9b92}\label{class_walker_adb197a756c457adc604b6605111e9b92}} 
+void {\bfseries set\+Vox\+Pos\+Log} (double x, double y, double z, unsigned t)
+\item 
+\mbox{\Hypertarget{class_walker_a288f810ee9e4de79a7fe9224de7438b3}\label{class_walker_a288f810ee9e4de79a7fe9224de7438b3}} 
+void {\bfseries set\+Number\+Of\+Steps} (unsigned T)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_walker_a1008a95833c1f74b53f02e57e84417b7}{pos\+\_\+r}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_walker_a2c1bf5a8da9e8f3a230a22ab4ae0e373}{pos\+\_\+v}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_walker_a8c78216899e04e9439a991cbad9df36f}{last\+\_\+pos\+\_\+r}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_walker_a2d50601346a754183b38890c18e7a6e7}{last\+\_\+pos\+\_\+v}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_walker_a98116f0e5d65e1cf65449d80a2d87617}{ini\+\_\+pos}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_walker_ad1629485a13c80367a563ed7b88149eb}{next\+\_\+direction}
+\item 
+Eigen\+::\+Matrix3\+Xd \hyperlink{class_walker_a1ba5a46fddf62eb3eeaabc7c868afe07}{pos\+\_\+r\+\_\+log}
+\item 
+Eigen\+::\+Matrix3\+Xd \hyperlink{class_walker_a62d99cc92226681123be94e64fb2bf7b}{pos\+\_\+v\+\_\+log}
+\item 
+int \hyperlink{class_walker_adf221f7a635c09cfaafc0dab5aa38106}{in\+\_\+obj\+\_\+index}
+\item 
+\hyperlink{class_cylinder_collision_sphere}{Cylinder\+Collision\+Sphere} \hyperlink{class_walker_a28d139085430c9a11e0a70be2c3083af}{collision\+\_\+sphere\+\_\+cylinders}
+\item 
+\hyperlink{class_p_l_y_collision_sphere}{P\+L\+Y\+Collision\+Sphere} \hyperlink{class_walker_a8aecfb76c9007eb6da99b024bc5e425d}{collision\+\_\+sphere\+\_\+ply}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_walker_a8a27ead68d3dc7140afbec2710fb3176}{initial\+\_\+sphere\+\_\+pos\+\_\+v}
+\item 
+unsigned \hyperlink{class_walker_a83536011f160b42f6c39f121ee550731}{steps\+\_\+count}
+\item 
+\hyperlink{class_walker_afcad3f5c11d0bd045de22fb0347dc44c}{state} \hyperlink{class_walker_afa37629b74387435a0bb02e0c061a718}{status}
+\item 
+\mbox{\Hypertarget{class_walker_aa80fe894bc14568bdc296083ca5e5492}\label{class_walker_aa80fe894bc14568bdc296083ca5e5492}} 
+\hyperlink{class_walker_a24246136a10754791b05cb570dbb8417}{Relative\+Location} {\bfseries initial\+\_\+location}
+\item 
+\hyperlink{class_walker_a24246136a10754791b05cb570dbb8417}{Relative\+Location} \hyperlink{class_walker_a77f5c801c38158bb8568f75a22baed20}{location}
+\item 
+int \hyperlink{class_walker_aa211ac1f9a396b1bf3b565e0f8ed098a}{intra\+\_\+extra\+\_\+consensus}
+\item 
+unsigned \hyperlink{class_walker_a8ca6c90f124e46869ea752920565e2c2}{intra\+\_\+coll\+\_\+count}
+\item 
+unsigned \hyperlink{class_walker_a28c595f6f6b4c32bed6afb177c0a6608}{extra\+\_\+coll\+\_\+count}
+\item 
+unsigned int \hyperlink{class_walker_a58e2d14d760748687138b7582cd04365}{index}
+\item 
+unsigned int \hyperlink{class_walker_a38669698192d39146c77011b69b1e372}{rejection\+\_\+count}
+\item 
+float \hyperlink{class_walker_a7f33d06b7aa5fabf2a2ac15d119bbcc7}{steps\+\_\+per\+\_\+second}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Spin Final class =============================================================/. 
+
+Basic unit of the diffusion process.
+
+\begin{DoxyAuthor}{Author}
+Jonathan Rafael 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+November 2016 \subsection*{0.\+2 }
+\end{DoxyDate}
+
+
+Alias for a particle. Basic unit on the simulation process. Saves all the necessary information to perform the particles dynamics. 
+
+\subsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{class_walker_a24246136a10754791b05cb570dbb8417}\label{class_walker_a24246136a10754791b05cb570dbb8417}} 
+\index{Walker@{Walker}!Relative\+Location@{Relative\+Location}}
+\index{Relative\+Location@{Relative\+Location}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{Relative\+Location}{RelativeLocation}}
+{\footnotesize\ttfamily enum \hyperlink{class_walker_a24246136a10754791b05cb570dbb8417}{Walker\+::\+Relative\+Location}}
+
+
+
+An enum. 
+
+Possible location of the walker inside the voxel. Checks illegal crossings of the barrier (border, lol) \mbox{\Hypertarget{class_walker_afcad3f5c11d0bd045de22fb0347dc44c}\label{class_walker_afcad3f5c11d0bd045de22fb0347dc44c}} 
+\index{Walker@{Walker}!state@{state}}
+\index{state@{state}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{state}{state}}
+{\footnotesize\ttfamily enum \hyperlink{class_walker_afcad3f5c11d0bd045de22fb0347dc44c}{Walker\+::state}}
+
+
+
+An enum. 
+
+All the possibles states that a walker can be in a given step. The next step is perform according to this state 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_walker_acc0931305bedcf81ff621c31cdf2a92c}\label{class_walker_acc0931305bedcf81ff621c31cdf2a92c}} 
+\index{Walker@{Walker}!Walker@{Walker}}
+\index{Walker@{Walker}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{Walker()}{Walker()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Walker\+::\+Walker (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Default constructor. 
+
+Set all variables to cero.
+
+Basesd class \hyperlink{class_walker}{Walker}. \mbox{\Hypertarget{class_walker_a562c14b600628c18ac689464bd0f7e35}\label{class_walker_a562c14b600628c18ac689464bd0f7e35}} 
+\index{Walker@{Walker}!````~Walker@{$\sim$\+Walker}}
+\index{````~Walker@{$\sim$\+Walker}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{$\sim$\+Walker()}{~Walker()}}
+{\footnotesize\ttfamily Walker\+::$\sim$\+Walker (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Default destructor.
+
+Does nothing \mbox{\Hypertarget{class_walker_ada366966172eec6916690c01ac8f01db}\label{class_walker_ada366966172eec6916690c01ac8f01db}} 
+\index{Walker@{Walker}!Walker@{Walker}}
+\index{Walker@{Walker}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{Walker()}{Walker()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Walker\+::\+Walker (\begin{DoxyParamCaption}\item[{double}]{xmin,  }\item[{double}]{xmax,  }\item[{double}]{ymin,  }\item[{double}]{ymax,  }\item[{double}]{zmin,  }\item[{double}]{zmax }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+Initialize the walker position in a random position inside the boundaries defined by the limits. 
+\begin{DoxyParams}{Parameters}
+{\em xmin} & lower x threshold \\
+\hline
+{\em xmax} & upper x threshold \\
+\hline
+{\em ymin} & lower y threshold \\
+\hline
+{\em ymax} & upper y threshold \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_walker_a28d139085430c9a11e0a70be2c3083af}\label{class_walker_a28d139085430c9a11e0a70be2c3083af}} 
+\index{Walker@{Walker}!collision\+\_\+sphere\+\_\+cylinders@{collision\+\_\+sphere\+\_\+cylinders}}
+\index{collision\+\_\+sphere\+\_\+cylinders@{collision\+\_\+sphere\+\_\+cylinders}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{collision\+\_\+sphere\+\_\+cylinders}{collision\_sphere\_cylinders}}
+{\footnotesize\ttfamily \hyperlink{class_cylinder_collision_sphere}{Cylinder\+Collision\+Sphere} Walker\+::collision\+\_\+sphere\+\_\+cylinders}
+
+\hyperlink{class_collision}{Collision} sphere for collition against cylidners \mbox{\Hypertarget{class_walker_a8aecfb76c9007eb6da99b024bc5e425d}\label{class_walker_a8aecfb76c9007eb6da99b024bc5e425d}} 
+\index{Walker@{Walker}!collision\+\_\+sphere\+\_\+ply@{collision\+\_\+sphere\+\_\+ply}}
+\index{collision\+\_\+sphere\+\_\+ply@{collision\+\_\+sphere\+\_\+ply}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{collision\+\_\+sphere\+\_\+ply}{collision\_sphere\_ply}}
+{\footnotesize\ttfamily \hyperlink{class_p_l_y_collision_sphere}{P\+L\+Y\+Collision\+Sphere} Walker\+::collision\+\_\+sphere\+\_\+ply}
+
+\hyperlink{class_collision}{Collision} sphere for collition against P\+LY meshes \mbox{\Hypertarget{class_walker_a28c595f6f6b4c32bed6afb177c0a6608}\label{class_walker_a28c595f6f6b4c32bed6afb177c0a6608}} 
+\index{Walker@{Walker}!extra\+\_\+coll\+\_\+count@{extra\+\_\+coll\+\_\+count}}
+\index{extra\+\_\+coll\+\_\+count@{extra\+\_\+coll\+\_\+count}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{extra\+\_\+coll\+\_\+count}{extra\_coll\_count}}
+{\footnotesize\ttfamily unsigned Walker\+::extra\+\_\+coll\+\_\+count}
+
+counter of collision in the extra-\/side w/r the normal \mbox{\Hypertarget{class_walker_adf221f7a635c09cfaafc0dab5aa38106}\label{class_walker_adf221f7a635c09cfaafc0dab5aa38106}} 
+\index{Walker@{Walker}!in\+\_\+obj\+\_\+index@{in\+\_\+obj\+\_\+index}}
+\index{in\+\_\+obj\+\_\+index@{in\+\_\+obj\+\_\+index}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{in\+\_\+obj\+\_\+index}{in\_obj\_index}}
+{\footnotesize\ttfamily int Walker\+::in\+\_\+obj\+\_\+index}
+
+Auxiliar index to save if the walker was inside a convex object \mbox{\Hypertarget{class_walker_a58e2d14d760748687138b7582cd04365}\label{class_walker_a58e2d14d760748687138b7582cd04365}} 
+\index{Walker@{Walker}!index@{index}}
+\index{index@{index}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{index}{index}}
+{\footnotesize\ttfamily unsigned int Walker\+::index}
+
+\hyperlink{class_walker}{Walker} identifier (id) \mbox{\Hypertarget{class_walker_a98116f0e5d65e1cf65449d80a2d87617}\label{class_walker_a98116f0e5d65e1cf65449d80a2d87617}} 
+\index{Walker@{Walker}!ini\+\_\+pos@{ini\+\_\+pos}}
+\index{ini\+\_\+pos@{ini\+\_\+pos}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{ini\+\_\+pos}{ini\_pos}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Walker\+::ini\+\_\+pos}
+
+\hyperlink{class_walker}{Walker} intital position \mbox{\Hypertarget{class_walker_a8a27ead68d3dc7140afbec2710fb3176}\label{class_walker_a8a27ead68d3dc7140afbec2710fb3176}} 
+\index{Walker@{Walker}!initial\+\_\+sphere\+\_\+pos\+\_\+v@{initial\+\_\+sphere\+\_\+pos\+\_\+v}}
+\index{initial\+\_\+sphere\+\_\+pos\+\_\+v@{initial\+\_\+sphere\+\_\+pos\+\_\+v}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{initial\+\_\+sphere\+\_\+pos\+\_\+v}{initial\_sphere\_pos\_v}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Walker\+::initial\+\_\+sphere\+\_\+pos\+\_\+v}
+
+Saves the intial positioon of the walker inside the collition sphere \mbox{\Hypertarget{class_walker_a8ca6c90f124e46869ea752920565e2c2}\label{class_walker_a8ca6c90f124e46869ea752920565e2c2}} 
+\index{Walker@{Walker}!intra\+\_\+coll\+\_\+count@{intra\+\_\+coll\+\_\+count}}
+\index{intra\+\_\+coll\+\_\+count@{intra\+\_\+coll\+\_\+count}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{intra\+\_\+coll\+\_\+count}{intra\_coll\_count}}
+{\footnotesize\ttfamily unsigned Walker\+::intra\+\_\+coll\+\_\+count}
+
+counter of collision in the ïntra-\/side w/r the normal \mbox{\Hypertarget{class_walker_aa211ac1f9a396b1bf3b565e0f8ed098a}\label{class_walker_aa211ac1f9a396b1bf3b565e0f8ed098a}} 
+\index{Walker@{Walker}!intra\+\_\+extra\+\_\+consensus@{intra\+\_\+extra\+\_\+consensus}}
+\index{intra\+\_\+extra\+\_\+consensus@{intra\+\_\+extra\+\_\+consensus}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{intra\+\_\+extra\+\_\+consensus}{intra\_extra\_consensus}}
+{\footnotesize\ttfamily int Walker\+::intra\+\_\+extra\+\_\+consensus}
+
+intra o extra position by face collision consensus w/r the normal \mbox{\Hypertarget{class_walker_a8c78216899e04e9439a991cbad9df36f}\label{class_walker_a8c78216899e04e9439a991cbad9df36f}} 
+\index{Walker@{Walker}!last\+\_\+pos\+\_\+r@{last\+\_\+pos\+\_\+r}}
+\index{last\+\_\+pos\+\_\+r@{last\+\_\+pos\+\_\+r}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{last\+\_\+pos\+\_\+r}{last\_pos\_r}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Walker\+::last\+\_\+pos\+\_\+r}
+
+\hyperlink{class_walker}{Walker} voxel last position \mbox{\Hypertarget{class_walker_a2d50601346a754183b38890c18e7a6e7}\label{class_walker_a2d50601346a754183b38890c18e7a6e7}} 
+\index{Walker@{Walker}!last\+\_\+pos\+\_\+v@{last\+\_\+pos\+\_\+v}}
+\index{last\+\_\+pos\+\_\+v@{last\+\_\+pos\+\_\+v}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{last\+\_\+pos\+\_\+v}{last\_pos\_v}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Walker\+::last\+\_\+pos\+\_\+v}
+
+\hyperlink{class_walker}{Walker} real last position \mbox{\Hypertarget{class_walker_a77f5c801c38158bb8568f75a22baed20}\label{class_walker_a77f5c801c38158bb8568f75a22baed20}} 
+\index{Walker@{Walker}!location@{location}}
+\index{location@{location}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{location}{location}}
+{\footnotesize\ttfamily \hyperlink{class_walker_a24246136a10754791b05cb570dbb8417}{Relative\+Location} Walker\+::location}
+
+location on the substrate (if known) \mbox{\Hypertarget{class_walker_ad1629485a13c80367a563ed7b88149eb}\label{class_walker_ad1629485a13c80367a563ed7b88149eb}} 
+\index{Walker@{Walker}!next\+\_\+direction@{next\+\_\+direction}}
+\index{next\+\_\+direction@{next\+\_\+direction}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{next\+\_\+direction}{next\_direction}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Walker\+::next\+\_\+direction}
+
+Auxiliar vector for special states cases, decides the next direction \mbox{\Hypertarget{class_walker_a1008a95833c1f74b53f02e57e84417b7}\label{class_walker_a1008a95833c1f74b53f02e57e84417b7}} 
+\index{Walker@{Walker}!pos\+\_\+r@{pos\+\_\+r}}
+\index{pos\+\_\+r@{pos\+\_\+r}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{pos\+\_\+r}{pos\_r}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Walker\+::pos\+\_\+r}
+
+Real walker position for collision, r stands for real \mbox{\Hypertarget{class_walker_a1ba5a46fddf62eb3eeaabc7c868afe07}\label{class_walker_a1ba5a46fddf62eb3eeaabc7c868afe07}} 
+\index{Walker@{Walker}!pos\+\_\+r\+\_\+log@{pos\+\_\+r\+\_\+log}}
+\index{pos\+\_\+r\+\_\+log@{pos\+\_\+r\+\_\+log}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{pos\+\_\+r\+\_\+log}{pos\_r\_log}}
+{\footnotesize\ttfamily Eigen\+::\+Matrix3\+Xd Walker\+::pos\+\_\+r\+\_\+log}
+
+log of the real spin position, used to compute the phase shift \mbox{\Hypertarget{class_walker_a2c1bf5a8da9e8f3a230a22ab4ae0e373}\label{class_walker_a2c1bf5a8da9e8f3a230a22ab4ae0e373}} 
+\index{Walker@{Walker}!pos\+\_\+v@{pos\+\_\+v}}
+\index{pos\+\_\+v@{pos\+\_\+v}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{pos\+\_\+v}{pos\_v}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Walker\+::pos\+\_\+v}
+
+\hyperlink{class_walker}{Walker} current position \mbox{\Hypertarget{class_walker_a62d99cc92226681123be94e64fb2bf7b}\label{class_walker_a62d99cc92226681123be94e64fb2bf7b}} 
+\index{Walker@{Walker}!pos\+\_\+v\+\_\+log@{pos\+\_\+v\+\_\+log}}
+\index{pos\+\_\+v\+\_\+log@{pos\+\_\+v\+\_\+log}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{pos\+\_\+v\+\_\+log}{pos\_v\_log}}
+{\footnotesize\ttfamily Eigen\+::\+Matrix3\+Xd Walker\+::pos\+\_\+v\+\_\+log}
+
+log of the voxel position, used for collision location and bouncing \mbox{\Hypertarget{class_walker_a38669698192d39146c77011b69b1e372}\label{class_walker_a38669698192d39146c77011b69b1e372}} 
+\index{Walker@{Walker}!rejection\+\_\+count@{rejection\+\_\+count}}
+\index{rejection\+\_\+count@{rejection\+\_\+count}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{rejection\+\_\+count}{rejection\_count}}
+{\footnotesize\ttfamily unsigned int Walker\+::rejection\+\_\+count}
+
+counter of the rejected directions in a single time-\/step \mbox{\Hypertarget{class_walker_afa37629b74387435a0bb02e0c061a718}\label{class_walker_afa37629b74387435a0bb02e0c061a718}} 
+\index{Walker@{Walker}!status@{status}}
+\index{status@{status}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{status}{status}}
+{\footnotesize\ttfamily \hyperlink{class_walker_afcad3f5c11d0bd045de22fb0347dc44c}{state} Walker\+::status}
+
+state memeber \mbox{\Hypertarget{class_walker_a83536011f160b42f6c39f121ee550731}\label{class_walker_a83536011f160b42f6c39f121ee550731}} 
+\index{Walker@{Walker}!steps\+\_\+count@{steps\+\_\+count}}
+\index{steps\+\_\+count@{steps\+\_\+count}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{steps\+\_\+count}{steps\_count}}
+{\footnotesize\ttfamily unsigned Walker\+::steps\+\_\+count}
+
+Counts the number of steps (including bouncings) made. \mbox{\Hypertarget{class_walker_a7f33d06b7aa5fabf2a2ac15d119bbcc7}\label{class_walker_a7f33d06b7aa5fabf2a2ac15d119bbcc7}} 
+\index{Walker@{Walker}!steps\+\_\+per\+\_\+second@{steps\+\_\+per\+\_\+second}}
+\index{steps\+\_\+per\+\_\+second@{steps\+\_\+per\+\_\+second}!Walker@{Walker}}
+\subsubsection{\texorpdfstring{steps\+\_\+per\+\_\+second}{steps\_per\_second}}
+{\footnotesize\ttfamily float Walker\+::steps\+\_\+per\+\_\+second}
+
+Particles steps per second speeed. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/walker.\+h\item 
+src/walker.\+cpp\end{DoxyCompactItemize}

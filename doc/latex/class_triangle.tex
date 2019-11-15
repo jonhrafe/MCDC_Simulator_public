@@ -1,0 +1,88 @@
+\hypertarget{class_triangle}{}\section{Triangle Class Reference}
+\label{class_triangle}\index{Triangle@{Triangle}}
+
+
+Auxiliary class. Implements trangular barriers. ===================================/.  
+
+
+
+
+{\ttfamily \#include $<$triangle.\+h$>$}
+
+
+
+Collaboration diagram for Triangle\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=144pt]{class_triangle__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_triangle_a420f50ce640dca2aca127ceb68de2e0f}\label{class_triangle_a420f50ce640dca2aca127ceb68de2e0f}} 
+{\bfseries Triangle} (\hyperlink{class_vertex}{Vertex} $\ast$vertices, unsigned index)
+\item 
+\mbox{\Hypertarget{class_triangle_a31d9c90daae516c82e03dcbb492a1fe5}\label{class_triangle_a31d9c90daae516c82e03dcbb492a1fe5}} 
+void {\bfseries get\+Vertex} (const unsigned i, Eigen\+::\+Vector3d \&v)
+\item 
+\mbox{\Hypertarget{class_triangle_ac134db353d4bd34eae298e6220bd0254}\label{class_triangle_ac134db353d4bd34eae298e6220bd0254}} 
+void {\bfseries get\+Normal} (Eigen\+::\+Vector3d \&normal)
+\item 
+\mbox{\Hypertarget{class_triangle_acb81455a547203d7b61b6d178578620a}\label{class_triangle_acb81455a547203d7b61b6d178578620a}} 
+void {\bfseries save\+Normal\+And\+Aux\+Info} ()
+\item 
+\mbox{\Hypertarget{class_triangle_a087e0b0bfb2c49ed4854d8b0e939e7d2}\label{class_triangle_a087e0b0bfb2c49ed4854d8b0e939e7d2}} 
+bool {\bfseries ray\+Intersects} (const Eigen\+::\+Vector3d \&ray\+\_\+origin, const Eigen\+::\+Vector3d \&step, double \&t)
+\item 
+\mbox{\Hypertarget{class_triangle_ac1197111887bcba4098f20a71108105c}\label{class_triangle_ac1197111887bcba4098f20a71108105c}} 
+void {\bfseries step\+Intersects\+\_\+\+MT} (\hyperlink{class_walker}{Walker} \&walker, const Eigen\+::\+Vector3d \&step, const double \&max\+\_\+length, \hyperlink{class_collision}{Collision} \&colision)
+\item 
+\mbox{\Hypertarget{class_triangle_a01e5c101c7455d7030080594628533bf}\label{class_triangle_a01e5c101c7455d7030080594628533bf}} 
+void {\bfseries step\+Intersects\+\_\+\+M\+T\+\_\+limits} (const Eigen\+::\+Vector3d \&ray\+\_\+origin, const Eigen\+::\+Vector3d \&step, const double \&max\+\_\+length, \hyperlink{class_collision}{Collision} \&colision, const Eigen\+::\+Vector3d \&limits\+\_\+mod, double limit\+\_\+x, double limit\+\_\+y, double limit\+\_\+z)
+\item 
+\mbox{\Hypertarget{class_triangle_a733c94320a1effcee36b7382e92be1e6}\label{class_triangle_a733c94320a1effcee36b7382e92be1e6}} 
+bool {\bfseries ray\+Intersects\+\_\+\+MT} (const Eigen\+::\+Vector3d \&ray\+\_\+origin, const Eigen\+::\+Vector3d \&step, double \&u, double \&v, double \&t)
+\item 
+\mbox{\Hypertarget{class_triangle_afd80e0b45910181568098c04e5a2046d}\label{class_triangle_afd80e0b45910181568098c04e5a2046d}} 
+double {\bfseries min\+Distance} (const Eigen\+::\+Vector3d p)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_triangle_a0f6509666826b8e916e8c884e6d92fdf}\label{class_triangle_a0f6509666826b8e916e8c884e6d92fdf}} 
+unsigned {\bfseries index}
+\item 
+\mbox{\Hypertarget{class_triangle_a1f17e61561dadac3966d2450dcdb001d}\label{class_triangle_a1f17e61561dadac3966d2450dcdb001d}} 
+\hyperlink{class_vertex}{Vertex} $\ast$ {\bfseries vertices}
+\item 
+\mbox{\Hypertarget{class_triangle_a60f4999d8220f2e9f5361dfc2d3fa7d2}\label{class_triangle_a60f4999d8220f2e9f5361dfc2d3fa7d2}} 
+Eigen\+::\+Array3i {\bfseries indexes}
+\item 
+\mbox{\Hypertarget{class_triangle_a90c44b094ed4f5f663b3198f254b015a}\label{class_triangle_a90c44b094ed4f5f663b3198f254b015a}} 
+Eigen\+::\+Vector3d {\bfseries normal}
+\item 
+\mbox{\Hypertarget{class_triangle_af85e52d2beb9feb49a4ded02061c056a}\label{class_triangle_af85e52d2beb9feb49a4ded02061c056a}} 
+Eigen\+::\+Vector3d {\bfseries center}
+\item 
+\mbox{\Hypertarget{class_triangle_aca1dd750b3a5e13fd86947f318e9176a}\label{class_triangle_aca1dd750b3a5e13fd86947f318e9176a}} 
+double {\bfseries radius}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Auxiliary class. Implements trangular barriers. ===================================/. 
+
+Helper class to strore and handle trangular barriers. \begin{DoxyAuthor}{Author}
+Jonathan Rafael 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+July 2016 \subsection*{0.\+2 }
+\end{DoxyDate}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/triangle.\+h\item 
+src/triangle.\+cpp\end{DoxyCompactItemize}

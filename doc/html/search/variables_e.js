@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['save_5fphase_5fshift',['save_phase_shift',['../class_parameters.html#ab737ef40d88faa6ee8a701013d9d2984',1,'Parameters::save_phase_shift()'],['../class_simulable_sequence.html#aa29f58ae224d92dd467a0845bd207324',1,'SimulableSequence::save_phase_shift()']]],
+  ['scale_5ffrom_5fstu',['scale_from_stu',['../class_gradient_waveform.html#a712eedb2165b3f889e27244fc9d91ebd',1,'GradientWaveform::scale_from_stu()'],['../class_parameters.html#a3c37f738b7700bdc22845bc725d51e6f',1,'Parameters::scale_from_stu()'],['../class_scheme.html#ac66ecb38621208f8dd1b5334919316cf',1,'Scheme::scale_from_stu()']]],
+  ['scheme',['scheme',['../class_m_c_simulation.html#a87ba6332f1f49024a442981b477360c4',1,'MCSimulation::scheme()'],['../class_p_g_s_e_sequence.html#a7349d86720a34e75eaf578fdfd3caeeb',1,'PGSESequence::scheme()'],['../class_scheme.html#aa0d26e624075fbac339a746ed10b2dc0',1,'Scheme::scheme()']]],
+  ['scheme_5ffile',['scheme_file',['../class_parameters.html#afbb7caab773abb16753263a0b04c8a2c',1,'Parameters::scheme_file()'],['../class_scheme.html#afa0549aa16f4f6c62d6c397909be3350',1,'Scheme::scheme_file()'],['../class_simulable_sequence.html#a9898335af9d8f639f65b73eeac8efb53',1,'SimulableSequence::scheme_file()']]],
+  ['second_5fpassed',['second_passed',['../class_dynamics_simulation.html#a46187e70aad2b130249ba3d1dd6a3c75',1,'DynamicsSimulation']]],
+  ['seed',['seed',['../class_parameters.html#afa076397ed9cbdc4c88215e29b850e3c',1,'Parameters']]],
+  ['sentinela',['sentinela',['../class_dynamics_simulation.html#aed384434dc469e766301268dcf1ec4ab',1,'DynamicsSimulation']]],
+  ['sim_5fduration',['sim_duration',['../class_parameters.html#acbe36f055786ddcf8480a49d2c34c914',1,'Parameters']]],
+  ['sim_5fthreads',['sim_threads',['../class_parallel_m_c_simulation.html#a2a0f1cc2812c1a35e5e38d9d9ddde78b',1,'ParallelMCSimulation']]],
+  ['simulations',['simulations',['../class_parallel_m_c_simulation.html#af16d292f007b8391122a035022422ed5',1,'ParallelMCSimulation']]],
+  ['small_5fsphere_5fdistance',['small_sphere_distance',['../class_collisionsphere.html#ae5430c092ea0436edfe0adeb79402ff2',1,'Collisionsphere']]],
+  ['small_5fsphere_5flist_5fend',['small_sphere_list_end',['../class_cylinder_collision_sphere.html#a89e3bdfa12042aa94c20949587c513d5',1,'CylinderCollisionSphere::small_sphere_list_end()'],['../class_p_l_y_collision_sphere.html#a7fd18a4a8a9dbb2f7104f9b9a5dd6766',1,'PLYCollisionSphere::small_sphere_list_end()']]],
+  ['status',['status',['../class_walker.html#afa37629b74387435a0bb02e0c061a718',1,'Walker']]],
+  ['step_5flenght',['step_lenght',['../class_dynamics_simulation.html#ad6dddce1d5bc30d3e61dceb69652c893',1,'DynamicsSimulation']]],
+  ['steps_5fcount',['steps_count',['../class_walker.html#a83536011f160b42f6c39f121ee550731',1,'Walker']]],
+  ['steps_5fper_5fsecond',['steps_per_second',['../class_walker.html#a7f33d06b7aa5fabf2a2ac15d119bbcc7',1,'Walker']]],
+  ['steps_5fsubset',['steps_subset',['../class_trajectory.html#a973422e0d41afe4720fbbf62500a5035',1,'Trajectory']]],
+  ['stuck_5fcount',['stuck_count',['../class_parallel_m_c_simulation.html#a6ee1dfd6e695ec5ec7d4c2ed94f233cf',1,'ParallelMCSimulation']]],
+  ['sub_5fdwi',['sub_DWI',['../class_simulable_sequence.html#a2686ccfa89396eeadd0a0d4f7842623c',1,'SimulableSequence']]],
+  ['sub_5fdwii',['sub_DWIi',['../class_simulable_sequence.html#a1e958cc7d15337fa3ae0e58c8330f212',1,'SimulableSequence']]],
+  ['subdivision_5fflag',['subdivision_flag',['../class_parameters.html#a43362cb6e3ea49cc9db9e52c3ebc7140',1,'Parameters::subdivision_flag()'],['../class_simulable_sequence.html#ae9e6e581ba16bbf81b693c0e4943bbf9',1,'SimulableSequence::subdivision_flag()']]],
+  ['subdivisions',['subdivisions',['../class_parameters.html#a3c05ff7a30f151c384b83ce3adca26fa',1,'Parameters::subdivisions()'],['../class_simulable_sequence.html#a77c721d4650578fdc3f44adfa91c030e',1,'SimulableSequence::subdivisions()']]],
+  ['subdivisions_5ffile',['subdivisions_file',['../class_parameters.html#a1733bfcb8391c494b7b1a317dfda5e44',1,'Parameters']]]
+];

@@ -1,0 +1,398 @@
+\hypertarget{class_dynamics_simulation}{}\section{Dynamics\+Simulation Class Reference}
+\label{class_dynamics_simulation}\index{Dynamics\+Simulation@{Dynamics\+Simulation}}
+
+
+Dynamic simulation main class =============================================================/.  
+
+
+
+
+{\ttfamily \#include $<$dynamics\+Simulation.\+h$>$}
+
+
+
+Collaboration diagram for Dynamics\+Simulation\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_dynamics_simulation__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_dynamics_simulation_ad9a3e1f235466c3827cb49c67d3a6147}{Dynamics\+Simulation} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. Initialize everything with 0\textquotesingle{}s and N\+U\+LL states, object indexes are set to -\/1. \end{DoxyCompactList}\item 
+\hyperlink{class_dynamics_simulation_aa603b5ba682b1b37cc96dd8be113cb52}{Dynamics\+Simulation} (std\+::string conf\+\_\+file)
+\item 
+\hyperlink{class_dynamics_simulation_a8fd2ec6f3640bff79e4b1ad960bbda5b}{Dynamics\+Simulation} (\hyperlink{class_parameters}{Parameters} \&params\+\_\+)
+\item 
+\mbox{\Hypertarget{class_dynamics_simulation_a15a1f18a99d606ef2ca939e718ca996f}\label{class_dynamics_simulation_a15a1f18a99d606ef2ca939e718ca996f}} 
+\hyperlink{class_dynamics_simulation_a15a1f18a99d606ef2ca939e718ca996f}{$\sim$\+Dynamics\+Simulation} ()
+\begin{DoxyCompactList}\small\item\em Does nothing. \end{DoxyCompactList}\item 
+void \hyperlink{class_dynamics_simulation_a820ee541ac42b1f9d08f5aef571eccc7}{start\+Simulation} (\hyperlink{class_simulable_sequence}{Simulable\+Sequence} $\ast$data\+Synth=N\+U\+LL)
+\begin{DoxyCompactList}\small\item\em Starts the dynamics simulation and, if a P\+G\+SE sequence is given, computes the DW signal. \end{DoxyCompactList}\item 
+void \hyperlink{class_dynamics_simulation_a67adab75eba635447c1b1b2b26d1e0ab}{read\+Configuration\+File} (std\+::string conf\+\_\+file\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Reads all the parameters listed in the param conf\+\_\+file and stores them in the /t params object. \end{DoxyCompactList}\item 
+void \hyperlink{class_dynamics_simulation_a9148a30590bef5c766fd2366bbd16eb8}{set\+Duration} (const double \&duration)
+\begin{DoxyCompactList}\small\item\em Sets the simulation duration in milliseconds, this should be synchronized w/r the Time Echo. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_dynamics_simulation_a25b78b4ef659a448a806b995a19cf8b1}\label{class_dynamics_simulation_a25b78b4ef659a448a806b995a19cf8b1}} 
+void {\bfseries set\+Walkers\+Num} (const unsigned \&N)
+\item 
+\mbox{\Hypertarget{class_dynamics_simulation_a45248ef6170eaf8a3a62b43f3ce77e02}\label{class_dynamics_simulation_a45248ef6170eaf8a3a62b43f3ce77e02}} 
+void {\bfseries set\+Steps\+Num} (const unsigned \&T)
+\item 
+bool \hyperlink{class_dynamics_simulation_a15dfd0453397c12e932bfd29cf36ba74}{is\+In\+Intra} (Eigen\+::\+Vector3d \&position, double error)
+\begin{DoxyCompactList}\small\item\em return true if the position is inside any of the obstacles. Only obstacles with a defined \char`\"{}inside region\char`\"{} can be considered. \hyperlink{class_voxel}{Voxel} periodicity is not considered \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_dynamics_simulation_aeae993217cebb5c23f68cb3e04cf8e49}\label{class_dynamics_simulation_aeae993217cebb5c23f68cb3e04cf8e49}} 
+void \hyperlink{class_dynamics_simulation_aeae993217cebb5c23f68cb3e04cf8e49}{write\+Propagator} (std\+::string path)
+\begin{DoxyCompactList}\small\item\em Writes to disk the final propagator matrix. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_dynamics_simulation_abe4af37db2602b6341b2d7732e43951e}\label{class_dynamics_simulation_abe4af37db2602b6341b2d7732e43951e}} 
+static std\+::string {\bfseries seconds\+To\+Minutes} (double)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_parameters}{Parameters} \hyperlink{class_dynamics_simulation_a67cd4cd9a2e7cd2339c98dae60e66dde}{params}
+\item 
+\hyperlink{class_walker}{Walker} \hyperlink{class_dynamics_simulation_a9a5d2596527abdcdd185430c97dea9ad}{walker}
+\item 
+\hyperlink{class_trajectory}{Trajectory} \hyperlink{class_dynamics_simulation_ab69fedf7129784621eec440ba873218d}{trajectory}
+\item 
+std\+::mt19937 \hyperlink{class_dynamics_simulation_a03ba104f00ae772e9b8fb55e7878c793}{mt}
+\item 
+double \hyperlink{class_dynamics_simulation_ad6dddce1d5bc30d3e61dceb69652c893}{step\+\_\+lenght}
+\item 
+double \hyperlink{class_dynamics_simulation_a46187e70aad2b130249ba3d1dd6a3c75}{second\+\_\+passed}
+\item 
+double \hyperlink{class_dynamics_simulation_a337972272af798cb8606796116145d11}{max\+\_\+simulation\+\_\+time}
+\item 
+double \hyperlink{class_dynamics_simulation_a6a210fb28fe2f996c226614742a25214}{completed}
+\item 
+std\+::string \hyperlink{class_dynamics_simulation_a4fb0e535753c48b4a2647502379aebaf}{ini\+\_\+pos\+\_\+file}
+\item 
+unsigned \hyperlink{class_dynamics_simulation_a8e20cd71b55dda041844cfc305851dbe}{ini\+\_\+pos\+\_\+file\+\_\+ini\+\_\+index}
+\item 
+int \hyperlink{class_dynamics_simulation_aa178498c8be8af1a515a8c0a02187600}{id}
+\item 
+\hyperlink{classsentinels_1_1_sentinel}{sentinels\+::\+Sentinel} \hyperlink{class_dynamics_simulation_aed384434dc469e766301268dcf1ec4ab}{sentinela}
+\item 
+std\+::vector$<$ \hyperlink{class_p_l_y_obstacle}{P\+L\+Y\+Obstacle} $>$ \hyperlink{class_dynamics_simulation_a4e7e45353d8485033987e2f3d9f045e6}{ply\+Obstacles\+\_\+list}
+\item 
+std\+::vector$<$ \hyperlink{class_cylinder}{Cylinder} $>$ \hyperlink{class_dynamics_simulation_aece9e3dbb07e4ab3387a008bf2d94493}{cylinders\+\_\+list}
+\item 
+std\+::vector$<$ unsigned $>$ \hyperlink{class_dynamics_simulation_a927a79875ff2f035d929229cf4471756}{cylinders\+\_\+deque}
+\item 
+std\+::vector$<$ std\+::vector$<$ unsigned $>$ $>$ \hyperlink{class_dynamics_simulation_ad920a07f2c8c85fab7a1aec983c15b20}{ply\+\_\+deque}
+\item 
+std\+::vector$<$ \hyperlink{class_voxel}{Voxel} $>$ \hyperlink{class_dynamics_simulation_ab68d71822661c3608bde4553392c9bd1}{voxels\+\_\+list}
+\item 
+\hyperlink{class_propagator}{Propagator} \hyperlink{class_dynamics_simulation_a62f78ae3e723206d16f1528e344ab1e9}{propagator}
+\item 
+double \hyperlink{class_dynamics_simulation_ac4161cbca21d20fde85817a21b99bd07}{icvf}
+\item 
+\mbox{\Hypertarget{class_dynamics_simulation_ab2eef9ff5ee32531cdf743327cf41455}\label{class_dynamics_simulation_ab2eef9ff5ee32531cdf743327cf41455}} 
+unsigned {\bfseries intra\+\_\+tries}
+\item 
+unsigned \hyperlink{class_dynamics_simulation_abb056d8cde70aab8b6fa81ee8cdb231e}{total\+\_\+tries}
+\item 
+\mbox{\Hypertarget{class_dynamics_simulation_af7ff1563912461e63693087d7aaf616b}\label{class_dynamics_simulation_af7ff1563912461e63693087d7aaf616b}} 
+Eigen\+::\+Vector3d {\bfseries step}
+\item 
+\mbox{\Hypertarget{class_dynamics_simulation_a854c987e8b1806d74205eb916836befa}\label{class_dynamics_simulation_a854c987e8b1806d74205eb916836befa}} 
+double {\bfseries time\+\_\+step}
+\item 
+\mbox{\Hypertarget{class_dynamics_simulation_ae79118cbf5ce497cc82c6471353d5045}\label{class_dynamics_simulation_ae79118cbf5ce497cc82c6471353d5045}} 
+double {\bfseries time\+\_\+dt}
+\item 
+double \hyperlink{class_dynamics_simulation_aa73be02bc4cb5027a1bc4a0b6b91b4b2}{last\+\_\+time\+\_\+dt}
+\item 
+\mbox{\Hypertarget{class_dynamics_simulation_a5d736b0d739d22d6a2d9371fbcdd8775}\label{class_dynamics_simulation_a5d736b0d739d22d6a2d9371fbcdd8775}} 
+std\+::ifstream {\bfseries ini\+Pos}
+\item 
+\mbox{\Hypertarget{class_dynamics_simulation_a6fc87bbfea509599236624fda517c901}\label{class_dynamics_simulation_a6fc87bbfea509599236624fda517c901}} 
+time\+\_\+t {\bfseries start}
+\item 
+time\+\_\+t \hyperlink{class_dynamics_simulation_a4e14e7f5efc039772219b00b02381db1}{now}
+\item 
+bool \hyperlink{class_dynamics_simulation_a8742da6be78261e71b9b8cd4de0df488}{print\+\_\+expected\+\_\+time}
+\item 
+unsigned \hyperlink{class_dynamics_simulation_a8772d8683d6089eef368212ee99d12d5}{num\+\_\+simulated\+\_\+walkers}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Dynamic simulation main class =============================================================/. 
+
+Main implementation of the particles dynamics. Handles collisions and bouncing \begin{DoxyAuthor}{Author}
+Jonathan Rafael 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+November 2016 \subsection*{1.\+42 }
+\end{DoxyDate}
+
+
+Main class, implements the particles dynamics. Handles collisions and bouncing. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_dynamics_simulation_ad9a3e1f235466c3827cb49c67d3a6147}\label{class_dynamics_simulation_ad9a3e1f235466c3827cb49c67d3a6147}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{Dynamics\+Simulation()}{DynamicsSimulation()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Dynamics\+Simulation\+::\+Dynamics\+Simulation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Default constructor. Initialize everything with 0\textquotesingle{}s and N\+U\+LL states, object indexes are set to -\/1. 
+
+\hyperlink{class_dynamics_simulation}{Dynamics\+Simulation} implementation \mbox{\Hypertarget{class_dynamics_simulation_aa603b5ba682b1b37cc96dd8be113cb52}\label{class_dynamics_simulation_aa603b5ba682b1b37cc96dd8be113cb52}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{Dynamics\+Simulation()}{DynamicsSimulation()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Dynamics\+Simulation\+::\+Dynamics\+Simulation (\begin{DoxyParamCaption}\item[{std\+::string}]{conf\+\_\+file }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em configuration} & file \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_dynamics_simulation_a8fd2ec6f3640bff79e4b1ad960bbda5b}\label{class_dynamics_simulation_a8fd2ec6f3640bff79e4b1ad960bbda5b}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{Dynamics\+Simulation()}{DynamicsSimulation()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Dynamics\+Simulation\+::\+Dynamics\+Simulation (\begin{DoxyParamCaption}\item[{\hyperlink{class_parameters}{Parameters} \&}]{params\+\_\+ }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_parameter}{Parameter}} & instance \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_dynamics_simulation_a15dfd0453397c12e932bfd29cf36ba74}\label{class_dynamics_simulation_a15dfd0453397c12e932bfd29cf36ba74}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!is\+In\+Intra@{is\+In\+Intra}}
+\index{is\+In\+Intra@{is\+In\+Intra}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{is\+In\+Intra()}{isInIntra()}}
+{\footnotesize\ttfamily Dynamics\+Simulation\+::is\+In\+Intra (\begin{DoxyParamCaption}\item[{Eigen\+::\+Vector3d \&}]{position,  }\item[{double}]{error }\end{DoxyParamCaption})}
+
+
+
+return true if the position is inside any of the obstacles. Only obstacles with a defined \char`\"{}inside region\char`\"{} can be considered. \hyperlink{class_voxel}{Voxel} periodicity is not considered 
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & 3d position on space. \\
+\hline
+{\em error} & minimum distance to be considered \char`\"{}outside\char`\"{} de obstacle (barrier thickness) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_dynamics_simulation_a67adab75eba635447c1b1b2b26d1e0ab}\label{class_dynamics_simulation_a67adab75eba635447c1b1b2b26d1e0ab}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!read\+Configuration\+File@{read\+Configuration\+File}}
+\index{read\+Configuration\+File@{read\+Configuration\+File}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{read\+Configuration\+File()}{readConfigurationFile()}}
+{\footnotesize\ttfamily Dynamics\+Simulation\+::read\+Configuration\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{conf\+\_\+file\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Reads all the parameters listed in the param conf\+\_\+file and stores them in the /t params object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em conf\+\_\+file\+\_\+path} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em conf\+\_\+file\+\_\+path} & paremeters file path. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_dynamics_simulation_a9148a30590bef5c766fd2366bbd16eb8}\label{class_dynamics_simulation_a9148a30590bef5c766fd2366bbd16eb8}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!set\+Duration@{set\+Duration}}
+\index{set\+Duration@{set\+Duration}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{set\+Duration()}{setDuration()}}
+{\footnotesize\ttfamily Dynamics\+Simulation\+::set\+Duration (\begin{DoxyParamCaption}\item[{const double \&}]{duration }\end{DoxyParamCaption})}
+
+
+
+Sets the simulation duration in milliseconds, this should be synchronized w/r the Time Echo. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em duration} & simulation duration. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_dynamics_simulation_a820ee541ac42b1f9d08f5aef571eccc7}\label{class_dynamics_simulation_a820ee541ac42b1f9d08f5aef571eccc7}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!start\+Simulation@{start\+Simulation}}
+\index{start\+Simulation@{start\+Simulation}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{start\+Simulation()}{startSimulation()}}
+{\footnotesize\ttfamily Dynamics\+Simulation\+::start\+Simulation (\begin{DoxyParamCaption}\item[{\hyperlink{class_simulable_sequence}{Simulable\+Sequence} $\ast$}]{data\+Synth = {\ttfamily NULL} }\end{DoxyParamCaption})}
+
+
+
+Starts the dynamics simulation and, if a P\+G\+SE sequence is given, computes the DW signal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data\+Synth} & optional paramter. If this parameter is not given, no signal is computed. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_dynamics_simulation_a6a210fb28fe2f996c226614742a25214}\label{class_dynamics_simulation_a6a210fb28fe2f996c226614742a25214}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!completed@{completed}}
+\index{completed@{completed}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{completed}{completed}}
+{\footnotesize\ttfamily double Dynamics\+Simulation\+::completed}
+
+Auxiliar variable to save the milestone of percentage of completed walkers \mbox{\Hypertarget{class_dynamics_simulation_a927a79875ff2f035d929229cf4471756}\label{class_dynamics_simulation_a927a79875ff2f035d929229cf4471756}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!cylinders\+\_\+deque@{cylinders\+\_\+deque}}
+\index{cylinders\+\_\+deque@{cylinders\+\_\+deque}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{cylinders\+\_\+deque}{cylinders\_deque}}
+{\footnotesize\ttfamily std\+::vector$<$unsigned$>$ Dynamics\+Simulation\+::cylinders\+\_\+deque}
+
+deque with the indexes of the cylinders (used for optmization) \mbox{\Hypertarget{class_dynamics_simulation_aece9e3dbb07e4ab3387a008bf2d94493}\label{class_dynamics_simulation_aece9e3dbb07e4ab3387a008bf2d94493}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!cylinders\+\_\+list@{cylinders\+\_\+list}}
+\index{cylinders\+\_\+list@{cylinders\+\_\+list}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{cylinders\+\_\+list}{cylinders\_list}}
+{\footnotesize\ttfamily std\+::vector$<$\hyperlink{class_cylinder}{Cylinder}$>$ Dynamics\+Simulation\+::cylinders\+\_\+list}
+
+vector with all the isntances of \char`\"{}\+Cylider\char`\"{} obstacles \mbox{\Hypertarget{class_dynamics_simulation_ac4161cbca21d20fde85817a21b99bd07}\label{class_dynamics_simulation_ac4161cbca21d20fde85817a21b99bd07}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!icvf@{icvf}}
+\index{icvf@{icvf}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{icvf}{icvf}}
+{\footnotesize\ttfamily double Dynamics\+Simulation\+::icvf}
+
+Stores the I\+C\+VF (1 -\/ Intra-\/\+Extra) if needed \mbox{\Hypertarget{class_dynamics_simulation_aa178498c8be8af1a515a8c0a02187600}\label{class_dynamics_simulation_aa178498c8be8af1a515a8c0a02187600}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!id@{id}}
+\index{id@{id}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily int Dynamics\+Simulation\+::id}
+
+Unique id for the dynamic simulation \mbox{\Hypertarget{class_dynamics_simulation_a4fb0e535753c48b4a2647502379aebaf}\label{class_dynamics_simulation_a4fb0e535753c48b4a2647502379aebaf}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!ini\+\_\+pos\+\_\+file@{ini\+\_\+pos\+\_\+file}}
+\index{ini\+\_\+pos\+\_\+file@{ini\+\_\+pos\+\_\+file}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{ini\+\_\+pos\+\_\+file}{ini\_pos\_file}}
+{\footnotesize\ttfamily std\+::string Dynamics\+Simulation\+::ini\+\_\+pos\+\_\+file}
+
+walkers intitial position file \mbox{\Hypertarget{class_dynamics_simulation_a8e20cd71b55dda041844cfc305851dbe}\label{class_dynamics_simulation_a8e20cd71b55dda041844cfc305851dbe}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!ini\+\_\+pos\+\_\+file\+\_\+ini\+\_\+index@{ini\+\_\+pos\+\_\+file\+\_\+ini\+\_\+index}}
+\index{ini\+\_\+pos\+\_\+file\+\_\+ini\+\_\+index@{ini\+\_\+pos\+\_\+file\+\_\+ini\+\_\+index}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{ini\+\_\+pos\+\_\+file\+\_\+ini\+\_\+index}{ini\_pos\_file\_ini\_index}}
+{\footnotesize\ttfamily unsigned Dynamics\+Simulation\+::ini\+\_\+pos\+\_\+file\+\_\+ini\+\_\+index}
+
+starting position in the ini walker position file (multicore support) \mbox{\Hypertarget{class_dynamics_simulation_aa73be02bc4cb5027a1bc4a0b6b91b4b2}\label{class_dynamics_simulation_aa73be02bc4cb5027a1bc4a0b6b91b4b2}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!last\+\_\+time\+\_\+dt@{last\+\_\+time\+\_\+dt}}
+\index{last\+\_\+time\+\_\+dt@{last\+\_\+time\+\_\+dt}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{last\+\_\+time\+\_\+dt}{last\_time\_dt}}
+{\footnotesize\ttfamily double Dynamics\+Simulation\+::last\+\_\+time\+\_\+dt}
+
+simulation time steps auxiliar values \mbox{\Hypertarget{class_dynamics_simulation_a337972272af798cb8606796116145d11}\label{class_dynamics_simulation_a337972272af798cb8606796116145d11}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!max\+\_\+simulation\+\_\+time@{max\+\_\+simulation\+\_\+time}}
+\index{max\+\_\+simulation\+\_\+time@{max\+\_\+simulation\+\_\+time}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{max\+\_\+simulation\+\_\+time}{max\_simulation\_time}}
+{\footnotesize\ttfamily double Dynamics\+Simulation\+::max\+\_\+simulation\+\_\+time}
+
+Maximum simulation time if not passed we carry all the particles \mbox{\Hypertarget{class_dynamics_simulation_a03ba104f00ae772e9b8fb55e7878c793}\label{class_dynamics_simulation_a03ba104f00ae772e9b8fb55e7878c793}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!mt@{mt}}
+\index{mt@{mt}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{mt}{mt}}
+{\footnotesize\ttfamily std\+::mt19937 Dynamics\+Simulation\+::mt}
+
+rnd, random generator instance \mbox{\Hypertarget{class_dynamics_simulation_a4e14e7f5efc039772219b00b02381db1}\label{class_dynamics_simulation_a4e14e7f5efc039772219b00b02381db1}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!now@{now}}
+\index{now@{now}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{now}{now}}
+{\footnotesize\ttfamily time\+\_\+t Dynamics\+Simulation\+::now}
+
+Auxiliar Variable for time recording and estimation for time. \mbox{\Hypertarget{class_dynamics_simulation_a8772d8683d6089eef368212ee99d12d5}\label{class_dynamics_simulation_a8772d8683d6089eef368212ee99d12d5}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!num\+\_\+simulated\+\_\+walkers@{num\+\_\+simulated\+\_\+walkers}}
+\index{num\+\_\+simulated\+\_\+walkers@{num\+\_\+simulated\+\_\+walkers}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{num\+\_\+simulated\+\_\+walkers}{num\_simulated\_walkers}}
+{\footnotesize\ttfamily unsigned Dynamics\+Simulation\+::num\+\_\+simulated\+\_\+walkers}
+
+Saves the final number of simulated walkers (time limit) \mbox{\Hypertarget{class_dynamics_simulation_a67cd4cd9a2e7cd2339c98dae60e66dde}\label{class_dynamics_simulation_a67cd4cd9a2e7cd2339c98dae60e66dde}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!params@{params}}
+\index{params@{params}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{params}{params}}
+{\footnotesize\ttfamily \hyperlink{class_parameters}{Parameters} Dynamics\+Simulation\+::params}
+
+\hyperlink{class_parameters}{Parameters} handler instance \mbox{\Hypertarget{class_dynamics_simulation_ad920a07f2c8c85fab7a1aec983c15b20}\label{class_dynamics_simulation_ad920a07f2c8c85fab7a1aec983c15b20}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!ply\+\_\+deque@{ply\+\_\+deque}}
+\index{ply\+\_\+deque@{ply\+\_\+deque}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{ply\+\_\+deque}{ply\_deque}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$unsigned$>$ $>$ Dynamics\+Simulation\+::ply\+\_\+deque}
+
+deque with the indexes of the triangles of all ply\textquotesingle{}s (used for opt) \mbox{\Hypertarget{class_dynamics_simulation_a4e7e45353d8485033987e2f3d9f045e6}\label{class_dynamics_simulation_a4e7e45353d8485033987e2f3d9f045e6}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!ply\+Obstacles\+\_\+list@{ply\+Obstacles\+\_\+list}}
+\index{ply\+Obstacles\+\_\+list@{ply\+Obstacles\+\_\+list}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{ply\+Obstacles\+\_\+list}{plyObstacles\_list}}
+{\footnotesize\ttfamily std\+::vector$<$\hyperlink{class_p_l_y_obstacle}{P\+L\+Y\+Obstacle}$>$ Dynamics\+Simulation\+::ply\+Obstacles\+\_\+list}
+
+vector with all the instances of P\+L\+Y\+Obstacles \mbox{\Hypertarget{class_dynamics_simulation_a8742da6be78261e71b9b8cd4de0df488}\label{class_dynamics_simulation_a8742da6be78261e71b9b8cd4de0df488}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!print\+\_\+expected\+\_\+time@{print\+\_\+expected\+\_\+time}}
+\index{print\+\_\+expected\+\_\+time@{print\+\_\+expected\+\_\+time}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{print\+\_\+expected\+\_\+time}{print\_expected\_time}}
+{\footnotesize\ttfamily bool Dynamics\+Simulation\+::print\+\_\+expected\+\_\+time}
+
+Auxiliar flag for time recording and stimation for time. \mbox{\Hypertarget{class_dynamics_simulation_a62f78ae3e723206d16f1528e344ab1e9}\label{class_dynamics_simulation_a62f78ae3e723206d16f1528e344ab1e9}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!propagator@{propagator}}
+\index{propagator@{propagator}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{propagator}{propagator}}
+{\footnotesize\ttfamily \hyperlink{class_propagator}{Propagator} Dynamics\+Simulation\+::propagator}
+
+\hyperlink{class_propagator}{Propagator} object to compute and save the particles M\+SD \mbox{\Hypertarget{class_dynamics_simulation_a46187e70aad2b130249ba3d1dd6a3c75}\label{class_dynamics_simulation_a46187e70aad2b130249ba3d1dd6a3c75}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!second\+\_\+passed@{second\+\_\+passed}}
+\index{second\+\_\+passed@{second\+\_\+passed}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{second\+\_\+passed}{second\_passed}}
+{\footnotesize\ttfamily double Dynamics\+Simulation\+::second\+\_\+passed}
+
+Simulation total time in seconds \mbox{\Hypertarget{class_dynamics_simulation_aed384434dc469e766301268dcf1ec4ab}\label{class_dynamics_simulation_aed384434dc469e766301268dcf1ec4ab}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!sentinela@{sentinela}}
+\index{sentinela@{sentinela}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{sentinela}{sentinela}}
+{\footnotesize\ttfamily \hyperlink{classsentinels_1_1_sentinel}{sentinels\+::\+Sentinel} Dynamics\+Simulation\+::sentinela}
+
+Sentinel initialization to encoutner error in the simulation \mbox{\Hypertarget{class_dynamics_simulation_ad6dddce1d5bc30d3e61dceb69652c893}\label{class_dynamics_simulation_ad6dddce1d5bc30d3e61dceb69652c893}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!step\+\_\+lenght@{step\+\_\+lenght}}
+\index{step\+\_\+lenght@{step\+\_\+lenght}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{step\+\_\+lenght}{step\_lenght}}
+{\footnotesize\ttfamily double Dynamics\+Simulation\+::step\+\_\+lenght}
+
+l, step length \mbox{\Hypertarget{class_dynamics_simulation_abb056d8cde70aab8b6fa81ee8cdb231e}\label{class_dynamics_simulation_abb056d8cde70aab8b6fa81ee8cdb231e}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!total\+\_\+tries@{total\+\_\+tries}}
+\index{total\+\_\+tries@{total\+\_\+tries}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{total\+\_\+tries}{total\_tries}}
+{\footnotesize\ttfamily unsigned Dynamics\+Simulation\+::total\+\_\+tries}
+
+Helper variables to compute the estimated I\+C\+VF \mbox{\Hypertarget{class_dynamics_simulation_ab69fedf7129784621eec440ba873218d}\label{class_dynamics_simulation_ab69fedf7129784621eec440ba873218d}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!trajectory@{trajectory}}
+\index{trajectory@{trajectory}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{trajectory}{trajectory}}
+{\footnotesize\ttfamily \hyperlink{class_trajectory}{Trajectory} Dynamics\+Simulation\+::trajectory}
+
+\hyperlink{class_trajectory}{Trajectory} instance. Handles i/o operations \mbox{\Hypertarget{class_dynamics_simulation_ab68d71822661c3608bde4553392c9bd1}\label{class_dynamics_simulation_ab68d71822661c3608bde4553392c9bd1}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!voxels\+\_\+list@{voxels\+\_\+list}}
+\index{voxels\+\_\+list@{voxels\+\_\+list}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{voxels\+\_\+list}{voxels\_list}}
+{\footnotesize\ttfamily std\+::vector$<$\hyperlink{class_voxel}{Voxel}$>$ Dynamics\+Simulation\+::voxels\+\_\+list}
+
+vector with all the voxels to be simulated (if any) \mbox{\Hypertarget{class_dynamics_simulation_a9a5d2596527abdcdd185430c97dea9ad}\label{class_dynamics_simulation_a9a5d2596527abdcdd185430c97dea9ad}} 
+\index{Dynamics\+Simulation@{Dynamics\+Simulation}!walker@{walker}}
+\index{walker@{walker}!Dynamics\+Simulation@{Dynamics\+Simulation}}
+\subsubsection{\texorpdfstring{walker}{walker}}
+{\footnotesize\ttfamily \hyperlink{class_walker}{Walker} Dynamics\+Simulation\+::walker}
+
+Single walker to diffuse 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/dynamics\+Simulation.\+h\item 
+src/dynamics\+Simulation.\+cpp\end{DoxyCompactItemize}

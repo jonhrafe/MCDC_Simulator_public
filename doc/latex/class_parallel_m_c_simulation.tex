@@ -1,0 +1,192 @@
+\hypertarget{class_parallel_m_c_simulation}{}\section{Parallel\+M\+C\+Simulation Class Reference}
+\label{class_parallel_m_c_simulation}\index{Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}}
+
+
+Class to handle multiprocessor paralellisation. This class basicly controls and syncronize several initializations of Monte\+Carlo simulations and add up the results. It\textquotesingle{}s a way of soft paralelization.  
+
+
+
+
+{\ttfamily \#include $<$parallelmcsimulation.\+h$>$}
+
+
+
+Collaboration diagram for Parallel\+M\+C\+Simulation\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=190pt]{class_parallel_m_c_simulation__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_parallel_m_c_simulation_ac85dc215688a1462b770d20c2ff10b3f}{Parallel\+M\+C\+Simulation} (std\+::string config\+\_\+file)
+\begin{DoxyCompactList}\small\item\em Main constructor. \end{DoxyCompactList}\item 
+\hyperlink{class_parallel_m_c_simulation_a32ee405791787a1ea9d03895fdd810f4}{Parallel\+M\+C\+Simulation} (\hyperlink{class_parameters}{Parameters} \&\hyperlink{class_parallel_m_c_simulation_a83f856aaa88a403c657c7b8234deee7a}{params})
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+void \hyperlink{class_parallel_m_c_simulation_a7d9420ac20b19cb1c74f81bdbad94196}{start\+Simulation} ()
+\begin{DoxyCompactList}\small\item\em Warp function. Calls the \hyperlink{class_m_c_simulation}{M\+C\+Simulation}\textquotesingle{}s native function for all the instances. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_parameters}{Parameters} \hyperlink{class_parallel_m_c_simulation_a83f856aaa88a403c657c7b8234deee7a}{params}
+\item 
+double \hyperlink{class_parallel_m_c_simulation_ad122df5454bb26a56e89c9077560a33d}{mean\+\_\+second\+\_\+passed}
+\item 
+unsigned \hyperlink{class_parallel_m_c_simulation_a18326e05c32fac82264d7351d78a7433}{total\+\_\+sim\+\_\+particles}
+\item 
+unsigned \hyperlink{class_parallel_m_c_simulation_a6ee1dfd6e695ec5ec7d4c2ed94f233cf}{stuck\+\_\+count}
+\item 
+unsigned \hyperlink{class_parallel_m_c_simulation_ae667ec358689a3a7b42876b401a5fce5}{illegal\+\_\+count}
+\item 
+double \hyperlink{class_parallel_m_c_simulation_a871e3fdace01984a533792dd49bebd1b}{icvf}
+\item 
+double \hyperlink{class_parallel_m_c_simulation_aa51edc0c79c6ae66ddd0046d21b871d4}{aprox\+\_\+volumen}
+\item 
+std\+::vector$<$ \hyperlink{class_m_c_simulation}{M\+C\+Simulation} $\ast$ $>$ \hyperlink{class_parallel_m_c_simulation_af16d292f007b8391122a035022422ed5}{simulations}
+\item 
+std\+::vector$<$ std\+::thread $>$ \hyperlink{class_parallel_m_c_simulation_a2a0f1cc2812c1a35e5e38d9d9ddde78b}{sim\+\_\+threads}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class to handle multiprocessor paralellisation. This class basicly controls and syncronize several initializations of Monte\+Carlo simulations and add up the results. It\textquotesingle{}s a way of soft paralelization. 
+
+P\+G\+SE Sequence Class =============================================================/.
+
+==============================================================================/
+
+Class to handle multiprocessor paralellisation \begin{DoxyAuthor}{Author}
+Jonathan Rafael 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+November 2016 
+
+
+\end{DoxyDate}
+Derived Class. Implementation of the P\+G\+SE protocol
+
+\begin{DoxyDate}{Date}
+May 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Jonathan Rafael \subsection*{0.\+1.\+0 }
+\end{DoxyAuthor}
+
+
+Implementation of the P\+G\+SE protocol 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_parallel_m_c_simulation_ac85dc215688a1462b770d20c2ff10b3f}\label{class_parallel_m_c_simulation_ac85dc215688a1462b770d20c2ff10b3f}} 
+\index{Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}!Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}}
+\index{Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}!Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{Parallel\+M\+C\+Simulation()}{ParallelMCSimulation()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Parallel\+M\+C\+Simulation\+::\+Parallel\+M\+C\+Simulation (\begin{DoxyParamCaption}\item[{std\+::string}]{config\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+Main constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em config\+\_\+file} & .conf file name with the full set of experiments parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_parallel_m_c_simulation_a32ee405791787a1ea9d03895fdd810f4}\label{class_parallel_m_c_simulation_a32ee405791787a1ea9d03895fdd810f4}} 
+\index{Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}!Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}}
+\index{Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}!Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{Parallel\+M\+C\+Simulation()}{ParallelMCSimulation()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Parallel\+M\+C\+Simulation\+::\+Parallel\+M\+C\+Simulation (\begin{DoxyParamCaption}\item[{\hyperlink{class_parameters}{Parameters} \&}]{params }\end{DoxyParamCaption})}
+
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameters} & of the simulation. Read form a conf file or given by the user. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_parallel_m_c_simulation_a7d9420ac20b19cb1c74f81bdbad94196}\label{class_parallel_m_c_simulation_a7d9420ac20b19cb1c74f81bdbad94196}} 
+\index{Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}!start\+Simulation@{start\+Simulation}}
+\index{start\+Simulation@{start\+Simulation}!Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{start\+Simulation()}{startSimulation()}}
+{\footnotesize\ttfamily Parallel\+M\+C\+Simulation\+::start\+Simulation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Warp function. Calls the \hyperlink{class_m_c_simulation}{M\+C\+Simulation}\textquotesingle{}s native function for all the instances. 
+
+\begin{DoxySeeAlso}{See also}
+\+:\hyperlink{class_m_c_simulation}{M\+C\+Simulation}\+:. 
+\end{DoxySeeAlso}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_parallel_m_c_simulation_aa51edc0c79c6ae66ddd0046d21b871d4}\label{class_parallel_m_c_simulation_aa51edc0c79c6ae66ddd0046d21b871d4}} 
+\index{Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}!aprox\+\_\+volumen@{aprox\+\_\+volumen}}
+\index{aprox\+\_\+volumen@{aprox\+\_\+volumen}!Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{aprox\+\_\+volumen}{aprox\_volumen}}
+{\footnotesize\ttfamily double Parallel\+M\+C\+Simulation\+::aprox\+\_\+volumen}
+
+Stores the volumen based on I\+C\+VF and the voxel size \mbox{\Hypertarget{class_parallel_m_c_simulation_a871e3fdace01984a533792dd49bebd1b}\label{class_parallel_m_c_simulation_a871e3fdace01984a533792dd49bebd1b}} 
+\index{Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}!icvf@{icvf}}
+\index{icvf@{icvf}!Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{icvf}{icvf}}
+{\footnotesize\ttfamily double Parallel\+M\+C\+Simulation\+::icvf}
+
+Stores the I\+C\+VF based on the particles sampling \mbox{\Hypertarget{class_parallel_m_c_simulation_ae667ec358689a3a7b42876b401a5fce5}\label{class_parallel_m_c_simulation_ae667ec358689a3a7b42876b401a5fce5}} 
+\index{Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}!illegal\+\_\+count@{illegal\+\_\+count}}
+\index{illegal\+\_\+count@{illegal\+\_\+count}!Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{illegal\+\_\+count}{illegal\_count}}
+{\footnotesize\ttfamily unsigned Parallel\+M\+C\+Simulation\+::illegal\+\_\+count}
+
+Counts the number of particles that attempt to cross \mbox{\Hypertarget{class_parallel_m_c_simulation_ad122df5454bb26a56e89c9077560a33d}\label{class_parallel_m_c_simulation_ad122df5454bb26a56e89c9077560a33d}} 
+\index{Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}!mean\+\_\+second\+\_\+passed@{mean\+\_\+second\+\_\+passed}}
+\index{mean\+\_\+second\+\_\+passed@{mean\+\_\+second\+\_\+passed}!Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{mean\+\_\+second\+\_\+passed}{mean\_second\_passed}}
+{\footnotesize\ttfamily double Parallel\+M\+C\+Simulation\+::mean\+\_\+second\+\_\+passed}
+
+Simualation total time in seconds \mbox{\Hypertarget{class_parallel_m_c_simulation_a83f856aaa88a403c657c7b8234deee7a}\label{class_parallel_m_c_simulation_a83f856aaa88a403c657c7b8234deee7a}} 
+\index{Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}!params@{params}}
+\index{params@{params}!Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{params}{params}}
+{\footnotesize\ttfamily \hyperlink{class_parameters}{Parameters} Parallel\+M\+C\+Simulation\+::params}
+
+\hyperlink{class_parameters}{Parameters} instance \begin{DoxySeeAlso}{See also}
+\+:\hyperlink{class_parameters}{Parameters}\+: 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{class_parallel_m_c_simulation_a2a0f1cc2812c1a35e5e38d9d9ddde78b}\label{class_parallel_m_c_simulation_a2a0f1cc2812c1a35e5e38d9d9ddde78b}} 
+\index{Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}!sim\+\_\+threads@{sim\+\_\+threads}}
+\index{sim\+\_\+threads@{sim\+\_\+threads}!Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{sim\+\_\+threads}{sim\_threads}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::thread$>$ Parallel\+M\+C\+Simulation\+::sim\+\_\+threads}
+
+Number of threads (instances and processors) to be used \mbox{\Hypertarget{class_parallel_m_c_simulation_af16d292f007b8391122a035022422ed5}\label{class_parallel_m_c_simulation_af16d292f007b8391122a035022422ed5}} 
+\index{Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}!simulations@{simulations}}
+\index{simulations@{simulations}!Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{simulations}{simulations}}
+{\footnotesize\ttfamily std\+::vector$<$\hyperlink{class_m_c_simulation}{M\+C\+Simulation}$\ast$$>$ Parallel\+M\+C\+Simulation\+::simulations}
+
+vector of pointers to \hyperlink{class_m_c_simulation}{M\+C\+Simulation} instances \mbox{\Hypertarget{class_parallel_m_c_simulation_a6ee1dfd6e695ec5ec7d4c2ed94f233cf}\label{class_parallel_m_c_simulation_a6ee1dfd6e695ec5ec7d4c2ed94f233cf}} 
+\index{Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}!stuck\+\_\+count@{stuck\+\_\+count}}
+\index{stuck\+\_\+count@{stuck\+\_\+count}!Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{stuck\+\_\+count}{stuck\_count}}
+{\footnotesize\ttfamily unsigned Parallel\+M\+C\+Simulation\+::stuck\+\_\+count}
+
+Counts the number of particles stuck in the simulations \mbox{\Hypertarget{class_parallel_m_c_simulation_a18326e05c32fac82264d7351d78a7433}\label{class_parallel_m_c_simulation_a18326e05c32fac82264d7351d78a7433}} 
+\index{Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}!total\+\_\+sim\+\_\+particles@{total\+\_\+sim\+\_\+particles}}
+\index{total\+\_\+sim\+\_\+particles@{total\+\_\+sim\+\_\+particles}!Parallel\+M\+C\+Simulation@{Parallel\+M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{total\+\_\+sim\+\_\+particles}{total\_sim\_particles}}
+{\footnotesize\ttfamily unsigned Parallel\+M\+C\+Simulation\+::total\+\_\+sim\+\_\+particles}
+
+Total number of simulated particles 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/parallelmcsimulation.\+h\item 
+src/parallelmcsimulation.\+cpp\end{DoxyCompactItemize}

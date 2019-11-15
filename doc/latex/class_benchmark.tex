@@ -1,0 +1,62 @@
+\hypertarget{class_benchmark}{}\section{Benchmark Class Reference}
+\label{class_benchmark}\index{Benchmark@{Benchmark}}
+
+
+\hyperlink{class_benchmark}{Benchmark} class ============================================================================/.  
+
+
+
+
+{\ttfamily \#include $<$benchmark.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_benchmark_a6c334912b79502e5a344c1ba512d87c6}\label{class_benchmark_a6c334912b79502e5a344c1ba512d87c6}} 
+{\bfseries Benchmark} (std\+::string output)
+\item 
+\mbox{\Hypertarget{class_benchmark_a7b4af5d507d31572b3648bb09de9b78b}\label{class_benchmark_a7b4af5d507d31572b3648bb09de9b78b}} 
+void {\bfseries start} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \hyperlink{class_benchmark_a5cea4a90c86a242be2e8583054bf8b1c}{output\+\_\+dir}
+\item 
+std\+::vector$<$ double $>$ \hyperlink{class_benchmark_aad25ea73aeb6800ef6a65a516559cb86}{elapsed\+\_\+times}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_benchmark}{Benchmark} class ============================================================================/. 
+
+Implementation for benchmark and testing. The class implements performance tests and accuracy of the collision system. \begin{DoxyAuthor}{Author}
+Jonathan Rafael \subsection*{November 2016 }
+\end{DoxyAuthor}
+
+
+Implementation for benchmark and testing. The class implements performance tests and accuracy of the collision system.
+
+This class serves to compare optimization methods and accuracy checks in the dynamics.
+
+All the methods assume a folder structure\+: test1, test2, ..., test6. Where the results are saved. 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_benchmark_aad25ea73aeb6800ef6a65a516559cb86}\label{class_benchmark_aad25ea73aeb6800ef6a65a516559cb86}} 
+\index{Benchmark@{Benchmark}!elapsed\+\_\+times@{elapsed\+\_\+times}}
+\index{elapsed\+\_\+times@{elapsed\+\_\+times}!Benchmark@{Benchmark}}
+\subsubsection{\texorpdfstring{elapsed\+\_\+times}{elapsed\_times}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ Benchmark\+::elapsed\+\_\+times}
+
+Elapsed time of all outputs. \mbox{\Hypertarget{class_benchmark_a5cea4a90c86a242be2e8583054bf8b1c}\label{class_benchmark_a5cea4a90c86a242be2e8583054bf8b1c}} 
+\index{Benchmark@{Benchmark}!output\+\_\+dir@{output\+\_\+dir}}
+\index{output\+\_\+dir@{output\+\_\+dir}!Benchmark@{Benchmark}}
+\subsubsection{\texorpdfstring{output\+\_\+dir}{output\_dir}}
+{\footnotesize\ttfamily std\+::string Benchmark\+::output\+\_\+dir}
+
+Output directory where the output folders are. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/benchmark.\+h\item 
+src/benchmark.\+cpp\end{DoxyCompactItemize}

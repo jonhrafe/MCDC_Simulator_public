@@ -1,0 +1,166 @@
+\hypertarget{class_m_c_simulation}{}\section{M\+C\+Simulation Class Reference}
+\label{class_m_c_simulation}\index{M\+C\+Simulation@{M\+C\+Simulation}}
+
+
+Aplication Main Class ======================================================================================/.  
+
+
+
+
+{\ttfamily \#include $<$mcsimulation.\+h$>$}
+
+
+
+Collaboration diagram for M\+C\+Simulation\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_m_c_simulation__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_m_c_simulation_a89f56682a13f0bcb2c53d191ca336e35}{M\+C\+Simulation} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. Intialize everything with 0\textquotesingle{}s and N\+U\+LL states, object indexes are set to -\/1. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_m_c_simulation_a5b2bdb95de31810a0d2ee54174e83f98}\label{class_m_c_simulation_a5b2bdb95de31810a0d2ee54174e83f98}} 
+{\bfseries M\+C\+Simulation} (std\+::string config\+\_\+file)
+\item 
+\mbox{\Hypertarget{class_m_c_simulation_a76ac3d50d345d249cacc913273b2bd34}\label{class_m_c_simulation_a76ac3d50d345d249cacc913273b2bd34}} 
+{\bfseries M\+C\+Simulation} (\hyperlink{class_parameters}{Parameters} \&params\+\_\+)
+\item 
+\mbox{\Hypertarget{class_m_c_simulation_a859c6ddce0e3c07db0159b2e4906b7ca}\label{class_m_c_simulation_a859c6ddce0e3c07db0159b2e4906b7ca}} 
+\hyperlink{class_m_c_simulation_a859c6ddce0e3c07db0159b2e4906b7ca}{$\sim$\+M\+C\+Simulation} ()
+\begin{DoxyCompactList}\small\item\em Main destructor. Frees dynamicly allocated memory instances. \end{DoxyCompactList}\item 
+void \hyperlink{class_m_c_simulation_aa305f18bd48dd26f916cc9c006a8dec8}{start\+Simulation} ()
+\begin{DoxyCompactList}\small\item\em Warp function. Calls the dynamic\+Engine\textquotesingle{}s native \hyperlink{class_dynamics_simulation_a820ee541ac42b1f9d08f5aef571eccc7}{Dynamics\+Simulation\+::start\+Simulation} function. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_m_c_simulation_aff302334b2743a583b5d6f642d841f2f}\label{class_m_c_simulation_aff302334b2743a583b5d6f642d841f2f}} 
+double {\bfseries get\+Expected\+Freee\+Decay} (unsigned i)
+\item 
+void \hyperlink{class_m_c_simulation_aa60234e3f6d2a100c8b03e4f304b07f4}{ini\+Obstacles} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{class_m_c_simulation_aff828a83a905ae188146d3ffaa12a1bc}{id}
+\item 
+\hyperlink{class_dynamics_simulation}{Dynamics\+Simulation} $\ast$ \hyperlink{class_m_c_simulation_ac453455b2dfb994b7b1a4b7823bd3dc9}{dynamics\+Engine}
+\item 
+\hyperlink{class_scheme}{Scheme} \hyperlink{class_m_c_simulation_a87ba6332f1f49024a442981b477360c4}{scheme}
+\item 
+\hyperlink{class_parameters}{Parameters} \hyperlink{class_m_c_simulation_aecb8470cb31fa67e38c5d5acd5a80bef}{params}
+\item 
+\hyperlink{class_simulable_sequence}{Simulable\+Sequence} $\ast$ \hyperlink{class_m_c_simulation_a7e2496127af6436d64bca7f52bc40c82}{data\+Synth}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{class_m_c_simulation_aa3853b6cec83b055593cbf58def0c164}{count} =0
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Aplication Main Class ======================================================================================/. 
+
+Main implementation class. Incorporates the particle\textquotesingle{}s dynamics and the data synthesis. \begin{DoxyAuthor}{Author}
+Jonathan Rafael 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+November 2016 \subsection*{1.\+42.\+14\+\_\+wf }
+\end{DoxyDate}
+
+
+Main implementation class. Incorporates the particle\textquotesingle{}s dynamics and the data synthesis. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_m_c_simulation_a89f56682a13f0bcb2c53d191ca336e35}\label{class_m_c_simulation_a89f56682a13f0bcb2c53d191ca336e35}} 
+\index{M\+C\+Simulation@{M\+C\+Simulation}!M\+C\+Simulation@{M\+C\+Simulation}}
+\index{M\+C\+Simulation@{M\+C\+Simulation}!M\+C\+Simulation@{M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{M\+C\+Simulation()}{MCSimulation()}}
+{\footnotesize\ttfamily M\+C\+Simulation\+::\+M\+C\+Simulation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Default constructor. Intialize everything with 0\textquotesingle{}s and N\+U\+LL states, object indexes are set to -\/1. 
+
+Secondary constructor.
+
+Main constructor.
+
+
+\begin{DoxyParams}{Parameters}
+{\em config\+\_\+file} & .conf file name with the full set of experiments parameters.\\
+\hline
+{\em params\+\_\+} & preloaded simulation parameters. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_m_c_simulation_aa60234e3f6d2a100c8b03e4f304b07f4}\label{class_m_c_simulation_aa60234e3f6d2a100c8b03e4f304b07f4}} 
+\index{M\+C\+Simulation@{M\+C\+Simulation}!ini\+Obstacles@{ini\+Obstacles}}
+\index{ini\+Obstacles@{ini\+Obstacles}!M\+C\+Simulation@{M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{ini\+Obstacles()}{iniObstacles()}}
+{\footnotesize\ttfamily void M\+C\+Simulation\+::ini\+Obstacles (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Adds all the obstacles defined in the confiuration files. \mbox{\Hypertarget{class_m_c_simulation_aa305f18bd48dd26f916cc9c006a8dec8}\label{class_m_c_simulation_aa305f18bd48dd26f916cc9c006a8dec8}} 
+\index{M\+C\+Simulation@{M\+C\+Simulation}!start\+Simulation@{start\+Simulation}}
+\index{start\+Simulation@{start\+Simulation}!M\+C\+Simulation@{M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{start\+Simulation()}{startSimulation()}}
+{\footnotesize\ttfamily M\+C\+Simulation\+::start\+Simulation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Warp function. Calls the dynamic\+Engine\textquotesingle{}s native \hyperlink{class_dynamics_simulation_a820ee541ac42b1f9d08f5aef571eccc7}{Dynamics\+Simulation\+::start\+Simulation} function. 
+
+\begin{DoxySeeAlso}{See also}
+\+:\hyperlink{class_dynamics_simulation}{Dynamics\+Simulation}\+:. 
+\end{DoxySeeAlso}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_m_c_simulation_aa3853b6cec83b055593cbf58def0c164}\label{class_m_c_simulation_aa3853b6cec83b055593cbf58def0c164}} 
+\index{M\+C\+Simulation@{M\+C\+Simulation}!count@{count}}
+\index{count@{count}!M\+C\+Simulation@{M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{count}{count}}
+{\footnotesize\ttfamily int M\+C\+Simulation\+::count =0\hspace{0.3cm}{\ttfamily [static]}}
+
+count of \mbox{\Hypertarget{class_m_c_simulation_a7e2496127af6436d64bca7f52bc40c82}\label{class_m_c_simulation_a7e2496127af6436d64bca7f52bc40c82}} 
+\index{M\+C\+Simulation@{M\+C\+Simulation}!data\+Synth@{data\+Synth}}
+\index{data\+Synth@{data\+Synth}!M\+C\+Simulation@{M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{data\+Synth}{dataSynth}}
+{\footnotesize\ttfamily \hyperlink{class_simulable_sequence}{Simulable\+Sequence}$\ast$ M\+C\+Simulation\+::data\+Synth}
+
+Simuleable sequence instance, only P\+G\+SE is supported in 0.\+2 \mbox{\Hypertarget{class_m_c_simulation_ac453455b2dfb994b7b1a4b7823bd3dc9}\label{class_m_c_simulation_ac453455b2dfb994b7b1a4b7823bd3dc9}} 
+\index{M\+C\+Simulation@{M\+C\+Simulation}!dynamics\+Engine@{dynamics\+Engine}}
+\index{dynamics\+Engine@{dynamics\+Engine}!M\+C\+Simulation@{M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{dynamics\+Engine}{dynamicsEngine}}
+{\footnotesize\ttfamily \hyperlink{class_dynamics_simulation}{Dynamics\+Simulation}$\ast$ M\+C\+Simulation\+::dynamics\+Engine}
+
+Instance for the particle dynamics \mbox{\Hypertarget{class_m_c_simulation_aff828a83a905ae188146d3ffaa12a1bc}\label{class_m_c_simulation_aff828a83a905ae188146d3ffaa12a1bc}} 
+\index{M\+C\+Simulation@{M\+C\+Simulation}!id@{id}}
+\index{id@{id}!M\+C\+Simulation@{M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily int M\+C\+Simulation\+::id}
+
+Unique id of the simulation \mbox{\Hypertarget{class_m_c_simulation_aecb8470cb31fa67e38c5d5acd5a80bef}\label{class_m_c_simulation_aecb8470cb31fa67e38c5d5acd5a80bef}} 
+\index{M\+C\+Simulation@{M\+C\+Simulation}!params@{params}}
+\index{params@{params}!M\+C\+Simulation@{M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{params}{params}}
+{\footnotesize\ttfamily \hyperlink{class_parameters}{Parameters} M\+C\+Simulation\+::params}
+
+\hyperlink{class_parameters}{Parameters} instance1 \begin{DoxySeeAlso}{See also}
+\+:\hyperlink{class_parameters}{Parameters}\+: 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{class_m_c_simulation_a87ba6332f1f49024a442981b477360c4}\label{class_m_c_simulation_a87ba6332f1f49024a442981b477360c4}} 
+\index{M\+C\+Simulation@{M\+C\+Simulation}!scheme@{scheme}}
+\index{scheme@{scheme}!M\+C\+Simulation@{M\+C\+Simulation}}
+\subsubsection{\texorpdfstring{scheme}{scheme}}
+{\footnotesize\ttfamily \hyperlink{class_scheme}{Scheme} M\+C\+Simulation\+::scheme}
+
+\hyperlink{class_scheme}{Scheme} file, only P\+G\+SE in camino format is supported in 0.\+2 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/mcsimulation.\+h\item 
+src/mcsimulation.\+cpp\end{DoxyCompactItemize}

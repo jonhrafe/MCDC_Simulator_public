@@ -1,0 +1,72 @@
+\hypertarget{classsentinels_1_1_sentinel}{}\section{sentinels\+:\+:Sentinel Class Reference}
+\label{classsentinels_1_1_sentinel}\index{sentinels\+::\+Sentinel@{sentinels\+::\+Sentinel}}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_a82dc9b174c5d4c23b747b083f6ba7dbd}\label{classsentinels_1_1_sentinel_a82dc9b174c5d4c23b747b083f6ba7dbd}} 
+enum {\bfseries Error\+Cases} \{ \newline
+{\bfseries none}, 
+{\bfseries stuck}, 
+{\bfseries crossed}, 
+{\bfseries rejected}, 
+\newline
+{\bfseries rejected\+\_\+initial\+\_\+pos}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_ad292b3700a6f7172e31aba2c3c57d800}\label{classsentinels_1_1_sentinel_ad292b3700a6f7172e31aba2c3c57d800}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_a88cb42ad4144fcd6079117fe71e762ed}\label{classsentinels_1_1_sentinel_a88cb42ad4144fcd6079117fe71e762ed}} 
+void {\bfseries set\+Bouncing\+Error} (unsigned bouncings)
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_a19710e1e2a694442d64772c63307c110}\label{classsentinels_1_1_sentinel_a19710e1e2a694442d64772c63307c110}} 
+void {\bfseries set\+Crossing\+Error} (unsigned)
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_a75fbb7413866ebf130fd6d28fa4a77b9}\label{classsentinels_1_1_sentinel_a75fbb7413866ebf130fd6d28fa4a77b9}} 
+void {\bfseries set\+Rejected\+Error} ()
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_a43d8a814622b8c3ad0290d7cc2c7202e}\label{classsentinels_1_1_sentinel_a43d8a814622b8c3ad0290d7cc2c7202e}} 
+bool {\bfseries check\+Errors} (\hyperlink{class_walker}{Walker} \&w, const \hyperlink{class_parameters}{Parameters} \&params, bool no\+P\+LY, unsigned \&bouncing\+\_\+count)
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_aabce46b0d258a94d0401d80904e3b1f4}\label{classsentinels_1_1_sentinel_aabce46b0d258a94d0401d80904e3b1f4}} 
+void {\bfseries deportation\+Process} (\hyperlink{class_walker}{Walker} \&walker, unsigned \&w, unsigned \&t, bool \&back\+\_\+tracking, \hyperlink{class_parameters}{Parameters} \&params, int id)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_a7c588d3516d0576ccd319cfffa2ba1ee}\label{classsentinels_1_1_sentinel_a7c588d3516d0576ccd319cfffa2ba1ee}} 
+unsigned {\bfseries stuck\+\_\+count}
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_ae63b02f83c9738eb01a85268279ebb52}\label{classsentinels_1_1_sentinel_ae63b02f83c9738eb01a85268279ebb52}} 
+unsigned {\bfseries illegal\+\_\+count}
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_a117da1c60b611dcf0780f21b9b4bcfff}\label{classsentinels_1_1_sentinel_a117da1c60b611dcf0780f21b9b4bcfff}} 
+unsigned {\bfseries bouncings}
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_a934aa2e258cfed479b293bd6fa546b4d}\label{classsentinels_1_1_sentinel_a934aa2e258cfed479b293bd6fa546b4d}} 
+unsigned {\bfseries obstacle\+\_\+id}
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_aa1711693186810c3b3db9d6d25d43373}\label{classsentinels_1_1_sentinel_aa1711693186810c3b3db9d6d25d43373}} 
+unsigned {\bfseries rejected\+\_\+count}
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_abf75c99c36d1155320b934ae2f9a8f82}\label{classsentinels_1_1_sentinel_abf75c99c36d1155320b934ae2f9a8f82}} 
+bool {\bfseries rejected\+\_\+step}
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_af1f6fc70d0048859742b3df027b1e775}\label{classsentinels_1_1_sentinel_af1f6fc70d0048859742b3df027b1e775}} 
+bool {\bfseries deport\+\_\+illegals}
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_ae542b64ba62eabadab040447ae23f960}\label{classsentinels_1_1_sentinel_ae542b64ba62eabadab040447ae23f960}} 
+bool {\bfseries discard\+\_\+stucks}
+\item 
+\mbox{\Hypertarget{classsentinels_1_1_sentinel_a1c163213e6a40e1d935d5eb6333b5b62}\label{classsentinels_1_1_sentinel_a1c163213e6a40e1d935d5eb6333b5b62}} 
+Error\+Cases {\bfseries error}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/sentinel.\+h\item 
+src/sentinel.\+cpp\end{DoxyCompactItemize}

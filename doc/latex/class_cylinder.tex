@@ -1,0 +1,189 @@
+\hypertarget{class_cylinder}{}\section{Cylinder Class Reference}
+\label{class_cylinder}\index{Cylinder@{Cylinder}}
+
+
+\hyperlink{class_cylinder}{Cylinder} \hyperlink{class_obstacle}{Obstacle} Derived Class =============================================================/.  
+
+
+
+
+{\ttfamily \#include $<$cylinder.\+h$>$}
+
+
+
+Inheritance diagram for Cylinder\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=136pt]{class_cylinder__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Cylinder\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=136pt]{class_cylinder__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_cylinder_a01dc978cb576f834b9545e43d4dad2a2}\label{class_cylinder_a01dc978cb576f834b9545e43d4dad2a2}} 
+\hyperlink{class_cylinder_a01dc978cb576f834b9545e43d4dad2a2}{Cylinder} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. Does nothing. \end{DoxyCompactList}\item 
+\hyperlink{class_cylinder_a0a5f7aa0a0c5c5e17c783784fd99fa1a}{Cylinder} (Eigen\+::\+Vector3d P\+\_\+, Eigen\+::\+Vector3d Q\+\_\+, double radius\+\_\+, double scale=1)
+\begin{DoxyCompactList}\small\item\em Initialize everything. \end{DoxyCompactList}\item 
+\hyperlink{class_cylinder_ab5389301aa05bdee0c066e0b8026611f}{Cylinder} (\hyperlink{class_cylinder}{Cylinder} const \&cyl)
+\begin{DoxyCompactList}\small\item\em Initialize everything. \end{DoxyCompactList}\item 
+bool \hyperlink{class_cylinder_a43350a6331f8656dd0774a4a3b68724f}{check\+Collision} (\hyperlink{class_walker}{Walker} \&walker, Eigen\+::\+Vector3d \&step, double \&step\+\_\+lenght, \hyperlink{class_collision}{Collision} \&colision)
+\begin{DoxyCompactList}\small\item\em Basic collision function. Returns the if there was any collision on against the obstacle. \end{DoxyCompactList}\item 
+double \hyperlink{class_cylinder_a6eb639d12a7fc0aec50895151fb91b1f}{min\+Distance} (\hyperlink{class_walker}{Walker} \&w)
+\begin{DoxyCompactList}\small\item\em Returns the minimum distance from the walker to the cylinder. Used to set the reachable cylinders that a given walker can reach. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_cylinder_ae9823df86b6b76bc86172d84d798494f}\label{class_cylinder_ae9823df86b6b76bc86172d84d798494f}} 
+Eigen\+::\+Vector3d {\bfseries P}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_cylinder_a9f367beb008c847b97bb0ce043601769}{Q}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_cylinder_a2e7f0d4e406cc50daf30f3e3b0be1609}{D}
+\item 
+double \hyperlink{class_cylinder_a8a825799285bcf60b49b8aef0459b498}{radius}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_cylinder_af276a253b655ded13f5dfd5afbff81d1}\label{class_cylinder_af276a253b655ded13f5dfd5afbff81d1}} 
+static int {\bfseries count} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_cylinder}{Cylinder} \hyperlink{class_obstacle}{Obstacle} Derived Class =============================================================/. 
+
+\hyperlink{class_cylinder}{Cylinder} class derived from an \hyperlink{class_obstacle}{Obstacle}. Defines infinite long cylinders in the direction set by P,Q. \begin{DoxyAuthor}{Author}
+Jonathan Rafael 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+November 2016 \subsection*{1.\+42 }
+\end{DoxyDate}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_cylinder_a0a5f7aa0a0c5c5e17c783784fd99fa1a}\label{class_cylinder_a0a5f7aa0a0c5c5e17c783784fd99fa1a}} 
+\index{Cylinder@{Cylinder}!Cylinder@{Cylinder}}
+\index{Cylinder@{Cylinder}!Cylinder@{Cylinder}}
+\subsubsection{\texorpdfstring{Cylinder()}{Cylinder()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Cylinder\+::\+Cylinder (\begin{DoxyParamCaption}\item[{Eigen\+::\+Vector3d}]{P\+\_\+,  }\item[{Eigen\+::\+Vector3d}]{Q\+\_\+,  }\item[{double}]{radius\+\_\+,  }\item[{double}]{scale = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Initialize everything. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P\+\_\+} & \hyperlink{class_cylinder}{Cylinder} origin \\
+\hline
+{\em Q\+\_\+} & cylinder direction. \\
+\hline
+{\em radius\+\_\+} & cylinder\textquotesingle{}s radius \\
+\hline
+{\em scale} & scale factor for the values passed. Useful when reading a file. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_cylinder_ab5389301aa05bdee0c066e0b8026611f}\label{class_cylinder_ab5389301aa05bdee0c066e0b8026611f}} 
+\index{Cylinder@{Cylinder}!Cylinder@{Cylinder}}
+\index{Cylinder@{Cylinder}!Cylinder@{Cylinder}}
+\subsubsection{\texorpdfstring{Cylinder()}{Cylinder()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Cylinder\+::\+Cylinder (\begin{DoxyParamCaption}\item[{\hyperlink{class_cylinder}{Cylinder} const \&}]{cyl }\end{DoxyParamCaption})}
+
+
+
+Initialize everything. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P\+\_\+} & \hyperlink{class_cylinder}{Cylinder} origin \\
+\hline
+{\em Q\+\_\+} & cylinder direction. \\
+\hline
+{\em radius\+\_\+} & cylinder\textquotesingle{}s radius \\
+\hline
+{\em scale} & scale factor for the values passed. Useful when reading a file. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_cylinder_a43350a6331f8656dd0774a4a3b68724f}\label{class_cylinder_a43350a6331f8656dd0774a4a3b68724f}} 
+\index{Cylinder@{Cylinder}!check\+Collision@{check\+Collision}}
+\index{check\+Collision@{check\+Collision}!Cylinder@{Cylinder}}
+\subsubsection{\texorpdfstring{check\+Collision()}{checkCollision()}}
+{\footnotesize\ttfamily Cylinder\+::check\+Collision (\begin{DoxyParamCaption}\item[{\hyperlink{class_walker}{Walker} \&}]{walker,  }\item[{Eigen\+::\+Vector3d \&}]{step,  }\item[{double \&}]{step\+\_\+lenght,  }\item[{\hyperlink{class_collision}{Collision} \&}]{colision }\end{DoxyParamCaption})}
+
+
+
+Basic collision function. Returns the if there was any collision on against the obstacle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em walker,\hyperlink{class_walker}{Walker}} & instance in the simulation. \\
+\hline
+{\em 3d} & step. Is assumed to be normalized. \\
+\hline
+{\em step\+\_\+length,length} & used as the maximum step collision distance. \\
+\hline
+{\em collision,\hyperlink{class_collision}{Collision}} & instance to save the collision (if any) details. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true only if there was a Collision\+::hit status. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{class_collision}{Collision}. 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{class_cylinder_a6eb639d12a7fc0aec50895151fb91b1f}\label{class_cylinder_a6eb639d12a7fc0aec50895151fb91b1f}} 
+\index{Cylinder@{Cylinder}!min\+Distance@{min\+Distance}}
+\index{min\+Distance@{min\+Distance}!Cylinder@{Cylinder}}
+\subsubsection{\texorpdfstring{min\+Distance()}{minDistance()}}
+{\footnotesize\ttfamily Cylinder\+::min\+Distance (\begin{DoxyParamCaption}\item[{\hyperlink{class_walker}{Walker} \&}]{w }\end{DoxyParamCaption})}
+
+
+
+Returns the minimum distance from the walker to the cylinder. Used to set the reachable cylinders that a given walker can reach. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em walker,\hyperlink{class_walker}{Walker}} & instance in the simulation. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_cylinder_a2e7f0d4e406cc50daf30f3e3b0be1609}\label{class_cylinder_a2e7f0d4e406cc50daf30f3e3b0be1609}} 
+\index{Cylinder@{Cylinder}!D@{D}}
+\index{D@{D}!Cylinder@{Cylinder}}
+\subsubsection{\texorpdfstring{D}{D}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Cylinder\+::D}
+
+Pre-\/computed and normalized P -\/ Q vector \mbox{\Hypertarget{class_cylinder_a9f367beb008c847b97bb0ce043601769}\label{class_cylinder_a9f367beb008c847b97bb0ce043601769}} 
+\index{Cylinder@{Cylinder}!Q@{Q}}
+\index{Q@{Q}!Cylinder@{Cylinder}}
+\subsubsection{\texorpdfstring{Q}{Q}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Cylinder\+::Q}
+
+Cilinder Axis reference Points, P should be the \char`\"{}center\char`\"{} \mbox{\Hypertarget{class_cylinder_a8a825799285bcf60b49b8aef0459b498}\label{class_cylinder_a8a825799285bcf60b49b8aef0459b498}} 
+\index{Cylinder@{Cylinder}!radius@{radius}}
+\index{radius@{radius}!Cylinder@{Cylinder}}
+\subsubsection{\texorpdfstring{radius}{radius}}
+{\footnotesize\ttfamily double Cylinder\+::radius}
+
+Radius of the cylinder 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/cylinder.\+h\item 
+src/cylinder.\+cpp\end{DoxyCompactItemize}

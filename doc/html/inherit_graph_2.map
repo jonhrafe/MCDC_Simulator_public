@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_collisionsphere.html" title="Collisionsphere" alt="" coords="5,31,116,57"/>
+<area shape="rect" id="node2" href="$class_cylinder_collision_sphere.html" title="Class to save the cylinderical obstacles that a can collide to a walker. " alt="" coords="164,5,325,32"/>
+<area shape="rect" id="node3" href="$class_p_l_y_collision_sphere.html" title="PLYCollisionSphere" alt="" coords="175,56,314,83"/>
+</map>

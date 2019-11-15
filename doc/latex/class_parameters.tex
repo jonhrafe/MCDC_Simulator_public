@@ -1,0 +1,705 @@
+\hypertarget{class_parameters}{}\section{Parameters Class Reference}
+\label{class_parameters}\index{Parameters@{Parameters}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_parameters_af4d94ee360ac0157d9065f78797fe9a1}\label{class_parameters_af4d94ee360ac0157d9065f78797fe9a1}} 
+\hyperlink{class_parameters_af4d94ee360ac0157d9065f78797fe9a1}{Parameters} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. Sets all the parameters to default and N\+U\+LL values. \end{DoxyCompactList}\item 
+void \hyperlink{class_parameters_afa8dd9d59fa727c3c2b2fe366efb2c14}{read\+Scheme\+File} (std\+::string conf\+\_\+file)
+\begin{DoxyCompactList}\small\item\em Reads all the parameters from a scheme file in the correct format the function scales them if necessary. The parameters are passed by listing, first, the parameter name, followed by the value. The supported parameters are\+: number of walkers (N), number of steps (T), duration (duration), P\+G\+SE scheme file (scheme\+\_\+file), min voxles limits (min limits), max voxel limits (max\+\_\+limits), diffusivity (diffusivity), index name for the trajectory and output values (out\+\_\+traj\+\_\+file\+\_\+index), initial walker position file (ini\+\_\+walkers\+\_\+file), write a txt traj flag and header (write\+\_\+text), write binary traj file and header, write\+\_\+bin, flag to scale the values from estandar unit (scale\+\_\+from\+\_\+stu), random seed (seed). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_parameters_a666f753268b273d35f9623f0754e67ce}\label{class_parameters_a666f753268b273d35f9623f0754e67ce}} 
+void {\bfseries set\+Num\+Walkers} (unsigned N)
+\item 
+void \hyperlink{class_parameters_af61156929c1abed67da0a1c9920ca508}{set\+Num\+Steps} (unsigned T)
+\begin{DoxyCompactList}\small\item\em set the number of steps in the simulation. \end{DoxyCompactList}\item 
+void \hyperlink{class_parameters_a7af2bd289f8c8de738d643bb8e05ac62}{set\+Diffusivity} (double Diff)
+\begin{DoxyCompactList}\small\item\em set the simulation diffusivity. \end{DoxyCompactList}\item 
+void \hyperlink{class_parameters_a934a87940878dc78b75ae4c230132f75}{set\+Sim\+Duration} (double duration)
+\begin{DoxyCompactList}\small\item\em sets the simulation duration. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_parameters_a632988a9dc0d04fdff35c6f72739ed83}\label{class_parameters_a632988a9dc0d04fdff35c6f72739ed83}} 
+void {\bfseries set\+Write\+Traj\+Flag} (bool \hyperlink{class_parameters_a4c98120687d1ba332d0c6cd5a14c59fb}{write\+\_\+bin})
+\item 
+\mbox{\Hypertarget{class_parameters_ac785bd73c771f6a46109fba421fbc059}\label{class_parameters_ac785bd73c771f6a46109fba421fbc059}} 
+void {\bfseries set\+Write\+Text\+Flag} (bool write\+\_\+txt\+\_\+)
+\item 
+void \hyperlink{class_parameters_a73a4f685a35f8f7012609effb30a17d8}{set\+Min\+Limits} (Eigen\+::\+Vector3d min\+\_\+limits\+\_\+)
+\begin{DoxyCompactList}\small\item\em set the bottom left corner of the voxel to be simulated. \end{DoxyCompactList}\item 
+void \hyperlink{class_parameters_a96764612c6ee5aeb684e1348e47b2308}{set\+Max\+Limits} (Eigen\+::\+Vector3d max\+\_\+limits\+\_\+)
+\begin{DoxyCompactList}\small\item\em set the bottom left corner of the voxel to be simulated. \end{DoxyCompactList}\item 
+void \hyperlink{class_parameters_ac07671c27ff8f0ec9f5d8bdc656e7ffb}{set\+Traj\+File\+Name} (std\+::string traj\+\_\+file\+\_\+)
+\begin{DoxyCompactList}\small\item\em Set the prefix of the name for the traj file (txt and .traj) \end{DoxyCompactList}\item 
+void \hyperlink{class_parameters_aec6b8dc2c119405ab2cdc4e6622ac616}{set\+Output\+Base\+File\+Name} (std\+::string output\+\_\+base\+\_\+name\+\_\+)
+\begin{DoxyCompactList}\small\item\em Set the prefix of the name for all the outputs in the simulation. \end{DoxyCompactList}\item 
+void \hyperlink{class_parameters_a73d64bb093a93c2b806883f5504d8fb5}{ini\+Walkers\+File\+Name} (std\+::string ini\+\_\+walkers\+\_\+file\+\_\+)
+\item 
+void \hyperlink{class_parameters_a95ca6c28a5c87363460ca48eed5f065f}{set\+Scheme\+File\+Name} (std\+::string scheme\+\_\+file\+\_\+)
+\begin{DoxyCompactList}\small\item\em Sets the scheme file name to be used for the data synthesis. \end{DoxyCompactList}\item 
+unsigned \hyperlink{class_parameters_adb8599bc60f977f684f32a83bbe28fc1}{get\+Num\+Walkers} ()
+\item 
+unsigned \hyperlink{class_parameters_aa5aaf80e0189c63090e8f04cf485800f}{get\+Num\+Steps} ()
+\item 
+double \hyperlink{class_parameters_ac429071159941e3957eb7c030280a30f}{get\+Diffusivity} ()
+\item 
+bool \hyperlink{class_parameters_a21817e9a0207da2adf32611bcaf889ef}{get\+Write\+Traj\+Flag} ()
+\item 
+bool \hyperlink{class_parameters_adb6064f329732640c226608d6e1ddb60}{get\+Write\+Text\+Flag} ()
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_parameters_abda8b91e5ac40e67c79184d7071c353a}{get\+Min\+Limits} ()
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_parameters_ad4f8b826db4c1b665891740469e41086}{get\+Max\+Limits} ()
+\item 
+std\+::string \hyperlink{class_parameters_a38057c2ae3d11b578c8f199d73683ee1}{get\+Traj\+File\+Name} ()
+\item 
+std\+::string \hyperlink{class_parameters_a794fd941bf5ff311f61f2e6b4f19e64d}{get\+Output\+Base\+File\+Name} ()
+\item 
+\mbox{\Hypertarget{class_parameters_af734dc58d8d5898049226614c2dd38a3}\label{class_parameters_af734dc58d8d5898049226614c2dd38a3}} 
+std\+::string {\bfseries get\+Ini\+Walkers\+File\+Name} ()
+\item 
+std\+::string \hyperlink{class_parameters_a7291b970983c021569cd2e3a0573592c}{get\+Scheme\+File\+Name} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_parameters_a150b4fdab4890be21905186d4c8422f2}\label{class_parameters_a150b4fdab4890be21905186d4c8422f2}} 
+static int {\bfseries str\+\_\+dist} (std\+::string s, std\+::string t)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned \hyperlink{class_parameters_a35329cc60a28986ee4020457d46921fb}{num\+\_\+walkers}
+\item 
+unsigned \hyperlink{class_parameters_a3475e7efae778bc7720fe6c17274eef0}{num\+\_\+steps}
+\item 
+double \hyperlink{class_parameters_add48efa1d9fe056fdb21fe2d2d92533d}{diffusivity}
+\item 
+double \hyperlink{class_parameters_acbe36f055786ddcf8480a49d2c34c914}{sim\+\_\+duration}
+\item 
+bool \hyperlink{class_parameters_ac9408092b6254b4ccfecc85decbb1944}{write\+\_\+traj}
+\item 
+bool \hyperlink{class_parameters_a15446bf0727ebfe03f119821c7d8ed0f}{write\+\_\+txt}
+\item 
+bool \hyperlink{class_parameters_a4c98120687d1ba332d0c6cd5a14c59fb}{write\+\_\+bin}
+\item 
+bool \hyperlink{class_parameters_a3c37f738b7700bdc22845bc725d51e6f}{scale\+\_\+from\+\_\+stu}
+\item 
+bool \hyperlink{class_parameters_ab737ef40d88faa6ee8a701013d9d2984}{save\+\_\+phase\+\_\+shift}
+\item 
+long \hyperlink{class_parameters_afa076397ed9cbdc4c88215e29b850e3c}{seed}
+\item 
+bool \hyperlink{class_parameters_aabce43eb8376a94a8e765da99b58d003}{verbatim}
+\item 
+std\+::string \hyperlink{class_parameters_a75346dc3b7a41548a2f9e0560343df24}{traj\+\_\+file}
+\item 
+std\+::string \hyperlink{class_parameters_a2662ccc98a7a2b9f0c81f223a8f0748f}{output\+\_\+base\+\_\+name}
+\item 
+std\+::string \hyperlink{class_parameters_a84db69d29321fccb7cc7ea724a74df50}{ini\+\_\+walkers\+\_\+file}
+\item 
+unsigned \hyperlink{class_parameters_ae01ac4f7d6d3b9eea6799f5c929ddf00}{ini\+\_\+walkers\+\_\+file\+\_\+count}
+\item 
+std\+::string \hyperlink{class_parameters_a87cb2db5b45bf9cb36e74903fecfaa6e}{ini\+\_\+walker\+\_\+flag}
+\item 
+std\+::string \hyperlink{class_parameters_afbb7caab773abb16753263a0b04c8a2c}{scheme\+\_\+file}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_parameters_aa9d387477810c2bb574b83ecd1fbf8f0}{min\+\_\+limits}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_parameters_a879b4c717e0f59c9bbc4b7810b8fdde3}{max\+\_\+limits}
+\item 
+std\+::vector$<$ std\+::string $>$ \hyperlink{class_parameters_abdef3b0fe62c5fdca7d417d01edd7422}{cylinders\+\_\+files}
+\item 
+std\+::vector$<$ std\+::string $>$ \hyperlink{class_parameters_a76984fe140c1c6c8a047dd622561200d}{P\+L\+Y\+\_\+files}
+\item 
+std\+::vector$<$ double $>$ \hyperlink{class_parameters_a97ed7a4d1b6c6ea8f6507a6a0fc04698}{P\+L\+Y\+\_\+scales}
+\item 
+std\+::vector$<$ float $>$ \hyperlink{class_parameters_aea1568fbc8a92bd90303ea8afc9e8c63}{ini\+\_\+delta\+\_\+pos}
+\item 
+unsigned \hyperlink{class_parameters_aab0de21efc3f85e5c44205ed5ebf9d4d}{num\+\_\+proc}
+\item 
+std\+::vector$<$ std\+::pair$<$ Eigen\+::\+Vector3d, Eigen\+::\+Vector3d $>$ $>$ \hyperlink{class_parameters_aefbd07d8501ebb9311bbb1ea7c37be26}{voxels\+\_\+list}
+\item 
+std\+::vector$<$ Eigen\+::\+Vector3f $>$ \hyperlink{class_parameters_a4bbfed0148cec6e10d0e90d85437a37a}{prop\+\_\+dirs}
+\item 
+std\+::vector$<$ unsigned $>$ \hyperlink{class_parameters_a4f884a7effd3a8816c78084ff3c2b202}{record\+\_\+pos\+\_\+times}
+\item 
+std\+::vector$<$ unsigned $>$ \hyperlink{class_parameters_a559e66b65a2cb4391d1099bf0db6ec44}{record\+\_\+phase\+\_\+times}
+\item 
+std\+::vector$<$ unsigned $>$ \hyperlink{class_parameters_af47bd2eada81c6c581aaa8c70d04c8d6}{record\+\_\+prop\+\_\+times}
+\item 
+\mbox{\Hypertarget{class_parameters_aad79d8e720492fd880ee021c6320dfe0}\label{class_parameters_aad79d8e720492fd880ee021c6320dfe0}} 
+bool {\bfseries hex\+\_\+packing}
+\item 
+\mbox{\Hypertarget{class_parameters_a3c49b55dc2a2af1c5ddfc3426e2a7936}\label{class_parameters_a3c49b55dc2a2af1c5ddfc3426e2a7936}} 
+double {\bfseries hex\+\_\+packing\+\_\+radius}
+\item 
+\mbox{\Hypertarget{class_parameters_a480338071cedf966fdb79b37d9ebe656}\label{class_parameters_a480338071cedf966fdb79b37d9ebe656}} 
+double {\bfseries hex\+\_\+packing\+\_\+separation}
+\item 
+\mbox{\Hypertarget{class_parameters_aaef8b4218392fb19de2c5c886f5f7fa0}\label{class_parameters_aaef8b4218392fb19de2c5c886f5f7fa0}} 
+bool {\bfseries gamma\+\_\+packing}
+\item 
+\mbox{\Hypertarget{class_parameters_ae7568296f688ccea271336e882162e7e}\label{class_parameters_ae7568296f688ccea271336e882162e7e}} 
+bool {\bfseries gamma\+\_\+output\+\_\+conf}
+\item 
+\mbox{\Hypertarget{class_parameters_a29d423618cf9acb2bbfe071fac98ec29}\label{class_parameters_a29d423618cf9acb2bbfe071fac98ec29}} 
+double {\bfseries gamma\+\_\+packing\+\_\+alpha}
+\item 
+\mbox{\Hypertarget{class_parameters_a2b10c9b8191ca74923f07d74b8f7e30a}\label{class_parameters_a2b10c9b8191ca74923f07d74b8f7e30a}} 
+double {\bfseries gamma\+\_\+packing\+\_\+beta}
+\item 
+\mbox{\Hypertarget{class_parameters_a97df7bda4427bbdd7b7e0aa2cd23e858}\label{class_parameters_a97df7bda4427bbdd7b7e0aa2cd23e858}} 
+double {\bfseries gamma\+\_\+icvf}
+\item 
+\mbox{\Hypertarget{class_parameters_a484419e6ab0c0661ff7825fbe6d5a963}\label{class_parameters_a484419e6ab0c0661ff7825fbe6d5a963}} 
+double {\bfseries gamma\+\_\+output\+\_\+configuration}
+\item 
+\mbox{\Hypertarget{class_parameters_a6e8dfd894eef31a43bd7bb0de5f02f37}\label{class_parameters_a6e8dfd894eef31a43bd7bb0de5f02f37}} 
+unsigned {\bfseries gamma\+\_\+num\+\_\+cylinders}
+\item 
+bool \hyperlink{class_parameters_a43362cb6e3ea49cc9db9e52c3ebc7140}{subdivision\+\_\+flag} = false
+\item 
+unsigned \hyperlink{class_parameters_a0d15fd8f1f5c332174864c3acbaf5e10}{number\+\_\+subdivisions} = 0
+\item 
+std\+::string \hyperlink{class_parameters_a1733bfcb8391c494b7b1a317dfda5e44}{subdivisions\+\_\+file} = \char`\"{}\char`\"{}
+\item 
+std\+::vector$<$ \hyperlink{class_subdivision}{Subdivision} $>$ \hyperlink{class_parameters_a3c05ff7a30f151c384b83ce3adca26fa}{subdivisions}
+\item 
+double \hyperlink{class_parameters_a2e5fa275543b4a52599e694e64546e13}{obstacle\+\_\+permeability} = 0
+\item 
+double \hyperlink{class_parameters_abe008f02a49ef7f7a6f041f79cc81fbb}{collision\+\_\+sphere\+\_\+distance} = 0
+\item 
+double \hyperlink{class_parameters_a66ad8359ef1cc76e8d5581a402cc86b5}{max\+\_\+simulation\+\_\+time} = 0
+\item 
+bool \hyperlink{class_parameters_a947e4b1fef66466119ea7b2e8e2bc0e4}{log\+\_\+phase\+\_\+shift} = false
+\item 
+bool \hyperlink{class_parameters_ae30abbd794dee7f5aaf5d3d51152acef}{log\+\_\+opp} = false
+\item 
+bool \hyperlink{class_parameters_ab1815ac94d73ca8b56a9f12fca04cb89}{discard\+\_\+stucks} = true
+\item 
+bool \hyperlink{class_parameters_ac1a5fa4c00eaaf1b40789f329ae20e9a}{discard\+\_\+illegals} = true
+\item 
+bool \hyperlink{class_parameters_a1f5a62a35d6521994a623d0fd0a98a24}{log\+\_\+propagator} = false
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_parameters_a8b7e1481e63d5ac9a36eed8ab310d315}{min\+\_\+sampling\+\_\+area}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_parameters_a2bf25423e72a562d5812ed0df3e06e2d}{max\+\_\+sampling\+\_\+area}
+\item 
+bool \hyperlink{class_parameters_af023e7efce57b9da0837731db6a85c87}{custom\+\_\+sampling\+\_\+area}
+\item 
+bool \hyperlink{class_parameters_a669c92fe7864a00da04bba0c2af93a16}{compute\+Volume}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_parameters_ac429071159941e3957eb7c030280a30f}\label{class_parameters_ac429071159941e3957eb7c030280a30f}} 
+\index{Parameters@{Parameters}!get\+Diffusivity@{get\+Diffusivity}}
+\index{get\+Diffusivity@{get\+Diffusivity}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{get\+Diffusivity()}{getDiffusivity()}}
+{\footnotesize\ttfamily Parameters\+::get\+Diffusivity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+Diffusivity 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_parameters_ad4f8b826db4c1b665891740469e41086}\label{class_parameters_ad4f8b826db4c1b665891740469e41086}} 
+\index{Parameters@{Parameters}!get\+Max\+Limits@{get\+Max\+Limits}}
+\index{get\+Max\+Limits@{get\+Max\+Limits}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{get\+Max\+Limits()}{getMaxLimits()}}
+{\footnotesize\ttfamily Parameters\+::get\+Max\+Limits (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+voxel max limits (right top corner) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_parameters_abda8b91e5ac40e67c79184d7071c353a}\label{class_parameters_abda8b91e5ac40e67c79184d7071c353a}} 
+\index{Parameters@{Parameters}!get\+Min\+Limits@{get\+Min\+Limits}}
+\index{get\+Min\+Limits@{get\+Min\+Limits}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{get\+Min\+Limits()}{getMinLimits()}}
+{\footnotesize\ttfamily Parameters\+::get\+Min\+Limits (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+voxel min limits (left bottom corner) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_parameters_aa5aaf80e0189c63090e8f04cf485800f}\label{class_parameters_aa5aaf80e0189c63090e8f04cf485800f}} 
+\index{Parameters@{Parameters}!get\+Num\+Steps@{get\+Num\+Steps}}
+\index{get\+Num\+Steps@{get\+Num\+Steps}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{get\+Num\+Steps()}{getNumSteps()}}
+{\footnotesize\ttfamily Parameters\+::get\+Num\+Steps (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+Number of Steps 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_parameters_adb8599bc60f977f684f32a83bbe28fc1}\label{class_parameters_adb8599bc60f977f684f32a83bbe28fc1}} 
+\index{Parameters@{Parameters}!get\+Num\+Walkers@{get\+Num\+Walkers}}
+\index{get\+Num\+Walkers@{get\+Num\+Walkers}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{get\+Num\+Walkers()}{getNumWalkers()}}
+{\footnotesize\ttfamily Parameters\+::get\+Num\+Walkers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+Number of walkers N 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_parameters_a794fd941bf5ff311f61f2e6b4f19e64d}\label{class_parameters_a794fd941bf5ff311f61f2e6b4f19e64d}} 
+\index{Parameters@{Parameters}!get\+Output\+Base\+File\+Name@{get\+Output\+Base\+File\+Name}}
+\index{get\+Output\+Base\+File\+Name@{get\+Output\+Base\+File\+Name}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{get\+Output\+Base\+File\+Name()}{getOutputBaseFileName()}}
+{\footnotesize\ttfamily Parameters\+::get\+Output\+Base\+File\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+Output prefix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_parameters_a7291b970983c021569cd2e3a0573592c}\label{class_parameters_a7291b970983c021569cd2e3a0573592c}} 
+\index{Parameters@{Parameters}!get\+Scheme\+File\+Name@{get\+Scheme\+File\+Name}}
+\index{get\+Scheme\+File\+Name@{get\+Scheme\+File\+Name}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{get\+Scheme\+File\+Name()}{getSchemeFileName()}}
+{\footnotesize\ttfamily Parameters\+::get\+Scheme\+File\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+name of the scheme file name used (P\+G\+SE) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_parameters_a38057c2ae3d11b578c8f199d73683ee1}\label{class_parameters_a38057c2ae3d11b578c8f199d73683ee1}} 
+\index{Parameters@{Parameters}!get\+Traj\+File\+Name@{get\+Traj\+File\+Name}}
+\index{get\+Traj\+File\+Name@{get\+Traj\+File\+Name}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{get\+Traj\+File\+Name()}{getTrajFileName()}}
+{\footnotesize\ttfamily Parameters\+::get\+Traj\+File\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+trajectory prefix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_parameters_adb6064f329732640c226608d6e1ddb60}\label{class_parameters_adb6064f329732640c226608d6e1ddb60}} 
+\index{Parameters@{Parameters}!get\+Write\+Text\+Flag@{get\+Write\+Text\+Flag}}
+\index{get\+Write\+Text\+Flag@{get\+Write\+Text\+Flag}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{get\+Write\+Text\+Flag()}{getWriteTextFlag()}}
+{\footnotesize\ttfamily Parameters\+::get\+Write\+Text\+Flag (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+flag of the text write traj 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_parameters_a21817e9a0207da2adf32611bcaf889ef}\label{class_parameters_a21817e9a0207da2adf32611bcaf889ef}} 
+\index{Parameters@{Parameters}!get\+Write\+Traj\+Flag@{get\+Write\+Traj\+Flag}}
+\index{get\+Write\+Traj\+Flag@{get\+Write\+Traj\+Flag}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{get\+Write\+Traj\+Flag()}{getWriteTrajFlag()}}
+{\footnotesize\ttfamily Parameters\+::get\+Write\+Traj\+Flag (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+flag of the binary traj file writer 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_parameters_a73d64bb093a93c2b806883f5504d8fb5}\label{class_parameters_a73d64bb093a93c2b806883f5504d8fb5}} 
+\index{Parameters@{Parameters}!ini\+Walkers\+File\+Name@{ini\+Walkers\+File\+Name}}
+\index{ini\+Walkers\+File\+Name@{ini\+Walkers\+File\+Name}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{ini\+Walkers\+File\+Name()}{iniWalkersFileName()}}
+{\footnotesize\ttfamily Parameters\+::ini\+Walkers\+File\+Name (\begin{DoxyParamCaption}\item[{std\+::string}]{ini\+\_\+walkers\+\_\+file\+\_\+ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+initial position walkers file name 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_parameters_afa8dd9d59fa727c3c2b2fe366efb2c14}\label{class_parameters_afa8dd9d59fa727c3c2b2fe366efb2c14}} 
+\index{Parameters@{Parameters}!read\+Scheme\+File@{read\+Scheme\+File}}
+\index{read\+Scheme\+File@{read\+Scheme\+File}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{read\+Scheme\+File()}{readSchemeFile()}}
+{\footnotesize\ttfamily Parameters\+::read\+Scheme\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{conf\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+Reads all the parameters from a scheme file in the correct format the function scales them if necessary. The parameters are passed by listing, first, the parameter name, followed by the value. The supported parameters are\+: number of walkers (N), number of steps (T), duration (duration), P\+G\+SE scheme file (scheme\+\_\+file), min voxles limits (min limits), max voxel limits (max\+\_\+limits), diffusivity (diffusivity), index name for the trajectory and output values (out\+\_\+traj\+\_\+file\+\_\+index), initial walker position file (ini\+\_\+walkers\+\_\+file), write a txt traj flag and header (write\+\_\+text), write binary traj file and header, write\+\_\+bin, flag to scale the values from estandar unit (scale\+\_\+from\+\_\+stu), random seed (seed). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em conf\+\_\+file} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_parameters_a7af2bd289f8c8de738d643bb8e05ac62}\label{class_parameters_a7af2bd289f8c8de738d643bb8e05ac62}} 
+\index{Parameters@{Parameters}!set\+Diffusivity@{set\+Diffusivity}}
+\index{set\+Diffusivity@{set\+Diffusivity}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{set\+Diffusivity()}{setDiffusivity()}}
+{\footnotesize\ttfamily Parameters\+::set\+Diffusivity (\begin{DoxyParamCaption}\item[{double}]{Diff }\end{DoxyParamCaption})}
+
+
+
+set the simulation diffusivity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Diff} & diffusivity value. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_parameters_a96764612c6ee5aeb684e1348e47b2308}\label{class_parameters_a96764612c6ee5aeb684e1348e47b2308}} 
+\index{Parameters@{Parameters}!set\+Max\+Limits@{set\+Max\+Limits}}
+\index{set\+Max\+Limits@{set\+Max\+Limits}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{set\+Max\+Limits()}{setMaxLimits()}}
+{\footnotesize\ttfamily Parameters\+::set\+Max\+Limits (\begin{DoxyParamCaption}\item[{Eigen\+::\+Vector3d}]{max\+\_\+limits\+\_\+ }\end{DoxyParamCaption})}
+
+
+
+set the bottom left corner of the voxel to be simulated. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em max\+\_\+limits\+\_\+} & vector with the maximum voxel limits (bottom right corner). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_parameters_a73a4f685a35f8f7012609effb30a17d8}\label{class_parameters_a73a4f685a35f8f7012609effb30a17d8}} 
+\index{Parameters@{Parameters}!set\+Min\+Limits@{set\+Min\+Limits}}
+\index{set\+Min\+Limits@{set\+Min\+Limits}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{set\+Min\+Limits()}{setMinLimits()}}
+{\footnotesize\ttfamily Parameters\+::set\+Min\+Limits (\begin{DoxyParamCaption}\item[{Eigen\+::\+Vector3d}]{min\+\_\+limits\+\_\+ }\end{DoxyParamCaption})}
+
+
+
+set the bottom left corner of the voxel to be simulated. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em min\+\_\+limits\+\_\+} & vector with the minimum voxel limits (bottom left corner). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_parameters_af61156929c1abed67da0a1c9920ca508}\label{class_parameters_af61156929c1abed67da0a1c9920ca508}} 
+\index{Parameters@{Parameters}!set\+Num\+Steps@{set\+Num\+Steps}}
+\index{set\+Num\+Steps@{set\+Num\+Steps}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{set\+Num\+Steps()}{setNumSteps()}}
+{\footnotesize\ttfamily Parameters\+::set\+Num\+Steps (\begin{DoxyParamCaption}\item[{unsigned}]{T }\end{DoxyParamCaption})}
+
+
+
+set the number of steps in the simulation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T} & number of steps \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_parameters_aec6b8dc2c119405ab2cdc4e6622ac616}\label{class_parameters_aec6b8dc2c119405ab2cdc4e6622ac616}} 
+\index{Parameters@{Parameters}!set\+Output\+Base\+File\+Name@{set\+Output\+Base\+File\+Name}}
+\index{set\+Output\+Base\+File\+Name@{set\+Output\+Base\+File\+Name}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{set\+Output\+Base\+File\+Name()}{setOutputBaseFileName()}}
+{\footnotesize\ttfamily Parameters\+::set\+Output\+Base\+File\+Name (\begin{DoxyParamCaption}\item[{std\+::string}]{output\+\_\+base\+\_\+name\+\_\+ }\end{DoxyParamCaption})}
+
+
+
+Set the prefix of the name for all the outputs in the simulation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em output\+\_\+base\+\_\+name} & prefix for the outputs \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_parameters_a95ca6c28a5c87363460ca48eed5f065f}\label{class_parameters_a95ca6c28a5c87363460ca48eed5f065f}} 
+\index{Parameters@{Parameters}!set\+Scheme\+File\+Name@{set\+Scheme\+File\+Name}}
+\index{set\+Scheme\+File\+Name@{set\+Scheme\+File\+Name}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{set\+Scheme\+File\+Name()}{setSchemeFileName()}}
+{\footnotesize\ttfamily Parameters\+::set\+Scheme\+File\+Name (\begin{DoxyParamCaption}\item[{std\+::string}]{scheme\+\_\+file\+\_\+ }\end{DoxyParamCaption})}
+
+
+
+Sets the scheme file name to be used for the data synthesis. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em scheme\+\_\+file\+\_\+} & scheme (P\+G\+SE )file name. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_parameters_a934a87940878dc78b75ae4c230132f75}\label{class_parameters_a934a87940878dc78b75ae4c230132f75}} 
+\index{Parameters@{Parameters}!set\+Sim\+Duration@{set\+Sim\+Duration}}
+\index{set\+Sim\+Duration@{set\+Sim\+Duration}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{set\+Sim\+Duration()}{setSimDuration()}}
+{\footnotesize\ttfamily Parameters\+::set\+Sim\+Duration (\begin{DoxyParamCaption}\item[{double}]{duration }\end{DoxyParamCaption})}
+
+
+
+sets the simulation duration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em duration} & simulation duration. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_parameters_ac07671c27ff8f0ec9f5d8bdc656e7ffb}\label{class_parameters_ac07671c27ff8f0ec9f5d8bdc656e7ffb}} 
+\index{Parameters@{Parameters}!set\+Traj\+File\+Name@{set\+Traj\+File\+Name}}
+\index{set\+Traj\+File\+Name@{set\+Traj\+File\+Name}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{set\+Traj\+File\+Name()}{setTrajFileName()}}
+{\footnotesize\ttfamily Parameters\+::set\+Traj\+File\+Name (\begin{DoxyParamCaption}\item[{std\+::string}]{traj\+\_\+file\+\_\+ }\end{DoxyParamCaption})}
+
+
+
+Set the prefix of the name for the traj file (txt and .traj) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em traj\+\_\+file\+\_\+} & prefix of the traj file. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_parameters_abe008f02a49ef7f7a6f041f79cc81fbb}\label{class_parameters_abe008f02a49ef7f7a6f041f79cc81fbb}} 
+\index{Parameters@{Parameters}!collision\+\_\+sphere\+\_\+distance@{collision\+\_\+sphere\+\_\+distance}}
+\index{collision\+\_\+sphere\+\_\+distance@{collision\+\_\+sphere\+\_\+distance}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{collision\+\_\+sphere\+\_\+distance}{collision\_sphere\_distance}}
+{\footnotesize\ttfamily double Parameters\+::collision\+\_\+sphere\+\_\+distance = 0}
+
+Custiom size for the collision sphere \mbox{\Hypertarget{class_parameters_a669c92fe7864a00da04bba0c2af93a16}\label{class_parameters_a669c92fe7864a00da04bba0c2af93a16}} 
+\index{Parameters@{Parameters}!compute\+Volume@{compute\+Volume}}
+\index{compute\+Volume@{compute\+Volume}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{compute\+Volume}{computeVolume}}
+{\footnotesize\ttfamily bool Parameters\+::compute\+Volume}
+
+Forces the volumen computation (slower) even without custom sampling \mbox{\Hypertarget{class_parameters_af023e7efce57b9da0837731db6a85c87}\label{class_parameters_af023e7efce57b9da0837731db6a85c87}} 
+\index{Parameters@{Parameters}!custom\+\_\+sampling\+\_\+area@{custom\+\_\+sampling\+\_\+area}}
+\index{custom\+\_\+sampling\+\_\+area@{custom\+\_\+sampling\+\_\+area}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{custom\+\_\+sampling\+\_\+area}{custom\_sampling\_area}}
+{\footnotesize\ttfamily bool Parameters\+::custom\+\_\+sampling\+\_\+area}
+
+True if a custom sampling area is defined (voxel for default) \mbox{\Hypertarget{class_parameters_abdef3b0fe62c5fdca7d417d01edd7422}\label{class_parameters_abdef3b0fe62c5fdca7d417d01edd7422}} 
+\index{Parameters@{Parameters}!cylinders\+\_\+files@{cylinders\+\_\+files}}
+\index{cylinders\+\_\+files@{cylinders\+\_\+files}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{cylinders\+\_\+files}{cylinders\_files}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::string$>$ Parameters\+::cylinders\+\_\+files}
+
+file paths with a list of cilinders obstacles \mbox{\Hypertarget{class_parameters_add48efa1d9fe056fdb21fe2d2d92533d}\label{class_parameters_add48efa1d9fe056fdb21fe2d2d92533d}} 
+\index{Parameters@{Parameters}!diffusivity@{diffusivity}}
+\index{diffusivity@{diffusivity}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{diffusivity}{diffusivity}}
+{\footnotesize\ttfamily double Parameters\+::diffusivity}
+
+D, diffusivity constant \mbox{\Hypertarget{class_parameters_ac1a5fa4c00eaaf1b40789f329ae20e9a}\label{class_parameters_ac1a5fa4c00eaaf1b40789f329ae20e9a}} 
+\index{Parameters@{Parameters}!discard\+\_\+illegals@{discard\+\_\+illegals}}
+\index{discard\+\_\+illegals@{discard\+\_\+illegals}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{discard\+\_\+illegals}{discard\_illegals}}
+{\footnotesize\ttfamily bool Parameters\+::discard\+\_\+illegals = true}
+
+flag, true to discard possible illegal crossings, Trump by default. \mbox{\Hypertarget{class_parameters_ab1815ac94d73ca8b56a9f12fca04cb89}\label{class_parameters_ab1815ac94d73ca8b56a9f12fca04cb89}} 
+\index{Parameters@{Parameters}!discard\+\_\+stucks@{discard\+\_\+stucks}}
+\index{discard\+\_\+stucks@{discard\+\_\+stucks}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{discard\+\_\+stucks}{discard\_stucks}}
+{\footnotesize\ttfamily bool Parameters\+::discard\+\_\+stucks = true}
+
+flag, true to discard posible stuck particles (max bouncing reached) \mbox{\Hypertarget{class_parameters_aea1568fbc8a92bd90303ea8afc9e8c63}\label{class_parameters_aea1568fbc8a92bd90303ea8afc9e8c63}} 
+\index{Parameters@{Parameters}!ini\+\_\+delta\+\_\+pos@{ini\+\_\+delta\+\_\+pos}}
+\index{ini\+\_\+delta\+\_\+pos@{ini\+\_\+delta\+\_\+pos}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{ini\+\_\+delta\+\_\+pos}{ini\_delta\_pos}}
+{\footnotesize\ttfamily std\+::vector$<$float$>$ Parameters\+::ini\+\_\+delta\+\_\+pos}
+
+Delta position for the wlakers \mbox{\Hypertarget{class_parameters_a87cb2db5b45bf9cb36e74903fecfaa6e}\label{class_parameters_a87cb2db5b45bf9cb36e74903fecfaa6e}} 
+\index{Parameters@{Parameters}!ini\+\_\+walker\+\_\+flag@{ini\+\_\+walker\+\_\+flag}}
+\index{ini\+\_\+walker\+\_\+flag@{ini\+\_\+walker\+\_\+flag}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{ini\+\_\+walker\+\_\+flag}{ini\_walker\_flag}}
+{\footnotesize\ttfamily std\+::string Parameters\+::ini\+\_\+walker\+\_\+flag}
+
+where to initialize the walkers \mbox{\Hypertarget{class_parameters_a84db69d29321fccb7cc7ea724a74df50}\label{class_parameters_a84db69d29321fccb7cc7ea724a74df50}} 
+\index{Parameters@{Parameters}!ini\+\_\+walkers\+\_\+file@{ini\+\_\+walkers\+\_\+file}}
+\index{ini\+\_\+walkers\+\_\+file@{ini\+\_\+walkers\+\_\+file}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{ini\+\_\+walkers\+\_\+file}{ini\_walkers\_file}}
+{\footnotesize\ttfamily std\+::string Parameters\+::ini\+\_\+walkers\+\_\+file}
+
+initial walker position file (if any) \mbox{\Hypertarget{class_parameters_ae01ac4f7d6d3b9eea6799f5c929ddf00}\label{class_parameters_ae01ac4f7d6d3b9eea6799f5c929ddf00}} 
+\index{Parameters@{Parameters}!ini\+\_\+walkers\+\_\+file\+\_\+count@{ini\+\_\+walkers\+\_\+file\+\_\+count}}
+\index{ini\+\_\+walkers\+\_\+file\+\_\+count@{ini\+\_\+walkers\+\_\+file\+\_\+count}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{ini\+\_\+walkers\+\_\+file\+\_\+count}{ini\_walkers\_file\_count}}
+{\footnotesize\ttfamily unsigned Parameters\+::ini\+\_\+walkers\+\_\+file\+\_\+count}
+
+number of walker positions initialize in the configuration file \mbox{\Hypertarget{class_parameters_ae30abbd794dee7f5aaf5d3d51152acef}\label{class_parameters_ae30abbd794dee7f5aaf5d3d51152acef}} 
+\index{Parameters@{Parameters}!log\+\_\+opp@{log\+\_\+opp}}
+\index{log\+\_\+opp@{log\+\_\+opp}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{log\+\_\+opp}{log\_opp}}
+{\footnotesize\ttfamily bool Parameters\+::log\+\_\+opp = false}
+
+flag, true to save one per process output \mbox{\Hypertarget{class_parameters_a947e4b1fef66466119ea7b2e8e2bc0e4}\label{class_parameters_a947e4b1fef66466119ea7b2e8e2bc0e4}} 
+\index{Parameters@{Parameters}!log\+\_\+phase\+\_\+shift@{log\+\_\+phase\+\_\+shift}}
+\index{log\+\_\+phase\+\_\+shift@{log\+\_\+phase\+\_\+shift}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{log\+\_\+phase\+\_\+shift}{log\_phase\_shift}}
+{\footnotesize\ttfamily bool Parameters\+::log\+\_\+phase\+\_\+shift = false}
+
+flag, true to save the final phase shift distribution \mbox{\Hypertarget{class_parameters_a1f5a62a35d6521994a623d0fd0a98a24}\label{class_parameters_a1f5a62a35d6521994a623d0fd0a98a24}} 
+\index{Parameters@{Parameters}!log\+\_\+propagator@{log\+\_\+propagator}}
+\index{log\+\_\+propagator@{log\+\_\+propagator}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{log\+\_\+propagator}{log\_propagator}}
+{\footnotesize\ttfamily bool Parameters\+::log\+\_\+propagator = false}
+
+flag, true saves the propagator for a given set of directions and times \mbox{\Hypertarget{class_parameters_a879b4c717e0f59c9bbc4b7810b8fdde3}\label{class_parameters_a879b4c717e0f59c9bbc4b7810b8fdde3}} 
+\index{Parameters@{Parameters}!max\+\_\+limits@{max\+\_\+limits}}
+\index{max\+\_\+limits@{max\+\_\+limits}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{max\+\_\+limits}{max\_limits}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Parameters\+::max\+\_\+limits}
+
+voxel max limits (if any) \mbox{\Hypertarget{class_parameters_a2bf25423e72a562d5812ed0df3e06e2d}\label{class_parameters_a2bf25423e72a562d5812ed0df3e06e2d}} 
+\index{Parameters@{Parameters}!max\+\_\+sampling\+\_\+area@{max\+\_\+sampling\+\_\+area}}
+\index{max\+\_\+sampling\+\_\+area@{max\+\_\+sampling\+\_\+area}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{max\+\_\+sampling\+\_\+area}{max\_sampling\_area}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Parameters\+::max\+\_\+sampling\+\_\+area}
+
+Max defining point to delimiter the uniform sampling of walkers \mbox{\Hypertarget{class_parameters_a66ad8359ef1cc76e8d5581a402cc86b5}\label{class_parameters_a66ad8359ef1cc76e8d5581a402cc86b5}} 
+\index{Parameters@{Parameters}!max\+\_\+simulation\+\_\+time@{max\+\_\+simulation\+\_\+time}}
+\index{max\+\_\+simulation\+\_\+time@{max\+\_\+simulation\+\_\+time}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{max\+\_\+simulation\+\_\+time}{max\_simulation\_time}}
+{\footnotesize\ttfamily double Parameters\+::max\+\_\+simulation\+\_\+time = 0}
+
+Maximum simulation time for the D\+Y\+N\+A\+M\+IC S\+I\+M\+U\+L\+A\+T\+I\+ON \mbox{\Hypertarget{class_parameters_aa9d387477810c2bb574b83ecd1fbf8f0}\label{class_parameters_aa9d387477810c2bb574b83ecd1fbf8f0}} 
+\index{Parameters@{Parameters}!min\+\_\+limits@{min\+\_\+limits}}
+\index{min\+\_\+limits@{min\+\_\+limits}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{min\+\_\+limits}{min\_limits}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Parameters\+::min\+\_\+limits}
+
+voxel min limits (if any) (bottom left corner) \mbox{\Hypertarget{class_parameters_a8b7e1481e63d5ac9a36eed8ab310d315}\label{class_parameters_a8b7e1481e63d5ac9a36eed8ab310d315}} 
+\index{Parameters@{Parameters}!min\+\_\+sampling\+\_\+area@{min\+\_\+sampling\+\_\+area}}
+\index{min\+\_\+sampling\+\_\+area@{min\+\_\+sampling\+\_\+area}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{min\+\_\+sampling\+\_\+area}{min\_sampling\_area}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Parameters\+::min\+\_\+sampling\+\_\+area}
+
+Min defining point to delimiter the uniform sampling of walkers \mbox{\Hypertarget{class_parameters_aab0de21efc3f85e5c44205ed5ebf9d4d}\label{class_parameters_aab0de21efc3f85e5c44205ed5ebf9d4d}} 
+\index{Parameters@{Parameters}!num\+\_\+proc@{num\+\_\+proc}}
+\index{num\+\_\+proc@{num\+\_\+proc}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{num\+\_\+proc}{num\_proc}}
+{\footnotesize\ttfamily unsigned Parameters\+::num\+\_\+proc}
+
+Number of precessors/process to launch in parallel \mbox{\Hypertarget{class_parameters_a3475e7efae778bc7720fe6c17274eef0}\label{class_parameters_a3475e7efae778bc7720fe6c17274eef0}} 
+\index{Parameters@{Parameters}!num\+\_\+steps@{num\+\_\+steps}}
+\index{num\+\_\+steps@{num\+\_\+steps}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{num\+\_\+steps}{num\_steps}}
+{\footnotesize\ttfamily unsigned Parameters\+::num\+\_\+steps}
+
+T, number of steps \mbox{\Hypertarget{class_parameters_a35329cc60a28986ee4020457d46921fb}\label{class_parameters_a35329cc60a28986ee4020457d46921fb}} 
+\index{Parameters@{Parameters}!num\+\_\+walkers@{num\+\_\+walkers}}
+\index{num\+\_\+walkers@{num\+\_\+walkers}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{num\+\_\+walkers}{num\_walkers}}
+{\footnotesize\ttfamily unsigned Parameters\+::num\+\_\+walkers}
+
+N, number of walkers \mbox{\Hypertarget{class_parameters_a0d15fd8f1f5c332174864c3acbaf5e10}\label{class_parameters_a0d15fd8f1f5c332174864c3acbaf5e10}} 
+\index{Parameters@{Parameters}!number\+\_\+subdivisions@{number\+\_\+subdivisions}}
+\index{number\+\_\+subdivisions@{number\+\_\+subdivisions}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{number\+\_\+subdivisions}{number\_subdivisions}}
+{\footnotesize\ttfamily unsigned Parameters\+::number\+\_\+subdivisions = 0}
+
+saves the number of subdivisions for an initialzied voxel (needed) \mbox{\Hypertarget{class_parameters_a2e5fa275543b4a52599e694e64546e13}\label{class_parameters_a2e5fa275543b4a52599e694e64546e13}} 
+\index{Parameters@{Parameters}!obstacle\+\_\+permeability@{obstacle\+\_\+permeability}}
+\index{obstacle\+\_\+permeability@{obstacle\+\_\+permeability}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{obstacle\+\_\+permeability}{obstacle\_permeability}}
+{\footnotesize\ttfamily double Parameters\+::obstacle\+\_\+permeability = 0}
+
+Obstacles permeability \mbox{\Hypertarget{class_parameters_a2662ccc98a7a2b9f0c81f223a8f0748f}\label{class_parameters_a2662ccc98a7a2b9f0c81f223a8f0748f}} 
+\index{Parameters@{Parameters}!output\+\_\+base\+\_\+name@{output\+\_\+base\+\_\+name}}
+\index{output\+\_\+base\+\_\+name@{output\+\_\+base\+\_\+name}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{output\+\_\+base\+\_\+name}{output\_base\_name}}
+{\footnotesize\ttfamily std\+::string Parameters\+::output\+\_\+base\+\_\+name}
+
+output files base name (path + sufix) \mbox{\Hypertarget{class_parameters_a76984fe140c1c6c8a047dd622561200d}\label{class_parameters_a76984fe140c1c6c8a047dd622561200d}} 
+\index{Parameters@{Parameters}!P\+L\+Y\+\_\+files@{P\+L\+Y\+\_\+files}}
+\index{P\+L\+Y\+\_\+files@{P\+L\+Y\+\_\+files}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{P\+L\+Y\+\_\+files}{PLY\_files}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::string$>$ Parameters\+::\+P\+L\+Y\+\_\+files}
+
+file paths with P\+LY obstacle files \mbox{\Hypertarget{class_parameters_a97ed7a4d1b6c6ea8f6507a6a0fc04698}\label{class_parameters_a97ed7a4d1b6c6ea8f6507a6a0fc04698}} 
+\index{Parameters@{Parameters}!P\+L\+Y\+\_\+scales@{P\+L\+Y\+\_\+scales}}
+\index{P\+L\+Y\+\_\+scales@{P\+L\+Y\+\_\+scales}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{P\+L\+Y\+\_\+scales}{PLY\_scales}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ Parameters\+::\+P\+L\+Y\+\_\+scales}
+
+Auxiliary vector to save P\+LY file scales \mbox{\Hypertarget{class_parameters_a4bbfed0148cec6e10d0e90d85437a37a}\label{class_parameters_a4bbfed0148cec6e10d0e90d85437a37a}} 
+\index{Parameters@{Parameters}!prop\+\_\+dirs@{prop\+\_\+dirs}}
+\index{prop\+\_\+dirs@{prop\+\_\+dirs}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{prop\+\_\+dirs}{prop\_dirs}}
+{\footnotesize\ttfamily std\+::vector$<$Eigen\+::\+Vector3f$>$ Parameters\+::prop\+\_\+dirs}
+
+Saves the directions used to compute the propagator \mbox{\Hypertarget{class_parameters_a559e66b65a2cb4391d1099bf0db6ec44}\label{class_parameters_a559e66b65a2cb4391d1099bf0db6ec44}} 
+\index{Parameters@{Parameters}!record\+\_\+phase\+\_\+times@{record\+\_\+phase\+\_\+times}}
+\index{record\+\_\+phase\+\_\+times@{record\+\_\+phase\+\_\+times}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{record\+\_\+phase\+\_\+times}{record\_phase\_times}}
+{\footnotesize\ttfamily std\+::vector$<$unsigned$>$ Parameters\+::record\+\_\+phase\+\_\+times}
+
+time indexes, used to save the phase shif of all walkers at certain time \mbox{\Hypertarget{class_parameters_a4f884a7effd3a8816c78084ff3c2b202}\label{class_parameters_a4f884a7effd3a8816c78084ff3c2b202}} 
+\index{Parameters@{Parameters}!record\+\_\+pos\+\_\+times@{record\+\_\+pos\+\_\+times}}
+\index{record\+\_\+pos\+\_\+times@{record\+\_\+pos\+\_\+times}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{record\+\_\+pos\+\_\+times}{record\_pos\_times}}
+{\footnotesize\ttfamily std\+::vector$<$unsigned$>$ Parameters\+::record\+\_\+pos\+\_\+times}
+
+time indexes, used to save the position of all walkers at certain time \mbox{\Hypertarget{class_parameters_af47bd2eada81c6c581aaa8c70d04c8d6}\label{class_parameters_af47bd2eada81c6c581aaa8c70d04c8d6}} 
+\index{Parameters@{Parameters}!record\+\_\+prop\+\_\+times@{record\+\_\+prop\+\_\+times}}
+\index{record\+\_\+prop\+\_\+times@{record\+\_\+prop\+\_\+times}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{record\+\_\+prop\+\_\+times}{record\_prop\_times}}
+{\footnotesize\ttfamily std\+::vector$<$unsigned$>$ Parameters\+::record\+\_\+prop\+\_\+times}
+
+time indexes, used to save the mean propagator of the walkers at c. times \mbox{\Hypertarget{class_parameters_ab737ef40d88faa6ee8a701013d9d2984}\label{class_parameters_ab737ef40d88faa6ee8a701013d9d2984}} 
+\index{Parameters@{Parameters}!save\+\_\+phase\+\_\+shift@{save\+\_\+phase\+\_\+shift}}
+\index{save\+\_\+phase\+\_\+shift@{save\+\_\+phase\+\_\+shift}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{save\+\_\+phase\+\_\+shift}{save\_phase\_shift}}
+{\footnotesize\ttfamily bool Parameters\+::save\+\_\+phase\+\_\+shift}
+
+flag, saves the phase shift distribution for all particles \mbox{\Hypertarget{class_parameters_a3c37f738b7700bdc22845bc725d51e6f}\label{class_parameters_a3c37f738b7700bdc22845bc725d51e6f}} 
+\index{Parameters@{Parameters}!scale\+\_\+from\+\_\+stu@{scale\+\_\+from\+\_\+stu}}
+\index{scale\+\_\+from\+\_\+stu@{scale\+\_\+from\+\_\+stu}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{scale\+\_\+from\+\_\+stu}{scale\_from\_stu}}
+{\footnotesize\ttfamily bool Parameters\+::scale\+\_\+from\+\_\+stu}
+
+flag, true if the scheme file is in standar units m,s \mbox{\Hypertarget{class_parameters_afbb7caab773abb16753263a0b04c8a2c}\label{class_parameters_afbb7caab773abb16753263a0b04c8a2c}} 
+\index{Parameters@{Parameters}!scheme\+\_\+file@{scheme\+\_\+file}}
+\index{scheme\+\_\+file@{scheme\+\_\+file}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{scheme\+\_\+file}{scheme\_file}}
+{\footnotesize\ttfamily std\+::string Parameters\+::scheme\+\_\+file}
+
+signal adquisition scheme file (if any) \mbox{\Hypertarget{class_parameters_afa076397ed9cbdc4c88215e29b850e3c}\label{class_parameters_afa076397ed9cbdc4c88215e29b850e3c}} 
+\index{Parameters@{Parameters}!seed@{seed}}
+\index{seed@{seed}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{seed}{seed}}
+{\footnotesize\ttfamily long Parameters\+::seed}
+
+Initial seed for the random generator \mbox{\Hypertarget{class_parameters_acbe36f055786ddcf8480a49d2c34c914}\label{class_parameters_acbe36f055786ddcf8480a49d2c34c914}} 
+\index{Parameters@{Parameters}!sim\+\_\+duration@{sim\+\_\+duration}}
+\index{sim\+\_\+duration@{sim\+\_\+duration}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{sim\+\_\+duration}{sim\_duration}}
+{\footnotesize\ttfamily double Parameters\+::sim\+\_\+duration}
+
+simulation total time \mbox{\Hypertarget{class_parameters_a43362cb6e3ea49cc9db9e52c3ebc7140}\label{class_parameters_a43362cb6e3ea49cc9db9e52c3ebc7140}} 
+\index{Parameters@{Parameters}!subdivision\+\_\+flag@{subdivision\+\_\+flag}}
+\index{subdivision\+\_\+flag@{subdivision\+\_\+flag}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{subdivision\+\_\+flag}{subdivision\_flag}}
+{\footnotesize\ttfamily bool Parameters\+::subdivision\+\_\+flag = false}
+
+flag to check if we have several voxel subdivision to compute the signal \mbox{\Hypertarget{class_parameters_a3c05ff7a30f151c384b83ce3adca26fa}\label{class_parameters_a3c05ff7a30f151c384b83ce3adca26fa}} 
+\index{Parameters@{Parameters}!subdivisions@{subdivisions}}
+\index{subdivisions@{subdivisions}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{subdivisions}{subdivisions}}
+{\footnotesize\ttfamily std\+::vector$<$\hyperlink{class_subdivision}{Subdivision}$>$ Parameters\+::subdivisions}
+
+saves actual positions of the subdivision to compute the signal \mbox{\Hypertarget{class_parameters_a1733bfcb8391c494b7b1a317dfda5e44}\label{class_parameters_a1733bfcb8391c494b7b1a317dfda5e44}} 
+\index{Parameters@{Parameters}!subdivisions\+\_\+file@{subdivisions\+\_\+file}}
+\index{subdivisions\+\_\+file@{subdivisions\+\_\+file}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{subdivisions\+\_\+file}{subdivisions\_file}}
+{\footnotesize\ttfamily std\+::string Parameters\+::subdivisions\+\_\+file = \char`\"{}\char`\"{}}
+
+file with the list of subdivisions coordinates to compute the signal \mbox{\Hypertarget{class_parameters_a75346dc3b7a41548a2f9e0560343df24}\label{class_parameters_a75346dc3b7a41548a2f9e0560343df24}} 
+\index{Parameters@{Parameters}!traj\+\_\+file@{traj\+\_\+file}}
+\index{traj\+\_\+file@{traj\+\_\+file}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{traj\+\_\+file}{traj\_file}}
+{\footnotesize\ttfamily std\+::string Parameters\+::traj\+\_\+file}
+
+\hyperlink{class_trajectory}{Trajectory} file path \mbox{\Hypertarget{class_parameters_aabce43eb8376a94a8e765da99b58d003}\label{class_parameters_aabce43eb8376a94a8e765da99b58d003}} 
+\index{Parameters@{Parameters}!verbatim@{verbatim}}
+\index{verbatim@{verbatim}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{verbatim}{verbatim}}
+{\footnotesize\ttfamily bool Parameters\+::verbatim}
+
+False to omit displaying state and warnings \mbox{\Hypertarget{class_parameters_aefbd07d8501ebb9311bbb1ea7c37be26}\label{class_parameters_aefbd07d8501ebb9311bbb1ea7c37be26}} 
+\index{Parameters@{Parameters}!voxels\+\_\+list@{voxels\+\_\+list}}
+\index{voxels\+\_\+list@{voxels\+\_\+list}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{voxels\+\_\+list}{voxels\_list}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::pair$<$Eigen\+::\+Vector3d,Eigen\+::\+Vector3d$>$ $>$ Parameters\+::voxels\+\_\+list}
+
+voxel min and max positions list (deprecated) \mbox{\Hypertarget{class_parameters_a4c98120687d1ba332d0c6cd5a14c59fb}\label{class_parameters_a4c98120687d1ba332d0c6cd5a14c59fb}} 
+\index{Parameters@{Parameters}!write\+\_\+bin@{write\+\_\+bin}}
+\index{write\+\_\+bin@{write\+\_\+bin}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{write\+\_\+bin}{write\_bin}}
+{\footnotesize\ttfamily bool Parameters\+::write\+\_\+bin}
+
+flag, writes the output signal in binary format (True by default) \mbox{\Hypertarget{class_parameters_ac9408092b6254b4ccfecc85decbb1944}\label{class_parameters_ac9408092b6254b4ccfecc85decbb1944}} 
+\index{Parameters@{Parameters}!write\+\_\+traj@{write\+\_\+traj}}
+\index{write\+\_\+traj@{write\+\_\+traj}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{write\+\_\+traj}{write\_traj}}
+{\footnotesize\ttfamily bool Parameters\+::write\+\_\+traj}
+
+flag, write a traj file or not, binary format only \mbox{\Hypertarget{class_parameters_a15446bf0727ebfe03f119821c7d8ed0f}\label{class_parameters_a15446bf0727ebfe03f119821c7d8ed0f}} 
+\index{Parameters@{Parameters}!write\+\_\+txt@{write\+\_\+txt}}
+\index{write\+\_\+txt@{write\+\_\+txt}!Parameters@{Parameters}}
+\subsubsection{\texorpdfstring{write\+\_\+txt}{write\_txt}}
+{\footnotesize\ttfamily bool Parameters\+::write\+\_\+txt}
+
+flag, writes D\+WI output signals in .txt if True 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/parameters.\+h\item 
+src/parameters.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,228 @@
+\hypertarget{class_trajectory}{}\section{Trajectory Class Reference}
+\label{class_trajectory}\index{Trajectory@{Trajectory}}
+
+
+Auxiliary class. Handles i/o operation of walker trayectories. ============================/.  
+
+
+
+
+{\ttfamily \#include $<$trajectory.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_trajectory_aa340ba80f1f4d1aa39f19f069d5d8089}\label{class_trajectory_aa340ba80f1f4d1aa39f19f069d5d8089}} 
+\hyperlink{class_trajectory_aa340ba80f1f4d1aa39f19f069d5d8089}{Trajectory} ()
+\begin{DoxyCompactList}\small\item\em Main constructor, Initialice everythin to default. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_trajectory_a4879a4d0944eb04246e21deac940b90d}\label{class_trajectory_a4879a4d0944eb04246e21deac940b90d}} 
+\hyperlink{class_trajectory_a4879a4d0944eb04246e21deac940b90d}{Trajectory} (const char $\ast$traj\+\_\+file, bool is\+Big\+Endian\+\_\+=true, std\+::string io\+\_\+flag\+\_\+=\char`\"{}rb\char`\"{})
+\begin{DoxyCompactList}\small\item\em Contructor , Initialice everythin by parameters. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_trajectory_ac673c37025ca5353ad99ab41c936e75d}\label{class_trajectory_ac673c37025ca5353ad99ab41c936e75d}} 
+\hyperlink{class_trajectory_ac673c37025ca5353ad99ab41c936e75d}{$\sim$\+Trajectory} ()
+\begin{DoxyCompactList}\small\item\em Destructor, close files and fstreams. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_trajectory_aaeda8b05ad61298fbd2aba2a3192486e}\label{class_trajectory_aaeda8b05ad61298fbd2aba2a3192486e}} 
+void \hyperlink{class_trajectory_aaeda8b05ad61298fbd2aba2a3192486e}{init\+Trajectory} (\hyperlink{class_parameters}{Parameters} params)
+\begin{DoxyCompactList}\small\item\em Initialice the output files if any. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_trajectory_a00a28c1782a0a661b40ad9dfefc0d3f4}\label{class_trajectory_a00a28c1782a0a661b40ad9dfefc0d3f4}} 
+void \hyperlink{class_trajectory_a00a28c1782a0a661b40ad9dfefc0d3f4}{set\+Traj\+File} (std\+::string)
+\begin{DoxyCompactList}\small\item\em Setd the traj file operations. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_trajectory_a9aedf2530dca72ca629741585717c64a}{close\+Traj\+Reader\+File} ()
+\item 
+\mbox{\Hypertarget{class_trajectory_a9239f7d5d05f02ce58b6ad2e7be231d7}\label{class_trajectory_a9239f7d5d05f02ce58b6ad2e7be231d7}} 
+void {\bfseries open\+Traj\+Reader\+File} ()
+\item 
+\mbox{\Hypertarget{class_trajectory_a727883a1c29c9bdb8d4cdb01888023da}\label{class_trajectory_a727883a1c29c9bdb8d4cdb01888023da}} 
+void {\bfseries init\+Traj\+Reader\+File} ()
+\item 
+\mbox{\Hypertarget{class_trajectory_ad436905c5614d4ac3a52acb6d2211b61}\label{class_trajectory_ad436905c5614d4ac3a52acb6d2211b61}} 
+void {\bfseries read\+Trajectory\+Header} ()
+\item 
+\mbox{\Hypertarget{class_trajectory_a5f96383db2d95b41a46dc752b00f70e6}\label{class_trajectory_a5f96383db2d95b41a46dc752b00f70e6}} 
+void {\bfseries read\+Current\+Walkers\+Trajectory} (Eigen\+::\+Matrix3\+Xd \&)
+\end{DoxyCompactItemize}
+
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_trajectory_aec9f75fa04452af2199888c47652c7e4}{init\+Traj\+Writer} ()
+\item 
+\mbox{\Hypertarget{class_trajectory_a661b8c4070a55fd2e6abe703d23c95df}\label{class_trajectory_a661b8c4070a55fd2e6abe703d23c95df}} 
+void {\bfseries init\+Traj\+Writer\+Binary} ()
+\item 
+\mbox{\Hypertarget{class_trajectory_a7b6926793185fc0ebebb09a7abba8b7a}\label{class_trajectory_a7b6926793185fc0ebebb09a7abba8b7a}} 
+void {\bfseries init\+Traj\+Writer\+Text} ()
+\item 
+\mbox{\Hypertarget{class_trajectory_a0cf9e0365b4d075d2da7c800fef83858}\label{class_trajectory_a0cf9e0365b4d075d2da7c800fef83858}} 
+void {\bfseries write\+Trajectory\+Header\+Binary} ()
+\item 
+\mbox{\Hypertarget{class_trajectory_ae84e1c1573c8f42bd68c09dff3909f6f}\label{class_trajectory_ae84e1c1573c8f42bd68c09dff3909f6f}} 
+void {\bfseries write\+Trajectory\+Header\+Text} ()
+\item 
+\mbox{\Hypertarget{class_trajectory_a82540862cb8c200b1a6979b5f919681d}\label{class_trajectory_a82540862cb8c200b1a6979b5f919681d}} 
+void {\bfseries re\+Write\+Header\+File} (unsigned num\+\_\+walkers)
+\item 
+\mbox{\Hypertarget{class_trajectory_ada4c4918a46c69508e6e847e4ef54f56}\label{class_trajectory_ada4c4918a46c69508e6e847e4ef54f56}} 
+void {\bfseries write\+Position} (Eigen\+::\+Vector3d \&)
+\item 
+\mbox{\Hypertarget{class_trajectory_ad35ef554146d54b4ea0a3bdce1f6246d}\label{class_trajectory_ad35ef554146d54b4ea0a3bdce1f6246d}} 
+void {\bfseries write\+Position\+Text} (Eigen\+::\+Vector3d \&)
+\item 
+\mbox{\Hypertarget{class_trajectory_a8ab6682b6a6c9cdc78fb6cef56129c91}\label{class_trajectory_a8ab6682b6a6c9cdc78fb6cef56129c91}} 
+void {\bfseries write\+Position\+Binary} (Eigen\+::\+Vector3d \&)
+\item 
+\mbox{\Hypertarget{class_trajectory_a5392bbab8cb315fcb99d30c90ca746b1}\label{class_trajectory_a5392bbab8cb315fcb99d30c90ca746b1}} 
+void {\bfseries write\+Position} (Eigen\+::\+Matrix3\+Xd \&)
+\item 
+\mbox{\Hypertarget{class_trajectory_a85776d999a5eacdbbef9008f96da007b}\label{class_trajectory_a85776d999a5eacdbbef9008f96da007b}} 
+void {\bfseries write\+Position\+Text} (Eigen\+::\+Matrix3\+Xd \&)
+\item 
+\mbox{\Hypertarget{class_trajectory_a0c8e6a22d330cfdb6419813ffd43ccba}\label{class_trajectory_a0c8e6a22d330cfdb6419813ffd43ccba}} 
+void {\bfseries write\+Position\+Binary} (Eigen\+::\+Matrix3\+Xd \&)
+\end{DoxyCompactItemize}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \hyperlink{class_trajectory_aee056cca538c4430eacff9534e43bc8e}{trajfile}
+\item 
+std\+::string \hyperlink{class_trajectory_a6bb5d5e4ad4fb36a65d6cffdc6ab05af}{headerfile}
+\item 
+\mbox{\Hypertarget{class_trajectory_aa6725e54b483f0eaaae88710707e58fe}\label{class_trajectory_aa6725e54b483f0eaaae88710707e58fe}} 
+F\+I\+LE $\ast$ {\bfseries in}
+\item 
+F\+I\+LE $\ast$ \hyperlink{class_trajectory_a6a7484c5282331583841b038997d597b}{in\+\_\+header}
+\item 
+\mbox{\Hypertarget{class_trajectory_a41053c7c21f625933b4dd290da958b7c}\label{class_trajectory_a41053c7c21f625933b4dd290da958b7c}} 
+std\+::ofstream {\bfseries bout}
+\item 
+\mbox{\Hypertarget{class_trajectory_a2373f0055623b904e6051c0681d13472}\label{class_trajectory_a2373f0055623b904e6051c0681d13472}} 
+std\+::ofstream {\bfseries tout}
+\item 
+\mbox{\Hypertarget{class_trajectory_abf8e0a2b50a2e873c261720e295687ac}\label{class_trajectory_abf8e0a2b50a2e873c261720e295687ac}} 
+std\+::ofstream {\bfseries bheaderout}
+\item 
+\mbox{\Hypertarget{class_trajectory_a90e41427f7c6ce7b5b549e072fd9f59d}\label{class_trajectory_a90e41427f7c6ce7b5b549e072fd9f59d}} 
+std\+::ofstream {\bfseries theaderout}
+\item 
+\mbox{\Hypertarget{class_trajectory_a849e3a9c92a6eea27073c4e533412a67}\label{class_trajectory_a849e3a9c92a6eea27073c4e533412a67}} 
+unsigned {\bfseries N}
+\item 
+unsigned \hyperlink{class_trajectory_ad9cbff5cf9f84ca1e2378d1d6105c5e3}{T}
+\item 
+\mbox{\Hypertarget{class_trajectory_ada15a7d6836e4cee2f35f788df0d844f}\label{class_trajectory_ada15a7d6836e4cee2f35f788df0d844f}} 
+double {\bfseries dyn\+\_\+duration}
+\item 
+\mbox{\Hypertarget{class_trajectory_abc9b9bb15f5723a208f0ff22cd740eda}\label{class_trajectory_abc9b9bb15f5723a208f0ff22cd740eda}} 
+std\+::string {\bfseries io\+\_\+flag}
+\item 
+std\+::vector$<$ unsigned $>$ \hyperlink{class_trajectory_a4b6369fb83108e27a774f50c06169817}{pos\+\_\+times}
+\item 
+bool \hyperlink{class_trajectory_a66dfa9e8d1e60706b8e8bb1e91a34e29}{is\+Big\+Endian}
+\item 
+bool \hyperlink{class_trajectory_a1194477068ed051401f99aba4a1056b1}{write\+\_\+traj}
+\item 
+bool \hyperlink{class_trajectory_a94125474ee64fd3007091a3e88f59769}{write\+\_\+txt}
+\item 
+bool \hyperlink{class_trajectory_a7135e87575f429a7d6ad32477dc96e2c}{write\+\_\+bin}
+\item 
+bool \hyperlink{class_trajectory_a973422e0d41afe4720fbbf62500a5035}{steps\+\_\+subset}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Auxiliary class. Handles i/o operation of walker trayectories. ============================/. 
+
+\begin{DoxyAuthor}{Author}
+Jonathan Rafael 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+July 2016 \subsection*{0.\+2 }
+\end{DoxyDate}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_trajectory_a9aedf2530dca72ca629741585717c64a}\label{class_trajectory_a9aedf2530dca72ca629741585717c64a}} 
+\index{Trajectory@{Trajectory}!close\+Traj\+Reader\+File@{close\+Traj\+Reader\+File}}
+\index{close\+Traj\+Reader\+File@{close\+Traj\+Reader\+File}!Trajectory@{Trajectory}}
+\subsubsection{\texorpdfstring{close\+Traj\+Reader\+File()}{closeTrajReaderFile()}}
+{\footnotesize\ttfamily void Trajectory\+::close\+Traj\+Reader\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Read operations \mbox{\Hypertarget{class_trajectory_aec9f75fa04452af2199888c47652c7e4}\label{class_trajectory_aec9f75fa04452af2199888c47652c7e4}} 
+\index{Trajectory@{Trajectory}!init\+Traj\+Writer@{init\+Traj\+Writer}}
+\index{init\+Traj\+Writer@{init\+Traj\+Writer}!Trajectory@{Trajectory}}
+\subsubsection{\texorpdfstring{init\+Traj\+Writer()}{initTrajWriter()}}
+{\footnotesize\ttfamily void Trajectory\+::init\+Traj\+Writer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Write operations 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_trajectory_a6bb5d5e4ad4fb36a65d6cffdc6ab05af}\label{class_trajectory_a6bb5d5e4ad4fb36a65d6cffdc6ab05af}} 
+\index{Trajectory@{Trajectory}!headerfile@{headerfile}}
+\index{headerfile@{headerfile}!Trajectory@{Trajectory}}
+\subsubsection{\texorpdfstring{headerfile}{headerfile}}
+{\footnotesize\ttfamily std\+::string Trajectory\+::headerfile}
+
+header name \mbox{\Hypertarget{class_trajectory_a6a7484c5282331583841b038997d597b}\label{class_trajectory_a6a7484c5282331583841b038997d597b}} 
+\index{Trajectory@{Trajectory}!in\+\_\+header@{in\+\_\+header}}
+\index{in\+\_\+header@{in\+\_\+header}!Trajectory@{Trajectory}}
+\subsubsection{\texorpdfstring{in\+\_\+header}{in\_header}}
+{\footnotesize\ttfamily F\+I\+LE $\ast$ Trajectory\+::in\+\_\+header}
+
+Files to be written using the previous names binary out, text out, binary header, text header \mbox{\Hypertarget{class_trajectory_a66dfa9e8d1e60706b8e8bb1e91a34e29}\label{class_trajectory_a66dfa9e8d1e60706b8e8bb1e91a34e29}} 
+\index{Trajectory@{Trajectory}!is\+Big\+Endian@{is\+Big\+Endian}}
+\index{is\+Big\+Endian@{is\+Big\+Endian}!Trajectory@{Trajectory}}
+\subsubsection{\texorpdfstring{is\+Big\+Endian}{isBigEndian}}
+{\footnotesize\ttfamily bool Trajectory\+::is\+Big\+Endian}
+
+flag if the format is big endian \mbox{\Hypertarget{class_trajectory_a4b6369fb83108e27a774f50c06169817}\label{class_trajectory_a4b6369fb83108e27a774f50c06169817}} 
+\index{Trajectory@{Trajectory}!pos\+\_\+times@{pos\+\_\+times}}
+\index{pos\+\_\+times@{pos\+\_\+times}!Trajectory@{Trajectory}}
+\subsubsection{\texorpdfstring{pos\+\_\+times}{pos\_times}}
+{\footnotesize\ttfamily std\+::vector$<$unsigned$>$ Trajectory\+::pos\+\_\+times}
+
+Times indexes when to save the particle positions. \mbox{\Hypertarget{class_trajectory_a973422e0d41afe4720fbbf62500a5035}\label{class_trajectory_a973422e0d41afe4720fbbf62500a5035}} 
+\index{Trajectory@{Trajectory}!steps\+\_\+subset@{steps\+\_\+subset}}
+\index{steps\+\_\+subset@{steps\+\_\+subset}!Trajectory@{Trajectory}}
+\subsubsection{\texorpdfstring{steps\+\_\+subset}{steps\_subset}}
+{\footnotesize\ttfamily bool Trajectory\+::steps\+\_\+subset}
+
+true if the steps are no uniform \mbox{\Hypertarget{class_trajectory_ad9cbff5cf9f84ca1e2378d1d6105c5e3}\label{class_trajectory_ad9cbff5cf9f84ca1e2378d1d6105c5e3}} 
+\index{Trajectory@{Trajectory}!T@{T}}
+\index{T@{T}!Trajectory@{Trajectory}}
+\subsubsection{\texorpdfstring{T}{T}}
+{\footnotesize\ttfamily unsigned Trajectory\+::T}
+
+number of walkers, total time; \mbox{\Hypertarget{class_trajectory_aee056cca538c4430eacff9534e43bc8e}\label{class_trajectory_aee056cca538c4430eacff9534e43bc8e}} 
+\index{Trajectory@{Trajectory}!trajfile@{trajfile}}
+\index{trajfile@{trajfile}!Trajectory@{Trajectory}}
+\subsubsection{\texorpdfstring{trajfile}{trajfile}}
+{\footnotesize\ttfamily std\+::string Trajectory\+::trajfile}
+
+trajfile name \mbox{\Hypertarget{class_trajectory_a7135e87575f429a7d6ad32477dc96e2c}\label{class_trajectory_a7135e87575f429a7d6ad32477dc96e2c}} 
+\index{Trajectory@{Trajectory}!write\+\_\+bin@{write\+\_\+bin}}
+\index{write\+\_\+bin@{write\+\_\+bin}!Trajectory@{Trajectory}}
+\subsubsection{\texorpdfstring{write\+\_\+bin}{write\_bin}}
+{\footnotesize\ttfamily bool Trajectory\+::write\+\_\+bin}
+
+flag if we want to write a binary traj file \mbox{\Hypertarget{class_trajectory_a1194477068ed051401f99aba4a1056b1}\label{class_trajectory_a1194477068ed051401f99aba4a1056b1}} 
+\index{Trajectory@{Trajectory}!write\+\_\+traj@{write\+\_\+traj}}
+\index{write\+\_\+traj@{write\+\_\+traj}!Trajectory@{Trajectory}}
+\subsubsection{\texorpdfstring{write\+\_\+traj}{write\_traj}}
+{\footnotesize\ttfamily bool Trajectory\+::write\+\_\+traj}
+
+flag if we want to write a traj file \mbox{\Hypertarget{class_trajectory_a94125474ee64fd3007091a3e88f59769}\label{class_trajectory_a94125474ee64fd3007091a3e88f59769}} 
+\index{Trajectory@{Trajectory}!write\+\_\+txt@{write\+\_\+txt}}
+\index{write\+\_\+txt@{write\+\_\+txt}!Trajectory@{Trajectory}}
+\subsubsection{\texorpdfstring{write\+\_\+txt}{write\_txt}}
+{\footnotesize\ttfamily bool Trajectory\+::write\+\_\+txt}
+
+flag if we want to write a text traj file 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/trajectory.\+h\item 
+src/trajectory.\+cpp\end{DoxyCompactItemize}

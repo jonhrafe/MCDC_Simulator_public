@@ -13,7 +13,7 @@
 #include "subdivision.h"
 #include <utility>
 
-
+typedef unsigned long ulong;
 /*! \class Parameter
  *  \brief Class used to hold and operate all the user and simulation parameters. This is the main class to comunicate
  *         between instances of the simulations and derived classes. So, in a way, it's an interface for the comunication

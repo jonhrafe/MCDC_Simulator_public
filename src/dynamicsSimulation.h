@@ -22,7 +22,7 @@
 #include "cylinder.h"
 #include "sentinel.h"
 #include "propagator.h"
-
+typedef unsigned long ulong;
 
 /*! \class DynamicsSimulation
  *  \brief  Main class, implements the particles dynamics. Handles collisions and bouncing.

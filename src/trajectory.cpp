@@ -4,6 +4,9 @@
 #include <fstream>
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
+
+#include "win_types.h"  // quick hack for compilitation on Windows
+
 using namespace std;
 
 

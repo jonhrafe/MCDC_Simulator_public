@@ -12,6 +12,8 @@
 #include "pgsesequence.h"
 #include "Eigen/Dense"
 
+#include "win_types.h"  // quick hack for compilitation on Windows
+
 class GradientWaveform: public SimulableSequence
 {
 public:

@@ -1,5 +1,7 @@
 #include "propagator.h"
 
+#include "win_types.h"  // quick hack for compilitation on Windows
+
 Propagator::Propagator()
 {
 

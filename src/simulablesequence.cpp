@@ -3,6 +3,8 @@
 #include <fstream>
 #include <math.h>
 
+#include "win_types.h"  // quick hack for compilitation on Windows
+
 using namespace std;
 
 

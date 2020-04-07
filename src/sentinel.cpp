@@ -1,6 +1,9 @@
 #include "sentinel.h"
 #include "constants.h"
 #include <iostream>
+
+#include "win_types.h"  // quick hack for compilitation on Windows
+
 using namespace sentinels;
 
 using namespace std;

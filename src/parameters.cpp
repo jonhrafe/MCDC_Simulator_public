@@ -3,6 +3,9 @@
 #include <iostream>
 #include "constants.h"
 #include "simerrno.h"
+
+#include "win_types.h"  // quick hack for compilitation on Windows
+
 using namespace std;
 
 Parameters::Parameters()

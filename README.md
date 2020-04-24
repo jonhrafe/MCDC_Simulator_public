@@ -2,7 +2,7 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/jonhrafe/MCDC_Simulator_public)
 ![GitHub issues](https://img.shields.io/github/issues/jonhrafe/MCDC_Simulator_public)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/jonhrafe/MCDC_Simulator_public/graphs/commit-activity)
-
+![GitHub last commit](https://img.shields.io/github/last-commit/jonhrafe/MCDC_Simulator_public)
 
 <p align="center">
   <a href="https://www.frontiersin.org/articles/10.3389/fninf.2020.00008/">
@@ -61,6 +61,7 @@ Several quick start options are available:
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/jonhrafe/MCDC_Simulator_public)
 ![GitHub issues](https://img.shields.io/github/issues/jonhrafe/MCDC_Simulator_public)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/jonhrafe/MCDC_Simulator_public/graphs/commit-activity)
+![GitHub last commit](https://img.shields.io/github/last-commit/jonhrafe/MCDC_Simulator_public)
 [![ForTheBadge built-with-science](http://ForTheBadge.com/images/badges/built-with-science.svg)](https://www.frontiersin.org/articles/10.3389/fninf.2020.00008/full)
 
 ## What's included

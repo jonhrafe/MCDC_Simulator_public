@@ -1,6 +1,6 @@
 
 Clone or download the repository in your system
-	git clone https://github.com/jonhrafe/MCDC_Simulator_public.git
+	``git clone https://github.com/jonhrafe/MCDC_Simulator_public.git``
 
 ## Compilation
 ### Linux and macOs systems (supported systems)
@@ -11,9 +11,11 @@ Clone or download the repository in your system
 
    `sh compile.sh`
 
- - **Via the Makefile**. Place the interpreter in the *src* folder and run the make file :
- `cd src`
- `make`
+ - **Via the Makefile**. Place the interpreter in the *src* folder and run the make file:
+ 
+ ``cd src``
+ 
+  ``make``
 
 A self-contained binary file will be created in the root folder called:  
 	*MC-CD_Simulator*
@@ -24,7 +26,7 @@ Voilá
 
 There's no official support for Windows apart from using the [Official Windows subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10). Once installed, the same installation process can be followed as above.
 
-In addition [MinGw](http://www.mingw.org/), and [Cygwin](https://www.cygwin.com/) can be installed to compile the source directly. In both cases, the full GCC compiler suite packages need to be installed and then use the application dependent gcc .exe file to run:
+In addition, [MinGw](http://www.mingw.org/), and [Cygwin](https://www.cygwin.com/) can be installed to compile the source directly. In both cases, the full GCC compiler suite packages need to be installed and then use the application dependent gcc .exe file to run:
 
     <gcc.exe> -O3 -std=c++11 -lpthread -std=c++0x -pthread -I. main.cpp simulablesequence.cpp vertex.cpp obstacle.cpp collision.cpp scheme.cpp voxel.cpp cylinder.cpp walker.cpp mcsimulation.cpp
       parallelmcsimulation.cpp trajectory.cpp triangle.cpp parameters.cpp plyobstacle.cpp pgsesequence.cpp

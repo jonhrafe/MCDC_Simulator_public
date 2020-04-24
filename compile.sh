@@ -1,6 +1,5 @@
 #!/bin/bash -l
 
-mkdir bin
 cd src
 search_dir=''
 src_files=''
@@ -11,7 +10,7 @@ done
 
 #  sbatch "$entry"
 
-command="g++ -O3 -std=c++11 -lpthread -std=c++0x -pthread -I.$src_files -o ../bin/MC-DC_Simulator"
+command="g++ -O3 -std=c++11 -lpthread -std=c++0x -pthread -w -I.$src_files -o ../MC-DC_Simulator"
 
 
 eval "$command"

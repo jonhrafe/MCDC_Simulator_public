@@ -1,3 +1,9 @@
+![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/jonhrafe/MCDC_Simulator_public/1.42)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/jonhrafe/MCDC_Simulator_public)
+![GitHub issues](https://img.shields.io/github/issues/jonhrafe/MCDC_Simulator_public)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/jonhrafe/MCDC_Simulator_public/graphs/commit-activity)
+
+
 <p align="center">
   <a href="https://www.frontiersin.org/articles/10.3389/fninf.2020.00008/">
     <img src="https://user-images.githubusercontent.com/4105920/68854670-d2f40280-06dc-11ea-8b45-9253fb6eec41.png" alt="MC/DC logo" width="150" height="240">

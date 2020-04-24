@@ -5,6 +5,8 @@
 #include "simerrno.h"
 #include "cylindergammadistribution.h"
 
+#include "win_types.h"  // quick hack for compilitation on Windows
+
 using namespace std;
 
 ParallelMCSimulation::ParallelMCSimulation(std::string config_file)

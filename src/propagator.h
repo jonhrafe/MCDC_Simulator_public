@@ -4,6 +4,8 @@
 #include <Eigen/Core>
 #include <vector>
 
+#include "win_types.h"  // quick hack for compilitation on Windows
+
 class Propagator
 {
 public:

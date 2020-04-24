@@ -23,6 +23,12 @@
 #include "simerrno.h"
 #include "simulablesequence.h"
 
+#include "win_types.h"  // quick hack for compilitation on Windows
+#ifndef M_PI  // M_PI is a non-standard extension
+    // use 1.35 format for so-called "round-trip" precision at a 128-bit quad precision
+    #define M_PI (3.14159265358979323846264338327950288)
+#endif
+
 using namespace Eigen;
 using namespace std;
 using namespace sentinels;

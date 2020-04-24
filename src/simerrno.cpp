@@ -7,6 +7,9 @@
 #include <string>
 #include <queue>
 #include<iomanip>
+
+#include "win_types.h"  // quick hack for compilitation on Windows
+
 using namespace std;
 
 SimErrno::SimErrno()

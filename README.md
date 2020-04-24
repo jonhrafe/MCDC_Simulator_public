@@ -86,7 +86,7 @@ The MC/DC technical documentation is automatically generated using **doxygen** a
 
 For full reproducibility of the results presented on: [https://www.frontiersin.org/articles/10.3389/fninf.2020.00008/full](https://www.frontiersin.org/articles/10.3389/fninf.2020.00008/full), the first version, 1.42, is the same version released in the paper's GitHub repository:  [https://github.com/jonhrafe/Robust-Monte-Carlo-Simulations](https://github.com/jonhrafe/Robust-Monte-Carlo-Simulations). 
 
-However, future releases may not follow the conf_file conventions used and included in thi aforementioned repository. 
+However, future releases may not follow the conf_file conventions used and included in the aforementioned repository. 
 
 ## Developer(s)
 

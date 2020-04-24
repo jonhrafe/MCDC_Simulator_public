@@ -4,6 +4,7 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/jonhrafe/MCDC_Simulator_public/graphs/commit-activity)
 ![GitHub last commit](https://img.shields.io/github/last-commit/jonhrafe/MCDC_Simulator_public)
 ![GitHub top language](https://img.shields.io/github/languages/top/jonhrafe/MCDC_Simulator_public)
+![GitHub](https://img.shields.io/github/license/jonhrafe/MCDC_Simulator_public)
 
 <p align="center">
   <a href="https://www.frontiersin.org/articles/10.3389/fninf.2020.00008/">

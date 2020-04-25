@@ -14,7 +14,7 @@
 <p align="center">
   User Friendly, Fast and Robust <strong>M</strong>onte <strong>C</strong>arlo<strong> D</strong>iffusion and <strong>C</strong>ollision Simulator
   <br>
-  <a href="https://github.com/jonhrafe/MCDC_Simulator_public/tree/master/doc"><strong>Explore MC/DC docs and examples »</strong></a>
+  <a href="https://github.com/jonhrafe/MCDC_Simulator_public/tree/master/instructions"><strong>Explore MC/DC docs and examples »</strong></a>
   <br>
   <br>
   <a href="https://github.com/jonhrafe/MCDC_Simulator_public/issues">Report bug</a>
@@ -55,8 +55,8 @@ The <strong>M</strong>onte <strong>C</strong>arlo<strong> D</strong>iffusion and
 Several quick start options are available:
 
  - [Download a pre-compiled version if available](https://github.com/jonhrafe/Robust-Monte-Carlo-Simulations/releases)
- - [Compile the sources](https://github.com/jonhrafe/MCDC_Simulator_public/blob/master/compile.sh)
- - Read the [Getting started page](https://github.com/jonhrafe/MCDC_Simulator_public/tree/master/doc) for information on the basic parameters needed.
+ - [Compile the sources](https://github.com/jonhrafe/MCDC_Simulator_public/blob/master/instructions/compilation.md)
+ - Read the [Getting started page](https://github.com/jonhrafe/MCDC_Simulator_public/blob/master/instructions/GettingStarted.md) for information on the basic parameters needed.
 
 ## Status
 ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/jonhrafe/MCDC_Simulator_public/1.42)
@@ -76,17 +76,17 @@ All the displayed components depicted above are organized in separated class-ori
 
 ## Bugs and feature requests
 
-Have a bug or a feature request? Please first read the ongoing development chart and search for existing and closed issues. If your problem or idea is not addressed yet, [please open a new issue](https://github.com/jonhrafe/MCDC_Simulator_public/issues).
+Have a bug or a feature request? Please first read the [ongoing development chart](https://github.com/jonhrafe/MCDC_Simulator_public/projects/1) and search for existing and closed issues. If your problem or idea is not addressed yet, [please open a new issue](https://github.com/jonhrafe/MCDC_Simulator_public/issues).
 
 ## Documentation
 
-The MC/DC technical documentation is automatically generated using **doxygen** and the source-files comments, and can be found [in here](https://github.com/jonhrafe/MCDC_Simulator_public/blob/master/doc/html/index.html) in html format, or [in here](https://github.com/jonhrafe/MCDC_Simulator_public/tree/master/doc/latex) as a .tex source file.
+The MC/DC technical documentation is automatically generated using **doxygen** and the source-files comments, and can be found [in here](https://github.com/jonhrafe/MCDC_Simulator_public/blob/master/docs/html/index.html) in html format, or [in here](https://github.com/jonhrafe/MCDC_Simulator_public/tree/master/docs/latex) as a .tex source file.
 
 ## Versioning
 
 For full reproducibility of the results presented on: [https://www.frontiersin.org/articles/10.3389/fninf.2020.00008/full](https://www.frontiersin.org/articles/10.3389/fninf.2020.00008/full), the first version, 1.42, is the same version released in the paper's GitHub repository:  [https://github.com/jonhrafe/Robust-Monte-Carlo-Simulations](https://github.com/jonhrafe/Robust-Monte-Carlo-Simulations). 
 
-However, future releases may not follow the conf_file conventions used and included in the aforementioned repository. 
+However, **future releases may not follow the conf_file conventions used** and included in the aforementioned repository. 
 
 ## Developer(s)
 

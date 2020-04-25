@@ -1,4 +1,5 @@
 
+
 Clone or download the repository in your system
 	``git clone https://github.com/jonhrafe/MCDC_Simulator_public.git``
 
@@ -36,6 +37,6 @@ where <g+.exe> should be replaced by g++ in the Cygwin64 Terminal, or the g++ ex
 
 # Getting started
 
-To test your compiled application follow the first simulation example.
+To test your compiled application follow the [first simulation example in the Getting started page.](https://github.com/jonhrafe/MCDC_Simulator_public/blob/master/instructions/GettingStarted.md)
 
 Good luck. 

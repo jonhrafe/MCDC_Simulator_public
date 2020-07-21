@@ -311,7 +311,9 @@ bool SimErrno::checkPLYFiles(Parameters &params)
 {
 
     bool degenerated = false;
-    for (unsigned i = 0 ;i < params.PLY_files.size(); i++){
+    unsigned int degenerated_triangles = 0;
+    for (unsigned i = 0 ;i < params.PLY_files.size(); i++)
+    {
         std::ifstream in(params.PLY_files[i].c_str(),std::ifstream::in);
 
         if(!in){
@@ -353,21 +355,23 @@ bool SimErrno::checkPLYFiles(Parameters &params)
 
         Eigen::Matrix3Xf vertices(3,vert_number);
 
-        for(unsigned j = 0 ; j < vert_number; j++){
+        // We load all the vertices in a strucutre of size (3,num_of_vertices)
+        for(unsigned v = 0 ; v < vert_number; v++){
             vector<float> tmp_v = {0,0,0};
             in >> tmp_v[0];
             in >> tmp_v[1];
             in >> tmp_v[2];
-            vertices(0,j) = tmp_v[0];
-            vertices(1,j) = tmp_v[0];
-            vertices(2,j) = tmp_v[0];
-            //vertices.push_back(tmp_v);
+            vertices(0,v) = tmp_v[0];
+            vertices(1,v) = tmp_v[1];
+            vertices(2,v) = tmp_v[2];
         }
 
         double num;
-
-        for(unsigned j = 0 ; j < face_number; j++){
+        //for each face (index f) we check the distance between the 3 edges
+        for(unsigned f = 0 ; f < face_number; f++)
+        {
             in >> num;
+            // if something is not a triangle then we throw an error
             if(num != 3.0){
                 in.close();
                 error( " PLY mesh should be completely triangulated. PLY format error: ",cout);
@@ -376,39 +380,40 @@ bool SimErrno::checkPLYFiles(Parameters &params)
             }
 
             //checks if the triangles are "degenerated"
-            unsigned tmp_e[3];
-            float tmp_t[3][3];
+            unsigned tmp_e[3]; // the indexes of its vertices (3 numbers)
+            float tmp_t[3][3]; // (the actual coordinates (triangle))
             in >> tmp_e[0];
             in >> tmp_e[1];
             in >> tmp_e[2];
+            for(int ii = 0 ; ii < 3; ii++)
+                for (int jj = 0 ; jj < 3; jj++)
+                    tmp_t[ii][jj] = vertices(jj,tmp_e[ii]);
 
-            for(int i = 0 ; i < 3; i++)
-                for (int j = 0 ; j < 3; j++)
-                    tmp_t[i][j] = vertices(j,tmp_e[i]);
+            float edge_lengths[3]= {0,0,0};
+            for(int ii = 0 ; ii < 3; ii++){
+                unsigned vertex_a = ii;
+                unsigned vertex_b = (ii+1)%3;
 
-            for(int i = 0 ; i < 3; i++){
-                float dist_sqrd[3] = {0,0,0};
-                //distance between i and j
-                for (int j = 0 ; j < 3; j++){
-                    dist_sqrd[j]+= (tmp_t[i][0] - tmp_t[j][0])*(tmp_t[i][0] - tmp_t[j][0]);
-                    dist_sqrd[j]+= (tmp_t[i][1] - tmp_t[j][1])*(tmp_t[i][1] - tmp_t[j][1]);
-                    dist_sqrd[j]+= (tmp_t[i][2] - tmp_t[j][2])*(tmp_t[i][2] - tmp_t[j][2]);
-                }
-
-                for (int j = 0 ; j < 2; j++){
-                    if(dist_sqrd[j+1] > 0)
-                        if((dist_sqrd[j]/dist_sqrd[j+1]) > 1000){
-                            degenerated = true;
-                        }
-                }
+                for (unsigned jj=0; jj < 3; jj++)
+                    edge_lengths[ii] += (tmp_t[vertex_a][jj] - tmp_t[vertex_b][jj])*(tmp_t[vertex_a][jj] - tmp_t[vertex_b][jj]) ;
             }
+
+            for(int ii = 0 ; ii < 3; ii++)
+                for (unsigned jj=ii; jj < 3; jj++)
+                    if(edge_lengths[jj]>0)
+                        if(edge_lengths[ii]/edge_lengths[jj] > 1000 or edge_lengths[ii]/edge_lengths[jj] < 1e-3 ){
+                            degenerated=true;
+                            degenerated_triangles++;
+                        }
+
         }
         in.close();
     }
 
-    if(degenerated)
-        warning( "PLY contains highly irregular triangles. Possible numerical errors and optimization failures may occur.",cout);
+    if(degenerated){
+        warning( "PLY contains ("+  std::to_string(degenerated_triangles) + ") highly irregular triangles. Possible numerical errors and optimization failures may occur.",cout);
 
+    }
 
 
     if(params.PLY_files.size() > params.PLY_scales.size()){

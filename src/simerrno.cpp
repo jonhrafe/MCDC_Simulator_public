@@ -18,8 +18,8 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 {
     cout << "\033[1;35m/***************   MC/DC Simulation parameters check out:  ***************/" << SH_DEFAULT << "\n";
 
-    if(params.num_walkers > 1e8){
-        error( " Maximum number of particles is fixed to 1e8.",cout);
+    if(params.num_walkers > 1e9){
+        error( " Maximum number of particles is fixed to 1e9.",cout);
         assert(0);
         return true;
     }
@@ -30,8 +30,8 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
         return true;
     }
 
-    if(params.num_steps > 1e6){
-        error( " Maximum number of steps is fixed to 1e6.",cout);
+    if(params.num_steps > 1e7){
+        error( " Maximum number of steps is fixed to 1e7.",cout);
         assert(0);
         return true;
     }
@@ -325,7 +325,7 @@ bool SimErrno::checkPLYFiles(Parameters &params)
        if(first_word.compare("ply")){
            error( " Input file is not a PLY mesh model: Missing  \"ply\"  header" ,cout);
            in.close();
-           return degenerated;
+           return false;
        }
 
         unsigned vert_number=0,face_number=0;
@@ -585,6 +585,7 @@ bool SimErrno::checkConfigurationFile(const char* configuration_file)
 
     int count_tag_obstacle=0,count_tag_voxels=0,count_tag_log=0,count_tag_delta=0;
     int count_tag_phase = 0, count_tag_positions = 0, count_hexa_obstacle_tag=0;
+    int count_tag_sampling_area=0;
 
 
     ifstream in(configuration_file);
@@ -650,9 +651,17 @@ bool SimErrno::checkConfigurationFile(const char* configuration_file)
         else if(Parameters::str_dist(tmp,"</cylinder_hex_packing>") <= 0){
             count_hexa_obstacle_tag--;
         }
+        else if(Parameters::str_dist(tmp,"<spawning_area>") == 0){
+            count_tag_sampling_area++;
+        }
+        else if(Parameters::str_dist(tmp,"</spawning_area>") == 0){
+            count_tag_sampling_area--;
+        }
+
         else if(Parameters::str_dist(tmp,"<end>") == 0){
             ended = true;
         }
+
     }
 
     if(count_tag_delta!= 0 ){
@@ -689,6 +698,11 @@ bool SimErrno::checkConfigurationFile(const char* configuration_file)
     }
     if(count_hexa_obstacle_tag!= 0 ){
         error( "<cylinder_hex_packing> tag is not properly set in: " + string(configuration_file),cout);
+        assert(0);
+        return true;
+    }
+    if(count_tag_sampling_area!= 0 ){
+        error( "<spawning_area> tag is not properly set in: " + string(configuration_file),cout);
         assert(0);
         return true;
     }
@@ -973,7 +987,7 @@ void SimErrno::expectedTime(string completed, string time, ostream & out, bool c
 
 // Get current date/time, format is YYYY-MM-DD (HH:mm:ss)
 std::string SimErrno::currentDateTime() {
-    time_t     now = time(0);
+    time_t     now = time(nullptr);
     struct tm  tstruct;
     char       buf[80];
     tstruct = *localtime(&now);

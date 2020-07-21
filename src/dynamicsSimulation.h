@@ -22,7 +22,7 @@
 #include "cylinder.h"
 #include "sentinel.h"
 #include "propagator.h"
-typedef unsigned long ulong;
+
 
 /*! \class DynamicsSimulation
  *  \brief  Main class, implements the particles dynamics. Handles collisions and bouncing.
@@ -130,12 +130,17 @@ public:
      *         with a defined "inside region" can be considered. Voxel periodicity is not
      *         considered
      */
-    bool isInIntra(Eigen::Vector3d& position, double error);
+    bool isInIntra(Eigen::Vector3d& position, double distance_to_be_intra_ply=1e-6);
 
     /*!
      * \brief   Writes to disk the final propagator matrix.
      */
     void writePropagator(std::string path);
+
+    bool isInsideCylinders(Eigen::Vector3d& position,double distance_to_be_inside=1e-6);
+
+    bool isInsidePLY(Eigen::Vector3d& position,double distance_to_be_inside=1e-6);
+
 
 private:    
     /*! \fn     generateStep

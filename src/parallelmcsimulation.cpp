@@ -87,7 +87,7 @@ void ParallelMCSimulation::startSimulation()
         SimErrno::info("Mean simulation speed: "+ to_string( unsigned(params.num_steps*params.num_walkers/mean_second_passed)) + " steps/second",out,false);
     }
     if(params.voxels_list.size()>0){
-        string message = "Voxel size:";
+        string message = "Voxel limits:";
         SimErrno::info(message,out,false);
 
         out << std::setprecision(10) << "( " <<  params.voxels_list[0].first[0] <<
@@ -112,7 +112,7 @@ void ParallelMCSimulation::startSimulation()
                 " " << params.max_sampling_area[2] << " )\n";
     }
 
-    if((params.custom_sampling_area or params.voxels_list.size()>0) and (params.ini_walker_flag.size()>0 or params.computeVolume)){
+    if((params.custom_sampling_area or params.voxels_list.size()>0) and (params.computeVolume)){
         string message="Estimated Intra-axonal volume from sampling (mm^2):";
         out << std::scientific;
         SimErrno::info(message,out,false);

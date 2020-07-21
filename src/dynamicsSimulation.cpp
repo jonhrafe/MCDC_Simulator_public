@@ -60,7 +60,6 @@ DynamicsSimulation::DynamicsSimulation() {
     icvf=0;
     intra_tries=0;
     total_tries=0;
-
 }
 
 /**
@@ -194,7 +193,7 @@ bool DynamicsSimulation::finalPositionCheck()
 {
     if(plyObstacles_list.size()>0 and sentinela.deport_illegals and params.obstacle_permeability <=0){
 
-        bool isIntra = isInIntra(this->walker.pos_v ,0);
+        bool isIntra = isInIntra(this->walker.pos_v,0);
 
         //cout << endl << endl << isIntra << " " << this->walker.location << "  " << walker.initial_location << endl;
 
@@ -248,6 +247,9 @@ void DynamicsSimulation::writePropagator(std::string path)
         tout.close();
     }
 }
+
+
+
 
 void DynamicsSimulation::initSimulation()
 {
@@ -506,10 +508,11 @@ void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos)
 
     if(cylinders_list.size() <=0 and plyObstacles_list.size() <= 0){
         SimErrno::error("Cannot initialize intra-axonal walkers within the given substrate.",cout);
+        SimErrno::error("There's no defined intra-axonal compartment (missing obstacles?)",cout);
         assert(0);
     }
     if(voxels_list.size()<=0){
-        SimErrno::error("Cannot initialize extra-cellular walkers within the given substrate, no voxel.",cout);
+        SimErrno::error("Cannot initialize intra-cellular walkers within the given substrate, no voxel.",cout);
         assert(0);
     }
 
@@ -518,6 +521,7 @@ void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos)
 
         if(count > 100000){
             SimErrno::error("Cannot initialize intra-axonal walkers within the given substrate",cout);
+            SimErrno::error("Max. number of tries to find an intra-celular compartment reached",cout);
             assert(0);
         }
 
@@ -533,7 +537,7 @@ void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos)
        // cout << initialization_gap[2] << endl;
         Vector3d pos_temp = {x,y,z};
 
-        if(checkIfPosInsideVoxel(pos_temp) && (isInIntra(pos_temp, 0.0))){
+        if(checkIfPosInsideVoxel(pos_temp) && (isInIntra(pos_temp, -0.1))){
             intra_pos = pos_temp;
             return;
         }
@@ -559,6 +563,7 @@ void DynamicsSimulation::getAnExtraCellularPosition(Vector3d &extra_pos)
 
         if(count > 10000){
             SimErrno::error("Cannot initialize extra-cellular walkers within the given substrate",cout);
+            SimErrno::error("Max. number of tries to find an extra-celular compartment reached",cout);
             assert(0);
         }
 
@@ -663,24 +668,33 @@ string DynamicsSimulation::secondsToMinutes(double t)
 
 }
 
-bool DynamicsSimulation::isInIntra(Vector3d &position, double error)
-{
 
+bool DynamicsSimulation::isInsideCylinders(Vector3d &position, double distance_to_be_inside)
+{
     Walker tmp;
     tmp.setInitialPosition(position);
 
-    total_tries++;
+    //track the number of positions checks for intra/extra positions
 
     for(unsigned i = 0 ; i < cylinders_list.size(); i++){
 
         double dis = cylinders_list[i].minDistance(tmp);
 
-        if( dis <= error ){
+        if( dis <= distance_to_be_inside ){
             intra_tries++;
-            return true;            
+            return true;
         }
     }
 
+    return false;
+}
+
+bool DynamicsSimulation::isInsidePLY(Vector3d &position, double distance_to_be_inside)
+{
+
+    //1) We find the closest PLY and triangle bases on the triangle's center
+    Walker tmp;
+    tmp.setInitialPosition(position);
 
     double t,min_t = 1e6;
     unsigned min_j_index = 0;
@@ -697,16 +711,32 @@ bool DynamicsSimulation::isInIntra(Vector3d &position, double error)
         }
     }
 
-    //cout << min_i_index << endl;
+    //2) We corroborate by casting an infinite ray and checking collisions
+
+    Eigen::Vector3d ray = (-position + plyObstacles_list[min_i_index].faces[min_j_index].center).normalized();
+    Collision colision_temp;
+
+    double new_min_t = 1e6;
+    for (unsigned i=0; i < plyObstacles_list.size(); i++){
+        for (unsigned j=0; j < plyObstacles_list[i].face_number; j++){
+            plyObstacles_list[i].faces[j].stepIntersects_MT(tmp,ray,1e8,colision_temp);
+
+            if(colision_temp.type == Collision::hit and new_min_t > colision_temp.t){
+                new_min_t = colision_temp.t;
+                min_i_index = i;
+                min_j_index = j;
+            }
+        }
+    }
+
+    //3) Finally we check the sign of the closest collision. The sign indicates either intra or extra.
     if(min_i_index >= 0){
         Eigen::Vector3d normal;
         plyObstacles_list[min_i_index].faces[min_j_index].getNormal(normal);
 
         //Orientation respect the triangle
         double dot = ((position - plyObstacles_list[min_i_index].faces[min_j_index].center).normalized()).dot(normal);
-
-        //cout << dot << endl;
-        if (dot < -1e-5){
+        if (dot < distance_to_be_inside){
             intra_tries++;
             return true;
         }
@@ -714,6 +744,24 @@ bool DynamicsSimulation::isInIntra(Vector3d &position, double error)
 
     return false;
 }
+
+
+bool DynamicsSimulation::isInIntra(Vector3d &position, double distance_to_be_intra_ply)
+{
+    bool isIntra = false;
+    total_tries++;
+    if(cylinders_list.size()>0){
+        isIntra|= this->isInsideCylinders(position,barrier_tickness);
+    }
+
+    if(plyObstacles_list.size()>0){
+        isIntra|=isInsidePLY(position,distance_to_be_intra_ply);
+    }
+    return isIntra;
+}
+
+
+
 
 void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
 
@@ -783,10 +831,11 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             walker.rejection_count = 0;
         }// end for t
 
-        if(finalPositionCheck()){
-            back_tracking=true;
-            w--;
-        }
+        if(!back_tracking)
+            if(finalPositionCheck()){
+                back_tracking=true;
+                w--;
+            }
 
         //If there was an error, we don't compute the signal or write anything.
         if(back_tracking){

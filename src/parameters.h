@@ -13,7 +13,7 @@
 #include "subdivision.h"
 #include <utility>
 
-typedef unsigned long ulong;
+
 /*! \class Parameter
  *  \brief Class used to hold and operate all the user and simulation parameters. This is the main class to comunicate
  *         between instances of the simulations and derived classes. So, in a way, it's an interface for the comunication
@@ -58,11 +58,11 @@ public:
     std::vector<unsigned> record_phase_times;       /*!< time indexes, used to save the phase shif of all walkers at certain time   */
     std::vector<unsigned> record_prop_times;        /*!< time indexes, used to save the mean propagator of the walkers at c. times  */
 
-    bool   hex_packing;
-    double hex_packing_radius;
-    double hex_packing_separation;
+    bool   hex_packing;                             /*!< flag, true if an haxagonal packing should be used                          */
+    double hex_packing_radius;                      /*!< float, constant radius for the cylinders                                          */
+    double hex_packing_separation;                  /*!< float, separation distance betwen cylinders (separation > 2*radius)        */
 
-    bool        gamma_packing;
+    bool        gamma_packing;                      /*!< flag, true if a gamma distribution of cylinders will be initialized        */
     bool        gamma_output_conf;
     double      gamma_packing_alpha;
     double      gamma_packing_beta;

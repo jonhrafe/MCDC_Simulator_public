@@ -24,7 +24,7 @@
 #define SH_FG_GREEN             "\033[0;32m"
 #define SH_DEFAULT              "\033[0m"
 
-#define VERSION_ID              "1.42.14_wf"
+#define VERSION_ID              "1.43"
 
 const double m_to_mm = 1e3;                     /*!< meters to milimeters constant                              */
 const double s_to_ms = 1e3;                     /*!< seconds to milisecodns constant                            */

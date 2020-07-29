@@ -41,17 +41,28 @@ num_process 1
 ```
 
 ###  Basic parameters description:
-``` N 1000 ``` Defines the number of spins to be placed to 1000 spins.
+`` N 1000 `` Defines the number of spins to be placed to 1000 spins.
+
 ``` T 1000 ``` Defines the total number of steps placed to 1000 steps.
+
 ``` duration 0.036 ``` The total duration is set to 0.036 seconds.
+
 ``` diffusivity  0.6e-9 ``` sets the diffusion coefficient of the medium to 0.6 m^2/s (near ex-vivo diffusion)
+
 ``` exp_prefix [string] ``` output path and prefix for the experiment
+
 ``` scheme_file [string] ``` (dummy) PGSE scheme file provided in the repository
+
 ``` scale_from_stu 1 ``` 1 by the default. 1 if the PGSE is in __SI base unit__: meters, seconds. 
+
 ``` write_txt [0,1] ``` flag to indicate if the output files should be written in txt format with reduced numerical precision. __WARNING__ this will produce big files that scale quadratically with the N and T parameters.
+
 ``` write_bin [0,1] ``` flag to indicate if the output files should be written in binary format with full floating (float32) precision (recommended).
+
 ``` write_traj_file [0,1] ``` flag to indicate if the particleâ€™s trajectories should be written to disk (warning, very big files). The trajectory file will be written in txt, or binary format depending on the write_txt and write_bin flags.
+
 ``` num_process [unsigned int] ``` short for number of processors, defines the number of processors/cores to use for the simulation. WARNING: increasing the number of processors while writing a trajectory file will split the .traj file according to the number of processors.
+
 ``` <END> ```The .conf must end with this tag. All other parameters or text after this tag are ignored.
 
 
@@ -84,13 +95,18 @@ Tu run the simulation simply call the simulator executable file in the projectâ€
 ```
 The outputs will be stored, as defined, in ``` instructions/demos/output/ ```
 
-Output files:
+_Output files:_
 
 ``` cylinder_gamma_packing_test_DWI.txt ```  Real part of the un-normalized diffusion signal (in this case, issued only by the extra-axonal space).
+
 ``` cylinder_gamma_packing_test_DWI_img.txt ```  Imaginary part part of the un-normalized diffusion signal (likely 0's).
+
 ``` cylinder_gamma_packing_test_gamma_distributed_cylinder_list.txt ``` List with the position and radius of all the packed cylinders
+
 ``` cylinder_gamma_packing_test_simulation_info.txt ``` Simulation info file (important) contains all the simulation info and possible warnings.
+
 ``` cylinder_gamma_packing_test_0.hdr.txt ``` Trajectory file header.
+
 ``` cylinder_gamma_packing_test_0.traj.txt ``` All the particle's trajectories (for visualization purposes mostly).
 
 
@@ -100,18 +116,31 @@ The trajfile (binary or in text) contains all the particle's positions over time
 
 The format is then a list from the first position of the first particle, to the last position to the last particle.
 
-$$x_{1,0}$$
-$$y_{1,0}$$
-$$z_{1,0}$$
+x<sub>{1,0}</sub>
+
+x<sub>{1,0}</sub>
+
+y<sub>{1,0}</sub>
+
+z<sub>{1,0}</sub>
+
 ...
-$$x_{1,T}$$
-$$y_{1,T}$$
-$$z_{1,T}$$
+
+x<sub>{1,T}</sub>
+
+y<sub>{1,T}</sub>
+
+z<sub>{1,T}</sub>
+
 ...
+
 ...
-$$x_{N,T}$$
-$$x_{N,T}$$
-$$x_{N,T}$$
+
+x<sub>{N,T}</sub>
+
+x<sub>{N,T}</sub>
+
+x<sub>{N,T}</sub>
 
 Then, you can visualize each particle's trajectory and get something like this:
 ![simulation](https://user-images.githubusercontent.com/4105920/88835884-31fb9800-d1d6-11ea-8dcb-5210ae50793e.gif)

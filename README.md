@@ -57,6 +57,9 @@ Several quick start options are available:
  - [Download a pre-compiled version if available](https://github.com/jonhrafe/Robust-Monte-Carlo-Simulations/releases)
  - [Compile the sources](https://github.com/jonhrafe/MCDC_Simulator_public/blob/master/instructions/compilation.md)
  - Read the [Getting started page](https://github.com/jonhrafe/MCDC_Simulator_public/blob/master/instructions/GettingStarted.md) for information on the basic parameters needed.
+ - [Tutorial: Simulation in free diffusion](https://github.com/jonhrafe/MCDC_Simulator_public/blob/master/instructions/GettingStarted.md)
+ - [Tutorial: Simulation in gamma distributed cylinders](https://github.com/jonhrafe/MCDC_Simulator_public/blob/master/instructions/example_intra-axonal_initialization.md)
+ - [Tutorial: Simulation in PLY models](https://github.com/jonhrafe/MCDC_Simulator_public/blob/master/instructions/example_intra-axonal_initialization.md)
 
 ## Status
 ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/jonhrafe/MCDC_Simulator_public/1.42)

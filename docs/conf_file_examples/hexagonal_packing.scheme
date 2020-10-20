@@ -1,0 +1,29 @@
+N 800
+T 1000
+duration 0.020
+diffusivity 0.6e-10
+exp_prefix instructions/demos/output/haexagona_packed_spheres
+
+scheme_file docs/scheme_files/PGSE_sample_scheme.scheme
+scale_from_stu 1
+
+write_txt 1
+write_bin 0
+write_traj_file 1
+
+<obstacle>
+ply instructions/meshes/hexagonal_packed_spheres.ply
+ply_scale 0.001
+</obstacle>
+
+<voxels>
+0.0 0.0 -0.001818653347947321
+0.001818653347947321 0.003637306695894642 0.001818653347947321
+</voxels>
+
+ini_walkers_pos intra
+
+permeability 0.0001
+
+num_process 1
+<END>

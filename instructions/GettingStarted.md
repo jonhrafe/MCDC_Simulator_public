@@ -40,7 +40,8 @@ Below, the content of the configuration file, freeDiffusion.conf, is shown.
     T 1000
     duration 0.100
     diffusivity 0.6e-9
-    
+    scale_from_stu 1
+
     exp_prefix instructions/demos/output/free_diffusion_test
     
     scheme_file docs/scheme_files/PGSE_sample_scheme.scheme
@@ -66,12 +67,13 @@ Below the description of the parameters in the confile.
  - **`N`** [int]: total number of spin particles to diffuse.
  - **`T`** [int]: total number of steps to perform during the duration of the experiment. 
  - **`duration`** [float]: total diffusion duration in seconds, this duration should be at least as long as the longest echo time (TE) in the acquisition protocol  acquisition.
- - **`diffusivity`** [float] diffusion coefficient of the medium in m^2/s
+ - **`diffusivity`** [float] diffusion coefficient of the medium in m^2/s for standard units, mm^2/ms otherwise.
+ - **`scale_from_stu`** [0,1] flag to indicate if the protocol's scheme_file, and the experiment's duration and diffusivity, are in standard units (SI units; m,s,etc.)   
  - **`exp_prefix`** [string] output path and prefix for the experiment 
  - scheme_file docs/scheme_files/PGSE_sample_scheme.scheme
  - **`write_txt`** [0,1]  flag to indicate if the output files should be written in txt format with reduced numerical precision.
- -  **`write_bin`** [0,1] flag to indicate if the output files should be written in binary format with full floating (float32)  precision **(recommended)**.
- -  **`write_traj_file`** [0,1] flag to indicate if the particles trajectories should be written to disk (**warning, very big files**). The trajectory file will be written in txt, or binary format depending on the **write_txt** and **write_bin** flags.
+ - **`write_bin`** [0,1] flag to indicate if the output files should be written in binary format with full floating (float32)  precision **(recommended)**.
+ - **`write_traj_file`** [0,1] flag to indicate if the particles trajectories should be written to disk (**warning, very big files**). The trajectory file will be written in txt, or binary format depending on the **write_txt** and **write_bin** flags.
  - **`<voxel> <\voxel>`** Voxel tags to define the simulation voxel in MILLIMETRES. The first 3 numbers defines the **minimum voxel limit (x_min,y_min,z_min)** followed by 3 numbers defining the **maximum voxel limit (x_max, y_max, z_min)**.
  - **`num_process`** [unsigned int] short for number of processors, defines the number of processors/cores to use for  the simulation. 
 

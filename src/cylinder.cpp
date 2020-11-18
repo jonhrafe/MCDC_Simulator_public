@@ -91,6 +91,17 @@ inline bool Cylinder::handleCollition(Walker& walker, Collision &colision, Vecto
         return false;
     }
 
+    //WARNING: Cuidar este patch
+    // Implementa Percolacion
+    if(percolation>0.0){
+        double _percolation_ ((double)rand()/RAND_MAX);
+
+        if( percolation - _percolation_ > EPS_VAL ){
+            count_perc_crossings++;
+            return false;
+        }
+    }
+
     // a spin that's bouncing ignores collision at 0 (is in a wall)
     if(walker.status == Walker::bouncing){
 
@@ -166,5 +177,3 @@ double Cylinder::minDistance(Walker &w){
     return d_>0.0?d_:0.0;
 
 }
-
-

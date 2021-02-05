@@ -10,12 +10,12 @@
 #define OBSTACLE_H
 #include "collision.h"
 #include "walker.h"
-#include <Eigen/Core>
+#include "Eigen/Core"
 class Obstacle
 {
 public:
-    int id;                         /*!< Unique id of the simulation                                                */
 
+    int id;                         /*!< Unique id of the simulation                                                */
     int count_perc_crossings;       /*!< Auxiliar value to count the number of percolatin crossings in a simulation */
     double percolation;             /*!< Percolation value between 0 and 1.                                         */
     double T2;                      /*!< T2 decay, not used by default                                              */

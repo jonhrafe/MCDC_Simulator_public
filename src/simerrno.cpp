@@ -78,7 +78,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 
     if(params.PLY_files.size() > 0){
         info("Checking PLY format...",cout);
-        assert(checkPLYFiles(params));
+        //assert(checkPLYFiles(params));
         info("Done...",cout);
     }
 
@@ -132,7 +132,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
             return true;
         }
 
-        if( (params.number_subdivisions > 0) && (params.voxels_list.size() <=0) ){
+        if( (params.number_subdivisions > 0) && (params.voxels_list.size() <=0) && params.gamma_packing ==false){
             error("subdivisions_number parameter passed without a defined voxel.",cout);
             assert(0);
             return true;
@@ -161,7 +161,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 
         for(auto j = 0; j < 3; j++){
             for (unsigned i=0; i < params.voxels_list.size();i++)
-                if((params.voxels_list[i].first[j]  - params.min_sampling_area[j])>1e-8 or (params.max_sampling_area[j]-params.voxels_list[i].second[j])>1e-8)
+                if((params.voxels_list[i].first[j]  - params.min_sampling_area[j])>1e-8 || (params.max_sampling_area[j]-params.voxels_list[i].second[j])>1e-8)
                 {
                     SimErrno::error("Custom sampling area cannot be outside the defined voxel\n",cout);
                     assert(0);
@@ -174,7 +174,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
         }
     }
 
-    if(params.computeVolume and params.voxels_list.size() <=0){
+    if(params.computeVolume && params.voxels_list.size() <=0 && params.gamma_packing==false and params.hex_packing ==false){
         warning(" Flag: 'compute_volume' ignored, no voxel."  ,cout);
     }
 
@@ -430,7 +430,7 @@ bool SimErrno::checkPLYFiles(Parameters &params)
 
 //* Auxiliare method to split words in a line using the spaces*//
 template<typename Out>
-void split_(const std::string &s, char delim, Out result) {
+void split__(const std::string &s, char delim, Out result) {
     std::stringstream ss;
     ss.str(s);
     std::string item;
@@ -442,7 +442,7 @@ void split_(const std::string &s, char delim, Out result) {
 
 std::vector<std::string> split_(const std::string &s, char delim) {
     std::vector<std::string> elems;
-    split_(s, delim, std::back_inserter(elems));
+    split__(s, delim, std::back_inserter(elems));
     return elems;
 }
 
@@ -755,14 +755,21 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
     if(params.PLY_files.size() > 0)
         infoMenu(" Number of PLYs:        ------", to_string( params.PLY_files.size()),out, color,35);
 
-    answer = (params.cylinders_files.size() > 0)?" true":" false";
+    answer = (params.cylinders_files.size() > 0) || params.gamma_packing || params.hex_packing ?" true":" false";
     infoMenu(" Cylinder obstacles:    ------",  answer, out, color,35);
 
-    if(params.hex_packing)
+    if(params.hex_packing){
         infoMenu(" Hexagonal Configuration:  ---", "true", out, color,35);
+        infoMenu(" Hex. radius:           ------",  " "+ to_string(params.hex_packing_radius*1e3)+" um",out, color,35);
+        infoMenu(" Separation:            ------",  " "+ to_string(params.hex_packing_separation*1e3)+" um",out, color,35);
+    }
 
-    if(params.gamma_packing)
+    if(params.gamma_packing){
         infoMenu(" Gamma Configuration:   ------", "true", out, color,35);
+        infoMenu(" Gamma alpha:           ------",  " "+ to_string(params.gamma_packing_alpha)+" um",out, color,35);
+        infoMenu(" Gamma scale:           ------",  " "+ to_string(params.gamma_packing_beta),out, color,35);
+        infoMenu(" Min. radius:           ------",  " "+ to_string(params.min_cyl_radii)+" um",out, color,35);
+    }
 
     answer = (params.write_traj)?" true":" false";
     infoMenu(" Write trajfile:        ------",  answer, out, color,35);
@@ -772,6 +779,9 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
 
     answer = (params.write_txt)?" true":" false";
     infoMenu(" Write to txt:          ------",  answer, out, color,35);
+
+    answer = (params.separate_signals)?" true":" false";
+    infoMenu(" Separated signals      ------",  answer, out, color,35);
 
     answer = (params.scale_from_stu)?" true":" false";
     infoMenu(" Standard units:        ------",  answer, out, color,35);

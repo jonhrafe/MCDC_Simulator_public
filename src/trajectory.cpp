@@ -2,8 +2,9 @@
 #include <iomanip>      // std::setprecision
 #include "simerrno.h"
 #include <fstream>
-#include <Eigen/Dense>
-#include <Eigen/Geometry>
+#include "Eigen/Dense"
+#include "Eigen/Geometry"
+#include "constants.h"
 using namespace std;
 
 

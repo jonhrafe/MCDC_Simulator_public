@@ -1,13 +1,14 @@
 #ifndef PROPAGATOR_H
 #define PROPAGATOR_H
 
-#include <Eigen/Core>
+#include "constants.h"
+#include "Eigen/Core"
 #include <vector>
+
 
 class Propagator
 {
 public:
-
 
     uint num_dirs =0;
     uint num_times = 0;

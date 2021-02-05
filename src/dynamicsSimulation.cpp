@@ -15,8 +15,8 @@
 #include <algorithm>
 #include <time.h>       /* time_t, struct tm, difftime, time, mktime */
 #include <assert.h>
-#include <Eigen/Dense>
-#include <Eigen/Geometry>
+#include "Eigen/Dense"
+#include "Eigen/Geometry"
 #include <fstream>
 #include "constants.h"
 #include "collisionsphere.h"
@@ -31,6 +31,8 @@ using namespace sentinels;
  * DynamicsSimulation implementation
  */
 DynamicsSimulation::DynamicsSimulation() {
+    plyObstacles_list = nullptr;
+
     params.num_walkers = 1; //N
     params.num_steps   = 1; //T
     params.traj_file   = "";
@@ -60,12 +62,15 @@ DynamicsSimulation::DynamicsSimulation() {
     icvf=0;
     intra_tries=0;
     total_tries=0;
+    aux_walker_index = 0;
 }
 
 /**
  * @param configuration file
  */
 DynamicsSimulation::DynamicsSimulation(std::string conf_file) {
+    plyObstacles_list = nullptr;
+
     completed = 0;
     readConfigurationFile(conf_file);
 
@@ -85,12 +90,15 @@ DynamicsSimulation::DynamicsSimulation(std::string conf_file) {
     icvf=0;
     intra_tries=0;
     total_tries=0;
+    aux_walker_index = 0;
 }
 
 /**
  * @param Parameter instance
  */
 DynamicsSimulation::DynamicsSimulation(Parameters& params_) {
+    plyObstacles_list = nullptr;
+
     params = params_;
     completed = 0;
     trajectory.initTrajectory(params);
@@ -109,6 +117,7 @@ DynamicsSimulation::DynamicsSimulation(Parameters& params_) {
     icvf=0;
     intra_tries=0;
     total_tries=0;
+    aux_walker_index = 0;
 }
 
 void DynamicsSimulation::initObstacleInformation(){
@@ -118,11 +127,11 @@ void DynamicsSimulation::initObstacleInformation(){
     }
 
     //Cylinders list of index initialization
-    for(unsigned i= 0 ; i < cylinders_list.size();i++){
+    for(unsigned i= 0 ; i < (*cylinders_list).size();i++){
         cylinders_deque.push_back(i);
 
         if(params.obstacle_permeability > 0.0){
-            cylinders_list[i].percolation = params.obstacle_permeability;
+            (*cylinders_list)[i].percolation = params.obstacle_permeability;
         }
     }
 
@@ -131,14 +140,14 @@ void DynamicsSimulation::initObstacleInformation(){
     walker.collision_sphere_cylinders.big_sphere_list_end   = walker.collision_sphere_cylinders.list_size;
 
     // PLY index list initialization
-    for(unsigned i= 0 ; i < plyObstacles_list.size();i++){
+    for(unsigned i= 0 ; i < (*plyObstacles_list).size();i++){
         std::vector<unsigned> jkr;
-        for(unsigned t =0; t < plyObstacles_list[i].face_number;t++){
+        for(unsigned t =0; t < (*plyObstacles_list)[i].face_number;t++){
             jkr.push_back(t);
         }
 
         if(params.obstacle_permeability > 0.0){
-            plyObstacles_list[i].percolation = params.obstacle_permeability;
+            (*plyObstacles_list)[i].percolation = params.obstacle_permeability;
         }
 
         ply_deque.push_back(jkr);
@@ -191,14 +200,19 @@ void DynamicsSimulation::computeICVF()
 
 bool DynamicsSimulation::finalPositionCheck()
 {
-    if(plyObstacles_list.size()>0 and sentinela.deport_illegals and params.obstacle_permeability <=0){
+    int cyl_id,ply_id;
 
-        bool isIntra = isInIntra(this->walker.pos_v,0);
+    if((*plyObstacles_list).size()>0 and sentinela.deport_illegals and params.obstacle_permeability <=0){
+
+        bool isIntra = isInIntra(this->walker.pos_v,cyl_id,ply_id,0);
 
         //cout << endl << endl << isIntra << " " << this->walker.location << "  " << walker.initial_location << endl;
 
-        if((isIntra and this->walker.initial_location==Walker::extra) or ((!isIntra and this->walker.initial_location==Walker::intra))){
+        if((isIntra and this->walker.initial_location == Walker::extra) or ((!isIntra and this->walker.initial_location == Walker::intra))){
             //cout << "Im working" << endl;
+
+            //cout << (this->walker.initial_location == Walker::intra) <<  "Intra"  << endl;
+            //cout << isIntra << endl;
             return true;
         }
     }
@@ -209,7 +223,8 @@ void DynamicsSimulation::writePropagator(std::string path)
 {
     if(params.write_bin){
         ofstream bout;
-        bout.open(path.c_str(), std::ofstream::binary);
+        string path_bin = path+".bfloat" ;
+        bout.open(path_bin.c_str(), std::ofstream::binary);
 
         if(!bout){
             std::cout << "Cannot open " << path << std::endl;
@@ -330,7 +345,7 @@ bool DynamicsSimulation::expectedTimeAndMaxTimeCheck(unsigned w)
             if(this->completed <= 0.0){
                 SimErrno::expectedTime(to_string(int(completed)), "Unknown",cout,true,"?","");
                 cout.flush();
-                completed+=10;
+                completed+=5;
             }
             else if(completed_perc >= completed){
                 cout << string(50,' ');
@@ -349,7 +364,7 @@ bool DynamicsSimulation::expectedTimeAndMaxTimeCheck(unsigned w)
                     SimErrno::expectedTime(to_string(int(completed)), "Unknown",cout,true,"?","");
                     cout.flush();
                 }
-                completed = max(completed+10.0,completed_perc);
+                completed = max(completed+5.0,completed_perc);
                 cout.flush();
             }
         }
@@ -387,8 +402,23 @@ void DynamicsSimulation::iniWalkerPosition()
     walker.location         = Walker::unknown;
     walker.intra_extra_consensus = walker.intra_coll_count = walker.extra_coll_count=walker.rejection_count=0;
 
+/*
+    if(params.custom_ini_walker_pos.size()>0){
+        double x,y,z;
+        x= params.custom_ini_walker_pos[aux_walker_index][0];
+        y= params.custom_ini_walker_pos[aux_walker_index][1];
+        z= params.custom_ini_walker_pos[aux_walker_index][2];
+        aux_walker_index++;
+        //cout << x << ' ' << y << ' ' << z << endl;
+        walker.setInitialPosition(x,y,z);
+
+        bool intra_flag =isInIntra(walker.ini_pos, walker.in_obj_index,walker.in_ply_index, 0.0);
+        walker.location = (intra_flag==1)?Walker::RelativeLocation::intra:Walker::RelativeLocation::extra;
+        walker.initial_location = walker.location;
+
+    }
     //If the number of positions is less than the walkers, it restarts.
-    if(iniPos.is_open()){
+    else */if(iniPos.is_open()){
         double x,y,z;
 
         iniPos >> x; iniPos >> y; iniPos >> z;
@@ -406,7 +436,7 @@ void DynamicsSimulation::iniWalkerPosition()
     }
     else if(params.ini_walker_flag.compare("intra")== 0){
         Vector3d intra_pos;
-        getAnIntraCellularPosition(intra_pos);
+        getAnIntraCellularPosition(intra_pos,walker.in_obj_index,walker.in_ply_index);
         walker.setInitialPosition(intra_pos);
         walker.intra_extra_consensus--;
         walker.initial_location = Walker::intra;
@@ -418,11 +448,13 @@ void DynamicsSimulation::iniWalkerPosition()
         walker.initial_location = Walker::extra;
         walker.intra_extra_consensus++;
     }
+    //Todo: poner esto bien sin el caso de hexapacking
     else if(voxels_list.size() > 0 or params.custom_sampling_area){
         walker.setRandomInitialPosition(params.min_sampling_area,params.max_sampling_area);
-
         if(params.computeVolume){
-            isInIntra(walker.ini_pos, 0.0);
+            bool intra_flag =isInIntra(walker.ini_pos, walker.in_obj_index,walker.in_ply_index, 0.0);
+            walker.location = (intra_flag==1)?Walker::RelativeLocation::intra:Walker::RelativeLocation::extra;
+            walker.initial_location = walker.location;
         }
     }
     else{
@@ -435,6 +467,7 @@ void DynamicsSimulation::initWalkerObstacleIndexes()
 {
     // The outer collision sphere has a radius r = l*T 
     float outer_col_dist_factor = float(params.num_steps*step_lenght);
+
     walker.initial_sphere_pos_v = walker.pos_v;
     walker.collision_sphere_cylinders.setBigSphereSize(outer_col_dist_factor);
     
@@ -449,7 +482,7 @@ void DynamicsSimulation::initWalkerObstacleIndexes()
     // We add and remove the cylinder indexes that are or not inside sphere.
     for(unsigned i = 0 ; i < walker.collision_sphere_cylinders.list_size; i++ ){
         unsigned index = walker.collision_sphere_cylinders.collision_list->at(i);
-        float dist = float(cylinders_list[index].minDistance(walker));
+        float dist = float((*cylinders_list)[index].minDistance(walker));
         if (dist < walker.collision_sphere_cylinders.small_sphere_distance){
             walker.collision_sphere_cylinders.pushToSmallSphere(i);
         }
@@ -460,14 +493,17 @@ void DynamicsSimulation::initWalkerObstacleIndexes()
     walker.collision_sphere_ply.setBigSphereSize(outer_col_dist_factor);
     walker.collision_sphere_ply.setSmallSphereSize(inner_col_dist_factor);
 
+    //cout << outer_col_dist_factor << endl;
+    //cout << inner_col_dist_factor << endl;
+
     for(unsigned i = 0 ; i < walker.collision_sphere_ply.list_size; i++ )
     {
         walker.collision_sphere_ply.small_sphere_list_end[i] = 0;
-        walker.collision_sphere_ply.big_sphere_list_end[i] = plyObstacles_list[i].face_number;
-        for(unsigned t = 0 ; t < plyObstacles_list[i].face_number; t++){
+        walker.collision_sphere_ply.big_sphere_list_end[i] = (*plyObstacles_list)[i].face_number;
+        for(unsigned t = 0 ; t < (*plyObstacles_list)[i].face_number; t++){
 
             unsigned index = walker.collision_sphere_ply.collision_list->at(i)[t];
-            float dist = float(plyObstacles_list[i].minDistance(walker,index));
+            float dist = float((*plyObstacles_list)[i].minDistance(walker,index));
 
             if (dist > walker.collision_sphere_ply.big_sphere_distance)
             {
@@ -480,6 +516,8 @@ void DynamicsSimulation::initWalkerObstacleIndexes()
             }
         }
     }
+
+
 }
 
 
@@ -498,7 +536,7 @@ void DynamicsSimulation::updateCollitionSphere(unsigned t)
     }
 }
 
-void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos)
+void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos,int &cyl_ind, int& ply_ind)
 {
 
     std::random_device rd;
@@ -506,7 +544,7 @@ void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos)
     std::uniform_real_distribution<double> udist(0,1);
 
 
-    if(cylinders_list.size() <=0 and plyObstacles_list.size() <= 0){
+    if(cylinders_list->size() <=0 and plyObstacles_list->size() <= 0){
         SimErrno::error("Cannot initialize intra-axonal walkers within the given substrate.",cout);
         SimErrno::error("There's no defined intra-axonal compartment (missing obstacles?)",cout);
         assert(0);
@@ -537,7 +575,7 @@ void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos)
        // cout << initialization_gap[2] << endl;
         Vector3d pos_temp = {x,y,z};
 
-        if(checkIfPosInsideVoxel(pos_temp) && (isInIntra(pos_temp, -0.1))){
+        if(checkIfPosInsideVoxel(pos_temp) && (isInIntra(pos_temp,cyl_ind,ply_ind, -0.1))){
             intra_pos = pos_temp;
             return;
         }
@@ -551,7 +589,7 @@ void DynamicsSimulation::getAnExtraCellularPosition(Vector3d &extra_pos)
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<double> udist(0,1);
-
+    int dummy_a,dummy_b;
     if(voxels_list.size()<=0){
         SimErrno::error("Cannot initialize extra-cellular walkers within the given substrate, no voxel.",cout);
         assert(0);
@@ -577,7 +615,7 @@ void DynamicsSimulation::getAnExtraCellularPosition(Vector3d &extra_pos)
 
         Vector3d pos_temp = {x,y,z};
 
-        if(checkIfPosInsideVoxel(pos_temp) && (!isInIntra(pos_temp, barrier_tickness))){
+        if(checkIfPosInsideVoxel(pos_temp) && (!isInIntra(pos_temp, dummy_a,dummy_b,barrier_tickness))){
             extra_pos = pos_temp;
             return;
         }
@@ -616,7 +654,7 @@ void DynamicsSimulation::updateWalkerObstacleIndexes(unsigned t_)
     for(unsigned i = 0 ; i < walker.collision_sphere_cylinders.big_sphere_list_end; i++ )
     {
         unsigned index = walker.collision_sphere_cylinders.collision_list->at(i);
-        float dist    = float(cylinders_list[index].minDistance(walker));
+        float dist    = float((*cylinders_list)[index].minDistance(walker));
 
         if (dist > walker.collision_sphere_cylinders.big_sphere_distance)
         {
@@ -633,10 +671,13 @@ void DynamicsSimulation::updateWalkerObstacleIndexes(unsigned t_)
     {
         walker.collision_sphere_ply.small_sphere_list_end[i] = 0;
 
-        for(unsigned t = 0 ; t < walker.collision_sphere_ply.big_sphere_list_end[i]; t++){
 
-            unsigned triangle_index = walker.collision_sphere_ply.collision_list->at(i)[t];
-            float dist = float(plyObstacles_list[i].minDistance(walker,triangle_index));
+        for(unsigned t = 0 ; t < walker.collision_sphere_ply.big_sphere_list_end[i]; t++){
+            float dist  = INFINITY_VALUE;
+            if((walker.in_ply_index <=0) || walker.in_ply_index == int(i)){
+                unsigned triangle_index = walker.collision_sphere_ply.collision_list->at(i)[t];
+                dist = float((*plyObstacles_list)[i].minDistance(walker,triangle_index));
+            }
 
             if (dist > walker.collision_sphere_ply.big_sphere_distance)
             {
@@ -669,39 +710,42 @@ string DynamicsSimulation::secondsToMinutes(double t)
 }
 
 
-bool DynamicsSimulation::isInsideCylinders(Vector3d &position, double distance_to_be_inside)
+bool DynamicsSimulation::isInsideCylinders(Vector3d &position, int& cyl_id,double distance_to_be_inside)
 {
     Walker tmp;
     tmp.setInitialPosition(position);
 
     //track the number of positions checks for intra/extra positions
 
-    for(unsigned i = 0 ; i < cylinders_list.size(); i++){
+    for(unsigned i = 0 ; i < cylinders_list->size(); i++){
 
-        double dis = cylinders_list[i].minDistance(tmp);
+        double dis = (*cylinders_list)[i].minDistance(tmp);
 
         if( dis <= distance_to_be_inside ){
             intra_tries++;
+            cyl_id = i;
             return true;
         }
     }
+    cyl_id = -1;
 
     return false;
 }
 
-bool DynamicsSimulation::isInsidePLY(Vector3d &position, double distance_to_be_inside)
+bool DynamicsSimulation::isInsidePLY(Vector3d &position, int &ply_id,double distance_to_be_inside)
 {
+    ply_id= -1;
 
-    //1) We find the closest PLY and triangle bases on the triangle's center
+    //1) We find the closest PLY and triangle based on the triangle's center
     Walker tmp;
     tmp.setInitialPosition(position);
 
     double t,min_t = 1e6;
     unsigned min_j_index = 0;
     int min_i_index = -1;
-    for (unsigned i=0; i < plyObstacles_list.size(); i++){
-        for (unsigned j=0; j < plyObstacles_list[i].face_number; j++){
-            t = (position - plyObstacles_list[i].faces[j].center).squaredNorm();
+    for (unsigned i=0; i < (*plyObstacles_list).size(); i++){
+        for (unsigned j=0; j < (*plyObstacles_list)[i].face_number; j++){
+            t = (position - (*plyObstacles_list)[i].faces[j].center).squaredNorm();
             // cout << t<< endl;
             if(t< min_t){
                 min_i_index = i;
@@ -713,13 +757,13 @@ bool DynamicsSimulation::isInsidePLY(Vector3d &position, double distance_to_be_i
 
     //2) We corroborate by casting an infinite ray and checking collisions
 
-    Eigen::Vector3d ray = (-position + plyObstacles_list[min_i_index].faces[min_j_index].center).normalized();
+    Eigen::Vector3d ray = (-position + (*plyObstacles_list)[min_i_index].faces[min_j_index].center).normalized();
     Collision colision_temp;
 
     double new_min_t = 1e6;
-    for (unsigned i=0; i < plyObstacles_list.size(); i++){
-        for (unsigned j=0; j < plyObstacles_list[i].face_number; j++){
-            plyObstacles_list[i].faces[j].stepIntersects_MT(tmp,ray,1e8,colision_temp);
+    for (unsigned i=0; i < (*plyObstacles_list).size(); i++){
+        for (unsigned j=0; j < (*plyObstacles_list)[i].face_number; j++){
+            (*plyObstacles_list)[i].faces[j].stepIntersects_MT(tmp,ray,1e8,colision_temp);
 
             if(colision_temp.type == Collision::hit and new_min_t > colision_temp.t){
                 new_min_t = colision_temp.t;
@@ -732,12 +776,12 @@ bool DynamicsSimulation::isInsidePLY(Vector3d &position, double distance_to_be_i
     //3) Finally we check the sign of the closest collision. The sign indicates either intra or extra.
     if(min_i_index >= 0){
         Eigen::Vector3d normal;
-        plyObstacles_list[min_i_index].faces[min_j_index].getNormal(normal);
-
+        (*plyObstacles_list)[min_i_index].faces[min_j_index].getNormal(normal);
         //Orientation respect the triangle
-        double dot = ((position - plyObstacles_list[min_i_index].faces[min_j_index].center).normalized()).dot(normal);
+        double dot = ((position - (*plyObstacles_list)[min_i_index].faces[min_j_index].center).normalized()).dot(normal);
         if (dot < distance_to_be_inside){
             intra_tries++;
+            ply_id = min_i_index;
             return true;
         }
     }
@@ -746,16 +790,16 @@ bool DynamicsSimulation::isInsidePLY(Vector3d &position, double distance_to_be_i
 }
 
 
-bool DynamicsSimulation::isInIntra(Vector3d &position, double distance_to_be_intra_ply)
+bool DynamicsSimulation::isInIntra(Vector3d &position, int& cyl_id,  int& ply_id, double distance_to_be_intra_ply)
 {
     bool isIntra = false;
     total_tries++;
-    if(cylinders_list.size()>0){
-        isIntra|= this->isInsideCylinders(position,barrier_tickness);
+    if(cylinders_list->size()>0){
+        isIntra|= this->isInsideCylinders(position,cyl_id,barrier_tickness);
     }
 
-    if(plyObstacles_list.size()>0){
-        isIntra|=isInsidePLY(position,distance_to_be_intra_ply);
+    if((*plyObstacles_list).size()>0){
+        isIntra|=isInsidePLY(position,ply_id,distance_to_be_intra_ply);
     }
     return isIntra;
 }
@@ -778,8 +822,12 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
     /*                                                     */
     /*********************   WARNING  **********************/
     unsigned w=0;
+    unsigned rejected = 0;
     for (w = 0 ; w < params.num_walkers; w++)
     {
+
+        //cout << w << " " ;
+
         //flag in case there was any error with the particle.
         back_tracking = false;
 
@@ -794,6 +842,20 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         //Initial position;
         walker.setRealPosLog(walker.pos_r,0);
         walker.setVoxPosLog (walker.pos_v,0);
+
+        //Patch to remove custom positions
+
+        if(params.ini_walker_flag.compare("intra")== 0 && walker.initial_location == Walker::RelativeLocation::extra){
+            rejected++;
+            continue;
+        }
+        else if(params.ini_walker_flag.compare("extra")== 0 && walker.initial_location == Walker::RelativeLocation::intra){
+            rejected++;
+            continue;
+        }
+
+        //cout << "\n Iniatial postionl                                                                  ";
+        //cout << walker.ini_pos[0] << " "  << walker.ini_pos[1] << " "  << walker.ini_pos[2] << endl;
 
         for(unsigned t = 1 ; t <= params.num_steps; t++) //T+1 steps in total (avoid errors)
         {
@@ -813,6 +875,12 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
                 sentinela.deportationProcess(walker,w,t,back_tracking,params,id);
 
                 if ( (error == Sentinel::ErrorCases::stuck) || (error == Sentinel::ErrorCases::crossed)){
+                   // cout << "\n Its not the final                                                                  ";
+                    //cout << walker.ini_pos[0] << " "  << walker.ini_pos[1] << " "  << walker.ini_pos[2] << endl;
+                    //cout << walker.pos_r[0] << " "  << walker.pos_r[1] << " "  << walker.pos_r[2] << endl;
+                    //cout << walker.pos_v[0] << " "  << walker.pos_v[1] << " "  << walker.pos_v[2] << endl;
+                    //w--;
+                    //aux_walker_index--;
                     break;
                 }
 
@@ -834,11 +902,11 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         if(!back_tracking)
             if(finalPositionCheck()){
                 back_tracking=true;
-                w--;
             }
 
         //If there was an error, we don't compute the signal or write anything.
         if(back_tracking){
+            rejected++;
             continue;
         }
 
@@ -865,7 +933,15 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             break;
         }
 
+        //cout << this->aux_walker_index << " ------* " << params.num_walkers << " " << params.custom_ini_walker_pos.size() << endl;
+        //cout << w << endl;
+       // cout<< endl << walker.in_ply_index <<  "   " << walker.in_obj_index << endl;
+
     }// for w
+
+
+    // cout << this->aux_walker_index << " ------* " << params.num_walkers << " " << params.custom_ini_walker_pos.size() << endl;
+    //cout << w << endl;
 
     /*********************   WARNING  **********************/
     /*                                                     */
@@ -873,7 +949,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
     /*                                                     */
     /*********************   WARNING  **********************/
 
-    num_simulated_walkers = w;
+    num_simulated_walkers = w-rejected;
 
     if(num_simulated_walkers<= params.num_walkers){
 
@@ -887,7 +963,9 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
     }
 
     //computes the ICVF from the initialization.
-    computeICVF();
+    //computeICVF();
+
+    icvf = float(num_simulated_walkers)/float(params.num_walkers);
 
     // Info display.
     time(&now);
@@ -1019,7 +1097,7 @@ bool DynamicsSimulation::updateWalkerPosition(Eigen::Vector3d& step) {
                 walker.next_direction = {0,0,0};
             }
         }
-        sentinela.checkErrors(walker,params,(plyObstacles_list.size() == 0),bouncing_count);
+        sentinela.checkErrors(walker,params,((*plyObstacles_list).size() == 0),bouncing_count);
 
     }while(bounced);
 
@@ -1067,7 +1145,7 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
     {
         unsigned index = walker.collision_sphere_cylinders.collision_list->at(i);
         
-        cylinders_list[index].checkCollision(walker,bounced_step,tmax,colision_tmp);
+        (*cylinders_list)[index].checkCollision(walker,bounced_step,tmax,colision_tmp);
         handleCollisions(colision,colision_tmp,max_collision_distance,index);
     }
 
@@ -1075,7 +1153,11 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
     for(unsigned int i = 0 ; i < walker.collision_sphere_ply.collision_list->size(); i++ )
     {
 
-        plyObstacles_list[i].checkCollision(walker,bounced_step,tmax,colision_tmp, walker.collision_sphere_ply.collision_list->at(i),
+        if((walker.in_ply_index >=0) && walker.in_ply_index != int(i)){
+            continue;
+        }
+
+        (*plyObstacles_list)[i].checkCollision(walker,bounced_step,tmax,colision_tmp, walker.collision_sphere_ply.collision_list->at(i),
                                             walker.collision_sphere_ply.small_sphere_list_end[i]);
 
         handleCollisions(colision,colision_tmp,max_collision_distance,i);

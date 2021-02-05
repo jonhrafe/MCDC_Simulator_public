@@ -25,6 +25,7 @@ public:
     double alpha;                                   /*!< alpha coefficient of the Gamma distribution                                */
     double beta;                                    /*!< beta coefficient of the gamma distribution                                 */
     double icvf;                                    /*!< Achieved intra-celular volum fraction in the substrate                     */
+    float min_radius;                                /*!< Minimum radius to be sampled from the gamma distribution                  */
 
     Eigen::Vector3d min_limits;                     /*!< voxel min limits (if any) (bottom left corner)                             */
     Eigen::Vector3d max_limits;                     /*!< voxel max limits (if any)                                                  */
@@ -37,7 +38,7 @@ public:
      *  \param scale scale factor for the values passed. Useful when reading a file.
      *  \brief Initialize everything.
      */
-    CylinderGammaDistribution(unsigned,double,double,double,Eigen::Vector3d &, Eigen::Vector3d &);
+    CylinderGammaDistribution(unsigned, double, double, double, Eigen::Vector3d &, Eigen::Vector3d &, float min_radius);
 
     /*!
      *  \brief Shows a small histogram of the gamma distribution

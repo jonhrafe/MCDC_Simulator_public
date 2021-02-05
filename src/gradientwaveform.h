@@ -11,12 +11,11 @@
 
 #include "pgsesequence.h"
 #include "Eigen/Dense"
+#include "constants.h"
 
 class GradientWaveform: public SimulableSequence
 {
 public:
-
-    int num_rep;                /*!< number of repetitions                         .      */
 
     double TE;                  /*!< Time Echo.                                           */
 

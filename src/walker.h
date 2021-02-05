@@ -52,6 +52,8 @@ public:
 
     int in_obj_index;                                               /*!< Auxiliar index to save if the walker was inside a convex object        */
 
+    int in_ply_index;                                               /*!< Auxiliar index to save if the walker was inside a convex ply object    */
+
     CylinderCollisionSphere collision_sphere_cylinders;             /*!< Collision sphere for collition against cylidners                       */
 
     PLYCollisionSphere collision_sphere_ply;                        /*!< Collision sphere for collition against PLY meshes                      */

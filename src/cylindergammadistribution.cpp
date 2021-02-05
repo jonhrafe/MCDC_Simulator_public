@@ -5,7 +5,7 @@
 using namespace std;
 using namespace Eigen;
 
-CylinderGammaDistribution::CylinderGammaDistribution(unsigned num_cyl, double a, double b,double icvf_,Eigen::Vector3d & min_l, Eigen::Vector3d &max_l)
+CylinderGammaDistribution::CylinderGammaDistribution(unsigned num_cyl, double a, double b,double icvf_,Eigen::Vector3d & min_l, Eigen::Vector3d &max_l, float min_radius = 0.01)
 {
     num_cylinders = num_cyl;
     alpha = a;
@@ -14,6 +14,7 @@ CylinderGammaDistribution::CylinderGammaDistribution(unsigned num_cyl, double a,
     min_limits = min_l;
     max_limits = max_l;
     cylinders.clear();
+    this->min_radius = min_radius;
 }
 
 void CylinderGammaDistribution::computeMinimalSize(std::vector<double> radiis, double icvf_,Eigen::Vector3d& l){
@@ -48,6 +49,7 @@ void CylinderGammaDistribution::displayGammaDistribution()
 
     for (int i=0; i<nrolls; ++i) {
         double number = distribution(generator);
+
         if (number<10) ++p[int(number)];
         else ++p[10];
     }
@@ -80,8 +82,26 @@ void CylinderGammaDistribution::createGammaSubstrate()
     std::vector<double> radiis(num_cylinders,0);
 
     bool achieved = false;
+
+    int tried = 0;
+
     for (unsigned i=0; i< num_cylinders; ++i) {
-        radiis[i] = distribution(generator)*1e-3;
+
+        if(tried > 10000){
+            string message = " Radii distribution cannot be sampled [Min. radius Error]\n";
+            SimErrno::error(message,cout);
+            assert(0);
+        }
+        double jkr =  distribution(generator);
+
+        if(jkr< this->min_radius){
+            i--;
+            tried++;
+            continue;
+        }
+        tried=0;
+
+        radiis[i] = jkr*1e-3; //WE CONVERT FROM UM TO MM HERE
     }
 
     // using a lambda function:
@@ -145,7 +165,7 @@ void CylinderGammaDistribution::createGammaSubstrate()
                 break;
             }
         }
-        cylinders.clear();;
+        cylinders.clear();
         adjustments++;
         cout << best_icvf << endl;
         if(adjustments > max_adjustments){
@@ -170,7 +190,7 @@ void CylinderGammaDistribution::printSubstrate(ostream &out)
 
         out << cylinders[i].P[0]*1e3 << " " << cylinders[i].P[1]*1e3 << " " << cylinders[i].P[2]*1e3 << " "
                                      << cylinders[i].Q[0]*1e3 << " " << cylinders[i].Q[1]*1e3 << " " << cylinders[i].Q[2]*1e3 << " "
-                                     << cylinders[i].radius*1e3 << endl;;
+                                     << cylinders[i].radius*1e3 << endl;
     }
 }
 

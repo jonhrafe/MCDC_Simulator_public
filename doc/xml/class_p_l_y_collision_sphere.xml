@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_p_l_y_collision_sphere" kind="class" language="C++" prot="public">
+    <compoundname>PLYCollisionSphere</compoundname>
+    <basecompoundref refid="class_collisionsphere" prot="public" virt="non-virtual">Collisionsphere</basecompoundref>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_p_l_y_collision_sphere_1a7fd18a4a8a9dbb2f7104f9b9a5dd6766" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; unsigned &gt;</type>
+        <definition>std::vector&lt;unsigned&gt; PLYCollisionSphere::small_sphere_list_end</definition>
+        <argsstring></argsstring>
+        <name>small_sphere_list_end</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Index vector of the LAST element on the list for the small collision sphere </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="102" column="1" bodyfile="src/collisionsphere.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_p_l_y_collision_sphere_1aadf7b345b8c91791fa96e00862bc8cbb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; unsigned &gt;</type>
+        <definition>std::vector&lt;unsigned&gt; PLYCollisionSphere::big_sphere_list_end</definition>
+        <argsstring></argsstring>
+        <name>big_sphere_list_end</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Index vecotr of the LAST element on the list for the big collision sphere </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="103" column="1" bodyfile="src/collisionsphere.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_p_l_y_collision_sphere_1a6ef04af98385142ed0b41a2e35f423b9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; unsigned &gt; &gt; *</type>
+        <definition>std::vector&lt;std::vector&lt;unsigned&gt; &gt;* PLYCollisionSphere::collision_list</definition>
+        <argsstring></argsstring>
+        <name>collision_list</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer to the list with the triangle indexes for each PLY. The indexes are permuted in its position. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="105" column="1" bodyfile="src/collisionsphere.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_p_l_y_collision_sphere_1a3a30709ea0677ea53702e40625af0431" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PLYCollisionSphere::PLYCollisionSphere</definition>
+        <argsstring>()</argsstring>
+        <name>PLYCollisionSphere</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="107" column="1" bodyfile="src/collisionsphere.cpp" bodystart="90" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_l_y_collision_sphere_1adc8f318a913935cdd31d81f1c96192eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PLYCollisionSphere::popFromSmallSphere</definition>
+        <argsstring>(unsigned i, unsigned t)</argsstring>
+        <name>popFromSmallSphere</name>
+        <param>
+          <type>unsigned</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>This function receives a index from the collision list and moves the value to the last position of the list. then decrease the inner sphere end index. This way this index is no longer considered inner collision list. </para>        </briefdescription>
+        <detaileddescription>
+<para>Removes one index from the list by moving it to the end of the list and decreading the index. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="114" column="1" bodyfile="src/collisionsphere.cpp" bodystart="132" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_l_y_collision_sphere_1a546ea2c6fe80908502fba0350c4f9726" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PLYCollisionSphere::pushToSmallSphere</definition>
+        <argsstring>(unsigned i, unsigned t)</argsstring>
+        <name>pushToSmallSphere</name>
+        <param>
+          <type>unsigned</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>This function receives a index from the collision list and moves the value to the last position of the list. then increse the inner sphere end index. This way this index is now included in the inner collision list. </para>        </briefdescription>
+        <detaileddescription>
+<para>Adds one element to the list by moving it in front of the current index and increasing the index. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="122" column="1" bodyfile="src/collisionsphere.cpp" bodystart="95" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_l_y_collision_sphere_1ac9cf3838088310db3dc8f0d282c3c383" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PLYCollisionSphere::popFromBigSphere</definition>
+        <argsstring>(unsigned i, unsigned t)</argsstring>
+        <name>popFromBigSphere</name>
+        <param>
+          <type>unsigned</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>This function receives a index from the collision list and moves the value to the last position of the list. Then decrease the inner sphere end index. This way this index is now excluded in the outer collision list. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="129" column="1" bodyfile="src/collisionsphere.cpp" bodystart="152" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_l_y_collision_sphere_1aa1fe5971687051f0de78a12ee4b31574" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PLYCollisionSphere::pushToBigSphere</definition>
+        <argsstring>(unsigned i, unsigned t)</argsstring>
+        <name>pushToBigSphere</name>
+        <param>
+          <type>unsigned</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>This function receives a index from the collision list and moves the value to the last position of the list. Then increase the inner sphere end index. This way this index is now included in the outer collision list. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="136" column="1" bodyfile="src/collisionsphere.cpp" bodystart="114" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_l_y_collision_sphere_1acf52aecaf0bf676087035151e6c662c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PLYCollisionSphere::setBigSphereSize</definition>
+        <argsstring>(float size)</argsstring>
+        <name>setBigSphereSize</name>
+        <param>
+          <type>float</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>of the list </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="141" column="1" bodyfile="src/collisionsphere.cpp" bodystart="172" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_l_y_collision_sphere_1af9ba1a8616bb5703e58f392f45c6c069" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PLYCollisionSphere::setSmallSphereSize</definition>
+        <argsstring>(float size)</argsstring>
+        <name>setSmallSphereSize</name>
+        <param>
+          <type>float</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>of the list </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="146" column="1" bodyfile="src/collisionsphere.cpp" bodystart="176" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_l_y_collision_sphere_1a10e46dea74b839faf34872028eafae46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PLYCollisionSphere::push_ply</definition>
+        <argsstring>(std::vector&lt; unsigned &gt; list)</argsstring>
+        <name>push_ply</name>
+        <param>
+          <type>std::vector&lt; unsigned &gt;</type>
+          <declname>list</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>element</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>value to be added to the obstacle list </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="151" column="1" bodyfile="src/collisionsphere.cpp" bodystart="180" bodyend="184"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="65">
+        <label>Collisionsphere</label>
+        <link refid="class_collisionsphere"/>
+      </node>
+      <node id="64">
+        <label>PLYCollisionSphere</label>
+        <link refid="class_p_l_y_collision_sphere"/>
+        <childnode refid="65" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="67">
+        <label>Collisionsphere</label>
+        <link refid="class_collisionsphere"/>
+      </node>
+      <node id="66">
+        <label>PLYCollisionSphere</label>
+        <link refid="class_p_l_y_collision_sphere"/>
+        <childnode refid="67" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/collisionsphere.h" line="98" column="1" bodyfile="src/collisionsphere.h" bodystart="98" bodyend="153"/>
+    <listofallmembers>
+      <member refid="class_collisionsphere_1a4b791781efcb1af5198b22ea0b542cfb" prot="public" virt="non-virtual"><scope>PLYCollisionSphere</scope><name>big_sphere_distance</name></member>
+      <member refid="class_p_l_y_collision_sphere_1aadf7b345b8c91791fa96e00862bc8cbb" prot="public" virt="non-virtual"><scope>PLYCollisionSphere</scope><name>big_sphere_list_end</name></member>
+      <member refid="class_p_l_y_collision_sphere_1a6ef04af98385142ed0b41a2e35f423b9" prot="public" virt="non-virtual"><scope>PLYCollisionSphere</scope><name>collision_list</name></member>
+      <member refid="class_collisionsphere_1acd591f09debfac154b54e109967cd4f2" prot="public" virt="non-virtual"><scope>PLYCollisionSphere</scope><name>Collisionsphere</name></member>
+      <member refid="class_collisionsphere_1abf63a29c825cdd63ecb86d1dc430a0d4" prot="public" virt="non-virtual"><scope>PLYCollisionSphere</scope><name>list_size</name></member>
+      <member refid="class_p_l_y_collision_sphere_1a3a30709ea0677ea53702e40625af0431" prot="public" virt="non-virtual"><scope>PLYCollisionSphere</scope><name>PLYCollisionSphere</name></member>
+      <member refid="class_p_l_y_collision_sphere_1ac9cf3838088310db3dc8f0d282c3c383" prot="public" virt="non-virtual"><scope>PLYCollisionSphere</scope><name>popFromBigSphere</name></member>
+      <member refid="class_p_l_y_collision_sphere_1adc8f318a913935cdd31d81f1c96192eb" prot="public" virt="non-virtual"><scope>PLYCollisionSphere</scope><name>popFromSmallSphere</name></member>
+      <member refid="class_p_l_y_collision_sphere_1a10e46dea74b839faf34872028eafae46" prot="public" virt="non-virtual"><scope>PLYCollisionSphere</scope><name>push_ply</name></member>
+      <member refid="class_p_l_y_collision_sphere_1aa1fe5971687051f0de78a12ee4b31574" prot="public" virt="non-virtual"><scope>PLYCollisionSphere</scope><name>pushToBigSphere</name></member>
+      <member refid="class_p_l_y_collision_sphere_1a546ea2c6fe80908502fba0350c4f9726" prot="public" virt="non-virtual"><scope>PLYCollisionSphere</scope><name>pushToSmallSphere</name></member>
+      <member refid="class_p_l_y_collision_sphere_1acf52aecaf0bf676087035151e6c662c9" prot="public" virt="non-virtual"><scope>PLYCollisionSphere</scope><name>setBigSphereSize</name></member>
+      <member refid="class_p_l_y_collision_sphere_1af9ba1a8616bb5703e58f392f45c6c069" prot="public" virt="non-virtual"><scope>PLYCollisionSphere</scope><name>setSmallSphereSize</name></member>
+      <member refid="class_collisionsphere_1ae5430c092ea0436edfe0adeb79402ff2" prot="public" virt="non-virtual"><scope>PLYCollisionSphere</scope><name>small_sphere_distance</name></member>
+      <member refid="class_p_l_y_collision_sphere_1a7fd18a4a8a9dbb2f7104f9b9a5dd6766" prot="public" virt="non-virtual"><scope>PLYCollisionSphere</scope><name>small_sphere_list_end</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

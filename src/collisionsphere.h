@@ -35,7 +35,7 @@ public:
 /*! \class CylinderCollisionSphere
  *  \brief Class to save the cylinderical obstacles that a can collide to a walker.
  */
-class CylinderCollisionSphere: public Collisionsphere{
+class ObstacleCollisionSphere: public Collisionsphere{
 
 public:
 
@@ -44,7 +44,7 @@ public:
 
     std::vector<unsigned>* collision_list;                  /*! <Pointer to  List with the cylinders indexes. The indexes are permuted in its position.             */
 
-    CylinderCollisionSphere();
+    ObstacleCollisionSphere();
 
     //! \fn Removes an index from the inner sphere
     //! \param index in the collision list. Notice that is the index, no the value.

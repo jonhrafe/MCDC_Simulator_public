@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_vertex" kind="class" language="C++" prot="public">
+    <compoundname>Vertex</compoundname>
+    <includes refid="vertex_8h" local="no">vertex.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_vertex_1a0370aebecc487a440882a2a8b44d0501" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned Vertex::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/vertex.h" line="19" column="1" bodyfile="src/vertex.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_vertex_1a3df67e6d67e5fd518b9ea215722b187f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Vertex::points[3]</definition>
+        <argsstring>[3]</argsstring>
+        <name>points</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/vertex.h" line="20" column="1" bodyfile="src/vertex.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_vertex_1a97488994a2482d70da74e1b91d40e169" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Vertex::Vertex</definition>
+        <argsstring>()</argsstring>
+        <name>Vertex</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/vertex.h" line="17" column="1" bodyfile="src/vertex.cpp" bodystart="4" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="class_vertex_1abd9cebad3eacc656ea6a9027c1d96b8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Vertex::Vertex</definition>
+        <argsstring>(const double &amp;x, const double &amp;y, const double &amp;z)</argsstring>
+        <name>Vertex</name>
+        <param>
+          <type>const double &amp;</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/vertex.h" line="18" column="1" bodyfile="src/vertex.cpp" bodystart="9" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_vertex_1a43d933c801f9d4deff63b0ebefa57dd6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double Vertex::operator()</definition>
+        <argsstring>(unsigned i)</argsstring>
+        <name>operator()</name>
+        <param>
+          <type>unsigned</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/vertex.h" line="21" column="1" bodyfile="src/vertex.h" bodystart="21" bodyend="21"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Auxiliary class. Implements basic vertices. ====================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Helper class to strore and handle vertices. <simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>July 2016 <heading level="1">0.2 </heading>
+</para></simplesect>
+</para><para><ref refid="class_vertex" kindref="compound">Vertex</ref> of a 3d poly </para>    </detaileddescription>
+    <location file="src/vertex.h" line="15" column="1" bodyfile="src/vertex.h" bodystart="15" bodyend="22"/>
+    <listofallmembers>
+      <member refid="class_vertex_1a0370aebecc487a440882a2a8b44d0501" prot="public" virt="non-virtual"><scope>Vertex</scope><name>index</name></member>
+      <member refid="class_vertex_1a43d933c801f9d4deff63b0ebefa57dd6" prot="public" virt="non-virtual"><scope>Vertex</scope><name>operator()</name></member>
+      <member refid="class_vertex_1a3df67e6d67e5fd518b9ea215722b187f" prot="public" virt="non-virtual"><scope>Vertex</scope><name>points</name></member>
+      <member refid="class_vertex_1a97488994a2482d70da74e1b91d40e169" prot="public" virt="non-virtual"><scope>Vertex</scope><name>Vertex</name></member>
+      <member refid="class_vertex_1abd9cebad3eacc656ea6a9027c1d96b8d" prot="public" virt="non-virtual"><scope>Vertex</scope><name>Vertex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

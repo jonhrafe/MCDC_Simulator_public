@@ -1,0 +1,101 @@
+.TH "PLYCollisionSphere" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+PLYCollisionSphere
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBCollisionsphere\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBpopFromSmallSphere\fP (unsigned i, unsigned t)"
+.br
+.RI "This function receives a index from the collision list and moves the value to the last position of the list\&. then decrease the inner sphere end index\&. This way this index is no longer considered inner collision list\&. "
+.ti -1c
+.RI "void \fBpushToSmallSphere\fP (unsigned i, unsigned t)"
+.br
+.RI "This function receives a index from the collision list and moves the value to the last position of the list\&. then increse the inner sphere end index\&. This way this index is now included in the inner collision list\&. "
+.ti -1c
+.RI "void \fBpopFromBigSphere\fP (unsigned i, unsigned t)"
+.br
+.RI "This function receives a index from the collision list and moves the value to the last position of the list\&. Then decrease the inner sphere end index\&. This way this index is now excluded in the outer collision list\&. "
+.ti -1c
+.RI "void \fBpushToBigSphere\fP (unsigned i, unsigned t)"
+.br
+.RI "This function receives a index from the collision list and moves the value to the last position of the list\&. Then increase the inner sphere end index\&. This way this index is now included in the outer collision list\&. "
+.ti -1c
+.RI "void \fBsetBigSphereSize\fP (float size)"
+.br
+.ti -1c
+.RI "void \fBsetSmallSphereSize\fP (float size)"
+.br
+.ti -1c
+.RI "void \fBpush_ply\fP (std::vector< unsigned > list)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::vector< unsigned > \fBsmall_sphere_list_end\fP"
+.br
+.ti -1c
+.RI "std::vector< unsigned > \fBbig_sphere_list_end\fP"
+.br
+.ti -1c
+.RI "std::vector< std::vector< unsigned > > * \fBcollision_list\fP"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "void PLYCollisionSphere::popFromSmallSphere (unsigned i, unsigned t)"
+
+.PP
+This function receives a index from the collision list and moves the value to the last position of the list\&. then decrease the inner sphere end index\&. This way this index is no longer considered inner collision list\&. Removes one index from the list by moving it to the end of the list and decreading the index\&. 
+.SS "void PLYCollisionSphere::push_ply (std::vector< unsigned > list)"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIelement\fP value to be added to the obstacle list 
+.RE
+.PP
+
+.SS "void PLYCollisionSphere::pushToSmallSphere (unsigned i, unsigned t)"
+
+.PP
+This function receives a index from the collision list and moves the value to the last position of the list\&. then increse the inner sphere end index\&. This way this index is now included in the inner collision list\&. Adds one element to the list by moving it in front of the current index and increasing the index\&. 
+.SS "void PLYCollisionSphere::setBigSphereSize (float size)"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsize\fP of the list 
+.RE
+.PP
+
+.SS "void PLYCollisionSphere::setSmallSphereSize (float size)"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsize\fP of the list 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<unsigned> PLYCollisionSphere::big_sphere_list_end"
+Index vecotr of the LAST element on the list for the big collision sphere 
+.SS "std::vector<std::vector<unsigned> >* PLYCollisionSphere::collision_list"
+Pointer to the list with the triangle indexes for each PLY\&. The indexes are permuted in its position\&. 
+.SS "std::vector<unsigned> PLYCollisionSphere::small_sphere_list_end"
+Index vector of the LAST element on the list for the small collision sphere 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

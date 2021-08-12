@@ -1,11 +1,12 @@
 /*!
- * Basesd class Walker.
+ * Based class Walker.
 */
 
 #include "walker.h"
 #include <stdlib.h>     /* srand, rand */
 #include <random>       /*random_device for MAC */
 #include "cylinder.h"
+
 Walker::Walker()
 {
     pos_r = pos_v.setZero(3,1);
@@ -15,6 +16,8 @@ Walker::Walker()
     initial_location = location = unknown;
     intra_extra_consensus = intra_coll_count = extra_coll_count = rejection_count = steps_count = 0;
     steps_per_second = 0;
+    in_ply_index = -1;
+    in_obj_index =-1;
 }
 
 Walker::Walker(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)
@@ -38,6 +41,8 @@ Walker::Walker(double xmin, double xmax, double ymin, double ymax, double zmin, 
     initial_location  = location = unknown;
     intra_extra_consensus = intra_coll_count = extra_coll_count =0;
     steps_per_second = 0;
+    in_ply_index = -1;
+    in_obj_index = -1;
 }
 
 void Walker::getRealPosition(double &x_, double &y_, double &z_) const

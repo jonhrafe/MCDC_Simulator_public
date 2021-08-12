@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="subdivision_8h" kind="file" language="C++">
+    <compoundname>subdivision.h</compoundname>
+    <includes local="yes">Eigen/Core</includes>
+    <includedby refid="parameters_8h" local="yes">src/parameters.h</includedby>
+    <includedby refid="simulablesequence_8h" local="yes">src/simulablesequence.h</includedby>
+    <includedby refid="subdivision_8cpp" local="yes">src/subdivision.cpp</includedby>
+    <incdepgraph>
+      <node id="881">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="880">
+        <label>src/subdivision.h</label>
+        <link refid="subdivision_8h"/>
+        <childnode refid="881" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="891">
+        <label>src/gradientwaveform.h</label>
+        <link refid="gradientwaveform_8h_source"/>
+      </node>
+      <node id="885">
+        <label>src/cylindergammadistribution.h</label>
+        <link refid="cylindergammadistribution_8h_source"/>
+      </node>
+      <node id="887">
+        <label>src/dynamicsSimulation.h</label>
+        <link refid="dynamics_simulation_8h_source"/>
+        <childnode refid="888" relation="include">
+        </childnode>
+      </node>
+      <node id="888">
+        <label>src/mcsimulation.h</label>
+        <link refid="mcsimulation_8h_source"/>
+        <childnode refid="889" relation="include">
+        </childnode>
+      </node>
+      <node id="893">
+        <label>src/simulablesequence.h</label>
+        <link refid="simulablesequence_8h_source"/>
+        <childnode refid="887" relation="include">
+        </childnode>
+        <childnode refid="890" relation="include">
+        </childnode>
+      </node>
+      <node id="892">
+        <label>src/sentinel.h</label>
+        <link refid="sentinel_8h_source"/>
+        <childnode refid="887" relation="include">
+        </childnode>
+      </node>
+      <node id="882">
+        <label>src/subdivision.h</label>
+        <link refid="subdivision_8h"/>
+        <childnode refid="883" relation="include">
+        </childnode>
+        <childnode refid="893" relation="include">
+        </childnode>
+      </node>
+      <node id="890">
+        <label>src/pgsesequence.h</label>
+        <link refid="pgsesequence_8h_source"/>
+        <childnode refid="891" relation="include">
+        </childnode>
+      </node>
+      <node id="883">
+        <label>src/parameters.h</label>
+        <link refid="parameters_8h_source"/>
+        <childnode refid="884" relation="include">
+        </childnode>
+        <childnode refid="886" relation="include">
+        </childnode>
+        <childnode refid="887" relation="include">
+        </childnode>
+        <childnode refid="892" relation="include">
+        </childnode>
+      </node>
+      <node id="886">
+        <label>src/trajectory.h</label>
+        <link refid="trajectory_8h_source"/>
+        <childnode refid="887" relation="include">
+        </childnode>
+        <childnode refid="890" relation="include">
+        </childnode>
+      </node>
+      <node id="889">
+        <label>src/parallelmcsimulation.h</label>
+        <link refid="parallelmcsimulation_8h_source"/>
+      </node>
+      <node id="884">
+        <label>src/simerrno.h</label>
+        <link refid="simerrno_8h_source"/>
+        <childnode refid="885" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_subdivision" prot="public">Subdivision</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="12"><highlight class="preprocessor">#ifndef<sp/>SUBDIVISION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SUBDIVISION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Eigen/Core&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="class_subdivision" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_subdivision" kindref="compound">Subdivision</ref></highlight></codeline>
+<codeline lineno="18"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_subdivision_1ac51db3c00b0e4f7543c34859ad846871" kindref="member">Subdivision</ref>();</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_subdivision_1ac51db3c00b0e4f7543c34859ad846871" kindref="member">Subdivision</ref>(Eigen::Vector3f&amp;,Eigen::Vector3f&amp;);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="class_subdivision_1ac8d84e208bb294b78379a05da4ccfc37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3f<sp/><ref refid="class_subdivision_1ac8d84e208bb294b78379a05da4ccfc37" kindref="member">min_limits</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="class_subdivision_1a96ca3e7e744026fef809ade08d861985" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3f<sp/><ref refid="class_subdivision_1a96ca3e7e744026fef809ade08d861985" kindref="member">max_limits</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="class_subdivision_1a6135c9e9b9a16f2f316d28071dee16c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_subdivision_1a6135c9e9b9a16f2f316d28071dee16c6" kindref="member">density</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="class_subdivision_1a2944862a3bafcacaf45a935f266f0cf0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_subdivision_1a2944862a3bafcacaf45a935f266f0cf0" kindref="member">density_intra</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="class_subdivision_1aa9d564a68a0785998db3e129c6698c0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_subdivision_1aa9d564a68a0785998db3e129c6698c0f" kindref="member">density_extra</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_subdivision_1adb91e1cc1e6959d13220454ddfc7ba28" kindref="member">isInside</ref>(Eigen::Vector3d<sp/>&amp;pos);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>SUBDIVISION_H</highlight></codeline>
+    </programlisting>
+    <location file="src/subdivision.h"/>
+  </compounddef>
+</doxygen>

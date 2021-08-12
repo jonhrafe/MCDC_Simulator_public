@@ -1,0 +1,30 @@
+N 800
+T 1000
+duration 0.020
+diffusivity 0.6e-10
+exp_prefix /home/jonathan/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/instructions/demos/output/haexagona_packed_spheres
+
+scheme_file /home/jonathan/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/docs/scheme_files/PGSE_sample_scheme.scheme
+scale_from_stu 1
+
+write_txt 1
+write_bin 0
+write_traj_file 1
+
+<obstacle>
+ply /home/jonathan/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/instructions/meshes/hexagonal_packed_spheres.ply
+ply_scale 0.001
+</obstacle>
+
+<voxels>
+-0.00105 -0.00181865 -0.00363731 
+0.00315 0.00545596 0.00363731 
+
+</voxels>
+
+ini_walkers_pos intra
+
+num_process 1
+<END>
+
+permeability 0.0001

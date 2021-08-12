@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="triangle_8h" kind="file" language="C++">
+    <compoundname>triangle.h</compoundname>
+    <includes refid="vertex_8h" local="yes">vertex.h</includes>
+    <includes refid="collision_8h" local="yes">collision.h</includes>
+    <includes refid="walker_8h" local="yes">walker.h</includes>
+    <includes local="yes">Eigen/Core</includes>
+    <includedby refid="plyobstacle_8h" local="yes">src/plyobstacle.h</includedby>
+    <includedby refid="triangle_8cpp" local="yes">src/triangle.cpp</includedby>
+    <incdepgraph>
+      <node id="951">
+        <label>collision.h</label>
+        <link refid="collision_8h_source"/>
+        <childnode refid="952" relation="include">
+        </childnode>
+      </node>
+      <node id="952">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="954">
+        <label>vector</label>
+      </node>
+      <node id="953">
+        <label>walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="952" relation="include">
+        </childnode>
+        <childnode refid="954" relation="include">
+        </childnode>
+        <childnode refid="955" relation="include">
+        </childnode>
+        <childnode refid="956" relation="include">
+        </childnode>
+        <childnode refid="957" relation="include">
+        </childnode>
+      </node>
+      <node id="956">
+        <label>collisionsphere.h</label>
+        <link refid="collisionsphere_8h_source"/>
+        <childnode refid="954" relation="include">
+        </childnode>
+      </node>
+      <node id="957">
+        <label>iostream</label>
+      </node>
+      <node id="955">
+        <label>deque</label>
+      </node>
+      <node id="949">
+        <label>src/triangle.h</label>
+        <link refid="triangle_8h"/>
+        <childnode refid="950" relation="include">
+        </childnode>
+        <childnode refid="951" relation="include">
+        </childnode>
+        <childnode refid="953" relation="include">
+        </childnode>
+        <childnode refid="952" relation="include">
+        </childnode>
+      </node>
+      <node id="950">
+        <label>vertex.h</label>
+        <link refid="vertex_8h_source"/>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="960">
+        <label>src/dynamicsSimulation.h</label>
+        <link refid="dynamics_simulation_8h_source"/>
+        <childnode refid="961" relation="include">
+        </childnode>
+      </node>
+      <node id="961">
+        <label>src/mcsimulation.h</label>
+        <link refid="mcsimulation_8h_source"/>
+        <childnode refid="962" relation="include">
+        </childnode>
+      </node>
+      <node id="959">
+        <label>src/plyobstacle.h</label>
+        <link refid="plyobstacle_8h_source"/>
+        <childnode refid="960" relation="include">
+        </childnode>
+      </node>
+      <node id="958">
+        <label>src/triangle.h</label>
+        <link refid="triangle_8h"/>
+        <childnode refid="959" relation="include">
+        </childnode>
+      </node>
+      <node id="962">
+        <label>src/parallelmcsimulation.h</label>
+        <link refid="parallelmcsimulation_8h_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_triangle" prot="public">Triangle</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="8"><highlight class="preprocessor">#ifndef<sp/>TRIANGLE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRIANGLE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;vertex.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;collision.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;walker.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Eigen/Core&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="class_triangle" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_triangle" kindref="compound">Triangle</ref>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>index;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_vertex" kindref="compound">Vertex</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*vertices;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Array3i<sp/><sp/>indexes;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>normal;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Collision<sp/>sphere</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>center;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>radius;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_triangle" kindref="compound">Triangle</ref>();</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_triangle" kindref="compound">Triangle</ref>(<ref refid="class_vertex" kindref="compound">Vertex</ref>*<sp/>vertices,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>index);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getVertex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>i,<sp/>Eigen::Vector3d<sp/>&amp;v);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getNormal(Eigen::Vector3d<sp/>&amp;normal);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>saveNormalAndAuxInfo();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>rayIntersects(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;ray_origin,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;step,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;t);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>stepIntersects_MT(<ref refid="class_walker" kindref="compound">Walker</ref>&amp;<sp/>walker,</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;step,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;max_length,<sp/><ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>stepIntersects_MT_limits(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;ray_origin,</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;step,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;max_length,<sp/><ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;limits_mod,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>limit_x,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>limit_y,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>limit_z);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>rayIntersects_MT(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;<sp/>ray_origin,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;step,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;u,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;v,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;t);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Returns<sp/>the<sp/>minimum<sp/>distance<sp/>from<sp/>the<sp/>point<sp/>p<sp/>to<sp/>the<sp/>triangle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>minDistance(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>p);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//double<sp/>minDistancePrecise(const<sp/>Eigen::Vector3d<sp/>p);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>TRIANGLE_H</highlight></codeline>
+    </programlisting>
+    <location file="src/triangle.h"/>
+  </compounddef>
+</doxygen>

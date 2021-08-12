@@ -1,0 +1,51 @@
+\hypertarget{class_voxel}{}\section{Voxel Class Reference}
+\label{class_voxel}\index{Voxel@{Voxel}}
+
+
+//! Main class. Implements basic voxel limits and operations. Class to handle and manage the voxels in the simulations. So far only one voxel at the time can be handled. To improve to several voxels, modifications shall be done.  
+
+
+
+
+{\ttfamily \#include $<$voxel.\+h$>$}
+
+
+
+Collaboration diagram for Voxel\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=127pt]{class_voxel__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_voxel_acbb05a2f277a8ae7c59119eb3adf7e8c}\label{class_voxel_acbb05a2f277a8ae7c59119eb3adf7e8c}} 
+{\bfseries Voxel} (Eigen\+::\+Vector3d min\+\_\+limits\+\_\+, Eigen\+::\+Vector3d max\+\_\+limits\+\_\+)
+\item 
+\mbox{\Hypertarget{class_voxel_af52a1ec58a5244591c56963b28192748}\label{class_voxel_af52a1ec58a5244591c56963b28192748}} 
+bool {\bfseries Check\+Collision} (\hyperlink{class_walker}{Walker} \&walker, Eigen\+::\+Vector3d \&step, double \&tmax, \hyperlink{class_collision}{Collision} \&colision)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_voxel_a8f82e23dc4dd9b0a3df065b876525fb4}\label{class_voxel_a8f82e23dc4dd9b0a3df065b876525fb4}} 
+Eigen\+::\+Vector3d {\bfseries min\+\_\+limits}
+\item 
+\mbox{\Hypertarget{class_voxel_a5ffa055c53543ad2dd0944c0667b0787}\label{class_voxel_a5ffa055c53543ad2dd0944c0667b0787}} 
+Eigen\+::\+Vector3d {\bfseries max\+\_\+limits}
+\item 
+\mbox{\Hypertarget{class_voxel_a9cce047be8fe658b21dbaef698b8b5ae}\label{class_voxel_a9cce047be8fe658b21dbaef698b8b5ae}} 
+\hyperlink{class_plane}{Plane} {\bfseries walls} \mbox{[}6\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+//! Main class. Implements basic voxel limits and operations. Class to handle and manage the voxels in the simulations. So far only one voxel at the time can be handled. To improve to several voxels, modifications shall be done. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/voxel.\+h\item 
+src/voxel.\+cpp\end{DoxyCompactItemize}

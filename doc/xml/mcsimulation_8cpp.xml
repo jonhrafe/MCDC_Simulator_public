@@ -1,0 +1,648 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="mcsimulation_8cpp" kind="file" language="C++">
+    <compoundname>mcsimulation.cpp</compoundname>
+    <includes refid="mcsimulation_8h" local="yes">mcsimulation.h</includes>
+    <includes local="yes">Eigen/Dense</includes>
+    <includes refid="simerrno_8h" local="yes">simerrno.h</includes>
+    <includes refid="pgsesequence_8h" local="yes">pgsesequence.h</includes>
+    <includes refid="gradientwaveform_8h" local="yes">gradientwaveform.h</includes>
+    <incdepgraph>
+      <node id="502">
+        <label>gradientwaveform.h</label>
+        <link refid="gradientwaveform_8h_source"/>
+        <childnode refid="501" relation="include">
+        </childnode>
+        <childnode refid="498" relation="include">
+        </childnode>
+        <childnode refid="495" relation="include">
+        </childnode>
+      </node>
+      <node id="467">
+        <label>src/mcsimulation.cpp</label>
+        <link refid="mcsimulation_8cpp"/>
+        <childnode refid="468" relation="include">
+        </childnode>
+        <childnode refid="498" relation="include">
+        </childnode>
+        <childnode refid="499" relation="include">
+        </childnode>
+        <childnode refid="501" relation="include">
+        </childnode>
+        <childnode refid="502" relation="include">
+        </childnode>
+      </node>
+      <node id="496">
+        <label>limits</label>
+      </node>
+      <node id="497">
+        <label>scheme.h</label>
+        <link refid="scheme_8h_source"/>
+        <childnode refid="472" relation="include">
+        </childnode>
+        <childnode refid="476" relation="include">
+        </childnode>
+      </node>
+      <node id="500">
+        <label>assert.h</label>
+      </node>
+      <node id="488">
+        <label>collision.h</label>
+        <link refid="collision_8h_source"/>
+        <childnode refid="471" relation="include">
+        </childnode>
+      </node>
+      <node id="469">
+        <label>dynamicsSimulation.h</label>
+        <link refid="dynamics_simulation_8h_source"/>
+        <childnode refid="470" relation="include">
+        </childnode>
+        <childnode refid="476" relation="include">
+        </childnode>
+        <childnode refid="471" relation="include">
+        </childnode>
+        <childnode refid="475" relation="include">
+        </childnode>
+        <childnode refid="477" relation="include">
+        </childnode>
+        <childnode refid="478" relation="include">
+        </childnode>
+        <childnode refid="485" relation="include">
+        </childnode>
+        <childnode refid="482" relation="include">
+        </childnode>
+        <childnode refid="486" relation="include">
+        </childnode>
+        <childnode refid="491" relation="include">
+        </childnode>
+        <childnode refid="492" relation="include">
+        </childnode>
+        <childnode refid="493" relation="include">
+        </childnode>
+        <childnode refid="494" relation="include">
+        </childnode>
+      </node>
+      <node id="491">
+        <label>voxel.h</label>
+        <link refid="voxel_8h_source"/>
+        <childnode refid="471" relation="include">
+        </childnode>
+        <childnode refid="488" relation="include">
+        </childnode>
+        <childnode refid="470" relation="include">
+        </childnode>
+      </node>
+      <node id="471">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="494">
+        <label>propagator.h</label>
+        <link refid="propagator_8h_source"/>
+        <childnode refid="495" relation="include">
+        </childnode>
+        <childnode refid="471" relation="include">
+        </childnode>
+        <childnode refid="472" relation="include">
+        </childnode>
+      </node>
+      <node id="476">
+        <label>string</label>
+      </node>
+      <node id="492">
+        <label>cylinder.h</label>
+        <link refid="cylinder_8h_source"/>
+        <childnode refid="487" relation="include">
+        </childnode>
+      </node>
+      <node id="480">
+        <label>fstream</label>
+      </node>
+      <node id="468">
+        <label>mcsimulation.h</label>
+        <link refid="mcsimulation_8h_source"/>
+        <childnode refid="469" relation="include">
+        </childnode>
+        <childnode refid="497" relation="include">
+        </childnode>
+        <childnode refid="472" relation="include">
+        </childnode>
+      </node>
+      <node id="485">
+        <label>simulablesequence.h</label>
+        <link refid="simulablesequence_8h_source"/>
+        <childnode refid="476" relation="include">
+        </childnode>
+        <childnode refid="472" relation="include">
+        </childnode>
+        <childnode refid="470" relation="include">
+        </childnode>
+        <childnode refid="483" relation="include">
+        </childnode>
+      </node>
+      <node id="495">
+        <label>constants.h</label>
+        <link refid="constants_8h_source"/>
+        <childnode refid="479" relation="include">
+        </childnode>
+        <childnode refid="476" relation="include">
+        </childnode>
+        <childnode refid="496" relation="include">
+        </childnode>
+      </node>
+      <node id="481">
+        <label>Eigen/Sparse</label>
+      </node>
+      <node id="498">
+        <label>Eigen/Dense</label>
+      </node>
+      <node id="487">
+        <label>obstacle.h</label>
+        <link refid="obstacle_8h_source"/>
+        <childnode refid="488" relation="include">
+        </childnode>
+        <childnode refid="470" relation="include">
+        </childnode>
+        <childnode refid="471" relation="include">
+        </childnode>
+      </node>
+      <node id="477">
+        <label>random</label>
+      </node>
+      <node id="493">
+        <label>sentinel.h</label>
+        <link refid="sentinel_8h_source"/>
+        <childnode refid="470" relation="include">
+        </childnode>
+        <childnode refid="482" relation="include">
+        </childnode>
+      </node>
+      <node id="472">
+        <label>vector</label>
+      </node>
+      <node id="470">
+        <label>walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="471" relation="include">
+        </childnode>
+        <childnode refid="472" relation="include">
+        </childnode>
+        <childnode refid="473" relation="include">
+        </childnode>
+        <childnode refid="474" relation="include">
+        </childnode>
+        <childnode refid="475" relation="include">
+        </childnode>
+      </node>
+      <node id="483">
+        <label>subdivision.h</label>
+        <link refid="subdivision_8h_source"/>
+        <childnode refid="471" relation="include">
+        </childnode>
+      </node>
+      <node id="474">
+        <label>collisionsphere.h</label>
+        <link refid="collisionsphere_8h_source"/>
+        <childnode refid="472" relation="include">
+        </childnode>
+      </node>
+      <node id="501">
+        <label>pgsesequence.h</label>
+        <link refid="pgsesequence_8h_source"/>
+        <childnode refid="472" relation="include">
+        </childnode>
+        <childnode refid="475" relation="include">
+        </childnode>
+        <childnode refid="478" relation="include">
+        </childnode>
+        <childnode refid="471" relation="include">
+        </childnode>
+        <childnode refid="485" relation="include">
+        </childnode>
+        <childnode refid="497" relation="include">
+        </childnode>
+      </node>
+      <node id="484">
+        <label>utility</label>
+      </node>
+      <node id="486">
+        <label>plyobstacle.h</label>
+        <link refid="plyobstacle_8h_source"/>
+        <childnode refid="487" relation="include">
+        </childnode>
+        <childnode refid="489" relation="include">
+        </childnode>
+      </node>
+      <node id="482">
+        <label>parameters.h</label>
+        <link refid="parameters_8h_source"/>
+        <childnode refid="472" relation="include">
+        </childnode>
+        <childnode refid="471" relation="include">
+        </childnode>
+        <childnode refid="483" relation="include">
+        </childnode>
+        <childnode refid="484" relation="include">
+        </childnode>
+      </node>
+      <node id="475">
+        <label>iostream</label>
+      </node>
+      <node id="473">
+        <label>deque</label>
+      </node>
+      <node id="489">
+        <label>triangle.h</label>
+        <link refid="triangle_8h_source"/>
+        <childnode refid="490" relation="include">
+        </childnode>
+        <childnode refid="488" relation="include">
+        </childnode>
+        <childnode refid="470" relation="include">
+        </childnode>
+        <childnode refid="471" relation="include">
+        </childnode>
+      </node>
+      <node id="478">
+        <label>trajectory.h</label>
+        <link refid="trajectory_8h_source"/>
+        <childnode refid="476" relation="include">
+        </childnode>
+        <childnode refid="475" relation="include">
+        </childnode>
+        <childnode refid="479" relation="include">
+        </childnode>
+        <childnode refid="480" relation="include">
+        </childnode>
+        <childnode refid="481" relation="include">
+        </childnode>
+        <childnode refid="482" relation="include">
+        </childnode>
+      </node>
+      <node id="479">
+        <label>stdio.h</label>
+      </node>
+      <node id="490">
+        <label>vertex.h</label>
+        <link refid="vertex_8h_source"/>
+      </node>
+      <node id="499">
+        <label>simerrno.h</label>
+        <link refid="simerrno_8h_source"/>
+        <childnode refid="500" relation="include">
+        </childnode>
+        <childnode refid="476" relation="include">
+        </childnode>
+        <childnode refid="480" relation="include">
+        </childnode>
+        <childnode refid="482" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="mcsimulation_8cpp_1a38c2756dd9de2d853c5ffe4373d08fe2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool cylinderIsCloseBoundery</definition>
+        <argsstring>(Cylinder &amp;cyl, Eigen::Vector3d min_limits, Eigen::Vector3d max_limits)</argsstring>
+        <name>cylinderIsCloseBoundery</name>
+        <param>
+          <type><ref refid="class_cylinder" kindref="compound">Cylinder</ref> &amp;</type>
+          <declname>cyl</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d</type>
+          <declname>min_limits</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d</type>
+          <declname>max_limits</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.cpp" line="255" column="1" bodyfile="src/mcsimulation.cpp" bodystart="255" bodyend="265"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;mcsimulation.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Eigen/Dense&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;simerrno.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;pgsesequence.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gradientwaveform.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_m_c_simulation_1aa3853b6cec83b055593cbf58def0c164" kindref="member">MCSimulation::count</ref><sp/>=0;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><ref refid="class_m_c_simulation_1a89f56682a13f0bcb2c53d191ca336e35" kindref="member">MCSimulation::MCSimulation</ref>()</highlight></codeline>
+<codeline lineno="10"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a8c21d28d54c9c947f6c5465657019ed4" kindref="member">plyObstacles_list</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/><ref refid="class_m_c_simulation_1aa3853b6cec83b055593cbf58def0c164" kindref="member">count</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1aa3853b6cec83b055593cbf58def0c164" kindref="member">count</ref>++;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">/*DEPRECATED*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><ref refid="class_m_c_simulation_1a89f56682a13f0bcb2c53d191ca336e35" kindref="member">MCSimulation::MCSimulation</ref>(std::string<sp/>config_file)</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a8c21d28d54c9c947f6c5465657019ed4" kindref="member">plyObstacles_list</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1afa8dd9d59fa727c3c2b2fe366efb2c14" kindref="member">readSchemeFile</ref>(config_file);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref><sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation" kindref="compound">DynamicsSimulation</ref>(<ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1afbb7caab773abb16753263a0b04c8a2c" kindref="member">scheme_file</ref>.length()<sp/>&gt;<sp/>2){</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a87ba6332f1f49024a442981b477360c4" kindref="member">scheme</ref>.readSchemeFile(<ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1afbb7caab773abb16753263a0b04c8a2c" kindref="member">scheme_file</ref>,<ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1a3c37f738b7700bdc22845bc725d51e6f" kindref="member">scale_from_stu</ref>);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_m_c_simulation_1a87ba6332f1f49024a442981b477360c4" kindref="member">scheme</ref>.<ref refid="class_scheme_1a3a767ed00f8859a04857812e370c6db5" kindref="member">type</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;PGSE&quot;</highlight><highlight class="normal">){</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref><sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="class_p_g_s_e_sequence" kindref="compound">PGSESequence</ref>(<ref refid="class_m_c_simulation_1a87ba6332f1f49024a442981b477360c4" kindref="member">scheme</ref>);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref>-&gt;<ref refid="class_simulable_sequence_1a2e16c0b0dcf1b90ad0afc53ab14e9250" kindref="member">setNumberOfSteps</ref>(<ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref>-&gt;<ref refid="class_dynamics_simulation_1a67cd4cd9a2e7cd2339c98dae60e66dde" kindref="member">params</ref>.<ref refid="class_parameters_1a3475e7efae778bc7720fe6c17274eef0" kindref="member">num_steps</ref>);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1a43362cb6e3ea49cc9db9e52c3ebc7140" kindref="member">subdivision_flag</ref>){</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref>-&gt;<ref refid="class_simulable_sequence_1ae9e6e581ba16bbf81b693c0e4943bbf9" kindref="member">subdivision_flag</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref>-&gt;<ref refid="class_simulable_sequence_1a77c721d4650578fdc3f44adfa91c030e" kindref="member">subdivisions</ref><sp/>=<sp/><ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1a3c05ff7a30f151c384b83ce3adca26fa" kindref="member">subdivisions</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref>-&gt;<ref refid="class_simulable_sequence_1aa2434c3b2ef59d1cd8b822b8e3a2920c" kindref="member">initializeSubdivisionSignals</ref>();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref>-&gt;<ref refid="class_simulable_sequence_1a3278d9b5b22b0bfbdd0ce4bef0e1cc85" kindref="member">separate_signal</ref><sp/>=<sp/><ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1adacb13afed18c07dfd269fae76f828b3" kindref="member">separate_signals</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref>-&gt;<ref refid="class_dynamics_simulation_1aa178498c8be8af1a515a8c0a02187600" kindref="member">id</ref><sp/>=<sp/><ref refid="class_m_c_simulation_1aa3853b6cec83b055593cbf58def0c164" kindref="member">count</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/><ref refid="class_m_c_simulation_1aa3853b6cec83b055593cbf58def0c164" kindref="member">count</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1aa3853b6cec83b055593cbf58def0c164" kindref="member">count</ref>++;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="class_m_c_simulation_1a89f56682a13f0bcb2c53d191ca336e35" kindref="member">MCSimulation::MCSimulation</ref>(<ref refid="class_parameters" kindref="compound">Parameters</ref>&amp;<sp/>params_)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a8c21d28d54c9c947f6c5465657019ed4" kindref="member">plyObstacles_list</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref><sp/>=<sp/>params_;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref><sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation" kindref="compound">DynamicsSimulation</ref>(<ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1afbb7caab773abb16753263a0b04c8a2c" kindref="member">scheme_file</ref>.length()<sp/>&gt;<sp/>2){</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a87ba6332f1f49024a442981b477360c4" kindref="member">scheme</ref>.readSchemeFile(<ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1afbb7caab773abb16753263a0b04c8a2c" kindref="member">scheme_file</ref>,<ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1a3c37f738b7700bdc22845bc725d51e6f" kindref="member">scale_from_stu</ref>);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_m_c_simulation_1a87ba6332f1f49024a442981b477360c4" kindref="member">scheme</ref>.<ref refid="class_scheme_1a3a767ed00f8859a04857812e370c6db5" kindref="member">type</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;PGSE&quot;</highlight><highlight class="normal">){</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref><sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="class_p_g_s_e_sequence" kindref="compound">PGSESequence</ref>(<ref refid="class_m_c_simulation_1a87ba6332f1f49024a442981b477360c4" kindref="member">scheme</ref>);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_m_c_simulation_1a87ba6332f1f49024a442981b477360c4" kindref="member">scheme</ref>.<ref refid="class_scheme_1a3a767ed00f8859a04857812e370c6db5" kindref="member">type</ref><sp/>==<sp/></highlight><highlight class="stringliteral">&quot;WAVEFORM&quot;</highlight><highlight class="normal">){</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref><sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform" kindref="compound">GradientWaveform</ref>(<ref refid="class_m_c_simulation_1a87ba6332f1f49024a442981b477360c4" kindref="member">scheme</ref>);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref>-&gt;<ref refid="class_simulable_sequence_1a2e16c0b0dcf1b90ad0afc53ab14e9250" kindref="member">setNumberOfSteps</ref>(<ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref>-&gt;<ref refid="class_dynamics_simulation_1a67cd4cd9a2e7cd2339c98dae60e66dde" kindref="member">params</ref>.<ref refid="class_parameters_1a3475e7efae778bc7720fe6c17274eef0" kindref="member">num_steps</ref>);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref>-&gt;<ref refid="class_simulable_sequence_1a3278d9b5b22b0bfbdd0ce4bef0e1cc85" kindref="member">separate_signal</ref><sp/>=<sp/><ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1adacb13afed18c07dfd269fae76f828b3" kindref="member">separate_signals</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1a43362cb6e3ea49cc9db9e52c3ebc7140" kindref="member">subdivision_flag</ref>){</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref>-&gt;<ref refid="class_simulable_sequence_1ae9e6e581ba16bbf81b693c0e4943bbf9" kindref="member">subdivision_flag</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref>-&gt;<ref refid="class_simulable_sequence_1a77c721d4650578fdc3f44adfa91c030e" kindref="member">subdivisions</ref><sp/>=<sp/><ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1a3c05ff7a30f151c384b83ce3adca26fa" kindref="member">subdivisions</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref>-&gt;<ref refid="class_simulable_sequence_1aa2434c3b2ef59d1cd8b822b8e3a2920c" kindref="member">initializeSubdivisionSignals</ref>();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1adacb13afed18c07dfd269fae76f828b3" kindref="member">separate_signals</ref>)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref>-&gt;<ref refid="class_simulable_sequence_1a3fad0e115a2ec07a8b1202608eba698e" kindref="member">initializeIntraExtraSignals</ref>();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref>-&gt;<ref refid="class_dynamics_simulation_1aa178498c8be8af1a515a8c0a02187600" kindref="member">id</ref><sp/>=<sp/><ref refid="class_m_c_simulation_1aa3853b6cec83b055593cbf58def0c164" kindref="member">count</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/><ref refid="class_m_c_simulation_1aa3853b6cec83b055593cbf58def0c164" kindref="member">count</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1aa3853b6cec83b055593cbf58def0c164" kindref="member">count</ref>++;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_m_c_simulation_1aa305f18bd48dd26f916cc9c006a8dec8" kindref="member">MCSimulation::startSimulation</ref>()</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1aa60234e3f6d2a100c8b03e4f304b07f4" kindref="member">iniObstacles</ref>();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref><sp/>!=<sp/>NULL){</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref>-&gt;<ref refid="class_dynamics_simulation_1a00cf4a6cbde1ef708fdbd58e8d8a7727" kindref="member">startSimulation</ref>(<ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref>);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref>-&gt;<ref refid="class_dynamics_simulation_1a00cf4a6cbde1ef708fdbd58e8d8a7727" kindref="member">startSimulation</ref>();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>MCSimulation::getExpectedFreeeDecay(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>i)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref>){</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b<sp/>=<sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref>-&gt;<ref refid="class_simulable_sequence_1a85cdcf5f7bd5bed804a816e3c18840b7" kindref="member">getbValue</ref>(i);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>exp(-b*<ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1add48efa1d9fe056fdb21fe2d2d92533d" kindref="member">diffusivity</ref>);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_m_c_simulation_1aa60234e3f6d2a100c8b03e4f304b07f4" kindref="member">MCSimulation::iniObstacles</ref>()</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>addCylindersObstacles();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>addPLYObstacles();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>addVoxels();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>addCylindersConfigurations();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Used<sp/>only<sp/>if<sp/>there&apos;s<sp/>a<sp/>voxel<sp/>(deprecated)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//addExtraObstacles();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MCSimulation::addCylindersObstacles()</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref>-&gt;<ref refid="class_dynamics_simulation_1a938c4df48ca1cabcadefb974093d4a57" kindref="member">cylinders_list</ref><sp/>=<sp/>this-&gt;<ref refid="class_m_c_simulation_1a36909899f67439feed1a980037ea8c03" kindref="member">cylinders_list</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="comment">//template&lt;typename<sp/>Out&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//void<sp/>split(const<sp/>std::string<sp/>&amp;s,<sp/>char<sp/>delim,<sp/>Out<sp/>result)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>std::stringstream<sp/>ss;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>ss.str(s);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>std::string<sp/>item;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>while<sp/>(std::getline(ss,<sp/>item,<sp/>delim))<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*(result++)<sp/>=<sp/>item;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//std::vector&lt;std::string&gt;<sp/>split(const<sp/>std::string<sp/>&amp;s,<sp/>char<sp/>delim)<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>elems;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>split(s,<sp/>delim,<sp/>std::back_inserter(elems));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>return<sp/>elems;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//void<sp/>MCSimulation::addCylindersObstaclesFromFiles()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>for(unsigned<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>params.cylinders_files.size();<sp/>i++){</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bool<sp/>z_flag<sp/>=<sp/>false;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ifstream<sp/>in(params.cylinders_files[i]);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(!in){</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//std::cout<sp/>&lt;&lt;<sp/>&quot;\033[1;37m[INFO]\033[0m<sp/>Sim:<sp/>&quot;<sp/>&lt;&lt;<sp/>count<sp/>&lt;&lt;<sp/>&quot;<sp/>&quot;<sp/>&lt;&lt;<sp/>&quot;[ERROR]<sp/>Unable<sp/>to<sp/>open:&quot;<sp/>&lt;&lt;<sp/>params.cylinders_files[i]<sp/>&lt;&lt;<sp/>std::endl;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bool<sp/>first=true;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for(<sp/>std::string<sp/>line;<sp/>getline(<sp/>in,<sp/>line<sp/>);<sp/>)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(first)<sp/>{first-=1;continue;}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>jkr<sp/>=<sp/>split(line,&apos;<sp/>&apos;);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(jkr.size()<sp/>!=<sp/>7){</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>z_flag<sp/>=<sp/>true;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//std::cout<sp/>&lt;&lt;<sp/>&quot;\033[1;33m[Warning]\033[0m<sp/>Cylinder<sp/>orientation<sp/>was<sp/>set<sp/>towards<sp/>the<sp/>Z<sp/>direction<sp/>by<sp/>default&quot;<sp/>&lt;&lt;<sp/>std::endl;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>break;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in.close();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in.open(params.cylinders_files[i]);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(z_flag){</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>double<sp/>x,y,z,r;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>double<sp/>scale;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in<sp/>&gt;&gt;<sp/>scale;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>while<sp/>(in<sp/>&gt;&gt;<sp/>x<sp/>&gt;&gt;<sp/>y<sp/>&gt;&gt;<sp/>z<sp/>&gt;&gt;<sp/>r)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsEngine-&gt;cylinders_list.push_back(Cylinder(Eigen::Vector3d(x,y,z),Eigen::Vector3d(x,y,z+1.0),r,scale));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in.close();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>double<sp/>x,y,z,ox,oy,oz,r;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>double<sp/>scale;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in<sp/>&gt;&gt;<sp/>scale;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>while<sp/>(in<sp/>&gt;&gt;<sp/>x<sp/>&gt;&gt;<sp/>y<sp/>&gt;&gt;<sp/>z<sp/>&gt;&gt;<sp/>ox<sp/>&gt;&gt;<sp/>oy<sp/>&gt;&gt;<sp/>oz<sp/>&gt;&gt;<sp/>r)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsEngine-&gt;cylinders_list.push_back(Cylinder(Eigen::Vector3d(x,y,z),Eigen::Vector3d(ox,oy,oz),r,scale));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in.close();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MCSimulation::addPLYObstacles()</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>//std::cout<sp/>&lt;&lt;<sp/>params.img_signal<sp/>&lt;&lt;<sp/>std::endl;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>for(unsigned<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>params.PLY_files.size();<sp/>i++){</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//std::cout<sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/>std::endl;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsEngine-&gt;plyObstacles_list.push_back(PLYObstacle(params.PLY_files[i],params.PLY_scales[i]));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsEngine-&gt;plyObstacles_list.back().id=i;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsEngine-&gt;plyObstacles_list.back().percolation<sp/>=<sp/>params.PLY_percolation[i];</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref>-&gt;<ref refid="class_dynamics_simulation_1a830b3e0aa0ce95720ea0a8180e2cffec" kindref="member">plyObstacles_list</ref><sp/>=<sp/>this-&gt;<ref refid="class_m_c_simulation_1a8c21d28d54c9c947f6c5465657019ed4" kindref="member">plyObstacles_list</ref>;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>MCSimulation::addVoxels()</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0<sp/>;<sp/>i<sp/>&lt;<sp/><ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1aefbd07d8501ebb9311bbb1ea7c37be26" kindref="member">voxels_list</ref>.size();<sp/>i++){</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref>-&gt;<ref refid="class_dynamics_simulation_1ab68d71822661c3608bde4553392c9bd1" kindref="member">voxels_list</ref>.push_back(<ref refid="class_voxel" kindref="compound">Voxel</ref>(<ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1aefbd07d8501ebb9311bbb1ea7c37be26" kindref="member">voxels_list</ref>[i].first,<ref refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" kindref="member">params</ref>.<ref refid="class_parameters_1aefbd07d8501ebb9311bbb1ea7c37be26" kindref="member">voxels_list</ref>[i].second));</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//void<sp/>MCSimulation::addCylindersConfigurations()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>if(params.hex_packing){</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>double<sp/>rad<sp/>=<sp/>params.hex_packing_radius,sep<sp/>=<sp/>params.hex_packing_separation;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>h<sp/>=<sp/>sqrt(3)/2<sp/>*<sp/>sep</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>double<sp/>h<sp/>=0.8660254037844386*sep;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsEngine-&gt;cylinders_list.push_back(Cylinder(Eigen::Vector3d(0,0,0),Eigen::Vector3d(0,0,1.0),rad));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsEngine-&gt;cylinders_list.push_back(Cylinder(Eigen::Vector3d(sep,0,0),Eigen::Vector3d(sep,0,1.0),rad));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsEngine-&gt;cylinders_list.push_back(Cylinder(Eigen::Vector3d(0,2.0*h,0),Eigen::Vector3d(0,2.0*h,1.0),rad));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsEngine-&gt;cylinders_list.push_back(Cylinder(Eigen::Vector3d(sep,2.0*h,0),Eigen::Vector3d(sep,2.0*h,1.0),rad));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsEngine-&gt;cylinders_list.push_back(Cylinder(Eigen::Vector3d(0.5*sep,h,0),Eigen::Vector3d(0.5*sep,h,1.0),rad));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>To<sp/>avoid<sp/>problems<sp/>with<sp/>the<sp/>boundaries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsEngine-&gt;cylinders_list.push_back(Cylinder(Eigen::Vector3d(-0.5*sep,h,0),Eigen::Vector3d(-0.5*sep,h,1.0),rad));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsEngine-&gt;cylinders_list.push_back(Cylinder(Eigen::Vector3d(1.5*sep,h,0),Eigen::Vector3d(1.5*sep,h,1.0),rad));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(dynamicsEngine-&gt;voxels_list.size()&gt;0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsEngine-&gt;voxels_list.clear();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsEngine-&gt;voxels_list.push_back(Voxel(Eigen::Vector3d(0,0,0),Eigen::Vector3d(sep,2.0*h,2.0*h)));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cylinderIsCloseBoundery(<ref refid="class_cylinder" kindref="compound">Cylinder</ref>&amp;<sp/>cyl,<sp/>Eigen::Vector3d<sp/>min_limits,Eigen::Vector3d<sp/>max_limits){</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//gap<sp/>to<sp/>the<sp/>boundary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>gap<sp/>=<sp/>1e-6;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//3<sp/>dimensional<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0<sp/>;<sp/>i<sp/>&lt;<sp/>3;<sp/>i++)</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(cyl.P[i]<sp/>-<sp/>cyl.<ref refid="class_cylinder_1a8a825799285bcf60b49b8aef0459b498" kindref="member">radius</ref><sp/>-<sp/>gap<sp/>&lt;<sp/>min_limits[i])<sp/>||<sp/>(cyl.P[i]<sp/>+<sp/>cyl.<ref refid="class_cylinder_1a8a825799285bcf60b49b8aef0459b498" kindref="member">radius</ref><sp/>+<sp/>gap<sp/><sp/>&gt;<sp/>max_limits[i])<sp/>)</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//void<sp/>MCSimulation::addExtraObstacles()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>if(dynamicsEngine-&gt;voxels_list.size()<sp/>==<sp/>0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>std::vector&lt;Eigen::Vector3d&gt;<sp/>multipliers;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>gap<sp/>=<sp/>params.max_limits<sp/>-<sp/>params.min_limits;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>for(int<sp/>i<sp/>=<sp/>-1<sp/><sp/>;i<sp/>&lt;=<sp/>1;<sp/>i++)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for(int<sp/>j<sp/>=<sp/>-1<sp/><sp/>;j<sp/>&lt;=<sp/>1;<sp/>j++)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for(int<sp/>k<sp/>=<sp/>-1<sp/>;k<sp/>&lt;=<sp/>1;<sp/>k++){</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>jkr(i*gap[0],j*gap[1],k*gap[2]);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>multipliers.push_back(jkr);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>unsigned<sp/>long<sp/>cylinders_num<sp/>=<sp/>dynamicsEngine-&gt;cylinders_list.size();</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>for<sp/>(unsigned<sp/>c<sp/>=<sp/>0;<sp/>c<sp/>&lt;<sp/>cylinders_num<sp/>;c++)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>for<sp/>(unsigned<sp/>i<sp/>=<sp/>0<sp/>;<sp/>i<sp/>&lt;<sp/>multipliers.size();<sp/>i++)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if(multipliers[i][0]!=0.0<sp/>||<sp/>multipliers[i][1]!=0.0<sp/>||<sp/>multipliers[i][2]!=0.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>P_<sp/>=<sp/>dynamicsEngine-&gt;cylinders_list[c].P;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>Q_<sp/>=<sp/>dynamicsEngine-&gt;cylinders_list[c].Q;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>P_[0]+=<sp/>multipliers[i][0];P_[1]+=multipliers[i][1];P_[2]+=multipliers[i][2];</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Q_[0]+=<sp/>multipliers[i][0];Q_[1]+=multipliers[i][1];Q_[2]+=multipliers[i][2];</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Cylinder<sp/>tmp_cyl(P_,Q_,dynamicsEngine-&gt;cylinders_list[c].radius);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//if<sp/>the<sp/>obstacle<sp/>is<sp/>close<sp/>enough</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//if<sp/>(cylinderIsCloseBoundery(tmp_cyl,params.min_limits,params.max_limits))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dynamicsEngine-&gt;cylinders_list.push_back(tmp_cyl);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>dynamicsEngine-&gt;cylinders_list.size()<sp/>&lt;&lt;<sp/>std::endl;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><ref refid="class_m_c_simulation_1a859c6ddce0e3c07db0159b2e4906b7ca" kindref="member">MCSimulation::~MCSimulation</ref>()</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref><sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/><ref refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" kindref="member">dynamicsEngine</ref>;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref><sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/><ref refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" kindref="member">dataSynth</ref>;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/mcsimulation.cpp"/>
+  </compounddef>
+</doxygen>

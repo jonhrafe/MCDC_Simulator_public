@@ -52,9 +52,15 @@ public:
 
     int in_obj_index;                                               /*!< Auxiliar index to save if the walker was inside a convex object        */
 
-    CylinderCollisionSphere collision_sphere_cylinders;             /*!< Collision sphere for collition against cylidners                       */
+    int in_ply_index;                                               /*!< Auxiliar index to save if the walker was inside a convex ply object    */
 
-    PLYCollisionSphere collision_sphere_ply;                        /*!< Collision sphere for collition against PLY meshes                      */
+    int in_sph_index;                                               /*!< Auxiliar index to save if the walker was inside a sphere               */
+
+    ObstacleCollisionSphere cylinders_collision_sphere;             /*!< Collision sphere for collition against cylidners                       */
+
+    ObstacleCollisionSphere spheres_collision_sphere;               /*!< Collision sphere for collition against cylidners                       */
+
+    PLYCollisionSphere ply_collision_sphere;                        /*!< Collision sphere for collition against PLY meshes                      */
 
     Eigen::Vector3d initial_sphere_pos_v;                           /*!< Saves the intial positioon of the walker inside the collition sphere   */
 

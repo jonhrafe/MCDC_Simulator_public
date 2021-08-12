@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir">
+    <compoundname>src</compoundname>
+    <innerfile refid="collision_8cpp">collision.cpp</innerfile>
+    <innerfile refid="collision_8h">collision.h</innerfile>
+    <innerfile refid="collisionsphere_8cpp">collisionsphere.cpp</innerfile>
+    <innerfile refid="collisionsphere_8h">collisionsphere.h</innerfile>
+    <innerfile refid="constants_8h">constants.h</innerfile>
+    <innerfile refid="cylinder_8cpp">cylinder.cpp</innerfile>
+    <innerfile refid="cylinder_8h">cylinder.h</innerfile>
+    <innerfile refid="cylindergammadistribution_8cpp">cylindergammadistribution.cpp</innerfile>
+    <innerfile refid="cylindergammadistribution_8h">cylindergammadistribution.h</innerfile>
+    <innerfile refid="dynamics_simulation_8cpp">dynamicsSimulation.cpp</innerfile>
+    <innerfile refid="dynamics_simulation_8h">dynamicsSimulation.h</innerfile>
+    <innerfile refid="gradientwaveform_8cpp">gradientwaveform.cpp</innerfile>
+    <innerfile refid="gradientwaveform_8h">gradientwaveform.h</innerfile>
+    <innerfile refid="main_8cpp">main.cpp</innerfile>
+    <innerfile refid="mcsimulation_8cpp">mcsimulation.cpp</innerfile>
+    <innerfile refid="mcsimulation_8h">mcsimulation.h</innerfile>
+    <innerfile refid="obstacle_8cpp">obstacle.cpp</innerfile>
+    <innerfile refid="obstacle_8h">obstacle.h</innerfile>
+    <innerfile refid="parallelmcsimulation_8cpp">parallelmcsimulation.cpp</innerfile>
+    <innerfile refid="parallelmcsimulation_8h">parallelmcsimulation.h</innerfile>
+    <innerfile refid="parameters_8cpp">parameters.cpp</innerfile>
+    <innerfile refid="parameters_8h">parameters.h</innerfile>
+    <innerfile refid="pgsesequence_8cpp">pgsesequence.cpp</innerfile>
+    <innerfile refid="pgsesequence_8h">pgsesequence.h</innerfile>
+    <innerfile refid="plyobstacle_8cpp">plyobstacle.cpp</innerfile>
+    <innerfile refid="plyobstacle_8h">plyobstacle.h</innerfile>
+    <innerfile refid="propagator_8cpp">propagator.cpp</innerfile>
+    <innerfile refid="propagator_8h">propagator.h</innerfile>
+    <innerfile refid="scheme_8cpp">scheme.cpp</innerfile>
+    <innerfile refid="scheme_8h">scheme.h</innerfile>
+    <innerfile refid="sentinel_8cpp">sentinel.cpp</innerfile>
+    <innerfile refid="sentinel_8h">sentinel.h</innerfile>
+    <innerfile refid="simerrno_8cpp">simerrno.cpp</innerfile>
+    <innerfile refid="simerrno_8h">simerrno.h</innerfile>
+    <innerfile refid="simulablesequence_8cpp">simulablesequence.cpp</innerfile>
+    <innerfile refid="simulablesequence_8h">simulablesequence.h</innerfile>
+    <innerfile refid="subdivision_8cpp">subdivision.cpp</innerfile>
+    <innerfile refid="subdivision_8h">subdivision.h</innerfile>
+    <innerfile refid="trajectory_8cpp">trajectory.cpp</innerfile>
+    <innerfile refid="trajectory_8h">trajectory.h</innerfile>
+    <innerfile refid="triangle_8cpp">triangle.cpp</innerfile>
+    <innerfile refid="triangle_8h">triangle.h</innerfile>
+    <innerfile refid="vertex_8cpp">vertex.cpp</innerfile>
+    <innerfile refid="vertex_8h">vertex.h</innerfile>
+    <innerfile refid="voxel_8cpp">voxel.cpp</innerfile>
+    <innerfile refid="voxel_8h">voxel.h</innerfile>
+    <innerfile refid="walker_8cpp">walker.cpp</innerfile>
+    <innerfile refid="walker_8h">walker.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/"/>
+  </compounddef>
+</doxygen>

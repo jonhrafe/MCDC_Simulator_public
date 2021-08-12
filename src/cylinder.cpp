@@ -1,6 +1,6 @@
 #include "cylinder.h"
 #include "constants.h"
-#include <Eigen/Dense>
+#include "Eigen/Dense"
 #include <iostream>
 
 using namespace Eigen;
@@ -13,7 +13,7 @@ Cylinder::Cylinder()
 
 Cylinder::~Cylinder()
 {
-    id = count--;
+    count--;
 }
 
 Cylinder::Cylinder(const Cylinder &cyl)
@@ -170,10 +170,12 @@ double Cylinder::minDistance(Walker &w){
     w.getVoxelPosition(O);
     Vector3d m = O - P;
     // minimum distance to the cylinder axis.
-    double distance_to_cilinder = (D.cross(-m)).norm();
+    double distance_to_cylinder = (D.cross(-m)).norm();
 
     //Minimum distance to the cylinders wall.
-    double d_ = (distance_to_cilinder - radius);
-    return d_>0.0?d_:0.0;
-
+    double d_ = (distance_to_cylinder - radius);
+   // return d_>0.0?d_:0.0;
+    return d_;
 }
+
+

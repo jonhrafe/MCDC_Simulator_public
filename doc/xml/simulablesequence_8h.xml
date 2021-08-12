@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="simulablesequence_8h" kind="file" language="C++">
+    <compoundname>simulablesequence.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="walker_8h" local="yes">walker.h</includes>
+    <includes refid="subdivision_8h" local="yes">subdivision.h</includes>
+    <includedby refid="dynamics_simulation_8h" local="yes">src/dynamicsSimulation.h</includedby>
+    <includedby refid="dynamics_simulation_8cpp" local="yes">src/dynamicsSimulation.cpp</includedby>
+    <includedby refid="pgsesequence_8h" local="yes">src/pgsesequence.h</includedby>
+    <includedby refid="simulablesequence_8cpp" local="yes">src/simulablesequence.cpp</includedby>
+    <incdepgraph>
+      <node id="865">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="862">
+        <label>string</label>
+      </node>
+      <node id="861">
+        <label>src/simulablesequence.h</label>
+        <link refid="simulablesequence_8h"/>
+        <childnode refid="862" relation="include">
+        </childnode>
+        <childnode refid="863" relation="include">
+        </childnode>
+        <childnode refid="864" relation="include">
+        </childnode>
+        <childnode refid="869" relation="include">
+        </childnode>
+      </node>
+      <node id="863">
+        <label>vector</label>
+      </node>
+      <node id="864">
+        <label>walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="865" relation="include">
+        </childnode>
+        <childnode refid="863" relation="include">
+        </childnode>
+        <childnode refid="866" relation="include">
+        </childnode>
+        <childnode refid="867" relation="include">
+        </childnode>
+        <childnode refid="868" relation="include">
+        </childnode>
+      </node>
+      <node id="869">
+        <label>subdivision.h</label>
+        <link refid="subdivision_8h_source"/>
+        <childnode refid="865" relation="include">
+        </childnode>
+      </node>
+      <node id="867">
+        <label>collisionsphere.h</label>
+        <link refid="collisionsphere_8h_source"/>
+        <childnode refid="863" relation="include">
+        </childnode>
+      </node>
+      <node id="868">
+        <label>iostream</label>
+      </node>
+      <node id="866">
+        <label>deque</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="875">
+        <label>src/gradientwaveform.h</label>
+        <link refid="gradientwaveform_8h_source"/>
+      </node>
+      <node id="871">
+        <label>src/dynamicsSimulation.h</label>
+        <link refid="dynamics_simulation_8h_source"/>
+        <childnode refid="872" relation="include">
+        </childnode>
+      </node>
+      <node id="872">
+        <label>src/mcsimulation.h</label>
+        <link refid="mcsimulation_8h_source"/>
+        <childnode refid="873" relation="include">
+        </childnode>
+      </node>
+      <node id="870">
+        <label>src/simulablesequence.h</label>
+        <link refid="simulablesequence_8h"/>
+        <childnode refid="871" relation="include">
+        </childnode>
+        <childnode refid="874" relation="include">
+        </childnode>
+      </node>
+      <node id="874">
+        <label>src/pgsesequence.h</label>
+        <link refid="pgsesequence_8h_source"/>
+        <childnode refid="875" relation="include">
+        </childnode>
+      </node>
+      <node id="873">
+        <label>src/parallelmcsimulation.h</label>
+        <link refid="parallelmcsimulation_8h_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_simulable_sequence" prot="public">SimulableSequence</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="9"><highlight class="preprocessor">#ifndef<sp/>SIMULABLESEQUENCE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SIMULABLESEQUENCE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;walker.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;subdivision.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="class_simulable_sequence" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_simulable_sequence" kindref="compound">SimulableSequence</ref>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="class_simulable_sequence_1a9898335af9d8f639f65b73eeac8efb53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_simulable_sequence_1a9898335af9d8f639f65b73eeac8efb53" kindref="member">scheme_file</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="21" refid="class_simulable_sequence_1a083961d839ed1433206ccbc481996409" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="class_simulable_sequence_1a083961d839ed1433206ccbc481996409" kindref="member">DWI</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="23" refid="class_simulable_sequence_1ac64fb8110b769e180283365567bd4158" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="class_simulable_sequence_1ac64fb8110b769e180283365567bd4158" kindref="member">DWI_intra</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25" refid="class_simulable_sequence_1a49a24269e364bcd02000ba575acc85ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="class_simulable_sequence_1a49a24269e364bcd02000ba575acc85ed" kindref="member">DWI_extra</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="class_simulable_sequence_1a3708afa1322d72b59d3be20b740d107c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="class_simulable_sequence_1a3708afa1322d72b59d3be20b740d107c" kindref="member">DWIi</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="class_simulable_sequence_1a8691c0451c305869064862e30986c34c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="class_simulable_sequence_1a8691c0451c305869064862e30986c34c" kindref="member">phase_shift</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="class_simulable_sequence_1aa524c45db6c27dd21acacf97d7951ac2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1aa524c45db6c27dd21acacf97d7951ac2" kindref="member">num_rep</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="class_simulable_sequence_1aa29f58ae224d92dd467a0845bd207324" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1aa29f58ae224d92dd467a0845bd207324" kindref="member">save_phase_shift</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="class_simulable_sequence_1a1de2d00a939f550af1947ae25acc4b97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1a1de2d00a939f550af1947ae25acc4b97" kindref="member">dynamic</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="class_simulable_sequence_1a43e046af3bf6c498a5ad232058de8a90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1a43e046af3bf6c498a5ad232058de8a90" kindref="member">percent_steps_in</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="class_simulable_sequence_1a7e7e1a0de6045046061ffccaba4fa5ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="class_simulable_sequence_1a7e7e1a0de6045046061ffccaba4fa5ee" kindref="member">time_steps</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="class_simulable_sequence_1a4e45e2d935a05a7375b04718a49c9af7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::ArrayXXf<sp/><ref refid="class_simulable_sequence_1a4e45e2d935a05a7375b04718a49c9af7" kindref="member">phase_shift_distribution</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="class_simulable_sequence_1a2686ccfa89396eeadd0a0d4f7842623c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;double&gt;&gt;<sp/><ref refid="class_simulable_sequence_1a2686ccfa89396eeadd0a0d4f7842623c" kindref="member">sub_DWI</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="class_simulable_sequence_1a20a947108c3bb80ed45dd8851e777511" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;double&gt;&gt;<sp/><ref refid="class_simulable_sequence_1a20a947108c3bb80ed45dd8851e777511" kindref="member">sub_DWI_intra</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="class_simulable_sequence_1ad7157eed5b79cf74c45b4185a2465eb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;double&gt;&gt;<sp/><ref refid="class_simulable_sequence_1ad7157eed5b79cf74c45b4185a2465eb6" kindref="member">sub_DWI_extra</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="class_simulable_sequence_1a1e958cc7d15337fa3ae0e58c8330f212" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;double&gt;&gt;<sp/><ref refid="class_simulable_sequence_1a1e958cc7d15337fa3ae0e58c8330f212" kindref="member">sub_DWIi</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="class_simulable_sequence_1ae9e6e581ba16bbf81b693c0e4943bbf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1ae9e6e581ba16bbf81b693c0e4943bbf9" kindref="member">subdivision_flag</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="class_simulable_sequence_1a3278d9b5b22b0bfbdd0ce4bef0e1cc85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1a3278d9b5b22b0bfbdd0ce4bef0e1cc85" kindref="member">separate_signal</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="class_simulable_sequence_1a7603177060550acd31ece2c87fcdd2a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1a7603177060550acd31ece2c87fcdd2a9" kindref="member">img_signal</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="class_simulable_sequence_1a77c721d4650578fdc3f44adfa91c030e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Subdivision&gt;<sp/><ref refid="class_simulable_sequence_1a77c721d4650578fdc3f44adfa91c030e" kindref="member">subdivisions</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_simulable_sequence" kindref="compound">SimulableSequence</ref>(){}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>~<ref refid="class_simulable_sequence" kindref="compound">SimulableSequence</ref>(){}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1a03a417776f5404b06c761ab9109e3e1d" kindref="member">getGradImpulse</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>t,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tLast,<sp/>Eigen::Vector3d&amp;<sp/>Gdt)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="class_simulable_sequence_1a85cdcf5f7bd5bed804a816e3c18840b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1a85cdcf5f7bd5bed804a816e3c18840b7" kindref="member">getbValue</ref>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>i)<sp/>{</highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>i;}<sp/></highlight><highlight class="comment">/*WARNING:Needs<sp/>to<sp/>be<sp/>overloaded*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="class_simulable_sequence_1a31a328cc716e039a53f9b12122050b83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1a31a328cc716e039a53f9b12122050b83" kindref="member">getFreeDecay</ref>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>i,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>D){</highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>i*D;}<sp/><sp/></highlight><highlight class="comment">/*WARNING:<sp/>Needs<sp/>to<sp/>be<sp/>overloaded*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1ad7b2a30f563343aa65489aa553d4df63" kindref="member">update_phase_shift</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dt,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dt_last,<ref refid="class_walker" kindref="compound">Walker</ref><sp/>walker)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1ad7b2a30f563343aa65489aa553d4df63" kindref="member">update_phase_shift</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>time_step,Eigen::Matrix3Xd<sp/>trajectory)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1af5621196178ee78b27e740dfe360815e" kindref="member">update_DWI_signal</ref>(<ref refid="class_walker" kindref="compound">Walker</ref>&amp;<sp/>walker)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1a2e16c0b0dcf1b90ad0afc53ab14e9250" kindref="member">setNumberOfSteps</ref>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>T)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="class_simulable_sequence_1a3c5285531564cdb204894e6c6fc9204e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1a3c5285531564cdb204894e6c6fc9204e" kindref="member">computeDynamicTimeSteps</ref>()<sp/>{}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1aa2434c3b2ef59d1cd8b822b8e3a2920c" kindref="member">initializeSubdivisionSignals</ref>();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence_1a3fad0e115a2ec07a8b1202608eba698e" kindref="member">initializeIntraExtraSignals</ref>();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeResultingData(std::string<sp/>output_base_name);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writePhaseShiftDistribution(std::string<sp/>output_base_name);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanPhaseShift();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanDWISignal();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>SIMULABLESEQUENCE_H</highlight></codeline>
+    </programlisting>
+    <location file="src/simulablesequence.h"/>
+  </compounddef>
+</doxygen>

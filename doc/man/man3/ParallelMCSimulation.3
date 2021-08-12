@@ -1,0 +1,164 @@
+.TH "ParallelMCSimulation" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ParallelMCSimulation \- Class to handle multiprocessor paralellisation\&. This class basicly controls and syncronize several initializations of MonteCarlo simulations and add up the results\&. It's a way of soft paralelization\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <parallelmcsimulation\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBParallelMCSimulation\fP (std::string config_file)"
+.br
+.RI "Main constructor\&. "
+.ti -1c
+.RI "\fBParallelMCSimulation\fP (\fBParameters\fP &\fBparams\fP)"
+.br
+.RI "Constructor\&. "
+.ti -1c
+.RI "void \fBstartSimulation\fP ()"
+.br
+.RI "Warp function\&. Calls the \fBMCSimulation\fP's native function for all the instances\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBParameters\fP \fBparams\fP"
+.br
+.ti -1c
+.RI "double \fBmean_second_passed\fP"
+.br
+.ti -1c
+.RI "unsigned \fBtotal_sim_particles\fP"
+.br
+.ti -1c
+.RI "unsigned \fBstuck_count\fP"
+.br
+.ti -1c
+.RI "unsigned \fBillegal_count\fP"
+.br
+.ti -1c
+.RI "double \fBicvf\fP"
+.br
+.ti -1c
+.RI "double \fBaprox_volumen\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBMCSimulation\fP * > \fBsimulations\fP"
+.br
+.ti -1c
+.RI "std::vector< std::thread > \fBsim_threads\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBPLYObstacle\fP > \fBplyObstacles_list\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBCylinder\fP > \fBcylinders_list\fP"
+.br
+.ti -1c
+.RI "std::vector< Eigen::Vector3f > \fBtotal_ini_walker_pos\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Class to handle multiprocessor paralellisation\&. This class basicly controls and syncronize several initializations of MonteCarlo simulations and add up the results\&. It's a way of soft paralelization\&. 
+
+Implementation of the PGSE protocol\&.
+.PP
+==============================================================================/
+.PP
+Class to handle multiprocessor paralellisation 
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+November 2016 
+.PP
+ 
+.RE
+.PP
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "ParallelMCSimulation::ParallelMCSimulation (std::string config_file)"
+
+.PP
+Main constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconfig_file\fP \&.conf file name with the full set of experiments parameters\&. 
+.RE
+.PP
+
+.SS "ParallelMCSimulation::ParallelMCSimulation (\fBParameters\fP & params)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameters\fP of the simulation\&. Read form a conf file or given by the user\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "ParallelMCSimulation::startSimulation ()"
+
+.PP
+Warp function\&. Calls the \fBMCSimulation\fP's native function for all the instances\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+:\fBMCSimulation\fP:\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "double ParallelMCSimulation::aprox_volumen"
+Stores the volumen based on ICVF and the voxel size 
+.SS "std::vector<\fBCylinder\fP> ParallelMCSimulation::cylinders_list"
+vector with all the instances of cylinders 
+.SS "double ParallelMCSimulation::icvf"
+Stores the ICVF based on the particles sampling 
+.SS "unsigned ParallelMCSimulation::illegal_count"
+Counts the number of particles that attempt to cross 
+.SS "double ParallelMCSimulation::mean_second_passed"
+Simualation total time in seconds 
+.SS "\fBParameters\fP ParallelMCSimulation::params"
+\fBParameters\fP instance 
+.PP
+\fBSee also:\fP
+.RS 4
+:\fBParameters\fP: 
+.RE
+.PP
+
+.SS "std::vector<\fBPLYObstacle\fP> ParallelMCSimulation::plyObstacles_list"
+vector with all the instances of PLYObstacles 
+.SS "std::vector<std::thread> ParallelMCSimulation::sim_threads"
+Number of threads (instances and processors) to be used 
+.SS "std::vector<\fBMCSimulation\fP*> ParallelMCSimulation::simulations"
+vector of pointers to \fBMCSimulation\fP instances 
+.SS "unsigned ParallelMCSimulation::stuck_count"
+Counts the number of particles stuck in the simulations 
+.SS "std::vector<Eigen::Vector3f> ParallelMCSimulation::total_ini_walker_pos"
+Number of threads (instances and processors) to be used 
+.SS "unsigned ParallelMCSimulation::total_sim_particles"
+Total number of simulated particles 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

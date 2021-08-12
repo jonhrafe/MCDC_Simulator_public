@@ -4,11 +4,11 @@
 /*******************************************   Cylinder Sphere Collision Implementation ***********************************************/
 
 
-CylinderCollisionSphere::CylinderCollisionSphere():small_sphere_list_end(0),big_sphere_list_end(0)
+ObstacleCollisionSphere::ObstacleCollisionSphere():small_sphere_list_end(0),big_sphere_list_end(0)
 {
 }
 
-void CylinderCollisionSphere::pushToSmallSphere(unsigned i)
+void ObstacleCollisionSphere::pushToSmallSphere(unsigned i)
 {
     //If i is already inside the "good" side we do nothing
     if(i < small_sphere_list_end || small_sphere_list_end == collision_list->size()){
@@ -25,7 +25,7 @@ void CylinderCollisionSphere::pushToSmallSphere(unsigned i)
         big_sphere_list_end = small_sphere_list_end;
 }
 
-void CylinderCollisionSphere::pushToBigSphere(unsigned i)
+void ObstacleCollisionSphere::pushToBigSphere(unsigned i)
 {
     //If i is already on the "other" side we do nothing
     if(i < big_sphere_list_end || big_sphere_list_end == collision_list->size()){
@@ -40,7 +40,7 @@ void CylinderCollisionSphere::pushToBigSphere(unsigned i)
 }
 
 
-void CylinderCollisionSphere::popFromSmallSphere(unsigned i)
+void ObstacleCollisionSphere::popFromSmallSphere(unsigned i)
 {
     //If i is already on the "other" side we do nothing
     if(i >= small_sphere_list_end || small_sphere_list_end == 0){
@@ -53,7 +53,7 @@ void CylinderCollisionSphere::popFromSmallSphere(unsigned i)
     small_sphere_list_end--;
 }
 
-void CylinderCollisionSphere::popFromBigSphere(unsigned i)
+void ObstacleCollisionSphere::popFromBigSphere(unsigned i)
 {
     //If i is already on the "other" side we do nothing
     if(i >= big_sphere_list_end || big_sphere_list_end == 0){
@@ -71,15 +71,15 @@ void CylinderCollisionSphere::popFromBigSphere(unsigned i)
 }
 
 
-void CylinderCollisionSphere::setBigSphereSize(float size){
+void ObstacleCollisionSphere::setBigSphereSize(float size){
     big_sphere_distance = size;
 }
 
-void CylinderCollisionSphere::setSmallSphereSize(float size){
+void ObstacleCollisionSphere::setSmallSphereSize(float size){
     small_sphere_distance = size;
 }
 
-void CylinderCollisionSphere::push_index(unsigned int element)
+void ObstacleCollisionSphere::push_index(unsigned int element)
 {
         collision_list->push_back(element);
         list_size++;

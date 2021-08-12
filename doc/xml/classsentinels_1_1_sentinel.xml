@@ -1,0 +1,342 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classsentinels_1_1_sentinel" kind="class" language="C++" prot="public">
+    <compoundname>sentinels::Sentinel</compoundname>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classsentinels_1_1_sentinel_1a82dc9b174c5d4c23b747b083f6ba7dbd" prot="public" static="no">
+        <name>ErrorCases</name>
+        <enumvalue id="classsentinels_1_1_sentinel_1a82dc9b174c5d4c23b747b083f6ba7dbda2382d7edabe5b82666518970902ce0a5" prot="public">
+          <name>none</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classsentinels_1_1_sentinel_1a82dc9b174c5d4c23b747b083f6ba7dbdae53f3f8847351776cd601de49c7d915a" prot="public">
+          <name>stuck</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classsentinels_1_1_sentinel_1a82dc9b174c5d4c23b747b083f6ba7dbda21d6240134dcfedeb9f31d603704aaa6" prot="public">
+          <name>crossed</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classsentinels_1_1_sentinel_1a82dc9b174c5d4c23b747b083f6ba7dbdace66c786e23d925dca9ef11d4afcb78e" prot="public">
+          <name>rejected</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classsentinels_1_1_sentinel_1a82dc9b174c5d4c23b747b083f6ba7dbda2b0e59b3dbf70bf823e695b17c822cbd" prot="public">
+          <name>rejected_initial_pos</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="27" column="1" bodyfile="src/sentinel.h" bodystart="27" bodyend="27"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsentinels_1_1_sentinel_1a7c588d3516d0576ccd319cfffa2ba1ee" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned sentinels::Sentinel::stuck_count</definition>
+        <argsstring></argsstring>
+        <name>stuck_count</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="24" column="1" bodyfile="src/sentinel.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsentinels_1_1_sentinel_1ae63b02f83c9738eb01a85268279ebb52" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned sentinels::Sentinel::illegal_count</definition>
+        <argsstring></argsstring>
+        <name>illegal_count</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="25" column="1" bodyfile="src/sentinel.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsentinels_1_1_sentinel_1a117da1c60b611dcf0780f21b9b4bcfff" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned sentinels::Sentinel::bouncings</definition>
+        <argsstring></argsstring>
+        <name>bouncings</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="29" column="1" bodyfile="src/sentinel.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsentinels_1_1_sentinel_1a934aa2e258cfed479b293bd6fa546b4d" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned sentinels::Sentinel::obstacle_id</definition>
+        <argsstring></argsstring>
+        <name>obstacle_id</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="30" column="1" bodyfile="src/sentinel.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsentinels_1_1_sentinel_1aa1711693186810c3b3db9d6d25d43373" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned sentinels::Sentinel::rejected_count</definition>
+        <argsstring></argsstring>
+        <name>rejected_count</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="31" column="1" bodyfile="src/sentinel.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsentinels_1_1_sentinel_1abf75c99c36d1155320b934ae2f9a8f82" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sentinels::Sentinel::rejected_step</definition>
+        <argsstring></argsstring>
+        <name>rejected_step</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="32" column="1" bodyfile="src/sentinel.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsentinels_1_1_sentinel_1af1f6fc70d0048859742b3df027b1e775" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sentinels::Sentinel::deport_illegals</definition>
+        <argsstring></argsstring>
+        <name>deport_illegals</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="33" column="1" bodyfile="src/sentinel.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsentinels_1_1_sentinel_1ae542b64ba62eabadab040447ae23f960" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sentinels::Sentinel::discard_stucks</definition>
+        <argsstring></argsstring>
+        <name>discard_stucks</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="34" column="1" bodyfile="src/sentinel.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsentinels_1_1_sentinel_1a1c163213e6a40e1d935d5eb6333b5b62" prot="public" static="no" mutable="no">
+        <type>ErrorCases</type>
+        <definition>ErrorCases sentinels::Sentinel::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="36" column="1" bodyfile="src/sentinel.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsentinels_1_1_sentinel_1aae2f776368f864208264fdbe3a90ecdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Sentinel::Sentinel</definition>
+        <argsstring>()</argsstring>
+        <name>Sentinel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="38" column="1" bodyfile="src/sentinel.cpp" bodystart="8" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classsentinels_1_1_sentinel_1ad292b3700a6f7172e31aba2c3c57d800" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Sentinel::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="40" column="1" bodyfile="src/sentinel.cpp" bodystart="28" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classsentinels_1_1_sentinel_1a88cb42ad4144fcd6079117fe71e762ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Sentinel::setBouncingError</definition>
+        <argsstring>(unsigned bouncings)</argsstring>
+        <name>setBouncingError</name>
+        <param>
+          <type>unsigned</type>
+          <declname>bouncings</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="42" column="1" bodyfile="src/sentinel.cpp" bodystart="36" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classsentinels_1_1_sentinel_1a19710e1e2a694442d64772c63307c110" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Sentinel::setCrossingError</definition>
+        <argsstring>(unsigned)</argsstring>
+        <name>setCrossingError</name>
+        <param>
+          <type>unsigned</type>
+          <defname>id</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="44" column="1" bodyfile="src/sentinel.cpp" bodystart="42" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classsentinels_1_1_sentinel_1a75fbb7413866ebf130fd6d28fa4a77b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Sentinel::setRejectedError</definition>
+        <argsstring>()</argsstring>
+        <name>setRejectedError</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="46" column="1" bodyfile="src/sentinel.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classsentinels_1_1_sentinel_1a43d8a814622b8c3ad0290d7cc2c7202e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Sentinel::checkErrors</definition>
+        <argsstring>(Walker &amp;w, const Parameters &amp;params, bool noPLY, unsigned &amp;bouncing_count)</argsstring>
+        <name>checkErrors</name>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref> &amp;</type>
+          <declname>w</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>noPLY</declname>
+        </param>
+        <param>
+          <type>unsigned &amp;</type>
+          <declname>bouncing_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="48" column="1" bodyfile="src/sentinel.cpp" bodystart="51" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classsentinels_1_1_sentinel_1aabce46b0d258a94d0401d80904e3b1f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Sentinel::deportationProcess</definition>
+        <argsstring>(Walker &amp;walker, unsigned &amp;w, unsigned &amp;t, bool &amp;back_tracking, Parameters &amp;params, int id)</argsstring>
+        <name>deportationProcess</name>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref> &amp;</type>
+          <declname>walker</declname>
+        </param>
+        <param>
+          <type>unsigned &amp;</type>
+          <declname>w</declname>
+        </param>
+        <param>
+          <type>unsigned &amp;</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>bool &amp;</type>
+          <declname>back_tracking</declname>
+        </param>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sentinel.h" line="50" column="1" bodyfile="src/sentinel.cpp" bodystart="85" bodyend="119"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/sentinel.h" line="21" column="1" bodyfile="src/sentinel.h" bodystart="20" bodyend="52"/>
+    <listofallmembers>
+      <member refid="classsentinels_1_1_sentinel_1a117da1c60b611dcf0780f21b9b4bcfff" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>bouncings</name></member>
+      <member refid="classsentinels_1_1_sentinel_1a43d8a814622b8c3ad0290d7cc2c7202e" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>checkErrors</name></member>
+      <member refid="classsentinels_1_1_sentinel_1ad292b3700a6f7172e31aba2c3c57d800" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>clear</name></member>
+      <member refid="classsentinels_1_1_sentinel_1a82dc9b174c5d4c23b747b083f6ba7dbda21d6240134dcfedeb9f31d603704aaa6" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>crossed</name></member>
+      <member refid="classsentinels_1_1_sentinel_1af1f6fc70d0048859742b3df027b1e775" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>deport_illegals</name></member>
+      <member refid="classsentinels_1_1_sentinel_1aabce46b0d258a94d0401d80904e3b1f4" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>deportationProcess</name></member>
+      <member refid="classsentinels_1_1_sentinel_1ae542b64ba62eabadab040447ae23f960" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>discard_stucks</name></member>
+      <member refid="classsentinels_1_1_sentinel_1a1c163213e6a40e1d935d5eb6333b5b62" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>error</name></member>
+      <member refid="classsentinels_1_1_sentinel_1a82dc9b174c5d4c23b747b083f6ba7dbd" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>ErrorCases</name></member>
+      <member refid="classsentinels_1_1_sentinel_1ae63b02f83c9738eb01a85268279ebb52" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>illegal_count</name></member>
+      <member refid="classsentinels_1_1_sentinel_1a82dc9b174c5d4c23b747b083f6ba7dbda2382d7edabe5b82666518970902ce0a5" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>none</name></member>
+      <member refid="classsentinels_1_1_sentinel_1a934aa2e258cfed479b293bd6fa546b4d" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>obstacle_id</name></member>
+      <member refid="classsentinels_1_1_sentinel_1a82dc9b174c5d4c23b747b083f6ba7dbdace66c786e23d925dca9ef11d4afcb78e" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>rejected</name></member>
+      <member refid="classsentinels_1_1_sentinel_1aa1711693186810c3b3db9d6d25d43373" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>rejected_count</name></member>
+      <member refid="classsentinels_1_1_sentinel_1a82dc9b174c5d4c23b747b083f6ba7dbda2b0e59b3dbf70bf823e695b17c822cbd" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>rejected_initial_pos</name></member>
+      <member refid="classsentinels_1_1_sentinel_1abf75c99c36d1155320b934ae2f9a8f82" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>rejected_step</name></member>
+      <member refid="classsentinels_1_1_sentinel_1aae2f776368f864208264fdbe3a90ecdb" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>Sentinel</name></member>
+      <member refid="classsentinels_1_1_sentinel_1a88cb42ad4144fcd6079117fe71e762ed" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>setBouncingError</name></member>
+      <member refid="classsentinels_1_1_sentinel_1a19710e1e2a694442d64772c63307c110" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>setCrossingError</name></member>
+      <member refid="classsentinels_1_1_sentinel_1a75fbb7413866ebf130fd6d28fa4a77b9" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>setRejectedError</name></member>
+      <member refid="classsentinels_1_1_sentinel_1a82dc9b174c5d4c23b747b083f6ba7dbdae53f3f8847351776cd601de49c7d915a" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>stuck</name></member>
+      <member refid="classsentinels_1_1_sentinel_1a7c588d3516d0576ccd319cfffa2ba1ee" prot="public" virt="non-virtual"><scope>sentinels::Sentinel</scope><name>stuck_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

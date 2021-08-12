@@ -62,6 +62,13 @@ public:
     */
     static bool checkCylindersListFile(Parameters &params);
 
+    //! \fn checks if the given cylinder list file make sense
+    /*! \param parameter instance
+     *  \brief Return false if any of the cylinder list files are inconsistent or bugged.
+     *  In may assert the program.
+    */
+    static bool checkSphereListFile(Parameters &params);
+
     //! \fn checks if the given initial walker file make sense
     /*! \param parameter instance
      *  \brief Return false if the initial position file is inconsistent or bugged. In may assert the

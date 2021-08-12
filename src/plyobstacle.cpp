@@ -1,8 +1,8 @@
 #include "plyobstacle.h"
 #include <fstream>
 #include <iostream>
-#include <constants.h>
-#include <Eigen/Dense>
+#include "constants.h"
+#include "Eigen/Dense"
 
 using namespace std;
 
@@ -11,12 +11,11 @@ PLYObstacle::PLYObstacle()
     file_path    = "";
     vert_number  = 0;
     face_number  = 0;
-    vertices     = NULL;
-    faces        = NULL;
+    vertices     = nullptr;
+    faces        = nullptr;
     scale_factor = 1;
     percolation  = 0;
     count_perc_crossings = 0;
-
 }
 
 PLYObstacle::PLYObstacle(string path, double scale_factor_)
@@ -24,20 +23,33 @@ PLYObstacle::PLYObstacle(string path, double scale_factor_)
     file_path    = "";
     vert_number  = 0;
     face_number  = 0;
-    vertices     = NULL;
-    faces        = NULL;
+    vertices     = nullptr;
+    faces        = nullptr;
     scale_factor = scale_factor_;
     percolation  = 0;
     count_perc_crossings = 0;
-
     readPLY_ASCII_triangles(path);
 }
 
+PLYObstacle::PLYObstacle(string path, std::vector<Eigen::Vector3d> &centers, double max_distance, double scale_factor_)
+{
+    file_path    = "";
+    vert_number  = 0;
+    face_number  = 0;
+    vertices     = nullptr;
+    faces        = nullptr;
+    scale_factor = scale_factor_;
+    percolation  = 0;
+    count_perc_crossings = 0;
+    readPLY_ASCII_trianglesSubdivitionDistance(path,centers,max_distance);
+}
+
+
 void PLYObstacle::readPLY_ASCII_triangles(std::string ply_file)
 {
-    if (vertices != NULL)
+    if (vertices != nullptr)
         delete[] vertices;
-    if (faces != NULL)
+    if (faces != nullptr)
         delete[] faces;
 
     std::ifstream in(ply_file.c_str(),std::ifstream::in);
@@ -88,6 +100,88 @@ void PLYObstacle::readPLY_ASCII_triangles(std::string ply_file)
         faces[i].saveNormalAndAuxInfo();
         //cout << faces[i].indexes[0] << " " << faces[i].indexes[1] << " "  << faces[i].indexes[2] << endl;
     }
+
+}
+
+void PLYObstacle::readPLY_ASCII_trianglesSubdivitionDistance(string ply_file, vector<Eigen::Vector3d>& centers, double max_distance)
+{
+
+    if (vertices != nullptr)
+        delete[] vertices;
+    if (faces != nullptr)
+        delete[] faces;
+
+    std::ifstream in(ply_file.c_str(),std::ifstream::in);
+
+    if(!in){
+        std::cout << "Error opening file " << ply_file << std::endl;
+        assert(0);
+        return;
+    }
+
+    std::string tmp = "";
+    while(tmp.compare("end_header")){
+        in >> tmp;
+
+        if(!tmp.compare("vertex")){
+            in >> vert_number;
+        }
+        if(!tmp.compare("face")){
+            in >> face_number;
+        }
+    }
+
+    vertices = new Vertex[vert_number];
+    faces = new Triangle[face_number];
+
+    for (unsigned i =0; i< vert_number; i++){
+        in >> vertices[i].points[0];
+        in >> vertices[i].points[1];
+        in >> vertices[i].points[2];
+
+        //cout << vertices[i].points[0] << " " << vertices[i].points[1] << " " << vertices[i].points[2] << " " << endl;
+    }
+
+
+    for (unsigned i =0; i< vert_number; i++){
+        vertices[i].points[0]*=scale_factor;
+        vertices[i].points[1]*=scale_factor;
+        vertices[i].points[2]*=scale_factor;
+    }
+
+    int in_index = 0;
+    double  distance;
+    int num;
+    for (unsigned i = 0; i < face_number; ++i) {
+        in >> num;
+        //in >> faces[i].index;
+        in >> faces[in_index].indexes[0];
+        in >> faces[in_index].indexes[1];
+        in >> faces[in_index].indexes[2];
+        faces[in_index].vertices = vertices;
+        faces[in_index].saveNormalAndAuxInfo();
+
+        if(centers.size()>0){
+            for (auto c:centers ){
+                //auto c= centers[j];
+                distance = faces[in_index].minDistance(c);
+
+                if(distance < max_distance){
+                    in_index++;
+                    break;
+                }
+            }
+        }
+        else{
+            in_index++;
+        }
+
+        //cout << faces[i].indexes[0] << " " << faces[i].indexes[1] << " "  << faces[i].indexes[2] << endl;
+    }
+
+    cout << "before " << face_number << endl;
+    face_number = in_index;
+    cout << "after " << face_number << endl;
 
 }
 

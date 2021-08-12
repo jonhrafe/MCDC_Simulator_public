@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_plane" kind="class" language="C++" prot="public">
+    <compoundname>Plane</compoundname>
+    <includes refid="voxel_8h" local="no">voxel.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_plane_1a229ee65fd1663c7e7bd101309ddcf5e0" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Plane::normal</definition>
+        <argsstring></argsstring>
+        <name>normal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voxel.h" line="22" column="1" bodyfile="src/voxel.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_plane_1a20cfe0415a4f25f03d2d639ae9a647e9" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Plane::plane_center</definition>
+        <argsstring></argsstring>
+        <name>plane_center</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voxel.h" line="22" column="1" bodyfile="src/voxel.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_plane_1a13e69abc574bead3f8f450bbe2b43cf9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Plane::d</definition>
+        <argsstring></argsstring>
+        <name>d</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voxel.h" line="23" column="1" bodyfile="src/voxel.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_plane_1acac0d9c003e0ab10d07b146c3566a0c7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Plane::Plane</definition>
+        <argsstring>()</argsstring>
+        <name>Plane</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voxel.h" line="26" column="1" bodyfile="src/voxel.h" bodystart="26" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plane_1a8b1516b02b3ab4bdfe48234db82da168" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Plane::Plane</definition>
+        <argsstring>(Eigen::Vector3d normal_, Eigen::Vector3d plane_center_, double d_)</argsstring>
+        <name>Plane</name>
+        <param>
+          <type>Eigen::Vector3d</type>
+          <declname>normal_</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d</type>
+          <declname>plane_center_</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>d_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voxel.h" line="32" column="1" bodyfile="src/voxel.cpp" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plane_1a942208920a6e4762e3dc9aab76305667" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Plane::Plane</definition>
+        <argsstring>(Eigen::Vector3d &amp;a, Eigen::Vector3d &amp;b, Eigen::Vector3d &amp;c, Eigen::Vector3d &amp;d)</argsstring>
+        <name>Plane</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voxel.h" line="34" column="1" bodyfile="src/voxel.cpp" bodystart="50" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plane_1a1a4e24c5ca029ceb787f291a11adac8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Plane::CheckCollision</definition>
+        <argsstring>(Walker &amp;walker, Eigen::Vector3d &amp;step, double tmax, Collision &amp;colision)</argsstring>
+        <name>CheckCollision</name>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref> &amp;</type>
+          <declname>walker</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tmax</declname>
+        </param>
+        <param>
+          <type><ref refid="class_collision" kindref="compound">Collision</ref> &amp;</type>
+          <declname>colision</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voxel.h" line="36" column="1" bodyfile="src/voxel.cpp" bodystart="58" bodyend="80"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Main class. Implements basic voxel limits and operations. =================================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Class to handle and manage the voxels in the simulations. So far only one voxel at the time can be handled. To improve to several voxels, modifications shall be done.</para><para><simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>July 2016 </para></simplesect>
+<simplesect kind="version"><para>0.2 =============================================================================================================+</para></simplesect>
+Auxiliary class to implements plane&apos;s interactions with particles. </para>    </detaileddescription>
+    <location file="src/voxel.h" line="19" column="1" bodyfile="src/voxel.h" bodystart="19" bodyend="37"/>
+    <listofallmembers>
+      <member refid="class_plane_1a1a4e24c5ca029ceb787f291a11adac8f" prot="public" virt="non-virtual"><scope>Plane</scope><name>CheckCollision</name></member>
+      <member refid="class_plane_1a13e69abc574bead3f8f450bbe2b43cf9" prot="public" virt="non-virtual"><scope>Plane</scope><name>d</name></member>
+      <member refid="class_plane_1a229ee65fd1663c7e7bd101309ddcf5e0" prot="public" virt="non-virtual"><scope>Plane</scope><name>normal</name></member>
+      <member refid="class_plane_1acac0d9c003e0ab10d07b146c3566a0c7" prot="public" virt="non-virtual"><scope>Plane</scope><name>Plane</name></member>
+      <member refid="class_plane_1a8b1516b02b3ab4bdfe48234db82da168" prot="public" virt="non-virtual"><scope>Plane</scope><name>Plane</name></member>
+      <member refid="class_plane_1a942208920a6e4762e3dc9aab76305667" prot="public" virt="non-virtual"><scope>Plane</scope><name>Plane</name></member>
+      <member refid="class_plane_1a20cfe0415a4f25f03d2d639ae9a647e9" prot="public" virt="non-virtual"><scope>Plane</scope><name>plane_center</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

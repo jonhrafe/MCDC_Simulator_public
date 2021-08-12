@@ -1,0 +1,5 @@
+<map id="PLYObstacle" name="PLYObstacle">
+<area shape="rect" id="node2" href="$class_obstacle.html" title="Obstacle Base Class ==============================================================================/. " alt="" coords="5,95,80,121"/>
+<area shape="rect" id="node3" href="$class_triangle.html" title="Auxiliary class. Implements trangular barriers. ===================================/. " alt="" coords="203,95,271,121"/>
+<area shape="rect" id="node4" href="$class_vertex.html" title="Auxiliary class. Implements basic vertices. ====================================/. " alt="" coords="119,5,179,32"/>
+</map>

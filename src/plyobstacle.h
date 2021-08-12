@@ -27,20 +27,23 @@ public:
     Vertex*     vertices;
     Triangle*   faces;
     double      scale_factor;
+    int         id;
 
     PLYObstacle();
     PLYObstacle(std::string path,double scale_factor_ = 1);
+    PLYObstacle(std::string path, std::vector<Eigen::Vector3d> &centers, double max_distance=INFINITY,double scale_factor_ = 1);
 
 
     void readPLY_ASCII_triangleFan(std::string ply_file);
     void readPLY_ASCII_triangles(std::string ply_file);
+    void readPLY_ASCII_trianglesSubdivitionDistance(std::string ply_file, std::vector<Eigen::Vector3d> &centers, double max_distance);
+
     void setScaleFactor(double scale){scale_factor = scale;}
 
-//    bool computeStepCollition(Walker &w, double step[3], const double &step_length,double end_point[3], Collision& colision);
+//  bool computeStepCollition(Walker &w, double step[3], const double &step_length,double end_point[3], Collision& colision);
     bool checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision);
 
     bool checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision, std::vector<unsigned> &triangle_list, unsigned list_end);
-
 
     double minDistance(Walker& w, unsigned t);
 

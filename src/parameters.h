@@ -3,7 +3,7 @@
 *   \details   Basic class to store and handle all the possible simulation parameters.
 *   \author    Jonathan Rafael
 *   \date      November 2016
-*   \version   0.2
+*   \version   1.5
 *===========================================================================================================*/
 #ifndef PARAMETERS_H
 #define PARAMETERS_H
@@ -45,8 +45,11 @@ public:
 
     std::vector<std::string> cylinders_files;       /*!< file paths with a list of cilinders obstacles                              */
     std::vector<std::string> PLY_files;             /*!< file paths with PLY obstacle files                                         */
+    std::vector<std::string> spheres_files;         /*!< file paths with spheres obstacle files                                     */
     std::vector<double> PLY_scales;                 /*!< Auxiliary vector to save PLY file scales                                   */
-    std::vector<float> ini_delta_pos;               /*!< Delta position for the wlakers                                             */
+    std::vector<double> PLY_percolation;            /*!< Auxiliary vector to save PLY percolation                                   */
+
+    std::vector<float> ini_delta_pos;               /*!< Delta position for the walkers                                             */
 
     unsigned num_proc;                              /*!< Number of precessors/process to launch in parallel                         */
 
@@ -58,17 +61,21 @@ public:
     std::vector<unsigned> record_phase_times;       /*!< time indexes, used to save the phase shif of all walkers at certain time   */
     std::vector<unsigned> record_prop_times;        /*!< time indexes, used to save the mean propagator of the walkers at c. times  */
 
-    bool   hex_packing;                             /*!< flag, true if an haxagonal packing should be used                          */
-    double hex_packing_radius;                      /*!< float, constant radius for the cylinders                                          */
+    bool   hex_cyl_packing;                         /*!< flag, true if an haxagonal packing should be used                          */
+    bool   hex_sphere_packing;                      /*!< flag, true if an haxagonal packing OF SPHERES should be used               */
+    double hex_packing_radius;                      /*!< float, constant radius for the cylinders                                   */
     double hex_packing_separation;                  /*!< float, separation distance betwen cylinders (separation > 2*radius)        */
+    double hex_packing_icvf;                        /*!< float, ICVF computed or passed as parameter                                */
 
-    bool        gamma_packing;                      /*!< flag, true if a gamma distribution of cylinders will be initialized        */
+    bool        gamma_cyl_packing;                  /*!< flag, true if a gamma distribution of cylinders will be initialized        */
+    bool        gamma_sph_packing;                  /*!< flag, true if a gamma distribution of  SPHERES will be initialized         */
     bool        gamma_output_conf;
     double      gamma_packing_alpha;
     double      gamma_packing_beta;
     double      gamma_icvf;
     double      gamma_output_configuration;
-    unsigned    gamma_num_cylinders;
+    unsigned    gamma_num_obstacles;
+    float       min_obstacle_radii;                 /*!< Minimum radii (in um) to be sampled                                        */
 
     bool subdivision_flag           = false;        /*!< flag to check if we have several voxel subdivision to compute the signal   */
     unsigned number_subdivisions    = 0;            /*!< saves the number of subdivisions for an initialzied voxel (needed)         */
@@ -90,6 +97,10 @@ public:
     Eigen::Vector3d max_sampling_area;              /*!< Max defining point to delimiter the uniform sampling of walkers            */
     bool custom_sampling_area;                      /*!< True if a custom sampling area is defined (voxel for default)              */
     bool computeVolume;                             /*!< Forces the volumen computation (slower) even without custom sampling       */
+    bool separate_signals;                          /*!< Separate the signals into intra and extra (compute_volume on)              */
+    bool img_signal;                                /*!< True to save the img part of the dwi signal (false by default)             */
+
+
     /*! \fn Parameters
      *  \brief Default constructor. Sets all the parameters to default and NULL values.
      */
@@ -241,6 +252,11 @@ public:
 
     static int str_dist(std::string s, std::string t);
 
+    /*! \fn
+     *  \brief adds the number of given subdivisions for the voxel
+    */
+    void addSubdivisions();
+
 private:
 
     /*! \fn readObstacles
@@ -281,15 +297,20 @@ private:
     void readSubdivisionFile();
 
     /*! \fn
-     *  \brief adds the number of given subdivisions for the voxel
-    */
-    void addSubdivisions();
-
-
-    /*! \fn
      *  \brief read the directions used to compute the propagator.
     */
     void readPropagatorDirections(std::string dir_path);
+
+    /*! \fn
+     *  \brief read a file with one ply scale value and then a list of ply files .
+    */
+    void readPLYFileList(std::string path);
+
+    /*! \fn
+     *  \brief read a file with the path, scale and percolation of each ply
+     *
+    */
+    void readPLYFileListScalePercolation(std::string path);
 
 
 };

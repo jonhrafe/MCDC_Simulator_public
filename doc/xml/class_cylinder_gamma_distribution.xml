@@ -1,0 +1,467 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_cylinder_gamma_distribution" kind="class" language="C++" prot="public">
+    <compoundname>CylinderGammaDistribution</compoundname>
+    <includes refid="cylindergammadistribution_8h" local="no">cylindergammadistribution.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_cylinder_gamma_distribution_1af74583662a4f33ba1565f2c71e6bbc5a" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned CylinderGammaDistribution::num_cylinders</definition>
+        <argsstring></argsstring>
+        <name>num_cylinders</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>number of cylnders fit inside the substrate </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="24" column="1" bodyfile="src/cylindergammadistribution.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cylinder_gamma_distribution_1a8cae528f51692ed05049e4ea06c63722" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double CylinderGammaDistribution::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>alpha coefficient of the Gamma distribution </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="25" column="1" bodyfile="src/cylindergammadistribution.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cylinder_gamma_distribution_1a601a42ef7bacbf9696229efbd703f61e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double CylinderGammaDistribution::beta</definition>
+        <argsstring></argsstring>
+        <name>beta</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>beta coefficient of the gamma distribution </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="26" column="1" bodyfile="src/cylindergammadistribution.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cylinder_gamma_distribution_1a31f82c4608b7cd2b022805e30a4db983" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double CylinderGammaDistribution::icvf</definition>
+        <argsstring></argsstring>
+        <name>icvf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Achieved intra-celular volum fraction in the substrate </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="27" column="1" bodyfile="src/cylindergammadistribution.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cylinder_gamma_distribution_1aece7d3ec40d3dbb3a2ecd1bd88c5a694" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float CylinderGammaDistribution::min_radius</definition>
+        <argsstring></argsstring>
+        <name>min_radius</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum radius to be sampled from the gamma distribution </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="28" column="1" bodyfile="src/cylindergammadistribution.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cylinder_gamma_distribution_1ac77a9d794f2f2000066c4a26f19a9097" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d CylinderGammaDistribution::min_limits</definition>
+        <argsstring></argsstring>
+        <name>min_limits</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>voxel min limits (if any) (bottom left corner) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="30" column="1" bodyfile="src/cylindergammadistribution.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cylinder_gamma_distribution_1aa7094851c2ccf05fc5ff7a99707aa786" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d CylinderGammaDistribution::max_limits</definition>
+        <argsstring></argsstring>
+        <name>max_limits</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>voxel max limits (if any) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="31" column="1" bodyfile="src/cylindergammadistribution.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cylinder_gamma_distribution_1a3e8265a7ddb15d895112e02bd66fbf67" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_cylinder" kindref="compound">Cylinder</ref> &gt;</type>
+        <definition>std::vector&lt;Cylinder&gt; CylinderGammaDistribution::cylinders</definition>
+        <argsstring></argsstring>
+        <name>cylinders</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_cylinder" kindref="compound">Cylinder</ref> vector </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="32" column="1" bodyfile="src/cylindergammadistribution.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_cylinder_gamma_distribution_1a7578f5f0fb11398ec5bf5007047f4b81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>CylinderGammaDistribution::CylinderGammaDistribution</definition>
+        <argsstring>(unsigned, double, double, double, Eigen::Vector3d &amp;, Eigen::Vector3d &amp;, float min_radius)</argsstring>
+        <name>CylinderGammaDistribution</name>
+        <param>
+          <type>unsigned</type>
+          <defname>num_cyl</defname>
+        </param>
+        <param>
+          <type>double</type>
+          <defname>a</defname>
+        </param>
+        <param>
+          <type>double</type>
+          <defname>b</defname>
+        </param>
+        <param>
+          <type>double</type>
+          <defname>icvf_</defname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <defname>min_l</defname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <defname>max_l</defname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_radius</declname>
+        </param>
+        <briefdescription>
+<para>Initialize everything. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>P_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="class_cylinder" kindref="compound">Cylinder</ref> origin </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Q_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>cylinder direction. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>radius_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>cylinder&apos;s radius </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>scale factor for the values passed. Useful when reading a file. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="41" column="1" bodyfile="src/cylindergammadistribution.cpp" bodystart="8" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_gamma_distribution_1a3408ed30966550c10810a0a6cbbfd3c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void CylinderGammaDistribution::displayGammaDistribution</definition>
+        <argsstring>()</argsstring>
+        <name>displayGammaDistribution</name>
+        <briefdescription>
+<para>Shows a small histogram of the gamma distribution. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="46" column="1" bodyfile="src/cylindergammadistribution.cpp" bodystart="39" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_gamma_distribution_1ad93e569b24e3c6b1266ecf79bd18dec9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void CylinderGammaDistribution::createGammaSubstrate</definition>
+        <argsstring>()</argsstring>
+        <name>createGammaSubstrate</name>
+        <briefdescription>
+<para>Samples and constructs a Gamma distribution. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="51" column="1" bodyfile="src/cylindergammadistribution.cpp" bodystart="67" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_gamma_distribution_1a2345c03be0b0c934efe02e4234c65fd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void CylinderGammaDistribution::printSubstrate</definition>
+        <argsstring>(std::ostream &amp;out)</argsstring>
+        <name>printSubstrate</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Prints the cylinders positions in a file or output stream. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ostream where to write the info. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="57" column="1" bodyfile="src/cylindergammadistribution.cpp" bodystart="186" bodyend="195"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_cylinder_gamma_distribution_1a5bb8c8adb247dcd1a48ce7889fa6d0b9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool CylinderGammaDistribution::checkForCollition</definition>
+        <argsstring>(Cylinder cyl, Eigen::Vector3d min_limits, Eigen::Vector3d max_limits, std::vector&lt; Cylinder &gt; &amp;cylinders_list, double &amp;min_distance)</argsstring>
+        <name>checkForCollition</name>
+        <param>
+          <type><ref refid="class_cylinder" kindref="compound">Cylinder</ref></type>
+          <declname>cyl</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d</type>
+          <declname>min_limits</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d</type>
+          <declname>max_limits</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="class_cylinder" kindref="compound">Cylinder</ref> &gt; &amp;</type>
+          <declname>cylinders_list</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>min_distance</declname>
+        </param>
+        <briefdescription>
+<para>Checks for collision between inside a voxel (with periodic boundaries) </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cyl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>cylinder to check collision with </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_limits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="class_voxel" kindref="compound">Voxel</ref> min limits. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_limits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="class_voxel" kindref="compound">Voxel</ref> max limits. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cylinders_list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>cylinders already added. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_distance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>that two cylinders can be close to. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="69" column="1" bodyfile="src/cylindergammadistribution.cpp" bodystart="197" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_gamma_distribution_1a8fb4609afc77054dd47b6b0e6d741113" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void CylinderGammaDistribution::checkBoundaryConditions</definition>
+        <argsstring>(Cylinder cyl, std::vector&lt; Cylinder &gt; &amp;cylinders_list, Eigen::Vector3d min_limits, Eigen::Vector3d max_limits)</argsstring>
+        <name>checkBoundaryConditions</name>
+        <param>
+          <type><ref refid="class_cylinder" kindref="compound">Cylinder</ref></type>
+          <declname>cyl</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="class_cylinder" kindref="compound">Cylinder</ref> &gt; &amp;</type>
+          <declname>cylinders_list</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d</type>
+          <declname>min_limits</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d</type>
+          <declname>max_limits</declname>
+        </param>
+        <briefdescription>
+<para>Auxiliary function to check the BOundary collision. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cyl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>cylinder to check collision with. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_limits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="class_voxel" kindref="compound">Voxel</ref> min limits. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_limits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="class_voxel" kindref="compound">Voxel</ref> max limits. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cylinders_list</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>cylinders already added. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="78" column="1" bodyfile="src/cylindergammadistribution.cpp" bodystart="283" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_gamma_distribution_1a8ded80e7411dedca0d19158a6af4dbc2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double CylinderGammaDistribution::computeICVF</definition>
+        <argsstring>(std::vector&lt; Cylinder &gt; &amp;cylinders, Eigen::Vector3d &amp;min_limits, Eigen::Vector3d &amp;max_limits, int &amp;num_no_repeat)</argsstring>
+        <name>computeICVF</name>
+        <param>
+          <type>std::vector&lt; <ref refid="class_cylinder" kindref="compound">Cylinder</ref> &gt; &amp;</type>
+          <declname>cylinders</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>min_limits</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>max_limits</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>num_no_repeat</declname>
+        </param>
+        <briefdescription>
+<para>Computes Intra Celular Volum Fraction given the voxel limits and the list of added cylinders. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cylinders</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of included cylinders. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_limits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>voxel min limits. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_limits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>voxel max limits. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="86" column="1" bodyfile="src/cylindergammadistribution.cpp" bodystart="249" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_gamma_distribution_1ac430b2319b4f8dbd56ca4114cd316909" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void CylinderGammaDistribution::computeMinimalSize</definition>
+        <argsstring>(std::vector&lt; double &gt; radiis, double icvf_, Eigen::Vector3d &amp;l)</argsstring>
+        <name>computeMinimalSize</name>
+        <param>
+          <type>std::vector&lt; double &gt;</type>
+          <declname>radiis</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>icvf_</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>l</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylindergammadistribution.h" line="88" column="1" bodyfile="src/cylindergammadistribution.cpp" bodystart="20" bodyend="36"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="class_cylinder_gamma_distribution" kindref="compound">CylinderGammaDistribution</ref> Class =============================================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Class to construct a substrate taken from a Gamma distribution of radiis placed in a single voxel structure. <simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>february 2017 <heading level="1">0.2 </heading>
+</para></simplesect>
+</para>    </detaileddescription>
+    <location file="src/cylindergammadistribution.h" line="21" column="1" bodyfile="src/cylindergammadistribution.h" bodystart="20" bodyend="91"/>
+    <listofallmembers>
+      <member refid="class_cylinder_gamma_distribution_1a8cae528f51692ed05049e4ea06c63722" prot="public" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>alpha</name></member>
+      <member refid="class_cylinder_gamma_distribution_1a601a42ef7bacbf9696229efbd703f61e" prot="public" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>beta</name></member>
+      <member refid="class_cylinder_gamma_distribution_1a8fb4609afc77054dd47b6b0e6d741113" prot="private" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>checkBoundaryConditions</name></member>
+      <member refid="class_cylinder_gamma_distribution_1a5bb8c8adb247dcd1a48ce7889fa6d0b9" prot="private" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>checkForCollition</name></member>
+      <member refid="class_cylinder_gamma_distribution_1a8ded80e7411dedca0d19158a6af4dbc2" prot="private" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>computeICVF</name></member>
+      <member refid="class_cylinder_gamma_distribution_1ac430b2319b4f8dbd56ca4114cd316909" prot="private" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>computeMinimalSize</name></member>
+      <member refid="class_cylinder_gamma_distribution_1ad93e569b24e3c6b1266ecf79bd18dec9" prot="public" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>createGammaSubstrate</name></member>
+      <member refid="class_cylinder_gamma_distribution_1a7578f5f0fb11398ec5bf5007047f4b81" prot="public" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>CylinderGammaDistribution</name></member>
+      <member refid="class_cylinder_gamma_distribution_1a3e8265a7ddb15d895112e02bd66fbf67" prot="public" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>cylinders</name></member>
+      <member refid="class_cylinder_gamma_distribution_1a3408ed30966550c10810a0a6cbbfd3c2" prot="public" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>displayGammaDistribution</name></member>
+      <member refid="class_cylinder_gamma_distribution_1a31f82c4608b7cd2b022805e30a4db983" prot="public" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>icvf</name></member>
+      <member refid="class_cylinder_gamma_distribution_1aa7094851c2ccf05fc5ff7a99707aa786" prot="public" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>max_limits</name></member>
+      <member refid="class_cylinder_gamma_distribution_1ac77a9d794f2f2000066c4a26f19a9097" prot="public" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>min_limits</name></member>
+      <member refid="class_cylinder_gamma_distribution_1aece7d3ec40d3dbb3a2ecd1bd88c5a694" prot="public" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>min_radius</name></member>
+      <member refid="class_cylinder_gamma_distribution_1af74583662a4f33ba1565f2c71e6bbc5a" prot="public" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>num_cylinders</name></member>
+      <member refid="class_cylinder_gamma_distribution_1a2345c03be0b0c934efe02e4234c65fd1" prot="public" virt="non-virtual"><scope>CylinderGammaDistribution</scope><name>printSubstrate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

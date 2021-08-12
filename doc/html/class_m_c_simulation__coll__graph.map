@@ -1,0 +1,13 @@
+<map id="MCSimulation" name="MCSimulation">
+<area shape="rect" id="node2" href="$class_simulable_sequence.html" title="MR Sequence Primary Class =============================================================/. " alt="" coords="5,260,143,287"/>
+<area shape="rect" id="node3" href="$class_scheme.html" title="Auxiliary class to save scheme_files values =========================================================..." alt="" coords="167,260,237,287"/>
+<area shape="rect" id="node4" href="$class_parameters.html" title="Parameters" alt="" coords="239,171,328,197"/>
+<area shape="rect" id="node5" href="$class_dynamics_simulation.html" title="Dynamic simulation main class =============================================================/. " alt="" coords="404,260,547,287"/>
+<area shape="rect" id="node6" href="$classsentinels_1_1_sentinel.html" title="sentinels::Sentinel" alt="" coords="352,171,481,197"/>
+<area shape="rect" id="node7" href="$class_walker.html" title="Spin Final class =============================================================/. " alt="" coords="505,171,568,197"/>
+<area shape="rect" id="node8" href="$class_p_l_y_collision_sphere.html" title="PLYCollisionSphere" alt="" coords="378,81,517,108"/>
+<area shape="rect" id="node9" href="$class_collisionsphere.html" title="Collisionsphere" alt="" coords="479,5,589,32"/>
+<area shape="rect" id="node10" href="$class_cylinder_collision_sphere.html" title="Class to save the cylinderical obstacles that a can collide to a walker. " alt="" coords="541,81,703,108"/>
+<area shape="rect" id="node11" href="$class_trajectory.html" title="Auxiliary class. Handles i/o operation of walker trayectories. ============================/. " alt="" coords="593,171,673,197"/>
+<area shape="rect" id="node12" href="$class_propagator.html" title="Propagator" alt="" coords="697,171,782,197"/>
+</map>

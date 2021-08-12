@@ -1,0 +1,4 @@
+<map id="PGSESequence" name="PGSESequence">
+<area shape="rect" id="node2" href="$class_simulable_sequence.html" title="MR Sequence Primary Class =============================================================/. " alt="" coords="5,5,143,32"/>
+<area shape="rect" id="node3" href="$class_trajectory.html" title="Auxiliary class. Handles i/o operation of walker trayectories. ============================/. " alt="" coords="167,5,247,32"/>
+</map>

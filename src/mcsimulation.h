@@ -1,10 +1,10 @@
 
-//███╗   ███╗ ██████╗    ██╗██████╗  ██████╗    ███████╗██╗███╗   ███╗██╗   ██╗██╗      █████╗ ████████╗ ██████╗ ██████╗
-//████╗ ████║██╔════╝   ██╔╝██╔══██╗██╔════╝    ██╔════╝██║████╗ ████║██║   ██║██║     ██╔══██╗╚══██╔══╝██╔═══██╗██╔══██╗
-//██╔████╔██║██║       ██╔╝ ██║  ██║██║         ███████╗██║██╔████╔██║██║   ██║██║     ███████║   ██║   ██║   ██║██████╔╝
-//██║╚██╔╝██║██║      ██╔╝  ██║  ██║██║         ╚════██║██║██║╚██╔╝██║██║   ██║██║     ██╔══██║   ██║   ██║   ██║██╔══██╗
-//██║ ╚═╝ ██║╚██████╗██╔╝   ██████╔╝╚██████╗    ███████║██║██║ ╚═╝ ██║╚██████╔╝███████╗██║  ██║   ██║   ╚██████╔╝██║  ██║
-//╚═╝     ╚═╝ ╚═════╝╚═╝    ╚═════╝  ╚═════╝    ╚══════╝╚═╝╚═╝     ╚═╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝
+//███╗   ███╗ ██████╗    ██╗██████╗  ██████╗
+//████╗ ████║██╔════╝   ██╔╝██╔══██╗██╔════╝
+//██╔████╔██║██║       ██╔╝ ██║  ██║██║
+//██║╚██╔╝██║██║      ██╔╝  ██║  ██║██║
+//██║ ╚═╝ ██║╚██████╗██╔╝   ██████╔╝╚██████╗
+//╚═╝     ╚═╝ ╚═════╝╚═╝    ╚═════╝  ╚═════╝
 
 
 //!  Aplication Main Class ======================================================================================/
@@ -12,7 +12,7 @@
 *   \details   Main implementation class. Incorporates the particle's dynamics and the data synthesis.
 *   \author    Jonathan Rafael
 *   \date      November 2016
-*   \version   1.42.14_wf
+*   \version   1.44.00
 *===============================================================================================================*/
 
 #ifndef MCSIMULATION_H
@@ -20,7 +20,7 @@
 
 #include "dynamicsSimulation.h"
 #include "scheme.h"
-
+#include <vector>
 
 /*! \class MCSimulation
  * \brief  Main implementation class. Incorporates the particle's dynamics and the data synthesis.
@@ -38,7 +38,16 @@ public:
 
     Parameters params;                  /*!< Parameters instance1 \see :Parameters:                         */
 
-    SimulableSequence* dataSynth;       /*!< Simuleable sequence instance, only PGSE is supported in 0.2    */
+    SimulableSequence* dataSynth;       /*!< Simuleable sequence instance, PGSE and General Wavefroms only  */
+
+    std::vector<std::vector<float>> ini_walker_positions; /*!< patch for regular sampling in a subdivision  */
+
+    std::vector <PLYObstacle>* plyObstacles_list;    /*!< pointer to a vector with all the instances of PLYObstacles */
+
+    std::vector <Cylinder>* cylinders_list;   /*!< pointer to a vector with all the instances of Cylinders */
+
+    std::vector <Sphere>* sphere_list;        /*!< pointer to a vector with all the instances of Spheres   */
+
 
 
     /*! \fn  MCSimulation.
@@ -82,15 +91,15 @@ public:
 
 private:
 
-    void addCylindersObstaclesFromFiles();
+    void addObstacles();
 
-    void addPLYObstaclesFromFiles();
+    void addPLYObstacles();
 
     void addVoxels();
 
-    void addCylindersConfigurations();
+   // void addCylindersConfigurations();
 
-    void addExtraObstacles();
+    //void addExtraObstacles();
 
 };
 

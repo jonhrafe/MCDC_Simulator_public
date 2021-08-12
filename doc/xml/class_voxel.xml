@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_voxel" kind="class" language="C++" prot="public">
+    <compoundname>Voxel</compoundname>
+    <includes refid="voxel_8h" local="no">voxel.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_voxel_1a8f82e23dc4dd9b0a3df065b876525fb4" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Voxel::min_limits</definition>
+        <argsstring></argsstring>
+        <name>min_limits</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voxel.h" line="47" column="1" bodyfile="src/voxel.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_voxel_1a5ffa055c53543ad2dd0944c0667b0787" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Voxel::max_limits</definition>
+        <argsstring></argsstring>
+        <name>max_limits</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voxel.h" line="47" column="1" bodyfile="src/voxel.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_voxel_1a9cce047be8fe658b21dbaef698b8b5ae" prot="public" static="no" mutable="no">
+        <type><ref refid="class_plane" kindref="compound">Plane</ref></type>
+        <definition>Plane Voxel::walls[6]</definition>
+        <argsstring>[6]</argsstring>
+        <name>walls</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voxel.h" line="53" column="1" bodyfile="src/voxel.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_voxel_1a5c7a2b788d03ad489a17c4a21da4c204" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Voxel::Voxel</definition>
+        <argsstring>()</argsstring>
+        <name>Voxel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voxel.h" line="49" column="1" bodyfile="src/voxel.cpp" bodystart="5" bodyend="8"/>
+      </memberdef>
+      <memberdef kind="function" id="class_voxel_1acbb05a2f277a8ae7c59119eb3adf7e8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Voxel::Voxel</definition>
+        <argsstring>(Eigen::Vector3d min_limits_, Eigen::Vector3d max_limits_)</argsstring>
+        <name>Voxel</name>
+        <param>
+          <type>Eigen::Vector3d</type>
+          <declname>min_limits_</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d</type>
+          <declname>max_limits_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voxel.h" line="51" column="1" bodyfile="src/voxel.cpp" bodystart="10" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_voxel_1af52a1ec58a5244591c56963b28192748" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Voxel::CheckCollision</definition>
+        <argsstring>(Walker &amp;walker, Eigen::Vector3d &amp;step, double &amp;tmax, Collision &amp;colision)</argsstring>
+        <name>CheckCollision</name>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref> &amp;</type>
+          <declname>walker</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>tmax</declname>
+        </param>
+        <param>
+          <type><ref refid="class_collision" kindref="compound">Collision</ref> &amp;</type>
+          <declname>colision</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/voxel.h" line="55" column="1" bodyfile="src/voxel.cpp" bodystart="31" bodyend="43"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>//! Main class. Implements basic voxel limits and operations. Class to handle and manage the voxels in the simulations. So far only one voxel at the time can be handled. To improve to several voxels, modifications shall be done. </para>    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="98">
+        <label>Voxel</label>
+        <link refid="class_voxel"/>
+        <childnode refid="99" relation="usage">
+          <edgelabel>walls</edgelabel>
+        </childnode>
+      </node>
+      <node id="99">
+        <label>Plane</label>
+        <link refid="class_plane"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/voxel.h" line="45" column="1" bodyfile="src/voxel.h" bodystart="44" bodyend="56"/>
+    <listofallmembers>
+      <member refid="class_voxel_1af52a1ec58a5244591c56963b28192748" prot="public" virt="non-virtual"><scope>Voxel</scope><name>CheckCollision</name></member>
+      <member refid="class_voxel_1a5ffa055c53543ad2dd0944c0667b0787" prot="public" virt="non-virtual"><scope>Voxel</scope><name>max_limits</name></member>
+      <member refid="class_voxel_1a8f82e23dc4dd9b0a3df065b876525fb4" prot="public" virt="non-virtual"><scope>Voxel</scope><name>min_limits</name></member>
+      <member refid="class_voxel_1a5c7a2b788d03ad489a17c4a21da4c204" prot="public" virt="non-virtual"><scope>Voxel</scope><name>Voxel</name></member>
+      <member refid="class_voxel_1acbb05a2f277a8ae7c59119eb3adf7e8c" prot="public" virt="non-virtual"><scope>Voxel</scope><name>Voxel</name></member>
+      <member refid="class_voxel_1a9cce047be8fe658b21dbaef698b8b5ae" prot="public" virt="non-virtual"><scope>Voxel</scope><name>walls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

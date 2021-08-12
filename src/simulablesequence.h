@@ -20,7 +20,11 @@ public:
 
     std::vector<double> DWI;                    /*!< Real part of the  DWI signal                                               */
 
-    std::vector<double> DWIi;                   /*!< imaginary partof the  DWI signal                                           */
+    std::vector<double> DWI_intra;              /*!< Real part of the  DWI signal intra axonal olny (if needed)                  */
+
+    std::vector<double> DWI_extra;              /*!< Real part of the  DWI signal extra axonal only (if needed)                  */
+
+    std::vector<double> DWIi;                   /*!< imaginary part of the  DWI signal                                           */
 
     std::vector<double> phase_shift;            /*!< auxiliar phase shift for signal computations.                              */
 
@@ -38,9 +42,17 @@ public:
 
     std::vector<std::vector<double>> sub_DWI;   /*!< Real part of the DWI signal for each subDivision                           */
 
+    std::vector<std::vector<double>> sub_DWI_intra;   /*!< Real part of the DWI intra signal for each subDivision               */
+
+    std::vector<std::vector<double>> sub_DWI_extra;   /*!< Real part of the DWI extra signal for each subDivision               */
+
     std::vector<std::vector<double>> sub_DWIi;  /*!< Imaginary part of the  DWI signal for each subdivision                     */
 
     bool subdivision_flag           = false;    /*!< flag to check if we have several voxel subdivision to compute the signal   */
+
+    bool separate_signal            = false;    /*!< flag to check if we will separate the signal in intra and extra            */
+
+    bool img_signal                 = false;    /*!< flag to check if the img part will be computed or not (false default       */
 
     std::vector<Subdivision> subdivisions;      /*!< saves the actual positions of the subdivision to compute the signal        */
 
@@ -96,6 +108,10 @@ public:
      * @brief Initialize the DWI signals for each subdivision.
      */
     virtual void initializeSubdivisionSignals();
+    /**
+     * @brief Initialize the DWI signals for each compartment (intra extra)
+     */
+    virtual void initializeIntraExtraSignals();
 
     virtual void writeResultingData(std::string output_base_name);
 

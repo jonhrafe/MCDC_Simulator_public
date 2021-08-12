@@ -1,0 +1,1417 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="cylinder_8cpp" kind="file" language="C++">
+    <compoundname>cylinder.cpp</compoundname>
+    <includes refid="cylinder_8h" local="yes">cylinder.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/DisableStupidWarnings.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/Macros.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/ConfigureVectorization.h</includes>
+    <includes local="no">complex</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/MKL_support.h</includes>
+    <includes local="no">cerrno</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdlib</includes>
+    <includes local="no">cassert</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">iosfwd</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">string</includes>
+    <includes local="no">limits</includes>
+    <includes local="no">climits</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/Constants.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/Meta.h</includes>
+    <includes local="no">stdint.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/ForwardDeclarations.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/StaticAssert.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/XprHelper.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/Memory.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/IntegralConstant.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/SymbolicIndex.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/NumTraits.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/MathFunctions.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/GenericPacketMath.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/MathFunctionsImpl.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/arch/Default/ConjHelper.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/arch/Default/Half.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/arch/Default/TypeCasting.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/arch/Default/GenericPacketMathFunctionsFwd.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/arch/Default/Settings.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/arch/Default/GenericPacketMathFunctions.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/functors/TernaryFunctors.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/functors/BinaryFunctors.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/functors/UnaryFunctors.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/functors/NullaryFunctors.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/functors/StlFunctors.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/functors/AssignmentFunctors.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/IndexedViewHelper.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/ReshapedHelper.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/ArithmeticSequence.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/IO.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/DenseCoeffsBase.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/DenseBase.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/CommonCwiseUnaryOps.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/BlockMethods.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/IndexedViewMethods.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/ReshapedMethods.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/MatrixBase.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/CommonCwiseBinaryOps.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/MatrixCwiseUnaryOps.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/MatrixCwiseBinaryOps.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/EigenBase.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Product.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CoreEvaluators.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/AssignEvaluator.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Assign.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/ArrayBase.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/ArrayCwiseUnaryOps.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/ArrayCwiseBinaryOps.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/BlasUtil.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/DenseStorage.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/NestByValue.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/ReturnByValue.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/NoAlias.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/PlainObjectBase.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Matrix.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Array.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CwiseTernaryOp.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CwiseBinaryOp.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CwiseUnaryOp.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CwiseNullaryOp.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CwiseUnaryView.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/SelfCwiseBinaryOp.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Dot.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/StableNorm.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Stride.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/MapBase.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Map.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Ref.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Block.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/VectorBlock.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/IndexedView.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Reshaped.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Transpose.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/DiagonalMatrix.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Diagonal.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/DiagonalProduct.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Redux.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Visitor.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Fuzzy.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Swap.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CommaInitializer.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/GeneralProduct.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Solve.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Inverse.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/SolverBase.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/PermutationMatrix.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Transpositions.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/TriangularMatrix.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/SelfAdjointView.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/GeneralBlockPanelKernel.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/Parallelizer.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/ProductEvaluators.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/GeneralMatrixVector.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/GeneralMatrixMatrix.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/SolveTriangular.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/SelfadjointMatrixVector.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/SelfadjointMatrixMatrix.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/SelfadjointProduct.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/SelfadjointRank2Update.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/TriangularMatrixVector.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/TriangularMatrixMatrix.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/TriangularSolverMatrix.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/TriangularSolverVector.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/BandMatrix.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CoreIterators.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/ConditionEstimator.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/BooleanRedux.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Select.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/VectorwiseOp.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/PartialReduxEvaluator.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Random.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Replicate.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Reverse.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/ArrayWrapper.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/StlIterators.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/GlobalFunctions.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/ReenableStupidWarnings.h</includes>
+    <includes refid="constants_8h" local="yes">constants.h</includes>
+    <includes local="yes">Eigen/Dense</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/Core</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/LU</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/misc/Kernel.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/misc/Image.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/LU/FullPivLU.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/LU/PartialPivLU.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/LU/Determinant.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/LU/InverseImpl.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/Cholesky</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/Jacobi</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Jacobi/Jacobi.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Cholesky/LLT.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Cholesky/LDLT.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/QR</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/Householder</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Householder/Householder.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Householder/HouseholderSequence.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Householder/BlockHouseholder.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/QR/HouseholderQR.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/QR/FullPivHouseholderQR.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/QR/ColPivHouseholderQR.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/QR/CompleteOrthogonalDecomposition.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/SVD</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/misc/RealSvd2x2.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/SVD/UpperBidiagonalization.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/SVD/SVDBase.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/SVD/JacobiSVD.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/SVD/BDCSVD.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/Geometry</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/OrthoMethods.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/EulerAngles.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Homogeneous.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/RotationBase.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Rotation2D.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Quaternion.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/AngleAxis.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Transform.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Translation.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Scaling.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Hyperplane.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/ParametrizedLine.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/AlignedBox.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Umeyama.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/Eigenvalues</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/Tridiagonalization.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/RealSchur.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/HessenbergDecomposition.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/EigenSolver.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/ComplexSchur.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/ComplexEigenSolver.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/RealQZ.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h</includes>
+    <includes local="yes">/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h</includes>
+    <includes local="no">iostream</includes>
+    <incdepgraph>
+      <node id="111">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/MatrixBase.h</label>
+      </node>
+      <node id="95">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/functors/TernaryFunctors.h</label>
+      </node>
+      <node id="137">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Dot.h</label>
+      </node>
+      <node id="196">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/Core</label>
+      </node>
+      <node id="171">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/SelfadjointMatrixVector.h</label>
+      </node>
+      <node id="244">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h</label>
+      </node>
+      <node id="107">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/CommonCwiseUnaryOps.h</label>
+      </node>
+      <node id="222">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/SVD/JacobiSVD.h</label>
+      </node>
+      <node id="202">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/LU/Determinant.h</label>
+      </node>
+      <node id="126">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/ReturnByValue.h</label>
+      </node>
+      <node id="112">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/CommonCwiseBinaryOps.h</label>
+      </node>
+      <node id="190">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/StlIterators.h</label>
+      </node>
+      <node id="214">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/QR/HouseholderQR.h</label>
+      </node>
+      <node id="77">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/Meta.h</label>
+      </node>
+      <node id="69">
+        <label>functional</label>
+      </node>
+      <node id="234">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Scaling.h</label>
+      </node>
+      <node id="153">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Fuzzy.h</label>
+      </node>
+      <node id="132">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CwiseBinaryOp.h</label>
+      </node>
+      <node id="73">
+        <label>limits</label>
+      </node>
+      <node id="233">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Translation.h</label>
+      </node>
+      <node id="204">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/Cholesky</label>
+      </node>
+      <node id="224">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/Geometry</label>
+      </node>
+      <node id="91">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/arch/Default/TypeCasting.h</label>
+      </node>
+      <node id="155">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CommaInitializer.h</label>
+      </node>
+      <node id="229">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Rotation2D.h</label>
+      </node>
+      <node id="139">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Stride.h</label>
+      </node>
+      <node id="241">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/RealSchur.h</label>
+      </node>
+      <node id="130">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Array.h</label>
+      </node>
+      <node id="76">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/Constants.h</label>
+      </node>
+      <node id="60">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/Macros.h</label>
+      </node>
+      <node id="161">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Transpositions.h</label>
+      </node>
+      <node id="86">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/MathFunctions.h</label>
+      </node>
+      <node id="199">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/misc/Image.h</label>
+      </node>
+      <node id="52">
+        <label>collision.h</label>
+        <link refid="collision_8h_source"/>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="221">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/SVD/SVDBase.h</label>
+      </node>
+      <node id="157">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Solve.h</label>
+      </node>
+      <node id="170">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h</label>
+      </node>
+      <node id="189">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/ArrayWrapper.h</label>
+      </node>
+      <node id="227">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Homogeneous.h</label>
+      </node>
+      <node id="150">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/DiagonalProduct.h</label>
+      </node>
+      <node id="78">
+        <label>stdint.h</label>
+      </node>
+      <node id="148">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/DiagonalMatrix.h</label>
+      </node>
+      <node id="174">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/SelfadjointRank2Update.h</label>
+      </node>
+      <node id="205">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/Jacobi</label>
+      </node>
+      <node id="136">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/SelfCwiseBinaryOp.h</label>
+      </node>
+      <node id="87">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/GenericPacketMath.h</label>
+      </node>
+      <node id="156">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/GeneralProduct.h</label>
+      </node>
+      <node id="219">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/misc/RealSvd2x2.h</label>
+      </node>
+      <node id="61">
+        <label>cmath</label>
+      </node>
+      <node id="68">
+        <label>cassert</label>
+      </node>
+      <node id="179">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/BandMatrix.h</label>
+      </node>
+      <node id="53">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="100">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/functors/AssignmentFunctors.h</label>
+      </node>
+      <node id="119">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Assign.h</label>
+      </node>
+      <node id="92">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/arch/Default/GenericPacketMathFunctionsFwd.h</label>
+      </node>
+      <node id="109">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/IndexedViewMethods.h</label>
+      </node>
+      <node id="72">
+        <label>string</label>
+      </node>
+      <node id="127">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/NoAlias.h</label>
+      </node>
+      <node id="94">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/arch/Default/GenericPacketMathFunctions.h</label>
+      </node>
+      <node id="146">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Reshaped.h</label>
+      </node>
+      <node id="117">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CoreEvaluators.h</label>
+      </node>
+      <node id="102">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/ReshapedHelper.h</label>
+      </node>
+      <node id="163">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/SelfAdjointView.h</label>
+      </node>
+      <node id="162">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/TriangularMatrix.h</label>
+      </node>
+      <node id="125">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/NestByValue.h</label>
+      </node>
+      <node id="236">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/ParametrizedLine.h</label>
+      </node>
+      <node id="225">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/OrthoMethods.h</label>
+      </node>
+      <node id="50">
+        <label>cylinder.h</label>
+        <link refid="cylinder_8h_source"/>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="197">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/LU</label>
+      </node>
+      <node id="184">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/VectorwiseOp.h</label>
+      </node>
+      <node id="84">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/SymbolicIndex.h</label>
+      </node>
+      <node id="247">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/ComplexEigenSolver.h</label>
+      </node>
+      <node id="99">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/functors/StlFunctors.h</label>
+      </node>
+      <node id="138">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/StableNorm.h</label>
+      </node>
+      <node id="105">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/DenseCoeffsBase.h</label>
+      </node>
+      <node id="131">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CwiseTernaryOp.h</label>
+      </node>
+      <node id="209">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/QR</label>
+      </node>
+      <node id="193">
+        <label>constants.h</label>
+        <link refid="constants_8h_source"/>
+        <childnode refid="194" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+      </node>
+      <node id="211">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Householder/Householder.h</label>
+      </node>
+      <node id="90">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/arch/Default/Half.h</label>
+      </node>
+      <node id="188">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Reverse.h</label>
+      </node>
+      <node id="178">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/TriangularSolverVector.h</label>
+      </node>
+      <node id="246">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/ComplexSchur.h</label>
+      </node>
+      <node id="115">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/EigenBase.h</label>
+      </node>
+      <node id="116">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Product.h</label>
+      </node>
+      <node id="235">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Hyperplane.h</label>
+      </node>
+      <node id="220">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/SVD/UpperBidiagonalization.h</label>
+      </node>
+      <node id="128">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/PlainObjectBase.h</label>
+      </node>
+      <node id="110">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/ReshapedMethods.h</label>
+      </node>
+      <node id="85">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/NumTraits.h</label>
+      </node>
+      <node id="195">
+        <label>Eigen/Dense</label>
+      </node>
+      <node id="51">
+        <label>obstacle.h</label>
+        <link refid="obstacle_8h_source"/>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="103">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/ArithmeticSequence.h</label>
+      </node>
+      <node id="140">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/MapBase.h</label>
+      </node>
+      <node id="158">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Inverse.h</label>
+      </node>
+      <node id="118">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/AssignEvaluator.h</label>
+      </node>
+      <node id="151">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Redux.h</label>
+      </node>
+      <node id="212">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Householder/HouseholderSequence.h</label>
+      </node>
+      <node id="245">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h</label>
+      </node>
+      <node id="200">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/LU/FullPivLU.h</label>
+      </node>
+      <node id="166">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/ProductEvaluators.h</label>
+      </node>
+      <node id="89">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/arch/Default/ConjHelper.h</label>
+      </node>
+      <node id="59">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/DisableStupidWarnings.h</label>
+      </node>
+      <node id="142">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Ref.h</label>
+      </node>
+      <node id="145">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/IndexedView.h</label>
+      </node>
+      <node id="154">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Swap.h</label>
+      </node>
+      <node id="207">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Cholesky/LLT.h</label>
+      </node>
+      <node id="82">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/Memory.h</label>
+      </node>
+      <node id="238">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Umeyama.h</label>
+      </node>
+      <node id="182">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/BooleanRedux.h</label>
+      </node>
+      <node id="80">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/StaticAssert.h</label>
+      </node>
+      <node id="172">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/SelfadjointMatrixMatrix.h</label>
+      </node>
+      <node id="217">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/QR/CompleteOrthogonalDecomposition.h</label>
+      </node>
+      <node id="230">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Quaternion.h</label>
+      </node>
+      <node id="106">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/DenseBase.h</label>
+      </node>
+      <node id="168">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/GeneralMatrixMatrix.h</label>
+      </node>
+      <node id="185">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/PartialReduxEvaluator.h</label>
+      </node>
+      <node id="55">
+        <label>vector</label>
+      </node>
+      <node id="54">
+        <label>walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="186">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Random.h</label>
+      </node>
+      <node id="144">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/VectorBlock.h</label>
+      </node>
+      <node id="57">
+        <label>collisionsphere.h</label>
+        <link refid="collisionsphere_8h_source"/>
+        <childnode refid="55" relation="include">
+        </childnode>
+      </node>
+      <node id="243">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/EigenSolver.h</label>
+      </node>
+      <node id="208">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Cholesky/LDLT.h</label>
+      </node>
+      <node id="173">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/SelfadjointProduct.h</label>
+      </node>
+      <node id="216">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/QR/ColPivHouseholderQR.h</label>
+      </node>
+      <node id="175">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/TriangularMatrixVector.h</label>
+      </node>
+      <node id="192">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/ReenableStupidWarnings.h</label>
+      </node>
+      <node id="218">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/SVD</label>
+      </node>
+      <node id="104">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/IO.h</label>
+      </node>
+      <node id="249">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h</label>
+      </node>
+      <node id="187">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Replicate.h</label>
+      </node>
+      <node id="122">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/ArrayCwiseBinaryOps.h</label>
+      </node>
+      <node id="231">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/AngleAxis.h</label>
+      </node>
+      <node id="113">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/MatrixCwiseUnaryOps.h</label>
+      </node>
+      <node id="215">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/QR/FullPivHouseholderQR.h</label>
+      </node>
+      <node id="79">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/ForwardDeclarations.h</label>
+      </node>
+      <node id="64">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/MKL_support.h</label>
+      </node>
+      <node id="159">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/SolverBase.h</label>
+      </node>
+      <node id="93">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/arch/Default/Settings.h</label>
+      </node>
+      <node id="70">
+        <label>iosfwd</label>
+      </node>
+      <node id="65">
+        <label>cerrno</label>
+      </node>
+      <node id="232">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/Transform.h</label>
+      </node>
+      <node id="67">
+        <label>cstdlib</label>
+      </node>
+      <node id="58">
+        <label>iostream</label>
+      </node>
+      <node id="213">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Householder/BlockHouseholder.h</label>
+      </node>
+      <node id="165">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/Parallelizer.h</label>
+      </node>
+      <node id="114">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/MatrixCwiseBinaryOps.h</label>
+      </node>
+      <node id="66">
+        <label>cstddef</label>
+      </node>
+      <node id="250">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h</label>
+      </node>
+      <node id="56">
+        <label>deque</label>
+      </node>
+      <node id="81">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/XprHelper.h</label>
+      </node>
+      <node id="135">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CwiseUnaryView.h</label>
+      </node>
+      <node id="242">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/HessenbergDecomposition.h</label>
+      </node>
+      <node id="164">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/GeneralBlockPanelKernel.h</label>
+      </node>
+      <node id="180">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CoreIterators.h</label>
+      </node>
+      <node id="120">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/ArrayBase.h</label>
+      </node>
+      <node id="74">
+        <label>climits</label>
+      </node>
+      <node id="167">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/GeneralMatrixVector.h</label>
+      </node>
+      <node id="101">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/IndexedViewHelper.h</label>
+      </node>
+      <node id="237">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/AlignedBox.h</label>
+      </node>
+      <node id="98">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/functors/NullaryFunctors.h</label>
+      </node>
+      <node id="239">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/Eigenvalues</label>
+      </node>
+      <node id="83">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/IntegralConstant.h</label>
+      </node>
+      <node id="183">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Select.h</label>
+      </node>
+      <node id="129">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Matrix.h</label>
+      </node>
+      <node id="206">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Jacobi/Jacobi.h</label>
+      </node>
+      <node id="97">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/functors/UnaryFunctors.h</label>
+      </node>
+      <node id="181">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/ConditionEstimator.h</label>
+      </node>
+      <node id="133">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CwiseUnaryOp.h</label>
+      </node>
+      <node id="177">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/TriangularSolverMatrix.h</label>
+      </node>
+      <node id="134">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/CwiseNullaryOp.h</label>
+      </node>
+      <node id="226">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/EulerAngles.h</label>
+      </node>
+      <node id="147">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Transpose.h</label>
+      </node>
+      <node id="152">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Visitor.h</label>
+      </node>
+      <node id="124">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/DenseStorage.h</label>
+      </node>
+      <node id="96">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/functors/BinaryFunctors.h</label>
+      </node>
+      <node id="123">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/BlasUtil.h</label>
+      </node>
+      <node id="149">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Diagonal.h</label>
+      </node>
+      <node id="63">
+        <label>complex</label>
+      </node>
+      <node id="198">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/misc/Kernel.h</label>
+      </node>
+      <node id="248">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/RealQZ.h</label>
+      </node>
+      <node id="75">
+        <label>algorithm</label>
+      </node>
+      <node id="62">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/util/ConfigureVectorization.h</label>
+      </node>
+      <node id="176">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/products/TriangularMatrixMatrix.h</label>
+      </node>
+      <node id="49">
+        <label>src/cylinder.cpp</label>
+        <link refid="cylinder_8cpp"/>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
+        </childnode>
+        <childnode refid="84" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
+        </childnode>
+        <childnode refid="92" relation="include">
+        </childnode>
+        <childnode refid="93" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+        <childnode refid="95" relation="include">
+        </childnode>
+        <childnode refid="96" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+        <childnode refid="98" relation="include">
+        </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
+        <childnode refid="100" relation="include">
+        </childnode>
+        <childnode refid="101" relation="include">
+        </childnode>
+        <childnode refid="102" relation="include">
+        </childnode>
+        <childnode refid="103" relation="include">
+        </childnode>
+        <childnode refid="104" relation="include">
+        </childnode>
+        <childnode refid="105" relation="include">
+        </childnode>
+        <childnode refid="106" relation="include">
+        </childnode>
+        <childnode refid="107" relation="include">
+        </childnode>
+        <childnode refid="108" relation="include">
+        </childnode>
+        <childnode refid="109" relation="include">
+        </childnode>
+        <childnode refid="110" relation="include">
+        </childnode>
+        <childnode refid="111" relation="include">
+        </childnode>
+        <childnode refid="112" relation="include">
+        </childnode>
+        <childnode refid="113" relation="include">
+        </childnode>
+        <childnode refid="114" relation="include">
+        </childnode>
+        <childnode refid="115" relation="include">
+        </childnode>
+        <childnode refid="116" relation="include">
+        </childnode>
+        <childnode refid="117" relation="include">
+        </childnode>
+        <childnode refid="118" relation="include">
+        </childnode>
+        <childnode refid="119" relation="include">
+        </childnode>
+        <childnode refid="120" relation="include">
+        </childnode>
+        <childnode refid="121" relation="include">
+        </childnode>
+        <childnode refid="122" relation="include">
+        </childnode>
+        <childnode refid="123" relation="include">
+        </childnode>
+        <childnode refid="124" relation="include">
+        </childnode>
+        <childnode refid="125" relation="include">
+        </childnode>
+        <childnode refid="126" relation="include">
+        </childnode>
+        <childnode refid="127" relation="include">
+        </childnode>
+        <childnode refid="128" relation="include">
+        </childnode>
+        <childnode refid="129" relation="include">
+        </childnode>
+        <childnode refid="130" relation="include">
+        </childnode>
+        <childnode refid="131" relation="include">
+        </childnode>
+        <childnode refid="132" relation="include">
+        </childnode>
+        <childnode refid="133" relation="include">
+        </childnode>
+        <childnode refid="134" relation="include">
+        </childnode>
+        <childnode refid="135" relation="include">
+        </childnode>
+        <childnode refid="136" relation="include">
+        </childnode>
+        <childnode refid="137" relation="include">
+        </childnode>
+        <childnode refid="138" relation="include">
+        </childnode>
+        <childnode refid="139" relation="include">
+        </childnode>
+        <childnode refid="140" relation="include">
+        </childnode>
+        <childnode refid="141" relation="include">
+        </childnode>
+        <childnode refid="142" relation="include">
+        </childnode>
+        <childnode refid="143" relation="include">
+        </childnode>
+        <childnode refid="144" relation="include">
+        </childnode>
+        <childnode refid="145" relation="include">
+        </childnode>
+        <childnode refid="146" relation="include">
+        </childnode>
+        <childnode refid="147" relation="include">
+        </childnode>
+        <childnode refid="148" relation="include">
+        </childnode>
+        <childnode refid="149" relation="include">
+        </childnode>
+        <childnode refid="150" relation="include">
+        </childnode>
+        <childnode refid="151" relation="include">
+        </childnode>
+        <childnode refid="152" relation="include">
+        </childnode>
+        <childnode refid="153" relation="include">
+        </childnode>
+        <childnode refid="154" relation="include">
+        </childnode>
+        <childnode refid="155" relation="include">
+        </childnode>
+        <childnode refid="156" relation="include">
+        </childnode>
+        <childnode refid="157" relation="include">
+        </childnode>
+        <childnode refid="158" relation="include">
+        </childnode>
+        <childnode refid="159" relation="include">
+        </childnode>
+        <childnode refid="160" relation="include">
+        </childnode>
+        <childnode refid="161" relation="include">
+        </childnode>
+        <childnode refid="162" relation="include">
+        </childnode>
+        <childnode refid="163" relation="include">
+        </childnode>
+        <childnode refid="164" relation="include">
+        </childnode>
+        <childnode refid="165" relation="include">
+        </childnode>
+        <childnode refid="166" relation="include">
+        </childnode>
+        <childnode refid="167" relation="include">
+        </childnode>
+        <childnode refid="168" relation="include">
+        </childnode>
+        <childnode refid="169" relation="include">
+        </childnode>
+        <childnode refid="170" relation="include">
+        </childnode>
+        <childnode refid="171" relation="include">
+        </childnode>
+        <childnode refid="172" relation="include">
+        </childnode>
+        <childnode refid="173" relation="include">
+        </childnode>
+        <childnode refid="174" relation="include">
+        </childnode>
+        <childnode refid="175" relation="include">
+        </childnode>
+        <childnode refid="176" relation="include">
+        </childnode>
+        <childnode refid="177" relation="include">
+        </childnode>
+        <childnode refid="178" relation="include">
+        </childnode>
+        <childnode refid="179" relation="include">
+        </childnode>
+        <childnode refid="180" relation="include">
+        </childnode>
+        <childnode refid="181" relation="include">
+        </childnode>
+        <childnode refid="182" relation="include">
+        </childnode>
+        <childnode refid="183" relation="include">
+        </childnode>
+        <childnode refid="184" relation="include">
+        </childnode>
+        <childnode refid="185" relation="include">
+        </childnode>
+        <childnode refid="186" relation="include">
+        </childnode>
+        <childnode refid="187" relation="include">
+        </childnode>
+        <childnode refid="188" relation="include">
+        </childnode>
+        <childnode refid="189" relation="include">
+        </childnode>
+        <childnode refid="190" relation="include">
+        </childnode>
+        <childnode refid="191" relation="include">
+        </childnode>
+        <childnode refid="192" relation="include">
+        </childnode>
+        <childnode refid="193" relation="include">
+        </childnode>
+        <childnode refid="195" relation="include">
+        </childnode>
+        <childnode refid="196" relation="include">
+        </childnode>
+        <childnode refid="197" relation="include">
+        </childnode>
+        <childnode refid="198" relation="include">
+        </childnode>
+        <childnode refid="199" relation="include">
+        </childnode>
+        <childnode refid="200" relation="include">
+        </childnode>
+        <childnode refid="201" relation="include">
+        </childnode>
+        <childnode refid="202" relation="include">
+        </childnode>
+        <childnode refid="203" relation="include">
+        </childnode>
+        <childnode refid="204" relation="include">
+        </childnode>
+        <childnode refid="205" relation="include">
+        </childnode>
+        <childnode refid="206" relation="include">
+        </childnode>
+        <childnode refid="207" relation="include">
+        </childnode>
+        <childnode refid="208" relation="include">
+        </childnode>
+        <childnode refid="209" relation="include">
+        </childnode>
+        <childnode refid="210" relation="include">
+        </childnode>
+        <childnode refid="211" relation="include">
+        </childnode>
+        <childnode refid="212" relation="include">
+        </childnode>
+        <childnode refid="213" relation="include">
+        </childnode>
+        <childnode refid="214" relation="include">
+        </childnode>
+        <childnode refid="215" relation="include">
+        </childnode>
+        <childnode refid="216" relation="include">
+        </childnode>
+        <childnode refid="217" relation="include">
+        </childnode>
+        <childnode refid="218" relation="include">
+        </childnode>
+        <childnode refid="219" relation="include">
+        </childnode>
+        <childnode refid="220" relation="include">
+        </childnode>
+        <childnode refid="221" relation="include">
+        </childnode>
+        <childnode refid="222" relation="include">
+        </childnode>
+        <childnode refid="223" relation="include">
+        </childnode>
+        <childnode refid="224" relation="include">
+        </childnode>
+        <childnode refid="225" relation="include">
+        </childnode>
+        <childnode refid="226" relation="include">
+        </childnode>
+        <childnode refid="227" relation="include">
+        </childnode>
+        <childnode refid="228" relation="include">
+        </childnode>
+        <childnode refid="229" relation="include">
+        </childnode>
+        <childnode refid="230" relation="include">
+        </childnode>
+        <childnode refid="231" relation="include">
+        </childnode>
+        <childnode refid="232" relation="include">
+        </childnode>
+        <childnode refid="233" relation="include">
+        </childnode>
+        <childnode refid="234" relation="include">
+        </childnode>
+        <childnode refid="235" relation="include">
+        </childnode>
+        <childnode refid="236" relation="include">
+        </childnode>
+        <childnode refid="237" relation="include">
+        </childnode>
+        <childnode refid="238" relation="include">
+        </childnode>
+        <childnode refid="239" relation="include">
+        </childnode>
+        <childnode refid="240" relation="include">
+        </childnode>
+        <childnode refid="241" relation="include">
+        </childnode>
+        <childnode refid="242" relation="include">
+        </childnode>
+        <childnode refid="243" relation="include">
+        </childnode>
+        <childnode refid="244" relation="include">
+        </childnode>
+        <childnode refid="245" relation="include">
+        </childnode>
+        <childnode refid="246" relation="include">
+        </childnode>
+        <childnode refid="247" relation="include">
+        </childnode>
+        <childnode refid="248" relation="include">
+        </childnode>
+        <childnode refid="249" relation="include">
+        </childnode>
+        <childnode refid="250" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="223">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/SVD/BDCSVD.h</label>
+      </node>
+      <node id="88">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/MathFunctionsImpl.h</label>
+      </node>
+      <node id="108">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/BlockMethods.h</label>
+      </node>
+      <node id="194">
+        <label>stdio.h</label>
+      </node>
+      <node id="141">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Map.h</label>
+      </node>
+      <node id="143">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/Block.h</label>
+      </node>
+      <node id="203">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/LU/InverseImpl.h</label>
+      </node>
+      <node id="71">
+        <label>cstring</label>
+      </node>
+      <node id="121">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/plugins/ArrayCwiseUnaryOps.h</label>
+      </node>
+      <node id="201">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/LU/PartialPivLU.h</label>
+      </node>
+      <node id="191">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/GlobalFunctions.h</label>
+      </node>
+      <node id="210">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/Householder</label>
+      </node>
+      <node id="169">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/SolveTriangular.h</label>
+      </node>
+      <node id="160">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Core/PermutationMatrix.h</label>
+      </node>
+      <node id="240">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Eigenvalues/Tridiagonalization.h</label>
+      </node>
+      <node id="228">
+        <label>/home/jonathan/Dropbox/Documents/EPFL/Main_Studies/Simulators/MCDC_Simulator_public/src/Eigen/src/Geometry/RotationBase.h</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespace_eigen">Eigen</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;cylinder.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;constants.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Eigen/Dense&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_eigen" kindref="compound">Eigen</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>Cylinder::count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><ref refid="class_cylinder_1a01dc978cb576f834b9545e43d4dad2a2" kindref="member">Cylinder::Cylinder</ref>()</highlight></codeline>
+<codeline lineno="10"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>count++;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal">Cylinder::~Cylinder()</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>count--;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><ref refid="class_cylinder_1a01dc978cb576f834b9545e43d4dad2a2" kindref="member">Cylinder::Cylinder</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_cylinder" kindref="compound">Cylinder</ref><sp/>&amp;cyl)</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>D<sp/>=<sp/>cyl.<ref refid="class_cylinder_1a2e7f0d4e406cc50daf30f3e3b0be1609" kindref="member">D</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>Q<sp/>=<sp/>cyl.<ref refid="class_cylinder_1a9f367beb008c847b97bb0ce043601769" kindref="member">Q</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>P<sp/>=<sp/>cyl.P;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>radius<sp/>=<sp/>cyl.<ref refid="class_cylinder_1a8a825799285bcf60b49b8aef0459b498" kindref="member">radius</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>count++;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_cylinder_1a43350a6331f8656dd0774a4a3b68724f" kindref="member">Cylinder::checkCollision</ref>(<ref refid="class_walker" kindref="compound">Walker</ref><sp/>&amp;walker,<sp/>Eigen::Vector3d<sp/>&amp;step,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;step_lenght,<sp/><ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Origin<sp/>of<sp/>the<sp/>ray</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>Vector3d<sp/>O;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>walker.getVoxelPosition(O);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>Vector3d<sp/>m<sp/>=<sp/>O<sp/>-<sp/>P;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//minimum<sp/>distance<sp/>to<sp/>the<sp/>cylinder<sp/>axis.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>distance_to_cilinder<sp/>=<sp/>(D.cross(-m)).norm();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d_<sp/>=<sp/>distance_to_cilinder<sp/>-<sp/>radius;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//If<sp/>the<sp/>minimum<sp/>distance<sp/>from<sp/>the<sp/>walker<sp/>to<sp/>the<sp/>cylinder<sp/>is<sp/>more<sp/>than</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>actual<sp/>step<sp/>size,<sp/>we<sp/>can<sp/>discard<sp/>this<sp/>collision.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(d_&gt;<sp/>EPS_VAL){</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(d_<sp/>&gt;<sp/>step_lenght+barrier_tickness){</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>md<sp/>=<sp/>m.dot(D);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>nd<sp/>=<sp/>step.dot(D);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>nn<sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mm<sp/>=<sp/>m.dot(m);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a<sp/><sp/>=<sp/>nn<sp/>-<sp/>nd*nd;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>k<sp/><sp/>=<sp/>mm<sp/>-<sp/>radius*radius;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>c<sp/><sp/>=<sp/>k<sp/><sp/>-<sp/>md*md;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Parallel<sp/>trajectory<sp/>//<sp/>WARNING:<sp/>Check<sp/>this<sp/>stuff</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(fabs(a)<sp/>&lt;<sp/>1e-5<sp/>&amp;&amp;<sp/>fabs(c)&lt;barrier_tickness){</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::near;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a95898b1296dfa87b78e8a1197f0f5ea2" kindref="member">rn</ref><sp/>=<sp/>c;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1ad1f81d05e175689b7e31bf36121d1589" kindref="member">obstacle_ind</ref><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mn<sp/>=<sp/>m.dot(step);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>mn<sp/>-<sp/>nd*md;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>discr<sp/>=<sp/>b*b<sp/>-<sp/>a*c;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//No<sp/>real<sp/>roots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(discr<sp/>&lt;<sp/>0.0){</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::null;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//if<sp/>we<sp/>arrived<sp/>here<sp/>we<sp/>need<sp/>to<sp/>compute<sp/>the<sp/>quadratic<sp/>equation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>handleCollition(walker,colision,step,a,b,c,discr,step_lenght);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Cylinder::handleCollition(<ref refid="class_walker" kindref="compound">Walker</ref>&amp;<sp/>walker,<sp/><ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision,<sp/>Vector3d&amp;<sp/>step,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>a,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>b,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>c,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>discr,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>step_length){</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>t1<sp/>=<sp/>(-b<sp/>-<sp/>sqrt(discr))/a;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>t2<sp/>=<sp/>(-b<sp/>+<sp/>sqrt(discr))/a;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//if<sp/>we<sp/>are<sp/>completely<sp/>sure<sp/>that<sp/>no<sp/>collision<sp/>happened</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(<sp/>(t1<sp/>&lt;<sp/>0.0)<sp/>||<sp/>(t1<sp/>&gt;<sp/>step_length+barrier_tickness)<sp/>)<sp/>&amp;&amp;<sp/>(<sp/>(t2<sp/>&lt;<sp/>0.0)<sp/>||<sp/>(t2<sp/>&gt;<sp/>step_length+barrier_tickness))<sp/>){</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::null;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//WARNING:<sp/>Cuidar<sp/>este<sp/>patch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Implementa<sp/>Percolacion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(percolation&gt;0.0){</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>_percolation_<sp/>((</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">)rand()/RAND_MAX);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>percolation<sp/>-<sp/>_percolation_<sp/>&gt;<sp/>EPS_VAL<sp/>){</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count_perc_crossings++;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>spin<sp/>that&apos;s<sp/>bouncing<sp/>ignores<sp/>collision<sp/>at<sp/>0<sp/>(is<sp/>in<sp/>a<sp/>wall)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(walker.<ref refid="class_walker_1afa37629b74387435a0bb02e0c061a718" kindref="member">status</ref><sp/>==<sp/>Walker::bouncing){</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//if<sp/>the<sp/>collision<sp/>are<sp/>too<sp/>close<sp/>or<sp/>negative.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(<sp/>(t1<sp/>&lt;<sp/>EPS_VAL)<sp/>||<sp/>(t1<sp/>&gt;<sp/>step_length+barrier_tickness))<sp/>&amp;&amp;<sp/>((<sp/>t2<sp/>&lt;<sp/>EPS_VAL)<sp/>||<sp/>(t2<sp/>&gt;<sp/>step_length+barrier_tickness))<sp/>){</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::null;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>t1<sp/>&gt;=<sp/>EPS_VAL<sp/>&amp;&amp;<sp/>t1<sp/>&lt;<sp/>t2)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a195d201b0843d9f7190ac3a27761b4e7" kindref="member">t</ref><sp/>=<sp/>fmin(t1,step_length);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a195d201b0843d9f7190ac3a27761b4e7" kindref="member">t</ref><sp/>=<sp/>fmin(t2,step_length);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>t1&gt;0.0<sp/>&amp;&amp;<sp/>t1<sp/>&lt;t2)</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a195d201b0843d9f7190ac3a27761b4e7" kindref="member">t</ref><sp/>=<sp/>fmin(t1,step_length);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a195d201b0843d9f7190ac3a27761b4e7" kindref="member">t</ref><sp/>=<sp/>fmin(t2,step_length);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::hit;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1ad1f81d05e175689b7e31bf36121d1589" kindref="member">obstacle_ind</ref><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(c&lt;-1e-10){</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1ae35c71ff91ffc9c253a345f0b4e2fbba" kindref="member">col_location</ref><sp/>=<sp/>Collision::inside;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>walker.<ref refid="class_walker_1adf221f7a635c09cfaafc0dab5aa38106" kindref="member">in_obj_index</ref><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(c&gt;1e-10){</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1ae35c71ff91ffc9c253a345f0b4e2fbba" kindref="member">col_location</ref><sp/>=<sp/>Collision::outside;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1ae35c71ff91ffc9c253a345f0b4e2fbba" kindref="member">col_location</ref><sp/>=<sp/>Collision::unknown;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a95898b1296dfa87b78e8a1197f0f5ea2" kindref="member">rn</ref><sp/>=<sp/>c;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a00d821761200316e1d54eace02c725b4" kindref="member">colision_point</ref><sp/>=<sp/>walker.<ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref><sp/>+<sp/>colision.<ref refid="class_collision_1a195d201b0843d9f7190ac3a27761b4e7" kindref="member">t</ref>*step;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fabs(a)<sp/>&lt;<sp/>EPS_VAL){</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1ae35c71ff91ffc9c253a345f0b4e2fbba" kindref="member">col_location</ref><sp/>=<sp/>Collision::on_edge;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1aee20b80597eeea9b0c5a3ff0a5d0c81c" kindref="member">bounced_direction</ref><sp/>=<sp/>-step;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>V<sp/>=<sp/>colision.<ref refid="class_collision_1a00d821761200316e1d54eace02c725b4" kindref="member">colision_point</ref><sp/>-<sp/>P;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>V.dot(D);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>axis_point<sp/>=<sp/>P<sp/>+<sp/>v*D;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Normal<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>normal<sp/>=<sp/>(colision.<ref refid="class_collision_1a00d821761200316e1d54eace02c725b4" kindref="member">colision_point</ref>-axis_point).normalized();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>temp_step<sp/>=<sp/>step;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>elasticBounceAgainsPlane(walker.<ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref>,normal,colision.<ref refid="class_collision_1a195d201b0843d9f7190ac3a27761b4e7" kindref="member">t</ref>,temp_step);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1aee20b80597eeea9b0c5a3ff0a5d0c81c" kindref="member">bounced_direction</ref><sp/>=<sp/>temp_step.normalized();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_cylinder_1a6eb639d12a7fc0aec50895151fb91b1f" kindref="member">Cylinder::minDistance</ref>(<ref refid="class_walker" kindref="compound">Walker</ref><sp/>&amp;w){</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Origin<sp/>of<sp/>the<sp/>ray</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>Vector3d<sp/>O;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>w.getVoxelPosition(O);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>Vector3d<sp/>m<sp/>=<sp/>O<sp/>-<sp/>P;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>minimum<sp/>distance<sp/>to<sp/>the<sp/>cylinder<sp/>axis.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>distance_to_cylinder<sp/>=<sp/>(D.cross(-m)).norm();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Minimum<sp/>distance<sp/>to<sp/>the<sp/>cylinders<sp/>wall.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d_<sp/>=<sp/>(distance_to_cylinder<sp/>-<sp/>radius);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>return<sp/>d_&gt;0.0?d_:0.0;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>d_;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/cylinder.cpp"/>
+  </compounddef>
+</doxygen>

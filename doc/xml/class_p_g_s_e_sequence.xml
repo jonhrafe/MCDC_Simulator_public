@@ -1,0 +1,584 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_p_g_s_e_sequence" kind="class" language="C++" prot="public">
+    <compoundname>PGSESequence</compoundname>
+    <basecompoundref refid="class_simulable_sequence" prot="public" virt="non-virtual">SimulableSequence</basecompoundref>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_p_g_s_e_sequence_1a06df939859fd2ed6104bfee584f893a1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double PGSESequence::TE</definition>
+        <argsstring></argsstring>
+        <name>TE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Time Echo. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="29" column="1" bodyfile="src/pgsesequence.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_p_g_s_e_sequence_1a07e27e6e8a8506521386a291d62e8423" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int PGSESequence::T</definition>
+        <argsstring></argsstring>
+        <name>T</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>num bins (time steps) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="31" column="1" bodyfile="src/pgsesequence.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_p_g_s_e_sequence_1a0c7e884c3b71cbcc04d6cb2d5f2a5eb9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double PGSESequence::dyn_duration</definition>
+        <argsstring></argsstring>
+        <name>dyn_duration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>simulation duration (miliseconds) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="33" column="1" bodyfile="src/pgsesequence.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_p_g_s_e_sequence_1a7349d86720a34e75eaf578fdfd3caeeb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt;double&gt; &gt; PGSESequence::scheme</definition>
+        <argsstring></argsstring>
+        <name>scheme</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_scheme" kindref="compound">Scheme</ref> file values </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="35" column="1" bodyfile="src/pgsesequence.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_p_g_s_e_sequence_1a0fd0fb458384bfb65070fdab5165dde5" prot="public" static="no" mutable="no">
+        <type><ref refid="class_trajectory" kindref="compound">Trajectory</ref></type>
+        <definition>Trajectory PGSESequence::trajectory</definition>
+        <argsstring></argsstring>
+        <name>trajectory</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If the signal is computed from a .trajfile </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="37" column="1" bodyfile="src/pgsesequence.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a29db64fbd60c54c191e8197e1818dce0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PGSESequence::PGSESequence</definition>
+        <argsstring>()</argsstring>
+        <name>PGSESequence</name>
+        <briefdescription>
+<para>Default constructor, set default NULL values. Not to be used. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="44" column="1" bodyfile="src/pgsesequence.cpp" bodystart="15" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a31bcb2e91e27823bbe71904e180f7de9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PGSESequence::PGSESequence</definition>
+        <argsstring>(Scheme scheme_)</argsstring>
+        <name>PGSESequence</name>
+        <param>
+          <type><ref refid="class_scheme" kindref="compound">Scheme</ref></type>
+          <declname>scheme_</declname>
+        </param>
+        <briefdescription>
+<para>Main constructor. Takes a pre-loaded <ref refid="class_scheme" kindref="compound">Scheme</ref> file. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="48" column="1" bodyfile="src/pgsesequence.cpp" bodystart="26" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1ab278a413c31a67f82712590897a556cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PGSESequence::PGSESequence</definition>
+        <argsstring>(Scheme scheme_, const char *traj_file_name)</argsstring>
+        <name>PGSESequence</name>
+        <param>
+          <type><ref refid="class_scheme" kindref="compound">Scheme</ref></type>
+          <declname>scheme_</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>traj_file_name</declname>
+        </param>
+        <briefdescription>
+<para>Main constructor. Takes a pre-loaded <ref refid="class_scheme" kindref="compound">Scheme</ref> file and a traj file name. if this argument is passed a traj file is should be written. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="53" column="1" bodyfile="src/pgsesequence.cpp" bodystart="37" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a262f1156c51983fba9b9a6b666dd2e07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PGSESequence::PGSESequence</definition>
+        <argsstring>(const char *scheme_file_name)</argsstring>
+        <name>PGSESequence</name>
+        <param>
+          <type>const char *</type>
+          <declname>scheme_file_name</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. Takes a the scheme file name to be loaded. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="57" column="1" bodyfile="src/pgsesequence.cpp" bodystart="51" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a1eb4e53eb0769b16eb9bb2156c769644" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PGSESequence::PGSESequence</definition>
+        <argsstring>(const char *scheme_file_name, const char *traj_file_name)</argsstring>
+        <name>PGSESequence</name>
+        <param>
+          <type>const char *</type>
+          <declname>scheme_file_name</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>traj_file_name</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. Takes a scheme file name to be loaded and atraj file name. if this argument is passed a traj file is should be written. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="62" column="1" bodyfile="src/pgsesequence.cpp" bodystart="64" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a7e5815e4ae0b3a6d42c45322fc69fdd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>PGSESequence::~PGSESequence</definition>
+        <argsstring>()</argsstring>
+        <name>~PGSESequence</name>
+        <briefdescription>
+<para>Destuctor. Does nothing. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="67" column="1" bodyfile="src/pgsesequence.cpp" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a3f2a705b7d3312944630f3d7f639e8e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void PGSESequence::getGradImpulse</definition>
+        <argsstring>(int i, double t, double tLast, Eigen::Vector3d &amp;Gdt)</argsstring>
+        <name>getGradImpulse</name>
+        <reimplements refid="class_simulable_sequence_1a03a417776f5404b06c761ab9109e3e1d">getGradImpulse</reimplements>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tLast</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>Gdt</declname>
+        </param>
+        <briefdescription>
+<para>For using w/o the adt array. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="72" column="1" bodyfile="src/pgsesequence.cpp" bodystart="83" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a9985ead781333f782d1dee54482eb0d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PGSESequence::getGradImpuse</definition>
+        <argsstring>(int i, double t, Eigen::Vector3d Gdt)</argsstring>
+        <name>getGradImpuse</name>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d</type>
+          <declname>Gdt</declname>
+        </param>
+        <briefdescription>
+<para>For using with the adt array. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="78" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a8b0671a505f79a601d3d4d2d9b7f36cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double PGSESequence::getbValue</definition>
+        <argsstring>(unsigned)</argsstring>
+        <name>getbValue</name>
+        <reimplements refid="class_simulable_sequence_1a85cdcf5f7bd5bed804a816e3c18840b7">getbValue</reimplements>
+        <param>
+          <type>unsigned</type>
+          <defname>i</defname>
+        </param>
+        <briefdescription>
+<para>Analytical defined b-value. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="83" column="1" bodyfile="src/pgsesequence.cpp" bodystart="442" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a375c8a943f4857a323ffc404394b5d8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double PGSESequence::getFreeDecay</definition>
+        <argsstring>(unsigned i, double D)</argsstring>
+        <name>getFreeDecay</name>
+        <reimplements refid="class_simulable_sequence_1a31a328cc716e039a53f9b12122050b83">getFreeDecay</reimplements>
+        <param>
+          <type>unsigned</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>D</declname>
+        </param>
+        <briefdescription>
+<para>Expected free Decay. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="88" column="1" bodyfile="src/pgsesequence.cpp" bodystart="451" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a1373f02bffedb1e934818ae8d4fb8939" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double PGSESequence::getNumericalbValue</definition>
+        <argsstring>(unsigned)</argsstring>
+        <name>getNumericalbValue</name>
+        <param>
+          <type>unsigned</type>
+          <defname>i</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="warning"><para>not implemented yet. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="95" column="1" bodyfile="src/pgsesequence.cpp" bodystart="458" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1aec05e76b5c7b3361bd3e68301b262a0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PGSESequence::getDWISignal</definition>
+        <argsstring>()</argsstring>
+        <name>getDWISignal</name>
+        <briefdescription>
+<para>Computes de DW signal from a trajfile. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="100" column="1" bodyfile="src/pgsesequence.cpp" bodystart="463" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a22005e67e3513690f9e46b1d531481b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PGSESequence::readSchemeFile</definition>
+        <argsstring>()</argsstring>
+        <name>readSchemeFile</name>
+        <briefdescription>
+<para>reads the scheme files </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="105" column="1" bodyfile="src/pgsesequence.cpp" bodystart="189" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a6914efd208eab28a1ee6a3f28ca65478" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void PGSESequence::update_phase_shift</definition>
+        <argsstring>(double dt, double dt_last, Walker walker)</argsstring>
+        <name>update_phase_shift</name>
+        <reimplements refid="class_simulable_sequence_1ad7b2a30f563343aa65489aa553d4df63">update_phase_shift</reimplements>
+        <param>
+          <type>double</type>
+          <declname>dt</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>dt_last</declname>
+        </param>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref></type>
+          <declname>walker</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>updated walker </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="110" column="1" bodyfile="src/pgsesequence.cpp" bodystart="230" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a850a2f22cdf8b420888cfa906e03e078" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void PGSESequence::update_phase_shift</definition>
+        <argsstring>(double time_step, Eigen::Matrix3Xd trajectory)</argsstring>
+        <name>update_phase_shift</name>
+        <reimplements refid="class_simulable_sequence_1a175197d165ee7852094bc70cadc59589">update_phase_shift</reimplements>
+        <param>
+          <type>double</type>
+          <declname>time_step</declname>
+        </param>
+        <param>
+          <type>Eigen::Matrix3Xd</type>
+          <declname>trajectory</declname>
+        </param>
+        <briefdescription>
+<para>Updates the phase shift using the full stored trajectory. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="115" column="1" bodyfile="src/pgsesequence.cpp" bodystart="249" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1ae2b79f12ccd2f2446a498cb51f45e88d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void PGSESequence::update_DWI_signal</definition>
+        <argsstring>(Walker &amp;walker)</argsstring>
+        <name>update_DWI_signal</name>
+        <reimplements refid="class_simulable_sequence_1af5621196178ee78b27e740dfe360815e">update_DWI_signal</reimplements>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref> &amp;</type>
+          <declname>walker</declname>
+        </param>
+        <briefdescription>
+<para>Updates the DWI signal using the cumulated phase shift. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="120" column="1" bodyfile="src/pgsesequence.cpp" bodystart="282" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a885a0415519683a7fbfa1883f7f3d807" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double PGSESequence::get_adt</definition>
+        <argsstring>(int grad_index, double t, double tLast)</argsstring>
+        <name>get_adt</name>
+        <param>
+          <type>int</type>
+          <declname>grad_index</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tLast</declname>
+        </param>
+        <briefdescription>
+<para>computes de signal value and sign in a certain time step. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="125" column="1" bodyfile="src/pgsesequence.cpp" bodystart="520" bodyend="591"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1afa9e363ef76474d5e2495407034a10d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double PGSESequence::print_adt_and_dt</definition>
+        <argsstring>(int grad_index, double t, double tLast)</argsstring>
+        <name>print_adt_and_dt</name>
+        <param>
+          <type>int</type>
+          <declname>grad_index</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tLast</declname>
+        </param>
+        <briefdescription>
+<para>prints the array adt in the format (). </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="130" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a89f9bf116876b04403058a240a91efa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void PGSESequence::setNumberOfSteps</definition>
+        <argsstring>(unsigned T)</argsstring>
+        <name>setNumberOfSteps</name>
+        <reimplements refid="class_simulable_sequence_1a2e16c0b0dcf1b90ad0afc53ab14e9250">setNumberOfSteps</reimplements>
+        <param>
+          <type>unsigned</type>
+          <declname>T</declname>
+        </param>
+        <briefdescription>
+<para>Set the number of time steps if they are known. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="132" column="1" bodyfile="src/pgsesequence.cpp" bodystart="359" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1ac115d93aabb283f19568f55493d57ded" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void PGSESequence::computeDynamicTimeSteps</definition>
+        <argsstring>()</argsstring>
+        <name>computeDynamicTimeSteps</name>
+        <reimplements refid="class_simulable_sequence_1a3c5285531564cdb204894e6c6fc9204e">computeDynamicTimeSteps</reimplements>
+        <briefdescription>
+<para>Compute the time for all the steps when they are not constant. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="134" column="1" bodyfile="src/pgsesequence.cpp" bodystart="364" bodyend="439"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_p_g_s_e_sequence_1a94056d1ee5ef2bf816b8b766a2d193c2" prot="private" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void PGSESequence::readSchemeParameters</definition>
+        <argsstring>(Scheme scheme_)</argsstring>
+        <name>readSchemeParameters</name>
+        <param>
+          <type><ref refid="class_scheme" kindref="compound">Scheme</ref></type>
+          <declname>scheme_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/pgsesequence.h" line="137" column="1" bodyfile="src/pgsesequence.cpp" bodystart="173" bodyend="187"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="58">
+        <label>SimulableSequence</label>
+        <link refid="class_simulable_sequence"/>
+      </node>
+      <node id="57">
+        <label>PGSESequence</label>
+        <link refid="class_p_g_s_e_sequence"/>
+        <childnode refid="58" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="60">
+        <label>SimulableSequence</label>
+        <link refid="class_simulable_sequence"/>
+      </node>
+      <node id="61">
+        <label>Trajectory</label>
+        <link refid="class_trajectory"/>
+      </node>
+      <node id="59">
+        <label>PGSESequence</label>
+        <link refid="class_p_g_s_e_sequence"/>
+        <childnode refid="60" relation="public-inheritance">
+        </childnode>
+        <childnode refid="61" relation="usage">
+          <edgelabel>trajectory</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/pgsesequence.h" line="26" column="1" bodyfile="src/pgsesequence.h" bodystart="26" bodyend="141"/>
+    <listofallmembers>
+      <member refid="class_simulable_sequence_1af8396d72ccbb4ad1e8a403e554b8e8e1" prot="public" virt="virtual"><scope>PGSESequence</scope><name>cleanDWISignal</name></member>
+      <member refid="class_simulable_sequence_1a49a95a0735a939b65495be51ce0fb1be" prot="public" virt="virtual"><scope>PGSESequence</scope><name>cleanPhaseShift</name></member>
+      <member refid="class_p_g_s_e_sequence_1ac115d93aabb283f19568f55493d57ded" prot="public" virt="virtual"><scope>PGSESequence</scope><name>computeDynamicTimeSteps</name></member>
+      <member refid="class_simulable_sequence_1a083961d839ed1433206ccbc481996409" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>DWI</name></member>
+      <member refid="class_simulable_sequence_1a49a24269e364bcd02000ba575acc85ed" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>DWI_extra</name></member>
+      <member refid="class_simulable_sequence_1ac64fb8110b769e180283365567bd4158" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>DWI_intra</name></member>
+      <member refid="class_simulable_sequence_1a3708afa1322d72b59d3be20b740d107c" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>DWIi</name></member>
+      <member refid="class_p_g_s_e_sequence_1a0c7e884c3b71cbcc04d6cb2d5f2a5eb9" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>dyn_duration</name></member>
+      <member refid="class_simulable_sequence_1a1de2d00a939f550af1947ae25acc4b97" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>dynamic</name></member>
+      <member refid="class_p_g_s_e_sequence_1a885a0415519683a7fbfa1883f7f3d807" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>get_adt</name></member>
+      <member refid="class_p_g_s_e_sequence_1a8b0671a505f79a601d3d4d2d9b7f36cc" prot="public" virt="virtual"><scope>PGSESequence</scope><name>getbValue</name></member>
+      <member refid="class_p_g_s_e_sequence_1aec05e76b5c7b3361bd3e68301b262a0a" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>getDWISignal</name></member>
+      <member refid="class_p_g_s_e_sequence_1a375c8a943f4857a323ffc404394b5d8a" prot="public" virt="virtual"><scope>PGSESequence</scope><name>getFreeDecay</name></member>
+      <member refid="class_p_g_s_e_sequence_1a3f2a705b7d3312944630f3d7f639e8e4" prot="public" virt="virtual"><scope>PGSESequence</scope><name>getGradImpulse</name></member>
+      <member refid="class_p_g_s_e_sequence_1a9985ead781333f782d1dee54482eb0d2" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>getGradImpuse</name></member>
+      <member refid="class_p_g_s_e_sequence_1a1373f02bffedb1e934818ae8d4fb8939" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>getNumericalbValue</name></member>
+      <member refid="class_simulable_sequence_1a7603177060550acd31ece2c87fcdd2a9" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>img_signal</name></member>
+      <member refid="class_simulable_sequence_1a3fad0e115a2ec07a8b1202608eba698e" prot="public" virt="virtual"><scope>PGSESequence</scope><name>initializeIntraExtraSignals</name></member>
+      <member refid="class_simulable_sequence_1aa2434c3b2ef59d1cd8b822b8e3a2920c" prot="public" virt="virtual"><scope>PGSESequence</scope><name>initializeSubdivisionSignals</name></member>
+      <member refid="class_simulable_sequence_1aa524c45db6c27dd21acacf97d7951ac2" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>num_rep</name></member>
+      <member refid="class_simulable_sequence_1a43e046af3bf6c498a5ad232058de8a90" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>percent_steps_in</name></member>
+      <member refid="class_p_g_s_e_sequence_1a29db64fbd60c54c191e8197e1818dce0" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>PGSESequence</name></member>
+      <member refid="class_p_g_s_e_sequence_1a31bcb2e91e27823bbe71904e180f7de9" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>PGSESequence</name></member>
+      <member refid="class_p_g_s_e_sequence_1ab278a413c31a67f82712590897a556cb" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>PGSESequence</name></member>
+      <member refid="class_p_g_s_e_sequence_1a262f1156c51983fba9b9a6b666dd2e07" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>PGSESequence</name></member>
+      <member refid="class_p_g_s_e_sequence_1a1eb4e53eb0769b16eb9bb2156c769644" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>PGSESequence</name></member>
+      <member refid="class_simulable_sequence_1a8691c0451c305869064862e30986c34c" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>phase_shift</name></member>
+      <member refid="class_simulable_sequence_1a4e45e2d935a05a7375b04718a49c9af7" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>phase_shift_distribution</name></member>
+      <member refid="class_p_g_s_e_sequence_1afa9e363ef76474d5e2495407034a10d4" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>print_adt_and_dt</name></member>
+      <member refid="class_p_g_s_e_sequence_1a22005e67e3513690f9e46b1d531481b0" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>readSchemeFile</name></member>
+      <member refid="class_p_g_s_e_sequence_1a94056d1ee5ef2bf816b8b766a2d193c2" prot="private" virt="virtual"><scope>PGSESequence</scope><name>readSchemeParameters</name></member>
+      <member refid="class_simulable_sequence_1aa29f58ae224d92dd467a0845bd207324" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>save_phase_shift</name></member>
+      <member refid="class_p_g_s_e_sequence_1a7349d86720a34e75eaf578fdfd3caeeb" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>scheme</name></member>
+      <member refid="class_simulable_sequence_1a9898335af9d8f639f65b73eeac8efb53" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>scheme_file</name></member>
+      <member refid="class_simulable_sequence_1a3278d9b5b22b0bfbdd0ce4bef0e1cc85" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>separate_signal</name></member>
+      <member refid="class_p_g_s_e_sequence_1a89f9bf116876b04403058a240a91efa3" prot="public" virt="virtual"><scope>PGSESequence</scope><name>setNumberOfSteps</name></member>
+      <member refid="class_simulable_sequence_1af58baa6151b8865b3b39088a9f3097ab" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>SimulableSequence</name></member>
+      <member refid="class_simulable_sequence_1a2686ccfa89396eeadd0a0d4f7842623c" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>sub_DWI</name></member>
+      <member refid="class_simulable_sequence_1ad7157eed5b79cf74c45b4185a2465eb6" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>sub_DWI_extra</name></member>
+      <member refid="class_simulable_sequence_1a20a947108c3bb80ed45dd8851e777511" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>sub_DWI_intra</name></member>
+      <member refid="class_simulable_sequence_1a1e958cc7d15337fa3ae0e58c8330f212" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>sub_DWIi</name></member>
+      <member refid="class_simulable_sequence_1ae9e6e581ba16bbf81b693c0e4943bbf9" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>subdivision_flag</name></member>
+      <member refid="class_simulable_sequence_1a77c721d4650578fdc3f44adfa91c030e" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>subdivisions</name></member>
+      <member refid="class_p_g_s_e_sequence_1a07e27e6e8a8506521386a291d62e8423" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>T</name></member>
+      <member refid="class_p_g_s_e_sequence_1a06df939859fd2ed6104bfee584f893a1" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>TE</name></member>
+      <member refid="class_simulable_sequence_1a7e7e1a0de6045046061ffccaba4fa5ee" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>time_steps</name></member>
+      <member refid="class_p_g_s_e_sequence_1a0fd0fb458384bfb65070fdab5165dde5" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>trajectory</name></member>
+      <member refid="class_p_g_s_e_sequence_1ae2b79f12ccd2f2446a498cb51f45e88d" prot="public" virt="virtual"><scope>PGSESequence</scope><name>update_DWI_signal</name></member>
+      <member refid="class_p_g_s_e_sequence_1a6914efd208eab28a1ee6a3f28ca65478" prot="public" virt="virtual"><scope>PGSESequence</scope><name>update_phase_shift</name></member>
+      <member refid="class_p_g_s_e_sequence_1a850a2f22cdf8b420888cfa906e03e078" prot="public" virt="virtual"><scope>PGSESequence</scope><name>update_phase_shift</name></member>
+      <member refid="class_simulable_sequence_1aa6c72a9d84fda0fe15551f84a28d427d" prot="public" virt="virtual"><scope>PGSESequence</scope><name>writePhaseShiftDistribution</name></member>
+      <member refid="class_simulable_sequence_1a372f6d9f448c537afde10e30b68428aa" prot="public" virt="virtual"><scope>PGSESequence</scope><name>writeResultingData</name></member>
+      <member refid="class_p_g_s_e_sequence_1a7e5815e4ae0b3a6d42c45322fc69fdd6" prot="public" virt="non-virtual"><scope>PGSESequence</scope><name>~PGSESequence</name></member>
+      <member refid="class_simulable_sequence_1aeb4a0b2cb0a4e972d3f49bc511656fc7" prot="public" virt="virtual"><scope>PGSESequence</scope><name>~SimulableSequence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

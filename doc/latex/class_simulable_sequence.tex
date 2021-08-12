@@ -1,0 +1,313 @@
+\hypertarget{class_simulable_sequence}{}\section{Simulable\+Sequence Class Reference}
+\label{class_simulable_sequence}\index{Simulable\+Sequence@{Simulable\+Sequence}}
+
+
+MR Sequence Primary Class =============================================================/.  
+
+
+
+
+{\ttfamily \#include $<$simulablesequence.\+h$>$}
+
+
+
+Inheritance diagram for Simulable\+Sequence\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=284pt]{class_simulable_sequence__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{class_simulable_sequence_a03a417776f5404b06c761ab9109e3e1d}{get\+Grad\+Impulse} (int i, double t, double t\+Last, Eigen\+::\+Vector3d \&Gdt)=0
+\item 
+virtual double \hyperlink{class_simulable_sequence_a85cdcf5f7bd5bed804a816e3c18840b7}{getb\+Value} (unsigned i)
+\item 
+\mbox{\Hypertarget{class_simulable_sequence_a31a328cc716e039a53f9b12122050b83}\label{class_simulable_sequence_a31a328cc716e039a53f9b12122050b83}} 
+virtual double \hyperlink{class_simulable_sequence_a31a328cc716e039a53f9b12122050b83}{get\+Free\+Decay} (unsigned i, double D)
+\begin{DoxyCompactList}\small\item\em Expected free Decay. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_simulable_sequence_ad7b2a30f563343aa65489aa553d4df63}{update\+\_\+phase\+\_\+shift} (double dt, double dt\+\_\+last, \hyperlink{class_walker}{Walker} walker)=0
+\item 
+virtual void \hyperlink{class_simulable_sequence_a175197d165ee7852094bc70cadc59589}{update\+\_\+phase\+\_\+shift} (double time\+\_\+step, Eigen\+::\+Matrix3\+Xd trajectory)=0
+\item 
+\mbox{\Hypertarget{class_simulable_sequence_af5621196178ee78b27e740dfe360815e}\label{class_simulable_sequence_af5621196178ee78b27e740dfe360815e}} 
+virtual void \hyperlink{class_simulable_sequence_af5621196178ee78b27e740dfe360815e}{update\+\_\+\+D\+W\+I\+\_\+signal} (\hyperlink{class_walker}{Walker} \&walker)=0
+\begin{DoxyCompactList}\small\item\em Updates the D\+WI signal using the cumulated phase shift. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_simulable_sequence_a2e16c0b0dcf1b90ad0afc53ab14e9250}\label{class_simulable_sequence_a2e16c0b0dcf1b90ad0afc53ab14e9250}} 
+virtual void \hyperlink{class_simulable_sequence_a2e16c0b0dcf1b90ad0afc53ab14e9250}{set\+Number\+Of\+Steps} (unsigned T)=0
+\begin{DoxyCompactList}\small\item\em Set the number of time steps if they are known. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_simulable_sequence_a3c5285531564cdb204894e6c6fc9204e}\label{class_simulable_sequence_a3c5285531564cdb204894e6c6fc9204e}} 
+virtual void \hyperlink{class_simulable_sequence_a3c5285531564cdb204894e6c6fc9204e}{compute\+Dynamic\+Time\+Steps} ()
+\begin{DoxyCompactList}\small\item\em Compute the time for all the steps when they are not constant. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_simulable_sequence_aa2434c3b2ef59d1cd8b822b8e3a2920c}\label{class_simulable_sequence_aa2434c3b2ef59d1cd8b822b8e3a2920c}} 
+virtual void \hyperlink{class_simulable_sequence_aa2434c3b2ef59d1cd8b822b8e3a2920c}{initialize\+Subdivision\+Signals} ()
+\begin{DoxyCompactList}\small\item\em Initialize the D\+WI signals for each subdivision. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_simulable_sequence_a3fad0e115a2ec07a8b1202608eba698e}\label{class_simulable_sequence_a3fad0e115a2ec07a8b1202608eba698e}} 
+virtual void \hyperlink{class_simulable_sequence_a3fad0e115a2ec07a8b1202608eba698e}{initialize\+Intra\+Extra\+Signals} ()
+\begin{DoxyCompactList}\small\item\em Initialize the D\+WI signals for each compartment (intra extra) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_simulable_sequence_a372f6d9f448c537afde10e30b68428aa}\label{class_simulable_sequence_a372f6d9f448c537afde10e30b68428aa}} 
+virtual void {\bfseries write\+Resulting\+Data} (std\+::string output\+\_\+base\+\_\+name)
+\item 
+\mbox{\Hypertarget{class_simulable_sequence_aa6c72a9d84fda0fe15551f84a28d427d}\label{class_simulable_sequence_aa6c72a9d84fda0fe15551f84a28d427d}} 
+virtual void {\bfseries write\+Phase\+Shift\+Distribution} (std\+::string output\+\_\+base\+\_\+name)
+\item 
+\mbox{\Hypertarget{class_simulable_sequence_a49a95a0735a939b65495be51ce0fb1be}\label{class_simulable_sequence_a49a95a0735a939b65495be51ce0fb1be}} 
+virtual void {\bfseries clean\+Phase\+Shift} ()
+\item 
+\mbox{\Hypertarget{class_simulable_sequence_af8396d72ccbb4ad1e8a403e554b8e8e1}\label{class_simulable_sequence_af8396d72ccbb4ad1e8a403e554b8e8e1}} 
+virtual void {\bfseries clean\+D\+W\+I\+Signal} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \hyperlink{class_simulable_sequence_a9898335af9d8f639f65b73eeac8efb53}{scheme\+\_\+file}
+\item 
+std\+::vector$<$ double $>$ \hyperlink{class_simulable_sequence_a083961d839ed1433206ccbc481996409}{D\+WI}
+\item 
+std\+::vector$<$ double $>$ \hyperlink{class_simulable_sequence_ac64fb8110b769e180283365567bd4158}{D\+W\+I\+\_\+intra}
+\item 
+std\+::vector$<$ double $>$ \hyperlink{class_simulable_sequence_a49a24269e364bcd02000ba575acc85ed}{D\+W\+I\+\_\+extra}
+\item 
+std\+::vector$<$ double $>$ \hyperlink{class_simulable_sequence_a3708afa1322d72b59d3be20b740d107c}{D\+W\+Ii}
+\item 
+std\+::vector$<$ double $>$ \hyperlink{class_simulable_sequence_a8691c0451c305869064862e30986c34c}{phase\+\_\+shift}
+\item 
+int \hyperlink{class_simulable_sequence_aa524c45db6c27dd21acacf97d7951ac2}{num\+\_\+rep}
+\item 
+bool \hyperlink{class_simulable_sequence_aa29f58ae224d92dd467a0845bd207324}{save\+\_\+phase\+\_\+shift}
+\item 
+bool \hyperlink{class_simulable_sequence_a1de2d00a939f550af1947ae25acc4b97}{dynamic}
+\item 
+double \hyperlink{class_simulable_sequence_a43e046af3bf6c498a5ad232058de8a90}{percent\+\_\+steps\+\_\+in}
+\item 
+std\+::vector$<$ double $>$ \hyperlink{class_simulable_sequence_a7e7e1a0de6045046061ffccaba4fa5ee}{time\+\_\+steps}
+\item 
+Eigen\+::\+Array\+X\+Xf \hyperlink{class_simulable_sequence_a4e45e2d935a05a7375b04718a49c9af7}{phase\+\_\+shift\+\_\+distribution}
+\item 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ \hyperlink{class_simulable_sequence_a2686ccfa89396eeadd0a0d4f7842623c}{sub\+\_\+\+D\+WI}
+\item 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ \hyperlink{class_simulable_sequence_a20a947108c3bb80ed45dd8851e777511}{sub\+\_\+\+D\+W\+I\+\_\+intra}
+\item 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ \hyperlink{class_simulable_sequence_ad7157eed5b79cf74c45b4185a2465eb6}{sub\+\_\+\+D\+W\+I\+\_\+extra}
+\item 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ \hyperlink{class_simulable_sequence_a1e958cc7d15337fa3ae0e58c8330f212}{sub\+\_\+\+D\+W\+Ii}
+\item 
+bool \hyperlink{class_simulable_sequence_ae9e6e581ba16bbf81b693c0e4943bbf9}{subdivision\+\_\+flag} = false
+\item 
+bool \hyperlink{class_simulable_sequence_a3278d9b5b22b0bfbdd0ce4bef0e1cc85}{separate\+\_\+signal} = false
+\item 
+bool \hyperlink{class_simulable_sequence_a7603177060550acd31ece2c87fcdd2a9}{img\+\_\+signal} = false
+\item 
+std\+::vector$<$ \hyperlink{class_subdivision}{Subdivision} $>$ \hyperlink{class_simulable_sequence_a77c721d4650578fdc3f44adfa91c030e}{subdivisions}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+MR Sequence Primary Class =============================================================/. 
+
+Elemental base clase. Abstract class to synthesise the M\+RI signal
+
+\subsection*{Jonathan Rafael }
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_simulable_sequence_a85cdcf5f7bd5bed804a816e3c18840b7}\label{class_simulable_sequence_a85cdcf5f7bd5bed804a816e3c18840b7}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!getb\+Value@{getb\+Value}}
+\index{getb\+Value@{getb\+Value}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{getb\+Value()}{getbValue()}}
+{\footnotesize\ttfamily virtual double Simulable\+Sequence\+::getb\+Value (\begin{DoxyParamCaption}\item[{unsigned}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & index of the gradient in the scheme\+\_\+file (0,N-\/1) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+b-\/value 
+\end{DoxyReturn}
+
+
+Reimplemented in \hyperlink{class_p_g_s_e_sequence_a8b0671a505f79a601d3d4d2d9b7f36cc}{P\+G\+S\+E\+Sequence}.
+
+\mbox{\Hypertarget{class_simulable_sequence_a03a417776f5404b06c761ab9109e3e1d}\label{class_simulable_sequence_a03a417776f5404b06c761ab9109e3e1d}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!get\+Grad\+Impulse@{get\+Grad\+Impulse}}
+\index{get\+Grad\+Impulse@{get\+Grad\+Impulse}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{get\+Grad\+Impulse()}{getGradImpulse()}}
+{\footnotesize\ttfamily virtual void Simulable\+Sequence\+::get\+Grad\+Impulse (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{double}]{t,  }\item[{double}]{t\+Last,  }\item[{Eigen\+::\+Vector3d \&}]{Gdt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & \hyperlink{class_walker}{Walker} index \\
+\hline
+{\em t} & current time step (in milisenconds) \\
+\hline
+{\em t\+Last} & last time step (in milisenconds) \\
+\hline
+{\em Gdt} & vector to compute de G$\ast$dt impulse \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_gradient_waveform_a80dd810cb4e5a11dec311ac87e55ea18}{Gradient\+Waveform}, and \hyperlink{class_p_g_s_e_sequence_a3f2a705b7d3312944630f3d7f639e8e4}{P\+G\+S\+E\+Sequence}.
+
+\mbox{\Hypertarget{class_simulable_sequence_ad7b2a30f563343aa65489aa553d4df63}\label{class_simulable_sequence_ad7b2a30f563343aa65489aa553d4df63}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!update\+\_\+phase\+\_\+shift@{update\+\_\+phase\+\_\+shift}}
+\index{update\+\_\+phase\+\_\+shift@{update\+\_\+phase\+\_\+shift}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{update\+\_\+phase\+\_\+shift()}{update\_phase\_shift()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily virtual void Simulable\+Sequence\+::update\+\_\+phase\+\_\+shift (\begin{DoxyParamCaption}\item[{double}]{dt,  }\item[{double}]{dt\+\_\+last,  }\item[{\hyperlink{class_walker}{Walker}}]{walker }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & updated walker \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_p_g_s_e_sequence_a6914efd208eab28a1ee6a3f28ca65478}{P\+G\+S\+E\+Sequence}, and \hyperlink{class_gradient_waveform_a7421301b24b6c98e28ef9430287cdf8e}{Gradient\+Waveform}.
+
+\mbox{\Hypertarget{class_simulable_sequence_a175197d165ee7852094bc70cadc59589}\label{class_simulable_sequence_a175197d165ee7852094bc70cadc59589}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!update\+\_\+phase\+\_\+shift@{update\+\_\+phase\+\_\+shift}}
+\index{update\+\_\+phase\+\_\+shift@{update\+\_\+phase\+\_\+shift}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{update\+\_\+phase\+\_\+shift()}{update\_phase\_shift()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual void Simulable\+Sequence\+::update\+\_\+phase\+\_\+shift (\begin{DoxyParamCaption}\item[{double}]{time\+\_\+step,  }\item[{Eigen\+::\+Matrix3\+Xd}]{trajectory }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & updated the phase shift over a whole trajectory \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_p_g_s_e_sequence_a850a2f22cdf8b420888cfa906e03e078}{P\+G\+S\+E\+Sequence}, and \hyperlink{class_gradient_waveform_a2c606400c648cebd85827efa8d22b6bc}{Gradient\+Waveform}.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_simulable_sequence_a083961d839ed1433206ccbc481996409}\label{class_simulable_sequence_a083961d839ed1433206ccbc481996409}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!D\+WI@{D\+WI}}
+\index{D\+WI@{D\+WI}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{D\+WI}{DWI}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ Simulable\+Sequence\+::\+D\+WI}
+
+Real part of the D\+WI signal \mbox{\Hypertarget{class_simulable_sequence_a49a24269e364bcd02000ba575acc85ed}\label{class_simulable_sequence_a49a24269e364bcd02000ba575acc85ed}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!D\+W\+I\+\_\+extra@{D\+W\+I\+\_\+extra}}
+\index{D\+W\+I\+\_\+extra@{D\+W\+I\+\_\+extra}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{D\+W\+I\+\_\+extra}{DWI\_extra}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ Simulable\+Sequence\+::\+D\+W\+I\+\_\+extra}
+
+Real part of the D\+WI signal extra axonal only (if needed) \mbox{\Hypertarget{class_simulable_sequence_ac64fb8110b769e180283365567bd4158}\label{class_simulable_sequence_ac64fb8110b769e180283365567bd4158}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!D\+W\+I\+\_\+intra@{D\+W\+I\+\_\+intra}}
+\index{D\+W\+I\+\_\+intra@{D\+W\+I\+\_\+intra}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{D\+W\+I\+\_\+intra}{DWI\_intra}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ Simulable\+Sequence\+::\+D\+W\+I\+\_\+intra}
+
+Real part of the D\+WI signal intra axonal olny (if needed) \mbox{\Hypertarget{class_simulable_sequence_a3708afa1322d72b59d3be20b740d107c}\label{class_simulable_sequence_a3708afa1322d72b59d3be20b740d107c}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!D\+W\+Ii@{D\+W\+Ii}}
+\index{D\+W\+Ii@{D\+W\+Ii}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{D\+W\+Ii}{DWIi}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ Simulable\+Sequence\+::\+D\+W\+Ii}
+
+imaginary part of the D\+WI signal \mbox{\Hypertarget{class_simulable_sequence_a1de2d00a939f550af1947ae25acc4b97}\label{class_simulable_sequence_a1de2d00a939f550af1947ae25acc4b97}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!dynamic@{dynamic}}
+\index{dynamic@{dynamic}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{dynamic}{dynamic}}
+{\footnotesize\ttfamily bool Simulable\+Sequence\+::dynamic}
+
+Flag to indicate if the time steps are non-\/uniform \mbox{\Hypertarget{class_simulable_sequence_a7603177060550acd31ece2c87fcdd2a9}\label{class_simulable_sequence_a7603177060550acd31ece2c87fcdd2a9}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!img\+\_\+signal@{img\+\_\+signal}}
+\index{img\+\_\+signal@{img\+\_\+signal}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{img\+\_\+signal}{img\_signal}}
+{\footnotesize\ttfamily bool Simulable\+Sequence\+::img\+\_\+signal = false}
+
+flag to check if the img part will be computed or not (false default \mbox{\Hypertarget{class_simulable_sequence_aa524c45db6c27dd21acacf97d7951ac2}\label{class_simulable_sequence_aa524c45db6c27dd21acacf97d7951ac2}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!num\+\_\+rep@{num\+\_\+rep}}
+\index{num\+\_\+rep@{num\+\_\+rep}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{num\+\_\+rep}{num\_rep}}
+{\footnotesize\ttfamily int Simulable\+Sequence\+::num\+\_\+rep}
+
+number of repetitions . \mbox{\Hypertarget{class_simulable_sequence_a43e046af3bf6c498a5ad232058de8a90}\label{class_simulable_sequence_a43e046af3bf6c498a5ad232058de8a90}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!percent\+\_\+steps\+\_\+in@{percent\+\_\+steps\+\_\+in}}
+\index{percent\+\_\+steps\+\_\+in@{percent\+\_\+steps\+\_\+in}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{percent\+\_\+steps\+\_\+in}{percent\_steps\_in}}
+{\footnotesize\ttfamily double Simulable\+Sequence\+::percent\+\_\+steps\+\_\+in}
+
+percentage of steps that should be inside the gradient times \mbox{\Hypertarget{class_simulable_sequence_a8691c0451c305869064862e30986c34c}\label{class_simulable_sequence_a8691c0451c305869064862e30986c34c}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!phase\+\_\+shift@{phase\+\_\+shift}}
+\index{phase\+\_\+shift@{phase\+\_\+shift}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{phase\+\_\+shift}{phase\_shift}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ Simulable\+Sequence\+::phase\+\_\+shift}
+
+auxiliar phase shift for signal computations. \mbox{\Hypertarget{class_simulable_sequence_a4e45e2d935a05a7375b04718a49c9af7}\label{class_simulable_sequence_a4e45e2d935a05a7375b04718a49c9af7}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!phase\+\_\+shift\+\_\+distribution@{phase\+\_\+shift\+\_\+distribution}}
+\index{phase\+\_\+shift\+\_\+distribution@{phase\+\_\+shift\+\_\+distribution}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{phase\+\_\+shift\+\_\+distribution}{phase\_shift\_distribution}}
+{\footnotesize\ttfamily Eigen\+::\+Array\+X\+Xf Simulable\+Sequence\+::phase\+\_\+shift\+\_\+distribution}
+
+Matrix to save the phase shif distribution \mbox{\Hypertarget{class_simulable_sequence_aa29f58ae224d92dd467a0845bd207324}\label{class_simulable_sequence_aa29f58ae224d92dd467a0845bd207324}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!save\+\_\+phase\+\_\+shift@{save\+\_\+phase\+\_\+shift}}
+\index{save\+\_\+phase\+\_\+shift@{save\+\_\+phase\+\_\+shift}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{save\+\_\+phase\+\_\+shift}{save\_phase\_shift}}
+{\footnotesize\ttfamily bool Simulable\+Sequence\+::save\+\_\+phase\+\_\+shift}
+
+flag, if true, saves the pahse shift distribution. \mbox{\Hypertarget{class_simulable_sequence_a9898335af9d8f639f65b73eeac8efb53}\label{class_simulable_sequence_a9898335af9d8f639f65b73eeac8efb53}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!scheme\+\_\+file@{scheme\+\_\+file}}
+\index{scheme\+\_\+file@{scheme\+\_\+file}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{scheme\+\_\+file}{scheme\_file}}
+{\footnotesize\ttfamily std\+::string Simulable\+Sequence\+::scheme\+\_\+file}
+
+\hyperlink{class_scheme}{Scheme} file path \mbox{\Hypertarget{class_simulable_sequence_a3278d9b5b22b0bfbdd0ce4bef0e1cc85}\label{class_simulable_sequence_a3278d9b5b22b0bfbdd0ce4bef0e1cc85}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!separate\+\_\+signal@{separate\+\_\+signal}}
+\index{separate\+\_\+signal@{separate\+\_\+signal}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{separate\+\_\+signal}{separate\_signal}}
+{\footnotesize\ttfamily bool Simulable\+Sequence\+::separate\+\_\+signal = false}
+
+flag to check if we will separate the signal in intra and extra \mbox{\Hypertarget{class_simulable_sequence_a2686ccfa89396eeadd0a0d4f7842623c}\label{class_simulable_sequence_a2686ccfa89396eeadd0a0d4f7842623c}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!sub\+\_\+\+D\+WI@{sub\+\_\+\+D\+WI}}
+\index{sub\+\_\+\+D\+WI@{sub\+\_\+\+D\+WI}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{sub\+\_\+\+D\+WI}{sub\_DWI}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$double$>$ $>$ Simulable\+Sequence\+::sub\+\_\+\+D\+WI}
+
+Real part of the D\+WI signal for each sub\+Division \mbox{\Hypertarget{class_simulable_sequence_ad7157eed5b79cf74c45b4185a2465eb6}\label{class_simulable_sequence_ad7157eed5b79cf74c45b4185a2465eb6}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!sub\+\_\+\+D\+W\+I\+\_\+extra@{sub\+\_\+\+D\+W\+I\+\_\+extra}}
+\index{sub\+\_\+\+D\+W\+I\+\_\+extra@{sub\+\_\+\+D\+W\+I\+\_\+extra}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{sub\+\_\+\+D\+W\+I\+\_\+extra}{sub\_DWI\_extra}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$double$>$ $>$ Simulable\+Sequence\+::sub\+\_\+\+D\+W\+I\+\_\+extra}
+
+Real part of the D\+WI extra signal for each sub\+Division \mbox{\Hypertarget{class_simulable_sequence_a20a947108c3bb80ed45dd8851e777511}\label{class_simulable_sequence_a20a947108c3bb80ed45dd8851e777511}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!sub\+\_\+\+D\+W\+I\+\_\+intra@{sub\+\_\+\+D\+W\+I\+\_\+intra}}
+\index{sub\+\_\+\+D\+W\+I\+\_\+intra@{sub\+\_\+\+D\+W\+I\+\_\+intra}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{sub\+\_\+\+D\+W\+I\+\_\+intra}{sub\_DWI\_intra}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$double$>$ $>$ Simulable\+Sequence\+::sub\+\_\+\+D\+W\+I\+\_\+intra}
+
+Real part of the D\+WI intra signal for each sub\+Division \mbox{\Hypertarget{class_simulable_sequence_a1e958cc7d15337fa3ae0e58c8330f212}\label{class_simulable_sequence_a1e958cc7d15337fa3ae0e58c8330f212}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!sub\+\_\+\+D\+W\+Ii@{sub\+\_\+\+D\+W\+Ii}}
+\index{sub\+\_\+\+D\+W\+Ii@{sub\+\_\+\+D\+W\+Ii}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{sub\+\_\+\+D\+W\+Ii}{sub\_DWIi}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$double$>$ $>$ Simulable\+Sequence\+::sub\+\_\+\+D\+W\+Ii}
+
+Imaginary part of the D\+WI signal for each subdivision \mbox{\Hypertarget{class_simulable_sequence_ae9e6e581ba16bbf81b693c0e4943bbf9}\label{class_simulable_sequence_ae9e6e581ba16bbf81b693c0e4943bbf9}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!subdivision\+\_\+flag@{subdivision\+\_\+flag}}
+\index{subdivision\+\_\+flag@{subdivision\+\_\+flag}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{subdivision\+\_\+flag}{subdivision\_flag}}
+{\footnotesize\ttfamily bool Simulable\+Sequence\+::subdivision\+\_\+flag = false}
+
+flag to check if we have several voxel subdivision to compute the signal \mbox{\Hypertarget{class_simulable_sequence_a77c721d4650578fdc3f44adfa91c030e}\label{class_simulable_sequence_a77c721d4650578fdc3f44adfa91c030e}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!subdivisions@{subdivisions}}
+\index{subdivisions@{subdivisions}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{subdivisions}{subdivisions}}
+{\footnotesize\ttfamily std\+::vector$<$\hyperlink{class_subdivision}{Subdivision}$>$ Simulable\+Sequence\+::subdivisions}
+
+saves the actual positions of the subdivision to compute the signal \mbox{\Hypertarget{class_simulable_sequence_a7e7e1a0de6045046061ffccaba4fa5ee}\label{class_simulable_sequence_a7e7e1a0de6045046061ffccaba4fa5ee}} 
+\index{Simulable\+Sequence@{Simulable\+Sequence}!time\+\_\+steps@{time\+\_\+steps}}
+\index{time\+\_\+steps@{time\+\_\+steps}!Simulable\+Sequence@{Simulable\+Sequence}}
+\subsubsection{\texorpdfstring{time\+\_\+steps}{time\_steps}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ Simulable\+Sequence\+::time\+\_\+steps}
+
+Auxiliary array to save the time steps 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/simulablesequence.\+h\item 
+src/simulablesequence.\+cpp\end{DoxyCompactItemize}

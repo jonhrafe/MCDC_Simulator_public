@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_sentinels" kind="class" language="C++" prot="public">
+    <compoundname>Sentinels</compoundname>
+    <includes refid="sentinel_8h" local="no">sentinel.h</includes>
+    <briefdescription>
+<para><ref refid="class_collision" kindref="compound">Collision</ref> Final class ====================================================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Auxiliar class to check error and misbehaviours during the particle dynamics. <simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>Junes 2017 <hruler/>
+</para></simplesect>
+Class used to check the possible numerical errors or un-handed cases inside the dynamic simulation. </para>    </detaileddescription>
+    <location file="src/sentinel.h" line="13" column="1"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

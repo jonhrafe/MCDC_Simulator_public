@@ -24,11 +24,11 @@
 #define SH_FG_GREEN             "\033[0;32m"
 #define SH_DEFAULT              "\033[0m"
 
-#define VERSION_ID              "1.43.001"
+#define VERSION_ID              "1.50.000"
 
 const double m_to_mm = 1e3;                     /*!< meters to milimeters constant                              */
 const double s_to_ms = 1e3;                     /*!< seconds to milisecodns constant                            */
-const double EPS_VAL = 1e-15;                   /*!< numerical epsilon value                                    */
+const double EPS_VAL = 1e-12;                   /*!< numerical epsilon value                                    */
 const double m2_to_mm2 = 1e6;                   /*!< squared meters to squared milimeters                       */
 const double giro = 267.51525e3;                /*!< Gyromagnetic radio given in rad/(ms*T)                     */
 const double DIFF_CONST = 2.02e-7;              /*!< Default diffusion coeficient                               */
@@ -37,6 +37,16 @@ const double max_number_bouncings = 10000.0;    /*!< Defines the maximum number 
 const double triangle_eps = 1e-10;              /*!< Extra area for the PLY triangles. Help to numerical erros  */
 const unsigned max_rejections =25;              /*!< Max number of tries to unstuck a particle in a single step */
 const double INFINITY_VALUE = std::numeric_limits<double>::infinity();  /*!< numerical infinity value           */
+
+#ifdef _WIN64
+typedef unsigned int ulong;
+typedef unsigned int uint;
+#ifndef M_PI
+    #define M_PI 3.14159265358979323846
+#endif
+#elif __APPLE__
+typedef unsigned int ulong;
+#endif
 
 /*!< Colision optimization parameters                                                                           */
 #define PRECISE_T_MIN_D 0

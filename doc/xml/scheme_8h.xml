@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="scheme_8h" kind="file" language="C++">
+    <compoundname>scheme.h</compoundname>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includedby refid="pgsesequence_8h" local="yes">src/pgsesequence.h</includedby>
+    <includedby refid="mcsimulation_8h" local="yes">src/mcsimulation.h</includedby>
+    <includedby refid="scheme_8cpp" local="yes">src/scheme.cpp</includedby>
+    <incdepgraph>
+      <node id="777">
+        <label>src/scheme.h</label>
+        <link refid="scheme_8h"/>
+        <childnode refid="778" relation="include">
+        </childnode>
+        <childnode refid="779" relation="include">
+        </childnode>
+      </node>
+      <node id="779">
+        <label>string</label>
+      </node>
+      <node id="778">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="782">
+        <label>src/gradientwaveform.h</label>
+        <link refid="gradientwaveform_8h_source"/>
+      </node>
+      <node id="780">
+        <label>src/scheme.h</label>
+        <link refid="scheme_8h"/>
+        <childnode refid="781" relation="include">
+        </childnode>
+        <childnode refid="783" relation="include">
+        </childnode>
+      </node>
+      <node id="783">
+        <label>src/mcsimulation.h</label>
+        <link refid="mcsimulation_8h_source"/>
+        <childnode refid="784" relation="include">
+        </childnode>
+      </node>
+      <node id="781">
+        <label>src/pgsesequence.h</label>
+        <link refid="pgsesequence_8h_source"/>
+        <childnode refid="782" relation="include">
+        </childnode>
+      </node>
+      <node id="784">
+        <label>src/parallelmcsimulation.h</label>
+        <link refid="parallelmcsimulation_8h_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_scheme" prot="public">Scheme</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="9"><highlight class="preprocessor">#ifndef<sp/>SCHEME_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SCHEME_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="class_scheme" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_scheme" kindref="compound">Scheme</ref></highlight></codeline>
+<codeline lineno="15"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="17" refid="class_scheme_1afa0549aa16f4f6c62d6c397909be3350" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_scheme_1afa0549aa16f4f6c62d6c397909be3350" kindref="member">scheme_file</ref>;<sp/></highlight></codeline>
+<codeline lineno="18" refid="class_scheme_1a276a907de6afa60b6826552f337e310b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_scheme_1a276a907de6afa60b6826552f337e310b" kindref="member">header</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="19" refid="class_scheme_1a3a767ed00f8859a04857812e370c6db5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_scheme_1a3a767ed00f8859a04857812e370c6db5" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="20" refid="class_scheme_1ae41c5ea2b3aab4492f95b2479945b729" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_scheme_1ae41c5ea2b3aab4492f95b2479945b729" kindref="member">num_rep</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="22" refid="class_scheme_1ae2b4a7f1d0f06f4bea2a7f2761cbe2a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="class_scheme_1ae2b4a7f1d0f06f4bea2a7f2761cbe2a7" kindref="member">duration</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="23" refid="class_scheme_1a9715a33d087d317724e96229572ebe0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="class_scheme_1a9715a33d087d317724e96229572ebe0d" kindref="member">T</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="24" refid="class_scheme_1ac66ecb38621208f8dd1b5334919316cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_scheme_1ac66ecb38621208f8dd1b5334919316cf" kindref="member">scale_from_stu</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="class_scheme_1aa0d26e624075fbac339a746ed10b2dc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<sp/>std::vector&lt;double&gt;<sp/>&gt;<sp/><ref refid="class_scheme_1aa0d26e624075fbac339a746ed10b2dc0" kindref="member">scheme</ref>;<sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_scheme" kindref="compound">Scheme</ref>();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_scheme" kindref="compound">Scheme</ref>(std::string<sp/>scheme_file_);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="class_scheme" kindref="compound">Scheme</ref>(){}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readSchemeFile(std::string<sp/>scheme_file_,</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>scale_from_stu<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readPGSE(std::ifstream<sp/>&amp;in,</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>scale_from_stu);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readAPGSE(std::ifstream<sp/>&amp;in,</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>scale_from_stu);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readWaveForm(std::ifstream<sp/>&amp;in,</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>scale_from_stu);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>SCHEME_H</highlight></codeline>
+    </programlisting>
+    <location file="src/scheme.h"/>
+  </compounddef>
+</doxygen>

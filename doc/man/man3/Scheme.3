@@ -1,0 +1,90 @@
+.TH "Scheme" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Scheme \- Auxiliary class to save scheme_files values =============================================================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <scheme\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBScheme\fP (std::string scheme_file_)"
+.br
+.ti -1c
+.RI "void \fBreadSchemeFile\fP (std::string scheme_file_, bool \fBscale_from_stu\fP=0)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBscheme_file\fP"
+.br
+.ti -1c
+.RI "std::string \fBheader\fP"
+.br
+.ti -1c
+.RI "std::string \fBtype\fP"
+.br
+.ti -1c
+.RI "int \fBnum_rep\fP"
+.br
+.ti -1c
+.RI "float \fBduration\fP"
+.br
+.ti -1c
+.RI "float \fBT\fP"
+.br
+.ti -1c
+.RI "bool \fBscale_from_stu\fP"
+.br
+.ti -1c
+.RI "std::vector< std::vector< double > > \fBscheme\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Auxiliary class to save scheme_files values =============================================================/\&. 
+
+Helper class to store, handle and read scheme files values \&. 
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+November 2016 
+.SH "0\&.2 "
+.PP
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "float Scheme::duration"
+time duration (wavefroms) 
+.SS "std::string Scheme::header"
+Header on the scheme_file 
+.SS "int Scheme::num_rep"
+Number of gradients 
+.SS "bool Scheme::scale_from_stu"
+True if the input is in standar units 
+.SS "std::vector< std::vector<double> > Scheme::scheme"
+\fBScheme\fP values 
+.SS "std::string Scheme::scheme_file"
+\fBScheme\fP file path 
+.SS "float Scheme::T"
+number of time steps (wavefroms) 
+.SS "std::string Scheme::type"
+Sequence type (PGSE only so far) 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

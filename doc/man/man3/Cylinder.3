@@ -1,0 +1,167 @@
+.TH "Cylinder" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Cylinder \- \fBCylinder\fP \fBObstacle\fP Derived Class =============================================================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <cylinder\&.h>\fP
+.PP
+Inherits \fBObstacle\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCylinder\fP ()"
+.br
+.RI "Default constructor\&. Does nothing\&. "
+.ti -1c
+.RI "\fBCylinder\fP (Eigen::Vector3d P_, Eigen::Vector3d Q_, double radius_, double scale=1)"
+.br
+.RI "Initialize everything\&. "
+.ti -1c
+.RI "\fBCylinder\fP (\fBCylinder\fP const &cyl)"
+.br
+.RI "Initialize everything\&. "
+.ti -1c
+.RI "bool \fBcheckCollision\fP (\fBWalker\fP &walker, Eigen::Vector3d &step, double &step_lenght, \fBCollision\fP &colision)"
+.br
+.RI "Basic collision function\&. Returns the if there was any collision on against the obstacle\&. "
+.ti -1c
+.RI "double \fBminDistance\fP (\fBWalker\fP &w)"
+.br
+.RI "Returns the minimum distance from the walker to the cylinder\&. Used to set the reachable cylinders that a given walker can reach\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "Eigen::Vector3d \fBP\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBQ\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBD\fP"
+.br
+.ti -1c
+.RI "double \fBradius\fP"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static int \fBcount\fP = 0"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBCylinder\fP \fBObstacle\fP Derived Class =============================================================/\&. 
+
+\fBCylinder\fP class derived from an \fBObstacle\fP\&. Defines infinite long cylinders in the direction set by P,Q\&. 
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+November 2016 
+.SH "1\&.42 "
+.PP
+.RE
+.PP
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Cylinder::Cylinder (Eigen::Vector3d P_, Eigen::Vector3d Q_, double radius_, double scale = \fC1\fP)\fC [inline]\fP"
+
+.PP
+Initialize everything\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIP_\fP \fBCylinder\fP origin 
+.br
+\fIQ_\fP cylinder direction\&. 
+.br
+\fIradius_\fP cylinder's radius 
+.br
+\fIscale\fP scale factor for the values passed\&. Useful when reading a file\&. 
+.RE
+.PP
+
+.SS "Cylinder::Cylinder (\fBCylinder\fP const & cyl)"
+
+.PP
+Initialize everything\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIP_\fP \fBCylinder\fP origin 
+.br
+\fIQ_\fP cylinder direction\&. 
+.br
+\fIradius_\fP cylinder's radius 
+.br
+\fIscale\fP scale factor for the values passed\&. Useful when reading a file\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "Cylinder::checkCollision (\fBWalker\fP & walker, Eigen::Vector3d & step, double & step_lenght, \fBCollision\fP & colision)"
+
+.PP
+Basic collision function\&. Returns the if there was any collision on against the obstacle\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwalker,\fBWalker\fP\fP instance in the simulation\&. 
+.br
+\fI3d\fP step\&. Is assumed to be normalized\&. 
+.br
+\fIstep_length,length\fP used as the maximum step collision distance\&. 
+.br
+\fIcollision,\fBCollision\fP\fP instance to save the collision (if any) details\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true only if there was a Collision::hit status\&. 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBCollision\fP\&. 
+.RE
+.PP
+
+.SS "Cylinder::minDistance (\fBWalker\fP & w)"
+
+.PP
+Returns the minimum distance from the walker to the cylinder\&. Used to set the reachable cylinders that a given walker can reach\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwalker,\fBWalker\fP\fP instance in the simulation\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "Eigen::Vector3d Cylinder::D"
+Pre-computed and normalized P - Q vector 
+.SS "Eigen::Vector3d Cylinder::Q"
+Cilinder Axis reference Points, P should be the 'center' 
+.SS "double Cylinder::radius"
+Radius of the cylinder 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

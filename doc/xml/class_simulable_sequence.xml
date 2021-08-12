@@ -1,0 +1,677 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_simulable_sequence" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>SimulableSequence</compoundname>
+    <derivedcompoundref refid="class_gradient_waveform" prot="public" virt="non-virtual">GradientWaveform</derivedcompoundref>
+    <derivedcompoundref refid="class_p_g_s_e_sequence" prot="public" virt="non-virtual">PGSESequence</derivedcompoundref>
+    <includes refid="simulablesequence_8h" local="no">simulablesequence.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_simulable_sequence_1a9898335af9d8f639f65b73eeac8efb53" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SimulableSequence::scheme_file</definition>
+        <argsstring></argsstring>
+        <name>scheme_file</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_scheme" kindref="compound">Scheme</ref> file path </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="19" column="1" bodyfile="src/simulablesequence.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1a083961d839ed1433206ccbc481996409" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; SimulableSequence::DWI</definition>
+        <argsstring></argsstring>
+        <name>DWI</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Real part of the DWI signal </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="21" column="1" bodyfile="src/simulablesequence.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1ac64fb8110b769e180283365567bd4158" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; SimulableSequence::DWI_intra</definition>
+        <argsstring></argsstring>
+        <name>DWI_intra</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Real part of the DWI signal intra axonal olny (if needed) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="23" column="1" bodyfile="src/simulablesequence.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1a49a24269e364bcd02000ba575acc85ed" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; SimulableSequence::DWI_extra</definition>
+        <argsstring></argsstring>
+        <name>DWI_extra</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Real part of the DWI signal extra axonal only (if needed) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="25" column="1" bodyfile="src/simulablesequence.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1a3708afa1322d72b59d3be20b740d107c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; SimulableSequence::DWIi</definition>
+        <argsstring></argsstring>
+        <name>DWIi</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>imaginary part of the DWI signal </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="27" column="1" bodyfile="src/simulablesequence.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1a8691c0451c305869064862e30986c34c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; SimulableSequence::phase_shift</definition>
+        <argsstring></argsstring>
+        <name>phase_shift</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>auxiliar phase shift for signal computations. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="29" column="1" bodyfile="src/simulablesequence.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1aa524c45db6c27dd21acacf97d7951ac2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int SimulableSequence::num_rep</definition>
+        <argsstring></argsstring>
+        <name>num_rep</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>number of repetitions . </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="31" column="1" bodyfile="src/simulablesequence.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1aa29f58ae224d92dd467a0845bd207324" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool SimulableSequence::save_phase_shift</definition>
+        <argsstring></argsstring>
+        <name>save_phase_shift</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag, if true, saves the pahse shift distribution. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="33" column="1" bodyfile="src/simulablesequence.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1a1de2d00a939f550af1947ae25acc4b97" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool SimulableSequence::dynamic</definition>
+        <argsstring></argsstring>
+        <name>dynamic</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Flag to indicate if the time steps are non-uniform </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="35" column="1" bodyfile="src/simulablesequence.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1a43e046af3bf6c498a5ad232058de8a90" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double SimulableSequence::percent_steps_in</definition>
+        <argsstring></argsstring>
+        <name>percent_steps_in</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>percentage of steps that should be inside the gradient times </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="37" column="1" bodyfile="src/simulablesequence.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1a7e7e1a0de6045046061ffccaba4fa5ee" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; SimulableSequence::time_steps</definition>
+        <argsstring></argsstring>
+        <name>time_steps</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Auxiliary array to save the time steps </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="39" column="1" bodyfile="src/simulablesequence.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1a4e45e2d935a05a7375b04718a49c9af7" prot="public" static="no" mutable="no">
+        <type>Eigen::ArrayXXf</type>
+        <definition>Eigen::ArrayXXf SimulableSequence::phase_shift_distribution</definition>
+        <argsstring></argsstring>
+        <name>phase_shift_distribution</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Matrix to save the phase shif distribution </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="41" column="1" bodyfile="src/simulablesequence.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1a2686ccfa89396eeadd0a0d4f7842623c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;double&gt; &gt; SimulableSequence::sub_DWI</definition>
+        <argsstring></argsstring>
+        <name>sub_DWI</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Real part of the DWI signal for each subDivision </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="43" column="1" bodyfile="src/simulablesequence.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1a20a947108c3bb80ed45dd8851e777511" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;double&gt; &gt; SimulableSequence::sub_DWI_intra</definition>
+        <argsstring></argsstring>
+        <name>sub_DWI_intra</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Real part of the DWI intra signal for each subDivision </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="45" column="1" bodyfile="src/simulablesequence.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1ad7157eed5b79cf74c45b4185a2465eb6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;double&gt; &gt; SimulableSequence::sub_DWI_extra</definition>
+        <argsstring></argsstring>
+        <name>sub_DWI_extra</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Real part of the DWI extra signal for each subDivision </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="47" column="1" bodyfile="src/simulablesequence.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1a1e958cc7d15337fa3ae0e58c8330f212" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;double&gt; &gt; SimulableSequence::sub_DWIi</definition>
+        <argsstring></argsstring>
+        <name>sub_DWIi</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Imaginary part of the DWI signal for each subdivision </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="49" column="1" bodyfile="src/simulablesequence.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1ae9e6e581ba16bbf81b693c0e4943bbf9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool SimulableSequence::subdivision_flag</definition>
+        <argsstring></argsstring>
+        <name>subdivision_flag</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag to check if we have several voxel subdivision to compute the signal </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="51" column="1" bodyfile="src/simulablesequence.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1a3278d9b5b22b0bfbdd0ce4bef0e1cc85" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool SimulableSequence::separate_signal</definition>
+        <argsstring></argsstring>
+        <name>separate_signal</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag to check if we will separate the signal in intra and extra </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="53" column="1" bodyfile="src/simulablesequence.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1a7603177060550acd31ece2c87fcdd2a9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool SimulableSequence::img_signal</definition>
+        <argsstring></argsstring>
+        <name>img_signal</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag to check if the img part will be computed or not (false default </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="55" column="1" bodyfile="src/simulablesequence.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simulable_sequence_1a77c721d4650578fdc3f44adfa91c030e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_subdivision" kindref="compound">Subdivision</ref> &gt;</type>
+        <definition>std::vector&lt;Subdivision&gt; SimulableSequence::subdivisions</definition>
+        <argsstring></argsstring>
+        <name>subdivisions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>saves the actual positions of the subdivision to compute the signal </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="57" column="1" bodyfile="src/simulablesequence.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_simulable_sequence_1af58baa6151b8865b3b39088a9f3097ab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>SimulableSequence::SimulableSequence</definition>
+        <argsstring>()</argsstring>
+        <name>SimulableSequence</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="59" column="1" bodyfile="src/simulablesequence.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simulable_sequence_1aeb4a0b2cb0a4e972d3f49bc511656fc7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type></type>
+        <definition>virtual SimulableSequence::~SimulableSequence</definition>
+        <argsstring>()</argsstring>
+        <name>~SimulableSequence</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="61" column="1" bodyfile="src/simulablesequence.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simulable_sequence_1a03a417776f5404b06c761ab9109e3e1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void SimulableSequence::getGradImpulse</definition>
+        <argsstring>(int i, double t, double tLast, Eigen::Vector3d &amp;Gdt)=0</argsstring>
+        <name>getGradImpulse</name>
+        <reimplementedby refid="class_p_g_s_e_sequence_1a3f2a705b7d3312944630f3d7f639e8e4">getGradImpulse</reimplementedby>
+        <reimplementedby refid="class_gradient_waveform_1a80dd810cb4e5a11dec311ac87e55ea18">getGradImpulse</reimplementedby>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tLast</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>Gdt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="class_walker" kindref="compound">Walker</ref> index </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current time step (in milisenconds) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tLast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>last time step (in milisenconds) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Gdt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector to compute de G*dt impulse </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="69" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simulable_sequence_1a85cdcf5f7bd5bed804a816e3c18840b7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>virtual double SimulableSequence::getbValue</definition>
+        <argsstring>(unsigned i)</argsstring>
+        <name>getbValue</name>
+        <reimplementedby refid="class_p_g_s_e_sequence_1a8b0671a505f79a601d3d4d2d9b7f36cc">getbValue</reimplementedby>
+        <param>
+          <type>unsigned</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>index of the gradient in the scheme_file (0,N-1) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>b-value </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="75" column="1" bodyfile="src/simulablesequence.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simulable_sequence_1a31a328cc716e039a53f9b12122050b83" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>virtual double SimulableSequence::getFreeDecay</definition>
+        <argsstring>(unsigned i, double D)</argsstring>
+        <name>getFreeDecay</name>
+        <reimplementedby refid="class_p_g_s_e_sequence_1a375c8a943f4857a323ffc404394b5d8a">getFreeDecay</reimplementedby>
+        <param>
+          <type>unsigned</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>D</declname>
+        </param>
+        <briefdescription>
+<para>Expected free Decay. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="80" column="1" bodyfile="src/simulablesequence.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simulable_sequence_1ad7b2a30f563343aa65489aa553d4df63" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void SimulableSequence::update_phase_shift</definition>
+        <argsstring>(double dt, double dt_last, Walker walker)=0</argsstring>
+        <name>update_phase_shift</name>
+        <reimplementedby refid="class_gradient_waveform_1a7421301b24b6c98e28ef9430287cdf8e">update_phase_shift</reimplementedby>
+        <reimplementedby refid="class_p_g_s_e_sequence_1a6914efd208eab28a1ee6a3f28ca65478">update_phase_shift</reimplementedby>
+        <param>
+          <type>double</type>
+          <declname>dt</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>dt_last</declname>
+        </param>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref></type>
+          <declname>walker</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>updated walker </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="85" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simulable_sequence_1a175197d165ee7852094bc70cadc59589" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void SimulableSequence::update_phase_shift</definition>
+        <argsstring>(double time_step, Eigen::Matrix3Xd trajectory)=0</argsstring>
+        <name>update_phase_shift</name>
+        <reimplementedby refid="class_gradient_waveform_1a2c606400c648cebd85827efa8d22b6bc">update_phase_shift</reimplementedby>
+        <reimplementedby refid="class_p_g_s_e_sequence_1a850a2f22cdf8b420888cfa906e03e078">update_phase_shift</reimplementedby>
+        <param>
+          <type>double</type>
+          <declname>time_step</declname>
+        </param>
+        <param>
+          <type>Eigen::Matrix3Xd</type>
+          <declname>trajectory</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>updated the phase shift over a whole trajectory </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="90" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simulable_sequence_1af5621196178ee78b27e740dfe360815e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void SimulableSequence::update_DWI_signal</definition>
+        <argsstring>(Walker &amp;walker)=0</argsstring>
+        <name>update_DWI_signal</name>
+        <reimplementedby refid="class_gradient_waveform_1af4291596da9c45247b0748d945bd9b54">update_DWI_signal</reimplementedby>
+        <reimplementedby refid="class_p_g_s_e_sequence_1ae2b79f12ccd2f2446a498cb51f45e88d">update_DWI_signal</reimplementedby>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref> &amp;</type>
+          <declname>walker</declname>
+        </param>
+        <briefdescription>
+<para>Updates the DWI signal using the cumulated phase shift. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="95" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simulable_sequence_1a2e16c0b0dcf1b90ad0afc53ab14e9250" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void SimulableSequence::setNumberOfSteps</definition>
+        <argsstring>(unsigned T)=0</argsstring>
+        <name>setNumberOfSteps</name>
+        <reimplementedby refid="class_gradient_waveform_1a040d4a70dc7951c235010791e1c581d1">setNumberOfSteps</reimplementedby>
+        <reimplementedby refid="class_p_g_s_e_sequence_1a89f9bf116876b04403058a240a91efa3">setNumberOfSteps</reimplementedby>
+        <param>
+          <type>unsigned</type>
+          <declname>T</declname>
+        </param>
+        <briefdescription>
+<para>Set the number of time steps if they are known. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="100" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simulable_sequence_1a3c5285531564cdb204894e6c6fc9204e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void SimulableSequence::computeDynamicTimeSteps</definition>
+        <argsstring>()</argsstring>
+        <name>computeDynamicTimeSteps</name>
+        <reimplementedby refid="class_p_g_s_e_sequence_1ac115d93aabb283f19568f55493d57ded">computeDynamicTimeSteps</reimplementedby>
+        <briefdescription>
+<para>Compute the time for all the steps when they are not constant. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="105" column="1" bodyfile="src/simulablesequence.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simulable_sequence_1aa2434c3b2ef59d1cd8b822b8e3a2920c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void SimulableSequence::initializeSubdivisionSignals</definition>
+        <argsstring>()</argsstring>
+        <name>initializeSubdivisionSignals</name>
+        <briefdescription>
+<para>Initialize the DWI signals for each subdivision. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="110" column="1" bodyfile="src/simulablesequence.cpp" bodystart="90" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simulable_sequence_1a3fad0e115a2ec07a8b1202608eba698e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void SimulableSequence::initializeIntraExtraSignals</definition>
+        <argsstring>()</argsstring>
+        <name>initializeIntraExtraSignals</name>
+        <briefdescription>
+<para>Initialize the DWI signals for each compartment (intra extra) </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="114" column="1" bodyfile="src/simulablesequence.cpp" bodystart="107" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simulable_sequence_1a372f6d9f448c537afde10e30b68428aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void SimulableSequence::writeResultingData</definition>
+        <argsstring>(std::string output_base_name)</argsstring>
+        <name>writeResultingData</name>
+        <param>
+          <type>std::string</type>
+          <declname>output_base_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="116" column="1" bodyfile="src/simulablesequence.cpp" bodystart="10" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simulable_sequence_1aa6c72a9d84fda0fe15551f84a28d427d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void SimulableSequence::writePhaseShiftDistribution</definition>
+        <argsstring>(std::string output_base_name)</argsstring>
+        <name>writePhaseShiftDistribution</name>
+        <param>
+          <type>std::string</type>
+          <declname>output_base_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="118" column="1" bodyfile="src/simulablesequence.cpp" bodystart="53" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simulable_sequence_1a49a95a0735a939b65495be51ce0fb1be" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void SimulableSequence::cleanPhaseShift</definition>
+        <argsstring>()</argsstring>
+        <name>cleanPhaseShift</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="120" column="1" bodyfile="src/simulablesequence.cpp" bodystart="75" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simulable_sequence_1af8396d72ccbb4ad1e8a403e554b8e8e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void SimulableSequence::cleanDWISignal</definition>
+        <argsstring>()</argsstring>
+        <name>cleanDWISignal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simulablesequence.h" line="122" column="1" bodyfile="src/simulablesequence.cpp" bodystart="82" bodyend="88"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>MR Sequence Primary Class =============================================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Elemental base clase. Abstract class to synthesise the MRI signal</para><para><heading level="1">Jonathan Rafael </heading>
+</para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="84">
+        <label>SimulableSequence</label>
+        <link refid="class_simulable_sequence"/>
+      </node>
+      <node id="85">
+        <label>GradientWaveform</label>
+        <link refid="class_gradient_waveform"/>
+        <childnode refid="84" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="86">
+        <label>PGSESequence</label>
+        <link refid="class_p_g_s_e_sequence"/>
+        <childnode refid="84" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="src/simulablesequence.h" line="16" column="1" bodyfile="src/simulablesequence.h" bodystart="16" bodyend="123"/>
+    <listofallmembers>
+      <member refid="class_simulable_sequence_1af8396d72ccbb4ad1e8a403e554b8e8e1" prot="public" virt="virtual"><scope>SimulableSequence</scope><name>cleanDWISignal</name></member>
+      <member refid="class_simulable_sequence_1a49a95a0735a939b65495be51ce0fb1be" prot="public" virt="virtual"><scope>SimulableSequence</scope><name>cleanPhaseShift</name></member>
+      <member refid="class_simulable_sequence_1a3c5285531564cdb204894e6c6fc9204e" prot="public" virt="virtual"><scope>SimulableSequence</scope><name>computeDynamicTimeSteps</name></member>
+      <member refid="class_simulable_sequence_1a083961d839ed1433206ccbc481996409" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>DWI</name></member>
+      <member refid="class_simulable_sequence_1a49a24269e364bcd02000ba575acc85ed" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>DWI_extra</name></member>
+      <member refid="class_simulable_sequence_1ac64fb8110b769e180283365567bd4158" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>DWI_intra</name></member>
+      <member refid="class_simulable_sequence_1a3708afa1322d72b59d3be20b740d107c" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>DWIi</name></member>
+      <member refid="class_simulable_sequence_1a1de2d00a939f550af1947ae25acc4b97" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>dynamic</name></member>
+      <member refid="class_simulable_sequence_1a85cdcf5f7bd5bed804a816e3c18840b7" prot="public" virt="virtual"><scope>SimulableSequence</scope><name>getbValue</name></member>
+      <member refid="class_simulable_sequence_1a31a328cc716e039a53f9b12122050b83" prot="public" virt="virtual"><scope>SimulableSequence</scope><name>getFreeDecay</name></member>
+      <member refid="class_simulable_sequence_1a03a417776f5404b06c761ab9109e3e1d" prot="public" virt="pure-virtual"><scope>SimulableSequence</scope><name>getGradImpulse</name></member>
+      <member refid="class_simulable_sequence_1a7603177060550acd31ece2c87fcdd2a9" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>img_signal</name></member>
+      <member refid="class_simulable_sequence_1a3fad0e115a2ec07a8b1202608eba698e" prot="public" virt="virtual"><scope>SimulableSequence</scope><name>initializeIntraExtraSignals</name></member>
+      <member refid="class_simulable_sequence_1aa2434c3b2ef59d1cd8b822b8e3a2920c" prot="public" virt="virtual"><scope>SimulableSequence</scope><name>initializeSubdivisionSignals</name></member>
+      <member refid="class_simulable_sequence_1aa524c45db6c27dd21acacf97d7951ac2" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>num_rep</name></member>
+      <member refid="class_simulable_sequence_1a43e046af3bf6c498a5ad232058de8a90" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>percent_steps_in</name></member>
+      <member refid="class_simulable_sequence_1a8691c0451c305869064862e30986c34c" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>phase_shift</name></member>
+      <member refid="class_simulable_sequence_1a4e45e2d935a05a7375b04718a49c9af7" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>phase_shift_distribution</name></member>
+      <member refid="class_simulable_sequence_1aa29f58ae224d92dd467a0845bd207324" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>save_phase_shift</name></member>
+      <member refid="class_simulable_sequence_1a9898335af9d8f639f65b73eeac8efb53" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>scheme_file</name></member>
+      <member refid="class_simulable_sequence_1a3278d9b5b22b0bfbdd0ce4bef0e1cc85" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>separate_signal</name></member>
+      <member refid="class_simulable_sequence_1a2e16c0b0dcf1b90ad0afc53ab14e9250" prot="public" virt="pure-virtual"><scope>SimulableSequence</scope><name>setNumberOfSteps</name></member>
+      <member refid="class_simulable_sequence_1af58baa6151b8865b3b39088a9f3097ab" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>SimulableSequence</name></member>
+      <member refid="class_simulable_sequence_1a2686ccfa89396eeadd0a0d4f7842623c" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>sub_DWI</name></member>
+      <member refid="class_simulable_sequence_1ad7157eed5b79cf74c45b4185a2465eb6" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>sub_DWI_extra</name></member>
+      <member refid="class_simulable_sequence_1a20a947108c3bb80ed45dd8851e777511" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>sub_DWI_intra</name></member>
+      <member refid="class_simulable_sequence_1a1e958cc7d15337fa3ae0e58c8330f212" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>sub_DWIi</name></member>
+      <member refid="class_simulable_sequence_1ae9e6e581ba16bbf81b693c0e4943bbf9" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>subdivision_flag</name></member>
+      <member refid="class_simulable_sequence_1a77c721d4650578fdc3f44adfa91c030e" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>subdivisions</name></member>
+      <member refid="class_simulable_sequence_1a7e7e1a0de6045046061ffccaba4fa5ee" prot="public" virt="non-virtual"><scope>SimulableSequence</scope><name>time_steps</name></member>
+      <member refid="class_simulable_sequence_1af5621196178ee78b27e740dfe360815e" prot="public" virt="pure-virtual"><scope>SimulableSequence</scope><name>update_DWI_signal</name></member>
+      <member refid="class_simulable_sequence_1ad7b2a30f563343aa65489aa553d4df63" prot="public" virt="pure-virtual"><scope>SimulableSequence</scope><name>update_phase_shift</name></member>
+      <member refid="class_simulable_sequence_1a175197d165ee7852094bc70cadc59589" prot="public" virt="pure-virtual"><scope>SimulableSequence</scope><name>update_phase_shift</name></member>
+      <member refid="class_simulable_sequence_1aa6c72a9d84fda0fe15551f84a28d427d" prot="public" virt="virtual"><scope>SimulableSequence</scope><name>writePhaseShiftDistribution</name></member>
+      <member refid="class_simulable_sequence_1a372f6d9f448c537afde10e30b68428aa" prot="public" virt="virtual"><scope>SimulableSequence</scope><name>writeResultingData</name></member>
+      <member refid="class_simulable_sequence_1aeb4a0b2cb0a4e972d3f49bc511656fc7" prot="public" virt="virtual"><scope>SimulableSequence</scope><name>~SimulableSequence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

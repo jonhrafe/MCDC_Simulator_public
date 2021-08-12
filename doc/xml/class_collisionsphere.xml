@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_collisionsphere" kind="class" language="C++" prot="public">
+    <compoundname>Collisionsphere</compoundname>
+    <derivedcompoundref refid="class_cylinder_collision_sphere" prot="public" virt="non-virtual">CylinderCollisionSphere</derivedcompoundref>
+    <derivedcompoundref refid="class_p_l_y_collision_sphere" prot="public" virt="non-virtual">PLYCollisionSphere</derivedcompoundref>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_collisionsphere_1a4b791781efcb1af5198b22ea0b542cfb" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float Collisionsphere::big_sphere_distance</definition>
+        <argsstring></argsstring>
+        <name>big_sphere_distance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Size of the big (outer) collision sphere </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="27" column="1" bodyfile="src/collisionsphere.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collisionsphere_1ae5430c092ea0436edfe0adeb79402ff2" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float Collisionsphere::small_sphere_distance</definition>
+        <argsstring></argsstring>
+        <name>small_sphere_distance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Size of the small (inner) collision sphere </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="28" column="1" bodyfile="src/collisionsphere.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collisionsphere_1abf63a29c825cdd63ecb86d1dc430a0d4" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned Collisionsphere::list_size</definition>
+        <argsstring></argsstring>
+        <name>list_size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="30" column="1" bodyfile="src/collisionsphere.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_collisionsphere_1acd591f09debfac154b54e109967cd4f2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Collisionsphere::Collisionsphere</definition>
+        <argsstring>()</argsstring>
+        <name>Collisionsphere</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="32" column="1" bodyfile="src/collisionsphere.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>Collisionsphere</label>
+        <link refid="class_collisionsphere"/>
+      </node>
+      <node id="3">
+        <label>CylinderCollisionSphere</label>
+        <link refid="class_cylinder_collision_sphere"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>PLYCollisionSphere</label>
+        <link refid="class_p_l_y_collision_sphere"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="src/collisionsphere.h" line="24" column="1" bodyfile="src/collisionsphere.h" bodystart="23" bodyend="33"/>
+    <listofallmembers>
+      <member refid="class_collisionsphere_1a4b791781efcb1af5198b22ea0b542cfb" prot="public" virt="non-virtual"><scope>Collisionsphere</scope><name>big_sphere_distance</name></member>
+      <member refid="class_collisionsphere_1acd591f09debfac154b54e109967cd4f2" prot="public" virt="non-virtual"><scope>Collisionsphere</scope><name>Collisionsphere</name></member>
+      <member refid="class_collisionsphere_1abf63a29c825cdd63ecb86d1dc430a0d4" prot="public" virt="non-virtual"><scope>Collisionsphere</scope><name>list_size</name></member>
+      <member refid="class_collisionsphere_1ae5430c092ea0436edfe0adeb79402ff2" prot="public" virt="non-virtual"><scope>Collisionsphere</scope><name>small_sphere_distance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

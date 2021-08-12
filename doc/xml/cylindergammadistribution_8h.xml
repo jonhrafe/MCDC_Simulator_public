@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="cylindergammadistribution_8h" kind="file" language="C++">
+    <compoundname>cylindergammadistribution.h</compoundname>
+    <includes local="yes">Eigen/Core</includes>
+    <includes local="no">vector</includes>
+    <includes refid="constants_8h" local="yes">constants.h</includes>
+    <includes refid="simerrno_8h" local="yes">simerrno.h</includes>
+    <includes local="no">iostream</includes>
+    <includes refid="cylinder_8h" local="yes">cylinder.h</includes>
+    <includedby refid="cylindergammadistribution_8cpp" local="yes">src/cylindergammadistribution.cpp</includedby>
+    <includedby refid="parallelmcsimulation_8cpp" local="yes">src/parallelmcsimulation.cpp</includedby>
+    <incdepgraph>
+      <node id="296">
+        <label>limits</label>
+      </node>
+      <node id="298">
+        <label>assert.h</label>
+      </node>
+      <node id="290">
+        <label>src/cylindergammadistribution.h</label>
+        <link refid="cylindergammadistribution_8h"/>
+        <childnode refid="291" relation="include">
+        </childnode>
+        <childnode refid="292" relation="include">
+        </childnode>
+        <childnode refid="293" relation="include">
+        </childnode>
+        <childnode refid="297" relation="include">
+        </childnode>
+        <childnode refid="303" relation="include">
+        </childnode>
+        <childnode refid="304" relation="include">
+        </childnode>
+      </node>
+      <node id="306">
+        <label>collision.h</label>
+        <link refid="collision_8h_source"/>
+        <childnode refid="291" relation="include">
+        </childnode>
+      </node>
+      <node id="291">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="295">
+        <label>string</label>
+      </node>
+      <node id="304">
+        <label>cylinder.h</label>
+        <link refid="cylinder_8h_source"/>
+        <childnode refid="305" relation="include">
+        </childnode>
+      </node>
+      <node id="299">
+        <label>fstream</label>
+      </node>
+      <node id="293">
+        <label>constants.h</label>
+        <link refid="constants_8h_source"/>
+        <childnode refid="294" relation="include">
+        </childnode>
+        <childnode refid="295" relation="include">
+        </childnode>
+        <childnode refid="296" relation="include">
+        </childnode>
+      </node>
+      <node id="305">
+        <label>obstacle.h</label>
+        <link refid="obstacle_8h_source"/>
+        <childnode refid="306" relation="include">
+        </childnode>
+        <childnode refid="307" relation="include">
+        </childnode>
+        <childnode refid="291" relation="include">
+        </childnode>
+      </node>
+      <node id="292">
+        <label>vector</label>
+      </node>
+      <node id="307">
+        <label>walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="291" relation="include">
+        </childnode>
+        <childnode refid="292" relation="include">
+        </childnode>
+        <childnode refid="308" relation="include">
+        </childnode>
+        <childnode refid="309" relation="include">
+        </childnode>
+        <childnode refid="303" relation="include">
+        </childnode>
+      </node>
+      <node id="309">
+        <label>collisionsphere.h</label>
+        <link refid="collisionsphere_8h_source"/>
+        <childnode refid="292" relation="include">
+        </childnode>
+      </node>
+      <node id="301">
+        <label>subdivision.h</label>
+        <link refid="subdivision_8h_source"/>
+        <childnode refid="291" relation="include">
+        </childnode>
+      </node>
+      <node id="302">
+        <label>utility</label>
+      </node>
+      <node id="300">
+        <label>parameters.h</label>
+        <link refid="parameters_8h_source"/>
+        <childnode refid="292" relation="include">
+        </childnode>
+        <childnode refid="291" relation="include">
+        </childnode>
+        <childnode refid="301" relation="include">
+        </childnode>
+        <childnode refid="302" relation="include">
+        </childnode>
+      </node>
+      <node id="303">
+        <label>iostream</label>
+      </node>
+      <node id="308">
+        <label>deque</label>
+      </node>
+      <node id="294">
+        <label>stdio.h</label>
+      </node>
+      <node id="297">
+        <label>simerrno.h</label>
+        <link refid="simerrno_8h_source"/>
+        <childnode refid="298" relation="include">
+        </childnode>
+        <childnode refid="295" relation="include">
+        </childnode>
+        <childnode refid="299" relation="include">
+        </childnode>
+        <childnode refid="300" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_cylinder_gamma_distribution" prot="public">CylinderGammaDistribution</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="10"><highlight class="preprocessor">#ifndef<sp/>CYLINDERGAMMADISTRIBUTION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CYLINDERGAMMADISTRIBUTION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Eigen/Core&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;constants.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;simerrno.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;cylinder.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="class_cylinder_gamma_distribution" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_cylinder_gamma_distribution" kindref="compound">CylinderGammaDistribution</ref></highlight></codeline>
+<codeline lineno="21"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="class_cylinder_gamma_distribution_1af74583662a4f33ba1565f2c71e6bbc5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="class_cylinder_gamma_distribution_1af74583662a4f33ba1565f2c71e6bbc5a" kindref="member">num_cylinders</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25" refid="class_cylinder_gamma_distribution_1a8cae528f51692ed05049e4ea06c63722" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_cylinder_gamma_distribution_1a8cae528f51692ed05049e4ea06c63722" kindref="member">alpha</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26" refid="class_cylinder_gamma_distribution_1a601a42ef7bacbf9696229efbd703f61e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_cylinder_gamma_distribution_1a601a42ef7bacbf9696229efbd703f61e" kindref="member">beta</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="class_cylinder_gamma_distribution_1a31f82c4608b7cd2b022805e30a4db983" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_cylinder_gamma_distribution_1a31f82c4608b7cd2b022805e30a4db983" kindref="member">icvf</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="class_cylinder_gamma_distribution_1aece7d3ec40d3dbb3a2ecd1bd88c5a694" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="class_cylinder_gamma_distribution_1aece7d3ec40d3dbb3a2ecd1bd88c5a694" kindref="member">min_radius</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="class_cylinder_gamma_distribution_1ac77a9d794f2f2000066c4a26f19a9097" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/><ref refid="class_cylinder_gamma_distribution_1ac77a9d794f2f2000066c4a26f19a9097" kindref="member">min_limits</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="class_cylinder_gamma_distribution_1aa7094851c2ccf05fc5ff7a99707aa786" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/><ref refid="class_cylinder_gamma_distribution_1aa7094851c2ccf05fc5ff7a99707aa786" kindref="member">max_limits</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="class_cylinder_gamma_distribution_1a3e8265a7ddb15d895112e02bd66fbf67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Cylinder&gt;<sp/><ref refid="class_cylinder_gamma_distribution_1a3e8265a7ddb15d895112e02bd66fbf67" kindref="member">cylinders</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_cylinder_gamma_distribution_1a7578f5f0fb11398ec5bf5007047f4b81" kindref="member">CylinderGammaDistribution</ref>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">,<sp/>Eigen::Vector3d<sp/>&amp;,<sp/>Eigen::Vector3d<sp/>&amp;,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>min_radius);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_cylinder_gamma_distribution_1a3408ed30966550c10810a0a6cbbfd3c2" kindref="member">displayGammaDistribution</ref>();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_cylinder_gamma_distribution_1ad93e569b24e3c6b1266ecf79bd18dec9" kindref="member">createGammaSubstrate</ref>();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_cylinder_gamma_distribution_1a2345c03be0b0c934efe02e4234c65fd1" kindref="member">printSubstrate</ref>(std::ostream&amp;<sp/>out);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkForCollition(<ref refid="class_cylinder" kindref="compound">Cylinder</ref><sp/>cyl,<sp/>Eigen::Vector3d<sp/>min_limits,<sp/>Eigen::Vector3d<sp/>max_limits,<sp/>std::vector&lt;Cylinder&gt;&amp;<sp/>cylinders_list,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;min_distance);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkBoundaryConditions(<ref refid="class_cylinder" kindref="compound">Cylinder</ref><sp/>cyl,<sp/>std::vector&lt;Cylinder&gt;&amp;<sp/>cylinders_list,<sp/>Eigen::Vector3d<sp/>min_limits,<sp/>Eigen::Vector3d<sp/>max_limits);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/>computeICVF(std::vector&lt;Cylinder&gt;<sp/>&amp;cylinders,<sp/>Eigen::Vector3d<sp/>&amp;min_limits,<sp/>Eigen::Vector3d<sp/>&amp;max_limits,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;num_no_repeat);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>computeMinimalSize(std::vector&lt;double&gt;<sp/>radiis,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>icvf_,<sp/>Eigen::Vector3d&amp;<sp/>l);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>CYLINDERGAMMADISTRIBUTION_H</highlight></codeline>
+    </programlisting>
+    <location file="src/cylindergammadistribution.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,241 @@
+.TH "SimulableSequence" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SimulableSequence \- MR Sequence Primary Class =============================================================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <simulablesequence\&.h>\fP
+.PP
+Inherited by \fBGradientWaveform\fP, and \fBPGSESequence\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBgetGradImpulse\fP (int i, double t, double tLast, Eigen::Vector3d &Gdt)=0"
+.br
+.ti -1c
+.RI "virtual double \fBgetbValue\fP (unsigned i)"
+.br
+.ti -1c
+.RI "virtual double \fBgetFreeDecay\fP (unsigned i, double D)"
+.br
+.RI "Expected free Decay\&. "
+.ti -1c
+.RI "virtual void \fBupdate_phase_shift\fP (double dt, double dt_last, \fBWalker\fP walker)=0"
+.br
+.ti -1c
+.RI "virtual void \fBupdate_phase_shift\fP (double time_step, Eigen::Matrix3Xd trajectory)=0"
+.br
+.ti -1c
+.RI "virtual void \fBupdate_DWI_signal\fP (\fBWalker\fP &walker)=0"
+.br
+.RI "Updates the DWI signal using the cumulated phase shift\&. "
+.ti -1c
+.RI "virtual void \fBsetNumberOfSteps\fP (unsigned T)=0"
+.br
+.RI "Set the number of time steps if they are known\&. "
+.ti -1c
+.RI "virtual void \fBcomputeDynamicTimeSteps\fP ()"
+.br
+.RI "Compute the time for all the steps when they are not constant\&. "
+.ti -1c
+.RI "virtual void \fBinitializeSubdivisionSignals\fP ()"
+.br
+.RI "Initialize the DWI signals for each subdivision\&. "
+.ti -1c
+.RI "virtual void \fBinitializeIntraExtraSignals\fP ()"
+.br
+.RI "Initialize the DWI signals for each compartment (intra extra) "
+.ti -1c
+.RI "virtual void \fBwriteResultingData\fP (std::string output_base_name)"
+.br
+.ti -1c
+.RI "virtual void \fBwritePhaseShiftDistribution\fP (std::string output_base_name)"
+.br
+.ti -1c
+.RI "virtual void \fBcleanPhaseShift\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBcleanDWISignal\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBscheme_file\fP"
+.br
+.ti -1c
+.RI "std::vector< double > \fBDWI\fP"
+.br
+.ti -1c
+.RI "std::vector< double > \fBDWI_intra\fP"
+.br
+.ti -1c
+.RI "std::vector< double > \fBDWI_extra\fP"
+.br
+.ti -1c
+.RI "std::vector< double > \fBDWIi\fP"
+.br
+.ti -1c
+.RI "std::vector< double > \fBphase_shift\fP"
+.br
+.ti -1c
+.RI "int \fBnum_rep\fP"
+.br
+.ti -1c
+.RI "bool \fBsave_phase_shift\fP"
+.br
+.ti -1c
+.RI "bool \fBdynamic\fP"
+.br
+.ti -1c
+.RI "double \fBpercent_steps_in\fP"
+.br
+.ti -1c
+.RI "std::vector< double > \fBtime_steps\fP"
+.br
+.ti -1c
+.RI "Eigen::ArrayXXf \fBphase_shift_distribution\fP"
+.br
+.ti -1c
+.RI "std::vector< std::vector< double > > \fBsub_DWI\fP"
+.br
+.ti -1c
+.RI "std::vector< std::vector< double > > \fBsub_DWI_intra\fP"
+.br
+.ti -1c
+.RI "std::vector< std::vector< double > > \fBsub_DWI_extra\fP"
+.br
+.ti -1c
+.RI "std::vector< std::vector< double > > \fBsub_DWIi\fP"
+.br
+.ti -1c
+.RI "bool \fBsubdivision_flag\fP = false"
+.br
+.ti -1c
+.RI "bool \fBseparate_signal\fP = false"
+.br
+.ti -1c
+.RI "bool \fBimg_signal\fP = false"
+.br
+.ti -1c
+.RI "std::vector< \fBSubdivision\fP > \fBsubdivisions\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+MR Sequence Primary Class =============================================================/\&. 
+
+Elemental base clase\&. Abstract class to synthesise the MRI signal
+.PP
+.SH "Jonathan Rafael "
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual double SimulableSequence::getbValue (unsigned i)\fC [inline]\fP, \fC [virtual]\fP"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP index of the gradient in the scheme_file (0,N-1) 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+b-value 
+.RE
+.PP
+
+.PP
+Reimplemented in \fBPGSESequence\fP\&.
+.SS "virtual void SimulableSequence::getGradImpulse (int i, double t, double tLast, Eigen::Vector3d & Gdt)\fC [pure virtual]\fP"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP \fBWalker\fP index 
+.br
+\fIt\fP current time step (in milisenconds) 
+.br
+\fItLast\fP last time step (in milisenconds) 
+.br
+\fIGdt\fP vector to compute de G*dt impulse 
+.RE
+.PP
+
+.PP
+Implemented in \fBGradientWaveform\fP, and \fBPGSESequence\fP\&.
+.SS "virtual void SimulableSequence::update_phase_shift (double dt, double dt_last, \fBWalker\fP walker)\fC [pure virtual]\fP"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP updated walker 
+.RE
+.PP
+
+.PP
+Implemented in \fBPGSESequence\fP, and \fBGradientWaveform\fP\&.
+.SS "virtual void SimulableSequence::update_phase_shift (double time_step, Eigen::Matrix3Xd trajectory)\fC [pure virtual]\fP"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP updated the phase shift over a whole trajectory 
+.RE
+.PP
+
+.PP
+Implemented in \fBPGSESequence\fP, and \fBGradientWaveform\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<double> SimulableSequence::DWI"
+Real part of the DWI signal 
+.SS "std::vector<double> SimulableSequence::DWI_extra"
+Real part of the DWI signal extra axonal only (if needed) 
+.SS "std::vector<double> SimulableSequence::DWI_intra"
+Real part of the DWI signal intra axonal olny (if needed) 
+.SS "std::vector<double> SimulableSequence::DWIi"
+imaginary part of the DWI signal 
+.SS "bool SimulableSequence::dynamic"
+Flag to indicate if the time steps are non-uniform 
+.SS "bool SimulableSequence::img_signal = false"
+flag to check if the img part will be computed or not (false default 
+.SS "int SimulableSequence::num_rep"
+number of repetitions \&. 
+.SS "double SimulableSequence::percent_steps_in"
+percentage of steps that should be inside the gradient times 
+.SS "std::vector<double> SimulableSequence::phase_shift"
+auxiliar phase shift for signal computations\&. 
+.SS "Eigen::ArrayXXf SimulableSequence::phase_shift_distribution"
+Matrix to save the phase shif distribution 
+.SS "bool SimulableSequence::save_phase_shift"
+flag, if true, saves the pahse shift distribution\&. 
+.SS "std::string SimulableSequence::scheme_file"
+\fBScheme\fP file path 
+.SS "bool SimulableSequence::separate_signal = false"
+flag to check if we will separate the signal in intra and extra 
+.SS "std::vector<std::vector<double> > SimulableSequence::sub_DWI"
+Real part of the DWI signal for each subDivision 
+.SS "std::vector<std::vector<double> > SimulableSequence::sub_DWI_extra"
+Real part of the DWI extra signal for each subDivision 
+.SS "std::vector<std::vector<double> > SimulableSequence::sub_DWI_intra"
+Real part of the DWI intra signal for each subDivision 
+.SS "std::vector<std::vector<double> > SimulableSequence::sub_DWIi"
+Imaginary part of the DWI signal for each subdivision 
+.SS "bool SimulableSequence::subdivision_flag = false"
+flag to check if we have several voxel subdivision to compute the signal 
+.SS "std::vector<\fBSubdivision\fP> SimulableSequence::subdivisions"
+saves the actual positions of the subdivision to compute the signal 
+.SS "std::vector<double> SimulableSequence::time_steps"
+Auxiliary array to save the time steps 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

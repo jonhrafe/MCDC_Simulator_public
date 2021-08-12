@@ -1,0 +1,121 @@
+.TH "Obstacle" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Obstacle \- \fBObstacle\fP Base Class ==============================================================================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <obstacle\&.h>\fP
+.PP
+Inherited by \fBCylinder\fP, and \fBPLYObstacle\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBObstacle\fP ()"
+.br
+.RI "Default constructor\&. Does nothing\&. "
+.ti -1c
+.RI "bool \fBcheckCollision\fP (\fBWalker\fP &walker, Eigen::Array3d &step, const double &step_lenght, \fBCollision\fP &colision)"
+.br
+.RI "Basic collision function\&. Returns the if there was any collision on against the obstacle\&. "
+.ti -1c
+.RI "void \fBelasticBounceAgainsPlane\fP (Eigen::Vector3d &ray_origin, Eigen::Vector3d &normal, double &t, Eigen::Vector3d &step)"
+.br
+.ti -1c
+.RI "double \fBminDistance\fP (\fBWalker\fP &w)"
+.br
+.RI "Returns the minimum distance of collision\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fBid\fP"
+.br
+.ti -1c
+.RI "int \fBcount_perc_crossings\fP"
+.br
+.ti -1c
+.RI "double \fBpercolation\fP"
+.br
+.ti -1c
+.RI "double \fBT2\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBObstacle\fP Base Class ==============================================================================/\&. 
+
+Father class to define the base of any other obstacle (wall or substrate) 
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+November 2016 
+.SH "1\&.42 "
+.PP
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "Obstacle::checkCollision (\fBWalker\fP & walker, Eigen::Array3d & step, const double & step_lenght, \fBCollision\fP & colision)"
+
+.PP
+Basic collision function\&. Returns the if there was any collision on against the obstacle\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwalker,\fBWalker\fP\fP instance in the simulation\&. 
+.br
+\fI3d\fP step\&. Is assumed to be normalized\&. 
+.br
+\fIstep_lenght,length\fP used as the maximum step collision distance\&. 
+.br
+\fIcolilsion,\fBCollision\fP\fP instance to save the collision (if any) details\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+true only if there was a Collision::hit status\&. 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBCollision\fP\&. 
+.RE
+.PP
+
+.SS "double Obstacle::minDistance (\fBWalker\fP & w)"
+
+.PP
+Returns the minimum distance of collision\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwalker\fP to find the (closest) distance\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "int Obstacle::count_perc_crossings"
+Auxiliar value to count the number of percolatin crossings in a simulation 
+.SS "int Obstacle::id"
+Unique id of the simulation 
+.SS "double Obstacle::percolation"
+Percolation value between 0 and 1\&. 
+.SS "double Obstacle::T2"
+T2 decay, not used by default 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

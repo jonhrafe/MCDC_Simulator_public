@@ -1,0 +1,1539 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_dynamics_simulation" kind="class" language="C++" prot="public">
+    <compoundname>DynamicsSimulation</compoundname>
+    <includes refid="dynamics_simulation_8h" local="no">dynamicsSimulation.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_dynamics_simulation_1a67cd4cd9a2e7cd2339c98dae60e66dde" prot="public" static="no" mutable="no">
+        <type><ref refid="class_parameters" kindref="compound">Parameters</ref></type>
+        <definition>Parameters DynamicsSimulation::params</definition>
+        <argsstring></argsstring>
+        <name>params</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_parameters" kindref="compound">Parameters</ref> handler instance </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="34" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a9a5d2596527abdcdd185430c97dea9ad" prot="public" static="no" mutable="no">
+        <type><ref refid="class_walker" kindref="compound">Walker</ref></type>
+        <definition>Walker DynamicsSimulation::walker</definition>
+        <argsstring></argsstring>
+        <name>walker</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Single walker to diffuse </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="35" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1ab69fedf7129784621eec440ba873218d" prot="public" static="no" mutable="no">
+        <type><ref refid="class_trajectory" kindref="compound">Trajectory</ref></type>
+        <definition>Trajectory DynamicsSimulation::trajectory</definition>
+        <argsstring></argsstring>
+        <name>trajectory</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_trajectory" kindref="compound">Trajectory</ref> instance. Handles i/o operations </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="36" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a03ba104f00ae772e9b8fb55e7878c793" prot="public" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 DynamicsSimulation::mt</definition>
+        <argsstring></argsstring>
+        <name>mt</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>rnd, random generator instance </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="37" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1ad6dddce1d5bc30d3e61dceb69652c893" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DynamicsSimulation::step_lenght</definition>
+        <argsstring></argsstring>
+        <name>step_lenght</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>l, step length </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="38" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a46187e70aad2b130249ba3d1dd6a3c75" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DynamicsSimulation::second_passed</definition>
+        <argsstring></argsstring>
+        <name>second_passed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulation total time in seconds </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="39" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a337972272af798cb8606796116145d11" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DynamicsSimulation::max_simulation_time</definition>
+        <argsstring></argsstring>
+        <name>max_simulation_time</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum simulation time if not passed we carry all the particles </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="40" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a6a210fb28fe2f996c226614742a25214" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DynamicsSimulation::completed</definition>
+        <argsstring></argsstring>
+        <name>completed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Auxiliar variable to save the milestone of percentage of completed walkers </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="41" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a4fb0e535753c48b4a2647502379aebaf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DynamicsSimulation::ini_pos_file</definition>
+        <argsstring></argsstring>
+        <name>ini_pos_file</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>walkers intitial position file </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="42" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a8e20cd71b55dda041844cfc305851dbe" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned DynamicsSimulation::ini_pos_file_ini_index</definition>
+        <argsstring></argsstring>
+        <name>ini_pos_file_ini_index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>starting position in the ini walker position file (multicore support) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="43" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1aa178498c8be8af1a515a8c0a02187600" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int DynamicsSimulation::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Unique id for the dynamic simulation </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="44" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1aed384434dc469e766301268dcf1ec4ab" prot="public" static="no" mutable="no">
+        <type><ref refid="classsentinels_1_1_sentinel" kindref="compound">sentinels::Sentinel</ref></type>
+        <definition>sentinels::Sentinel DynamicsSimulation::sentinela</definition>
+        <argsstring></argsstring>
+        <name>sentinela</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sentinel initialization to encoutner error in the simulation </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="45" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a830b3e0aa0ce95720ea0a8180e2cffec" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_p_l_y_obstacle" kindref="compound">PLYObstacle</ref> &gt; *</type>
+        <definition>std::vector&lt;PLYObstacle&gt;* DynamicsSimulation::plyObstacles_list</definition>
+        <argsstring></argsstring>
+        <name>plyObstacles_list</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>pointer to a vector with all the instances of PLYObstacles </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="46" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a938c4df48ca1cabcadefb974093d4a57" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_cylinder" kindref="compound">Cylinder</ref> &gt; *</type>
+        <definition>std::vector&lt;Cylinder&gt;* DynamicsSimulation::cylinders_list</definition>
+        <argsstring></argsstring>
+        <name>cylinders_list</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>vector with all the isntances of &quot;Cylider&quot; obstacles </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="47" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a927a79875ff2f035d929229cf4471756" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; unsigned &gt;</type>
+        <definition>std::vector&lt;unsigned&gt; DynamicsSimulation::cylinders_deque</definition>
+        <argsstring></argsstring>
+        <name>cylinders_deque</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>deque with the indexes of the cylinders (used for optmization) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="48" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1ad920a07f2c8c85fab7a1aec983c15b20" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; unsigned &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;unsigned&gt; &gt; DynamicsSimulation::ply_deque</definition>
+        <argsstring></argsstring>
+        <name>ply_deque</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>deque with the indexes of the triangles of all ply&apos;s (used for opt) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="49" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1ab68d71822661c3608bde4553392c9bd1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_voxel" kindref="compound">Voxel</ref> &gt;</type>
+        <definition>std::vector&lt;Voxel&gt; DynamicsSimulation::voxels_list</definition>
+        <argsstring></argsstring>
+        <name>voxels_list</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>vector with all the voxels to be simulated (if any) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="50" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a62f78ae3e723206d16f1528e344ab1e9" prot="public" static="no" mutable="no">
+        <type><ref refid="class_propagator" kindref="compound">Propagator</ref></type>
+        <definition>Propagator DynamicsSimulation::propagator</definition>
+        <argsstring></argsstring>
+        <name>propagator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_propagator" kindref="compound">Propagator</ref> object to compute and save the particles MSD </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="51" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1ac4161cbca21d20fde85817a21b99bd07" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DynamicsSimulation::icvf</definition>
+        <argsstring></argsstring>
+        <name>icvf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Stores the ICVF (1 - Intra-Extra) if needed </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="52" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1ab2eef9ff5ee32531cdf743327cf41455" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned DynamicsSimulation::intra_tries</definition>
+        <argsstring></argsstring>
+        <name>intra_tries</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="53" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1abb056d8cde70aab8b6fa81ee8cdb231e" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned DynamicsSimulation::total_tries</definition>
+        <argsstring></argsstring>
+        <name>total_tries</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Helper variables to compute the estimated ICVF </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="53" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1af7ff1563912461e63693087d7aaf616b" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d DynamicsSimulation::step</definition>
+        <argsstring></argsstring>
+        <name>step</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="56" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a854c987e8b1806d74205eb916836befa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DynamicsSimulation::time_step</definition>
+        <argsstring></argsstring>
+        <name>time_step</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="58" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1ae79118cbf5ce497cc82c6471353d5045" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DynamicsSimulation::time_dt</definition>
+        <argsstring></argsstring>
+        <name>time_dt</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="58" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1aa73be02bc4cb5027a1bc4a0b6b91b4b2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double DynamicsSimulation::last_time_dt</definition>
+        <argsstring></argsstring>
+        <name>last_time_dt</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>simulation time steps auxiliar values </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="58" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a5d736b0d739d22d6a2d9371fbcdd8775" prot="public" static="no" mutable="no">
+        <type>std::ifstream</type>
+        <definition>std::ifstream DynamicsSimulation::iniPos</definition>
+        <argsstring></argsstring>
+        <name>iniPos</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="60" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a6fc87bbfea509599236624fda517c901" prot="public" static="no" mutable="no">
+        <type>time_t</type>
+        <definition>time_t DynamicsSimulation::start</definition>
+        <argsstring></argsstring>
+        <name>start</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="62" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a4e14e7f5efc039772219b00b02381db1" prot="public" static="no" mutable="no">
+        <type>time_t</type>
+        <definition>time_t DynamicsSimulation::now</definition>
+        <argsstring></argsstring>
+        <name>now</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Auxiliar Variable for time recording and estimation for time. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="62" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a8742da6be78261e71b9b8cd4de0df488" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool DynamicsSimulation::print_expected_time</definition>
+        <argsstring></argsstring>
+        <name>print_expected_time</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Auxiliar flag for time recording and stimation for time. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="64" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a8772d8683d6089eef368212ee99d12d5" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned DynamicsSimulation::num_simulated_walkers</definition>
+        <argsstring></argsstring>
+        <name>num_simulated_walkers</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Saves the final number of simulated walkers (time limit) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="66" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_dynamics_simulation_1a09d2b3a3b998c85d98a5b87509a1e13a" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned DynamicsSimulation::aux_walker_index</definition>
+        <argsstring></argsstring>
+        <name>aux_walker_index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="68" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_dynamics_simulation_1ad9a3e1f235466c3827cb49c67d3a6147" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DynamicsSimulation::DynamicsSimulation</definition>
+        <argsstring>()</argsstring>
+        <name>DynamicsSimulation</name>
+        <briefdescription>
+<para>Default constructor. Initialize everything with 0&apos;s and NULL states, object indexes are set to -1. </para>        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_dynamics_simulation" kindref="compound">DynamicsSimulation</ref> implementation </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="75" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="33" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1aa603b5ba682b1b37cc96dd8be113cb52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DynamicsSimulation::DynamicsSimulation</definition>
+        <argsstring>(std::string conf_file)</argsstring>
+        <name>DynamicsSimulation</name>
+        <param>
+          <type>std::string</type>
+          <declname>conf_file</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>configuration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>file </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="81" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="71" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a8fd2ec6f3640bff79e4b1ad960bbda5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DynamicsSimulation::DynamicsSimulation</definition>
+        <argsstring>(Parameters &amp;params_)</argsstring>
+        <name>DynamicsSimulation</name>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername><ref refid="class_parameter" kindref="compound">Parameter</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="87" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="99" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a15a1f18a99d606ef2ca939e718ca996f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>DynamicsSimulation::~DynamicsSimulation</definition>
+        <argsstring>()</argsstring>
+        <name>~DynamicsSimulation</name>
+        <briefdescription>
+<para>Does nothing. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="92" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="985" bodyend="988"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a00cf4a6cbde1ef708fdbd58e8d8a7727" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>DynamicsSimulation::startSimulation</definition>
+        <argsstring>(SimulableSequence *dataSynth=nullptr)</argsstring>
+        <name>startSimulation</name>
+        <param>
+          <type><ref refid="class_simulable_sequence" kindref="compound">SimulableSequence</ref> *</type>
+          <declname>dataSynth</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Starts the dynamics simulation and, if a PGSE sequence is given, computes the DW signal. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dataSynth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>optional paramter. If this parameter is not given, no signal is computed. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="98" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="810" bodyend="983"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a67adab75eba635447c1b1b2b26d1e0ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>DynamicsSimulation::readConfigurationFile</definition>
+        <argsstring>(std::string conf_file_path)</argsstring>
+        <name>readConfigurationFile</name>
+        <param>
+          <type>std::string</type>
+          <declname>conf_file_path</declname>
+        </param>
+        <briefdescription>
+<para>Reads all the parameters listed in the param conf_file and stores them in the /t params object. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>conf_file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>void</para></simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>conf_file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>paremeters file path. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="104" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="994" bodyend="996"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a9148a30590bef5c766fd2366bbd16eb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>DynamicsSimulation::setDuration</definition>
+        <argsstring>(const double &amp;duration)</argsstring>
+        <name>setDuration</name>
+        <param>
+          <type>const double &amp;</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Sets the simulation duration in milliseconds, this should be synchronized w/r the Time Echo. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>simulation duration. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="111" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="1341" bodyend="1345"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a25b78b4ef659a448a806b995a19cf8b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void DynamicsSimulation::setWalkersNum</definition>
+        <argsstring>(const unsigned &amp;N)</argsstring>
+        <name>setWalkersNum</name>
+        <param>
+          <type>const unsigned &amp;</type>
+          <declname>N</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="117" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="1347" bodyend="1351"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a45248ef6170eaf8a3a62b43f3ce77e02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void DynamicsSimulation::setStepsNum</definition>
+        <argsstring>(const unsigned &amp;T)</argsstring>
+        <name>setStepsNum</name>
+        <param>
+          <type>const unsigned &amp;</type>
+          <declname>T</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="123" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="1353" bodyend="1357"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1ae7aa76c335aceb658a4ffc683898077c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>DynamicsSimulation::isInIntra</definition>
+        <argsstring>(Eigen::Vector3d &amp;position, int &amp;cyl_id, int &amp;ply_id, double distance_to_be_intra_ply=1e-6)</argsstring>
+        <name>isInIntra</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>cyl_id</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>ply_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>distance_to_be_intra_ply</declname>
+          <defval>1e-6</defval>
+        </param>
+        <briefdescription>
+<para>return true if the position is inside any of the obstacles. Only obstacles with a defined &quot;inside region&quot; can be considered. <ref refid="class_voxel" kindref="compound">Voxel</ref> periodicity is not considered </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>position</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>3d position on space. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>minimum distance to be considered &quot;outside&quot; de obstacle (barrier thickness) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="135" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="793" bodyend="805"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1aeae993217cebb5c23f68cb3e04cf8e49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void DynamicsSimulation::writePropagator</definition>
+        <argsstring>(std::string path)</argsstring>
+        <name>writePropagator</name>
+        <param>
+          <type>std::string</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Writes to disk the final propagator matrix. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="140" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="222" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a6c69cd2599f088e7631be0721d5815f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool DynamicsSimulation::isInsideCylinders</definition>
+        <argsstring>(Eigen::Vector3d &amp;position, int &amp;cyl_id, double distance_to_be_inside=1e-6)</argsstring>
+        <name>isInsideCylinders</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>cyl_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>distance_to_be_inside</declname>
+          <defval>1e-6</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="142" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="713" bodyend="733"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a4064621288ca5066ed5b76cc71a81e25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool DynamicsSimulation::isInsidePLY</definition>
+        <argsstring>(Eigen::Vector3d &amp;position, int &amp;ply_id, double distance_to_be_inside=1e-6)</argsstring>
+        <name>isInsidePLY</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>position</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>ply_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>distance_to_be_inside</declname>
+          <defval>1e-6</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="144" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="735" bodyend="790"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_dynamics_simulation_1abe4af37db2602b6341b2d7732e43951e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>string DynamicsSimulation::secondsToMinutes</definition>
+        <argsstring>(double)</argsstring>
+        <name>secondsToMinutes</name>
+        <param>
+          <type>double</type>
+          <defname>t</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="126" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="697" bodyend="710"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_dynamics_simulation_1a91d4f80aebb35a4864c7cf9716f54ba5" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>DynamicsSimulation::generateStep</definition>
+        <argsstring>(Eigen::Vector3d &amp;step, double l)</argsstring>
+        <name>generateStep</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>l</declname>
+        </param>
+        <briefdescription>
+<para>Computes a random generated orientation in the sphere with given norm. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>void</para></simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>stores the computed step. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>l</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>step size. Can be used to change diffusivity in the medium. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="todo_1_todo000001"><xreftitle>Todo</xreftitle><xrefdescription><para>Enable the use of pre-computed steps. </para></xrefdescription></xrefsect></para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="154" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="1001" bodyend="1023"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1ac487ab18904c4a77e709b847448910d2" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>DynamicsSimulation::generateDirectedStep</definition>
+        <argsstring>(Eigen::Vector3d &amp;new_step, Eigen::Vector3d &amp;direction)</argsstring>
+        <name>generateDirectedStep</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>new_step</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>direction</declname>
+        </param>
+        <briefdescription>
+<para>Computes a random generated orientation and oriented it according to a given direction. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>new_step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>stores the computed step. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>direction</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the new step will be oriented toward this direction </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="161" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="1025" bodyend="1046"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1ad121c4784fe3e04dea2781bd6533fc3b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>DynamicsSimulation::updateWalkerPosition</definition>
+        <argsstring>(Eigen::Vector3d &amp;step)</argsstring>
+        <name>updateWalkerPosition</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+<para>updates the walker position in a step iteration. The methods checks for collisions against all stored obstacles and voxels and updates the walker position(s) </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if a bouncing in needed.</para></simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>to be performed. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>returns false if the was any problem. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="169" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="1051" bodyend="1116"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a2d50d9ca19b5eaa4f8fd34154eae0aca" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>DynamicsSimulation::checkObstacleCollision</definition>
+        <argsstring>(Eigen::Vector3d &amp;amended_step, double &amp;tmax, Eigen::Vector3d &amp;end_point, Collision &amp;colision)</argsstring>
+        <name>checkObstacleCollision</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>amended_step</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>tmax</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>end_point</declname>
+        </param>
+        <param>
+          <type><ref refid="class_collision" kindref="compound">Collision</ref> &amp;</type>
+          <declname>colision</declname>
+        </param>
+        <briefdescription>
+<para>Checks for collisions against any obstacle or voxels given a direction and a step size. Only the more the collision with the higher priority is saved /see <ref refid="class_collision" kindref="compound">Collision</ref>#. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>amended_step</parametername>
+<parametername>step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>to be &quot;amended&quot;, this is corrected against bouncing and voxel limits </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tmax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maximum step size, this value is updated every time a bouncing is performed. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>final position where the walker lands. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername><ref refid="class_collision" kindref="compound">Collision</ref></parametername>
+<parametername><ref refid="class_collision" kindref="compound">Collision</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance to store the walker collision (if any). </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>returns true if there was any collision. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="180" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="1118" bodyend="1168"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a738addb234c8d55bbb2a2818952b94c2" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>DynamicsSimulation::updateWalkerPositionAndHandleBouncing</definition>
+        <argsstring>(Eigen::Vector3d &amp;amended_step, double &amp;tmax, Collision &amp;colision)</argsstring>
+        <name>updateWalkerPositionAndHandleBouncing</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>amended_step</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>tmax</declname>
+        </param>
+        <param>
+          <type><ref refid="class_collision" kindref="compound">Collision</ref> &amp;</type>
+          <declname>colision</declname>
+        </param>
+        <briefdescription>
+<para>Function to follow a collision event. After a successful collision given by /a checkObstacleCollision this function will handle the collision and decide to ignore it (percolation), bouncing, or label it as a special case. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>amended_step</parametername>
+<parametername>step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>to be &quot;amended&quot;, this is corrected against bouncing and voxel limits </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tmax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maximum step size, this value is updated every time a bouncing is performed. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collision</parametername>
+<parametername><ref refid="class_collision" kindref="compound">Collision</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance to store the walker collision (if any). </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>returns true if the collision was a correct bouncing. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="191" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="1251" bodyend="1337"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1ae1a9b5f5ecb22a645973d7f1fc348c44" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>DynamicsSimulation::handleCollisions</definition>
+        <argsstring>(Collision &amp;colision, Collision &amp;colision_tmp, double &amp;max_collision_distance, unsigned indx)</argsstring>
+        <name>handleCollisions</name>
+        <param>
+          <type><ref refid="class_collision" kindref="compound">Collision</ref> &amp;</type>
+          <declname>colision</declname>
+        </param>
+        <param>
+          <type><ref refid="class_collision" kindref="compound">Collision</ref> &amp;</type>
+          <declname>colision_tmp</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>max_collision_distance</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>indx</declname>
+        </param>
+        <briefdescription>
+<para>Warping function to handle the priority between 2 collision in a single step. The method uses the inhered comparisson in the class. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A given collision with the highest priority so far. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collision_temp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A second collision to compare with. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_collision_distance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>maximum collision distance to be considered successful. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ind</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>unique walker indx identifier. Not used in the version 0.2. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="see"><para>:<ref refid="class_obstacle" kindref="compound">Obstacle</ref>:. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="201" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="1171" bodyend="1207"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1af6f4ed40a5df54779477a46d82983f5a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DynamicsSimulation::mapWalkerIntoVoxel</definition>
+        <argsstring>(Eigen::Vector3d &amp;amended_step, Collision &amp;colision, double barrier_thickness)</argsstring>
+        <name>mapWalkerIntoVoxel</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>amended_step</declname>
+        </param>
+        <param>
+          <type><ref refid="class_collision" kindref="compound">Collision</ref> &amp;</type>
+          <declname>colision</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>barrier_thickness</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="207" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="1210" bodyend="1235"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1aff453ffc17c94b5ed41a2f783c1fab34" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>DynamicsSimulation::getTimeDt</definition>
+        <argsstring>(double &amp;last_time_dt, double &amp;time_dt, double &amp;l, SimulableSequence *dataSynth, unsigned t, double time_step)</argsstring>
+        <name>getTimeDt</name>
+        <param>
+          <type>double &amp;</type>
+          <declname>last_time_dt</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>time_dt</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type><ref refid="class_simulable_sequence" kindref="compound">SimulableSequence</ref> *</type>
+          <declname>dataSynth</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>time_step</declname>
+        </param>
+        <briefdescription>
+<para>Computes the step time. If the time steps are not dynamic this is just a constant sum. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>last_time_dt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>saves the last time step; </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>time_dt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>actual time step; </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>step size if the time was dynamic </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dataSynt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the PGSE sequence, if the steps are dynamic. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>number of step. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>time_step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>size in milliseconds between steps. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="218" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="1237" bodyend="1249"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a4a1c2d41db9283d08090801183764643" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>DynamicsSimulation::initSimulation</definition>
+        <argsstring>()</argsstring>
+        <name>initSimulation</name>
+        <briefdescription>
+<para>Initialize simulation variables and write (if needed) header files. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="223" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="269" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a8038cd8929701c2a1f7196185a47b89b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool DynamicsSimulation::expectedTimeAndMaxTimeCheck</definition>
+        <argsstring>(unsigned w)</argsstring>
+        <name>expectedTimeAndMaxTimeCheck</name>
+        <param>
+          <type>unsigned</type>
+          <declname>w</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="229" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="332" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1adb29f87526027c9013b2b0920272ca52" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>DynamicsSimulation::writeDWSignal</definition>
+        <argsstring>(SimulableSequence *dataSynth)</argsstring>
+        <name>writeDWSignal</name>
+        <param>
+          <type><ref refid="class_simulable_sequence" kindref="compound">SimulableSequence</ref> *</type>
+          <declname>dataSynth</declname>
+        </param>
+        <briefdescription>
+<para>computes and writes the resulting diffusion signal for all the shells. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dataSynth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Simuleable sequence used to the data Sythesis. NULL assumed to skip. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="235" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="389" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1ab9c07de93ec4473a9041104ac9925b6a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>DynamicsSimulation::iniWalkerPosition</definition>
+        <argsstring>()</argsstring>
+        <name>iniWalkerPosition</name>
+        <briefdescription>
+<para>initialize the first walker position depending if a file was passed, the voxel limits, ot any other flag (as it can be intra, extra, delta position (not implemented yet)). </para>        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="todo_1_todo000002"><xreftitle>Todo</xreftitle><xrefdescription><para>Add the flags &quot; onlyIntra&quot;, &quot;onlyExtra&quot; and &quot;singlePos&quot;. </para></xrefdescription></xrefsect></para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="242" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="399" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a5f50eaa5ca2a7f56dc6270a108ea96a5" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DynamicsSimulation::updateWalkerObstacleIndexes</definition>
+        <argsstring>(unsigned t_)</argsstring>
+        <name>updateWalkerObstacleIndexes</name>
+        <param>
+          <type>unsigned</type>
+          <declname>t_</declname>
+        </param>
+        <briefdescription>
+<para>fill the list of indexes in walkers such that the obstacle is close enough for collision. </para>        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="todo_1_todo000003"><xreftitle>Todo</xreftitle><xrefdescription><para>Implement the function minDistance for PLY&apos;s obstacles </para></xrefdescription></xrefsect></para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="248" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="643" bodyend="695"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1ab29cb521eba28e24bb6e69528bf4c8f5" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DynamicsSimulation::initWalkerObstacleIndexes</definition>
+        <argsstring>()</argsstring>
+        <name>initWalkerObstacleIndexes</name>
+        <briefdescription>
+<para>Initialize the list of obstacles indexes for the collision optimization. </para>        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="todo_1_todo000004"><xreftitle>Todo</xreftitle><xrefdescription><para>Test the initialization for all the types of obstacles. </para></xrefdescription></xrefsect></para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="254" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="466" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a8d6812cd244088a22c54ddbbfcf9347a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DynamicsSimulation::updateCollitionSphere</definition>
+        <argsstring>(unsigned t)</argsstring>
+        <name>updateCollitionSphere</name>
+        <param>
+          <type>unsigned</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Updates the list of indexes inside the inner and outher collision spheres. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>number of steps in the simulation. Used to estimate the diffusion coeff. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="260" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="524" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a2baf9ce6bce20df5aebe4daa8064847b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DynamicsSimulation::getAnIntraCellularPosition</definition>
+        <argsstring>(Eigen::Vector3d &amp;intra_pos, int &amp;cyl_ind, int &amp;ply_ind)</argsstring>
+        <name>getAnIntraCellularPosition</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>intra_pos</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>cyl_ind</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>ply_ind</declname>
+        </param>
+        <briefdescription>
+<para>finds an intra celullar 3d position inside the voxel (needs a voxel initialized). </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>intra_pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector to save the 3d position. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="266" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="539" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a252d95434394ef3bb36543ca0bb19d9e" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DynamicsSimulation::getAnExtraCellularPosition</definition>
+        <argsstring>(Eigen::Vector3d &amp;extra_pos)</argsstring>
+        <name>getAnExtraCellularPosition</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>extra_pos</declname>
+        </param>
+        <briefdescription>
+<para>finds an extra cellular 3d position inside the voxel (needs a voxel initialized). </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>extra_pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector to save the 3d position. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="272" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="586" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1af876cb913e812b28163bfb00c02b17bf" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool DynamicsSimulation::checkIfPosInsideVoxel</definition>
+        <argsstring>(Eigen::Vector3d &amp;pos)</argsstring>
+        <name>checkIfPosInsideVoxel</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+<para>Auxiliary function to checks if a 3d position is still inside the voxel. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pos</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>to check inside the voxel. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="278" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="626" bodyend="640"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a9255e754d78881e33a1ffb85ee1ca3af" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DynamicsSimulation::initObstacleInformation</definition>
+        <argsstring>()</argsstring>
+        <name>initObstacleInformation</name>
+        <briefdescription>
+<para>Auxiliary function to initialize the permeability as well as the list of obstacle&apos;s indexes for the collision optimization procedures. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="284" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="123" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a85a71d1cf95cd86a5f0daccfed180f13" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DynamicsSimulation::updatePropagator</definition>
+        <argsstring>(Eigen::Matrix3Xd &amp;log_pos_r)</argsstring>
+        <name>updatePropagator</name>
+        <param>
+          <type>Eigen::Matrix3Xd &amp;</type>
+          <declname>log_pos_r</declname>
+        </param>
+        <briefdescription>
+<para>Function to internally update the log of the propagator. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="289" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="161" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a3063e3a72503d9741d88d30574c10eaa" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DynamicsSimulation::normalizePropagator</definition>
+        <argsstring>(float num_samples)</argsstring>
+        <name>normalizePropagator</name>
+        <param>
+          <type>float</type>
+          <declname>num_samples</declname>
+        </param>
+        <briefdescription>
+<para>Function to internally normaliza the propagator using the final number of simualted signals. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="296" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="183" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1af0ff1b00eb2636ace62a5592a28d9d11" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DynamicsSimulation::computeICVF</definition>
+        <argsstring>()</argsstring>
+        <name>computeICVF</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="298" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="196" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="class_dynamics_simulation_1a8abdb633d59617f25c7f2eca2c3ec638" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool DynamicsSimulation::finalPositionCheck</definition>
+        <argsstring>()</argsstring>
+        <name>finalPositionCheck</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/dynamicsSimulation.h" line="300" column="1" bodyfile="src/dynamicsSimulation.cpp" bodystart="201" bodyend="220"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Dynamic simulation main class =============================================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Main implementation of the particles dynamics. Handles collisions and bouncing <simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>November 2016 <heading level="1">1.42 </heading>
+</para></simplesect>
+</para><para>Main class, implements the particles dynamics. Handles collisions and bouncing. </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="23">
+        <label>Collisionsphere</label>
+        <link refid="class_collisionsphere"/>
+      </node>
+      <node id="20">
+        <label>sentinels::Sentinel</label>
+        <link refid="classsentinels_1_1_sentinel"/>
+      </node>
+      <node id="24">
+        <label>CylinderCollisionSphere</label>
+        <link refid="class_cylinder_collision_sphere"/>
+        <childnode refid="23" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>Trajectory</label>
+        <link refid="class_trajectory"/>
+      </node>
+      <node id="27">
+        <label>Propagator</label>
+        <link refid="class_propagator"/>
+      </node>
+      <node id="26">
+        <label>Parameters</label>
+        <link refid="class_parameters"/>
+      </node>
+      <node id="22">
+        <label>PLYCollisionSphere</label>
+        <link refid="class_p_l_y_collision_sphere"/>
+        <childnode refid="23" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>DynamicsSimulation</label>
+        <link refid="class_dynamics_simulation"/>
+        <childnode refid="20" relation="usage">
+          <edgelabel>sentinela</edgelabel>
+        </childnode>
+        <childnode refid="21" relation="usage">
+          <edgelabel>walker</edgelabel>
+        </childnode>
+        <childnode refid="25" relation="usage">
+          <edgelabel>trajectory</edgelabel>
+        </childnode>
+        <childnode refid="26" relation="usage">
+          <edgelabel>params</edgelabel>
+        </childnode>
+        <childnode refid="27" relation="usage">
+          <edgelabel>propagator</edgelabel>
+        </childnode>
+      </node>
+      <node id="21">
+        <label>Walker</label>
+        <link refid="class_walker"/>
+        <childnode refid="22" relation="usage">
+          <edgelabel>collision_sphere_ply</edgelabel>
+        </childnode>
+        <childnode refid="24" relation="usage">
+          <edgelabel>collision_sphere_cylinders</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/dynamicsSimulation.h" line="31" column="1" bodyfile="src/dynamicsSimulation.h" bodystart="30" bodyend="304"/>
+    <listofallmembers>
+      <member refid="class_dynamics_simulation_1a09d2b3a3b998c85d98a5b87509a1e13a" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>aux_walker_index</name></member>
+      <member refid="class_dynamics_simulation_1af876cb913e812b28163bfb00c02b17bf" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>checkIfPosInsideVoxel</name></member>
+      <member refid="class_dynamics_simulation_1a2d50d9ca19b5eaa4f8fd34154eae0aca" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>checkObstacleCollision</name></member>
+      <member refid="class_dynamics_simulation_1a6a210fb28fe2f996c226614742a25214" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>completed</name></member>
+      <member refid="class_dynamics_simulation_1af0ff1b00eb2636ace62a5592a28d9d11" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>computeICVF</name></member>
+      <member refid="class_dynamics_simulation_1a927a79875ff2f035d929229cf4471756" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>cylinders_deque</name></member>
+      <member refid="class_dynamics_simulation_1a938c4df48ca1cabcadefb974093d4a57" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>cylinders_list</name></member>
+      <member refid="class_dynamics_simulation_1ad9a3e1f235466c3827cb49c67d3a6147" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>DynamicsSimulation</name></member>
+      <member refid="class_dynamics_simulation_1aa603b5ba682b1b37cc96dd8be113cb52" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>DynamicsSimulation</name></member>
+      <member refid="class_dynamics_simulation_1a8fd2ec6f3640bff79e4b1ad960bbda5b" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>DynamicsSimulation</name></member>
+      <member refid="class_dynamics_simulation_1a8038cd8929701c2a1f7196185a47b89b" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>expectedTimeAndMaxTimeCheck</name></member>
+      <member refid="class_dynamics_simulation_1a8abdb633d59617f25c7f2eca2c3ec638" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>finalPositionCheck</name></member>
+      <member refid="class_dynamics_simulation_1ac487ab18904c4a77e709b847448910d2" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>generateDirectedStep</name></member>
+      <member refid="class_dynamics_simulation_1a91d4f80aebb35a4864c7cf9716f54ba5" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>generateStep</name></member>
+      <member refid="class_dynamics_simulation_1a252d95434394ef3bb36543ca0bb19d9e" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>getAnExtraCellularPosition</name></member>
+      <member refid="class_dynamics_simulation_1a2baf9ce6bce20df5aebe4daa8064847b" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>getAnIntraCellularPosition</name></member>
+      <member refid="class_dynamics_simulation_1aff453ffc17c94b5ed41a2f783c1fab34" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>getTimeDt</name></member>
+      <member refid="class_dynamics_simulation_1ae1a9b5f5ecb22a645973d7f1fc348c44" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>handleCollisions</name></member>
+      <member refid="class_dynamics_simulation_1ac4161cbca21d20fde85817a21b99bd07" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>icvf</name></member>
+      <member refid="class_dynamics_simulation_1aa178498c8be8af1a515a8c0a02187600" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>id</name></member>
+      <member refid="class_dynamics_simulation_1a4fb0e535753c48b4a2647502379aebaf" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>ini_pos_file</name></member>
+      <member refid="class_dynamics_simulation_1a8e20cd71b55dda041844cfc305851dbe" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>ini_pos_file_ini_index</name></member>
+      <member refid="class_dynamics_simulation_1a5d736b0d739d22d6a2d9371fbcdd8775" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>iniPos</name></member>
+      <member refid="class_dynamics_simulation_1a9255e754d78881e33a1ffb85ee1ca3af" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>initObstacleInformation</name></member>
+      <member refid="class_dynamics_simulation_1a4a1c2d41db9283d08090801183764643" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>initSimulation</name></member>
+      <member refid="class_dynamics_simulation_1ab29cb521eba28e24bb6e69528bf4c8f5" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>initWalkerObstacleIndexes</name></member>
+      <member refid="class_dynamics_simulation_1ab9c07de93ec4473a9041104ac9925b6a" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>iniWalkerPosition</name></member>
+      <member refid="class_dynamics_simulation_1ab2eef9ff5ee32531cdf743327cf41455" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>intra_tries</name></member>
+      <member refid="class_dynamics_simulation_1ae7aa76c335aceb658a4ffc683898077c" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>isInIntra</name></member>
+      <member refid="class_dynamics_simulation_1a6c69cd2599f088e7631be0721d5815f1" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>isInsideCylinders</name></member>
+      <member refid="class_dynamics_simulation_1a4064621288ca5066ed5b76cc71a81e25" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>isInsidePLY</name></member>
+      <member refid="class_dynamics_simulation_1aa73be02bc4cb5027a1bc4a0b6b91b4b2" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>last_time_dt</name></member>
+      <member refid="class_dynamics_simulation_1af6f4ed40a5df54779477a46d82983f5a" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>mapWalkerIntoVoxel</name></member>
+      <member refid="class_dynamics_simulation_1a337972272af798cb8606796116145d11" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>max_simulation_time</name></member>
+      <member refid="class_dynamics_simulation_1a03ba104f00ae772e9b8fb55e7878c793" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>mt</name></member>
+      <member refid="class_dynamics_simulation_1a3063e3a72503d9741d88d30574c10eaa" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>normalizePropagator</name></member>
+      <member refid="class_dynamics_simulation_1a4e14e7f5efc039772219b00b02381db1" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>now</name></member>
+      <member refid="class_dynamics_simulation_1a8772d8683d6089eef368212ee99d12d5" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>num_simulated_walkers</name></member>
+      <member refid="class_dynamics_simulation_1a67cd4cd9a2e7cd2339c98dae60e66dde" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>params</name></member>
+      <member refid="class_dynamics_simulation_1ad920a07f2c8c85fab7a1aec983c15b20" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>ply_deque</name></member>
+      <member refid="class_dynamics_simulation_1a830b3e0aa0ce95720ea0a8180e2cffec" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>plyObstacles_list</name></member>
+      <member refid="class_dynamics_simulation_1a8742da6be78261e71b9b8cd4de0df488" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>print_expected_time</name></member>
+      <member refid="class_dynamics_simulation_1a62f78ae3e723206d16f1528e344ab1e9" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>propagator</name></member>
+      <member refid="class_dynamics_simulation_1a67adab75eba635447c1b1b2b26d1e0ab" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>readConfigurationFile</name></member>
+      <member refid="class_dynamics_simulation_1a46187e70aad2b130249ba3d1dd6a3c75" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>second_passed</name></member>
+      <member refid="class_dynamics_simulation_1abe4af37db2602b6341b2d7732e43951e" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>secondsToMinutes</name></member>
+      <member refid="class_dynamics_simulation_1aed384434dc469e766301268dcf1ec4ab" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>sentinela</name></member>
+      <member refid="class_dynamics_simulation_1a9148a30590bef5c766fd2366bbd16eb8" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>setDuration</name></member>
+      <member refid="class_dynamics_simulation_1a45248ef6170eaf8a3a62b43f3ce77e02" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>setStepsNum</name></member>
+      <member refid="class_dynamics_simulation_1a25b78b4ef659a448a806b995a19cf8b1" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>setWalkersNum</name></member>
+      <member refid="class_dynamics_simulation_1a6fc87bbfea509599236624fda517c901" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>start</name></member>
+      <member refid="class_dynamics_simulation_1a00cf4a6cbde1ef708fdbd58e8d8a7727" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>startSimulation</name></member>
+      <member refid="class_dynamics_simulation_1af7ff1563912461e63693087d7aaf616b" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>step</name></member>
+      <member refid="class_dynamics_simulation_1ad6dddce1d5bc30d3e61dceb69652c893" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>step_lenght</name></member>
+      <member refid="class_dynamics_simulation_1ae79118cbf5ce497cc82c6471353d5045" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>time_dt</name></member>
+      <member refid="class_dynamics_simulation_1a854c987e8b1806d74205eb916836befa" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>time_step</name></member>
+      <member refid="class_dynamics_simulation_1abb056d8cde70aab8b6fa81ee8cdb231e" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>total_tries</name></member>
+      <member refid="class_dynamics_simulation_1ab69fedf7129784621eec440ba873218d" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>trajectory</name></member>
+      <member refid="class_dynamics_simulation_1a8d6812cd244088a22c54ddbbfcf9347a" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>updateCollitionSphere</name></member>
+      <member refid="class_dynamics_simulation_1a85a71d1cf95cd86a5f0daccfed180f13" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>updatePropagator</name></member>
+      <member refid="class_dynamics_simulation_1a5f50eaa5ca2a7f56dc6270a108ea96a5" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>updateWalkerObstacleIndexes</name></member>
+      <member refid="class_dynamics_simulation_1ad121c4784fe3e04dea2781bd6533fc3b" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>updateWalkerPosition</name></member>
+      <member refid="class_dynamics_simulation_1a738addb234c8d55bbb2a2818952b94c2" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>updateWalkerPositionAndHandleBouncing</name></member>
+      <member refid="class_dynamics_simulation_1ab68d71822661c3608bde4553392c9bd1" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>voxels_list</name></member>
+      <member refid="class_dynamics_simulation_1a9a5d2596527abdcdd185430c97dea9ad" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>walker</name></member>
+      <member refid="class_dynamics_simulation_1adb29f87526027c9013b2b0920272ca52" prot="private" virt="non-virtual"><scope>DynamicsSimulation</scope><name>writeDWSignal</name></member>
+      <member refid="class_dynamics_simulation_1aeae993217cebb5c23f68cb3e04cf8e49" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>writePropagator</name></member>
+      <member refid="class_dynamics_simulation_1a15a1f18a99d606ef2ca939e718ca996f" prot="public" virt="non-virtual"><scope>DynamicsSimulation</scope><name>~DynamicsSimulation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

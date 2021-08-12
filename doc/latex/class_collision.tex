@@ -1,0 +1,187 @@
+\hypertarget{class_collision}{}\section{Collision Class Reference}
+\label{class_collision}\index{Collision@{Collision}}
+
+
+\hyperlink{class_collision}{Collision} Final class =====================================================================/.  
+
+
+
+
+{\ttfamily \#include $<$collision.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_collision_aa7f309840b693689b164c7e4b4d643e5}{collision\+\_\+type} \{ \newline
+{\bfseries hit}, 
+{\bfseries near}, 
+{\bfseries null}, 
+{\bfseries boundary}, 
+\newline
+{\bfseries degenerate}
+ \}
+\item 
+enum \hyperlink{class_collision_aad433eb4e51dbfd7ab9bbe188fbe47ab}{collision\+\_\+location} \{ \newline
+{\bfseries inside}, 
+{\bfseries on\+\_\+edge}, 
+{\bfseries on\+\_\+vertex}, 
+{\bfseries voxel}, 
+\newline
+{\bfseries outside}, 
+{\bfseries unknown}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_collision_a4cd23239c1de38dcc082345934a34441}\label{class_collision_a4cd23239c1de38dcc082345934a34441}} 
+{\bfseries Collision} (double u\+\_\+, double v\+\_\+, double t\+\_\+)
+\item 
+\mbox{\Hypertarget{class_collision_a19ae49bcb3b16f4622443a34a171590c}\label{class_collision_a19ae49bcb3b16f4622443a34a171590c}} 
+\hyperlink{class_collision_a19ae49bcb3b16f4622443a34a171590c}{$\sim$\+Collision} ()
+\begin{DoxyCompactList}\small\item\em Does nothing. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_collision_aedabfa9b114e4201343963df5698f7ef}\label{class_collision_aedabfa9b114e4201343963df5698f7ef}} 
+bool \hyperlink{class_collision_aedabfa9b114e4201343963df5698f7ef}{do\+I\+Have\+More\+Piority\+Than} (\hyperlink{class_collision}{Collision} \&coll)
+\begin{DoxyCompactList}\small\item\em Compares a second collision to determine which one has more priority. The comparison is based on the type of collision and distance. \end{DoxyCompactList}\item 
+void \hyperlink{class_collision_aa7ec5170357d8913c390defd844686e1}{compute\+Collision\+Location} ()
+\begin{DoxyCompactList}\small\item\em Computes, based on the the coordinates u,v,t of the collision, the location relative to the triangle. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_collision_aa7f309840b693689b164c7e4b4d643e5}{collision\+\_\+type} \hyperlink{class_collision_a384809577e353e0905047beac856015b}{type}
+\item 
+\hyperlink{class_collision_aad433eb4e51dbfd7ab9bbe188fbe47ab}{collision\+\_\+location} \hyperlink{class_collision_ae35c71ff91ffc9c253a345f0b4e2fbba}{col\+\_\+location}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_collision_a00d821761200316e1d54eace02c725b4}{colision\+\_\+point}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_collision_aee20b80597eeea9b0c5a3ff0a5d0c81c}{bounced\+\_\+direction}
+\item 
+double \hyperlink{class_collision_a95898b1296dfa87b78e8a1197f0f5ea2}{rn}
+\item 
+double \hyperlink{class_collision_a6d79ffbca0e7f67fdc9af809f13f7f8a}{u}
+\item 
+double \hyperlink{class_collision_ade5759fea1e6b41812d2499f1dc06c02}{v}
+\item 
+double \hyperlink{class_collision_a195d201b0843d9f7190ac3a27761b4e7}{t}
+\item 
+int \hyperlink{class_collision_a50dfece7495474875117cfbb3c4f524d}{triangle\+\_\+ind}
+\item 
+int \hyperlink{class_collision_ad1f81d05e175689b7e31bf36121d1589}{obstacle\+\_\+ind}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_collision}{Collision} Final class =====================================================================/. 
+
+Class to save and handle collisions between walkers and objects. \begin{DoxyAuthor}{Author}
+Jonathan Rafael \subsection*{November 2016 }
+\end{DoxyAuthor}
+
+
+Class to save and handle collisions between walkers and objects.
+
+This class should handle all the cases where a collision can happened as well as all the operation between collision. 
+
+\subsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{class_collision_aad433eb4e51dbfd7ab9bbe188fbe47ab}\label{class_collision_aad433eb4e51dbfd7ab9bbe188fbe47ab}} 
+\index{Collision@{Collision}!collision\+\_\+location@{collision\+\_\+location}}
+\index{collision\+\_\+location@{collision\+\_\+location}!Collision@{Collision}}
+\subsubsection{\texorpdfstring{collision\+\_\+location}{collision\_location}}
+{\footnotesize\ttfamily enum \hyperlink{class_collision_aad433eb4e51dbfd7ab9bbe188fbe47ab}{Collision\+::collision\+\_\+location}}
+
+
+
+
+
+Only in case of collision (or a very close ending position) this are the cases where the collision can happened. \mbox{\Hypertarget{class_collision_aa7f309840b693689b164c7e4b4d643e5}\label{class_collision_aa7f309840b693689b164c7e4b4d643e5}} 
+\index{Collision@{Collision}!collision\+\_\+type@{collision\+\_\+type}}
+\index{collision\+\_\+type@{collision\+\_\+type}!Collision@{Collision}}
+\subsubsection{\texorpdfstring{collision\+\_\+type}{collision\_type}}
+{\footnotesize\ttfamily enum \hyperlink{class_collision_aa7f309840b693689b164c7e4b4d643e5}{Collision\+::collision\+\_\+type}}
+
+
+
+
+
+All the possibles cases or situations where a step can end. The next step is performed according to this state 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_collision_aa7ec5170357d8913c390defd844686e1}\label{class_collision_aa7ec5170357d8913c390defd844686e1}} 
+\index{Collision@{Collision}!compute\+Collision\+Location@{compute\+Collision\+Location}}
+\index{compute\+Collision\+Location@{compute\+Collision\+Location}!Collision@{Collision}}
+\subsubsection{\texorpdfstring{compute\+Collision\+Location()}{computeCollisionLocation()}}
+{\footnotesize\ttfamily Collision\+::compute\+Collision\+Location (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Computes, based on the the coordinates u,v,t of the collision, the location relative to the triangle. 
+
+Auxiliar function for Triangular barriers 
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_collision_aee20b80597eeea9b0c5a3ff0a5d0c81c}\label{class_collision_aee20b80597eeea9b0c5a3ff0a5d0c81c}} 
+\index{Collision@{Collision}!bounced\+\_\+direction@{bounced\+\_\+direction}}
+\index{bounced\+\_\+direction@{bounced\+\_\+direction}!Collision@{Collision}}
+\subsubsection{\texorpdfstring{bounced\+\_\+direction}{bounced\_direction}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Collision\+::bounced\+\_\+direction}
+
+Save the bounced direction for a given obstacle \mbox{\Hypertarget{class_collision_ae35c71ff91ffc9c253a345f0b4e2fbba}\label{class_collision_ae35c71ff91ffc9c253a345f0b4e2fbba}} 
+\index{Collision@{Collision}!col\+\_\+location@{col\+\_\+location}}
+\index{col\+\_\+location@{col\+\_\+location}!Collision@{Collision}}
+\subsubsection{\texorpdfstring{col\+\_\+location}{col\_location}}
+{\footnotesize\ttfamily \hyperlink{class_collision_aad433eb4e51dbfd7ab9bbe188fbe47ab}{collision\+\_\+location} Collision\+::col\+\_\+location}
+
+Save the colocation of the collision over the object \mbox{\Hypertarget{class_collision_a00d821761200316e1d54eace02c725b4}\label{class_collision_a00d821761200316e1d54eace02c725b4}} 
+\index{Collision@{Collision}!colision\+\_\+point@{colision\+\_\+point}}
+\index{colision\+\_\+point@{colision\+\_\+point}!Collision@{Collision}}
+\subsubsection{\texorpdfstring{colision\+\_\+point}{colision\_point}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Collision\+::colision\+\_\+point}
+
+Saves the position of colision \mbox{\Hypertarget{class_collision_ad1f81d05e175689b7e31bf36121d1589}\label{class_collision_ad1f81d05e175689b7e31bf36121d1589}} 
+\index{Collision@{Collision}!obstacle\+\_\+ind@{obstacle\+\_\+ind}}
+\index{obstacle\+\_\+ind@{obstacle\+\_\+ind}!Collision@{Collision}}
+\subsubsection{\texorpdfstring{obstacle\+\_\+ind}{obstacle\_ind}}
+{\footnotesize\ttfamily int Collision\+::obstacle\+\_\+ind}
+
+In case of a generic obstacle saves the obstacle index. \mbox{\Hypertarget{class_collision_a95898b1296dfa87b78e8a1197f0f5ea2}\label{class_collision_a95898b1296dfa87b78e8a1197f0f5ea2}} 
+\index{Collision@{Collision}!rn@{rn}}
+\index{rn@{rn}!Collision@{Collision}}
+\subsubsection{\texorpdfstring{rn}{rn}}
+{\footnotesize\ttfamily double Collision\+::rn}
+
+saves the local orietnation between the wall and the particle \mbox{\Hypertarget{class_collision_a195d201b0843d9f7190ac3a27761b4e7}\label{class_collision_a195d201b0843d9f7190ac3a27761b4e7}} 
+\index{Collision@{Collision}!t@{t}}
+\index{t@{t}!Collision@{Collision}}
+\subsubsection{\texorpdfstring{t}{t}}
+{\footnotesize\ttfamily double Collision\+::t}
+
+signed, collision distance \mbox{\Hypertarget{class_collision_a50dfece7495474875117cfbb3c4f524d}\label{class_collision_a50dfece7495474875117cfbb3c4f524d}} 
+\index{Collision@{Collision}!triangle\+\_\+ind@{triangle\+\_\+ind}}
+\index{triangle\+\_\+ind@{triangle\+\_\+ind}!Collision@{Collision}}
+\subsubsection{\texorpdfstring{triangle\+\_\+ind}{triangle\_ind}}
+{\footnotesize\ttfamily int Collision\+::triangle\+\_\+ind}
+
+In case of a P\+LY obstacle saves the triangle index. t collison distance \mbox{\Hypertarget{class_collision_a384809577e353e0905047beac856015b}\label{class_collision_a384809577e353e0905047beac856015b}} 
+\index{Collision@{Collision}!type@{type}}
+\index{type@{type}!Collision@{Collision}}
+\subsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily \hyperlink{class_collision_aa7f309840b693689b164c7e4b4d643e5}{collision\+\_\+type} Collision\+::type}
+
+Saves the type of collsion (if any) \mbox{\Hypertarget{class_collision_a6d79ffbca0e7f67fdc9af809f13f7f8a}\label{class_collision_a6d79ffbca0e7f67fdc9af809f13f7f8a}} 
+\index{Collision@{Collision}!u@{u}}
+\index{u@{u}!Collision@{Collision}}
+\subsubsection{\texorpdfstring{u}{u}}
+{\footnotesize\ttfamily double Collision\+::u}
+
+u position in baricentric coordinates \mbox{\Hypertarget{class_collision_ade5759fea1e6b41812d2499f1dc06c02}\label{class_collision_ade5759fea1e6b41812d2499f1dc06c02}} 
+\index{Collision@{Collision}!v@{v}}
+\index{v@{v}!Collision@{Collision}}
+\subsubsection{\texorpdfstring{v}{v}}
+{\footnotesize\ttfamily double Collision\+::v}
+
+v position in baricentric coordinates 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/collision.\+h\item 
+src/collision.\+cpp\end{DoxyCompactItemize}

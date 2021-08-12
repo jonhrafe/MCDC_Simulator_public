@@ -1,0 +1,425 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_cylinder" kind="class" language="C++" prot="public">
+    <compoundname>Cylinder</compoundname>
+    <basecompoundref refid="class_obstacle" prot="public" virt="non-virtual">Obstacle</basecompoundref>
+    <includes refid="cylinder_8h" local="no">cylinder.h</includes>
+      <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_cylinder_1af276a253b655ded13f5dfd5afbff81d1" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int Cylinder::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylinder.h" line="21" column="1" bodyfile="src/cylinder.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_cylinder_1ae9823df86b6b76bc86172d84d798494f" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Cylinder::P</definition>
+        <argsstring></argsstring>
+        <name>P</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylinder.h" line="23" column="1" bodyfile="src/cylinder.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cylinder_1a9f367beb008c847b97bb0ce043601769" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Cylinder::Q</definition>
+        <argsstring></argsstring>
+        <name>Q</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Cilinder Axis reference Points, P should be the &quot;center&quot; </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylinder.h" line="23" column="1" bodyfile="src/cylinder.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cylinder_1a2e7f0d4e406cc50daf30f3e3b0be1609" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Cylinder::D</definition>
+        <argsstring></argsstring>
+        <name>D</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pre-computed and normalized P - Q vector </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylinder.h" line="24" column="1" bodyfile="src/cylinder.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cylinder_1a8a825799285bcf60b49b8aef0459b498" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Cylinder::radius</definition>
+        <argsstring></argsstring>
+        <name>radius</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Radius of the cylinder </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylinder.h" line="25" column="1" bodyfile="src/cylinder.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_cylinder_1a01dc978cb576f834b9545e43d4dad2a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Cylinder::Cylinder</definition>
+        <argsstring>()</argsstring>
+        <name>Cylinder</name>
+        <briefdescription>
+<para>Default constructor. Does nothing. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylinder.h" line="30" column="1" bodyfile="src/cylinder.cpp" bodystart="9" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_1a05ab556f0ae3cd6e99d9d1f3caca80b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Cylinder::~Cylinder</definition>
+        <argsstring>()</argsstring>
+        <name>~Cylinder</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylinder.h" line="32" column="1" bodyfile="src/cylinder.cpp" bodystart="14" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_1a0a5f7aa0a0c5c5e17c783784fd99fa1a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Cylinder::Cylinder</definition>
+        <argsstring>(Eigen::Vector3d P_, Eigen::Vector3d Q_, double radius_, double scale=1)</argsstring>
+        <name>Cylinder</name>
+        <param>
+          <type>Eigen::Vector3d</type>
+          <declname>P_</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d</type>
+          <declname>Q_</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>radius_</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scale</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Initialize everything. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>P_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="class_cylinder" kindref="compound">Cylinder</ref> origin </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Q_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>cylinder direction. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>radius_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>cylinder&apos;s radius </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>scale factor for the values passed. Useful when reading a file. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylinder.h" line="41" column="1" bodyfile="src/cylinder.h" bodystart="41" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_1ab5389301aa05bdee0c066e0b8026611f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Cylinder::Cylinder</definition>
+        <argsstring>(Cylinder const &amp;cyl)</argsstring>
+        <name>Cylinder</name>
+        <param>
+          <type><ref refid="class_cylinder" kindref="compound">Cylinder</ref> const &amp;</type>
+          <declname>cyl</declname>
+        </param>
+        <briefdescription>
+<para>Initialize everything. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>P_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="class_cylinder" kindref="compound">Cylinder</ref> origin </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Q_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>cylinder direction. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>radius_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>cylinder&apos;s radius </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>scale factor for the values passed. Useful when reading a file. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylinder.h" line="54" column="1" bodyfile="src/cylinder.cpp" bodystart="19" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_1a43350a6331f8656dd0774a4a3b68724f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>Cylinder::checkCollision</definition>
+        <argsstring>(Walker &amp;walker, Eigen::Vector3d &amp;step, double &amp;step_lenght, Collision &amp;colision)</argsstring>
+        <name>checkCollision</name>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref> &amp;</type>
+          <declname>walker</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>step_lenght</declname>
+        </param>
+        <param>
+          <type><ref refid="class_collision" kindref="compound">Collision</ref> &amp;</type>
+          <declname>colision</declname>
+        </param>
+        <briefdescription>
+<para>Basic collision function. Returns the if there was any collision on against the obstacle. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>walker</parametername>
+<parametername><ref refid="class_walker" kindref="compound">Walker</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance in the simulation. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>3d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>step. Is assumed to be normalized. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>step_length</parametername>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>used as the maximum step collision distance. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collision</parametername>
+<parametername><ref refid="class_collision" kindref="compound">Collision</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance to save the collision (if any) details. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true only if there was a Collision::hit status. </para></simplesect>
+<simplesect kind="see"><para><ref refid="class_collision" kindref="compound">Collision</ref>. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylinder.h" line="64" column="1" bodyfile="src/cylinder.cpp" bodystart="30" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_1a6eb639d12a7fc0aec50895151fb91b1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>Cylinder::minDistance</definition>
+        <argsstring>(Walker &amp;w)</argsstring>
+        <name>minDistance</name>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref> &amp;</type>
+          <declname>w</declname>
+        </param>
+        <briefdescription>
+<para>Returns the minimum distance from the walker to the cylinder. Used to set the reachable cylinders that a given walker can reach. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>walker</parametername>
+<parametername><ref refid="class_walker" kindref="compound">Walker</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance in the simulation. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylinder.h" line="71" column="1" bodyfile="src/cylinder.cpp" bodystart="166" bodyend="179"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_cylinder_1af7083cb25c8bd96760314281078a5c79" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>Cylinder::handleCollition</definition>
+        <argsstring>(Walker &amp;walker, Collision &amp;colision, Eigen::Vector3d &amp;step, double &amp;a, double &amp;b, double &amp;c, double &amp;discr, double &amp;step_length)</argsstring>
+        <name>handleCollition</name>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref> &amp;</type>
+          <declname>walker</declname>
+        </param>
+        <param>
+          <type><ref refid="class_collision" kindref="compound">Collision</ref> &amp;</type>
+          <declname>colision</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>discr</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>step_length</declname>
+        </param>
+        <briefdescription>
+<para>Returns true if it was any analytical collision to the infinite plane. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>walker</parametername>
+<parametername><ref refid="class_walker" kindref="compound">Walker</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance in the simulation. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collision</parametername>
+<parametername><ref refid="class_collision" kindref="compound">Collision</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance to save all the information. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>step</parametername>
+<parametername>step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector where to move. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/cylinder.h" line="81" column="1" bodyfile="src/cylinder.cpp" bodystart="81" bodyend="164"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="class_cylinder" kindref="compound">Cylinder</ref> <ref refid="class_obstacle" kindref="compound">Obstacle</ref> Derived Class =============================================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para><ref refid="class_cylinder" kindref="compound">Cylinder</ref> class derived from an <ref refid="class_obstacle" kindref="compound">Obstacle</ref>. Defines infinite long cylinders in the direction set by P,Q. <simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>November 2016 <heading level="1">1.42 </heading>
+</para></simplesect>
+</para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="8">
+        <label>Cylinder</label>
+        <link refid="class_cylinder"/>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>Obstacle</label>
+        <link refid="class_obstacle"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="10">
+        <label>Cylinder</label>
+        <link refid="class_cylinder"/>
+        <childnode refid="11" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>Obstacle</label>
+        <link refid="class_obstacle"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/cylinder.h" line="18" column="1" bodyfile="src/cylinder.h" bodystart="17" bodyend="83"/>
+    <listofallmembers>
+      <member refid="class_cylinder_1a43350a6331f8656dd0774a4a3b68724f" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>checkCollision</name></member>
+      <member refid="class_obstacle_1af11af63f11595304ff6d5c1785c03da5" prot="public" virt="non-virtual" ambiguityscope="Obstacle::"><scope>Cylinder</scope><name>checkCollision</name></member>
+      <member refid="class_cylinder_1af276a253b655ded13f5dfd5afbff81d1" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>count</name></member>
+      <member refid="class_obstacle_1aaa096d441fd095c7bbe924d1a78a8e23" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>count_perc_crossings</name></member>
+      <member refid="class_cylinder_1a01dc978cb576f834b9545e43d4dad2a2" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>Cylinder</name></member>
+      <member refid="class_cylinder_1a0a5f7aa0a0c5c5e17c783784fd99fa1a" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>Cylinder</name></member>
+      <member refid="class_cylinder_1ab5389301aa05bdee0c066e0b8026611f" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>Cylinder</name></member>
+      <member refid="class_cylinder_1a2e7f0d4e406cc50daf30f3e3b0be1609" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>D</name></member>
+      <member refid="class_obstacle_1a5316aabce6765c943d131aa3d5018f8d" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>elasticBounceAgainsPlane</name></member>
+      <member refid="class_cylinder_1af7083cb25c8bd96760314281078a5c79" prot="private" virt="non-virtual"><scope>Cylinder</scope><name>handleCollition</name></member>
+      <member refid="class_obstacle_1a02e049a3395138a0dc6194af0112e2b0" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>id</name></member>
+      <member refid="class_cylinder_1a6eb639d12a7fc0aec50895151fb91b1f" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>minDistance</name></member>
+      <member refid="class_obstacle_1a8f734072321fa06a7b7dae2d5f50f352" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>Obstacle</name></member>
+      <member refid="class_cylinder_1ae9823df86b6b76bc86172d84d798494f" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>P</name></member>
+      <member refid="class_obstacle_1a7afe63ee05b482c526591c981b22cf54" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>percolation</name></member>
+      <member refid="class_cylinder_1a9f367beb008c847b97bb0ce043601769" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>Q</name></member>
+      <member refid="class_cylinder_1a8a825799285bcf60b49b8aef0459b498" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>radius</name></member>
+      <member refid="class_obstacle_1a374f9b4486f63abce9696f5fe3a13e8e" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>T2</name></member>
+      <member refid="class_cylinder_1a05ab556f0ae3cd6e99d9d1f3caca80b3" prot="public" virt="non-virtual"><scope>Cylinder</scope><name>~Cylinder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,600 @@
+.TH "Parameters" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Parameters
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBParameters\fP ()"
+.br
+.RI "Default constructor\&. Sets all the parameters to default and NULL values\&. "
+.ti -1c
+.RI "void \fBreadSchemeFile\fP (std::string conf_file)"
+.br
+.RI "Reads all the parameters from a scheme file in the correct format the function scales them if necessary\&. The parameters are passed by listing, first, the parameter name, followed by the value\&. The supported parameters are: number of walkers (N), number of steps (T), duration (duration), PGSE scheme file (scheme_file), min voxles limits (min limits), max voxel limits (max_limits), diffusivity (diffusivity), index name for the trajectory and output values (out_traj_file_index), initial walker position file (ini_walkers_file), write a txt traj flag and header (write_text), write binary traj file and header, write_bin, flag to scale the values from estandar unit (scale_from_stu), random seed (seed)\&. "
+.ti -1c
+.RI "void \fBsetNumWalkers\fP (unsigned N)"
+.br
+.ti -1c
+.RI "void \fBsetNumSteps\fP (unsigned T)"
+.br
+.RI "set the number of steps in the simulation\&. "
+.ti -1c
+.RI "void \fBsetDiffusivity\fP (double Diff)"
+.br
+.RI "set the simulation diffusivity\&. "
+.ti -1c
+.RI "void \fBsetSimDuration\fP (double duration)"
+.br
+.RI "sets the simulation duration\&. "
+.ti -1c
+.RI "void \fBsetWriteTrajFlag\fP (bool \fBwrite_bin\fP)"
+.br
+.ti -1c
+.RI "void \fBsetWriteTextFlag\fP (bool write_txt_)"
+.br
+.ti -1c
+.RI "void \fBsetMinLimits\fP (Eigen::Vector3d min_limits_)"
+.br
+.RI "set the bottom left corner of the voxel to be simulated\&. "
+.ti -1c
+.RI "void \fBsetMaxLimits\fP (Eigen::Vector3d max_limits_)"
+.br
+.RI "set the bottom left corner of the voxel to be simulated\&. "
+.ti -1c
+.RI "void \fBsetTrajFileName\fP (std::string traj_file_)"
+.br
+.RI "Set the prefix of the name for the traj file (txt and \&.traj) "
+.ti -1c
+.RI "void \fBsetOutputBaseFileName\fP (std::string output_base_name_)"
+.br
+.RI "Set the prefix of the name for all the outputs in the simulation\&. "
+.ti -1c
+.RI "void \fBiniWalkersFileName\fP (std::string ini_walkers_file_)"
+.br
+.ti -1c
+.RI "void \fBsetSchemeFileName\fP (std::string scheme_file_)"
+.br
+.RI "Sets the scheme file name to be used for the data synthesis\&. "
+.ti -1c
+.RI "unsigned \fBgetNumWalkers\fP ()"
+.br
+.ti -1c
+.RI "unsigned \fBgetNumSteps\fP ()"
+.br
+.ti -1c
+.RI "double \fBgetDiffusivity\fP ()"
+.br
+.ti -1c
+.RI "bool \fBgetWriteTrajFlag\fP ()"
+.br
+.ti -1c
+.RI "bool \fBgetWriteTextFlag\fP ()"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBgetMinLimits\fP ()"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBgetMaxLimits\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBgetTrajFileName\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBgetOutputBaseFileName\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBgetIniWalkersFileName\fP ()"
+.br
+.ti -1c
+.RI "std::string \fBgetSchemeFileName\fP ()"
+.br
+.ti -1c
+.RI "void \fBaddSubdivisions\fP ()"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static int \fBstr_dist\fP (std::string s, std::string t)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBnum_walkers\fP"
+.br
+.ti -1c
+.RI "unsigned \fBnum_steps\fP"
+.br
+.ti -1c
+.RI "double \fBdiffusivity\fP"
+.br
+.ti -1c
+.RI "double \fBsim_duration\fP"
+.br
+.ti -1c
+.RI "bool \fBwrite_traj\fP"
+.br
+.ti -1c
+.RI "bool \fBwrite_txt\fP"
+.br
+.ti -1c
+.RI "bool \fBwrite_bin\fP"
+.br
+.ti -1c
+.RI "bool \fBscale_from_stu\fP"
+.br
+.ti -1c
+.RI "bool \fBsave_phase_shift\fP"
+.br
+.ti -1c
+.RI "long \fBseed\fP"
+.br
+.ti -1c
+.RI "bool \fBverbatim\fP"
+.br
+.ti -1c
+.RI "std::string \fBtraj_file\fP"
+.br
+.ti -1c
+.RI "std::string \fBoutput_base_name\fP"
+.br
+.ti -1c
+.RI "std::string \fBini_walkers_file\fP"
+.br
+.ti -1c
+.RI "unsigned \fBini_walkers_file_count\fP"
+.br
+.ti -1c
+.RI "std::string \fBini_walker_flag\fP"
+.br
+.ti -1c
+.RI "std::string \fBscheme_file\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBmin_limits\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBmax_limits\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBcylinders_files\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBPLY_files\fP"
+.br
+.ti -1c
+.RI "std::vector< double > \fBPLY_scales\fP"
+.br
+.ti -1c
+.RI "std::vector< double > \fBPLY_percolation\fP"
+.br
+.ti -1c
+.RI "std::vector< float > \fBini_delta_pos\fP"
+.br
+.ti -1c
+.RI "unsigned \fBnum_proc\fP"
+.br
+.ti -1c
+.RI "std::vector< std::pair< Eigen::Vector3d, Eigen::Vector3d > > \fBvoxels_list\fP"
+.br
+.ti -1c
+.RI "std::vector< Eigen::Vector3f > \fBprop_dirs\fP"
+.br
+.ti -1c
+.RI "std::vector< unsigned > \fBrecord_pos_times\fP"
+.br
+.ti -1c
+.RI "std::vector< unsigned > \fBrecord_phase_times\fP"
+.br
+.ti -1c
+.RI "std::vector< unsigned > \fBrecord_prop_times\fP"
+.br
+.ti -1c
+.RI "bool \fBhex_packing\fP"
+.br
+.ti -1c
+.RI "double \fBhex_packing_radius\fP"
+.br
+.ti -1c
+.RI "double \fBhex_packing_separation\fP"
+.br
+.ti -1c
+.RI "bool \fBgamma_packing\fP"
+.br
+.ti -1c
+.RI "bool \fBgamma_output_conf\fP"
+.br
+.ti -1c
+.RI "double \fBgamma_packing_alpha\fP"
+.br
+.ti -1c
+.RI "double \fBgamma_packing_beta\fP"
+.br
+.ti -1c
+.RI "double \fBgamma_icvf\fP"
+.br
+.ti -1c
+.RI "double \fBgamma_output_configuration\fP"
+.br
+.ti -1c
+.RI "unsigned \fBgamma_num_cylinders\fP"
+.br
+.ti -1c
+.RI "float \fBmin_cyl_radii\fP"
+.br
+.ti -1c
+.RI "bool \fBsubdivision_flag\fP = false"
+.br
+.ti -1c
+.RI "unsigned \fBnumber_subdivisions\fP = 0"
+.br
+.ti -1c
+.RI "std::string \fBsubdivisions_file\fP = ''"
+.br
+.ti -1c
+.RI "std::vector< \fBSubdivision\fP > \fBsubdivisions\fP"
+.br
+.ti -1c
+.RI "double \fBobstacle_permeability\fP = 0"
+.br
+.ti -1c
+.RI "double \fBcollision_sphere_distance\fP = 0"
+.br
+.ti -1c
+.RI "double \fBmax_simulation_time\fP = 0"
+.br
+.ti -1c
+.RI "bool \fBlog_phase_shift\fP = false"
+.br
+.ti -1c
+.RI "bool \fBlog_opp\fP = false"
+.br
+.ti -1c
+.RI "bool \fBdiscard_stucks\fP = true"
+.br
+.ti -1c
+.RI "bool \fBdiscard_illegals\fP = true"
+.br
+.ti -1c
+.RI "bool \fBlog_propagator\fP = false"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBmin_sampling_area\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBmax_sampling_area\fP"
+.br
+.ti -1c
+.RI "bool \fBcustom_sampling_area\fP"
+.br
+.ti -1c
+.RI "bool \fBcomputeVolume\fP"
+.br
+.ti -1c
+.RI "bool \fBseparate_signals\fP"
+.br
+.ti -1c
+.RI "bool \fBimg_signal\fP"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "Parameters::getDiffusivity ()"
+
+.PP
+\fBReturns:\fP
+.RS 4
+Diffusivity 
+.RE
+.PP
+
+.SS "Parameters::getMaxLimits ()"
+
+.PP
+\fBReturns:\fP
+.RS 4
+voxel max limits (right top corner) 
+.RE
+.PP
+
+.SS "Parameters::getMinLimits ()"
+
+.PP
+\fBReturns:\fP
+.RS 4
+voxel min limits (left bottom corner) 
+.RE
+.PP
+
+.SS "Parameters::getNumSteps ()"
+
+.PP
+\fBReturns:\fP
+.RS 4
+Number of Steps 
+.RE
+.PP
+
+.SS "Parameters::getNumWalkers ()"
+
+.PP
+\fBReturns:\fP
+.RS 4
+Number of walkers N 
+.RE
+.PP
+
+.SS "Parameters::getOutputBaseFileName ()"
+
+.PP
+\fBReturns:\fP
+.RS 4
+Output prefix 
+.RE
+.PP
+
+.SS "Parameters::getSchemeFileName ()"
+
+.PP
+\fBReturns:\fP
+.RS 4
+name of the scheme file name used (PGSE) 
+.RE
+.PP
+
+.SS "Parameters::getTrajFileName ()"
+
+.PP
+\fBReturns:\fP
+.RS 4
+trajectory prefix 
+.RE
+.PP
+
+.SS "Parameters::getWriteTextFlag ()"
+
+.PP
+\fBReturns:\fP
+.RS 4
+flag of the text write traj 
+.RE
+.PP
+
+.SS "Parameters::getWriteTrajFlag ()"
+
+.PP
+\fBReturns:\fP
+.RS 4
+flag of the binary traj file writer 
+.RE
+.PP
+
+.SS "Parameters::iniWalkersFileName (std::string ini_walkers_file_)"
+
+.PP
+\fBReturns:\fP
+.RS 4
+initial position walkers file name 
+.RE
+.PP
+
+.SS "Parameters::readSchemeFile (std::string conf_file)"
+
+.PP
+Reads all the parameters from a scheme file in the correct format the function scales them if necessary\&. The parameters are passed by listing, first, the parameter name, followed by the value\&. The supported parameters are: number of walkers (N), number of steps (T), duration (duration), PGSE scheme file (scheme_file), min voxles limits (min limits), max voxel limits (max_limits), diffusivity (diffusivity), index name for the trajectory and output values (out_traj_file_index), initial walker position file (ini_walkers_file), write a txt traj flag and header (write_text), write binary traj file and header, write_bin, flag to scale the values from estandar unit (scale_from_stu), random seed (seed)\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconf_file\fP 
+.RE
+.PP
+
+.SS "Parameters::setDiffusivity (double Diff)"
+
+.PP
+set the simulation diffusivity\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIDiff\fP diffusivity value\&. 
+.RE
+.PP
+
+.SS "Parameters::setMaxLimits (Eigen::Vector3d max_limits_)"
+
+.PP
+set the bottom left corner of the voxel to be simulated\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fImax_limits_\fP vector with the maximum voxel limits (bottom right corner)\&. 
+.RE
+.PP
+
+.SS "Parameters::setMinLimits (Eigen::Vector3d min_limits_)"
+
+.PP
+set the bottom left corner of the voxel to be simulated\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fImin_limits_\fP vector with the minimum voxel limits (bottom left corner)\&. 
+.RE
+.PP
+
+.SS "Parameters::setNumSteps (unsigned T)"
+
+.PP
+set the number of steps in the simulation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIT\fP number of steps 
+.RE
+.PP
+
+.SS "Parameters::setOutputBaseFileName (std::string output_base_name_)"
+
+.PP
+Set the prefix of the name for all the outputs in the simulation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIoutput_base_name\fP prefix for the outputs 
+.RE
+.PP
+
+.SS "Parameters::setSchemeFileName (std::string scheme_file_)"
+
+.PP
+Sets the scheme file name to be used for the data synthesis\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIscheme_file_\fP scheme (PGSE )file name\&. 
+.RE
+.PP
+
+.SS "Parameters::setSimDuration (double duration)"
+
+.PP
+sets the simulation duration\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIduration\fP simulation duration\&. 
+.RE
+.PP
+
+.SS "Parameters::setTrajFileName (std::string traj_file_)"
+
+.PP
+Set the prefix of the name for the traj file (txt and \&.traj) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fItraj_file_\fP prefix of the traj file\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "double Parameters::collision_sphere_distance = 0"
+Custiom size for the collision sphere 
+.SS "bool Parameters::computeVolume"
+Forces the volumen computation (slower) even without custom sampling 
+.SS "bool Parameters::custom_sampling_area"
+True if a custom sampling area is defined (voxel for default) 
+.SS "std::vector<std::string> Parameters::cylinders_files"
+file paths with a list of cilinders obstacles 
+.SS "double Parameters::diffusivity"
+D, diffusivity constant 
+.SS "bool Parameters::discard_illegals = true"
+flag, true to discard possible illegal crossings, Trump by default\&. 
+.SS "bool Parameters::discard_stucks = true"
+flag, true to discard posible stuck particles (max bouncing reached) 
+.SS "bool Parameters::gamma_packing"
+flag, true if a gamma distribution of cylinders will be initialized 
+.SS "bool Parameters::hex_packing"
+flag, true if an haxagonal packing should be used 
+.SS "double Parameters::hex_packing_radius"
+float, constant radius for the cylinders 
+.SS "double Parameters::hex_packing_separation"
+float, separation distance betwen cylinders (separation > 2*radius) 
+.SS "bool Parameters::img_signal"
+True to save the img part of the dwi signal (false by default) 
+.SS "std::vector<float> Parameters::ini_delta_pos"
+Delta position for the walkers 
+.SS "std::string Parameters::ini_walker_flag"
+where to initialize the walkers 
+.SS "std::string Parameters::ini_walkers_file"
+initial walker position file (if any) 
+.SS "unsigned Parameters::ini_walkers_file_count"
+number of walker positions initialize in the configuration file 
+.SS "bool Parameters::log_opp = false"
+flag, true to save one per process output 
+.SS "bool Parameters::log_phase_shift = false"
+flag, true to save the final phase shift distribution 
+.SS "bool Parameters::log_propagator = false"
+flag, true saves the propagator for a given set of directions and times 
+.SS "Eigen::Vector3d Parameters::max_limits"
+voxel max limits (if any) 
+.SS "Eigen::Vector3d Parameters::max_sampling_area"
+Max defining point to delimiter the uniform sampling of walkers 
+.SS "double Parameters::max_simulation_time = 0"
+Maximum simulation time for the DYNAMIC SIMULATION 
+.SS "float Parameters::min_cyl_radii"
+Minimum radii (in um) to be sampled 
+.SS "Eigen::Vector3d Parameters::min_limits"
+voxel min limits (if any) (bottom left corner) 
+.SS "Eigen::Vector3d Parameters::min_sampling_area"
+Min defining point to delimiter the uniform sampling of walkers 
+.SS "unsigned Parameters::num_proc"
+Number of precessors/process to launch in parallel 
+.SS "unsigned Parameters::num_steps"
+T, number of steps 
+.SS "unsigned Parameters::num_walkers"
+N, number of walkers 
+.SS "unsigned Parameters::number_subdivisions = 0"
+saves the number of subdivisions for an initialzied voxel (needed) 
+.SS "double Parameters::obstacle_permeability = 0"
+Obstacles permeability 
+.SS "std::string Parameters::output_base_name"
+output files base name (path + sufix) 
+.SS "std::vector<std::string> Parameters::PLY_files"
+file paths with PLY obstacle files 
+.SS "std::vector<double> Parameters::PLY_percolation"
+Auxiliary vector to save PLY percolation 
+.SS "std::vector<double> Parameters::PLY_scales"
+Auxiliary vector to save PLY file scales 
+.SS "std::vector<Eigen::Vector3f> Parameters::prop_dirs"
+Saves the directions used to compute the propagator 
+.SS "std::vector<unsigned> Parameters::record_phase_times"
+time indexes, used to save the phase shif of all walkers at certain time 
+.SS "std::vector<unsigned> Parameters::record_pos_times"
+time indexes, used to save the position of all walkers at certain time 
+.SS "std::vector<unsigned> Parameters::record_prop_times"
+time indexes, used to save the mean propagator of the walkers at c\&. times 
+.SS "bool Parameters::save_phase_shift"
+flag, saves the phase shift distribution for all particles 
+.SS "bool Parameters::scale_from_stu"
+flag, true if the scheme file is in standar units m,s 
+.SS "std::string Parameters::scheme_file"
+signal adquisition scheme file (if any) 
+.SS "long Parameters::seed"
+Initial seed for the random generator 
+.SS "bool Parameters::separate_signals"
+Separate the signals into intra and extra (compute_volume on) 
+.SS "double Parameters::sim_duration"
+simulation total time 
+.SS "bool Parameters::subdivision_flag = false"
+flag to check if we have several voxel subdivision to compute the signal 
+.SS "std::vector<\fBSubdivision\fP> Parameters::subdivisions"
+saves actual positions of the subdivision to compute the signal 
+.SS "std::string Parameters::subdivisions_file = ''"
+file with the list of subdivisions coordinates to compute the signal 
+.SS "std::string Parameters::traj_file"
+\fBTrajectory\fP file path 
+.SS "bool Parameters::verbatim"
+False to omit displaying state and warnings 
+.SS "std::vector<std::pair<Eigen::Vector3d,Eigen::Vector3d> > Parameters::voxels_list"
+voxel min and max positions list (deprecated) 
+.SS "bool Parameters::write_bin"
+flag, writes the output signal in binary format (True by default) 
+.SS "bool Parameters::write_traj"
+flag, write a traj file or not, binary format only 
+.SS "bool Parameters::write_txt"
+flag, writes DWI output signals in \&.txt if True 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

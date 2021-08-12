@@ -1,0 +1,442 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="constants_8h" kind="file" language="C++">
+    <compoundname>constants.h</compoundname>
+    <includes local="no">stdio.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">limits</includes>
+    <includedby refid="cylinder_8cpp" local="yes">src/cylinder.cpp</includedby>
+    <includedby refid="cylindergammadistribution_8h" local="yes">src/cylindergammadistribution.h</includedby>
+    <includedby refid="propagator_8h" local="yes">src/propagator.h</includedby>
+    <includedby refid="dynamics_simulation_8cpp" local="yes">src/dynamicsSimulation.cpp</includedby>
+    <includedby refid="gradientwaveform_8h" local="yes">src/gradientwaveform.h</includedby>
+    <includedby refid="gradientwaveform_8cpp" local="yes">src/gradientwaveform.cpp</includedby>
+    <includedby refid="parallelmcsimulation_8cpp" local="yes">src/parallelmcsimulation.cpp</includedby>
+    <includedby refid="parameters_8cpp" local="yes">src/parameters.cpp</includedby>
+    <includedby refid="pgsesequence_8cpp" local="yes">src/pgsesequence.cpp</includedby>
+    <includedby refid="plyobstacle_8cpp" local="yes">src/plyobstacle.cpp</includedby>
+    <includedby refid="scheme_8cpp" local="yes">src/scheme.cpp</includedby>
+    <includedby refid="sentinel_8cpp" local="yes">src/sentinel.cpp</includedby>
+    <includedby refid="simerrno_8cpp" local="yes">src/simerrno.cpp</includedby>
+    <includedby refid="simulablesequence_8cpp" local="yes">src/simulablesequence.cpp</includedby>
+    <includedby refid="trajectory_8cpp" local="yes">src/trajectory.cpp</includedby>
+    <includedby refid="triangle_8cpp" local="yes">src/triangle.cpp</includedby>
+    <includedby refid="voxel_8cpp" local="yes">src/voxel.cpp</includedby>
+    <incdepgraph>
+      <node id="41">
+        <label>limits</label>
+      </node>
+      <node id="40">
+        <label>string</label>
+      </node>
+      <node id="38">
+        <label>src/constants.h</label>
+        <link refid="constants_8h"/>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="48">
+        <label>src/gradientwaveform.h</label>
+        <link refid="gradientwaveform_8h_source"/>
+      </node>
+      <node id="43">
+        <label>src/cylindergammadistribution.h</label>
+        <link refid="cylindergammadistribution_8h_source"/>
+      </node>
+      <node id="45">
+        <label>src/dynamicsSimulation.h</label>
+        <link refid="dynamics_simulation_8h_source"/>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>src/propagator.h</label>
+        <link refid="propagator_8h_source"/>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>src/mcsimulation.h</label>
+        <link refid="mcsimulation_8h_source"/>
+        <childnode refid="47" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>src/constants.h</label>
+        <link refid="constants_8h"/>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>src/parallelmcsimulation.h</label>
+        <link refid="parallelmcsimulation_8h_source"/>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="constants_8h_1a9f00e48d88e3c19781eb133cca136b17" prot="public" static="no">
+        <name>PRINT_EXPETED_TIME</name>
+        <initializer>1</initializer>
+        <briefdescription>
+<para>Constants ==============================================================================/. </para>        </briefdescription>
+        <detaileddescription>
+<para>Defines constants, macros, and values to be used through the implementation. <simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>November 2016 <hruler/>
+ </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="15" column="12" bodyfile="src/constants.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ad23de01a48ac726ff85bb2ebeca82cac" prot="public" static="no">
+        <name>SH_BG_RED</name>
+        <initializer>&quot;\033[1;41m&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="18" column="9" bodyfile="src/constants.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a14a5717b06427c4526b462971e5085db" prot="public" static="no">
+        <name>SH_BG_LIGHT_YELLOW</name>
+        <initializer>&quot;\033[1;43m&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="19" column="9" bodyfile="src/constants.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a3237366dafa5b758657bf68bd3a68515" prot="public" static="no">
+        <name>SH_FG_LIGHT_RED</name>
+        <initializer>&quot;\033[1;31m&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="20" column="9" bodyfile="src/constants.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a62b40962acf729344765b8d704cf1757" prot="public" static="no">
+        <name>SH_FG_LIGHT_YELLOW</name>
+        <initializer>&quot;\033[1;33m&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="21" column="9" bodyfile="src/constants.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1ace6aaddb579f27d4603a0ac3711380d3" prot="public" static="no">
+        <name>SH_FG_PURPLE</name>
+        <initializer>&quot;\033[1;35m&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="22" column="9" bodyfile="src/constants.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a902bd84f024d0a1626d8e634298df61f" prot="public" static="no">
+        <name>SH_FG_GRAY</name>
+        <initializer>&quot;\033[0;47m&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="23" column="9" bodyfile="src/constants.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a94b5c86d4070d614887f3995145d7502" prot="public" static="no">
+        <name>SH_FG_GREEN</name>
+        <initializer>&quot;\033[0;32m&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="24" column="9" bodyfile="src/constants.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a40fda9d9c642f01e456342136f51433a" prot="public" static="no">
+        <name>SH_DEFAULT</name>
+        <initializer>&quot;\033[0m&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="25" column="9" bodyfile="src/constants.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a0329409ff88c6a7b673ef9282aaae01c" prot="public" static="no">
+        <name>VERSION_ID</name>
+        <initializer>&quot;1.44.004&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="27" column="9" bodyfile="src/constants.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="constants_8h_1a92b79179db5d5e781e1cdfef44aa354c" prot="public" static="no">
+        <name>PRECISE_T_MIN_D</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>outher collision sphere relative size DEPRECATED </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="52" column="9" bodyfile="src/constants.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="constants_8h_1a275e74ed276da3fff8a85f36447f71bc" prot="public" static="no" mutable="no">
+        <type>const double</type>
+        <definition>const double m_to_mm</definition>
+        <argsstring></argsstring>
+        <name>m_to_mm</name>
+        <initializer>= 1e3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>meters to milimeters constant </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="29" column="1" bodyfile="src/constants.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="constants_8h_1ac779d0397756655e2f2752ded5b3d35c" prot="public" static="no" mutable="no">
+        <type>const double</type>
+        <definition>const double s_to_ms</definition>
+        <argsstring></argsstring>
+        <name>s_to_ms</name>
+        <initializer>= 1e3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>seconds to milisecodns constant </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="30" column="1" bodyfile="src/constants.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="constants_8h_1a2349d985545cb94f40240e5ef6a1f908" prot="public" static="no" mutable="no">
+        <type>const double</type>
+        <definition>const double EPS_VAL</definition>
+        <argsstring></argsstring>
+        <name>EPS_VAL</name>
+        <initializer>= 1e-15</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>numerical epsilon value </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="31" column="1" bodyfile="src/constants.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="constants_8h_1a491383e168f0e49cbc624200021bbf07" prot="public" static="no" mutable="no">
+        <type>const double</type>
+        <definition>const double m2_to_mm2</definition>
+        <argsstring></argsstring>
+        <name>m2_to_mm2</name>
+        <initializer>= 1e6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>squared meters to squared milimeters </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="32" column="1" bodyfile="src/constants.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="constants_8h_1a7a8d9ad0fa0e362fc839d914e8160dd7" prot="public" static="no" mutable="no">
+        <type>const double</type>
+        <definition>const double giro</definition>
+        <argsstring></argsstring>
+        <name>giro</name>
+        <initializer>= 267.51525e3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gyromagnetic radio given in rad/(ms*T) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="33" column="1" bodyfile="src/constants.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="constants_8h_1a136a6fb006d46b831b94784558b39087" prot="public" static="no" mutable="no">
+        <type>const double</type>
+        <definition>const double DIFF_CONST</definition>
+        <argsstring></argsstring>
+        <name>DIFF_CONST</name>
+        <initializer>= 2.02e-7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default diffusion coeficient </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="34" column="1" bodyfile="src/constants.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="constants_8h_1afb459a34f2ed1f0d6769c52c8d221d78" prot="public" static="no" mutable="no">
+        <type>const double</type>
+        <definition>const double barrier_tickness</definition>
+        <argsstring></argsstring>
+        <name>barrier_tickness</name>
+        <initializer>= 1e-6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the defaul tickness of a obstacle barrier </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="35" column="1" bodyfile="src/constants.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="constants_8h_1a132de9e2d6d5959ac8261112868a112f" prot="public" static="no" mutable="no">
+        <type>const double</type>
+        <definition>const double max_number_bouncings</definition>
+        <argsstring></argsstring>
+        <name>max_number_bouncings</name>
+        <initializer>= 10000.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defines the maximum number of bouncing a particle can make. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="36" column="1" bodyfile="src/constants.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="constants_8h_1acbaefe9ec3b6e516d10cb036839a2322" prot="public" static="no" mutable="no">
+        <type>const double</type>
+        <definition>const double triangle_eps</definition>
+        <argsstring></argsstring>
+        <name>triangle_eps</name>
+        <initializer>= 1e-10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Extra area for the PLY triangles. Help to numerical erros </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="37" column="1" bodyfile="src/constants.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="constants_8h_1a279cf7547fa426e97c9f40adc5ac6b85" prot="public" static="no" mutable="no">
+        <type>const unsigned</type>
+        <definition>const unsigned max_rejections</definition>
+        <argsstring></argsstring>
+        <name>max_rejections</name>
+        <initializer>=25</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Max number of tries to unstuck a particle in a single step </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="38" column="1" bodyfile="src/constants.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="constants_8h_1aa0393e12188dc3505c62471885bda4e1" prot="public" static="no" mutable="no">
+        <type>const double</type>
+        <definition>const double INFINITY_VALUE</definition>
+        <argsstring></argsstring>
+        <name>INFINITY_VALUE</name>
+        <initializer>= std::numeric_limits&lt;double&gt;::infinity()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>numerical infinity value Colision optimization parameters </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="39" column="1" bodyfile="src/constants.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="constants_8h_1a91c4e23dbad71761ed45689831db5292" prot="public" static="no" mutable="no">
+        <type>const double</type>
+        <definition>const double inner_col_dist_factor</definition>
+        <argsstring></argsstring>
+        <name>inner_col_dist_factor</name>
+        <initializer>= 0.25</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>&lt; inner collision sphere relative size </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/constants.h" line="58" column="1" bodyfile="src/constants.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="9"><highlight class="preprocessor">#ifndef<sp/>CONSTANTS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>CONSTANTS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PRINT_EXPETED_TIME<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SH_BG_RED<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;\033[1;41m&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SH_BG_LIGHT_YELLOW<sp/><sp/><sp/><sp/><sp/><sp/>&quot;\033[1;43m&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SH_FG_LIGHT_RED<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;\033[1;31m&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SH_FG_LIGHT_YELLOW<sp/><sp/><sp/><sp/><sp/><sp/>&quot;\033[1;33m&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SH_FG_PURPLE<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;\033[1;35m&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SH_FG_GRAY<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;\033[0;47m&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SH_FG_GREEN<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;\033[0;32m&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SH_DEFAULT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;\033[0m&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>VERSION_ID<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;1.44.004&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>m_to_mm<sp/>=<sp/>1e3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>s_to_ms<sp/>=<sp/>1e3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>EPS_VAL<sp/>=<sp/>1e-15;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>m2_to_mm2<sp/>=<sp/>1e6;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>giro<sp/>=<sp/>267.51525e3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>DIFF_CONST<sp/>=<sp/>2.02e-7;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>barrier_tickness<sp/>=<sp/>1e-6;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>max_number_bouncings<sp/>=<sp/>10000.0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>triangle_eps<sp/>=<sp/>1e-10;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>max_rejections<sp/>=25;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>INFINITY_VALUE<sp/>=<sp/>std::numeric_limits&lt;double&gt;::infinity();<sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="preprocessor">#ifdef<sp/>_WIN64</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ulong;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>uint;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>M_PI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>M_PI<sp/>3.14159265358979323846</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>__APPLE__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ulong;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="preprocessor">#define<sp/>PRECISE_T_MIN_D<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="comment">//const<sp/>double<sp/>outher_col_dist_factor<sp/><sp/><sp/>=<sp/>5.0;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>inner_col_dist_factor<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.25;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>CONSTANTS_H</highlight></codeline>
+    </programlisting>
+    <location file="src/constants.h"/>
+  </compounddef>
+</doxygen>

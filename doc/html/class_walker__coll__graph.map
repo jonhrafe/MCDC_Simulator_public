@@ -1,0 +1,5 @@
+<map id="Walker" name="Walker">
+<area shape="rect" id="node2" href="$class_p_l_y_collision_sphere.html" title="PLYCollisionSphere" alt="" coords="5,81,144,108"/>
+<area shape="rect" id="node3" href="$class_collisionsphere.html" title="Collisionsphere" alt="" coords="106,5,217,32"/>
+<area shape="rect" id="node4" href="$class_cylinder_collision_sphere.html" title="Class to save the cylinderical obstacles that a can collide to a walker. " alt="" coords="169,81,330,108"/>
+</map>

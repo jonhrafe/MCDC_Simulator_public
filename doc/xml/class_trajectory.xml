@@ -1,0 +1,663 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_trajectory" kind="class" language="C++" prot="public">
+    <compoundname>Trajectory</compoundname>
+    <includes refid="trajectory_8h" local="no">trajectory.h</includes>
+      <sectiondef kind="user-defined">
+      <memberdef kind="function" id="class_trajectory_1a9aedf2530dca72ca629741585717c64a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::closeTrajReaderFile</definition>
+        <argsstring>()</argsstring>
+        <name>closeTrajReaderFile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Read operations </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="68" column="1" bodyfile="src/trajectory.cpp" bodystart="310" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1a9239f7d5d05f02ce58b6ad2e7be231d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::openTrajReaderFile</definition>
+        <argsstring>()</argsstring>
+        <name>openTrajReaderFile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="69" column="1" bodyfile="src/trajectory.cpp" bodystart="285" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1a727883a1c29c9bdb8d4cdb01888023da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::initTrajReaderFile</definition>
+        <argsstring>()</argsstring>
+        <name>initTrajReaderFile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="70" column="1" bodyfile="src/trajectory.cpp" bodystart="279" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1ad436905c5614d4ac3a52acb6d2211b61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::readTrajectoryHeader</definition>
+        <argsstring>()</argsstring>
+        <name>readTrajectoryHeader</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="71" column="1" bodyfile="src/trajectory.cpp" bodystart="326" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1a5f96383db2d95b41a46dc752b00f70e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::readCurrentWalkersTrajectory</definition>
+        <argsstring>(Eigen::Matrix3Xd &amp;)</argsstring>
+        <name>readCurrentWalkersTrajectory</name>
+        <param>
+          <type>Eigen::Matrix3Xd &amp;</type>
+          <defname>steps_log</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="72" column="1" bodyfile="src/trajectory.cpp" bodystart="370" bodyend="390"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="user-defined">
+      <memberdef kind="function" id="class_trajectory_1aec9f75fa04452af2199888c47652c7e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::initTrajWriter</definition>
+        <argsstring>()</argsstring>
+        <name>initTrajWriter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Write operations </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="77" column="1" bodyfile="src/trajectory.cpp" bodystart="56" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1a661b8c4070a55fd2e6abe703d23c95df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::initTrajWriterBinary</definition>
+        <argsstring>()</argsstring>
+        <name>initTrajWriterBinary</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="78" column="1" bodyfile="src/trajectory.cpp" bodystart="72" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1a7b6926793185fc0ebebb09a7abba8b7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::initTrajWriterText</definition>
+        <argsstring>()</argsstring>
+        <name>initTrajWriterText</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="79" column="1" bodyfile="src/trajectory.cpp" bodystart="88" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1a0cf9e0365b4d075d2da7c800fef83858" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::writeTrajectoryHeaderBinary</definition>
+        <argsstring>()</argsstring>
+        <name>writeTrajectoryHeaderBinary</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="81" column="1" bodyfile="src/trajectory.cpp" bodystart="122" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1ae84e1c1573c8f42bd68c09dff3909f6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::writeTrajectoryHeaderText</definition>
+        <argsstring>()</argsstring>
+        <name>writeTrajectoryHeaderText</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="82" column="1" bodyfile="src/trajectory.cpp" bodystart="138" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1a82540862cb8c200b1a6979b5f919681d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::reWriteHeaderFile</definition>
+        <argsstring>(unsigned num_walkers)</argsstring>
+        <name>reWriteHeaderFile</name>
+        <param>
+          <type>unsigned</type>
+          <declname>num_walkers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="84" column="1" bodyfile="src/trajectory.cpp" bodystart="149" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1ada4c4918a46c69508e6e847e4ef54f56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::writePosition</definition>
+        <argsstring>(Eigen::Vector3d &amp;)</argsstring>
+        <name>writePosition</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <defname>pos</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="86" column="1" bodyfile="src/trajectory.cpp" bodystart="109" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1ad35ef554146d54b4ea0a3bdce1f6246d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::writePositionText</definition>
+        <argsstring>(Eigen::Vector3d &amp;)</argsstring>
+        <name>writePositionText</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <defname>pos</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="87" column="1" bodyfile="src/trajectory.cpp" bodystart="201" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1a8ab6682b6a6c9cdc78fb6cef56129c91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::writePositionBinary</definition>
+        <argsstring>(Eigen::Vector3d &amp;)</argsstring>
+        <name>writePositionBinary</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <defname>pos</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="88" column="1" bodyfile="src/trajectory.cpp" bodystart="206" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1a5392bbab8cb315fcb99d30c90ca746b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::writePosition</definition>
+        <argsstring>(Eigen::Matrix3Xd &amp;)</argsstring>
+        <name>writePosition</name>
+        <param>
+          <type>Eigen::Matrix3Xd &amp;</type>
+          <defname>pos</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="90" column="1" bodyfile="src/trajectory.cpp" bodystart="214" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1a85776d999a5eacdbbef9008f96da007b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::writePositionText</definition>
+        <argsstring>(Eigen::Matrix3Xd &amp;)</argsstring>
+        <name>writePositionText</name>
+        <param>
+          <type>Eigen::Matrix3Xd &amp;</type>
+          <defname>pos</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="91" column="1" bodyfile="src/trajectory.cpp" bodystart="227" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1a0c8e6a22d330cfdb6419813ffd43ccba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::writePositionBinary</definition>
+        <argsstring>(Eigen::Matrix3Xd &amp;)</argsstring>
+        <name>writePositionBinary</name>
+        <param>
+          <type>Eigen::Matrix3Xd &amp;</type>
+          <defname>pos</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="92" column="1" bodyfile="src/trajectory.cpp" bodystart="249" bodyend="277"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_trajectory_1aee056cca538c4430eacff9534e43bc8e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Trajectory::trajfile</definition>
+        <argsstring></argsstring>
+        <name>trajfile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>trajfile name </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="20" column="1" bodyfile="src/trajectory.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1a6bb5d5e4ad4fb36a65d6cffdc6ab05af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Trajectory::headerfile</definition>
+        <argsstring></argsstring>
+        <name>headerfile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>header name </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="21" column="1" bodyfile="src/trajectory.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1aa6725e54b483f0eaaae88710707e58fe" prot="public" static="no" mutable="no">
+        <type>FILE *</type>
+        <definition>FILE* Trajectory::in</definition>
+        <argsstring></argsstring>
+        <name>in</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="22" column="1" bodyfile="src/trajectory.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1a6a7484c5282331583841b038997d597b" prot="public" static="no" mutable="no">
+        <type>FILE *</type>
+        <definition>FILE * Trajectory::in_header</definition>
+        <argsstring></argsstring>
+        <name>in_header</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Files to be written using the previous names binary out, text out, binary header, text header </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="22" column="1" bodyfile="src/trajectory.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1a41053c7c21f625933b4dd290da958b7c" prot="public" static="no" mutable="no">
+        <type>std::ofstream</type>
+        <definition>std::ofstream Trajectory::bout</definition>
+        <argsstring></argsstring>
+        <name>bout</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="25" column="1" bodyfile="src/trajectory.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1a2373f0055623b904e6051c0681d13472" prot="public" static="no" mutable="no">
+        <type>std::ofstream</type>
+        <definition>std::ofstream Trajectory::tout</definition>
+        <argsstring></argsstring>
+        <name>tout</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="25" column="1" bodyfile="src/trajectory.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1abf8e0a2b50a2e873c261720e295687ac" prot="public" static="no" mutable="no">
+        <type>std::ofstream</type>
+        <definition>std::ofstream Trajectory::bheaderout</definition>
+        <argsstring></argsstring>
+        <name>bheaderout</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="25" column="1" bodyfile="src/trajectory.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1a90e41427f7c6ce7b5b549e072fd9f59d" prot="public" static="no" mutable="no">
+        <type>std::ofstream</type>
+        <definition>std::ofstream Trajectory::theaderout</definition>
+        <argsstring></argsstring>
+        <name>theaderout</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="25" column="1" bodyfile="src/trajectory.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1a849e3a9c92a6eea27073c4e533412a67" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned Trajectory::N</definition>
+        <argsstring></argsstring>
+        <name>N</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="28" column="1" bodyfile="src/trajectory.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1ad9cbff5cf9f84ca1e2378d1d6105c5e3" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned Trajectory::T</definition>
+        <argsstring></argsstring>
+        <name>T</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>number of walkers, total time; </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="28" column="1" bodyfile="src/trajectory.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1ada15a7d6836e4cee2f35f788df0d844f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Trajectory::dyn_duration</definition>
+        <argsstring></argsstring>
+        <name>dyn_duration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="30" column="1" bodyfile="src/trajectory.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1abc9b9bb15f5723a208f0ff22cd740eda" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Trajectory::io_flag</definition>
+        <argsstring></argsstring>
+        <name>io_flag</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="31" column="1" bodyfile="src/trajectory.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1a4b6369fb83108e27a774f50c06169817" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; unsigned &gt;</type>
+        <definition>std::vector&lt;unsigned&gt; Trajectory::pos_times</definition>
+        <argsstring></argsstring>
+        <name>pos_times</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Times indexes when to save the particle positions. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="33" column="1" bodyfile="src/trajectory.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1a66dfa9e8d1e60706b8e8bb1e91a34e29" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Trajectory::isBigEndian</definition>
+        <argsstring></argsstring>
+        <name>isBigEndian</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag if the format is big endian </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="35" column="1" bodyfile="src/trajectory.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1a1194477068ed051401f99aba4a1056b1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Trajectory::write_traj</definition>
+        <argsstring></argsstring>
+        <name>write_traj</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag if we want to write a traj file </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="36" column="1" bodyfile="src/trajectory.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1a94125474ee64fd3007091a3e88f59769" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Trajectory::write_txt</definition>
+        <argsstring></argsstring>
+        <name>write_txt</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag if we want to write a text traj file </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="37" column="1" bodyfile="src/trajectory.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1a7135e87575f429a7d6ad32477dc96e2c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Trajectory::write_bin</definition>
+        <argsstring></argsstring>
+        <name>write_bin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag if we want to write a binary traj file </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="38" column="1" bodyfile="src/trajectory.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_trajectory_1a973422e0d41afe4720fbbf62500a5035" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Trajectory::steps_subset</definition>
+        <argsstring></argsstring>
+        <name>steps_subset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>true if the steps are no uniform </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="39" column="1" bodyfile="src/trajectory.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_trajectory_1aa340ba80f1f4d1aa39f19f069d5d8089" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Trajectory::Trajectory</definition>
+        <argsstring>()</argsstring>
+        <name>Trajectory</name>
+        <briefdescription>
+<para>Main constructor, Initialice everythin to default. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="44" column="1" bodyfile="src/trajectory.cpp" bodystart="11" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1a4879a4d0944eb04246e21deac940b90d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Trajectory::Trajectory</definition>
+        <argsstring>(const char *traj_file, bool isBigEndian_=true, std::string io_flag_=&quot;rb&quot;)</argsstring>
+        <name>Trajectory</name>
+        <param>
+          <type>const char *</type>
+          <declname>traj_file</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isBigEndian_</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>io_flag_</declname>
+          <defval>&quot;rb&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Contructor , Initialice everythin by parameters. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="49" column="1" bodyfile="src/trajectory.cpp" bodystart="20" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1ac673c37025ca5353ad99ab41c936e75d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Trajectory::~Trajectory</definition>
+        <argsstring>()</argsstring>
+        <name>~Trajectory</name>
+        <briefdescription>
+<para>Destructor, close files and fstreams. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="54" column="1" bodyfile="src/trajectory.cpp" bodystart="32" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1aaeda8b05ad61298fbd2aba2a3192486e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::initTrajectory</definition>
+        <argsstring>(Parameters params)</argsstring>
+        <name>initTrajectory</name>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref></type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Initialice the output files if any. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="59" column="1" bodyfile="src/trajectory.cpp" bodystart="37" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_trajectory_1a00a28c1782a0a661b40ad9dfefc0d3f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::setTrajFile</definition>
+        <argsstring>(std::string)</argsstring>
+        <name>setTrajFile</name>
+        <param>
+          <type>std::string</type>
+          <defname>trajfile_</defname>
+        </param>
+        <briefdescription>
+<para>Setd the traj file operations. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="64" column="1" bodyfile="src/trajectory.cpp" bodystart="319" bodyend="324"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_trajectory_1a90a7d33d4bc37c6b0f30f3c42e60aabe" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Trajectory::swapBE2SE2</definition>
+        <argsstring>(void *source, int size)</argsstring>
+        <name>swapBE2SE2</name>
+        <param>
+          <type>void *</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/trajectory.h" line="96" column="1" bodyfile="src/trajectory.cpp" bodystart="395" bodyend="449"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Auxiliary class. Handles i/o operation of walker trayectories. ============================/. </para>    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>July 2016 <heading level="1">0.2 </heading>
+</para></simplesect>
+</para>    </detaileddescription>
+    <location file="src/trajectory.h" line="18" column="1" bodyfile="src/trajectory.h" bodystart="18" bodyend="97"/>
+    <listofallmembers>
+      <member refid="class_trajectory_1abf8e0a2b50a2e873c261720e295687ac" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>bheaderout</name></member>
+      <member refid="class_trajectory_1a41053c7c21f625933b4dd290da958b7c" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>bout</name></member>
+      <member refid="class_trajectory_1a9aedf2530dca72ca629741585717c64a" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>closeTrajReaderFile</name></member>
+      <member refid="class_trajectory_1ada15a7d6836e4cee2f35f788df0d844f" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>dyn_duration</name></member>
+      <member refid="class_trajectory_1a6bb5d5e4ad4fb36a65d6cffdc6ab05af" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>headerfile</name></member>
+      <member refid="class_trajectory_1aa6725e54b483f0eaaae88710707e58fe" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>in</name></member>
+      <member refid="class_trajectory_1a6a7484c5282331583841b038997d597b" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>in_header</name></member>
+      <member refid="class_trajectory_1aaeda8b05ad61298fbd2aba2a3192486e" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>initTrajectory</name></member>
+      <member refid="class_trajectory_1a727883a1c29c9bdb8d4cdb01888023da" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>initTrajReaderFile</name></member>
+      <member refid="class_trajectory_1aec9f75fa04452af2199888c47652c7e4" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>initTrajWriter</name></member>
+      <member refid="class_trajectory_1a661b8c4070a55fd2e6abe703d23c95df" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>initTrajWriterBinary</name></member>
+      <member refid="class_trajectory_1a7b6926793185fc0ebebb09a7abba8b7a" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>initTrajWriterText</name></member>
+      <member refid="class_trajectory_1abc9b9bb15f5723a208f0ff22cd740eda" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>io_flag</name></member>
+      <member refid="class_trajectory_1a66dfa9e8d1e60706b8e8bb1e91a34e29" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>isBigEndian</name></member>
+      <member refid="class_trajectory_1a849e3a9c92a6eea27073c4e533412a67" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>N</name></member>
+      <member refid="class_trajectory_1a9239f7d5d05f02ce58b6ad2e7be231d7" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>openTrajReaderFile</name></member>
+      <member refid="class_trajectory_1a4b6369fb83108e27a774f50c06169817" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>pos_times</name></member>
+      <member refid="class_trajectory_1a5f96383db2d95b41a46dc752b00f70e6" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>readCurrentWalkersTrajectory</name></member>
+      <member refid="class_trajectory_1ad436905c5614d4ac3a52acb6d2211b61" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>readTrajectoryHeader</name></member>
+      <member refid="class_trajectory_1a82540862cb8c200b1a6979b5f919681d" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>reWriteHeaderFile</name></member>
+      <member refid="class_trajectory_1a00a28c1782a0a661b40ad9dfefc0d3f4" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>setTrajFile</name></member>
+      <member refid="class_trajectory_1a973422e0d41afe4720fbbf62500a5035" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>steps_subset</name></member>
+      <member refid="class_trajectory_1a90a7d33d4bc37c6b0f30f3c42e60aabe" prot="private" virt="non-virtual"><scope>Trajectory</scope><name>swapBE2SE2</name></member>
+      <member refid="class_trajectory_1ad9cbff5cf9f84ca1e2378d1d6105c5e3" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>T</name></member>
+      <member refid="class_trajectory_1a90e41427f7c6ce7b5b549e072fd9f59d" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>theaderout</name></member>
+      <member refid="class_trajectory_1a2373f0055623b904e6051c0681d13472" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>tout</name></member>
+      <member refid="class_trajectory_1aa340ba80f1f4d1aa39f19f069d5d8089" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>Trajectory</name></member>
+      <member refid="class_trajectory_1a4879a4d0944eb04246e21deac940b90d" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>Trajectory</name></member>
+      <member refid="class_trajectory_1aee056cca538c4430eacff9534e43bc8e" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>trajfile</name></member>
+      <member refid="class_trajectory_1a7135e87575f429a7d6ad32477dc96e2c" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>write_bin</name></member>
+      <member refid="class_trajectory_1a1194477068ed051401f99aba4a1056b1" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>write_traj</name></member>
+      <member refid="class_trajectory_1a94125474ee64fd3007091a3e88f59769" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>write_txt</name></member>
+      <member refid="class_trajectory_1ada4c4918a46c69508e6e847e4ef54f56" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>writePosition</name></member>
+      <member refid="class_trajectory_1a5392bbab8cb315fcb99d30c90ca746b1" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>writePosition</name></member>
+      <member refid="class_trajectory_1a8ab6682b6a6c9cdc78fb6cef56129c91" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>writePositionBinary</name></member>
+      <member refid="class_trajectory_1a0c8e6a22d330cfdb6419813ffd43ccba" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>writePositionBinary</name></member>
+      <member refid="class_trajectory_1ad35ef554146d54b4ea0a3bdce1f6246d" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>writePositionText</name></member>
+      <member refid="class_trajectory_1a85776d999a5eacdbbef9008f96da007b" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>writePositionText</name></member>
+      <member refid="class_trajectory_1a0cf9e0365b4d075d2da7c800fef83858" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>writeTrajectoryHeaderBinary</name></member>
+      <member refid="class_trajectory_1ae84e1c1573c8f42bd68c09dff3909f6f" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>writeTrajectoryHeaderText</name></member>
+      <member refid="class_trajectory_1ac673c37025ca5353ad99ab41c936e75d" prot="public" virt="non-virtual"><scope>Trajectory</scope><name>~Trajectory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

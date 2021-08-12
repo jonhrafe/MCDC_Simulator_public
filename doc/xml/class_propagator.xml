@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_propagator" kind="class" language="C++" prot="public">
+    <compoundname>Propagator</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_propagator_1a77f3732528ba16cef0092bc03a9d3020" prot="public" static="no" mutable="no">
+        <type>uint</type>
+        <definition>uint Propagator::num_dirs</definition>
+        <argsstring></argsstring>
+        <name>num_dirs</name>
+        <initializer>=0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/propagator.h" line="13" column="1" bodyfile="src/propagator.h" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_propagator_1ab2e3c09934290a84abd3726faadbadc3" prot="public" static="no" mutable="no">
+        <type>uint</type>
+        <definition>uint Propagator::num_times</definition>
+        <argsstring></argsstring>
+        <name>num_times</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/propagator.h" line="14" column="1" bodyfile="src/propagator.h" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_propagator_1a2adc46036a2a2a8417ccdcd57e0c5f55" prot="public" static="no" mutable="no">
+        <type>Eigen::Matrix3Xf</type>
+        <definition>Eigen::Matrix3Xf Propagator::directions</definition>
+        <argsstring></argsstring>
+        <name>directions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/propagator.h" line="15" column="1" bodyfile="src/propagator.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_propagator_1a9908ca97eaa8011f368510bc8ecc2343" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; unsigned &gt;</type>
+        <definition>std::vector&lt;unsigned&gt; Propagator::log_times</definition>
+        <argsstring></argsstring>
+        <name>log_times</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/propagator.h" line="17" column="1" bodyfile="src/propagator.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_propagator_1aac52b49320c34b14b8bb8c5186f16bab" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; Propagator::propagator_log</definition>
+        <argsstring></argsstring>
+        <name>propagator_log</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/propagator.h" line="19" column="1" bodyfile="src/propagator.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_propagator_1adcfb565519a2151819d1266bc87d0376" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Propagator::Propagator</definition>
+        <argsstring>()</argsstring>
+        <name>Propagator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/propagator.h" line="21" column="1" bodyfile="src/propagator.cpp" bodystart="3" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="class_propagator_1aadc489a4d28c7a91e092fb7cef3b7a62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Propagator::initPropagator</definition>
+        <argsstring>()</argsstring>
+        <name>initPropagator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/propagator.h" line="23" column="1" bodyfile="src/propagator.cpp" bodystart="9" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/propagator.h" line="10" column="1" bodyfile="src/propagator.h" bodystart="9" bodyend="25"/>
+    <listofallmembers>
+      <member refid="class_propagator_1a2adc46036a2a2a8417ccdcd57e0c5f55" prot="public" virt="non-virtual"><scope>Propagator</scope><name>directions</name></member>
+      <member refid="class_propagator_1aadc489a4d28c7a91e092fb7cef3b7a62" prot="public" virt="non-virtual"><scope>Propagator</scope><name>initPropagator</name></member>
+      <member refid="class_propagator_1a9908ca97eaa8011f368510bc8ecc2343" prot="public" virt="non-virtual"><scope>Propagator</scope><name>log_times</name></member>
+      <member refid="class_propagator_1a77f3732528ba16cef0092bc03a9d3020" prot="public" virt="non-virtual"><scope>Propagator</scope><name>num_dirs</name></member>
+      <member refid="class_propagator_1ab2e3c09934290a84abd3726faadbadc3" prot="public" virt="non-virtual"><scope>Propagator</scope><name>num_times</name></member>
+      <member refid="class_propagator_1adcfb565519a2151819d1266bc87d0376" prot="public" virt="non-virtual"><scope>Propagator</scope><name>Propagator</name></member>
+      <member refid="class_propagator_1aac52b49320c34b14b8bb8c5186f16bab" prot="public" virt="non-virtual"><scope>Propagator</scope><name>propagator_log</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

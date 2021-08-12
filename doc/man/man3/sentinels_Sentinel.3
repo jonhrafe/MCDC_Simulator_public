@@ -1,0 +1,72 @@
+.TH "sentinels::Sentinel" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+sentinels::Sentinel
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBErrorCases\fP { \fBnone\fP, \fBstuck\fP, \fBcrossed\fP, \fBrejected\fP, \fBrejected_initial_pos\fP }"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetBouncingError\fP (unsigned bouncings)"
+.br
+.ti -1c
+.RI "void \fBsetCrossingError\fP (unsigned)"
+.br
+.ti -1c
+.RI "void \fBsetRejectedError\fP ()"
+.br
+.ti -1c
+.RI "bool \fBcheckErrors\fP (\fBWalker\fP &w, const \fBParameters\fP &params, bool noPLY, unsigned &bouncing_count)"
+.br
+.ti -1c
+.RI "void \fBdeportationProcess\fP (\fBWalker\fP &walker, unsigned &w, unsigned &t, bool &back_tracking, \fBParameters\fP &params, int id)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBstuck_count\fP"
+.br
+.ti -1c
+.RI "unsigned \fBillegal_count\fP"
+.br
+.ti -1c
+.RI "unsigned \fBbouncings\fP"
+.br
+.ti -1c
+.RI "unsigned \fBobstacle_id\fP"
+.br
+.ti -1c
+.RI "unsigned \fBrejected_count\fP"
+.br
+.ti -1c
+.RI "bool \fBrejected_step\fP"
+.br
+.ti -1c
+.RI "bool \fBdeport_illegals\fP"
+.br
+.ti -1c
+.RI "bool \fBdiscard_stucks\fP"
+.br
+.ti -1c
+.RI "ErrorCases \fBerror\fP"
+.br
+.in -1c
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

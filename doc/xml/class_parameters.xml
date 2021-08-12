@@ -1,0 +1,1569 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_parameters" kind="class" language="C++" prot="public">
+    <compoundname>Parameters</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_parameters_1a35329cc60a28986ee4020457d46921fb" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned Parameters::num_walkers</definition>
+        <argsstring></argsstring>
+        <name>num_walkers</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>N, number of walkers </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="26" column="1" bodyfile="src/parameters.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a3475e7efae778bc7720fe6c17274eef0" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned Parameters::num_steps</definition>
+        <argsstring></argsstring>
+        <name>num_steps</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>T, number of steps </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="27" column="1" bodyfile="src/parameters.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1add48efa1d9fe056fdb21fe2d2d92533d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Parameters::diffusivity</definition>
+        <argsstring></argsstring>
+        <name>diffusivity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>D, diffusivity constant </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="28" column="1" bodyfile="src/parameters.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1acbe36f055786ddcf8480a49d2c34c914" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Parameters::sim_duration</definition>
+        <argsstring></argsstring>
+        <name>sim_duration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>simulation total time </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="29" column="1" bodyfile="src/parameters.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1ac9408092b6254b4ccfecc85decbb1944" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::write_traj</definition>
+        <argsstring></argsstring>
+        <name>write_traj</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag, write a traj file or not, binary format only </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="30" column="1" bodyfile="src/parameters.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a15446bf0727ebfe03f119821c7d8ed0f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::write_txt</definition>
+        <argsstring></argsstring>
+        <name>write_txt</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag, writes DWI output signals in .txt if True </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="31" column="1" bodyfile="src/parameters.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a4c98120687d1ba332d0c6cd5a14c59fb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::write_bin</definition>
+        <argsstring></argsstring>
+        <name>write_bin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag, writes the output signal in binary format (True by default) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="32" column="1" bodyfile="src/parameters.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a3c37f738b7700bdc22845bc725d51e6f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::scale_from_stu</definition>
+        <argsstring></argsstring>
+        <name>scale_from_stu</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag, true if the scheme file is in standar units m,s </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="33" column="1" bodyfile="src/parameters.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1ab737ef40d88faa6ee8a701013d9d2984" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::save_phase_shift</definition>
+        <argsstring></argsstring>
+        <name>save_phase_shift</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag, saves the phase shift distribution for all particles </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="34" column="1" bodyfile="src/parameters.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1afa076397ed9cbdc4c88215e29b850e3c" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long Parameters::seed</definition>
+        <argsstring></argsstring>
+        <name>seed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Initial seed for the random generator </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="35" column="1" bodyfile="src/parameters.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1aabce43eb8376a94a8e765da99b58d003" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::verbatim</definition>
+        <argsstring></argsstring>
+        <name>verbatim</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>False to omit displaying state and warnings </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="36" column="1" bodyfile="src/parameters.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a75346dc3b7a41548a2f9e0560343df24" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Parameters::traj_file</definition>
+        <argsstring></argsstring>
+        <name>traj_file</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_trajectory" kindref="compound">Trajectory</ref> file path </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="37" column="1" bodyfile="src/parameters.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a2662ccc98a7a2b9f0c81f223a8f0748f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Parameters::output_base_name</definition>
+        <argsstring></argsstring>
+        <name>output_base_name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>output files base name (path + sufix) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="38" column="1" bodyfile="src/parameters.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a84db69d29321fccb7cc7ea724a74df50" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Parameters::ini_walkers_file</definition>
+        <argsstring></argsstring>
+        <name>ini_walkers_file</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>initial walker position file (if any) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="39" column="1" bodyfile="src/parameters.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1ae01ac4f7d6d3b9eea6799f5c929ddf00" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned Parameters::ini_walkers_file_count</definition>
+        <argsstring></argsstring>
+        <name>ini_walkers_file_count</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>number of walker positions initialize in the configuration file </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="40" column="1" bodyfile="src/parameters.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a87cb2db5b45bf9cb36e74903fecfaa6e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Parameters::ini_walker_flag</definition>
+        <argsstring></argsstring>
+        <name>ini_walker_flag</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>where to initialize the walkers </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="41" column="1" bodyfile="src/parameters.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1afbb7caab773abb16753263a0b04c8a2c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Parameters::scheme_file</definition>
+        <argsstring></argsstring>
+        <name>scheme_file</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>signal adquisition scheme file (if any) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="42" column="1" bodyfile="src/parameters.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1aa9d387477810c2bb574b83ecd1fbf8f0" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Parameters::min_limits</definition>
+        <argsstring></argsstring>
+        <name>min_limits</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>voxel min limits (if any) (bottom left corner) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="43" column="1" bodyfile="src/parameters.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a879b4c717e0f59c9bbc4b7810b8fdde3" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Parameters::max_limits</definition>
+        <argsstring></argsstring>
+        <name>max_limits</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>voxel max limits (if any) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="44" column="1" bodyfile="src/parameters.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1abdef3b0fe62c5fdca7d417d01edd7422" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; Parameters::cylinders_files</definition>
+        <argsstring></argsstring>
+        <name>cylinders_files</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>file paths with a list of cilinders obstacles </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="46" column="1" bodyfile="src/parameters.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a76984fe140c1c6c8a047dd622561200d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; Parameters::PLY_files</definition>
+        <argsstring></argsstring>
+        <name>PLY_files</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>file paths with PLY obstacle files </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="47" column="1" bodyfile="src/parameters.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a97ed7a4d1b6c6ea8f6507a6a0fc04698" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; Parameters::PLY_scales</definition>
+        <argsstring></argsstring>
+        <name>PLY_scales</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Auxiliary vector to save PLY file scales </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="48" column="1" bodyfile="src/parameters.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a67f6e450517ee21255d72d41bc9f0ce7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; Parameters::PLY_percolation</definition>
+        <argsstring></argsstring>
+        <name>PLY_percolation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Auxiliary vector to save PLY percolation </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="49" column="1" bodyfile="src/parameters.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1aea1568fbc8a92bd90303ea8afc9e8c63" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; Parameters::ini_delta_pos</definition>
+        <argsstring></argsstring>
+        <name>ini_delta_pos</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Delta position for the walkers </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="51" column="1" bodyfile="src/parameters.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1aab0de21efc3f85e5c44205ed5ebf9d4d" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned Parameters::num_proc</definition>
+        <argsstring></argsstring>
+        <name>num_proc</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of precessors/process to launch in parallel </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="53" column="1" bodyfile="src/parameters.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1aefbd07d8501ebb9311bbb1ea7c37be26" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; Eigen::Vector3d, Eigen::Vector3d &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;Eigen::Vector3d,Eigen::Vector3d&gt; &gt; Parameters::voxels_list</definition>
+        <argsstring></argsstring>
+        <name>voxels_list</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>voxel min and max positions list (deprecated) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="55" column="1" bodyfile="src/parameters.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a4bbfed0148cec6e10d0e90d85437a37a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; Eigen::Vector3f &gt;</type>
+        <definition>std::vector&lt;Eigen::Vector3f&gt; Parameters::prop_dirs</definition>
+        <argsstring></argsstring>
+        <name>prop_dirs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Saves the directions used to compute the propagator </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="57" column="1" bodyfile="src/parameters.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a4f884a7effd3a8816c78084ff3c2b202" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; unsigned &gt;</type>
+        <definition>std::vector&lt;unsigned&gt; Parameters::record_pos_times</definition>
+        <argsstring></argsstring>
+        <name>record_pos_times</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>time indexes, used to save the position of all walkers at certain time </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="59" column="1" bodyfile="src/parameters.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a559e66b65a2cb4391d1099bf0db6ec44" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; unsigned &gt;</type>
+        <definition>std::vector&lt;unsigned&gt; Parameters::record_phase_times</definition>
+        <argsstring></argsstring>
+        <name>record_phase_times</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>time indexes, used to save the phase shif of all walkers at certain time </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="60" column="1" bodyfile="src/parameters.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1af47bd2eada81c6c581aaa8c70d04c8d6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; unsigned &gt;</type>
+        <definition>std::vector&lt;unsigned&gt; Parameters::record_prop_times</definition>
+        <argsstring></argsstring>
+        <name>record_prop_times</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>time indexes, used to save the mean propagator of the walkers at c. times </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="61" column="1" bodyfile="src/parameters.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1aad79d8e720492fd880ee021c6320dfe0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::hex_packing</definition>
+        <argsstring></argsstring>
+        <name>hex_packing</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag, true if an haxagonal packing should be used </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="63" column="1" bodyfile="src/parameters.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a3c49b55dc2a2af1c5ddfc3426e2a7936" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Parameters::hex_packing_radius</definition>
+        <argsstring></argsstring>
+        <name>hex_packing_radius</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>float, constant radius for the cylinders </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="64" column="1" bodyfile="src/parameters.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a480338071cedf966fdb79b37d9ebe656" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Parameters::hex_packing_separation</definition>
+        <argsstring></argsstring>
+        <name>hex_packing_separation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>float, separation distance betwen cylinders (separation &gt; 2*radius) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="65" column="1" bodyfile="src/parameters.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1aaef8b4218392fb19de2c5c886f5f7fa0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::gamma_packing</definition>
+        <argsstring></argsstring>
+        <name>gamma_packing</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag, true if a gamma distribution of cylinders will be initialized </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="67" column="1" bodyfile="src/parameters.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1ae7568296f688ccea271336e882162e7e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::gamma_output_conf</definition>
+        <argsstring></argsstring>
+        <name>gamma_output_conf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="68" column="1" bodyfile="src/parameters.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a29d423618cf9acb2bbfe071fac98ec29" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Parameters::gamma_packing_alpha</definition>
+        <argsstring></argsstring>
+        <name>gamma_packing_alpha</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="69" column="1" bodyfile="src/parameters.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a2b10c9b8191ca74923f07d74b8f7e30a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Parameters::gamma_packing_beta</definition>
+        <argsstring></argsstring>
+        <name>gamma_packing_beta</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="70" column="1" bodyfile="src/parameters.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a97df7bda4427bbdd7b7e0aa2cd23e858" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Parameters::gamma_icvf</definition>
+        <argsstring></argsstring>
+        <name>gamma_icvf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="71" column="1" bodyfile="src/parameters.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a484419e6ab0c0661ff7825fbe6d5a963" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Parameters::gamma_output_configuration</definition>
+        <argsstring></argsstring>
+        <name>gamma_output_configuration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="72" column="1" bodyfile="src/parameters.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a6e8dfd894eef31a43bd7bb0de5f02f37" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned Parameters::gamma_num_cylinders</definition>
+        <argsstring></argsstring>
+        <name>gamma_num_cylinders</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="73" column="1" bodyfile="src/parameters.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a0b44e239201caecaebdb7e956ead1e0c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float Parameters::min_cyl_radii</definition>
+        <argsstring></argsstring>
+        <name>min_cyl_radii</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum radii (in um) to be sampled </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="74" column="1" bodyfile="src/parameters.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a43362cb6e3ea49cc9db9e52c3ebc7140" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::subdivision_flag</definition>
+        <argsstring></argsstring>
+        <name>subdivision_flag</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag to check if we have several voxel subdivision to compute the signal </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="76" column="1" bodyfile="src/parameters.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a0d15fd8f1f5c332174864c3acbaf5e10" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned Parameters::number_subdivisions</definition>
+        <argsstring></argsstring>
+        <name>number_subdivisions</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>saves the number of subdivisions for an initialzied voxel (needed) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="77" column="1" bodyfile="src/parameters.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a1733bfcb8391c494b7b1a317dfda5e44" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Parameters::subdivisions_file</definition>
+        <argsstring></argsstring>
+        <name>subdivisions_file</name>
+        <initializer>= &quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>file with the list of subdivisions coordinates to compute the signal </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="78" column="1" bodyfile="src/parameters.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a3c05ff7a30f151c384b83ce3adca26fa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_subdivision" kindref="compound">Subdivision</ref> &gt;</type>
+        <definition>std::vector&lt;Subdivision&gt; Parameters::subdivisions</definition>
+        <argsstring></argsstring>
+        <name>subdivisions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>saves actual positions of the subdivision to compute the signal </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="79" column="1" bodyfile="src/parameters.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a2e5fa275543b4a52599e694e64546e13" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Parameters::obstacle_permeability</definition>
+        <argsstring></argsstring>
+        <name>obstacle_permeability</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Obstacles permeability </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="81" column="1" bodyfile="src/parameters.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1abe008f02a49ef7f7a6f041f79cc81fbb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Parameters::collision_sphere_distance</definition>
+        <argsstring></argsstring>
+        <name>collision_sphere_distance</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Custiom size for the collision sphere </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="82" column="1" bodyfile="src/parameters.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a66ad8359ef1cc76e8d5581a402cc86b5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Parameters::max_simulation_time</definition>
+        <argsstring></argsstring>
+        <name>max_simulation_time</name>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum simulation time for the DYNAMIC SIMULATION </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="83" column="1" bodyfile="src/parameters.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a947e4b1fef66466119ea7b2e8e2bc0e4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::log_phase_shift</definition>
+        <argsstring></argsstring>
+        <name>log_phase_shift</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag, true to save the final phase shift distribution </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="85" column="1" bodyfile="src/parameters.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1ae30abbd794dee7f5aaf5d3d51152acef" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::log_opp</definition>
+        <argsstring></argsstring>
+        <name>log_opp</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag, true to save one per process output </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="86" column="1" bodyfile="src/parameters.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1ab1815ac94d73ca8b56a9f12fca04cb89" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::discard_stucks</definition>
+        <argsstring></argsstring>
+        <name>discard_stucks</name>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag, true to discard posible stuck particles (max bouncing reached) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="87" column="1" bodyfile="src/parameters.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1ac1a5fa4c00eaaf1b40789f329ae20e9a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::discard_illegals</definition>
+        <argsstring></argsstring>
+        <name>discard_illegals</name>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag, true to discard possible illegal crossings, Trump by default. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="88" column="1" bodyfile="src/parameters.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a1f5a62a35d6521994a623d0fd0a98a24" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::log_propagator</definition>
+        <argsstring></argsstring>
+        <name>log_propagator</name>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>flag, true saves the propagator for a given set of directions and times </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="90" column="1" bodyfile="src/parameters.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a8b7e1481e63d5ac9a36eed8ab310d315" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Parameters::min_sampling_area</definition>
+        <argsstring></argsstring>
+        <name>min_sampling_area</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Min defining point to delimiter the uniform sampling of walkers </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="92" column="1" bodyfile="src/parameters.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a2bf25423e72a562d5812ed0df3e06e2d" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Parameters::max_sampling_area</definition>
+        <argsstring></argsstring>
+        <name>max_sampling_area</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Max defining point to delimiter the uniform sampling of walkers </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="93" column="1" bodyfile="src/parameters.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1af023e7efce57b9da0837731db6a85c87" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::custom_sampling_area</definition>
+        <argsstring></argsstring>
+        <name>custom_sampling_area</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>True if a custom sampling area is defined (voxel for default) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="94" column="1" bodyfile="src/parameters.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a669c92fe7864a00da04bba0c2af93a16" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::computeVolume</definition>
+        <argsstring></argsstring>
+        <name>computeVolume</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Forces the volumen computation (slower) even without custom sampling </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="95" column="1" bodyfile="src/parameters.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1adacb13afed18c07dfd269fae76f828b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::separate_signals</definition>
+        <argsstring></argsstring>
+        <name>separate_signals</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Separate the signals into intra and extra (compute_volume on) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="96" column="1" bodyfile="src/parameters.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parameters_1a1dd221193dd0ad7e34a6b4f7c496d899" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Parameters::img_signal</definition>
+        <argsstring></argsstring>
+        <name>img_signal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>True to save the img part of the dwi signal (false by default) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="97" column="1" bodyfile="src/parameters.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_parameters_1af4d94ee360ac0157d9065f78797fe9a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Parameters::Parameters</definition>
+        <argsstring>()</argsstring>
+        <name>Parameters</name>
+        <briefdescription>
+<para>Default constructor. Sets all the parameters to default and NULL values. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="103" column="1" bodyfile="src/parameters.cpp" bodystart="8" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1afa8dd9d59fa727c3c2b2fe366efb2c14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Parameters::readSchemeFile</definition>
+        <argsstring>(std::string conf_file)</argsstring>
+        <name>readSchemeFile</name>
+        <param>
+          <type>std::string</type>
+          <declname>conf_file</declname>
+        </param>
+        <briefdescription>
+<para>Reads all the parameters from a scheme file in the correct format the function scales them if necessary. The parameters are passed by listing, first, the parameter name, followed by the value. The supported parameters are: number of walkers (N), number of steps (T), duration (duration), PGSE scheme file (scheme_file), min voxles limits (min limits), max voxel limits (max_limits), diffusivity (diffusivity), index name for the trajectory and output values (out_traj_file_index), initial walker position file (ini_walkers_file), write a txt traj flag and header (write_text), write binary traj file and header, write_bin, flag to scale the values from estandar unit (scale_from_stu), random seed (seed). </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>conf_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="116" column="1" bodyfile="src/parameters.cpp" bodystart="47" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a666f753268b273d35f9623f0754e67ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Parameters::setNumWalkers</definition>
+        <argsstring>(unsigned N)</argsstring>
+        <name>setNumWalkers</name>
+        <param>
+          <type>unsigned</type>
+          <declname>N</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="124" column="1" bodyfile="src/parameters.cpp" bodystart="225" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1af61156929c1abed67da0a1c9920ca508" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Parameters::setNumSteps</definition>
+        <argsstring>(unsigned T)</argsstring>
+        <name>setNumSteps</name>
+        <param>
+          <type>unsigned</type>
+          <declname>T</declname>
+        </param>
+        <briefdescription>
+<para>set the number of steps in the simulation. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>number of steps </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="130" column="1" bodyfile="src/parameters.cpp" bodystart="230" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a7af2bd289f8c8de738d643bb8e05ac62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Parameters::setDiffusivity</definition>
+        <argsstring>(double Diff)</argsstring>
+        <name>setDiffusivity</name>
+        <param>
+          <type>double</type>
+          <declname>Diff</declname>
+        </param>
+        <briefdescription>
+<para>set the simulation diffusivity. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>Diff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>diffusivity value. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="136" column="1" bodyfile="src/parameters.cpp" bodystart="235" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a934a87940878dc78b75ae4c230132f75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Parameters::setSimDuration</definition>
+        <argsstring>(double duration)</argsstring>
+        <name>setSimDuration</name>
+        <param>
+          <type>double</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>sets the simulation duration. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>simulation duration. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="142" column="1" bodyfile="src/parameters.cpp" bodystart="240" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a632988a9dc0d04fdff35c6f72739ed83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Parameters::setWriteTrajFlag</definition>
+        <argsstring>(bool write_bin)</argsstring>
+        <name>setWriteTrajFlag</name>
+        <param>
+          <type>bool</type>
+          <declname>write_bin</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="148" column="1" bodyfile="src/parameters.cpp" bodystart="245" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1ac785bd73c771f6a46109fba421fbc059" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Parameters::setWriteTextFlag</definition>
+        <argsstring>(bool write_txt_)</argsstring>
+        <name>setWriteTextFlag</name>
+        <param>
+          <type>bool</type>
+          <declname>write_txt_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="154" column="1" bodyfile="src/parameters.cpp" bodystart="250" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a73a4f685a35f8f7012609effb30a17d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Parameters::setMinLimits</definition>
+        <argsstring>(Eigen::Vector3d min_limits_)</argsstring>
+        <name>setMinLimits</name>
+        <param>
+          <type>Eigen::Vector3d</type>
+          <declname>min_limits_</declname>
+        </param>
+        <briefdescription>
+<para>set the bottom left corner of the voxel to be simulated. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>min_limits_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector with the minimum voxel limits (bottom left corner). </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="160" column="1" bodyfile="src/parameters.cpp" bodystart="255" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a96764612c6ee5aeb684e1348e47b2308" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Parameters::setMaxLimits</definition>
+        <argsstring>(Eigen::Vector3d max_limits_)</argsstring>
+        <name>setMaxLimits</name>
+        <param>
+          <type>Eigen::Vector3d</type>
+          <declname>max_limits_</declname>
+        </param>
+        <briefdescription>
+<para>set the bottom left corner of the voxel to be simulated. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_limits_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector with the maximum voxel limits (bottom right corner). </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="166" column="1" bodyfile="src/parameters.cpp" bodystart="261" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1ac07671c27ff8f0ec9f5d8bdc656e7ffb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Parameters::setTrajFileName</definition>
+        <argsstring>(std::string traj_file_)</argsstring>
+        <name>setTrajFileName</name>
+        <param>
+          <type>std::string</type>
+          <declname>traj_file_</declname>
+        </param>
+        <briefdescription>
+<para>Set the prefix of the name for the traj file (txt and .traj) </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>traj_file_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>prefix of the traj file. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="172" column="1" bodyfile="src/parameters.cpp" bodystart="266" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1aec6b8dc2c119405ab2cdc4e6622ac616" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Parameters::setOutputBaseFileName</definition>
+        <argsstring>(std::string output_base_name_)</argsstring>
+        <name>setOutputBaseFileName</name>
+        <param>
+          <type>std::string</type>
+          <declname>output_base_name_</declname>
+        </param>
+        <briefdescription>
+<para>Set the prefix of the name for all the outputs in the simulation. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>output_base_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>prefix for the outputs </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="178" column="1" bodyfile="src/parameters.cpp" bodystart="271" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a73d64bb093a93c2b806883f5504d8fb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Parameters::iniWalkersFileName</definition>
+        <argsstring>(std::string ini_walkers_file_)</argsstring>
+        <name>iniWalkersFileName</name>
+        <param>
+          <type>std::string</type>
+          <declname>ini_walkers_file_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>initial position walkers file name </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="184" column="1" bodyfile="src/parameters.cpp" bodystart="276" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a95ca6c28a5c87363460ca48eed5f065f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Parameters::setSchemeFileName</definition>
+        <argsstring>(std::string scheme_file_)</argsstring>
+        <name>setSchemeFileName</name>
+        <param>
+          <type>std::string</type>
+          <declname>scheme_file_</declname>
+        </param>
+        <briefdescription>
+<para>Sets the scheme file name to be used for the data synthesis. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scheme_file_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>scheme (PGSE )file name. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="190" column="1" bodyfile="src/parameters.cpp" bodystart="281" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1adb8599bc60f977f684f32a83bbe28fc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned</type>
+        <definition>Parameters::getNumWalkers</definition>
+        <argsstring>()</argsstring>
+        <name>getNumWalkers</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of walkers N </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="197" column="1" bodyfile="src/parameters.cpp" bodystart="289" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1aa5aaf80e0189c63090e8f04cf485800f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned</type>
+        <definition>Parameters::getNumSteps</definition>
+        <argsstring>()</argsstring>
+        <name>getNumSteps</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of Steps </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="202" column="1" bodyfile="src/parameters.cpp" bodystart="294" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1ac429071159941e3957eb7c030280a30f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>Parameters::getDiffusivity</definition>
+        <argsstring>()</argsstring>
+        <name>getDiffusivity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Diffusivity </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="207" column="1" bodyfile="src/parameters.cpp" bodystart="299" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a21817e9a0207da2adf32611bcaf889ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>Parameters::getWriteTrajFlag</definition>
+        <argsstring>()</argsstring>
+        <name>getWriteTrajFlag</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>flag of the binary traj file writer </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="212" column="1" bodyfile="src/parameters.cpp" bodystart="304" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1adb6064f329732640c226608d6e1ddb60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>Parameters::getWriteTextFlag</definition>
+        <argsstring>()</argsstring>
+        <name>getWriteTextFlag</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>flag of the text write traj </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="217" column="1" bodyfile="src/parameters.cpp" bodystart="309" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1abda8b91e5ac40e67c79184d7071c353a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Eigen::Vector3d</type>
+        <definition>Parameters::getMinLimits</definition>
+        <argsstring>()</argsstring>
+        <name>getMinLimits</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>voxel min limits (left bottom corner) </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="222" column="1" bodyfile="src/parameters.cpp" bodystart="314" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1ad4f8b826db4c1b665891740469e41086" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Eigen::Vector3d</type>
+        <definition>Parameters::getMaxLimits</definition>
+        <argsstring>()</argsstring>
+        <name>getMaxLimits</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>voxel max limits (right top corner) </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="227" column="1" bodyfile="src/parameters.cpp" bodystart="319" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a38057c2ae3d11b578c8f199d73683ee1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>Parameters::getTrajFileName</definition>
+        <argsstring>()</argsstring>
+        <name>getTrajFileName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>trajectory prefix </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="232" column="1" bodyfile="src/parameters.cpp" bodystart="324" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a794fd941bf5ff311f61f2e6b4f19e64d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>Parameters::getOutputBaseFileName</definition>
+        <argsstring>()</argsstring>
+        <name>getOutputBaseFileName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Output prefix </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="237" column="1" bodyfile="src/parameters.cpp" bodystart="329" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1af734dc58d8d5898049226614c2dd38a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string Parameters::getIniWalkersFileName</definition>
+        <argsstring>()</argsstring>
+        <name>getIniWalkersFileName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="242" column="1" bodyfile="src/parameters.cpp" bodystart="334" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a7291b970983c021569cd2e3a0573592c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>Parameters::getSchemeFileName</definition>
+        <argsstring>()</argsstring>
+        <name>getSchemeFileName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>name of the scheme file name used (PGSE) </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="247" column="1" bodyfile="src/parameters.cpp" bodystart="339" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1ae5fa10ca3ccc20d9b51a2bc549daf1c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Parameters::addSubdivisions</definition>
+        <argsstring>()</argsstring>
+        <name>addSubdivisions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="254" column="1" bodyfile="src/parameters.cpp" bodystart="621" bodyend="661"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_parameters_1a150b4fdab4890be21905186d4c8422f2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int Parameters::str_dist</definition>
+        <argsstring>(std::string s, std::string t)</argsstring>
+        <name>str_dist</name>
+        <param>
+          <type>std::string</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="249" column="1" bodyfile="src/parameters.cpp" bodystart="422" bodyend="462"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_parameters_1a6bdb0e137277a8e49ad9a53d4536ea7d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Parameters::readObstacles</definition>
+        <argsstring>(std::ifstream &amp;in)</argsstring>
+        <name>readObstacles</name>
+        <param>
+          <type>std::ifstream &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+<para>reads the full list of obstacles on the configuration file. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>input iostreams </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="262" column="1" bodyfile="src/parameters.cpp" bodystart="345" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a610df7a39d175308b716389082250a63" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Parameters::readVoxels</definition>
+        <argsstring>(std::ifstream &amp;in)</argsstring>
+        <name>readVoxels</name>
+        <param>
+          <type>std::ifstream &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+<para>reads the full list of voxel on the configuration file. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>input iostreams </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="268" column="1" bodyfile="src/parameters.cpp" bodystart="406" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a58e7d3223cd26bb2fdd31cf00e018e58" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Parameters::readInfoGatheringParams</definition>
+        <argsstring>(std::ifstream &amp;in)</argsstring>
+        <name>readInfoGatheringParams</name>
+        <param>
+          <type>std::ifstream &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="275" column="1" bodyfile="src/parameters.cpp" bodystart="464" bodyend="538"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1ad632799caf432f58193a3e2d303f37df" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Parameters::readHexagonalParams</definition>
+        <argsstring>(std::ifstream &amp;in)</argsstring>
+        <name>readHexagonalParams</name>
+        <param>
+          <type>std::ifstream &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+<para>reads the parameters needed to define an hexagonal packing of cylinders </para>        </briefdescription>
+        <detaileddescription>
+<para>reads the subdivisions for computing the DW signal</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>input iostreams </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="281" column="1" bodyfile="src/parameters.cpp" bodystart="540" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a9443e1f717cdfa35ed4f73c3ec8a2c19" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Parameters::readGammaParams</definition>
+        <argsstring>(std::ifstream &amp;in)</argsstring>
+        <name>readGammaParams</name>
+        <param>
+          <type>std::ifstream &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+<para>reads the parameters needed to define an gamma distributed packing of cylinders </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>input iostreams </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="287" column="1" bodyfile="src/parameters.cpp" bodystart="560" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1a51b8826f008ac49841f9f44324fa8769" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Parameters::readSubdivisionFile</definition>
+        <argsstring>()</argsstring>
+        <name>readSubdivisionFile</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="293" column="1" bodyfile="src/parameters.cpp" bodystart="604" bodyend="618"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1ac64dca9ae741e5bae473e3e750f16e0b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Parameters::readPropagatorDirections</definition>
+        <argsstring>(std::string dir_path)</argsstring>
+        <name>readPropagatorDirections</name>
+        <param>
+          <type>std::string</type>
+          <declname>dir_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="299" column="1" bodyfile="src/parameters.cpp" bodystart="663" bodyend="685"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1abfc3e8d11aa9e9e3d077b0d41b40d7a2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Parameters::readPLYFileList</definition>
+        <argsstring>(std::string path)</argsstring>
+        <name>readPLYFileList</name>
+        <param>
+          <type>std::string</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="304" column="1" bodyfile="src/parameters.cpp" bodystart="687" bodyend="717"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parameters_1af4e7651f9d190114ccf73cf4378212e4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Parameters::readPLYFileListScalePercolation</definition>
+        <argsstring>(std::string path)</argsstring>
+        <name>readPLYFileListScalePercolation</name>
+        <param>
+          <type>std::string</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parameters.h" line="310" column="1" bodyfile="src/parameters.cpp" bodystart="719" bodyend="739"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/parameters.h" line="23" column="1" bodyfile="src/parameters.h" bodystart="22" bodyend="313"/>
+    <listofallmembers>
+      <member refid="class_parameters_1ae5fa10ca3ccc20d9b51a2bc549daf1c3" prot="public" virt="non-virtual"><scope>Parameters</scope><name>addSubdivisions</name></member>
+      <member refid="class_parameters_1abe008f02a49ef7f7a6f041f79cc81fbb" prot="public" virt="non-virtual"><scope>Parameters</scope><name>collision_sphere_distance</name></member>
+      <member refid="class_parameters_1a669c92fe7864a00da04bba0c2af93a16" prot="public" virt="non-virtual"><scope>Parameters</scope><name>computeVolume</name></member>
+      <member refid="class_parameters_1af023e7efce57b9da0837731db6a85c87" prot="public" virt="non-virtual"><scope>Parameters</scope><name>custom_sampling_area</name></member>
+      <member refid="class_parameters_1abdef3b0fe62c5fdca7d417d01edd7422" prot="public" virt="non-virtual"><scope>Parameters</scope><name>cylinders_files</name></member>
+      <member refid="class_parameters_1add48efa1d9fe056fdb21fe2d2d92533d" prot="public" virt="non-virtual"><scope>Parameters</scope><name>diffusivity</name></member>
+      <member refid="class_parameters_1ac1a5fa4c00eaaf1b40789f329ae20e9a" prot="public" virt="non-virtual"><scope>Parameters</scope><name>discard_illegals</name></member>
+      <member refid="class_parameters_1ab1815ac94d73ca8b56a9f12fca04cb89" prot="public" virt="non-virtual"><scope>Parameters</scope><name>discard_stucks</name></member>
+      <member refid="class_parameters_1a97df7bda4427bbdd7b7e0aa2cd23e858" prot="public" virt="non-virtual"><scope>Parameters</scope><name>gamma_icvf</name></member>
+      <member refid="class_parameters_1a6e8dfd894eef31a43bd7bb0de5f02f37" prot="public" virt="non-virtual"><scope>Parameters</scope><name>gamma_num_cylinders</name></member>
+      <member refid="class_parameters_1ae7568296f688ccea271336e882162e7e" prot="public" virt="non-virtual"><scope>Parameters</scope><name>gamma_output_conf</name></member>
+      <member refid="class_parameters_1a484419e6ab0c0661ff7825fbe6d5a963" prot="public" virt="non-virtual"><scope>Parameters</scope><name>gamma_output_configuration</name></member>
+      <member refid="class_parameters_1aaef8b4218392fb19de2c5c886f5f7fa0" prot="public" virt="non-virtual"><scope>Parameters</scope><name>gamma_packing</name></member>
+      <member refid="class_parameters_1a29d423618cf9acb2bbfe071fac98ec29" prot="public" virt="non-virtual"><scope>Parameters</scope><name>gamma_packing_alpha</name></member>
+      <member refid="class_parameters_1a2b10c9b8191ca74923f07d74b8f7e30a" prot="public" virt="non-virtual"><scope>Parameters</scope><name>gamma_packing_beta</name></member>
+      <member refid="class_parameters_1ac429071159941e3957eb7c030280a30f" prot="public" virt="non-virtual"><scope>Parameters</scope><name>getDiffusivity</name></member>
+      <member refid="class_parameters_1af734dc58d8d5898049226614c2dd38a3" prot="public" virt="non-virtual"><scope>Parameters</scope><name>getIniWalkersFileName</name></member>
+      <member refid="class_parameters_1ad4f8b826db4c1b665891740469e41086" prot="public" virt="non-virtual"><scope>Parameters</scope><name>getMaxLimits</name></member>
+      <member refid="class_parameters_1abda8b91e5ac40e67c79184d7071c353a" prot="public" virt="non-virtual"><scope>Parameters</scope><name>getMinLimits</name></member>
+      <member refid="class_parameters_1aa5aaf80e0189c63090e8f04cf485800f" prot="public" virt="non-virtual"><scope>Parameters</scope><name>getNumSteps</name></member>
+      <member refid="class_parameters_1adb8599bc60f977f684f32a83bbe28fc1" prot="public" virt="non-virtual"><scope>Parameters</scope><name>getNumWalkers</name></member>
+      <member refid="class_parameters_1a794fd941bf5ff311f61f2e6b4f19e64d" prot="public" virt="non-virtual"><scope>Parameters</scope><name>getOutputBaseFileName</name></member>
+      <member refid="class_parameters_1a7291b970983c021569cd2e3a0573592c" prot="public" virt="non-virtual"><scope>Parameters</scope><name>getSchemeFileName</name></member>
+      <member refid="class_parameters_1a38057c2ae3d11b578c8f199d73683ee1" prot="public" virt="non-virtual"><scope>Parameters</scope><name>getTrajFileName</name></member>
+      <member refid="class_parameters_1adb6064f329732640c226608d6e1ddb60" prot="public" virt="non-virtual"><scope>Parameters</scope><name>getWriteTextFlag</name></member>
+      <member refid="class_parameters_1a21817e9a0207da2adf32611bcaf889ef" prot="public" virt="non-virtual"><scope>Parameters</scope><name>getWriteTrajFlag</name></member>
+      <member refid="class_parameters_1aad79d8e720492fd880ee021c6320dfe0" prot="public" virt="non-virtual"><scope>Parameters</scope><name>hex_packing</name></member>
+      <member refid="class_parameters_1a3c49b55dc2a2af1c5ddfc3426e2a7936" prot="public" virt="non-virtual"><scope>Parameters</scope><name>hex_packing_radius</name></member>
+      <member refid="class_parameters_1a480338071cedf966fdb79b37d9ebe656" prot="public" virt="non-virtual"><scope>Parameters</scope><name>hex_packing_separation</name></member>
+      <member refid="class_parameters_1a1dd221193dd0ad7e34a6b4f7c496d899" prot="public" virt="non-virtual"><scope>Parameters</scope><name>img_signal</name></member>
+      <member refid="class_parameters_1aea1568fbc8a92bd90303ea8afc9e8c63" prot="public" virt="non-virtual"><scope>Parameters</scope><name>ini_delta_pos</name></member>
+      <member refid="class_parameters_1a87cb2db5b45bf9cb36e74903fecfaa6e" prot="public" virt="non-virtual"><scope>Parameters</scope><name>ini_walker_flag</name></member>
+      <member refid="class_parameters_1a84db69d29321fccb7cc7ea724a74df50" prot="public" virt="non-virtual"><scope>Parameters</scope><name>ini_walkers_file</name></member>
+      <member refid="class_parameters_1ae01ac4f7d6d3b9eea6799f5c929ddf00" prot="public" virt="non-virtual"><scope>Parameters</scope><name>ini_walkers_file_count</name></member>
+      <member refid="class_parameters_1a73d64bb093a93c2b806883f5504d8fb5" prot="public" virt="non-virtual"><scope>Parameters</scope><name>iniWalkersFileName</name></member>
+      <member refid="class_parameters_1ae30abbd794dee7f5aaf5d3d51152acef" prot="public" virt="non-virtual"><scope>Parameters</scope><name>log_opp</name></member>
+      <member refid="class_parameters_1a947e4b1fef66466119ea7b2e8e2bc0e4" prot="public" virt="non-virtual"><scope>Parameters</scope><name>log_phase_shift</name></member>
+      <member refid="class_parameters_1a1f5a62a35d6521994a623d0fd0a98a24" prot="public" virt="non-virtual"><scope>Parameters</scope><name>log_propagator</name></member>
+      <member refid="class_parameters_1a879b4c717e0f59c9bbc4b7810b8fdde3" prot="public" virt="non-virtual"><scope>Parameters</scope><name>max_limits</name></member>
+      <member refid="class_parameters_1a2bf25423e72a562d5812ed0df3e06e2d" prot="public" virt="non-virtual"><scope>Parameters</scope><name>max_sampling_area</name></member>
+      <member refid="class_parameters_1a66ad8359ef1cc76e8d5581a402cc86b5" prot="public" virt="non-virtual"><scope>Parameters</scope><name>max_simulation_time</name></member>
+      <member refid="class_parameters_1a0b44e239201caecaebdb7e956ead1e0c" prot="public" virt="non-virtual"><scope>Parameters</scope><name>min_cyl_radii</name></member>
+      <member refid="class_parameters_1aa9d387477810c2bb574b83ecd1fbf8f0" prot="public" virt="non-virtual"><scope>Parameters</scope><name>min_limits</name></member>
+      <member refid="class_parameters_1a8b7e1481e63d5ac9a36eed8ab310d315" prot="public" virt="non-virtual"><scope>Parameters</scope><name>min_sampling_area</name></member>
+      <member refid="class_parameters_1aab0de21efc3f85e5c44205ed5ebf9d4d" prot="public" virt="non-virtual"><scope>Parameters</scope><name>num_proc</name></member>
+      <member refid="class_parameters_1a3475e7efae778bc7720fe6c17274eef0" prot="public" virt="non-virtual"><scope>Parameters</scope><name>num_steps</name></member>
+      <member refid="class_parameters_1a35329cc60a28986ee4020457d46921fb" prot="public" virt="non-virtual"><scope>Parameters</scope><name>num_walkers</name></member>
+      <member refid="class_parameters_1a0d15fd8f1f5c332174864c3acbaf5e10" prot="public" virt="non-virtual"><scope>Parameters</scope><name>number_subdivisions</name></member>
+      <member refid="class_parameters_1a2e5fa275543b4a52599e694e64546e13" prot="public" virt="non-virtual"><scope>Parameters</scope><name>obstacle_permeability</name></member>
+      <member refid="class_parameters_1a2662ccc98a7a2b9f0c81f223a8f0748f" prot="public" virt="non-virtual"><scope>Parameters</scope><name>output_base_name</name></member>
+      <member refid="class_parameters_1af4d94ee360ac0157d9065f78797fe9a1" prot="public" virt="non-virtual"><scope>Parameters</scope><name>Parameters</name></member>
+      <member refid="class_parameters_1a76984fe140c1c6c8a047dd622561200d" prot="public" virt="non-virtual"><scope>Parameters</scope><name>PLY_files</name></member>
+      <member refid="class_parameters_1a67f6e450517ee21255d72d41bc9f0ce7" prot="public" virt="non-virtual"><scope>Parameters</scope><name>PLY_percolation</name></member>
+      <member refid="class_parameters_1a97ed7a4d1b6c6ea8f6507a6a0fc04698" prot="public" virt="non-virtual"><scope>Parameters</scope><name>PLY_scales</name></member>
+      <member refid="class_parameters_1a4bbfed0148cec6e10d0e90d85437a37a" prot="public" virt="non-virtual"><scope>Parameters</scope><name>prop_dirs</name></member>
+      <member refid="class_parameters_1a9443e1f717cdfa35ed4f73c3ec8a2c19" prot="private" virt="non-virtual"><scope>Parameters</scope><name>readGammaParams</name></member>
+      <member refid="class_parameters_1ad632799caf432f58193a3e2d303f37df" prot="private" virt="non-virtual"><scope>Parameters</scope><name>readHexagonalParams</name></member>
+      <member refid="class_parameters_1a58e7d3223cd26bb2fdd31cf00e018e58" prot="private" virt="non-virtual"><scope>Parameters</scope><name>readInfoGatheringParams</name></member>
+      <member refid="class_parameters_1a6bdb0e137277a8e49ad9a53d4536ea7d" prot="private" virt="non-virtual"><scope>Parameters</scope><name>readObstacles</name></member>
+      <member refid="class_parameters_1abfc3e8d11aa9e9e3d077b0d41b40d7a2" prot="private" virt="non-virtual"><scope>Parameters</scope><name>readPLYFileList</name></member>
+      <member refid="class_parameters_1af4e7651f9d190114ccf73cf4378212e4" prot="private" virt="non-virtual"><scope>Parameters</scope><name>readPLYFileListScalePercolation</name></member>
+      <member refid="class_parameters_1ac64dca9ae741e5bae473e3e750f16e0b" prot="private" virt="non-virtual"><scope>Parameters</scope><name>readPropagatorDirections</name></member>
+      <member refid="class_parameters_1afa8dd9d59fa727c3c2b2fe366efb2c14" prot="public" virt="non-virtual"><scope>Parameters</scope><name>readSchemeFile</name></member>
+      <member refid="class_parameters_1a51b8826f008ac49841f9f44324fa8769" prot="private" virt="non-virtual"><scope>Parameters</scope><name>readSubdivisionFile</name></member>
+      <member refid="class_parameters_1a610df7a39d175308b716389082250a63" prot="private" virt="non-virtual"><scope>Parameters</scope><name>readVoxels</name></member>
+      <member refid="class_parameters_1a559e66b65a2cb4391d1099bf0db6ec44" prot="public" virt="non-virtual"><scope>Parameters</scope><name>record_phase_times</name></member>
+      <member refid="class_parameters_1a4f884a7effd3a8816c78084ff3c2b202" prot="public" virt="non-virtual"><scope>Parameters</scope><name>record_pos_times</name></member>
+      <member refid="class_parameters_1af47bd2eada81c6c581aaa8c70d04c8d6" prot="public" virt="non-virtual"><scope>Parameters</scope><name>record_prop_times</name></member>
+      <member refid="class_parameters_1ab737ef40d88faa6ee8a701013d9d2984" prot="public" virt="non-virtual"><scope>Parameters</scope><name>save_phase_shift</name></member>
+      <member refid="class_parameters_1a3c37f738b7700bdc22845bc725d51e6f" prot="public" virt="non-virtual"><scope>Parameters</scope><name>scale_from_stu</name></member>
+      <member refid="class_parameters_1afbb7caab773abb16753263a0b04c8a2c" prot="public" virt="non-virtual"><scope>Parameters</scope><name>scheme_file</name></member>
+      <member refid="class_parameters_1afa076397ed9cbdc4c88215e29b850e3c" prot="public" virt="non-virtual"><scope>Parameters</scope><name>seed</name></member>
+      <member refid="class_parameters_1adacb13afed18c07dfd269fae76f828b3" prot="public" virt="non-virtual"><scope>Parameters</scope><name>separate_signals</name></member>
+      <member refid="class_parameters_1a7af2bd289f8c8de738d643bb8e05ac62" prot="public" virt="non-virtual"><scope>Parameters</scope><name>setDiffusivity</name></member>
+      <member refid="class_parameters_1a96764612c6ee5aeb684e1348e47b2308" prot="public" virt="non-virtual"><scope>Parameters</scope><name>setMaxLimits</name></member>
+      <member refid="class_parameters_1a73a4f685a35f8f7012609effb30a17d8" prot="public" virt="non-virtual"><scope>Parameters</scope><name>setMinLimits</name></member>
+      <member refid="class_parameters_1af61156929c1abed67da0a1c9920ca508" prot="public" virt="non-virtual"><scope>Parameters</scope><name>setNumSteps</name></member>
+      <member refid="class_parameters_1a666f753268b273d35f9623f0754e67ce" prot="public" virt="non-virtual"><scope>Parameters</scope><name>setNumWalkers</name></member>
+      <member refid="class_parameters_1aec6b8dc2c119405ab2cdc4e6622ac616" prot="public" virt="non-virtual"><scope>Parameters</scope><name>setOutputBaseFileName</name></member>
+      <member refid="class_parameters_1a95ca6c28a5c87363460ca48eed5f065f" prot="public" virt="non-virtual"><scope>Parameters</scope><name>setSchemeFileName</name></member>
+      <member refid="class_parameters_1a934a87940878dc78b75ae4c230132f75" prot="public" virt="non-virtual"><scope>Parameters</scope><name>setSimDuration</name></member>
+      <member refid="class_parameters_1ac07671c27ff8f0ec9f5d8bdc656e7ffb" prot="public" virt="non-virtual"><scope>Parameters</scope><name>setTrajFileName</name></member>
+      <member refid="class_parameters_1ac785bd73c771f6a46109fba421fbc059" prot="public" virt="non-virtual"><scope>Parameters</scope><name>setWriteTextFlag</name></member>
+      <member refid="class_parameters_1a632988a9dc0d04fdff35c6f72739ed83" prot="public" virt="non-virtual"><scope>Parameters</scope><name>setWriteTrajFlag</name></member>
+      <member refid="class_parameters_1acbe36f055786ddcf8480a49d2c34c914" prot="public" virt="non-virtual"><scope>Parameters</scope><name>sim_duration</name></member>
+      <member refid="class_parameters_1a150b4fdab4890be21905186d4c8422f2" prot="public" virt="non-virtual"><scope>Parameters</scope><name>str_dist</name></member>
+      <member refid="class_parameters_1a43362cb6e3ea49cc9db9e52c3ebc7140" prot="public" virt="non-virtual"><scope>Parameters</scope><name>subdivision_flag</name></member>
+      <member refid="class_parameters_1a3c05ff7a30f151c384b83ce3adca26fa" prot="public" virt="non-virtual"><scope>Parameters</scope><name>subdivisions</name></member>
+      <member refid="class_parameters_1a1733bfcb8391c494b7b1a317dfda5e44" prot="public" virt="non-virtual"><scope>Parameters</scope><name>subdivisions_file</name></member>
+      <member refid="class_parameters_1a75346dc3b7a41548a2f9e0560343df24" prot="public" virt="non-virtual"><scope>Parameters</scope><name>traj_file</name></member>
+      <member refid="class_parameters_1aabce43eb8376a94a8e765da99b58d003" prot="public" virt="non-virtual"><scope>Parameters</scope><name>verbatim</name></member>
+      <member refid="class_parameters_1aefbd07d8501ebb9311bbb1ea7c37be26" prot="public" virt="non-virtual"><scope>Parameters</scope><name>voxels_list</name></member>
+      <member refid="class_parameters_1a4c98120687d1ba332d0c6cd5a14c59fb" prot="public" virt="non-virtual"><scope>Parameters</scope><name>write_bin</name></member>
+      <member refid="class_parameters_1ac9408092b6254b4ccfecc85decbb1944" prot="public" virt="non-virtual"><scope>Parameters</scope><name>write_traj</name></member>
+      <member refid="class_parameters_1a15446bf0727ebfe03f119821c7d8ed0f" prot="public" virt="non-virtual"><scope>Parameters</scope><name>write_txt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

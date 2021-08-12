@@ -1,0 +1,63 @@
+.TH "Plane" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Plane \- Main class\&. Implements basic voxel limits and operations\&. =================================================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <voxel\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBPlane\fP (Eigen::Vector3d normal_, Eigen::Vector3d plane_center_, double d_)"
+.br
+.ti -1c
+.RI "\fBPlane\fP (Eigen::Vector3d &a, Eigen::Vector3d &b, Eigen::Vector3d &c, Eigen::Vector3d &d)"
+.br
+.ti -1c
+.RI "bool \fBCheckCollision\fP (\fBWalker\fP &walker, Eigen::Vector3d &step, double tmax, \fBCollision\fP &colision)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "Eigen::Vector3d \fBnormal\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBplane_center\fP"
+.br
+.ti -1c
+.RI "double \fBd\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Main class\&. Implements basic voxel limits and operations\&. =================================================/\&. 
+
+Class to handle and manage the voxels in the simulations\&. So far only one voxel at the time can be handled\&. To improve to several voxels, modifications shall be done\&.
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+July 2016 
+.RE
+.PP
+\fBVersion:\fP
+.RS 4
+0\&.2 =============================================================================================================+
+.RE
+.PP
+Auxiliary class to implements plane's interactions with particles\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

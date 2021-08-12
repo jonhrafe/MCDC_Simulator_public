@@ -1,0 +1,133 @@
+\hypertarget{class_p_l_y_collision_sphere}{}\section{P\+L\+Y\+Collision\+Sphere Class Reference}
+\label{class_p_l_y_collision_sphere}\index{P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}}
+
+
+Inheritance diagram for P\+L\+Y\+Collision\+Sphere\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=184pt]{class_p_l_y_collision_sphere__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for P\+L\+Y\+Collision\+Sphere\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=184pt]{class_p_l_y_collision_sphere__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_p_l_y_collision_sphere_adc8f318a913935cdd31d81f1c96192eb}{pop\+From\+Small\+Sphere} (unsigned i, unsigned t)
+\begin{DoxyCompactList}\small\item\em This function receives a index from the collision list and moves the value to the last position of the list. then decrease the inner sphere end index. This way this index is no longer considered inner collision list. \end{DoxyCompactList}\item 
+void \hyperlink{class_p_l_y_collision_sphere_a546ea2c6fe80908502fba0350c4f9726}{push\+To\+Small\+Sphere} (unsigned i, unsigned t)
+\begin{DoxyCompactList}\small\item\em This function receives a index from the collision list and moves the value to the last position of the list. then increse the inner sphere end index. This way this index is now included in the inner collision list. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_l_y_collision_sphere_ac9cf3838088310db3dc8f0d282c3c383}\label{class_p_l_y_collision_sphere_ac9cf3838088310db3dc8f0d282c3c383}} 
+void \hyperlink{class_p_l_y_collision_sphere_ac9cf3838088310db3dc8f0d282c3c383}{pop\+From\+Big\+Sphere} (unsigned i, unsigned t)
+\begin{DoxyCompactList}\small\item\em This function receives a index from the collision list and moves the value to the last position of the list. Then decrease the inner sphere end index. This way this index is now excluded in the outer collision list. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_l_y_collision_sphere_aa1fe5971687051f0de78a12ee4b31574}\label{class_p_l_y_collision_sphere_aa1fe5971687051f0de78a12ee4b31574}} 
+void \hyperlink{class_p_l_y_collision_sphere_aa1fe5971687051f0de78a12ee4b31574}{push\+To\+Big\+Sphere} (unsigned i, unsigned t)
+\begin{DoxyCompactList}\small\item\em This function receives a index from the collision list and moves the value to the last position of the list. Then increase the inner sphere end index. This way this index is now included in the outer collision list. \end{DoxyCompactList}\item 
+void \hyperlink{class_p_l_y_collision_sphere_acf52aecaf0bf676087035151e6c662c9}{set\+Big\+Sphere\+Size} (float size)
+\item 
+void \hyperlink{class_p_l_y_collision_sphere_af9ba1a8616bb5703e58f392f45c6c069}{set\+Small\+Sphere\+Size} (float size)
+\item 
+void \hyperlink{class_p_l_y_collision_sphere_a10e46dea74b839faf34872028eafae46}{push\+\_\+ply} (std\+::vector$<$ unsigned $>$ list)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ unsigned $>$ \hyperlink{class_p_l_y_collision_sphere_a7fd18a4a8a9dbb2f7104f9b9a5dd6766}{small\+\_\+sphere\+\_\+list\+\_\+end}
+\item 
+std\+::vector$<$ unsigned $>$ \hyperlink{class_p_l_y_collision_sphere_aadf7b345b8c91791fa96e00862bc8cbb}{big\+\_\+sphere\+\_\+list\+\_\+end}
+\item 
+std\+::vector$<$ std\+::vector$<$ unsigned $>$ $>$ $\ast$ \hyperlink{class_p_l_y_collision_sphere_a6ef04af98385142ed0b41a2e35f423b9}{collision\+\_\+list}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_p_l_y_collision_sphere_adc8f318a913935cdd31d81f1c96192eb}\label{class_p_l_y_collision_sphere_adc8f318a913935cdd31d81f1c96192eb}} 
+\index{P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}!pop\+From\+Small\+Sphere@{pop\+From\+Small\+Sphere}}
+\index{pop\+From\+Small\+Sphere@{pop\+From\+Small\+Sphere}!P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}}
+\subsubsection{\texorpdfstring{pop\+From\+Small\+Sphere()}{popFromSmallSphere()}}
+{\footnotesize\ttfamily void P\+L\+Y\+Collision\+Sphere\+::pop\+From\+Small\+Sphere (\begin{DoxyParamCaption}\item[{unsigned}]{i,  }\item[{unsigned}]{t }\end{DoxyParamCaption})}
+
+
+
+This function receives a index from the collision list and moves the value to the last position of the list. then decrease the inner sphere end index. This way this index is no longer considered inner collision list. 
+
+Removes one index from the list by moving it to the end of the list and decreading the index. \mbox{\Hypertarget{class_p_l_y_collision_sphere_a10e46dea74b839faf34872028eafae46}\label{class_p_l_y_collision_sphere_a10e46dea74b839faf34872028eafae46}} 
+\index{P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}!push\+\_\+ply@{push\+\_\+ply}}
+\index{push\+\_\+ply@{push\+\_\+ply}!P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}}
+\subsubsection{\texorpdfstring{push\+\_\+ply()}{push\_ply()}}
+{\footnotesize\ttfamily void P\+L\+Y\+Collision\+Sphere\+::push\+\_\+ply (\begin{DoxyParamCaption}\item[{std\+::vector$<$ unsigned $>$}]{list }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em element} & value to be added to the obstacle list \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_p_l_y_collision_sphere_a546ea2c6fe80908502fba0350c4f9726}\label{class_p_l_y_collision_sphere_a546ea2c6fe80908502fba0350c4f9726}} 
+\index{P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}!push\+To\+Small\+Sphere@{push\+To\+Small\+Sphere}}
+\index{push\+To\+Small\+Sphere@{push\+To\+Small\+Sphere}!P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}}
+\subsubsection{\texorpdfstring{push\+To\+Small\+Sphere()}{pushToSmallSphere()}}
+{\footnotesize\ttfamily void P\+L\+Y\+Collision\+Sphere\+::push\+To\+Small\+Sphere (\begin{DoxyParamCaption}\item[{unsigned}]{i,  }\item[{unsigned}]{t }\end{DoxyParamCaption})}
+
+
+
+This function receives a index from the collision list and moves the value to the last position of the list. then increse the inner sphere end index. This way this index is now included in the inner collision list. 
+
+Adds one element to the list by moving it in front of the current index and increasing the index. \mbox{\Hypertarget{class_p_l_y_collision_sphere_acf52aecaf0bf676087035151e6c662c9}\label{class_p_l_y_collision_sphere_acf52aecaf0bf676087035151e6c662c9}} 
+\index{P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}!set\+Big\+Sphere\+Size@{set\+Big\+Sphere\+Size}}
+\index{set\+Big\+Sphere\+Size@{set\+Big\+Sphere\+Size}!P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}}
+\subsubsection{\texorpdfstring{set\+Big\+Sphere\+Size()}{setBigSphereSize()}}
+{\footnotesize\ttfamily void P\+L\+Y\+Collision\+Sphere\+::set\+Big\+Sphere\+Size (\begin{DoxyParamCaption}\item[{float}]{size }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & of the list \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_p_l_y_collision_sphere_af9ba1a8616bb5703e58f392f45c6c069}\label{class_p_l_y_collision_sphere_af9ba1a8616bb5703e58f392f45c6c069}} 
+\index{P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}!set\+Small\+Sphere\+Size@{set\+Small\+Sphere\+Size}}
+\index{set\+Small\+Sphere\+Size@{set\+Small\+Sphere\+Size}!P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}}
+\subsubsection{\texorpdfstring{set\+Small\+Sphere\+Size()}{setSmallSphereSize()}}
+{\footnotesize\ttfamily void P\+L\+Y\+Collision\+Sphere\+::set\+Small\+Sphere\+Size (\begin{DoxyParamCaption}\item[{float}]{size }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & of the list \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_p_l_y_collision_sphere_aadf7b345b8c91791fa96e00862bc8cbb}\label{class_p_l_y_collision_sphere_aadf7b345b8c91791fa96e00862bc8cbb}} 
+\index{P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}!big\+\_\+sphere\+\_\+list\+\_\+end@{big\+\_\+sphere\+\_\+list\+\_\+end}}
+\index{big\+\_\+sphere\+\_\+list\+\_\+end@{big\+\_\+sphere\+\_\+list\+\_\+end}!P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}}
+\subsubsection{\texorpdfstring{big\+\_\+sphere\+\_\+list\+\_\+end}{big\_sphere\_list\_end}}
+{\footnotesize\ttfamily std\+::vector$<$unsigned$>$ P\+L\+Y\+Collision\+Sphere\+::big\+\_\+sphere\+\_\+list\+\_\+end}
+
+Index vecotr of the L\+A\+ST element on the list for the big collision sphere \mbox{\Hypertarget{class_p_l_y_collision_sphere_a6ef04af98385142ed0b41a2e35f423b9}\label{class_p_l_y_collision_sphere_a6ef04af98385142ed0b41a2e35f423b9}} 
+\index{P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}!collision\+\_\+list@{collision\+\_\+list}}
+\index{collision\+\_\+list@{collision\+\_\+list}!P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}}
+\subsubsection{\texorpdfstring{collision\+\_\+list}{collision\_list}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::vector$<$unsigned$>$ $>$$\ast$ P\+L\+Y\+Collision\+Sphere\+::collision\+\_\+list}
+
+Pointer to the list with the triangle indexes for each P\+LY. The indexes are permuted in its position. \mbox{\Hypertarget{class_p_l_y_collision_sphere_a7fd18a4a8a9dbb2f7104f9b9a5dd6766}\label{class_p_l_y_collision_sphere_a7fd18a4a8a9dbb2f7104f9b9a5dd6766}} 
+\index{P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}!small\+\_\+sphere\+\_\+list\+\_\+end@{small\+\_\+sphere\+\_\+list\+\_\+end}}
+\index{small\+\_\+sphere\+\_\+list\+\_\+end@{small\+\_\+sphere\+\_\+list\+\_\+end}!P\+L\+Y\+Collision\+Sphere@{P\+L\+Y\+Collision\+Sphere}}
+\subsubsection{\texorpdfstring{small\+\_\+sphere\+\_\+list\+\_\+end}{small\_sphere\_list\_end}}
+{\footnotesize\ttfamily std\+::vector$<$unsigned$>$ P\+L\+Y\+Collision\+Sphere\+::small\+\_\+sphere\+\_\+list\+\_\+end}
+
+Index vector of the L\+A\+ST element on the list for the small collision sphere 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/collisionsphere.\+h\item 
+src/collisionsphere.\+cpp\end{DoxyCompactItemize}

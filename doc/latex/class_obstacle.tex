@@ -1,0 +1,134 @@
+\hypertarget{class_obstacle}{}\section{Obstacle Class Reference}
+\label{class_obstacle}\index{Obstacle@{Obstacle}}
+
+
+\hyperlink{class_obstacle}{Obstacle} Base Class ==============================================================================/.  
+
+
+
+
+{\ttfamily \#include $<$obstacle.\+h$>$}
+
+
+
+Inheritance diagram for Obstacle\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=226pt]{class_obstacle__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_obstacle_a8f734072321fa06a7b7dae2d5f50f352}\label{class_obstacle_a8f734072321fa06a7b7dae2d5f50f352}} 
+\hyperlink{class_obstacle_a8f734072321fa06a7b7dae2d5f50f352}{Obstacle} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. Does nothing. \end{DoxyCompactList}\item 
+bool \hyperlink{class_obstacle_af11af63f11595304ff6d5c1785c03da5}{check\+Collision} (\hyperlink{class_walker}{Walker} \&walker, Eigen\+::\+Array3d \&step, const double \&step\+\_\+lenght, \hyperlink{class_collision}{Collision} \&colision)
+\begin{DoxyCompactList}\small\item\em Basic collision function. Returns the if there was any collision on against the obstacle. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_obstacle_a5316aabce6765c943d131aa3d5018f8d}\label{class_obstacle_a5316aabce6765c943d131aa3d5018f8d}} 
+void {\bfseries elastic\+Bounce\+Agains\+Plane} (Eigen\+::\+Vector3d \&ray\+\_\+origin, Eigen\+::\+Vector3d \&normal, double \&t, Eigen\+::\+Vector3d \&step)
+\item 
+double \hyperlink{class_obstacle_a742e9d6ea940b33545cef4f1f2d58566}{min\+Distance} (\hyperlink{class_walker}{Walker} \&w)
+\begin{DoxyCompactList}\small\item\em Returns the minimum distance of collision. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{class_obstacle_a02e049a3395138a0dc6194af0112e2b0}{id}
+\item 
+int \hyperlink{class_obstacle_aaa096d441fd095c7bbe924d1a78a8e23}{count\+\_\+perc\+\_\+crossings}
+\item 
+double \hyperlink{class_obstacle_a7afe63ee05b482c526591c981b22cf54}{percolation}
+\item 
+double \hyperlink{class_obstacle_a374f9b4486f63abce9696f5fe3a13e8e}{T2}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_obstacle}{Obstacle} Base Class ==============================================================================/. 
+
+Father class to define the base of any other obstacle (wall or substrate) \begin{DoxyAuthor}{Author}
+Jonathan Rafael 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+November 2016 \subsection*{1.\+42 }
+\end{DoxyDate}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_obstacle_af11af63f11595304ff6d5c1785c03da5}\label{class_obstacle_af11af63f11595304ff6d5c1785c03da5}} 
+\index{Obstacle@{Obstacle}!check\+Collision@{check\+Collision}}
+\index{check\+Collision@{check\+Collision}!Obstacle@{Obstacle}}
+\subsubsection{\texorpdfstring{check\+Collision()}{checkCollision()}}
+{\footnotesize\ttfamily Obstacle\+::check\+Collision (\begin{DoxyParamCaption}\item[{\hyperlink{class_walker}{Walker} \&}]{walker,  }\item[{Eigen\+::\+Array3d \&}]{step,  }\item[{const double \&}]{step\+\_\+lenght,  }\item[{\hyperlink{class_collision}{Collision} \&}]{colision }\end{DoxyParamCaption})}
+
+
+
+Basic collision function. Returns the if there was any collision on against the obstacle. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em walker,\hyperlink{class_walker}{Walker}} & instance in the simulation. \\
+\hline
+{\em 3d} & step. Is assumed to be normalized. \\
+\hline
+{\em step\+\_\+lenght,length} & used as the maximum step collision distance. \\
+\hline
+{\em colilsion,\hyperlink{class_collision}{Collision}} & instance to save the collision (if any) details. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true only if there was a Collision\+::hit status. 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{class_collision}{Collision}. 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{class_obstacle_a742e9d6ea940b33545cef4f1f2d58566}\label{class_obstacle_a742e9d6ea940b33545cef4f1f2d58566}} 
+\index{Obstacle@{Obstacle}!min\+Distance@{min\+Distance}}
+\index{min\+Distance@{min\+Distance}!Obstacle@{Obstacle}}
+\subsubsection{\texorpdfstring{min\+Distance()}{minDistance()}}
+{\footnotesize\ttfamily double Obstacle\+::min\+Distance (\begin{DoxyParamCaption}\item[{\hyperlink{class_walker}{Walker} \&}]{w }\end{DoxyParamCaption})}
+
+
+
+Returns the minimum distance of collision. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em walker} & to find the (closest) distance. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_obstacle_aaa096d441fd095c7bbe924d1a78a8e23}\label{class_obstacle_aaa096d441fd095c7bbe924d1a78a8e23}} 
+\index{Obstacle@{Obstacle}!count\+\_\+perc\+\_\+crossings@{count\+\_\+perc\+\_\+crossings}}
+\index{count\+\_\+perc\+\_\+crossings@{count\+\_\+perc\+\_\+crossings}!Obstacle@{Obstacle}}
+\subsubsection{\texorpdfstring{count\+\_\+perc\+\_\+crossings}{count\_perc\_crossings}}
+{\footnotesize\ttfamily int Obstacle\+::count\+\_\+perc\+\_\+crossings}
+
+Auxiliar value to count the number of percolatin crossings in a simulation \mbox{\Hypertarget{class_obstacle_a02e049a3395138a0dc6194af0112e2b0}\label{class_obstacle_a02e049a3395138a0dc6194af0112e2b0}} 
+\index{Obstacle@{Obstacle}!id@{id}}
+\index{id@{id}!Obstacle@{Obstacle}}
+\subsubsection{\texorpdfstring{id}{id}}
+{\footnotesize\ttfamily int Obstacle\+::id}
+
+Unique id of the simulation \mbox{\Hypertarget{class_obstacle_a7afe63ee05b482c526591c981b22cf54}\label{class_obstacle_a7afe63ee05b482c526591c981b22cf54}} 
+\index{Obstacle@{Obstacle}!percolation@{percolation}}
+\index{percolation@{percolation}!Obstacle@{Obstacle}}
+\subsubsection{\texorpdfstring{percolation}{percolation}}
+{\footnotesize\ttfamily double Obstacle\+::percolation}
+
+Percolation value between 0 and 1. \mbox{\Hypertarget{class_obstacle_a374f9b4486f63abce9696f5fe3a13e8e}\label{class_obstacle_a374f9b4486f63abce9696f5fe3a13e8e}} 
+\index{Obstacle@{Obstacle}!T2@{T2}}
+\index{T2@{T2}!Obstacle@{Obstacle}}
+\subsubsection{\texorpdfstring{T2}{T2}}
+{\footnotesize\ttfamily double Obstacle\+::\+T2}
+
+T2 decay, not used by default 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/obstacle.\+h\item 
+src/obstacle.\+cpp\end{DoxyCompactItemize}

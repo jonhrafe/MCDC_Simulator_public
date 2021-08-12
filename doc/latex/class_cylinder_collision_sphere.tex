@@ -1,0 +1,135 @@
+\hypertarget{class_cylinder_collision_sphere}{}\section{Cylinder\+Collision\+Sphere Class Reference}
+\label{class_cylinder_collision_sphere}\index{Cylinder\+Collision\+Sphere@{Cylinder\+Collision\+Sphere}}
+
+
+Class to save the cylinderical obstacles that a can collide to a walker.  
+
+
+
+
+{\ttfamily \#include $<$collisionsphere.\+h$>$}
+
+
+
+Inheritance diagram for Cylinder\+Collision\+Sphere\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{class_cylinder_collision_sphere__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Cylinder\+Collision\+Sphere\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=201pt]{class_cylinder_collision_sphere__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_cylinder_collision_sphere_ac4f58e8792fdcdfe475b9556dc804553}{Cylinder\+Collision\+Sphere} ()
+\item 
+\mbox{\Hypertarget{class_cylinder_collision_sphere_ad4cfd86c6ab7035b9ba67277792c132f}\label{class_cylinder_collision_sphere_ad4cfd86c6ab7035b9ba67277792c132f}} 
+void \hyperlink{class_cylinder_collision_sphere_ad4cfd86c6ab7035b9ba67277792c132f}{pop\+From\+Small\+Sphere} (unsigned i)
+\begin{DoxyCompactList}\small\item\em This function receives a index from the collision list and moves the value to the last position of the list. then decrease the inner sphere end index. This way this index is no longer considered inner collision list. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_cylinder_collision_sphere_aa369aaa1ce839382c915ac4f32ac82ca}\label{class_cylinder_collision_sphere_aa369aaa1ce839382c915ac4f32ac82ca}} 
+void \hyperlink{class_cylinder_collision_sphere_aa369aaa1ce839382c915ac4f32ac82ca}{push\+To\+Small\+Sphere} (unsigned i)
+\begin{DoxyCompactList}\small\item\em This function receives a index from the collision list and moves the value to the last position of the list. then increase the inner sphere end index. This way this index is now included in the inner collision list. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_cylinder_collision_sphere_a06a8f75674ef0bcc44a820e948624f60}\label{class_cylinder_collision_sphere_a06a8f75674ef0bcc44a820e948624f60}} 
+void \hyperlink{class_cylinder_collision_sphere_a06a8f75674ef0bcc44a820e948624f60}{pop\+From\+Big\+Sphere} (unsigned i)
+\begin{DoxyCompactList}\small\item\em This function receives a index from the collision list and moves the value to the last position of the list. Then decrease the inner sphere end index. This way this index is now excluded in the outer collision list. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_cylinder_collision_sphere_a8742564f85c9fede195ee716a3b16042}\label{class_cylinder_collision_sphere_a8742564f85c9fede195ee716a3b16042}} 
+void \hyperlink{class_cylinder_collision_sphere_a8742564f85c9fede195ee716a3b16042}{push\+To\+Big\+Sphere} (unsigned i)
+\begin{DoxyCompactList}\small\item\em This function receives a index from the collision list and moves the value to the last position of the list. Then increase the inner sphere end index. This way this index is now included in the outer collision list. \end{DoxyCompactList}\item 
+void \hyperlink{class_cylinder_collision_sphere_a3fe165c817a66074e737985efd87128b}{set\+Big\+Sphere\+Size} (float size)
+\item 
+void \hyperlink{class_cylinder_collision_sphere_a6e7f5ff8f4e5c076edb5f1cbee433a34}{set\+Small\+Sphere\+Size} (float size)
+\item 
+void \hyperlink{class_cylinder_collision_sphere_af2977e3da60e7a4c1e4ae4fccf03ed09}{push\+\_\+index} (unsigned int element)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned \hyperlink{class_cylinder_collision_sphere_a89e3bdfa12042aa94c20949587c513d5}{small\+\_\+sphere\+\_\+list\+\_\+end}
+\item 
+unsigned \hyperlink{class_cylinder_collision_sphere_a303b3843a9c8ab9ae3e6f4cce85ae8e0}{big\+\_\+sphere\+\_\+list\+\_\+end}
+\item 
+\mbox{\Hypertarget{class_cylinder_collision_sphere_a2c925c436410847d2f6079cd5331eada}\label{class_cylinder_collision_sphere_a2c925c436410847d2f6079cd5331eada}} 
+std\+::vector$<$ unsigned $>$ $\ast$ {\bfseries collision\+\_\+list}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class to save the cylinderical obstacles that a can collide to a walker. 
+
+Class to save the P\+LY mehses and the subset of triangles that a can collide to a walker. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_cylinder_collision_sphere_ac4f58e8792fdcdfe475b9556dc804553}\label{class_cylinder_collision_sphere_ac4f58e8792fdcdfe475b9556dc804553}} 
+\index{Cylinder\+Collision\+Sphere@{Cylinder\+Collision\+Sphere}!Cylinder\+Collision\+Sphere@{Cylinder\+Collision\+Sphere}}
+\index{Cylinder\+Collision\+Sphere@{Cylinder\+Collision\+Sphere}!Cylinder\+Collision\+Sphere@{Cylinder\+Collision\+Sphere}}
+\subsubsection{\texorpdfstring{Cylinder\+Collision\+Sphere()}{CylinderCollisionSphere()}}
+{\footnotesize\ttfamily Cylinder\+Collision\+Sphere\+::\+Cylinder\+Collision\+Sphere (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+$<$Pointer to List with the cylinders indexes. The indexes are permuted in its position. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_cylinder_collision_sphere_af2977e3da60e7a4c1e4ae4fccf03ed09}\label{class_cylinder_collision_sphere_af2977e3da60e7a4c1e4ae4fccf03ed09}} 
+\index{Cylinder\+Collision\+Sphere@{Cylinder\+Collision\+Sphere}!push\+\_\+index@{push\+\_\+index}}
+\index{push\+\_\+index@{push\+\_\+index}!Cylinder\+Collision\+Sphere@{Cylinder\+Collision\+Sphere}}
+\subsubsection{\texorpdfstring{push\+\_\+index()}{push\_index()}}
+{\footnotesize\ttfamily void Cylinder\+Collision\+Sphere\+::push\+\_\+index (\begin{DoxyParamCaption}\item[{unsigned int}]{element }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em element} & value to be added to the obstacle list \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_cylinder_collision_sphere_a3fe165c817a66074e737985efd87128b}\label{class_cylinder_collision_sphere_a3fe165c817a66074e737985efd87128b}} 
+\index{Cylinder\+Collision\+Sphere@{Cylinder\+Collision\+Sphere}!set\+Big\+Sphere\+Size@{set\+Big\+Sphere\+Size}}
+\index{set\+Big\+Sphere\+Size@{set\+Big\+Sphere\+Size}!Cylinder\+Collision\+Sphere@{Cylinder\+Collision\+Sphere}}
+\subsubsection{\texorpdfstring{set\+Big\+Sphere\+Size()}{setBigSphereSize()}}
+{\footnotesize\ttfamily void Cylinder\+Collision\+Sphere\+::set\+Big\+Sphere\+Size (\begin{DoxyParamCaption}\item[{float}]{size }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & of the list \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_cylinder_collision_sphere_a6e7f5ff8f4e5c076edb5f1cbee433a34}\label{class_cylinder_collision_sphere_a6e7f5ff8f4e5c076edb5f1cbee433a34}} 
+\index{Cylinder\+Collision\+Sphere@{Cylinder\+Collision\+Sphere}!set\+Small\+Sphere\+Size@{set\+Small\+Sphere\+Size}}
+\index{set\+Small\+Sphere\+Size@{set\+Small\+Sphere\+Size}!Cylinder\+Collision\+Sphere@{Cylinder\+Collision\+Sphere}}
+\subsubsection{\texorpdfstring{set\+Small\+Sphere\+Size()}{setSmallSphereSize()}}
+{\footnotesize\ttfamily void Cylinder\+Collision\+Sphere\+::set\+Small\+Sphere\+Size (\begin{DoxyParamCaption}\item[{float}]{size }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & of the list \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_cylinder_collision_sphere_a303b3843a9c8ab9ae3e6f4cce85ae8e0}\label{class_cylinder_collision_sphere_a303b3843a9c8ab9ae3e6f4cce85ae8e0}} 
+\index{Cylinder\+Collision\+Sphere@{Cylinder\+Collision\+Sphere}!big\+\_\+sphere\+\_\+list\+\_\+end@{big\+\_\+sphere\+\_\+list\+\_\+end}}
+\index{big\+\_\+sphere\+\_\+list\+\_\+end@{big\+\_\+sphere\+\_\+list\+\_\+end}!Cylinder\+Collision\+Sphere@{Cylinder\+Collision\+Sphere}}
+\subsubsection{\texorpdfstring{big\+\_\+sphere\+\_\+list\+\_\+end}{big\_sphere\_list\_end}}
+{\footnotesize\ttfamily unsigned Cylinder\+Collision\+Sphere\+::big\+\_\+sphere\+\_\+list\+\_\+end}
+
+Index of the L\+A\+ST element on the list for the big collision sphere \mbox{\Hypertarget{class_cylinder_collision_sphere_a89e3bdfa12042aa94c20949587c513d5}\label{class_cylinder_collision_sphere_a89e3bdfa12042aa94c20949587c513d5}} 
+\index{Cylinder\+Collision\+Sphere@{Cylinder\+Collision\+Sphere}!small\+\_\+sphere\+\_\+list\+\_\+end@{small\+\_\+sphere\+\_\+list\+\_\+end}}
+\index{small\+\_\+sphere\+\_\+list\+\_\+end@{small\+\_\+sphere\+\_\+list\+\_\+end}!Cylinder\+Collision\+Sphere@{Cylinder\+Collision\+Sphere}}
+\subsubsection{\texorpdfstring{small\+\_\+sphere\+\_\+list\+\_\+end}{small\_sphere\_list\_end}}
+{\footnotesize\ttfamily unsigned Cylinder\+Collision\+Sphere\+::small\+\_\+sphere\+\_\+list\+\_\+end}
+
+Index of the L\+A\+ST element on the list for the small collision sphere 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/collisionsphere.\+h\item 
+src/collisionsphere.\+cpp\end{DoxyCompactItemize}

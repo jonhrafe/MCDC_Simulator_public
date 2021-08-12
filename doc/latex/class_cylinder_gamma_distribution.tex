@@ -1,0 +1,153 @@
+\hypertarget{class_cylinder_gamma_distribution}{}\section{Cylinder\+Gamma\+Distribution Class Reference}
+\label{class_cylinder_gamma_distribution}\index{Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}}
+
+
+\hyperlink{class_cylinder_gamma_distribution}{Cylinder\+Gamma\+Distribution} Class =============================================================/.  
+
+
+
+
+{\ttfamily \#include $<$cylindergammadistribution.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_cylinder_gamma_distribution_a7578f5f0fb11398ec5bf5007047f4b81}{Cylinder\+Gamma\+Distribution} (unsigned, double, double, double, Eigen\+::\+Vector3d \&, Eigen\+::\+Vector3d \&, float \hyperlink{class_cylinder_gamma_distribution_aece7d3ec40d3dbb3a2ecd1bd88c5a694}{min\+\_\+radius})
+\begin{DoxyCompactList}\small\item\em Initialize everything. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_cylinder_gamma_distribution_a3408ed30966550c10810a0a6cbbfd3c2}\label{class_cylinder_gamma_distribution_a3408ed30966550c10810a0a6cbbfd3c2}} 
+void \hyperlink{class_cylinder_gamma_distribution_a3408ed30966550c10810a0a6cbbfd3c2}{display\+Gamma\+Distribution} ()
+\begin{DoxyCompactList}\small\item\em Shows a small histogram of the gamma distribution. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_cylinder_gamma_distribution_ad93e569b24e3c6b1266ecf79bd18dec9}\label{class_cylinder_gamma_distribution_ad93e569b24e3c6b1266ecf79bd18dec9}} 
+void \hyperlink{class_cylinder_gamma_distribution_ad93e569b24e3c6b1266ecf79bd18dec9}{create\+Gamma\+Substrate} ()
+\begin{DoxyCompactList}\small\item\em Samples and constructs a Gamma distribution. \end{DoxyCompactList}\item 
+void \hyperlink{class_cylinder_gamma_distribution_a2345c03be0b0c934efe02e4234c65fd1}{print\+Substrate} (std\+::ostream \&out)
+\begin{DoxyCompactList}\small\item\em Prints the cylinders positions in a file or output stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned \hyperlink{class_cylinder_gamma_distribution_af74583662a4f33ba1565f2c71e6bbc5a}{num\+\_\+cylinders}
+\item 
+double \hyperlink{class_cylinder_gamma_distribution_a8cae528f51692ed05049e4ea06c63722}{alpha}
+\item 
+double \hyperlink{class_cylinder_gamma_distribution_a601a42ef7bacbf9696229efbd703f61e}{beta}
+\item 
+double \hyperlink{class_cylinder_gamma_distribution_a31f82c4608b7cd2b022805e30a4db983}{icvf}
+\item 
+float \hyperlink{class_cylinder_gamma_distribution_aece7d3ec40d3dbb3a2ecd1bd88c5a694}{min\+\_\+radius}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_cylinder_gamma_distribution_ac77a9d794f2f2000066c4a26f19a9097}{min\+\_\+limits}
+\item 
+Eigen\+::\+Vector3d \hyperlink{class_cylinder_gamma_distribution_aa7094851c2ccf05fc5ff7a99707aa786}{max\+\_\+limits}
+\item 
+std\+::vector$<$ \hyperlink{class_cylinder}{Cylinder} $>$ \hyperlink{class_cylinder_gamma_distribution_a3e8265a7ddb15d895112e02bd66fbf67}{cylinders}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{class_cylinder_gamma_distribution}{Cylinder\+Gamma\+Distribution} Class =============================================================/. 
+
+Class to construct a substrate taken from a Gamma distribution of radiis placed in a single voxel structure. \begin{DoxyAuthor}{Author}
+Jonathan Rafael 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+february 2017 \subsection*{0.\+2 }
+\end{DoxyDate}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_cylinder_gamma_distribution_a7578f5f0fb11398ec5bf5007047f4b81}\label{class_cylinder_gamma_distribution_a7578f5f0fb11398ec5bf5007047f4b81}} 
+\index{Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}!Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}}
+\index{Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}!Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}}
+\subsubsection{\texorpdfstring{Cylinder\+Gamma\+Distribution()}{CylinderGammaDistribution()}}
+{\footnotesize\ttfamily Cylinder\+Gamma\+Distribution\+::\+Cylinder\+Gamma\+Distribution (\begin{DoxyParamCaption}\item[{unsigned}]{num\+\_\+cyl,  }\item[{double}]{a,  }\item[{double}]{b,  }\item[{double}]{icvf\+\_\+,  }\item[{Eigen\+::\+Vector3d \&}]{min\+\_\+l,  }\item[{Eigen\+::\+Vector3d \&}]{max\+\_\+l,  }\item[{float}]{min\+\_\+radius = {\ttfamily 0.01} }\end{DoxyParamCaption})}
+
+
+
+Initialize everything. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em P\+\_\+} & \hyperlink{class_cylinder}{Cylinder} origin \\
+\hline
+{\em Q\+\_\+} & cylinder direction. \\
+\hline
+{\em radius\+\_\+} & cylinder\textquotesingle{}s radius \\
+\hline
+{\em scale} & scale factor for the values passed. Useful when reading a file. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_cylinder_gamma_distribution_a2345c03be0b0c934efe02e4234c65fd1}\label{class_cylinder_gamma_distribution_a2345c03be0b0c934efe02e4234c65fd1}} 
+\index{Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}!print\+Substrate@{print\+Substrate}}
+\index{print\+Substrate@{print\+Substrate}!Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}}
+\subsubsection{\texorpdfstring{print\+Substrate()}{printSubstrate()}}
+{\footnotesize\ttfamily void Cylinder\+Gamma\+Distribution\+::print\+Substrate (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out }\end{DoxyParamCaption})}
+
+
+
+Prints the cylinders positions in a file or output stream. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & ostream where to write the info. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_cylinder_gamma_distribution_a8cae528f51692ed05049e4ea06c63722}\label{class_cylinder_gamma_distribution_a8cae528f51692ed05049e4ea06c63722}} 
+\index{Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}!alpha@{alpha}}
+\index{alpha@{alpha}!Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}}
+\subsubsection{\texorpdfstring{alpha}{alpha}}
+{\footnotesize\ttfamily double Cylinder\+Gamma\+Distribution\+::alpha}
+
+alpha coefficient of the Gamma distribution \mbox{\Hypertarget{class_cylinder_gamma_distribution_a601a42ef7bacbf9696229efbd703f61e}\label{class_cylinder_gamma_distribution_a601a42ef7bacbf9696229efbd703f61e}} 
+\index{Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}!beta@{beta}}
+\index{beta@{beta}!Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}}
+\subsubsection{\texorpdfstring{beta}{beta}}
+{\footnotesize\ttfamily double Cylinder\+Gamma\+Distribution\+::beta}
+
+beta coefficient of the gamma distribution \mbox{\Hypertarget{class_cylinder_gamma_distribution_a3e8265a7ddb15d895112e02bd66fbf67}\label{class_cylinder_gamma_distribution_a3e8265a7ddb15d895112e02bd66fbf67}} 
+\index{Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}!cylinders@{cylinders}}
+\index{cylinders@{cylinders}!Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}}
+\subsubsection{\texorpdfstring{cylinders}{cylinders}}
+{\footnotesize\ttfamily std\+::vector$<$\hyperlink{class_cylinder}{Cylinder}$>$ Cylinder\+Gamma\+Distribution\+::cylinders}
+
+\hyperlink{class_cylinder}{Cylinder} vector \mbox{\Hypertarget{class_cylinder_gamma_distribution_a31f82c4608b7cd2b022805e30a4db983}\label{class_cylinder_gamma_distribution_a31f82c4608b7cd2b022805e30a4db983}} 
+\index{Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}!icvf@{icvf}}
+\index{icvf@{icvf}!Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}}
+\subsubsection{\texorpdfstring{icvf}{icvf}}
+{\footnotesize\ttfamily double Cylinder\+Gamma\+Distribution\+::icvf}
+
+Achieved intra-\/celular volum fraction in the substrate \mbox{\Hypertarget{class_cylinder_gamma_distribution_aa7094851c2ccf05fc5ff7a99707aa786}\label{class_cylinder_gamma_distribution_aa7094851c2ccf05fc5ff7a99707aa786}} 
+\index{Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}!max\+\_\+limits@{max\+\_\+limits}}
+\index{max\+\_\+limits@{max\+\_\+limits}!Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}}
+\subsubsection{\texorpdfstring{max\+\_\+limits}{max\_limits}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Cylinder\+Gamma\+Distribution\+::max\+\_\+limits}
+
+voxel max limits (if any) \mbox{\Hypertarget{class_cylinder_gamma_distribution_ac77a9d794f2f2000066c4a26f19a9097}\label{class_cylinder_gamma_distribution_ac77a9d794f2f2000066c4a26f19a9097}} 
+\index{Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}!min\+\_\+limits@{min\+\_\+limits}}
+\index{min\+\_\+limits@{min\+\_\+limits}!Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}}
+\subsubsection{\texorpdfstring{min\+\_\+limits}{min\_limits}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3d Cylinder\+Gamma\+Distribution\+::min\+\_\+limits}
+
+voxel min limits (if any) (bottom left corner) \mbox{\Hypertarget{class_cylinder_gamma_distribution_aece7d3ec40d3dbb3a2ecd1bd88c5a694}\label{class_cylinder_gamma_distribution_aece7d3ec40d3dbb3a2ecd1bd88c5a694}} 
+\index{Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}!min\+\_\+radius@{min\+\_\+radius}}
+\index{min\+\_\+radius@{min\+\_\+radius}!Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}}
+\subsubsection{\texorpdfstring{min\+\_\+radius}{min\_radius}}
+{\footnotesize\ttfamily float Cylinder\+Gamma\+Distribution\+::min\+\_\+radius}
+
+Minimum radius to be sampled from the gamma distribution \mbox{\Hypertarget{class_cylinder_gamma_distribution_af74583662a4f33ba1565f2c71e6bbc5a}\label{class_cylinder_gamma_distribution_af74583662a4f33ba1565f2c71e6bbc5a}} 
+\index{Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}!num\+\_\+cylinders@{num\+\_\+cylinders}}
+\index{num\+\_\+cylinders@{num\+\_\+cylinders}!Cylinder\+Gamma\+Distribution@{Cylinder\+Gamma\+Distribution}}
+\subsubsection{\texorpdfstring{num\+\_\+cylinders}{num\_cylinders}}
+{\footnotesize\ttfamily unsigned Cylinder\+Gamma\+Distribution\+::num\+\_\+cylinders}
+
+number of cylnders fit inside the substrate 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/cylindergammadistribution.\+h\item 
+src/cylindergammadistribution.\+cpp\end{DoxyCompactItemize}

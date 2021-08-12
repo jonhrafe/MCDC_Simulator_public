@@ -24,11 +24,11 @@
 #define SH_FG_GREEN             "\033[0;32m"
 #define SH_DEFAULT              "\033[0m"
 
-#define VERSION_ID              "1.44.004"
+#define VERSION_ID              "1.50.000"
 
 const double m_to_mm = 1e3;                     /*!< meters to milimeters constant                              */
 const double s_to_ms = 1e3;                     /*!< seconds to milisecodns constant                            */
-const double EPS_VAL = 1e-15;                   /*!< numerical epsilon value                                    */
+const double EPS_VAL = 1e-12;                   /*!< numerical epsilon value                                    */
 const double m2_to_mm2 = 1e6;                   /*!< squared meters to squared milimeters                       */
 const double giro = 267.51525e3;                /*!< Gyromagnetic radio given in rad/(ms*T)                     */
 const double DIFF_CONST = 2.02e-7;              /*!< Default diffusion coeficient                               */

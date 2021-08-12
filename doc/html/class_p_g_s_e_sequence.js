@@ -1,0 +1,28 @@
+var class_p_g_s_e_sequence =
+[
+    [ "PGSESequence", "class_p_g_s_e_sequence.html#a29db64fbd60c54c191e8197e1818dce0", null ],
+    [ "PGSESequence", "class_p_g_s_e_sequence.html#a31bcb2e91e27823bbe71904e180f7de9", null ],
+    [ "PGSESequence", "class_p_g_s_e_sequence.html#ab278a413c31a67f82712590897a556cb", null ],
+    [ "PGSESequence", "class_p_g_s_e_sequence.html#a262f1156c51983fba9b9a6b666dd2e07", null ],
+    [ "PGSESequence", "class_p_g_s_e_sequence.html#a1eb4e53eb0769b16eb9bb2156c769644", null ],
+    [ "~PGSESequence", "class_p_g_s_e_sequence.html#a7e5815e4ae0b3a6d42c45322fc69fdd6", null ],
+    [ "computeDynamicTimeSteps", "class_p_g_s_e_sequence.html#ac115d93aabb283f19568f55493d57ded", null ],
+    [ "get_adt", "class_p_g_s_e_sequence.html#a885a0415519683a7fbfa1883f7f3d807", null ],
+    [ "getbValue", "class_p_g_s_e_sequence.html#a8b0671a505f79a601d3d4d2d9b7f36cc", null ],
+    [ "getDWISignal", "class_p_g_s_e_sequence.html#aec05e76b5c7b3361bd3e68301b262a0a", null ],
+    [ "getFreeDecay", "class_p_g_s_e_sequence.html#a375c8a943f4857a323ffc404394b5d8a", null ],
+    [ "getGradImpulse", "class_p_g_s_e_sequence.html#a3f2a705b7d3312944630f3d7f639e8e4", null ],
+    [ "getGradImpuse", "class_p_g_s_e_sequence.html#a9985ead781333f782d1dee54482eb0d2", null ],
+    [ "getNumericalbValue", "class_p_g_s_e_sequence.html#a1373f02bffedb1e934818ae8d4fb8939", null ],
+    [ "print_adt_and_dt", "class_p_g_s_e_sequence.html#afa9e363ef76474d5e2495407034a10d4", null ],
+    [ "readSchemeFile", "class_p_g_s_e_sequence.html#a22005e67e3513690f9e46b1d531481b0", null ],
+    [ "setNumberOfSteps", "class_p_g_s_e_sequence.html#a89f9bf116876b04403058a240a91efa3", null ],
+    [ "update_DWI_signal", "class_p_g_s_e_sequence.html#ae2b79f12ccd2f2446a498cb51f45e88d", null ],
+    [ "update_phase_shift", "class_p_g_s_e_sequence.html#a6914efd208eab28a1ee6a3f28ca65478", null ],
+    [ "update_phase_shift", "class_p_g_s_e_sequence.html#a850a2f22cdf8b420888cfa906e03e078", null ],
+    [ "dyn_duration", "class_p_g_s_e_sequence.html#a0c7e884c3b71cbcc04d6cb2d5f2a5eb9", null ],
+    [ "scheme", "class_p_g_s_e_sequence.html#a7349d86720a34e75eaf578fdfd3caeeb", null ],
+    [ "T", "class_p_g_s_e_sequence.html#a07e27e6e8a8506521386a291d62e8423", null ],
+    [ "TE", "class_p_g_s_e_sequence.html#a06df939859fd2ed6104bfee584f893a1", null ],
+    [ "trajectory", "class_p_g_s_e_sequence.html#a0fd0fb458384bfb65070fdab5165dde5", null ]
+];

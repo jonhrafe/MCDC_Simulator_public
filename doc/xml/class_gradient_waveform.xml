@@ -1,0 +1,524 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_gradient_waveform" kind="class" language="C++" prot="public">
+    <compoundname>GradientWaveform</compoundname>
+    <basecompoundref refid="class_simulable_sequence" prot="public" virt="non-virtual">SimulableSequence</basecompoundref>
+    <includes refid="gradientwaveform_8h" local="no">gradientwaveform.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_gradient_waveform_1a4e0c0163e36cc017f5b147e9ca3022e0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double GradientWaveform::TE</definition>
+        <argsstring></argsstring>
+        <name>TE</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Time Echo. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="20" column="1" bodyfile="src/gradientwaveform.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gradient_waveform_1af2f45ff237ba41afe3ff5cedb7c1c966" prot="public" static="no" mutable="no">
+        <type>uint</type>
+        <definition>uint GradientWaveform::T</definition>
+        <argsstring></argsstring>
+        <name>T</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>num bins (time steps) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="22" column="1" bodyfile="src/gradientwaveform.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gradient_waveform_1a8608216ab7e5f002dcf6af4f869c5d27" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double GradientWaveform::dyn_duration</definition>
+        <argsstring></argsstring>
+        <name>dyn_duration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>simulation duration (miliseconds) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="24" column="1" bodyfile="src/gradientwaveform.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gradient_waveform_1ac2287a6ef99e35f0c1f97fc3ffb37d7b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int GradientWaveform::wave_bins</definition>
+        <argsstring></argsstring>
+        <name>wave_bins</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Wave discretization </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="26" column="1" bodyfile="src/gradientwaveform.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gradient_waveform_1a02d695fa36713bd28d3c85d2bb7a877b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double GradientWaveform::wave_duration</definition>
+        <argsstring></argsstring>
+        <name>wave_duration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Wave duration (should be less qeual than dyn_dur.) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="28" column="1" bodyfile="src/gradientwaveform.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gradient_waveform_1a3eacca54a58dc574384f07899a9a6da3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double GradientWaveform::dt</definition>
+        <argsstring></argsstring>
+        <name>dt</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>individual time steps (miliseconds) of the wave </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="30" column="1" bodyfile="src/gradientwaveform.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gradient_waveform_1a712eedb2165b3f889e27244fc9d91ebd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool GradientWaveform::scale_from_stu</definition>
+        <argsstring></argsstring>
+        <name>scale_from_stu</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>True if the input is in standar units </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="32" column="1" bodyfile="src/gradientwaveform.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gradient_waveform_1a565fce08abb28fe26664194c04faeaea" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt;float&gt; &gt; GradientWaveform::waveform</definition>
+        <argsstring></argsstring>
+        <name>waveform</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Defined waveforms </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="34" column="1" bodyfile="src/gradientwaveform.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gradient_waveform_1a83a7c844f86acee3b7ab12e7e70202af" prot="public" static="no" mutable="no">
+        <type><ref refid="class_trajectory" kindref="compound">Trajectory</ref></type>
+        <definition>Trajectory GradientWaveform::trajectory</definition>
+        <argsstring></argsstring>
+        <name>trajectory</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If the signal is computed from a .trajfile </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="36" column="1" bodyfile="src/gradientwaveform.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_gradient_waveform_1acf951c9a86f95d002db4858ee4c78582" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>GradientWaveform::GradientWaveform</definition>
+        <argsstring>()</argsstring>
+        <name>GradientWaveform</name>
+        <briefdescription>
+<para>Default constructor, set default NULL values. Not to be used. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="41" column="1" bodyfile="src/gradientwaveform.cpp" bodystart="32" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gradient_waveform_1aad3922dbe19647ed0fcbba175fb9a5ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>GradientWaveform::GradientWaveform</definition>
+        <argsstring>(Scheme &amp;scheme)</argsstring>
+        <name>GradientWaveform</name>
+        <param>
+          <type><ref refid="class_scheme" kindref="compound">Scheme</ref> &amp;</type>
+          <declname>scheme</declname>
+        </param>
+        <briefdescription>
+<para>Main constructor. Takes a pre-loaded <ref refid="class_scheme" kindref="compound">Scheme</ref> file. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="46" column="1" bodyfile="src/gradientwaveform.cpp" bodystart="41" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gradient_waveform_1a4780653a03ac1f576aeb6102b910ccde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>GradientWaveform::GradientWaveform</definition>
+        <argsstring>(Scheme &amp;scheme_, const char *traj_file_name)</argsstring>
+        <name>GradientWaveform</name>
+        <param>
+          <type><ref refid="class_scheme" kindref="compound">Scheme</ref> &amp;</type>
+          <declname>scheme_</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>traj_file_name</declname>
+        </param>
+        <briefdescription>
+<para>Main constructor. Takes a pre-loaded <ref refid="class_scheme" kindref="compound">Scheme</ref> file and a traj file name. if this argument is passed a traj file is should be written. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="52" column="1" bodyfile="src/gradientwaveform.cpp" bodystart="55" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gradient_waveform_1a5f55e43b3057509b0f98812d2a72db9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double GradientWaveform::getNumericalbValue</definition>
+        <argsstring>(unsigned)</argsstring>
+        <name>getNumericalbValue</name>
+        <param>
+          <type>unsigned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="warning"><para>not implemented yet. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="59" column="1" bodyfile="src/gradientwaveform.cpp" bodystart="69" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gradient_waveform_1a52971b5f773c8c0b7c43bcd5fc50197a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void GradientWaveform::getDWISignal</definition>
+        <argsstring>()</argsstring>
+        <name>getDWISignal</name>
+        <briefdescription>
+<para>Computes de DW signal from a trajfile. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="64" column="1" bodyfile="src/gradientwaveform.cpp" bodystart="205" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gradient_waveform_1a82da8e7b3bffe4557e6e38191b7f8d81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void GradientWaveform::readSchemeFile</definition>
+        <argsstring>()</argsstring>
+        <name>readSchemeFile</name>
+        <briefdescription>
+<para>reads the waveform </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="70" column="1" bodyfile="src/gradientwaveform.cpp" bodystart="89" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gradient_waveform_1a2f1449c026649e4601f773086d1346ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void GradientWaveform::getInterpolatedGradImpulse</definition>
+        <argsstring>(uint rep_index, double dt_sim, double t_sim_last, Eigen::Vector3d &amp;Gdt)</argsstring>
+        <name>getInterpolatedGradImpulse</name>
+        <param>
+          <type>uint</type>
+          <declname>rep_index</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>dt_sim</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>t_sim_last</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>Gdt</declname>
+        </param>
+        <briefdescription>
+<para>For using with the adt array. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="75" column="1" bodyfile="src/gradientwaveform.cpp" bodystart="134" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gradient_waveform_1a2c606400c648cebd85827efa8d22b6bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void GradientWaveform::update_phase_shift</definition>
+        <argsstring>(double time_step, Eigen::Matrix3Xd trajectory)</argsstring>
+        <name>update_phase_shift</name>
+        <reimplements refid="class_simulable_sequence_1a175197d165ee7852094bc70cadc59589">update_phase_shift</reimplements>
+        <param>
+          <type>double</type>
+          <declname>time_step</declname>
+        </param>
+        <param>
+          <type>Eigen::Matrix3Xd</type>
+          <declname>trajectory</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>updated the phase shift over a whole trajectory </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="80" column="1" bodyfile="src/gradientwaveform.cpp" bodystart="172" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gradient_waveform_1a7421301b24b6c98e28ef9430287cdf8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void GradientWaveform::update_phase_shift</definition>
+        <argsstring>(double dt, double dt_last, Walker walker)</argsstring>
+        <name>update_phase_shift</name>
+        <reimplements refid="class_simulable_sequence_1ad7b2a30f563343aa65489aa553d4df63">update_phase_shift</reimplements>
+        <param>
+          <type>double</type>
+          <declname>dt</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>dt_last</declname>
+        </param>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref></type>
+          <declname>walker</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>updated walker </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="83" column="1" bodyfile="src/gradientwaveform.cpp" bodystart="198" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gradient_waveform_1af4291596da9c45247b0748d945bd9b54" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void GradientWaveform::update_DWI_signal</definition>
+        <argsstring>(Walker &amp;walker)</argsstring>
+        <name>update_DWI_signal</name>
+        <reimplements refid="class_simulable_sequence_1af5621196178ee78b27e740dfe360815e">update_DWI_signal</reimplements>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref> &amp;</type>
+          <declname>walker</declname>
+        </param>
+        <briefdescription>
+<para>Updates the DWI signal using the cumulated phase shift. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="87" column="1" bodyfile="src/gradientwaveform.cpp" bodystart="262" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gradient_waveform_1a040d4a70dc7951c235010791e1c581d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void GradientWaveform::setNumberOfSteps</definition>
+        <argsstring>(unsigned T)</argsstring>
+        <name>setNumberOfSteps</name>
+        <reimplements refid="class_simulable_sequence_1a2e16c0b0dcf1b90ad0afc53ab14e9250">setNumberOfSteps</reimplements>
+        <param>
+          <type>unsigned</type>
+          <declname>T</declname>
+        </param>
+        <briefdescription>
+<para>Set the number of time steps if they are known. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="89" column="1" bodyfile="src/gradientwaveform.cpp" bodystart="337" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gradient_waveform_1a80dd810cb4e5a11dec311ac87e55ea18" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void GradientWaveform::getGradImpulse</definition>
+        <argsstring>(int i, double t, double tLast, Eigen::Vector3d &amp;Gdt)</argsstring>
+        <name>getGradImpulse</name>
+        <reimplements refid="class_simulable_sequence_1a03a417776f5404b06c761ab9109e3e1d">getGradImpulse</reimplements>
+        <param>
+          <type>int</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tLast</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>Gdt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>i</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="class_walker" kindref="compound">Walker</ref> index </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>current time step (in milisenconds) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tLast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>last time step (in milisenconds) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Gdt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector to compute de G*dt impulse </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="91" column="1" bodyfile="src/gradientwaveform.cpp" bodystart="130" bodyend="132"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_gradient_waveform_1ab85d57d7067b47f92ce9414a2ab7cb9e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void GradientWaveform::readSchemeParameters</definition>
+        <argsstring>(Scheme &amp;scheme_)</argsstring>
+        <name>readSchemeParameters</name>
+        <param>
+          <type><ref refid="class_scheme" kindref="compound">Scheme</ref> &amp;</type>
+          <declname>scheme_</declname>
+        </param>
+        <briefdescription>
+<para>reads the scheme file parameters </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gradientwaveform.h" line="98" column="1" bodyfile="src/gradientwaveform.cpp" bodystart="75" bodyend="87"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Gradient Wavefroms =============================================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Implementation of the the General Wavefroms.</para><para>Main implementation of the gradient waveforms protocol <simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>November 2017 <heading level="1">1.42 </heading>
+</para></simplesect>
+</para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="29">
+        <label>SimulableSequence</label>
+        <link refid="class_simulable_sequence"/>
+      </node>
+      <node id="28">
+        <label>GradientWaveform</label>
+        <link refid="class_gradient_waveform"/>
+        <childnode refid="29" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="31">
+        <label>SimulableSequence</label>
+        <link refid="class_simulable_sequence"/>
+      </node>
+      <node id="30">
+        <label>GradientWaveform</label>
+        <link refid="class_gradient_waveform"/>
+        <childnode refid="31" relation="public-inheritance">
+        </childnode>
+        <childnode refid="32" relation="usage">
+          <edgelabel>trajectory</edgelabel>
+        </childnode>
+      </node>
+      <node id="32">
+        <label>Trajectory</label>
+        <link refid="class_trajectory"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/gradientwaveform.h" line="17" column="1" bodyfile="src/gradientwaveform.h" bodystart="16" bodyend="101"/>
+    <listofallmembers>
+      <member refid="class_simulable_sequence_1af8396d72ccbb4ad1e8a403e554b8e8e1" prot="public" virt="virtual"><scope>GradientWaveform</scope><name>cleanDWISignal</name></member>
+      <member refid="class_simulable_sequence_1a49a95a0735a939b65495be51ce0fb1be" prot="public" virt="virtual"><scope>GradientWaveform</scope><name>cleanPhaseShift</name></member>
+      <member refid="class_simulable_sequence_1a3c5285531564cdb204894e6c6fc9204e" prot="public" virt="virtual"><scope>GradientWaveform</scope><name>computeDynamicTimeSteps</name></member>
+      <member refid="class_gradient_waveform_1a3eacca54a58dc574384f07899a9a6da3" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>dt</name></member>
+      <member refid="class_simulable_sequence_1a083961d839ed1433206ccbc481996409" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>DWI</name></member>
+      <member refid="class_simulable_sequence_1a49a24269e364bcd02000ba575acc85ed" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>DWI_extra</name></member>
+      <member refid="class_simulable_sequence_1ac64fb8110b769e180283365567bd4158" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>DWI_intra</name></member>
+      <member refid="class_simulable_sequence_1a3708afa1322d72b59d3be20b740d107c" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>DWIi</name></member>
+      <member refid="class_gradient_waveform_1a8608216ab7e5f002dcf6af4f869c5d27" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>dyn_duration</name></member>
+      <member refid="class_simulable_sequence_1a1de2d00a939f550af1947ae25acc4b97" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>dynamic</name></member>
+      <member refid="class_simulable_sequence_1a85cdcf5f7bd5bed804a816e3c18840b7" prot="public" virt="virtual"><scope>GradientWaveform</scope><name>getbValue</name></member>
+      <member refid="class_gradient_waveform_1a52971b5f773c8c0b7c43bcd5fc50197a" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>getDWISignal</name></member>
+      <member refid="class_simulable_sequence_1a31a328cc716e039a53f9b12122050b83" prot="public" virt="virtual"><scope>GradientWaveform</scope><name>getFreeDecay</name></member>
+      <member refid="class_gradient_waveform_1a80dd810cb4e5a11dec311ac87e55ea18" prot="public" virt="virtual"><scope>GradientWaveform</scope><name>getGradImpulse</name></member>
+      <member refid="class_gradient_waveform_1a2f1449c026649e4601f773086d1346ce" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>getInterpolatedGradImpulse</name></member>
+      <member refid="class_gradient_waveform_1a5f55e43b3057509b0f98812d2a72db9a" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>getNumericalbValue</name></member>
+      <member refid="class_gradient_waveform_1acf951c9a86f95d002db4858ee4c78582" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>GradientWaveform</name></member>
+      <member refid="class_gradient_waveform_1aad3922dbe19647ed0fcbba175fb9a5ff" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>GradientWaveform</name></member>
+      <member refid="class_gradient_waveform_1a4780653a03ac1f576aeb6102b910ccde" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>GradientWaveform</name></member>
+      <member refid="class_simulable_sequence_1a7603177060550acd31ece2c87fcdd2a9" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>img_signal</name></member>
+      <member refid="class_simulable_sequence_1a3fad0e115a2ec07a8b1202608eba698e" prot="public" virt="virtual"><scope>GradientWaveform</scope><name>initializeIntraExtraSignals</name></member>
+      <member refid="class_simulable_sequence_1aa2434c3b2ef59d1cd8b822b8e3a2920c" prot="public" virt="virtual"><scope>GradientWaveform</scope><name>initializeSubdivisionSignals</name></member>
+      <member refid="class_simulable_sequence_1aa524c45db6c27dd21acacf97d7951ac2" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>num_rep</name></member>
+      <member refid="class_simulable_sequence_1a43e046af3bf6c498a5ad232058de8a90" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>percent_steps_in</name></member>
+      <member refid="class_simulable_sequence_1a8691c0451c305869064862e30986c34c" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>phase_shift</name></member>
+      <member refid="class_simulable_sequence_1a4e45e2d935a05a7375b04718a49c9af7" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>phase_shift_distribution</name></member>
+      <member refid="class_gradient_waveform_1a82da8e7b3bffe4557e6e38191b7f8d81" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>readSchemeFile</name></member>
+      <member refid="class_gradient_waveform_1ab85d57d7067b47f92ce9414a2ab7cb9e" prot="private" virt="non-virtual"><scope>GradientWaveform</scope><name>readSchemeParameters</name></member>
+      <member refid="class_simulable_sequence_1aa29f58ae224d92dd467a0845bd207324" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>save_phase_shift</name></member>
+      <member refid="class_gradient_waveform_1a712eedb2165b3f889e27244fc9d91ebd" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>scale_from_stu</name></member>
+      <member refid="class_simulable_sequence_1a9898335af9d8f639f65b73eeac8efb53" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>scheme_file</name></member>
+      <member refid="class_simulable_sequence_1a3278d9b5b22b0bfbdd0ce4bef0e1cc85" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>separate_signal</name></member>
+      <member refid="class_gradient_waveform_1a040d4a70dc7951c235010791e1c581d1" prot="public" virt="virtual"><scope>GradientWaveform</scope><name>setNumberOfSteps</name></member>
+      <member refid="class_simulable_sequence_1af58baa6151b8865b3b39088a9f3097ab" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>SimulableSequence</name></member>
+      <member refid="class_simulable_sequence_1a2686ccfa89396eeadd0a0d4f7842623c" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>sub_DWI</name></member>
+      <member refid="class_simulable_sequence_1ad7157eed5b79cf74c45b4185a2465eb6" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>sub_DWI_extra</name></member>
+      <member refid="class_simulable_sequence_1a20a947108c3bb80ed45dd8851e777511" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>sub_DWI_intra</name></member>
+      <member refid="class_simulable_sequence_1a1e958cc7d15337fa3ae0e58c8330f212" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>sub_DWIi</name></member>
+      <member refid="class_simulable_sequence_1ae9e6e581ba16bbf81b693c0e4943bbf9" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>subdivision_flag</name></member>
+      <member refid="class_simulable_sequence_1a77c721d4650578fdc3f44adfa91c030e" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>subdivisions</name></member>
+      <member refid="class_gradient_waveform_1af2f45ff237ba41afe3ff5cedb7c1c966" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>T</name></member>
+      <member refid="class_gradient_waveform_1a4e0c0163e36cc017f5b147e9ca3022e0" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>TE</name></member>
+      <member refid="class_simulable_sequence_1a7e7e1a0de6045046061ffccaba4fa5ee" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>time_steps</name></member>
+      <member refid="class_gradient_waveform_1a83a7c844f86acee3b7ab12e7e70202af" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>trajectory</name></member>
+      <member refid="class_gradient_waveform_1af4291596da9c45247b0748d945bd9b54" prot="public" virt="virtual"><scope>GradientWaveform</scope><name>update_DWI_signal</name></member>
+      <member refid="class_gradient_waveform_1a2c606400c648cebd85827efa8d22b6bc" prot="public" virt="virtual"><scope>GradientWaveform</scope><name>update_phase_shift</name></member>
+      <member refid="class_gradient_waveform_1a7421301b24b6c98e28ef9430287cdf8e" prot="public" virt="virtual"><scope>GradientWaveform</scope><name>update_phase_shift</name></member>
+      <member refid="class_gradient_waveform_1ac2287a6ef99e35f0c1f97fc3ffb37d7b" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>wave_bins</name></member>
+      <member refid="class_gradient_waveform_1a02d695fa36713bd28d3c85d2bb7a877b" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>wave_duration</name></member>
+      <member refid="class_gradient_waveform_1a565fce08abb28fe26664194c04faeaea" prot="public" virt="non-virtual"><scope>GradientWaveform</scope><name>waveform</name></member>
+      <member refid="class_simulable_sequence_1aa6c72a9d84fda0fe15551f84a28d427d" prot="public" virt="virtual"><scope>GradientWaveform</scope><name>writePhaseShiftDistribution</name></member>
+      <member refid="class_simulable_sequence_1a372f6d9f448c537afde10e30b68428aa" prot="public" virt="virtual"><scope>GradientWaveform</scope><name>writeResultingData</name></member>
+      <member refid="class_simulable_sequence_1aeb4a0b2cb0a4e972d3f49bc511656fc7" prot="public" virt="virtual"><scope>GradientWaveform</scope><name>~SimulableSequence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

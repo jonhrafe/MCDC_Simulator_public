@@ -46,6 +46,7 @@ public:
 
     std::vector <Cylinder>* cylinders_list;   /*!< pointer to a vector with all the instances of Cylinders */
 
+    std::vector <Sphere>* sphere_list;        /*!< pointer to a vector with all the instances of Spheres   */
 
 
 
@@ -90,7 +91,7 @@ public:
 
 private:
 
-    void addCylindersObstacles();
+    void addObstacles();
 
     void addPLYObstacles();
 

@@ -1,0 +1,16 @@
+.TH "md_src__r_e_a_d_m_e" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+md_src__r_e_a_d_m_eMonte Carlo Diffusion and \fBCollision\fP Simulator 
+ \- 
+.SH "Static building from sources:"
+.PP
+.PP
+.SS "Assuming a bin folder:"
+.PP
+Cretes a folder \fCmkdir bin\fP
+.PP
+Compiles all the magic (statically, slowly, but without messy \&.o)
+.PP
+\fCg++ -O3 -std=c++11 -lpthread -std=c++0x -pthread -I\&. main\&.cpp simulablesequence\&.cpp vertex\&.cpp obstacle\&.cpp collision\&.cpp scheme\&.cpp voxel\&.cpp cylinder\&.cpp walker\&.cpp mcsimulation\&.cpp parallelmcsimulation\&.cpp trajectory\&.cpp triangle\&.cpp parameters\&.cpp plyobstacle\&.cpp pgsesequence\&.cpp dynamicsSimulation\&.cpp simerrno\&.cpp collisionsphere\&.cpp cylindergammadistribution\&.cpp sentinel\&.cpp subdivision\&.cpp gradientwaveform\&.cpp propagator\&.cpp -o bin/MC-DC_Simulator\fP 

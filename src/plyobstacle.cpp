@@ -11,8 +11,8 @@ PLYObstacle::PLYObstacle()
     file_path    = "";
     vert_number  = 0;
     face_number  = 0;
-    vertices     = NULL;
-    faces        = NULL;
+    vertices     = nullptr;
+    faces        = nullptr;
     scale_factor = 1;
     percolation  = 0;
     count_perc_crossings = 0;
@@ -23,8 +23,8 @@ PLYObstacle::PLYObstacle(string path, double scale_factor_)
     file_path    = "";
     vert_number  = 0;
     face_number  = 0;
-    vertices     = NULL;
-    faces        = NULL;
+    vertices     = nullptr;
+    faces        = nullptr;
     scale_factor = scale_factor_;
     percolation  = 0;
     count_perc_crossings = 0;
@@ -36,8 +36,8 @@ PLYObstacle::PLYObstacle(string path, std::vector<Eigen::Vector3d> &centers, dou
     file_path    = "";
     vert_number  = 0;
     face_number  = 0;
-    vertices     = NULL;
-    faces        = NULL;
+    vertices     = nullptr;
+    faces        = nullptr;
     scale_factor = scale_factor_;
     percolation  = 0;
     count_perc_crossings = 0;
@@ -47,9 +47,9 @@ PLYObstacle::PLYObstacle(string path, std::vector<Eigen::Vector3d> &centers, dou
 
 void PLYObstacle::readPLY_ASCII_triangles(std::string ply_file)
 {
-    if (vertices != NULL)
+    if (vertices != nullptr)
         delete[] vertices;
-    if (faces != NULL)
+    if (faces != nullptr)
         delete[] faces;
 
     std::ifstream in(ply_file.c_str(),std::ifstream::in);
@@ -106,9 +106,9 @@ void PLYObstacle::readPLY_ASCII_triangles(std::string ply_file)
 void PLYObstacle::readPLY_ASCII_trianglesSubdivitionDistance(string ply_file, vector<Eigen::Vector3d>& centers, double max_distance)
 {
 
-    if (vertices != NULL)
+    if (vertices != nullptr)
         delete[] vertices;
-    if (faces != NULL)
+    if (faces != nullptr)
         delete[] faces;
 
     std::ifstream in(ply_file.c_str(),std::ifstream::in);

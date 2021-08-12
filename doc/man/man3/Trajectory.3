@@ -1,0 +1,211 @@
+.TH "Trajectory" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Trajectory \- Auxiliary class\&. Handles i/o operation of walker trayectories\&. ============================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <trajectory\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTrajectory\fP ()"
+.br
+.RI "Main constructor, Initialice everythin to default\&. "
+.ti -1c
+.RI "\fBTrajectory\fP (const char *traj_file, bool isBigEndian_=true, std::string io_flag_='rb')"
+.br
+.RI "Contructor , Initialice everythin by parameters\&. "
+.ti -1c
+.RI "\fB~Trajectory\fP ()"
+.br
+.RI "Destructor, close files and fstreams\&. "
+.ti -1c
+.RI "void \fBinitTrajectory\fP (\fBParameters\fP params)"
+.br
+.RI "Initialice the output files if any\&. "
+.ti -1c
+.RI "void \fBsetTrajFile\fP (std::string)"
+.br
+.RI "Setd the traj file operations\&. "
+.in -1c
+.PP
+.RI "\fB\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "void \fBcloseTrajReaderFile\fP ()"
+.br
+.ti -1c
+.RI "void \fBopenTrajReaderFile\fP ()"
+.br
+.ti -1c
+.RI "void \fBinitTrajReaderFile\fP ()"
+.br
+.ti -1c
+.RI "void \fBreadTrajectoryHeader\fP ()"
+.br
+.ti -1c
+.RI "void \fBreadCurrentWalkersTrajectory\fP (Eigen::Matrix3Xd &)"
+.br
+.in -1c
+.in -1c
+.PP
+.RI "\fB\fP"
+.br
+
+.in +1c
+.in +1c
+.ti -1c
+.RI "void \fBinitTrajWriter\fP ()"
+.br
+.ti -1c
+.RI "void \fBinitTrajWriterBinary\fP ()"
+.br
+.ti -1c
+.RI "void \fBinitTrajWriterText\fP ()"
+.br
+.ti -1c
+.RI "void \fBwriteTrajectoryHeaderBinary\fP ()"
+.br
+.ti -1c
+.RI "void \fBwriteTrajectoryHeaderText\fP ()"
+.br
+.ti -1c
+.RI "void \fBreWriteHeaderFile\fP (unsigned num_walkers)"
+.br
+.ti -1c
+.RI "void \fBwritePosition\fP (Eigen::Vector3d &)"
+.br
+.ti -1c
+.RI "void \fBwritePositionText\fP (Eigen::Vector3d &)"
+.br
+.ti -1c
+.RI "void \fBwritePositionBinary\fP (Eigen::Vector3d &)"
+.br
+.ti -1c
+.RI "void \fBwritePosition\fP (Eigen::Matrix3Xd &)"
+.br
+.ti -1c
+.RI "void \fBwritePositionText\fP (Eigen::Matrix3Xd &)"
+.br
+.ti -1c
+.RI "void \fBwritePositionBinary\fP (Eigen::Matrix3Xd &)"
+.br
+.in -1c
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBtrajfile\fP"
+.br
+.ti -1c
+.RI "std::string \fBheaderfile\fP"
+.br
+.ti -1c
+.RI "FILE * \fBin\fP"
+.br
+.ti -1c
+.RI "FILE * \fBin_header\fP"
+.br
+.ti -1c
+.RI "std::ofstream \fBbout\fP"
+.br
+.ti -1c
+.RI "std::ofstream \fBtout\fP"
+.br
+.ti -1c
+.RI "std::ofstream \fBbheaderout\fP"
+.br
+.ti -1c
+.RI "std::ofstream \fBtheaderout\fP"
+.br
+.ti -1c
+.RI "unsigned \fBN\fP"
+.br
+.ti -1c
+.RI "unsigned \fBT\fP"
+.br
+.ti -1c
+.RI "double \fBdyn_duration\fP"
+.br
+.ti -1c
+.RI "std::string \fBio_flag\fP"
+.br
+.ti -1c
+.RI "std::vector< unsigned > \fBpos_times\fP"
+.br
+.ti -1c
+.RI "bool \fBisBigEndian\fP"
+.br
+.ti -1c
+.RI "bool \fBwrite_traj\fP"
+.br
+.ti -1c
+.RI "bool \fBwrite_txt\fP"
+.br
+.ti -1c
+.RI "bool \fBwrite_bin\fP"
+.br
+.ti -1c
+.RI "bool \fBsteps_subset\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Auxiliary class\&. Handles i/o operation of walker trayectories\&. ============================/\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+July 2016 
+.SH "0\&.2 "
+.PP
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void Trajectory::closeTrajReaderFile ()"
+Read operations 
+.SS "void Trajectory::initTrajWriter ()"
+Write operations 
+.SH "Member Data Documentation"
+.PP 
+.SS "std::string Trajectory::headerfile"
+header name 
+.SS "FILE * Trajectory::in_header"
+Files to be written using the previous names binary out, text out, binary header, text header 
+.SS "bool Trajectory::isBigEndian"
+flag if the format is big endian 
+.SS "std::vector<unsigned> Trajectory::pos_times"
+Times indexes when to save the particle positions\&. 
+.SS "bool Trajectory::steps_subset"
+true if the steps are no uniform 
+.SS "unsigned Trajectory::T"
+number of walkers, total time; 
+.SS "std::string Trajectory::trajfile"
+trajfile name 
+.SS "bool Trajectory::write_bin"
+flag if we want to write a binary traj file 
+.SS "bool Trajectory::write_traj"
+flag if we want to write a traj file 
+.SS "bool Trajectory::write_txt"
+flag if we want to write a text traj file 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

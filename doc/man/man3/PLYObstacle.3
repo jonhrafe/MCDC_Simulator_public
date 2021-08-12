@@ -1,0 +1,93 @@
+.TH "PLYObstacle" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+PLYObstacle \- PlyObstacle Derived Class ====================================================================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <plyobstacle\&.h>\fP
+.PP
+Inherits \fBObstacle\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBPLYObstacle\fP (std::string path, double scale_factor_=1)"
+.br
+.ti -1c
+.RI "\fBPLYObstacle\fP (std::string path, std::vector< Eigen::Vector3d > &centers, double max_distance=INFINITY, double scale_factor_=1)"
+.br
+.ti -1c
+.RI "void \fBreadPLY_ASCII_triangleFan\fP (std::string ply_file)"
+.br
+.ti -1c
+.RI "void \fBreadPLY_ASCII_triangles\fP (std::string ply_file)"
+.br
+.ti -1c
+.RI "void \fBreadPLY_ASCII_trianglesSubdivitionDistance\fP (std::string ply_file, std::vector< Eigen::Vector3d > &centers, double max_distance)"
+.br
+.ti -1c
+.RI "void \fBsetScaleFactor\fP (double scale)"
+.br
+.ti -1c
+.RI "bool \fBcheckCollision\fP (\fBWalker\fP &walker, Eigen::Vector3d &step, double &step_lenght, \fBCollision\fP &colision)"
+.br
+.ti -1c
+.RI "bool \fBcheckCollision\fP (\fBWalker\fP &walker, Eigen::Vector3d &step, double &step_lenght, \fBCollision\fP &colision, std::vector< unsigned > &triangle_list, unsigned list_end)"
+.br
+.ti -1c
+.RI "double \fBminDistance\fP (\fBWalker\fP &w, unsigned t)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBvert_number\fP"
+.br
+.ti -1c
+.RI "unsigned \fBface_number\fP"
+.br
+.ti -1c
+.RI "std::string \fBfile_path\fP"
+.br
+.ti -1c
+.RI "\fBVertex\fP * \fBvertices\fP"
+.br
+.ti -1c
+.RI "\fBTriangle\fP * \fBfaces\fP"
+.br
+.ti -1c
+.RI "double \fBscale_factor\fP"
+.br
+.ti -1c
+.RI "int \fBid\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+PlyObstacle Derived Class ====================================================================/\&. 
+
+\fBPLYObstacle\fP derived class\&. Implements obstacles loaded from pre-defined PY meshes\&. 
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+November 2016 
+.SH "0\&.2 "
+.PP
+.RE
+.PP
+.PP
+Implements obstacles loaded from pre-constructed PLY meshes\&. The PLY format should be without any other experiment\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

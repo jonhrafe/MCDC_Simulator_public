@@ -1,0 +1,314 @@
+.TH "SimErrno" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SimErrno \- Simulation Input and parameter errors handling class =================================================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <simerrno\&.h>\fP
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static bool \fBcheckFileExist\fP (const std::string name)"
+.br
+.RI "Return true if the file does exist, false otherwise\&. "
+.ti -1c
+.RI "static bool \fBcheckSimulationParameters\fP (\fBParameters\fP &params)"
+.br
+.RI "Return false if any of the parameters are inconsistent or bugged\&. In may assert the program\&. "
+.ti -1c
+.RI "static bool \fBcheckSchemeFile\fP (\fBParameters\fP &params)"
+.br
+.RI "Return false if any of the parameters are inconsistent or bugged\&. In may assert the program\&. "
+.ti -1c
+.RI "static bool \fBcheckPLYFiles\fP (\fBParameters\fP &params)"
+.br
+.RI "Return false if any of the PLY files are inconsistent or bugged\&. In may assert the program\&. "
+.ti -1c
+.RI "static bool \fBcheckCylindersListFile\fP (\fBParameters\fP &params)"
+.br
+.RI "Return false if any of the cylinder list files are inconsistent or bugged\&. In may assert the program\&. "
+.ti -1c
+.RI "static bool \fBcheckInitWalkerFile\fP (\fBParameters\fP &params)"
+.br
+.RI "Return false if the initial position file is inconsistent or bugged\&. In may assert the program\&. "
+.ti -1c
+.RI "static bool \fBcheckVoxelLimits\fP (\fBParameters\fP &params)"
+.br
+.RI "Return false if the voxel instances are inconsistent or bugged\&. In may assert the program\&. "
+.ti -1c
+.RI "static bool \fBcheckConfigurationFile\fP (const char *configuration_file)"
+.br
+.RI "Return false if the scheme file does not exist or there are inconsistent or bugs\&. In may assert the program\&. "
+.ti -1c
+.RI "static void \fBprintSimulatinInfo\fP (\fBParameters\fP &params, std::ostream &, bool color=1)"
+.br
+.ti -1c
+.RI "static void \fBcheckOuputPrefixAndWriteInfo\fP (\fBParameters\fP &params)"
+.br
+.RI "Return false if the output location and prefix are inconsistence or bugged\&. "
+.ti -1c
+.RI "static bool \fBcheckGammaDistributionParamaters\fP (\fBParameters\fP &params)"
+.br
+.RI "Return false if the there are errors or inconsistencies in the gamma distr\&. parameters\&. "
+.ti -1c
+.RI "static void \fBwarning\fP (std::string message, std::ostream &, bool color=1)"
+.br
+.ti -1c
+.RI "static void \fBinfo\fP (std::string message, std::ostream &, bool color=1)"
+.br
+.ti -1c
+.RI "static void \fBinfoMenu\fP (std::string message, std::string value, std::ostream &, bool color=1, int space=0)"
+.br
+.ti -1c
+.RI "static void \fBerror\fP (std::string message, std::ostream &, bool color=1)"
+.br
+.ti -1c
+.RI "static void \fBexpectedTime\fP (std::string completed, std::string time, std::ostream &, bool color=1, std::string steps_second='', std::string endl_str='')"
+.br
+.ti -1c
+.RI "static std::string \fBcurrentDateTime\fP ()"
+.br
+.ti -1c
+.RI "static bool \fBcheckSubdivisionsFile\fP (\fBParameters\fP &params)"
+.br
+.RI "Return false if any of the elements in the file are miss configured\&. "
+.ti -1c
+.RI "static void \fBappendRepetitionLabel\fP (\fBParameters\fP &params)"
+.br
+.RI "Appends a repetition label on the prefix command so no results are overwritten, helpful if you are running batch of simulation inside a server\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Simulation Input and parameter errors handling class =================================================/\&. 
+
+Class ot handle the errors in the parameters, logical and on the syntaxis\&. 
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+March 2016 
+.PP
+.RE
+.PP
+Class to handle the errors in the parameters, logical and on the syntax
+.PP
+This class contains a set of static methods to check that the configuration files exist and that the parameters are correctly set\&. This may cause asserts ERRORS or WARNINGS\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void SimErrno::appendRepetitionLabel (\fBParameters\fP & params)\fC [static]\fP"
+
+.PP
+Appends a repetition label on the prefix command so no results are overwritten, helpful if you are running batch of simulation inside a server\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameter\fP instance 
+.RE
+.PP
+
+.SS "bool SimErrno::checkConfigurationFile (const char * configuration_file)\fC [static]\fP"
+
+.PP
+Return false if the scheme file does not exist or there are inconsistent or bugs\&. In may assert the program\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameter\fP instance 
+.RE
+.PP
+
+.SS "bool SimErrno::checkCylindersListFile (\fBParameters\fP & params)\fC [static]\fP"
+
+.PP
+Return false if any of the cylinder list files are inconsistent or bugged\&. In may assert the program\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameter\fP instance 
+.RE
+.PP
+
+.SS "static bool SimErrno::checkFileExist (const std::string name)\fC [inline]\fP, \fC [static]\fP"
+
+.PP
+Return true if the file does exist, false otherwise\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIname\fP file path 
+.RE
+.PP
+
+.SS "bool SimErrno::checkGammaDistributionParamaters (\fBParameters\fP & params)\fC [static]\fP"
+
+.PP
+Return false if the there are errors or inconsistencies in the gamma distr\&. parameters\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameter\fP instance 
+.RE
+.PP
+
+.SS "bool SimErrno::checkInitWalkerFile (\fBParameters\fP & params)\fC [static]\fP"
+
+.PP
+Return false if the initial position file is inconsistent or bugged\&. In may assert the program\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameter\fP instance 
+.RE
+.PP
+
+.SS "void SimErrno::checkOuputPrefixAndWriteInfo (\fBParameters\fP & params)\fC [static]\fP"
+
+.PP
+Return false if the output location and prefix are inconsistence or bugged\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameter\fP instance 
+.RE
+.PP
+
+.SS "bool SimErrno::checkPLYFiles (\fBParameters\fP & params)\fC [static]\fP"
+
+.PP
+Return false if any of the PLY files are inconsistent or bugged\&. In may assert the program\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameter\fP instance 
+.RE
+.PP
+
+.SS "bool SimErrno::checkSchemeFile (\fBParameters\fP & params)\fC [static]\fP"
+
+.PP
+Return false if any of the parameters are inconsistent or bugged\&. In may assert the program\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameter\fP instance 
+.RE
+.PP
+
+.SS "bool SimErrno::checkSimulationParameters (\fBParameters\fP & params)\fC [static]\fP"
+
+.PP
+Return false if any of the parameters are inconsistent or bugged\&. In may assert the program\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameter\fP instance 
+.RE
+.PP
+
+.SS "bool SimErrno::checkSubdivisionsFile (\fBParameters\fP & params)\fC [static]\fP"
+
+.PP
+Return false if any of the elements in the file are miss configured\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameter\fP instance 
+.RE
+.PP
+
+.SS "bool SimErrno::checkVoxelLimits (\fBParameters\fP & params)\fC [static]\fP"
+
+.PP
+Return false if the voxel instances are inconsistent or bugged\&. In may assert the program\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameter\fP instance 
+.RE
+.PP
+
+.SS "void SimErrno::error (std::string message, std::ostream &, bool color = \fC1\fP)\fC [static]\fP"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIiostream\fP where to print ! 
+.br
+\fIcolour\fP flag, false if no colour should be display or written 
+.RE
+.PP
+
+.SS "void SimErrno::expectedTime (std::string completed, std::string time, std::ostream &, bool color = \fC1\fP, std::string steps_second = \fC''\fP, std::string endl_str = \fC''\fP)\fC [static]\fP"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIiostream\fP where to print ! 
+.br
+\fIcolour\fP flag, false if no colour should be display or written ! 
+.br
+\fIend\fP flag, false if no end of line string should be printing 
+.RE
+.PP
+
+.SS "void SimErrno::info (std::string message, std::ostream &, bool color = \fC1\fP)\fC [static]\fP"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIiostream\fP where to print 
+.br
+\fIcolour\fP flag, false if no colour should be display or written 
+.RE
+.PP
+
+.SS "void SimErrno::infoMenu (std::string message, std::string value, std::ostream &, bool color = \fC1\fP, int space = \fC0\fP)\fC [static]\fP"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIiostream\fP where to print ! 
+.br
+\fIcolour\fP flag, false if no colour should be display or written ! 
+.br
+\fIspacing\fP at the end of the message 
+.RE
+.PP
+
+.SS "void SimErrno::printSimulatinInfo (\fBParameters\fP & params, std::ostream &, bool color = \fC1\fP)\fC [static]\fP"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameter\fP instance 
+.br
+\fIiostream\fP to print to 
+.br
+\fIcolor\fP flag, false if no colour should be display or written 
+.RE
+.PP
+
+.SS "void SimErrno::warning (std::string message, std::ostream &, bool color = \fC1\fP)\fC [static]\fP"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIiostream\fP where to print 
+.br
+\fIcolour\fP flag, false if no colour should be display or written 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

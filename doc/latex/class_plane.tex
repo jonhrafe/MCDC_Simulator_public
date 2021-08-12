@@ -1,0 +1,57 @@
+\hypertarget{class_plane}{}\section{Plane Class Reference}
+\label{class_plane}\index{Plane@{Plane}}
+
+
+Main class. Implements basic voxel limits and operations. =================================================/.  
+
+
+
+
+{\ttfamily \#include $<$voxel.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_plane_a8b1516b02b3ab4bdfe48234db82da168}\label{class_plane_a8b1516b02b3ab4bdfe48234db82da168}} 
+{\bfseries Plane} (Eigen\+::\+Vector3d normal\+\_\+, Eigen\+::\+Vector3d plane\+\_\+center\+\_\+, double d\+\_\+)
+\item 
+\mbox{\Hypertarget{class_plane_a942208920a6e4762e3dc9aab76305667}\label{class_plane_a942208920a6e4762e3dc9aab76305667}} 
+{\bfseries Plane} (Eigen\+::\+Vector3d \&a, Eigen\+::\+Vector3d \&b, Eigen\+::\+Vector3d \&c, Eigen\+::\+Vector3d \&d)
+\item 
+\mbox{\Hypertarget{class_plane_a1a4e24c5ca029ceb787f291a11adac8f}\label{class_plane_a1a4e24c5ca029ceb787f291a11adac8f}} 
+bool {\bfseries Check\+Collision} (\hyperlink{class_walker}{Walker} \&walker, Eigen\+::\+Vector3d \&step, double tmax, \hyperlink{class_collision}{Collision} \&colision)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_plane_a229ee65fd1663c7e7bd101309ddcf5e0}\label{class_plane_a229ee65fd1663c7e7bd101309ddcf5e0}} 
+Eigen\+::\+Vector3d {\bfseries normal}
+\item 
+\mbox{\Hypertarget{class_plane_a20cfe0415a4f25f03d2d639ae9a647e9}\label{class_plane_a20cfe0415a4f25f03d2d639ae9a647e9}} 
+Eigen\+::\+Vector3d {\bfseries plane\+\_\+center}
+\item 
+\mbox{\Hypertarget{class_plane_a13e69abc574bead3f8f450bbe2b43cf9}\label{class_plane_a13e69abc574bead3f8f450bbe2b43cf9}} 
+double {\bfseries d}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Main class. Implements basic voxel limits and operations. =================================================/. 
+
+Class to handle and manage the voxels in the simulations. So far only one voxel at the time can be handled. To improve to several voxels, modifications shall be done.
+
+\begin{DoxyAuthor}{Author}
+Jonathan Rafael 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+July 2016 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+0.\+2 =============================================================================================================+
+\end{DoxyVersion}
+Auxiliary class to implements plane\textquotesingle{}s interactions with particles. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/voxel.\+h\item 
+src/voxel.\+cpp\end{DoxyCompactItemize}

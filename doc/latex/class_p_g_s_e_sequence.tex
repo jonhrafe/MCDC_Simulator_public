@@ -1,0 +1,162 @@
+\hypertarget{class_p_g_s_e_sequence}{}\section{P\+G\+S\+E\+Sequence Class Reference}
+\label{class_p_g_s_e_sequence}\index{P\+G\+S\+E\+Sequence@{P\+G\+S\+E\+Sequence}}
+
+
+Inheritance diagram for P\+G\+S\+E\+Sequence\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=183pt]{class_p_g_s_e_sequence__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for P\+G\+S\+E\+Sequence\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=262pt]{class_p_g_s_e_sequence__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a29db64fbd60c54c191e8197e1818dce0}\label{class_p_g_s_e_sequence_a29db64fbd60c54c191e8197e1818dce0}} 
+\hyperlink{class_p_g_s_e_sequence_a29db64fbd60c54c191e8197e1818dce0}{P\+G\+S\+E\+Sequence} ()
+\begin{DoxyCompactList}\small\item\em Default constructor, set default N\+U\+LL values. Not to be used. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a31bcb2e91e27823bbe71904e180f7de9}\label{class_p_g_s_e_sequence_a31bcb2e91e27823bbe71904e180f7de9}} 
+\hyperlink{class_p_g_s_e_sequence_a31bcb2e91e27823bbe71904e180f7de9}{P\+G\+S\+E\+Sequence} (\hyperlink{class_scheme}{Scheme} scheme\+\_\+)
+\begin{DoxyCompactList}\small\item\em Main constructor. Takes a pre-\/loaded \hyperlink{class_scheme}{Scheme} file. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_ab278a413c31a67f82712590897a556cb}\label{class_p_g_s_e_sequence_ab278a413c31a67f82712590897a556cb}} 
+\hyperlink{class_p_g_s_e_sequence_ab278a413c31a67f82712590897a556cb}{P\+G\+S\+E\+Sequence} (\hyperlink{class_scheme}{Scheme} scheme\+\_\+, const char $\ast$traj\+\_\+file\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Main constructor. Takes a pre-\/loaded \hyperlink{class_scheme}{Scheme} file and a traj file name. if this argument is passed a traj file is should be written. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a262f1156c51983fba9b9a6b666dd2e07}\label{class_p_g_s_e_sequence_a262f1156c51983fba9b9a6b666dd2e07}} 
+\hyperlink{class_p_g_s_e_sequence_a262f1156c51983fba9b9a6b666dd2e07}{P\+G\+S\+E\+Sequence} (const char $\ast$scheme\+\_\+file\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Constructor. Takes a the scheme file name to be loaded. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a1eb4e53eb0769b16eb9bb2156c769644}\label{class_p_g_s_e_sequence_a1eb4e53eb0769b16eb9bb2156c769644}} 
+\hyperlink{class_p_g_s_e_sequence_a1eb4e53eb0769b16eb9bb2156c769644}{P\+G\+S\+E\+Sequence} (const char $\ast$scheme\+\_\+file\+\_\+name, const char $\ast$traj\+\_\+file\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Constructor. Takes a scheme file name to be loaded and atraj file name. if this argument is passed a traj file is should be written. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a7e5815e4ae0b3a6d42c45322fc69fdd6}\label{class_p_g_s_e_sequence_a7e5815e4ae0b3a6d42c45322fc69fdd6}} 
+\hyperlink{class_p_g_s_e_sequence_a7e5815e4ae0b3a6d42c45322fc69fdd6}{$\sim$\+P\+G\+S\+E\+Sequence} ()
+\begin{DoxyCompactList}\small\item\em Destuctor. Does nothing. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a3f2a705b7d3312944630f3d7f639e8e4}\label{class_p_g_s_e_sequence_a3f2a705b7d3312944630f3d7f639e8e4}} 
+void \hyperlink{class_p_g_s_e_sequence_a3f2a705b7d3312944630f3d7f639e8e4}{get\+Grad\+Impulse} (int i, double t, double t\+Last, Eigen\+::\+Vector3d \&Gdt)
+\begin{DoxyCompactList}\small\item\em For using w/o the adt array. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a9985ead781333f782d1dee54482eb0d2}\label{class_p_g_s_e_sequence_a9985ead781333f782d1dee54482eb0d2}} 
+void \hyperlink{class_p_g_s_e_sequence_a9985ead781333f782d1dee54482eb0d2}{get\+Grad\+Impuse} (int i, double t, Eigen\+::\+Vector3d Gdt)
+\begin{DoxyCompactList}\small\item\em For using with the adt array. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a8b0671a505f79a601d3d4d2d9b7f36cc}\label{class_p_g_s_e_sequence_a8b0671a505f79a601d3d4d2d9b7f36cc}} 
+double \hyperlink{class_p_g_s_e_sequence_a8b0671a505f79a601d3d4d2d9b7f36cc}{getb\+Value} (unsigned)
+\begin{DoxyCompactList}\small\item\em Analytical defined b-\/value. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a375c8a943f4857a323ffc404394b5d8a}\label{class_p_g_s_e_sequence_a375c8a943f4857a323ffc404394b5d8a}} 
+double \hyperlink{class_p_g_s_e_sequence_a375c8a943f4857a323ffc404394b5d8a}{get\+Free\+Decay} (unsigned i, double D)
+\begin{DoxyCompactList}\small\item\em Expected free Decay. \end{DoxyCompactList}\item 
+double \hyperlink{class_p_g_s_e_sequence_a1373f02bffedb1e934818ae8d4fb8939}{get\+Numericalb\+Value} (unsigned)
+\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_aec05e76b5c7b3361bd3e68301b262a0a}\label{class_p_g_s_e_sequence_aec05e76b5c7b3361bd3e68301b262a0a}} 
+void \hyperlink{class_p_g_s_e_sequence_aec05e76b5c7b3361bd3e68301b262a0a}{get\+D\+W\+I\+Signal} ()
+\begin{DoxyCompactList}\small\item\em Computes de DW signal from a trajfile. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a22005e67e3513690f9e46b1d531481b0}\label{class_p_g_s_e_sequence_a22005e67e3513690f9e46b1d531481b0}} 
+void \hyperlink{class_p_g_s_e_sequence_a22005e67e3513690f9e46b1d531481b0}{read\+Scheme\+File} ()
+\begin{DoxyCompactList}\small\item\em reads the scheme files \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_p_g_s_e_sequence_a6914efd208eab28a1ee6a3f28ca65478}{update\+\_\+phase\+\_\+shift} (double dt, double dt\+\_\+last, \hyperlink{class_walker}{Walker} walker)
+\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a850a2f22cdf8b420888cfa906e03e078}\label{class_p_g_s_e_sequence_a850a2f22cdf8b420888cfa906e03e078}} 
+virtual void \hyperlink{class_p_g_s_e_sequence_a850a2f22cdf8b420888cfa906e03e078}{update\+\_\+phase\+\_\+shift} (double time\+\_\+step, Eigen\+::\+Matrix3\+Xd \hyperlink{class_p_g_s_e_sequence_a0fd0fb458384bfb65070fdab5165dde5}{trajectory})
+\begin{DoxyCompactList}\small\item\em Updates the phase shift using the full stored trajectory. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_ae2b79f12ccd2f2446a498cb51f45e88d}\label{class_p_g_s_e_sequence_ae2b79f12ccd2f2446a498cb51f45e88d}} 
+virtual void \hyperlink{class_p_g_s_e_sequence_ae2b79f12ccd2f2446a498cb51f45e88d}{update\+\_\+\+D\+W\+I\+\_\+signal} (\hyperlink{class_walker}{Walker} \&walker)
+\begin{DoxyCompactList}\small\item\em Updates the D\+WI signal using the cumulated phase shift. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a885a0415519683a7fbfa1883f7f3d807}\label{class_p_g_s_e_sequence_a885a0415519683a7fbfa1883f7f3d807}} 
+double \hyperlink{class_p_g_s_e_sequence_a885a0415519683a7fbfa1883f7f3d807}{get\+\_\+adt} (int grad\+\_\+index, double t, double t\+Last)
+\begin{DoxyCompactList}\small\item\em computes de signal value and sign in a certain time step. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_afa9e363ef76474d5e2495407034a10d4}\label{class_p_g_s_e_sequence_afa9e363ef76474d5e2495407034a10d4}} 
+double \hyperlink{class_p_g_s_e_sequence_afa9e363ef76474d5e2495407034a10d4}{print\+\_\+adt\+\_\+and\+\_\+dt} (int grad\+\_\+index, double t, double t\+Last)
+\begin{DoxyCompactList}\small\item\em prints the array adt in the format (). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a89f9bf116876b04403058a240a91efa3}\label{class_p_g_s_e_sequence_a89f9bf116876b04403058a240a91efa3}} 
+virtual void \hyperlink{class_p_g_s_e_sequence_a89f9bf116876b04403058a240a91efa3}{set\+Number\+Of\+Steps} (unsigned \hyperlink{class_p_g_s_e_sequence_a07e27e6e8a8506521386a291d62e8423}{T})
+\begin{DoxyCompactList}\small\item\em Set the number of time steps if they are known. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_p_g_s_e_sequence_ac115d93aabb283f19568f55493d57ded}\label{class_p_g_s_e_sequence_ac115d93aabb283f19568f55493d57ded}} 
+virtual void \hyperlink{class_p_g_s_e_sequence_ac115d93aabb283f19568f55493d57ded}{compute\+Dynamic\+Time\+Steps} ()
+\begin{DoxyCompactList}\small\item\em Compute the time for all the steps when they are not constant. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{class_p_g_s_e_sequence_a06df939859fd2ed6104bfee584f893a1}{TE}
+\item 
+int \hyperlink{class_p_g_s_e_sequence_a07e27e6e8a8506521386a291d62e8423}{T}
+\item 
+double \hyperlink{class_p_g_s_e_sequence_a0c7e884c3b71cbcc04d6cb2d5f2a5eb9}{dyn\+\_\+duration}
+\item 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ \hyperlink{class_p_g_s_e_sequence_a7349d86720a34e75eaf578fdfd3caeeb}{scheme}
+\item 
+\hyperlink{class_trajectory}{Trajectory} \hyperlink{class_p_g_s_e_sequence_a0fd0fb458384bfb65070fdab5165dde5}{trajectory}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a1373f02bffedb1e934818ae8d4fb8939}\label{class_p_g_s_e_sequence_a1373f02bffedb1e934818ae8d4fb8939}} 
+\index{P\+G\+S\+E\+Sequence@{P\+G\+S\+E\+Sequence}!get\+Numericalb\+Value@{get\+Numericalb\+Value}}
+\index{get\+Numericalb\+Value@{get\+Numericalb\+Value}!P\+G\+S\+E\+Sequence@{P\+G\+S\+E\+Sequence}}
+\subsubsection{\texorpdfstring{get\+Numericalb\+Value()}{getNumericalbValue()}}
+{\footnotesize\ttfamily double P\+G\+S\+E\+Sequence\+::get\+Numericalb\+Value (\begin{DoxyParamCaption}\item[{unsigned}]{i }\end{DoxyParamCaption})}
+
+\begin{DoxyWarning}{Warning}
+not implemented yet. 
+\end{DoxyWarning}
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a6914efd208eab28a1ee6a3f28ca65478}\label{class_p_g_s_e_sequence_a6914efd208eab28a1ee6a3f28ca65478}} 
+\index{P\+G\+S\+E\+Sequence@{P\+G\+S\+E\+Sequence}!update\+\_\+phase\+\_\+shift@{update\+\_\+phase\+\_\+shift}}
+\index{update\+\_\+phase\+\_\+shift@{update\+\_\+phase\+\_\+shift}!P\+G\+S\+E\+Sequence@{P\+G\+S\+E\+Sequence}}
+\subsubsection{\texorpdfstring{update\+\_\+phase\+\_\+shift()}{update\_phase\_shift()}}
+{\footnotesize\ttfamily void P\+G\+S\+E\+Sequence\+::update\+\_\+phase\+\_\+shift (\begin{DoxyParamCaption}\item[{double}]{dt,  }\item[{double}]{dt\+\_\+last,  }\item[{\hyperlink{class_walker}{Walker}}]{walker }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & updated walker \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_simulable_sequence_ad7b2a30f563343aa65489aa553d4df63}{Simulable\+Sequence}.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_p_g_s_e_sequence_a0c7e884c3b71cbcc04d6cb2d5f2a5eb9}\label{class_p_g_s_e_sequence_a0c7e884c3b71cbcc04d6cb2d5f2a5eb9}} 
+\index{P\+G\+S\+E\+Sequence@{P\+G\+S\+E\+Sequence}!dyn\+\_\+duration@{dyn\+\_\+duration}}
+\index{dyn\+\_\+duration@{dyn\+\_\+duration}!P\+G\+S\+E\+Sequence@{P\+G\+S\+E\+Sequence}}
+\subsubsection{\texorpdfstring{dyn\+\_\+duration}{dyn\_duration}}
+{\footnotesize\ttfamily double P\+G\+S\+E\+Sequence\+::dyn\+\_\+duration}
+
+simulation duration (miliseconds) \mbox{\Hypertarget{class_p_g_s_e_sequence_a7349d86720a34e75eaf578fdfd3caeeb}\label{class_p_g_s_e_sequence_a7349d86720a34e75eaf578fdfd3caeeb}} 
+\index{P\+G\+S\+E\+Sequence@{P\+G\+S\+E\+Sequence}!scheme@{scheme}}
+\index{scheme@{scheme}!P\+G\+S\+E\+Sequence@{P\+G\+S\+E\+Sequence}}
+\subsubsection{\texorpdfstring{scheme}{scheme}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::vector$<$double$>$ $>$ P\+G\+S\+E\+Sequence\+::scheme}
+
+\hyperlink{class_scheme}{Scheme} file values \mbox{\Hypertarget{class_p_g_s_e_sequence_a07e27e6e8a8506521386a291d62e8423}\label{class_p_g_s_e_sequence_a07e27e6e8a8506521386a291d62e8423}} 
+\index{P\+G\+S\+E\+Sequence@{P\+G\+S\+E\+Sequence}!T@{T}}
+\index{T@{T}!P\+G\+S\+E\+Sequence@{P\+G\+S\+E\+Sequence}}
+\subsubsection{\texorpdfstring{T}{T}}
+{\footnotesize\ttfamily int P\+G\+S\+E\+Sequence\+::T}
+
+num bins (time steps) \mbox{\Hypertarget{class_p_g_s_e_sequence_a06df939859fd2ed6104bfee584f893a1}\label{class_p_g_s_e_sequence_a06df939859fd2ed6104bfee584f893a1}} 
+\index{P\+G\+S\+E\+Sequence@{P\+G\+S\+E\+Sequence}!TE@{TE}}
+\index{TE@{TE}!P\+G\+S\+E\+Sequence@{P\+G\+S\+E\+Sequence}}
+\subsubsection{\texorpdfstring{TE}{TE}}
+{\footnotesize\ttfamily double P\+G\+S\+E\+Sequence\+::\+TE}
+
+Time Echo. \mbox{\Hypertarget{class_p_g_s_e_sequence_a0fd0fb458384bfb65070fdab5165dde5}\label{class_p_g_s_e_sequence_a0fd0fb458384bfb65070fdab5165dde5}} 
+\index{P\+G\+S\+E\+Sequence@{P\+G\+S\+E\+Sequence}!trajectory@{trajectory}}
+\index{trajectory@{trajectory}!P\+G\+S\+E\+Sequence@{P\+G\+S\+E\+Sequence}}
+\subsubsection{\texorpdfstring{trajectory}{trajectory}}
+{\footnotesize\ttfamily \hyperlink{class_trajectory}{Trajectory} P\+G\+S\+E\+Sequence\+::trajectory}
+
+If the signal is computed from a .trajfile 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/pgsesequence.\+h\item 
+src/pgsesequence.\+cpp\end{DoxyCompactItemize}

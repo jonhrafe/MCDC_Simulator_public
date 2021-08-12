@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_obstacle" kind="class" language="C++" prot="public">
+    <compoundname>Obstacle</compoundname>
+    <derivedcompoundref refid="class_cylinder" prot="public" virt="non-virtual">Cylinder</derivedcompoundref>
+    <derivedcompoundref refid="class_p_l_y_obstacle" prot="public" virt="non-virtual">PLYObstacle</derivedcompoundref>
+    <includes refid="obstacle_8h" local="no">obstacle.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_obstacle_1a02e049a3395138a0dc6194af0112e2b0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Obstacle::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Unique id of the simulation </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/obstacle.h" line="18" column="1" bodyfile="src/obstacle.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_obstacle_1aaa096d441fd095c7bbe924d1a78a8e23" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Obstacle::count_perc_crossings</definition>
+        <argsstring></argsstring>
+        <name>count_perc_crossings</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Auxiliar value to count the number of percolatin crossings in a simulation </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/obstacle.h" line="19" column="1" bodyfile="src/obstacle.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_obstacle_1a7afe63ee05b482c526591c981b22cf54" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Obstacle::percolation</definition>
+        <argsstring></argsstring>
+        <name>percolation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Percolation value between 0 and 1. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/obstacle.h" line="20" column="1" bodyfile="src/obstacle.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_obstacle_1a374f9b4486f63abce9696f5fe3a13e8e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Obstacle::T2</definition>
+        <argsstring></argsstring>
+        <name>T2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>T2 decay, not used by default </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/obstacle.h" line="21" column="1" bodyfile="src/obstacle.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_obstacle_1a8f734072321fa06a7b7dae2d5f50f352" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Obstacle::Obstacle</definition>
+        <argsstring>()</argsstring>
+        <name>Obstacle</name>
+        <briefdescription>
+<para>Default constructor. Does nothing. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/obstacle.h" line="26" column="1" bodyfile="src/obstacle.cpp" bodystart="4" bodyend="6"/>
+      </memberdef>
+      <memberdef kind="function" id="class_obstacle_1af11af63f11595304ff6d5c1785c03da5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>Obstacle::checkCollision</definition>
+        <argsstring>(Walker &amp;walker, Eigen::Array3d &amp;step, const double &amp;step_lenght, Collision &amp;colision)</argsstring>
+        <name>checkCollision</name>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref> &amp;</type>
+          <declname>walker</declname>
+        </param>
+        <param>
+          <type>Eigen::Array3d &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>step_lenght</declname>
+        </param>
+        <param>
+          <type><ref refid="class_collision" kindref="compound">Collision</ref> &amp;</type>
+          <declname>colision</declname>
+        </param>
+        <briefdescription>
+<para>Basic collision function. Returns the if there was any collision on against the obstacle. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>walker</parametername>
+<parametername><ref refid="class_walker" kindref="compound">Walker</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance in the simulation. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>3d</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>step. Is assumed to be normalized. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>step_lenght</parametername>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>used as the maximum step collision distance. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>colilsion</parametername>
+<parametername><ref refid="class_collision" kindref="compound">Collision</ref></parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance to save the collision (if any) details. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true only if there was a Collision::hit status. </para></simplesect>
+<simplesect kind="see"><para><ref refid="class_collision" kindref="compound">Collision</ref>. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/obstacle.h" line="36" column="1" bodyfile="src/obstacle.cpp" bodystart="8" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_obstacle_1a5316aabce6765c943d131aa3d5018f8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Obstacle::elasticBounceAgainsPlane</definition>
+        <argsstring>(Eigen::Vector3d &amp;ray_origin, Eigen::Vector3d &amp;normal, double &amp;t, Eigen::Vector3d &amp;step)</argsstring>
+        <name>elasticBounceAgainsPlane</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>ray_origin</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>normal</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/obstacle.h" line="40" column="1" bodyfile="src/obstacle.cpp" bodystart="13" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_obstacle_1a742e9d6ea940b33545cef4f1f2d58566" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double Obstacle::minDistance</definition>
+        <argsstring>(Walker &amp;w)</argsstring>
+        <name>minDistance</name>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref> &amp;</type>
+          <declname>w</declname>
+        </param>
+        <briefdescription>
+<para>Returns the minimum distance of collision. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>walker</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>to find the (closest) distance. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/obstacle.h" line="46" column="1" bodyfile="src/obstacle.cpp" bodystart="26" bodyend="30"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="class_obstacle" kindref="compound">Obstacle</ref> Base Class ==============================================================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Father class to define the base of any other obstacle (wall or substrate) <simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>November 2016 <heading level="1">1.42 </heading>
+</para></simplesect>
+</para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="48">
+        <label>PLYObstacle</label>
+        <link refid="class_p_l_y_obstacle"/>
+        <childnode refid="46" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>Cylinder</label>
+        <link refid="class_cylinder"/>
+        <childnode refid="46" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>Obstacle</label>
+        <link refid="class_obstacle"/>
+      </node>
+    </inheritancegraph>
+    <location file="src/obstacle.h" line="15" column="1" bodyfile="src/obstacle.h" bodystart="14" bodyend="48"/>
+    <listofallmembers>
+      <member refid="class_obstacle_1af11af63f11595304ff6d5c1785c03da5" prot="public" virt="non-virtual"><scope>Obstacle</scope><name>checkCollision</name></member>
+      <member refid="class_obstacle_1aaa096d441fd095c7bbe924d1a78a8e23" prot="public" virt="non-virtual"><scope>Obstacle</scope><name>count_perc_crossings</name></member>
+      <member refid="class_obstacle_1a5316aabce6765c943d131aa3d5018f8d" prot="public" virt="non-virtual"><scope>Obstacle</scope><name>elasticBounceAgainsPlane</name></member>
+      <member refid="class_obstacle_1a02e049a3395138a0dc6194af0112e2b0" prot="public" virt="non-virtual"><scope>Obstacle</scope><name>id</name></member>
+      <member refid="class_obstacle_1a742e9d6ea940b33545cef4f1f2d58566" prot="public" virt="non-virtual"><scope>Obstacle</scope><name>minDistance</name></member>
+      <member refid="class_obstacle_1a8f734072321fa06a7b7dae2d5f50f352" prot="public" virt="non-virtual"><scope>Obstacle</scope><name>Obstacle</name></member>
+      <member refid="class_obstacle_1a7afe63ee05b482c526591c981b22cf54" prot="public" virt="non-virtual"><scope>Obstacle</scope><name>percolation</name></member>
+      <member refid="class_obstacle_1a374f9b4486f63abce9696f5fe3a13e8e" prot="public" virt="non-virtual"><scope>Obstacle</scope><name>T2</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,157 @@
+.TH "MCSimulation" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+MCSimulation \- Aplication Main Class ======================================================================================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <mcsimulation\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBMCSimulation\fP ()"
+.br
+.RI "Default constructor\&. Intialize everything with 0's and NULL states, object indexes are set to -1\&. "
+.ti -1c
+.RI "\fBMCSimulation\fP (std::string config_file)"
+.br
+.ti -1c
+.RI "\fBMCSimulation\fP (\fBParameters\fP &params_)"
+.br
+.ti -1c
+.RI "\fB~MCSimulation\fP ()"
+.br
+.RI "Main destructor\&. Frees dynamicly allocated memory instances\&. "
+.ti -1c
+.RI "void \fBstartSimulation\fP ()"
+.br
+.RI "Warp function\&. Calls the dynamicEngine's native \fBDynamicsSimulation::startSimulation\fP function\&. "
+.ti -1c
+.RI "double \fBgetExpectedFreeeDecay\fP (unsigned i)"
+.br
+.ti -1c
+.RI "void \fBiniObstacles\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fBid\fP"
+.br
+.ti -1c
+.RI "\fBDynamicsSimulation\fP * \fBdynamicsEngine\fP"
+.br
+.ti -1c
+.RI "\fBScheme\fP \fBscheme\fP"
+.br
+.ti -1c
+.RI "\fBParameters\fP \fBparams\fP"
+.br
+.ti -1c
+.RI "\fBSimulableSequence\fP * \fBdataSynth\fP"
+.br
+.ti -1c
+.RI "std::vector< std::vector< float > > \fBini_walker_positions\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBPLYObstacle\fP > * \fBplyObstacles_list\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBCylinder\fP > * \fBcylinders_list\fP"
+.br
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static int \fBcount\fP =0"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Aplication Main Class ======================================================================================/\&. 
+
+Main implementation class\&. Incorporates the particle's dynamics and the data synthesis\&. 
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+November 2016 
+.SH "1\&.44\&.00 "
+.PP
+.RE
+.PP
+.PP
+Main implementation class\&. Incorporates the particle's dynamics and the data synthesis\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "MCSimulation::MCSimulation ()"
+
+.PP
+Default constructor\&. Intialize everything with 0's and NULL states, object indexes are set to -1\&. Secondary constructor\&.
+.PP
+Main constructor\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconfig_file\fP \&.conf file name with the full set of experiments parameters\&.
+.br
+\fIparams_\fP preloaded simulation parameters\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void MCSimulation::iniObstacles ()"
+Adds all the obstacles defined in the confiuration files\&. 
+.SS "MCSimulation::startSimulation ()"
+
+.PP
+Warp function\&. Calls the dynamicEngine's native \fBDynamicsSimulation::startSimulation\fP function\&. 
+.PP
+\fBSee also:\fP
+.RS 4
+:\fBDynamicsSimulation\fP:\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "int MCSimulation::count =0\fC [static]\fP"
+count of 
+.SS "std::vector<\fBCylinder\fP>* MCSimulation::cylinders_list"
+pointer to a vector with all the instances of Cylinders 
+.SS "\fBSimulableSequence\fP* MCSimulation::dataSynth"
+Simuleable sequence instance, PGSE and General Wavefroms only 
+.SS "\fBDynamicsSimulation\fP* MCSimulation::dynamicsEngine"
+Instance for the particle dynamics 
+.SS "int MCSimulation::id"
+Unique id of the simulation 
+.SS "std::vector<std::vector<float> > MCSimulation::ini_walker_positions"
+patch for regular sampling in a subdivision 
+.SS "\fBParameters\fP MCSimulation::params"
+\fBParameters\fP instance1 
+.PP
+\fBSee also:\fP
+.RS 4
+:\fBParameters\fP: 
+.RE
+.PP
+
+.SS "std::vector<\fBPLYObstacle\fP>* MCSimulation::plyObstacles_list"
+pointer to a vector with all the instances of PLYObstacles 
+.SS "\fBScheme\fP MCSimulation::scheme"
+\fBScheme\fP file, only PGSE in camino format is supported in 0\&.2 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

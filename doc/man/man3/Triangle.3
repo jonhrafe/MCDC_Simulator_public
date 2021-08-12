@@ -1,0 +1,87 @@
+.TH "Triangle" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Triangle \- Auxiliary class\&. Implements trangular barriers\&. ===================================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <triangle\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTriangle\fP (\fBVertex\fP *vertices, unsigned index)"
+.br
+.ti -1c
+.RI "void \fBgetVertex\fP (const unsigned i, Eigen::Vector3d &v)"
+.br
+.ti -1c
+.RI "void \fBgetNormal\fP (Eigen::Vector3d &normal)"
+.br
+.ti -1c
+.RI "void \fBsaveNormalAndAuxInfo\fP ()"
+.br
+.ti -1c
+.RI "bool \fBrayIntersects\fP (const Eigen::Vector3d &ray_origin, const Eigen::Vector3d &step, double &t)"
+.br
+.ti -1c
+.RI "void \fBstepIntersects_MT\fP (\fBWalker\fP &walker, const Eigen::Vector3d &step, const double &max_length, \fBCollision\fP &colision)"
+.br
+.ti -1c
+.RI "void \fBstepIntersects_MT_limits\fP (const Eigen::Vector3d &ray_origin, const Eigen::Vector3d &step, const double &max_length, \fBCollision\fP &colision, const Eigen::Vector3d &limits_mod, double limit_x, double limit_y, double limit_z)"
+.br
+.ti -1c
+.RI "bool \fBrayIntersects_MT\fP (const Eigen::Vector3d &ray_origin, const Eigen::Vector3d &step, double &u, double &v, double &t)"
+.br
+.ti -1c
+.RI "double \fBminDistance\fP (const Eigen::Vector3d p)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBindex\fP"
+.br
+.ti -1c
+.RI "\fBVertex\fP * \fBvertices\fP"
+.br
+.ti -1c
+.RI "Eigen::Array3i \fBindexes\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBnormal\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBcenter\fP"
+.br
+.ti -1c
+.RI "double \fBradius\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Auxiliary class\&. Implements trangular barriers\&. ===================================/\&. 
+
+Helper class to strore and handle trangular barriers\&. 
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+July 2016 
+.SH "0\&.2 "
+.PP
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

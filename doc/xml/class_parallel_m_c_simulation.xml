@@ -1,0 +1,384 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_parallel_m_c_simulation" kind="class" language="C++" prot="public">
+    <compoundname>ParallelMCSimulation</compoundname>
+    <includes refid="parallelmcsimulation_8h" local="no">parallelmcsimulation.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_parallel_m_c_simulation_1a83f856aaa88a403c657c7b8234deee7a" prot="public" static="no" mutable="no">
+        <type><ref refid="class_parameters" kindref="compound">Parameters</ref></type>
+        <definition>Parameters ParallelMCSimulation::params</definition>
+        <argsstring></argsstring>
+        <name>params</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_parameters" kindref="compound">Parameters</ref> instance <simplesect kind="see"><para>:<ref refid="class_parameters" kindref="compound">Parameters</ref>: </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="22" column="1" bodyfile="src/parallelmcsimulation.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_m_c_simulation_1ad122df5454bb26a56e89c9077560a33d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ParallelMCSimulation::mean_second_passed</definition>
+        <argsstring></argsstring>
+        <name>mean_second_passed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simualation total time in seconds </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="24" column="1" bodyfile="src/parallelmcsimulation.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_m_c_simulation_1a18326e05c32fac82264d7351d78a7433" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned ParallelMCSimulation::total_sim_particles</definition>
+        <argsstring></argsstring>
+        <name>total_sim_particles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total number of simulated particles </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="25" column="1" bodyfile="src/parallelmcsimulation.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_m_c_simulation_1a6ee1dfd6e695ec5ec7d4c2ed94f233cf" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned ParallelMCSimulation::stuck_count</definition>
+        <argsstring></argsstring>
+        <name>stuck_count</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Counts the number of particles stuck in the simulations </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="27" column="1" bodyfile="src/parallelmcsimulation.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_m_c_simulation_1ae667ec358689a3a7b42876b401a5fce5" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned ParallelMCSimulation::illegal_count</definition>
+        <argsstring></argsstring>
+        <name>illegal_count</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Counts the number of particles that attempt to cross </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="28" column="1" bodyfile="src/parallelmcsimulation.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_m_c_simulation_1a871e3fdace01984a533792dd49bebd1b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ParallelMCSimulation::icvf</definition>
+        <argsstring></argsstring>
+        <name>icvf</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Stores the ICVF based on the particles sampling </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="29" column="1" bodyfile="src/parallelmcsimulation.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_m_c_simulation_1aa51edc0c79c6ae66ddd0046d21b871d4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ParallelMCSimulation::aprox_volumen</definition>
+        <argsstring></argsstring>
+        <name>aprox_volumen</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Stores the volumen based on ICVF and the voxel size </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="30" column="1" bodyfile="src/parallelmcsimulation.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_m_c_simulation_1af16d292f007b8391122a035022422ed5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_m_c_simulation" kindref="compound">MCSimulation</ref> * &gt;</type>
+        <definition>std::vector&lt;MCSimulation*&gt; ParallelMCSimulation::simulations</definition>
+        <argsstring></argsstring>
+        <name>simulations</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>vector of pointers to <ref refid="class_m_c_simulation" kindref="compound">MCSimulation</ref> instances </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="31" column="1" bodyfile="src/parallelmcsimulation.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_m_c_simulation_1a2a0f1cc2812c1a35e5e38d9d9ddde78b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; ParallelMCSimulation::sim_threads</definition>
+        <argsstring></argsstring>
+        <name>sim_threads</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of threads (instances and processors) to be used </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="32" column="1" bodyfile="src/parallelmcsimulation.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_m_c_simulation_1aa90f4d989bc868b6d225c0c5b9fe832a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_p_l_y_obstacle" kindref="compound">PLYObstacle</ref> &gt;</type>
+        <definition>std::vector&lt;PLYObstacle&gt; ParallelMCSimulation::plyObstacles_list</definition>
+        <argsstring></argsstring>
+        <name>plyObstacles_list</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>vector with all the instances of PLYObstacles </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="33" column="1" bodyfile="src/parallelmcsimulation.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_m_c_simulation_1a4c36ff5327e9f19258fed5d64d48fdb8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_cylinder" kindref="compound">Cylinder</ref> &gt;</type>
+        <definition>std::vector&lt;Cylinder&gt; ParallelMCSimulation::cylinders_list</definition>
+        <argsstring></argsstring>
+        <name>cylinders_list</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>vector with all the instances of cylinders </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="34" column="1" bodyfile="src/parallelmcsimulation.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_m_c_simulation_1a5efe5faa45e57e6ff3827e9ec9e52a64" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; Eigen::Vector3f &gt;</type>
+        <definition>std::vector&lt;Eigen::Vector3f&gt; ParallelMCSimulation::total_ini_walker_pos</definition>
+        <argsstring></argsstring>
+        <name>total_ini_walker_pos</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of threads (instances and processors) to be used </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="36" column="1" bodyfile="src/parallelmcsimulation.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_parallel_m_c_simulation_1ac85dc215688a1462b770d20c2ff10b3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ParallelMCSimulation::ParallelMCSimulation</definition>
+        <argsstring>(std::string config_file)</argsstring>
+        <name>ParallelMCSimulation</name>
+        <param>
+          <type>std::string</type>
+          <declname>config_file</declname>
+        </param>
+        <briefdescription>
+<para>Main constructor. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>.conf file name with the full set of experiments parameters. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="42" column="1" bodyfile="src/parallelmcsimulation.cpp" bodystart="30" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallel_m_c_simulation_1a32ee405791787a1ea9d03895fdd810f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ParallelMCSimulation::ParallelMCSimulation</definition>
+        <argsstring>(Parameters &amp;params)</argsstring>
+        <name>ParallelMCSimulation</name>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>of the simulation. Read form a conf file or given by the user. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="48" column="1" bodyfile="src/parallelmcsimulation.cpp" bodystart="50" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallel_m_c_simulation_1abcc36ff65ff389c1f8d9b31478fa16dc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>ParallelMCSimulation::ParallelMCSimulation</definition>
+        <argsstring>()</argsstring>
+        <name>ParallelMCSimulation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="51" column="1" bodyfile="src/parallelmcsimulation.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallel_m_c_simulation_1a5de848eb160a4f33b73eeb87ec136682" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ParallelMCSimulation::~ParallelMCSimulation</definition>
+        <argsstring>()</argsstring>
+        <name>~ParallelMCSimulation</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="53" column="1" bodyfile="src/parallelmcsimulation.cpp" bodystart="62" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallel_m_c_simulation_1a7d9420ac20b19cb1c74f81bdbad94196" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>ParallelMCSimulation::startSimulation</definition>
+        <argsstring>()</argsstring>
+        <name>startSimulation</name>
+        <briefdescription>
+<para>Warp function. Calls the <ref refid="class_m_c_simulation" kindref="compound">MCSimulation</ref>&apos;s native function for all the instances. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para>:<ref refid="class_m_c_simulation" kindref="compound">MCSimulation</ref>:. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="58" column="1" bodyfile="src/parallelmcsimulation.cpp" bodystart="69" bodyend="152"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_parallel_m_c_simulation_1acf1d3b7b15cdb31ad1d6a33b196086a0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelMCSimulation::getNumberOfProcessors</definition>
+        <argsstring>()</argsstring>
+        <name>getNumberOfProcessors</name>
+        <briefdescription>
+<para>return the number of processors in your machine </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="64" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallel_m_c_simulation_1a606527fb7dd1d48e765fa91aa668dcbf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelMCSimulation::initializeUnitSimulations</definition>
+        <argsstring>()</argsstring>
+        <name>initializeUnitSimulations</name>
+        <briefdescription>
+<para>Initialize every individual <ref refid="class_m_c_simulation" kindref="compound">MCSimulation</ref>. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="69" column="1" bodyfile="src/parallelmcsimulation.cpp" bodystart="155" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallel_m_c_simulation_1a15d31e25d6cfbc92291843f50a81696f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelMCSimulation::jointResults</definition>
+        <argsstring>()</argsstring>
+        <name>jointResults</name>
+        <briefdescription>
+<para>Joints the ouputs in a single file. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="74" column="1" bodyfile="src/parallelmcsimulation.cpp" bodystart="202" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallel_m_c_simulation_1ac06b2567ced7e0abe0c5c49a7eefd0b9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelMCSimulation::specialInitializations</definition>
+        <argsstring>()</argsstring>
+        <name>specialInitializations</name>
+        <briefdescription>
+<para>Initialize anythin that needs to be sync between simulations. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="79" column="1" bodyfile="src/parallelmcsimulation.cpp" bodystart="644" bodyend="661"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallel_m_c_simulation_1a8f21b7d51f45b3a5c8e741c9907df1ce" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelMCSimulation::addCylindersObstaclesFromFiles</definition>
+        <argsstring>()</argsstring>
+        <name>addCylindersObstaclesFromFiles</name>
+        <briefdescription>
+<para>Initialize all the Cylinders from a file. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="84" column="1" bodyfile="src/parallelmcsimulation.cpp" bodystart="664" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallel_m_c_simulation_1a3b55b93a8f437f278054f083056aa5ff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelMCSimulation::addCylindersConfigurations</definition>
+        <argsstring>()</argsstring>
+        <name>addCylindersConfigurations</name>
+        <briefdescription>
+<para>Used to initialize the hexagonal packing. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/parallelmcsimulation.h" line="89" column="1" bodyfile="src/parallelmcsimulation.cpp" bodystart="715" bodyend="784"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Class to handle multiprocessor paralellisation. This class basicly controls and syncronize several initializations of MonteCarlo simulations and add up the results. It&apos;s a way of soft paralelization. </para>    </briefdescription>
+    <detaileddescription>
+<para>Implementation of the PGSE protocol.</para><para>==============================================================================/</para><para>Class to handle multiprocessor paralellisation <simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>November 2016 <hruler/>
+ </para></simplesect>
+</para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="52">
+        <label>Parameters</label>
+        <link refid="class_parameters"/>
+      </node>
+      <node id="51">
+        <label>ParallelMCSimulation</label>
+        <link refid="class_parallel_m_c_simulation"/>
+        <childnode refid="52" relation="usage">
+          <edgelabel>params</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/parallelmcsimulation.h" line="19" column="1" bodyfile="src/parallelmcsimulation.h" bodystart="18" bodyend="91"/>
+    <listofallmembers>
+      <member refid="class_parallel_m_c_simulation_1a3b55b93a8f437f278054f083056aa5ff" prot="private" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>addCylindersConfigurations</name></member>
+      <member refid="class_parallel_m_c_simulation_1a8f21b7d51f45b3a5c8e741c9907df1ce" prot="private" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>addCylindersObstaclesFromFiles</name></member>
+      <member refid="class_parallel_m_c_simulation_1aa51edc0c79c6ae66ddd0046d21b871d4" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>aprox_volumen</name></member>
+      <member refid="class_parallel_m_c_simulation_1a4c36ff5327e9f19258fed5d64d48fdb8" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>cylinders_list</name></member>
+      <member refid="class_parallel_m_c_simulation_1acf1d3b7b15cdb31ad1d6a33b196086a0" prot="private" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>getNumberOfProcessors</name></member>
+      <member refid="class_parallel_m_c_simulation_1a871e3fdace01984a533792dd49bebd1b" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>icvf</name></member>
+      <member refid="class_parallel_m_c_simulation_1ae667ec358689a3a7b42876b401a5fce5" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>illegal_count</name></member>
+      <member refid="class_parallel_m_c_simulation_1a606527fb7dd1d48e765fa91aa668dcbf" prot="private" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>initializeUnitSimulations</name></member>
+      <member refid="class_parallel_m_c_simulation_1a15d31e25d6cfbc92291843f50a81696f" prot="private" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>jointResults</name></member>
+      <member refid="class_parallel_m_c_simulation_1ad122df5454bb26a56e89c9077560a33d" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>mean_second_passed</name></member>
+      <member refid="class_parallel_m_c_simulation_1ac85dc215688a1462b770d20c2ff10b3f" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>ParallelMCSimulation</name></member>
+      <member refid="class_parallel_m_c_simulation_1a32ee405791787a1ea9d03895fdd810f4" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>ParallelMCSimulation</name></member>
+      <member refid="class_parallel_m_c_simulation_1abcc36ff65ff389c1f8d9b31478fa16dc" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>ParallelMCSimulation</name></member>
+      <member refid="class_parallel_m_c_simulation_1a83f856aaa88a403c657c7b8234deee7a" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>params</name></member>
+      <member refid="class_parallel_m_c_simulation_1aa90f4d989bc868b6d225c0c5b9fe832a" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>plyObstacles_list</name></member>
+      <member refid="class_parallel_m_c_simulation_1a2a0f1cc2812c1a35e5e38d9d9ddde78b" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>sim_threads</name></member>
+      <member refid="class_parallel_m_c_simulation_1af16d292f007b8391122a035022422ed5" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>simulations</name></member>
+      <member refid="class_parallel_m_c_simulation_1ac06b2567ced7e0abe0c5c49a7eefd0b9" prot="private" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>specialInitializations</name></member>
+      <member refid="class_parallel_m_c_simulation_1a7d9420ac20b19cb1c74f81bdbad94196" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>startSimulation</name></member>
+      <member refid="class_parallel_m_c_simulation_1a6ee1dfd6e695ec5ec7d4c2ed94f233cf" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>stuck_count</name></member>
+      <member refid="class_parallel_m_c_simulation_1a5efe5faa45e57e6ff3827e9ec9e52a64" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>total_ini_walker_pos</name></member>
+      <member refid="class_parallel_m_c_simulation_1a18326e05c32fac82264d7351d78a7433" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>total_sim_particles</name></member>
+      <member refid="class_parallel_m_c_simulation_1a5de848eb160a4f33b73eeb87ec136682" prot="public" virt="non-virtual"><scope>ParallelMCSimulation</scope><name>~ParallelMCSimulation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

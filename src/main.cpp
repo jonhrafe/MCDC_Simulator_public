@@ -16,7 +16,6 @@
 #include <thread>
 #include "simerrno.h"
 
-
 typedef unsigned int uint;
 
 using namespace std;
@@ -38,9 +37,9 @@ int main(int argn, char* argv[])
     }
 
 
-    ParallelMCSimulation simulation_short_scheme(conf);
+    ParallelMCSimulation simulation(conf);
 
-    simulation_short_scheme.startSimulation();
+    simulation.startSimulation();
 
     #ifdef __linux__
 
@@ -64,7 +63,7 @@ void printUsage(){
     cout << endl; cout << endl;
     cout << " Version: " << VERSION_ID << endl;
     cout << " Usage: MC-DC_Simulator <configuration_file.conf>\n\n";
-    cout << " <configuration_file.conf>  Plain .txt file with the simulation parameters (see doc for examples):\n\n";
+    cout << " <configuration_file.conf>  Plain .txt file with the simulation parameters (see https://github.com/jonhrafe/MCDC_Simulator_public):\n\n";
 
     cout << "   N <int>                      Number of particles.\n";
     cout << "   T <int>                      Number of time steps.\n";

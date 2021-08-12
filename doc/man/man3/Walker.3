@@ -1,0 +1,286 @@
+.TH "Walker" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Walker \- Spin Final class =============================================================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <walker\&.h>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBstate\fP { \fBon_object\fP, \fBon_edge\fP, \fBon_vertex\fP, \fBon_voxel\fP, \fBfree\fP, \fBbouncing\fP }
+.RI "An enum\&. ""
+.br
+.ti -1c
+.RI "enum \fBRelativeLocation\fP { \fBunknown\fP, \fBintra\fP, \fBextra\fP }
+.RI "An enum\&. ""
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBWalker\fP ()"
+.br
+.RI "Default constructor\&. "
+.ti -1c
+.RI "\fB~Walker\fP ()"
+.br
+.ti -1c
+.RI "\fBWalker\fP (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)"
+.br
+.RI "Constructor\&. "
+.ti -1c
+.RI "void \fBgetRealPosition\fP (double &, double &, double &) const"
+.br
+.ti -1c
+.RI "void \fBgetRealPosition\fP (Eigen::Vector3d &) const"
+.br
+.ti -1c
+.RI "void \fBgetVoxelPosition\fP (double &, double &, double &) const"
+.br
+.ti -1c
+.RI "void \fBgetVoxelPosition\fP (Eigen::Vector3d &) const"
+.br
+.ti -1c
+.RI "void \fBgetInitialPosition\fP (double &, double &, double &) const"
+.br
+.ti -1c
+.RI "void \fBgetInitialPosition\fP (Eigen::Vector3d &) const"
+.br
+.ti -1c
+.RI "void \fBgetNextDirection\fP (Eigen::Vector3d &) const"
+.br
+.ti -1c
+.RI "unsigned int \fBgetIndex\fP () const"
+.br
+.ti -1c
+.RI "void \fBsetRealPosition\fP (const double &, const double &, const double &)"
+.br
+.ti -1c
+.RI "void \fBsetRealPosition\fP (const Eigen::Vector3d &)"
+.br
+.ti -1c
+.RI "void \fBsetVoxelPosition\fP (const double &, const double &, const double &)"
+.br
+.ti -1c
+.RI "void \fBsetVoxelPosition\fP (const Eigen::Vector3d &)"
+.br
+.ti -1c
+.RI "void \fBsetInitialPosition\fP (const double &, const double &, const double &)"
+.br
+.ti -1c
+.RI "void \fBsetInitialPosition\fP (const Eigen::Vector3d &)"
+.br
+.ti -1c
+.RI "void \fBsetNextDirection\fP (Eigen::Vector3d &)"
+.br
+.ti -1c
+.RI "void \fBsetRandomInitialPosition\fP (const Eigen::Vector3d &min, const Eigen::Vector3d &max)"
+.br
+.ti -1c
+.RI "void \fBsetIndex\fP (unsigned int &)"
+.br
+.ti -1c
+.RI "void \fBsetRealPosLog\fP (const Eigen::Vector3d &pos, unsigned t)"
+.br
+.ti -1c
+.RI "void \fBsetRealPosLog\fP (double x, double y, double z, unsigned t)"
+.br
+.ti -1c
+.RI "void \fBsetVoxPosLog\fP (const Eigen::Vector3d &pos, unsigned t)"
+.br
+.ti -1c
+.RI "void \fBsetVoxPosLog\fP (double x, double y, double z, unsigned t)"
+.br
+.ti -1c
+.RI "void \fBsetNumberOfSteps\fP (unsigned T)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "Eigen::Vector3d \fBpos_r\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBpos_v\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBlast_pos_r\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBlast_pos_v\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBini_pos\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBnext_direction\fP"
+.br
+.ti -1c
+.RI "Eigen::Matrix3Xd \fBpos_r_log\fP"
+.br
+.ti -1c
+.RI "Eigen::Matrix3Xd \fBpos_v_log\fP"
+.br
+.ti -1c
+.RI "int \fBin_obj_index\fP"
+.br
+.ti -1c
+.RI "int \fBin_ply_index\fP"
+.br
+.ti -1c
+.RI "\fBCylinderCollisionSphere\fP \fBcollision_sphere_cylinders\fP"
+.br
+.ti -1c
+.RI "\fBPLYCollisionSphere\fP \fBcollision_sphere_ply\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBinitial_sphere_pos_v\fP"
+.br
+.ti -1c
+.RI "unsigned \fBsteps_count\fP"
+.br
+.ti -1c
+.RI "\fBstate\fP \fBstatus\fP"
+.br
+.ti -1c
+.RI "\fBRelativeLocation\fP \fBinitial_location\fP"
+.br
+.ti -1c
+.RI "\fBRelativeLocation\fP \fBlocation\fP"
+.br
+.ti -1c
+.RI "int \fBintra_extra_consensus\fP"
+.br
+.ti -1c
+.RI "unsigned \fBintra_coll_count\fP"
+.br
+.ti -1c
+.RI "unsigned \fBextra_coll_count\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBindex\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBrejection_count\fP"
+.br
+.ti -1c
+.RI "float \fBsteps_per_second\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Spin Final class =============================================================/\&. 
+
+Basic unit of the diffusion process\&.
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+November 2016 
+.SH "0\&.2 "
+.PP
+.RE
+.PP
+.PP
+Alias for a particle\&. Basic unit on the simulation process\&. Saves all the necessary information to perform the particles dynamics\&. 
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBWalker::RelativeLocation\fP"
+
+.PP
+An enum\&. Possible location of the walker inside the voxel\&. Checks illegal crossings of the barrier (border, lol) 
+.SS "enum \fBWalker::state\fP"
+
+.PP
+An enum\&. All the possibles states that a walker can be in a given step\&. The next step is perform according to this state 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Walker::Walker ()"
+
+.PP
+Default constructor\&. Set all variables to cero\&.
+.PP
+Based class \fBWalker\fP\&. 
+.SS "Walker::~Walker ()\fC [inline]\fP"
+Default destructor\&.
+.PP
+Does nothing 
+.SS "Walker::Walker (double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)"
+
+.PP
+Constructor\&. Initialize the walker position in a random position inside the boundaries defined by the limits\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIxmin\fP lower x threshold 
+.br
+\fIxmax\fP upper x threshold 
+.br
+\fIymin\fP lower y threshold 
+.br
+\fIymax\fP upper y threshold 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBCylinderCollisionSphere\fP Walker::collision_sphere_cylinders"
+\fBCollision\fP sphere for collition against cylidners 
+.SS "\fBPLYCollisionSphere\fP Walker::collision_sphere_ply"
+\fBCollision\fP sphere for collition against PLY meshes 
+.SS "unsigned Walker::extra_coll_count"
+counter of collision in the extra-side w/r the normal 
+.SS "int Walker::in_obj_index"
+Auxiliar index to save if the walker was inside a convex object 
+.SS "int Walker::in_ply_index"
+Auxiliar index to save if the walker was inside a convex ply object 
+.SS "unsigned int Walker::index"
+\fBWalker\fP identifier (id) 
+.SS "Eigen::Vector3d Walker::ini_pos"
+\fBWalker\fP intital position 
+.SS "Eigen::Vector3d Walker::initial_sphere_pos_v"
+Saves the intial positioon of the walker inside the collition sphere 
+.SS "unsigned Walker::intra_coll_count"
+counter of collision in the ïntra-side w/r the normal 
+.SS "int Walker::intra_extra_consensus"
+intra o extra position by face collision consensus w/r the normal 
+.SS "Eigen::Vector3d Walker::last_pos_r"
+\fBWalker\fP voxel last position 
+.SS "Eigen::Vector3d Walker::last_pos_v"
+\fBWalker\fP real last position 
+.SS "\fBRelativeLocation\fP Walker::location"
+location on the substrate (if known) 
+.SS "Eigen::Vector3d Walker::next_direction"
+Auxiliar vector for special states cases, decides the next direction 
+.SS "Eigen::Vector3d Walker::pos_r"
+Real walker position for collision, r stands for real 
+.SS "Eigen::Matrix3Xd Walker::pos_r_log"
+log of the real spin position, used to compute the phase shift 
+.SS "Eigen::Vector3d Walker::pos_v"
+\fBWalker\fP current position 
+.SS "Eigen::Matrix3Xd Walker::pos_v_log"
+log of the voxel position, used for collision location and bouncing 
+.SS "unsigned int Walker::rejection_count"
+counter of the rejected directions in a single time-step 
+.SS "\fBstate\fP Walker::status"
+state memeber 
+.SS "unsigned Walker::steps_count"
+Counts the number of steps (including bouncings) made\&. 
+.SS "float Walker::steps_per_second"
+Particles steps per second speeed\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

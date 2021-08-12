@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_collisionspheren" kind="class" language="C++" prot="public">
+    <compoundname>Collisionspheren</compoundname>
+    <includes refid="collisionsphere_8h" local="no">collisionsphere.h</includes>
+    <briefdescription>
+<para><ref refid="class_collision" kindref="compound">Collision</ref> Final class ============================================================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Class to implement spherical bounding boxes for the WALKER mean diffusion. This class provides methods in order to create and update spherical bounding boxes used to compute the collisions. <simplesect kind="author"><para>Jonathan Rafael <heading level="1">February 2017 </heading>
+</para></simplesect>
+</para><para>Father class. this class provides methods in order to create and update spherical bounding box used to compute the collisions. The implementation is based on two collision spheres. The inner one (small) and the (outer). The fist saves the objects where th particle MAY collide in a given time, While the second saves the full set of obstacles where the particle can possibly collide, i.e. that are physically achievable for the walker to collide. </para>    </detaileddescription>
+    <location file="src/collisionsphere.h" line="14" column="1"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

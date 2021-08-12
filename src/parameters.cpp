@@ -15,20 +15,21 @@ Parameters::Parameters()
     write_txt           = false;
     write_bin           =  true;
 
-    hex_packing = false;
+    hex_cyl_packing    = false;
+    hex_sphere_packing = false;
     hex_packing_radius      = 0;
     hex_packing_separation  = 0;
 
-    gamma_packing = false;
+    gamma_cyl_packing = false;
+    gamma_sph_packing = false;
     gamma_packing_alpha = 0;
     gamma_packing_beta  = 0;
-    gamma_num_cylinders = 0;
-    gamma_icvf = 0;
-    min_cyl_radii = 0;
+    gamma_num_obstacles = 0;
+    gamma_icvf          = 0;
+    min_obstacle_radii  = 0;
 
     ini_walkers_file = "";
     num_proc    = 0;
-    hex_packing = false;
     verbatim    = false;
 
     record_phase_times.clear();
@@ -39,6 +40,7 @@ Parameters::Parameters()
     custom_sampling_area = false;
     separate_signals = false;
     img_signal = false;
+    hex_sphere_packing = false;
 
     for (auto i= 0;i<3; i++)
         min_sampling_area[i] = max_sampling_area[i] = 0.0;
@@ -357,6 +359,12 @@ void Parameters::readObstacles(ifstream& in)
             cylinders_files.push_back(path);
             num_obstacles++;
         }
+        if(str_dist(tmp,"spheres_list") <= 2){
+            string path;
+            in >> path;
+            spheres_files.push_back(path);
+            num_obstacles++;
+        }
         if(str_dist(tmp,"oriented_cylinders_list") <= 2){
             string path;
             in >> path;
@@ -388,10 +396,22 @@ void Parameters::readObstacles(ifstream& in)
             num_obstacles++;
         }
         if(str_dist(tmp,"<cylinder_hex_packing>") <=1){
+            this->hex_cyl_packing = true;
+            readHexagonalParams(in);
+            num_obstacles++;
+        }
+        if(str_dist(tmp,"<sphere_hex_packing>") <=1){
+            this->hex_sphere_packing = true;
             readHexagonalParams(in);
             num_obstacles++;
         }
         if(str_dist(tmp,"<cylinder_gamma_packing>") <=1){
+            gamma_cyl_packing = true;
+            readGammaParams(in);
+            num_obstacles++;
+        }
+        if(str_dist(tmp,"<sphere_gamma_packing>") <=1){
+            gamma_sph_packing = true;
             readGammaParams(in);
             num_obstacles++;
         }
@@ -539,11 +559,9 @@ void Parameters::readInfoGatheringParams(ifstream& in)
 
 void Parameters::readHexagonalParams(ifstream &in)
 {
-    hex_packing = true;
-
     string tmp="";
 
-    while(str_dist(tmp,"</cylinder_hex_packing>"))
+    while(true)
     {
         in >> tmp;
         std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
@@ -554,17 +572,23 @@ void Parameters::readHexagonalParams(ifstream &in)
         if(str_dist(tmp,"separation") <= 1){
             in >> hex_packing_separation;
         }
+
+        if(str_dist(tmp,"icvf") <= 1){
+            in >> hex_packing_icvf;
+        }
+
+        if(str_dist(tmp,"</cylinder_hex_packing>") == 0 || str_dist(tmp,"</sphere_hex_packing>") == 0){
+            break;
+        }
     }
 }
 
+
 void Parameters::readGammaParams(ifstream &in)
 {
-
-    gamma_packing = true;
-
     string tmp="";
 
-    while(str_dist(tmp,"</cylinder_gamma_packing>") > 0)
+    while(str_dist(tmp,"</cylinder_gamma_packing>") > 0 || str_dist(tmp,"</sphere_gamma_packing") > 0 )
     {
         in >> tmp;
         std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
@@ -581,19 +605,22 @@ void Parameters::readGammaParams(ifstream &in)
             in >> gamma_packing_beta;
         }
         else if(str_dist(tmp,"num_cylinders") <= 1){
-            in >> gamma_num_cylinders;
+            in >> gamma_num_obstacles;
+        }
+        else if(str_dist(tmp,"num_spheres") <= 1){
+            in >> gamma_num_obstacles;
         }
         else if(str_dist(tmp,"icvf") <= 1){
             in >> gamma_icvf;
         }
         else if(str_dist(tmp,"min_radius") <= 1){
-            in >> min_cyl_radii;
+            in >> min_obstacle_radii;
         }
         else if(str_dist(tmp,"") == 0){
             in.clear();
             //in.ignore();
         }
-        else if(str_dist(tmp,"</cylinder_gamma_packing>") ==0){
+        else if(str_dist(tmp,"</cylinder_gamma_packing>") ==0 || str_dist(tmp,"</sphere_gamma_packing>") == 0  ){
             break;
         }
 

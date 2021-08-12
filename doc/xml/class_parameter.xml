@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_parameter" kind="class" language="C++" prot="public">
+    <compoundname>Parameter</compoundname>
+    <includes refid="parameters_8h" local="no">parameters.h</includes>
+    <briefdescription>
+<para>Basic class to store simulation parameters =============================================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Basic class to store and handle all the possible simulation parameters. <simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>November 2016 <heading level="1">1.43 </heading>
+</para></simplesect>
+</para><para>Class used to hold and operate all the user and simulation parameters. This is the main class to comunicate between instances of the simulations and derived classes. So, in a way, it&apos;s an interface for the comunication between component classes in the simulation. </para>    </detaileddescription>
+    <location file="src/parameters.h" line="17" column="1"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

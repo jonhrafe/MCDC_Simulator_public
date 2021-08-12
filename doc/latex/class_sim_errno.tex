@@ -1,0 +1,341 @@
+\hypertarget{class_sim_errno}{}\section{Sim\+Errno Class Reference}
+\label{class_sim_errno}\index{Sim\+Errno@{Sim\+Errno}}
+
+
+Simulation Input and parameter errors handling class =================================================/.  
+
+
+
+
+{\ttfamily \#include $<$simerrno.\+h$>$}
+
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \hyperlink{class_sim_errno_a8786cb077da0c41a32cd5d96f03fde35}{check\+File\+Exist} (const std\+::string name)
+\begin{DoxyCompactList}\small\item\em Return true if the file does exist, false otherwise. \end{DoxyCompactList}\item 
+static bool \hyperlink{class_sim_errno_aabc7284492cb5f8ef38fce7d4501abbd}{check\+Simulation\+Parameters} (\hyperlink{class_parameters}{Parameters} \&params)
+\begin{DoxyCompactList}\small\item\em Return false if any of the parameters are inconsistent or bugged. In may assert the program. \end{DoxyCompactList}\item 
+static bool \hyperlink{class_sim_errno_ad5048e2a5f5630118ec614afdd4fd197}{check\+Scheme\+File} (\hyperlink{class_parameters}{Parameters} \&params)
+\begin{DoxyCompactList}\small\item\em Return false if any of the parameters are inconsistent or bugged. In may assert the program. \end{DoxyCompactList}\item 
+static bool \hyperlink{class_sim_errno_a3a4c60541ecf163e50f70f8b9795be29}{check\+P\+L\+Y\+Files} (\hyperlink{class_parameters}{Parameters} \&params)
+\begin{DoxyCompactList}\small\item\em Return false if any of the P\+LY files are inconsistent or bugged. In may assert the program. \end{DoxyCompactList}\item 
+static bool \hyperlink{class_sim_errno_a077a20f0886022c924911e24fbc91b52}{check\+Cylinders\+List\+File} (\hyperlink{class_parameters}{Parameters} \&params)
+\begin{DoxyCompactList}\small\item\em Return false if any of the cylinder list files are inconsistent or bugged. In may assert the program. \end{DoxyCompactList}\item 
+static bool \hyperlink{class_sim_errno_a21ed929e9b81e9059d4da3ca03c9d80c}{check\+Init\+Walker\+File} (\hyperlink{class_parameters}{Parameters} \&params)
+\begin{DoxyCompactList}\small\item\em Return false if the initial position file is inconsistent or bugged. In may assert the program. \end{DoxyCompactList}\item 
+static bool \hyperlink{class_sim_errno_a9b9712b12322cdd0667d6fc4ee7aceaf}{check\+Voxel\+Limits} (\hyperlink{class_parameters}{Parameters} \&params)
+\begin{DoxyCompactList}\small\item\em Return false if the voxel instances are inconsistent or bugged. In may assert the program. \end{DoxyCompactList}\item 
+static bool \hyperlink{class_sim_errno_a4b59c263ba564ebc9edbd40fe9ec3bc8}{check\+Configuration\+File} (const char $\ast$configuration\+\_\+file)
+\begin{DoxyCompactList}\small\item\em Return false if the scheme file does not exist or there are inconsistent or bugs. In may assert the program. \end{DoxyCompactList}\item 
+static void \hyperlink{class_sim_errno_a87782efbd7825d733d3f0c760cf47222}{print\+Simulatin\+Info} (\hyperlink{class_parameters}{Parameters} \&params, std\+::ostream \&, bool color=1)
+\item 
+static void \hyperlink{class_sim_errno_a195d934b873f7b10be5f57cf6f77e80f}{check\+Ouput\+Prefix\+And\+Write\+Info} (\hyperlink{class_parameters}{Parameters} \&params)
+\begin{DoxyCompactList}\small\item\em Return false if the output location and prefix are inconsistence or bugged. \end{DoxyCompactList}\item 
+static bool \hyperlink{class_sim_errno_aa997e9bec44280eec04ce320f8d75031}{check\+Gamma\+Distribution\+Paramaters} (\hyperlink{class_parameters}{Parameters} \&params)
+\begin{DoxyCompactList}\small\item\em Return false if the there are errors or inconsistencies in the gamma distr. parameters. \end{DoxyCompactList}\item 
+static void \hyperlink{class_sim_errno_acd92c1f938453f86e5f6d6967ed09754}{warning} (std\+::string message, std\+::ostream \&, bool color=1)
+\item 
+static void \hyperlink{class_sim_errno_aef262fffecd567fe6ebcf57aed23e8dd}{info} (std\+::string message, std\+::ostream \&, bool color=1)
+\item 
+static void \hyperlink{class_sim_errno_aafbfe0b71883701a1c8882135c54cfe4}{info\+Menu} (std\+::string message, std\+::string value, std\+::ostream \&, bool color=1, int space=0)
+\item 
+static void \hyperlink{class_sim_errno_a1d49dc3d396b355aee645c6d35436aa9}{error} (std\+::string message, std\+::ostream \&, bool color=1)
+\item 
+static void \hyperlink{class_sim_errno_a786ea76043026ad10aec48bc81137144}{expected\+Time} (std\+::string completed, std\+::string time, std\+::ostream \&, bool color=1, std\+::string steps\+\_\+second=\char`\"{}\char`\"{}, std\+::string endl\+\_\+str=\char`\"{}\char`\"{})
+\item 
+\mbox{\Hypertarget{class_sim_errno_a5f21f4c97adee0132d4d64b30b89fecd}\label{class_sim_errno_a5f21f4c97adee0132d4d64b30b89fecd}} 
+static std\+::string {\bfseries current\+Date\+Time} ()
+\item 
+static bool \hyperlink{class_sim_errno_a71e44ab51c81191171464b1371887844}{check\+Subdivisions\+File} (\hyperlink{class_parameters}{Parameters} \&params)
+\begin{DoxyCompactList}\small\item\em Return false if any of the elements in the file are miss configured. \end{DoxyCompactList}\item 
+static void \hyperlink{class_sim_errno_a3dfc14a69998cff0ee82f8bb6ef2ddc4}{append\+Repetition\+Label} (\hyperlink{class_parameters}{Parameters} \&params)
+\begin{DoxyCompactList}\small\item\em Appends a repetition label on the prefix command so no results are overwritten, helpful if you are running batch of simulation inside a server. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Simulation Input and parameter errors handling class =================================================/. 
+
+Class ot handle the errors in the parameters, logical and on the syntaxis. \begin{DoxyAuthor}{Author}
+Jonathan Rafael 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+March 2016 
+
+
+\end{DoxyDate}
+Class to handle the errors in the parameters, logical and on the syntax
+
+This class contains a set of static methods to check that the configuration files exist and that the parameters are correctly set. This may cause asserts E\+R\+R\+O\+RS or W\+A\+R\+N\+I\+N\+GS. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_sim_errno_a3dfc14a69998cff0ee82f8bb6ef2ddc4}\label{class_sim_errno_a3dfc14a69998cff0ee82f8bb6ef2ddc4}} 
+\index{Sim\+Errno@{Sim\+Errno}!append\+Repetition\+Label@{append\+Repetition\+Label}}
+\index{append\+Repetition\+Label@{append\+Repetition\+Label}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{append\+Repetition\+Label()}{appendRepetitionLabel()}}
+{\footnotesize\ttfamily void Sim\+Errno\+::append\+Repetition\+Label (\begin{DoxyParamCaption}\item[{\hyperlink{class_parameters}{Parameters} \&}]{params }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Appends a repetition label on the prefix command so no results are overwritten, helpful if you are running batch of simulation inside a server. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameter} & instance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_a4b59c263ba564ebc9edbd40fe9ec3bc8}\label{class_sim_errno_a4b59c263ba564ebc9edbd40fe9ec3bc8}} 
+\index{Sim\+Errno@{Sim\+Errno}!check\+Configuration\+File@{check\+Configuration\+File}}
+\index{check\+Configuration\+File@{check\+Configuration\+File}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{check\+Configuration\+File()}{checkConfigurationFile()}}
+{\footnotesize\ttfamily bool Sim\+Errno\+::check\+Configuration\+File (\begin{DoxyParamCaption}\item[{const char $\ast$}]{configuration\+\_\+file }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Return false if the scheme file does not exist or there are inconsistent or bugs. In may assert the program. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameter} & instance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_a077a20f0886022c924911e24fbc91b52}\label{class_sim_errno_a077a20f0886022c924911e24fbc91b52}} 
+\index{Sim\+Errno@{Sim\+Errno}!check\+Cylinders\+List\+File@{check\+Cylinders\+List\+File}}
+\index{check\+Cylinders\+List\+File@{check\+Cylinders\+List\+File}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{check\+Cylinders\+List\+File()}{checkCylindersListFile()}}
+{\footnotesize\ttfamily bool Sim\+Errno\+::check\+Cylinders\+List\+File (\begin{DoxyParamCaption}\item[{\hyperlink{class_parameters}{Parameters} \&}]{params }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Return false if any of the cylinder list files are inconsistent or bugged. In may assert the program. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameter} & instance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_a8786cb077da0c41a32cd5d96f03fde35}\label{class_sim_errno_a8786cb077da0c41a32cd5d96f03fde35}} 
+\index{Sim\+Errno@{Sim\+Errno}!check\+File\+Exist@{check\+File\+Exist}}
+\index{check\+File\+Exist@{check\+File\+Exist}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{check\+File\+Exist()}{checkFileExist()}}
+{\footnotesize\ttfamily static bool Sim\+Errno\+::check\+File\+Exist (\begin{DoxyParamCaption}\item[{const std\+::string}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Return true if the file does exist, false otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & file path \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_aa997e9bec44280eec04ce320f8d75031}\label{class_sim_errno_aa997e9bec44280eec04ce320f8d75031}} 
+\index{Sim\+Errno@{Sim\+Errno}!check\+Gamma\+Distribution\+Paramaters@{check\+Gamma\+Distribution\+Paramaters}}
+\index{check\+Gamma\+Distribution\+Paramaters@{check\+Gamma\+Distribution\+Paramaters}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{check\+Gamma\+Distribution\+Paramaters()}{checkGammaDistributionParamaters()}}
+{\footnotesize\ttfamily bool Sim\+Errno\+::check\+Gamma\+Distribution\+Paramaters (\begin{DoxyParamCaption}\item[{\hyperlink{class_parameters}{Parameters} \&}]{params }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Return false if the there are errors or inconsistencies in the gamma distr. parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameter} & instance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_a21ed929e9b81e9059d4da3ca03c9d80c}\label{class_sim_errno_a21ed929e9b81e9059d4da3ca03c9d80c}} 
+\index{Sim\+Errno@{Sim\+Errno}!check\+Init\+Walker\+File@{check\+Init\+Walker\+File}}
+\index{check\+Init\+Walker\+File@{check\+Init\+Walker\+File}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{check\+Init\+Walker\+File()}{checkInitWalkerFile()}}
+{\footnotesize\ttfamily bool Sim\+Errno\+::check\+Init\+Walker\+File (\begin{DoxyParamCaption}\item[{\hyperlink{class_parameters}{Parameters} \&}]{params }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Return false if the initial position file is inconsistent or bugged. In may assert the program. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameter} & instance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_a195d934b873f7b10be5f57cf6f77e80f}\label{class_sim_errno_a195d934b873f7b10be5f57cf6f77e80f}} 
+\index{Sim\+Errno@{Sim\+Errno}!check\+Ouput\+Prefix\+And\+Write\+Info@{check\+Ouput\+Prefix\+And\+Write\+Info}}
+\index{check\+Ouput\+Prefix\+And\+Write\+Info@{check\+Ouput\+Prefix\+And\+Write\+Info}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{check\+Ouput\+Prefix\+And\+Write\+Info()}{checkOuputPrefixAndWriteInfo()}}
+{\footnotesize\ttfamily void Sim\+Errno\+::check\+Ouput\+Prefix\+And\+Write\+Info (\begin{DoxyParamCaption}\item[{\hyperlink{class_parameters}{Parameters} \&}]{params }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Return false if the output location and prefix are inconsistence or bugged. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameter} & instance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_a3a4c60541ecf163e50f70f8b9795be29}\label{class_sim_errno_a3a4c60541ecf163e50f70f8b9795be29}} 
+\index{Sim\+Errno@{Sim\+Errno}!check\+P\+L\+Y\+Files@{check\+P\+L\+Y\+Files}}
+\index{check\+P\+L\+Y\+Files@{check\+P\+L\+Y\+Files}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{check\+P\+L\+Y\+Files()}{checkPLYFiles()}}
+{\footnotesize\ttfamily bool Sim\+Errno\+::check\+P\+L\+Y\+Files (\begin{DoxyParamCaption}\item[{\hyperlink{class_parameters}{Parameters} \&}]{params }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Return false if any of the P\+LY files are inconsistent or bugged. In may assert the program. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameter} & instance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_ad5048e2a5f5630118ec614afdd4fd197}\label{class_sim_errno_ad5048e2a5f5630118ec614afdd4fd197}} 
+\index{Sim\+Errno@{Sim\+Errno}!check\+Scheme\+File@{check\+Scheme\+File}}
+\index{check\+Scheme\+File@{check\+Scheme\+File}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{check\+Scheme\+File()}{checkSchemeFile()}}
+{\footnotesize\ttfamily bool Sim\+Errno\+::check\+Scheme\+File (\begin{DoxyParamCaption}\item[{\hyperlink{class_parameters}{Parameters} \&}]{params }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Return false if any of the parameters are inconsistent or bugged. In may assert the program. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameter} & instance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_aabc7284492cb5f8ef38fce7d4501abbd}\label{class_sim_errno_aabc7284492cb5f8ef38fce7d4501abbd}} 
+\index{Sim\+Errno@{Sim\+Errno}!check\+Simulation\+Parameters@{check\+Simulation\+Parameters}}
+\index{check\+Simulation\+Parameters@{check\+Simulation\+Parameters}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{check\+Simulation\+Parameters()}{checkSimulationParameters()}}
+{\footnotesize\ttfamily bool Sim\+Errno\+::check\+Simulation\+Parameters (\begin{DoxyParamCaption}\item[{\hyperlink{class_parameters}{Parameters} \&}]{params }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Return false if any of the parameters are inconsistent or bugged. In may assert the program. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameter} & instance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_a71e44ab51c81191171464b1371887844}\label{class_sim_errno_a71e44ab51c81191171464b1371887844}} 
+\index{Sim\+Errno@{Sim\+Errno}!check\+Subdivisions\+File@{check\+Subdivisions\+File}}
+\index{check\+Subdivisions\+File@{check\+Subdivisions\+File}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{check\+Subdivisions\+File()}{checkSubdivisionsFile()}}
+{\footnotesize\ttfamily bool Sim\+Errno\+::check\+Subdivisions\+File (\begin{DoxyParamCaption}\item[{\hyperlink{class_parameters}{Parameters} \&}]{params }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Return false if any of the elements in the file are miss configured. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameter} & instance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_a9b9712b12322cdd0667d6fc4ee7aceaf}\label{class_sim_errno_a9b9712b12322cdd0667d6fc4ee7aceaf}} 
+\index{Sim\+Errno@{Sim\+Errno}!check\+Voxel\+Limits@{check\+Voxel\+Limits}}
+\index{check\+Voxel\+Limits@{check\+Voxel\+Limits}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{check\+Voxel\+Limits()}{checkVoxelLimits()}}
+{\footnotesize\ttfamily bool Sim\+Errno\+::check\+Voxel\+Limits (\begin{DoxyParamCaption}\item[{\hyperlink{class_parameters}{Parameters} \&}]{params }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Return false if the voxel instances are inconsistent or bugged. In may assert the program. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameter} & instance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_a1d49dc3d396b355aee645c6d35436aa9}\label{class_sim_errno_a1d49dc3d396b355aee645c6d35436aa9}} 
+\index{Sim\+Errno@{Sim\+Errno}!error@{error}}
+\index{error@{error}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{error()}{error()}}
+{\footnotesize\ttfamily void Sim\+Errno\+::error (\begin{DoxyParamCaption}\item[{std\+::string}]{message,  }\item[{std\+::ostream \&}]{,  }\item[{bool}]{color = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em iostream} & where to print ! \\
+\hline
+{\em colour} & flag, false if no colour should be display or written \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_a786ea76043026ad10aec48bc81137144}\label{class_sim_errno_a786ea76043026ad10aec48bc81137144}} 
+\index{Sim\+Errno@{Sim\+Errno}!expected\+Time@{expected\+Time}}
+\index{expected\+Time@{expected\+Time}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{expected\+Time()}{expectedTime()}}
+{\footnotesize\ttfamily void Sim\+Errno\+::expected\+Time (\begin{DoxyParamCaption}\item[{std\+::string}]{completed,  }\item[{std\+::string}]{time,  }\item[{std\+::ostream \&}]{,  }\item[{bool}]{color = {\ttfamily 1},  }\item[{std\+::string}]{steps\+\_\+second = {\ttfamily \char`\"{}\char`\"{}},  }\item[{std\+::string}]{endl\+\_\+str = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em iostream} & where to print ! \\
+\hline
+{\em colour} & flag, false if no colour should be display or written ! \\
+\hline
+{\em end} & flag, false if no end of line string should be printing \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_aef262fffecd567fe6ebcf57aed23e8dd}\label{class_sim_errno_aef262fffecd567fe6ebcf57aed23e8dd}} 
+\index{Sim\+Errno@{Sim\+Errno}!info@{info}}
+\index{info@{info}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{info()}{info()}}
+{\footnotesize\ttfamily void Sim\+Errno\+::info (\begin{DoxyParamCaption}\item[{std\+::string}]{message,  }\item[{std\+::ostream \&}]{,  }\item[{bool}]{color = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em iostream} & where to print \\
+\hline
+{\em colour} & flag, false if no colour should be display or written \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_aafbfe0b71883701a1c8882135c54cfe4}\label{class_sim_errno_aafbfe0b71883701a1c8882135c54cfe4}} 
+\index{Sim\+Errno@{Sim\+Errno}!info\+Menu@{info\+Menu}}
+\index{info\+Menu@{info\+Menu}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{info\+Menu()}{infoMenu()}}
+{\footnotesize\ttfamily void Sim\+Errno\+::info\+Menu (\begin{DoxyParamCaption}\item[{std\+::string}]{message,  }\item[{std\+::string}]{value,  }\item[{std\+::ostream \&}]{,  }\item[{bool}]{color = {\ttfamily 1},  }\item[{int}]{space = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em iostream} & where to print ! \\
+\hline
+{\em colour} & flag, false if no colour should be display or written ! \\
+\hline
+{\em spacing} & at the end of the message \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_a87782efbd7825d733d3f0c760cf47222}\label{class_sim_errno_a87782efbd7825d733d3f0c760cf47222}} 
+\index{Sim\+Errno@{Sim\+Errno}!print\+Simulatin\+Info@{print\+Simulatin\+Info}}
+\index{print\+Simulatin\+Info@{print\+Simulatin\+Info}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{print\+Simulatin\+Info()}{printSimulatinInfo()}}
+{\footnotesize\ttfamily void Sim\+Errno\+::print\+Simulatin\+Info (\begin{DoxyParamCaption}\item[{\hyperlink{class_parameters}{Parameters} \&}]{params,  }\item[{std\+::ostream \&}]{,  }\item[{bool}]{color = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em parameter} & instance \\
+\hline
+{\em iostream} & to print to \\
+\hline
+{\em color} & flag, false if no colour should be display or written \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_sim_errno_acd92c1f938453f86e5f6d6967ed09754}\label{class_sim_errno_acd92c1f938453f86e5f6d6967ed09754}} 
+\index{Sim\+Errno@{Sim\+Errno}!warning@{warning}}
+\index{warning@{warning}!Sim\+Errno@{Sim\+Errno}}
+\subsubsection{\texorpdfstring{warning()}{warning()}}
+{\footnotesize\ttfamily void Sim\+Errno\+::warning (\begin{DoxyParamCaption}\item[{std\+::string}]{message,  }\item[{std\+::ostream \&}]{,  }\item[{bool}]{color = {\ttfamily 1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em iostream} & where to print \\
+\hline
+{\em colour} & flag, false if no colour should be display or written \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/simerrno.\+h\item 
+src/simerrno.\+cpp\end{DoxyCompactItemize}

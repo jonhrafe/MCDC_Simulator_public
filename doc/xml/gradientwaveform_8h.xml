@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="gradientwaveform_8h" kind="file" language="C++">
+    <compoundname>gradientwaveform.h</compoundname>
+    <includes refid="pgsesequence_8h" local="yes">pgsesequence.h</includes>
+    <includes local="yes">Eigen/Dense</includes>
+    <includes refid="constants_8h" local="yes">constants.h</includes>
+    <includedby refid="gradientwaveform_8cpp" local="yes">src/gradientwaveform.cpp</includedby>
+    <includedby refid="mcsimulation_8cpp" local="yes">src/mcsimulation.cpp</includedby>
+    <incdepgraph>
+      <node id="407">
+        <label>src/gradientwaveform.h</label>
+        <link refid="gradientwaveform_8h"/>
+        <childnode refid="408" relation="include">
+        </childnode>
+        <childnode refid="425" relation="include">
+        </childnode>
+        <childnode refid="426" relation="include">
+        </childnode>
+      </node>
+      <node id="427">
+        <label>limits</label>
+      </node>
+      <node id="424">
+        <label>scheme.h</label>
+        <link refid="scheme_8h_source"/>
+        <childnode refid="409" relation="include">
+        </childnode>
+        <childnode refid="412" relation="include">
+        </childnode>
+      </node>
+      <node id="417">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="412">
+        <label>string</label>
+      </node>
+      <node id="414">
+        <label>fstream</label>
+      </node>
+      <node id="420">
+        <label>simulablesequence.h</label>
+        <link refid="simulablesequence_8h_source"/>
+        <childnode refid="412" relation="include">
+        </childnode>
+        <childnode refid="409" relation="include">
+        </childnode>
+        <childnode refid="421" relation="include">
+        </childnode>
+        <childnode refid="418" relation="include">
+        </childnode>
+      </node>
+      <node id="426">
+        <label>constants.h</label>
+        <link refid="constants_8h_source"/>
+        <childnode refid="413" relation="include">
+        </childnode>
+        <childnode refid="412" relation="include">
+        </childnode>
+        <childnode refid="427" relation="include">
+        </childnode>
+      </node>
+      <node id="415">
+        <label>Eigen/Sparse</label>
+      </node>
+      <node id="425">
+        <label>Eigen/Dense</label>
+      </node>
+      <node id="409">
+        <label>vector</label>
+      </node>
+      <node id="421">
+        <label>walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="417" relation="include">
+        </childnode>
+        <childnode refid="409" relation="include">
+        </childnode>
+        <childnode refid="422" relation="include">
+        </childnode>
+        <childnode refid="423" relation="include">
+        </childnode>
+        <childnode refid="410" relation="include">
+        </childnode>
+      </node>
+      <node id="423">
+        <label>collisionsphere.h</label>
+        <link refid="collisionsphere_8h_source"/>
+        <childnode refid="409" relation="include">
+        </childnode>
+      </node>
+      <node id="418">
+        <label>subdivision.h</label>
+        <link refid="subdivision_8h_source"/>
+        <childnode refid="417" relation="include">
+        </childnode>
+      </node>
+      <node id="408">
+        <label>pgsesequence.h</label>
+        <link refid="pgsesequence_8h_source"/>
+        <childnode refid="409" relation="include">
+        </childnode>
+        <childnode refid="410" relation="include">
+        </childnode>
+        <childnode refid="411" relation="include">
+        </childnode>
+        <childnode refid="417" relation="include">
+        </childnode>
+        <childnode refid="420" relation="include">
+        </childnode>
+        <childnode refid="424" relation="include">
+        </childnode>
+      </node>
+      <node id="419">
+        <label>utility</label>
+      </node>
+      <node id="416">
+        <label>parameters.h</label>
+        <link refid="parameters_8h_source"/>
+        <childnode refid="409" relation="include">
+        </childnode>
+        <childnode refid="417" relation="include">
+        </childnode>
+        <childnode refid="418" relation="include">
+        </childnode>
+        <childnode refid="419" relation="include">
+        </childnode>
+      </node>
+      <node id="410">
+        <label>iostream</label>
+      </node>
+      <node id="422">
+        <label>deque</label>
+      </node>
+      <node id="411">
+        <label>trajectory.h</label>
+        <link refid="trajectory_8h_source"/>
+        <childnode refid="412" relation="include">
+        </childnode>
+        <childnode refid="410" relation="include">
+        </childnode>
+        <childnode refid="413" relation="include">
+        </childnode>
+        <childnode refid="414" relation="include">
+        </childnode>
+        <childnode refid="415" relation="include">
+        </childnode>
+        <childnode refid="416" relation="include">
+        </childnode>
+      </node>
+      <node id="413">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_gradient_waveform" prot="public">GradientWaveform</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="9"><highlight class="preprocessor">#ifndef<sp/>GRADIENTWAVEFORM_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>GRADIENTWAVEFORM_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;pgsesequence.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Eigen/Dense&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;constants.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="class_gradient_waveform" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_gradient_waveform" kindref="compound">GradientWaveform</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_simulable_sequence" kindref="compound">SimulableSequence</ref></highlight></codeline>
+<codeline lineno="17"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="class_gradient_waveform_1a4e0c0163e36cc017f5b147e9ca3022e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform_1a4e0c0163e36cc017f5b147e9ca3022e0" kindref="member">TE</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="22" refid="class_gradient_waveform_1af2f45ff237ba41afe3ff5cedb7c1c966" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint<sp/><ref refid="class_gradient_waveform_1af2f45ff237ba41afe3ff5cedb7c1c966" kindref="member">T</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="24" refid="class_gradient_waveform_1a8608216ab7e5f002dcf6af4f869c5d27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform_1a8608216ab7e5f002dcf6af4f869c5d27" kindref="member">dyn_duration</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26" refid="class_gradient_waveform_1ac2287a6ef99e35f0c1f97fc3ffb37d7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform_1ac2287a6ef99e35f0c1f97fc3ffb37d7b" kindref="member">wave_bins</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="class_gradient_waveform_1a02d695fa36713bd28d3c85d2bb7a877b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform_1a02d695fa36713bd28d3c85d2bb7a877b" kindref="member">wave_duration</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="class_gradient_waveform_1a3eacca54a58dc574384f07899a9a6da3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform_1a3eacca54a58dc574384f07899a9a6da3" kindref="member">dt</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="class_gradient_waveform_1a712eedb2165b3f889e27244fc9d91ebd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform_1a712eedb2165b3f889e27244fc9d91ebd" kindref="member">scale_from_stu</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="class_gradient_waveform_1a565fce08abb28fe26664194c04faeaea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<sp/>std::vector&lt;float&gt;<sp/>&gt;<sp/><sp/><ref refid="class_gradient_waveform_1a565fce08abb28fe26664194c04faeaea" kindref="member">waveform</ref>;<sp/></highlight></codeline>
+<codeline lineno="36" refid="class_gradient_waveform_1a83a7c844f86acee3b7ab12e7e70202af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_trajectory" kindref="compound">Trajectory</ref><sp/><ref refid="class_gradient_waveform_1a83a7c844f86acee3b7ab12e7e70202af" kindref="member">trajectory</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_gradient_waveform_1acf951c9a86f95d002db4858ee4c78582" kindref="member">GradientWaveform</ref>();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_gradient_waveform_1acf951c9a86f95d002db4858ee4c78582" kindref="member">GradientWaveform</ref>(<ref refid="class_scheme" kindref="compound">Scheme</ref>&amp;<sp/>scheme);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_gradient_waveform_1acf951c9a86f95d002db4858ee4c78582" kindref="member">GradientWaveform</ref>(<ref refid="class_scheme" kindref="compound">Scheme</ref>&amp;<sp/>scheme_,</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>traj_file_name);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//TODO:<sp/>to<sp/>implement</highlight></codeline>
+<codeline lineno="59"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform_1a5f55e43b3057509b0f98812d2a72db9a" kindref="member">getNumericalbValue</ref>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform_1a52971b5f773c8c0b7c43bcd5fc50197a" kindref="member">getDWISignal</ref>();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform_1a82da8e7b3bffe4557e6e38191b7f8d81" kindref="member">readSchemeFile</ref>();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform_1a2f1449c026649e4601f773086d1346ce" kindref="member">getInterpolatedGradImpulse</ref>(uint<sp/>rep_index,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dt_sim,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>t_sim_last,<sp/>Eigen::Vector3d<sp/>&amp;Gdt);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="78"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*<sp/>@brief<sp/>Updates<sp/>the<sp/>phase<sp/>shift<sp/>using<sp/>the<sp/>full<sp/>stored<sp/>trajectory</highlight></codeline>
+<codeline lineno="79"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform_1a2c606400c648cebd85827efa8d22b6bc" kindref="member">update_phase_shift</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>time_step,<sp/>Eigen::Matrix3Xd<sp/>trajectory);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform_1a2c606400c648cebd85827efa8d22b6bc" kindref="member">update_phase_shift</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dt,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dt_last,<ref refid="class_walker" kindref="compound">Walker</ref><sp/>walker);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform_1af4291596da9c45247b0748d945bd9b54" kindref="member">update_DWI_signal</ref>(<ref refid="class_walker" kindref="compound">Walker</ref><sp/>&amp;walker);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform_1a040d4a70dc7951c235010791e1c581d1" kindref="member">setNumberOfSteps</ref>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>T);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_gradient_waveform_1a80dd810cb4e5a11dec311ac87e55ea18" kindref="member">getGradImpulse</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>t,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tLast,<sp/>Eigen::Vector3d&amp;<sp/>Gdt);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readSchemeParameters(<ref refid="class_scheme" kindref="compound">Scheme</ref><sp/>&amp;scheme_);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>GRADIENTWAVEFORM_H</highlight></codeline>
+    </programlisting>
+    <location file="src/gradientwaveform.h"/>
+  </compounddef>
+</doxygen>

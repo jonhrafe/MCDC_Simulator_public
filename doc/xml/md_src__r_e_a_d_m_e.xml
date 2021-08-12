@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="md_src__r_e_a_d_m_e" kind="page">
+    <compoundname>md_src_README</compoundname>
+    <title>Monte Carlo Diffusion and Collision Simulator</title>
+    <detaileddescription>
+<para><heading level="1">Static building from sources:</heading>
+</para><para><heading level="4">Assuming a bin folder:</heading>
+</para><para>Cretes a folder <computeroutput>mkdir bin</computeroutput></para><para>Compiles all the magic (statically, slowly, but without messy .o)</para><para><computeroutput>g++ -O3 -std=c++11 -lpthread -std=c++0x -pthread -I. main.cpp simulablesequence.cpp vertex.cpp obstacle.cpp collision.cpp scheme.cpp voxel.cpp cylinder.cpp walker.cpp mcsimulation.cpp parallelmcsimulation.cpp trajectory.cpp triangle.cpp parameters.cpp plyobstacle.cpp pgsesequence.cpp dynamicsSimulation.cpp simerrno.cpp collisionsphere.cpp cylindergammadistribution.cpp sentinel.cpp subdivision.cpp gradientwaveform.cpp propagator.cpp -o bin/MC-DC_Simulator</computeroutput> </para>    </detaileddescription>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,471 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="triangle_8cpp" kind="file" language="C++">
+    <compoundname>triangle.cpp</compoundname>
+    <includes refid="triangle_8h" local="yes">triangle.h</includes>
+    <includes refid="collision_8h" local="yes">collision.h</includes>
+    <includes local="no">limits</includes>
+    <includes local="no">math.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">Eigen/Dense</includes>
+    <includes local="no">iostream</includes>
+    <includes refid="constants_8h" local="yes">constants.h</includes>
+    <incdepgraph>
+      <node id="931">
+        <label>src/triangle.cpp</label>
+        <link refid="triangle_8cpp"/>
+        <childnode refid="932" relation="include">
+        </childnode>
+        <childnode refid="934" relation="include">
+        </childnode>
+        <childnode refid="941" relation="include">
+        </childnode>
+        <childnode refid="942" relation="include">
+        </childnode>
+        <childnode refid="943" relation="include">
+        </childnode>
+        <childnode refid="944" relation="include">
+        </childnode>
+        <childnode refid="940" relation="include">
+        </childnode>
+        <childnode refid="945" relation="include">
+        </childnode>
+      </node>
+      <node id="941">
+        <label>limits</label>
+      </node>
+      <node id="934">
+        <label>collision.h</label>
+        <link refid="collision_8h_source"/>
+        <childnode refid="935" relation="include">
+        </childnode>
+      </node>
+      <node id="935">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="947">
+        <label>string</label>
+      </node>
+      <node id="945">
+        <label>constants.h</label>
+        <link refid="constants_8h_source"/>
+        <childnode refid="946" relation="include">
+        </childnode>
+        <childnode refid="947" relation="include">
+        </childnode>
+        <childnode refid="941" relation="include">
+        </childnode>
+      </node>
+      <node id="944">
+        <label>Eigen/Dense</label>
+      </node>
+      <node id="937">
+        <label>vector</label>
+      </node>
+      <node id="936">
+        <label>walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="935" relation="include">
+        </childnode>
+        <childnode refid="937" relation="include">
+        </childnode>
+        <childnode refid="938" relation="include">
+        </childnode>
+        <childnode refid="939" relation="include">
+        </childnode>
+        <childnode refid="940" relation="include">
+        </childnode>
+      </node>
+      <node id="939">
+        <label>collisionsphere.h</label>
+        <link refid="collisionsphere_8h_source"/>
+        <childnode refid="937" relation="include">
+        </childnode>
+      </node>
+      <node id="942">
+        <label>math.h</label>
+      </node>
+      <node id="940">
+        <label>iostream</label>
+      </node>
+      <node id="943">
+        <label>cstddef</label>
+      </node>
+      <node id="938">
+        <label>deque</label>
+      </node>
+      <node id="932">
+        <label>triangle.h</label>
+        <link refid="triangle_8h_source"/>
+        <childnode refid="933" relation="include">
+        </childnode>
+        <childnode refid="934" relation="include">
+        </childnode>
+        <childnode refid="936" relation="include">
+        </childnode>
+        <childnode refid="935" relation="include">
+        </childnode>
+      </node>
+      <node id="946">
+        <label>stdio.h</label>
+      </node>
+      <node id="933">
+        <label>vertex.h</label>
+        <link refid="vertex_8h_source"/>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;triangle.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;collision.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std::numeric_limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;math.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;Eigen/Dense&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;constants.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal">Triangle::Triangle()</highlight></codeline>
+<codeline lineno="13"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>vertices<sp/>=<sp/>NULL;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>normal[0]=0;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>normal[1]=0;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>normal[2]=0;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Triangle::getVertex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>i,<sp/>Eigen::Vector3d<sp/>&amp;v){</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>v[0]<sp/>=<sp/>vertices[indexes[i]].points[0];</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>v[1]<sp/>=<sp/>vertices[indexes[i]].points[1];</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>v[2]<sp/>=<sp/>vertices[indexes[i]].points[2];</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Triangle::getNormal(Eigen::Vector3d<sp/>&amp;normal)</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(this-&gt;normal[0]<sp/>==<sp/>0.0)<sp/>&amp;&amp;<sp/>(this-&gt;normal[1]<sp/>==<sp/>0.0)<sp/>&amp;&amp;<sp/>(this-&gt;normal[2]<sp/>==<sp/>0.0))</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>saveNormalAndAuxInfo();</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>normal=<sp/>this-&gt;normal;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Triangle::saveNormalAndAuxInfo()</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>a,b,c,A,B;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(0,a);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(1,b);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(2,c);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>A<sp/>=<sp/>a-b;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>B<sp/>=<sp/>a-c;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;normal<sp/>=<sp/>(A.cross(B)).normalized();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;center<sp/>=<sp/>(a+b+c)/3.0;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d1<sp/>=<sp/>(center-a).squaredNorm();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d2<sp/>=<sp/>(center-b).squaredNorm();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d3<sp/>=<sp/>(center-c).squaredNorm();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;radius<sp/>=sqrt(fmax(d1,fmax(d2,d3)));</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Triangle::rayIntersects(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;ray_origin,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;step,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;t)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>e1,e2,pvec,tvec,qvec;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>a,b,c;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(0,a);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(1,b);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(2,c);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>e1<sp/>=<sp/>b-a;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>e2<sp/>=<sp/>c-a;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>pvec<sp/>=<sp/>step.cross(e2);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>det<sp/>=<sp/>e1.dot(pvec);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(det<sp/>&gt;<sp/>-triangle_eps<sp/>&amp;&amp;<sp/>det<sp/>&lt;<sp/>triangle_eps<sp/>)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>invDet<sp/>=<sp/>1.0/det;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>tvec<sp/>=<sp/>ray_origin<sp/>-<sp/>a;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>u<sp/>=<sp/>tvec.dot(pvec)*<sp/>invDet;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(u<sp/>&lt;<sp/>-triangle_eps<sp/>||<sp/>u<sp/><sp/>&gt;<sp/>1.0+triangle_eps)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>qvec<sp/>=<sp/>tvec.cross(e1);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>step.dot(qvec)<sp/>*<sp/>invDet;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v<sp/>&lt;<sp/>-triangle_eps<sp/><sp/>||<sp/><sp/>u<sp/>+<sp/>v<sp/><sp/>&gt;<sp/>1.0+triangle_eps)</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>t<sp/>=<sp/>e2.dot(qvec)<sp/>*<sp/>invDet;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Triangle::rayIntersects_MT(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;<sp/>ray_origin,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;step,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;u,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;v,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;t)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>EPS<sp/>=<sp/>1e-13;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>e1,e2,pvec,tvec,qvec;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>a,b,c;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(0,a);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(1,b);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(2,c);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>e1<sp/>=<sp/>b-a;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>e2<sp/>=<sp/>c-a;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>pvec<sp/>=<sp/>step.cross(e2);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>det<sp/>=<sp/>e1.dot(pvec);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//if<sp/>determinant<sp/>is<sp/>near<sp/>zero,<sp/>ray<sp/>lies<sp/>in<sp/>plane<sp/>of<sp/>triangle<sp/>or<sp/>ray<sp/>is<sp/>parallel<sp/>to<sp/>plane<sp/>of<sp/>triangle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(det<sp/>&gt;<sp/>-EPS<sp/>&amp;&amp;<sp/>det<sp/>&lt;<sp/>EPS<sp/>)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>invDet<sp/>=<sp/>1.0/det;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>tvec<sp/>=<sp/>ray_origin-a;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>u<sp/>=<sp/>tvec.dot(pvec)<sp/>*<sp/>invDet;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(u<sp/>&lt;<sp/>-triangle_eps<sp/>||<sp/>u<sp/>&gt;<sp/>1.0+triangle_eps)</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>qvec<sp/>=<sp/>tvec.cross(e1);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>v<sp/>=<sp/>step.dot(qvec)<sp/>*<sp/>invDet;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v<sp/>&lt;<sp/>-triangle_eps<sp/><sp/>||<sp/><sp/>u<sp/>+<sp/>v<sp/>&gt;<sp/>1+triangle_eps)</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>t<sp/>=<sp/>e2.dot(qvec)<sp/>*<sp/>invDet;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>PRECISE_T_MIN_D<sp/>==<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>Triangle::minDistance(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>p){</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>distance<sp/>to<sp/>sphere</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fmax(0,(p-center).norm()-radius);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>Triangle::minDistance(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>p)</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>EPS<sp/>=<sp/>1e-1;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>a,b,c;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(0,a);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(1,b);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(2,c);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>ab<sp/>=<sp/>b<sp/>-<sp/>a<sp/>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>ac<sp/>=<sp/>c<sp/>-<sp/>a<sp/>;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>ap<sp/>=<sp/>b<sp/>-<sp/>c;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>P<sp/>in<sp/>vertex<sp/>region<sp/>outside<sp/>A</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d1<sp/>=<sp/>ab.dot(ap);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d2<sp/>=<sp/>ac.dot(ap);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(d1<sp/>&lt;=<sp/>-EPS<sp/>&amp;&amp;<sp/>d2<sp/>&lt;=<sp/>-EPS)</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(a-p).norm();<sp/></highlight><highlight class="comment">//<sp/>barycentric<sp/>coordinates<sp/>(1,0,0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>P<sp/>in<sp/>vertex<sp/>region<sp/>outside<sp/>B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>bp<sp/>=<sp/>p<sp/>-<sp/>b;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d3<sp/>=<sp/>ab.dot(bp);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d4<sp/>=<sp/>ac.dot(bp);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(d3<sp/>&lt;=<sp/>-EPS<sp/>&amp;&amp;<sp/>d4<sp/>&lt;=<sp/>d3)</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(b-p).norm();<sp/><sp/></highlight><highlight class="comment">//<sp/>barycentric<sp/>coordinates<sp/>(0,1,0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>vc<sp/>=<sp/>d1*d4<sp/>-<sp/>d3*d2;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(vc<sp/>&lt;=<sp/>-EPS<sp/>&amp;&amp;<sp/>d1<sp/>&gt;=<sp/>EPS<sp/>&amp;&amp;<sp/>d3<sp/>&lt;=<sp/>-EPS)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>d1<sp/>/<sp/>(d1<sp/>-<sp/>d3);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>((a<sp/>+<sp/>v*ab)<sp/>-<sp/>p).norm();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>barycentric<sp/>coordinates<sp/>(1-v,v,0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>P<sp/>in<sp/>vertex<sp/>region<sp/>outside<sp/>C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>cp<sp/>=<sp/>p<sp/>-<sp/>c;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d5<sp/>=<sp/>ab.dot(cp);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d6<sp/>=<sp/>ac.dot(cp);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(d6<sp/>&gt;=<sp/>EPS<sp/>&amp;&amp;<sp/>d5<sp/>&lt;=<sp/>d6)</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(c-p).norm();<sp/></highlight><highlight class="comment">//<sp/>barycentric<sp/>coordinates<sp/>(0,0,1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>P<sp/>in<sp/>edge<sp/>region<sp/>of<sp/>AC,<sp/>if<sp/>so<sp/>return<sp/>projection<sp/>of<sp/>P<sp/>onto<sp/>AC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>vb<sp/>=<sp/>d5*d2<sp/>-<sp/>d1*d6;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(vb<sp/>&lt;=<sp/>-EPS<sp/>&amp;&amp;<sp/>d2<sp/>&gt;=<sp/>EPS<sp/>&amp;&amp;<sp/>d6<sp/>&lt;=<sp/>-EPS)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>w<sp/>=<sp/>d2<sp/>/<sp/>(d2<sp/>-<sp/>d6);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>((a+<sp/>w*ac)<sp/>-<sp/>p).norm();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>barycentric<sp/>coordinates<sp/>(1-w,0,w)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>P<sp/>in<sp/>edge<sp/>region<sp/>of<sp/>BC,<sp/>if<sp/>so<sp/>return<sp/>projection<sp/>of<sp/>P<sp/>onto<sp/>BC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/>va<sp/>=<sp/>d3*d6<sp/>-<sp/>d5*d4;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(va<sp/>&lt;=<sp/>-EPS<sp/>&amp;&amp;<sp/>(d4<sp/>-<sp/>d3)<sp/>&gt;=<sp/>EPS<sp/>&amp;&amp;<sp/>(d5<sp/>-<sp/>d6)<sp/>&gt;=<sp/>EPS){</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>w<sp/>=<sp/>(d4<sp/>-<sp/>d3)<sp/>/<sp/>((d4<sp/>-<sp/>d3)<sp/>+<sp/>(d5<sp/>-<sp/>d6));</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>((b<sp/>+<sp/>w*(c-b))<sp/>-<sp/>p).norm();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>barycentric<sp/>coordinates<sp/>(0,1-w,w)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>P<sp/>inside<sp/>face<sp/>region.<sp/>Compute<sp/>Q<sp/>through<sp/>its<sp/>barycentric<sp/>coordinates<sp/>(u,v,w)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/>denom<sp/>=<sp/>1.0<sp/>/<sp/>(va<sp/>+<sp/>vb<sp/>+<sp/>vc);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>vb<sp/>*<sp/>denom;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>w<sp/>=<sp/>vc<sp/>*<sp/>denom;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>((a<sp/>+<sp/>ab<sp/>*<sp/>v<sp/>+<sp/>ac<sp/>*<sp/>w)-p).norm();<sp/></highlight><highlight class="comment">//<sp/>=<sp/>u*a<sp/>+<sp/>v*b<sp/>+<sp/>w*c,<sp/>u<sp/>=<sp/>va<sp/>*<sp/>denom<sp/>=<sp/>1.0f<sp/>-<sp/>v<sp/>-<sp/>w</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Triangle::stepIntersects_MT(<ref refid="class_walker" kindref="compound">Walker</ref>&amp;<sp/>walker,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;step,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;max_length,<sp/><ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision)</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>EPS<sp/>=<sp/>1e-14;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>e1,e2,pvec,tvec,qvec;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>a,b,c;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(0,a);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(1,b);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(2,c);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Computation<sp/>of<sp/>the<sp/>determinant<sp/>of<sp/>the<sp/>system.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>e1<sp/>=<sp/>b-a;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>e2<sp/>=<sp/>c-a;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>pvec<sp/>=<sp/>step.cross(e2);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>det<sp/>=<sp/>e1.dot(pvec);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>numeric_limits&lt;double&gt;::infinity();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//if<sp/>determinant<sp/>is<sp/>near<sp/>zero,<sp/>ray<sp/>lies<sp/>in<sp/>the<sp/>triangle&apos;s<sp/>plane<sp/>or<sp/>the<sp/>ray<sp/>is<sp/>parallel<sp/>to<sp/>the<sp/>triangle&apos;s<sp/>plane</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(det<sp/>&gt;<sp/>-EPS<sp/>&amp;&amp;<sp/>det<sp/>&lt;<sp/>EPS<sp/>){</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::near;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>invDet<sp/>=<sp/>1.0/det;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Computation<sp/>of<sp/>t</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>tvec<sp/>=<sp/>walker.<ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref><sp/>-<sp/>a;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>qvec<sp/>=<sp/>tvec.cross(e1);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>t<sp/>=<sp/>e2.dot(qvec)<sp/>*<sp/>invDet;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//First<sp/>case,<sp/>step<sp/>is<sp/>in<sp/>the<sp/>other<sp/>direction<sp/>of<sp/>the<sp/>step.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//This<sp/>means<sp/>that<sp/>we<sp/>are<sp/>moving<sp/>in<sp/>the<sp/>opposite<sp/>direction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Or<sp/>we<sp/>are<sp/>too<sp/>far<sp/>away<sp/>from<sp/>the<sp/>triangles<sp/>plane<sp/>anyway.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>t<sp/>&lt;<sp/>0.0<sp/>||<sp/>(<sp/>t<sp/>&gt;<sp/>max_length+barrier_tickness)){</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::null;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>spin<sp/>that&apos;s<sp/>bouncing<sp/>ignores<sp/>collision<sp/>at<sp/>0<sp/>(is<sp/>in<sp/>a<sp/>wall)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(walker.<ref refid="class_walker_1afa37629b74387435a0bb02e0c061a718" kindref="member">status</ref><sp/>==<sp/>Walker::bouncing){</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//if<sp/>the<sp/>collision<sp/>are<sp/>too<sp/>close.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(<sp/>t<sp/>&lt;<sp/>EPS_VAL)<sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::null;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a195d201b0843d9f7190ac3a27761b4e7" kindref="member">t</ref><sp/>=<sp/>fmin(t,max_length);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//if<sp/>we<sp/>are<sp/>not<sp/>bouncing,<sp/>all<sp/>collisions<sp/>counts.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a195d201b0843d9f7190ac3a27761b4e7" kindref="member">t</ref><sp/>=<sp/>fmin(t,max_length);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Computation<sp/>of<sp/>u</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a6d79ffbca0e7f67fdc9af809f13f7f8a" kindref="member">u</ref><sp/>=<sp/>tvec.dot(pvec)<sp/>*<sp/>invDet;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(colision.<ref refid="class_collision_1a6d79ffbca0e7f67fdc9af809f13f7f8a" kindref="member">u</ref><sp/>&lt;<sp/>-EPS_VAL<sp/>||<sp/>colision.<ref refid="class_collision_1a6d79ffbca0e7f67fdc9af809f13f7f8a" kindref="member">u</ref><sp/>&gt;<sp/>1.0+EPS_VAL){</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::null;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Computation<sp/>of<sp/>c<sp/>and<sp/>u+v</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1ade5759fea1e6b41812d2499f1dc06c02" kindref="member">v</ref><sp/>=<sp/>step.dot(qvec)<sp/>*<sp/>invDet;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(colision.<ref refid="class_collision_1ade5759fea1e6b41812d2499f1dc06c02" kindref="member">v</ref><sp/>&lt;<sp/>-EPS_VAL<sp/>||<sp/>colision.<ref refid="class_collision_1a6d79ffbca0e7f67fdc9af809f13f7f8a" kindref="member">u</ref><sp/>+<sp/>colision.<ref refid="class_collision_1ade5759fea1e6b41812d2499f1dc06c02" kindref="member">v</ref><sp/>&gt;<sp/>1.0+EPS_VAL){</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::null;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::hit;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Triangle::stepIntersects_MT_limits(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;ray_origin,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;step,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;max_length,<sp/><ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;limits_mod,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>limit_x,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>limit_y,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>limit_z)</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>EPS<sp/>=<sp/>1e-15;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>e1,e2,pvec,tvec,qvec;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>a,b,c;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(0,a);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(1,b);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>getVertex(2,c);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>a[0]+=<sp/>int(limits_mod[0])*limit_x;<sp/>b[0]+=<sp/>int(limits_mod[0])*limit_x;<sp/>c[0]+=<sp/>int(limits_mod[0])*limit_x;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>a[1]+=<sp/>int(limits_mod[1])*limit_y;<sp/>b[1]+=<sp/>int(limits_mod[1])*limit_y;<sp/>c[1]+=<sp/>int(limits_mod[1])*limit_y;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>a[2]+=<sp/>int(limits_mod[2])*limit_z;<sp/>b[2]+=<sp/>int(limits_mod[2])*limit_z;<sp/>c[2]+=<sp/>int(limits_mod[2])*limit_z;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Computation<sp/>of<sp/>the<sp/>determinat<sp/>of<sp/>the<sp/>system.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>e1<sp/>=<sp/>b-a;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>e2<sp/>=<sp/>c-a;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>pvec<sp/>=<sp/>step.cross(e2);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>det<sp/>=<sp/>e1.dot(pvec);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a195d201b0843d9f7190ac3a27761b4e7" kindref="member">t</ref><sp/>=<sp/>numeric_limits&lt;double&gt;::infinity();</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//First<sp/>case,<sp/>det<sp/>=<sp/>0;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(det<sp/>&gt;<sp/>-EPS<sp/>&amp;&amp;<sp/>det<sp/>&lt;<sp/>EPS<sp/>){</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::near;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>invDet<sp/>=<sp/>1.0/det;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Computation<sp/>of<sp/>t</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>tvec<sp/>=<sp/>ray_origin<sp/>-<sp/>a;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>qvec<sp/>=<sp/>tvec.cross(e1);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a195d201b0843d9f7190ac3a27761b4e7" kindref="member">t</ref><sp/>=<sp/>e2.dot(qvec)<sp/>*<sp/>invDet;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//First<sp/>case,<sp/>step<sp/>is<sp/>in<sp/>the<sp/>other<sp/>direction<sp/>of<sp/>the<sp/>step.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//This<sp/>means<sp/>that<sp/>we<sp/>are<sp/>moving<sp/>in<sp/>the<sp/>opposite<sp/>direction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(colision.<ref refid="class_collision_1a195d201b0843d9f7190ac3a27761b4e7" kindref="member">t</ref><sp/>&lt;<sp/>0){</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::null;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Is<sp/>the<sp/>triangle<sp/>plane<sp/>on<sp/>the<sp/>distance<sp/>of<sp/>the<sp/>step</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(colision.<ref refid="class_collision_1a195d201b0843d9f7190ac3a27761b4e7" kindref="member">t</ref><sp/>&gt;=<sp/>EPS<sp/>&amp;&amp;<sp/>colision.<ref refid="class_collision_1a195d201b0843d9f7190ac3a27761b4e7" kindref="member">t</ref><sp/>-<sp/>max_length<sp/>&gt;<sp/>EPS){</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::near;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Computation<sp/>of<sp/>u</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a6d79ffbca0e7f67fdc9af809f13f7f8a" kindref="member">u</ref><sp/>=<sp/>tvec.dot(pvec)<sp/>*<sp/>invDet;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(colision.<ref refid="class_collision_1a6d79ffbca0e7f67fdc9af809f13f7f8a" kindref="member">u</ref><sp/>&lt;<sp/>EPS*2<sp/>||<sp/>colision.<ref refid="class_collision_1a6d79ffbca0e7f67fdc9af809f13f7f8a" kindref="member">u</ref>-1<sp/>&gt;<sp/>-EPS*2){</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::near;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Computation<sp/>of<sp/>c<sp/>and<sp/>u+v</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1ade5759fea1e6b41812d2499f1dc06c02" kindref="member">v</ref><sp/>=<sp/>step.dot(qvec)<sp/>*<sp/>invDet;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(colision.<ref refid="class_collision_1ade5759fea1e6b41812d2499f1dc06c02" kindref="member">v</ref><sp/>&lt;<sp/>EPS*2<sp/>||<sp/>colision.<ref refid="class_collision_1ade5759fea1e6b41812d2499f1dc06c02" kindref="member">v</ref><sp/>-<sp/>1<sp/>&gt;<sp/>-EPS*2<sp/><sp/>||<sp/>colision.<ref refid="class_collision_1a6d79ffbca0e7f67fdc9af809f13f7f8a" kindref="member">u</ref><sp/>+<sp/>colision.<ref refid="class_collision_1ade5759fea1e6b41812d2499f1dc06c02" kindref="member">v</ref><sp/>-1<sp/>&gt;<sp/>EPS*2){</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::near;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>colision.<ref refid="class_collision_1a384809577e353e0905047beac856015b" kindref="member">type</ref><sp/>=<sp/>Collision::hit;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/triangle.cpp"/>
+  </compounddef>
+</doxygen>

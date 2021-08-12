@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="voxel_8h" kind="file" language="C++">
+    <compoundname>voxel.h</compoundname>
+    <includes local="no">Eigen/Core</includes>
+    <includes refid="collision_8h" local="no">collision.h</includes>
+    <includes refid="walker_8h" local="yes">walker.h</includes>
+    <includedby refid="dynamics_simulation_8h" local="yes">src/dynamicsSimulation.h</includedby>
+    <includedby refid="main_8cpp" local="yes">src/main.cpp</includedby>
+    <includedby refid="voxel_8cpp" local="yes">src/voxel.cpp</includedby>
+    <incdepgraph>
+      <node id="990">
+        <label>collision.h</label>
+        <link refid="collision_8h_source"/>
+        <childnode refid="989" relation="include">
+        </childnode>
+      </node>
+      <node id="988">
+        <label>src/voxel.h</label>
+        <link refid="voxel_8h"/>
+        <childnode refid="989" relation="include">
+        </childnode>
+        <childnode refid="990" relation="include">
+        </childnode>
+        <childnode refid="991" relation="include">
+        </childnode>
+      </node>
+      <node id="989">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="992">
+        <label>vector</label>
+      </node>
+      <node id="991">
+        <label>walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="989" relation="include">
+        </childnode>
+        <childnode refid="992" relation="include">
+        </childnode>
+        <childnode refid="993" relation="include">
+        </childnode>
+        <childnode refid="994" relation="include">
+        </childnode>
+        <childnode refid="995" relation="include">
+        </childnode>
+      </node>
+      <node id="994">
+        <label>collisionsphere.h</label>
+        <link refid="collisionsphere_8h_source"/>
+        <childnode refid="992" relation="include">
+        </childnode>
+      </node>
+      <node id="995">
+        <label>iostream</label>
+      </node>
+      <node id="993">
+        <label>deque</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="997">
+        <label>src/dynamicsSimulation.h</label>
+        <link refid="dynamics_simulation_8h_source"/>
+        <childnode refid="998" relation="include">
+        </childnode>
+      </node>
+      <node id="996">
+        <label>src/voxel.h</label>
+        <link refid="voxel_8h"/>
+        <childnode refid="997" relation="include">
+        </childnode>
+      </node>
+      <node id="998">
+        <label>src/mcsimulation.h</label>
+        <link refid="mcsimulation_8h_source"/>
+        <childnode refid="999" relation="include">
+        </childnode>
+      </node>
+      <node id="999">
+        <label>src/parallelmcsimulation.h</label>
+        <link refid="parallelmcsimulation_8h_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_plane" prot="public">Plane</innerclass>
+    <innerclass refid="class_voxel" prot="public">Voxel</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="10"><highlight class="preprocessor">#ifndef<sp/>VOXEL_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>VOXEL_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;Eigen/Core&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;collision.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;walker.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="class_plane" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_plane" kindref="compound">Plane</ref>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Enough<sp/>to<sp/>save<sp/>the<sp/>parametric<sp/>representation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>normal,<sp/>plane_center;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//X-Y<sp/>plane<sp/>in<sp/>the<sp/>origin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_plane" kindref="compound">Plane</ref>(){</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>normal<sp/>=<sp/>{0,0,1};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>plane_center<sp/>=<sp/>{0,0,0};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_plane" kindref="compound">Plane</ref>(Eigen::Vector3d<sp/>normal_,<sp/>Eigen::Vector3d<sp/>plane_center_,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d_);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_plane" kindref="compound">Plane</ref>(Eigen::Vector3d<sp/>&amp;a,<sp/>Eigen::Vector3d<sp/>&amp;b,<sp/>Eigen::Vector3d<sp/>&amp;c,<sp/>Eigen::Vector3d<sp/>&amp;d);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>CheckCollision(<ref refid="class_walker" kindref="compound">Walker</ref>&amp;<sp/>walker,<sp/>Eigen::Vector3d<sp/>&amp;step,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>tmax,<sp/><ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="class_voxel" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_voxel" kindref="compound">Voxel</ref></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>min_limits,<sp/>max_limits;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_voxel" kindref="compound">Voxel</ref>();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_voxel" kindref="compound">Voxel</ref>(Eigen::Vector3d<sp/>min_limits_,Eigen::Vector3d<sp/>max_limits_);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_plane" kindref="compound">Plane</ref><sp/>walls[6];</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>CheckCollision(<ref refid="class_walker" kindref="compound">Walker</ref>&amp;<sp/>walker,<sp/>Eigen::Vector3d<sp/>&amp;step,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;tmax,<sp/><ref refid="class_collision" kindref="compound">Collision</ref>&amp;<sp/>colision);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>VOXEL_H</highlight></codeline>
+    </programlisting>
+    <location file="src/voxel.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,321 @@
+.TH "DynamicsSimulation" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+DynamicsSimulation \- Dynamic simulation main class =============================================================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <dynamicsSimulation\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBDynamicsSimulation\fP ()"
+.br
+.RI "Default constructor\&. Initialize everything with 0's and NULL states, object indexes are set to -1\&. "
+.ti -1c
+.RI "\fBDynamicsSimulation\fP (std::string conf_file)"
+.br
+.ti -1c
+.RI "\fBDynamicsSimulation\fP (\fBParameters\fP &params_)"
+.br
+.ti -1c
+.RI "\fB~DynamicsSimulation\fP ()"
+.br
+.RI "Does nothing\&. "
+.ti -1c
+.RI "void \fBstartSimulation\fP (\fBSimulableSequence\fP *dataSynth=nullptr)"
+.br
+.RI "Starts the dynamics simulation and, if a PGSE sequence is given, computes the DW signal\&. "
+.ti -1c
+.RI "void \fBreadConfigurationFile\fP (std::string conf_file_path)"
+.br
+.RI "Reads all the parameters listed in the param conf_file and stores them in the /t params object\&. "
+.ti -1c
+.RI "void \fBsetDuration\fP (const double &duration)"
+.br
+.RI "Sets the simulation duration in milliseconds, this should be synchronized w/r the Time Echo\&. "
+.ti -1c
+.RI "void \fBsetWalkersNum\fP (const unsigned &N)"
+.br
+.ti -1c
+.RI "void \fBsetStepsNum\fP (const unsigned &T)"
+.br
+.ti -1c
+.RI "bool \fBisInIntra\fP (Eigen::Vector3d &position, int &cyl_id, int &ply_id, double distance_to_be_intra_ply=1e\-6)"
+.br
+.RI "return true if the position is inside any of the obstacles\&. Only obstacles with a defined 'inside region' can be considered\&. \fBVoxel\fP periodicity is not considered "
+.ti -1c
+.RI "void \fBwritePropagator\fP (std::string path)"
+.br
+.RI "Writes to disk the final propagator matrix\&. "
+.ti -1c
+.RI "bool \fBisInsideCylinders\fP (Eigen::Vector3d &position, int &cyl_id, double distance_to_be_inside=1e\-6)"
+.br
+.ti -1c
+.RI "bool \fBisInsidePLY\fP (Eigen::Vector3d &position, int &ply_id, double distance_to_be_inside=1e\-6)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static std::string \fBsecondsToMinutes\fP (double)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBParameters\fP \fBparams\fP"
+.br
+.ti -1c
+.RI "\fBWalker\fP \fBwalker\fP"
+.br
+.ti -1c
+.RI "\fBTrajectory\fP \fBtrajectory\fP"
+.br
+.ti -1c
+.RI "std::mt19937 \fBmt\fP"
+.br
+.ti -1c
+.RI "double \fBstep_lenght\fP"
+.br
+.ti -1c
+.RI "double \fBsecond_passed\fP"
+.br
+.ti -1c
+.RI "double \fBmax_simulation_time\fP"
+.br
+.ti -1c
+.RI "double \fBcompleted\fP"
+.br
+.ti -1c
+.RI "std::string \fBini_pos_file\fP"
+.br
+.ti -1c
+.RI "unsigned \fBini_pos_file_ini_index\fP"
+.br
+.ti -1c
+.RI "int \fBid\fP"
+.br
+.ti -1c
+.RI "\fBsentinels::Sentinel\fP \fBsentinela\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBPLYObstacle\fP > * \fBplyObstacles_list\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBCylinder\fP > * \fBcylinders_list\fP"
+.br
+.ti -1c
+.RI "std::vector< unsigned > \fBcylinders_deque\fP"
+.br
+.ti -1c
+.RI "std::vector< std::vector< unsigned > > \fBply_deque\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBVoxel\fP > \fBvoxels_list\fP"
+.br
+.ti -1c
+.RI "\fBPropagator\fP \fBpropagator\fP"
+.br
+.ti -1c
+.RI "double \fBicvf\fP"
+.br
+.ti -1c
+.RI "unsigned \fBintra_tries\fP"
+.br
+.ti -1c
+.RI "unsigned \fBtotal_tries\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBstep\fP"
+.br
+.ti -1c
+.RI "double \fBtime_step\fP"
+.br
+.ti -1c
+.RI "double \fBtime_dt\fP"
+.br
+.ti -1c
+.RI "double \fBlast_time_dt\fP"
+.br
+.ti -1c
+.RI "std::ifstream \fBiniPos\fP"
+.br
+.ti -1c
+.RI "time_t \fBstart\fP"
+.br
+.ti -1c
+.RI "time_t \fBnow\fP"
+.br
+.ti -1c
+.RI "bool \fBprint_expected_time\fP"
+.br
+.ti -1c
+.RI "unsigned \fBnum_simulated_walkers\fP"
+.br
+.ti -1c
+.RI "unsigned \fBaux_walker_index\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Dynamic simulation main class =============================================================/\&. 
+
+Main implementation of the particles dynamics\&. Handles collisions and bouncing 
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+November 2016 
+.SH "1\&.42 "
+.PP
+.RE
+.PP
+.PP
+Main class, implements the particles dynamics\&. Handles collisions and bouncing\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "DynamicsSimulation::DynamicsSimulation ()"
+
+.PP
+Default constructor\&. Initialize everything with 0's and NULL states, object indexes are set to -1\&. \fBDynamicsSimulation\fP implementation 
+.SS "DynamicsSimulation::DynamicsSimulation (std::string conf_file)"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconfiguration\fP file 
+.RE
+.PP
+
+.SS "DynamicsSimulation::DynamicsSimulation (\fBParameters\fP & params_)"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fI\fBParameter\fP\fP instance 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "DynamicsSimulation::isInIntra (Eigen::Vector3d & position, int & cyl_id, int & ply_id, double distance_to_be_intra_ply = \fC1e\-6\fP)"
+
+.PP
+return true if the position is inside any of the obstacles\&. Only obstacles with a defined 'inside region' can be considered\&. \fBVoxel\fP periodicity is not considered 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIposition\fP 3d position on space\&. 
+.br
+\fIerror\fP minimum distance to be considered 'outside' de obstacle (barrier thickness) 
+.RE
+.PP
+
+.SS "DynamicsSimulation::readConfigurationFile (std::string conf_file_path)"
+
+.PP
+Reads all the parameters listed in the param conf_file and stores them in the /t params object\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconf_file_path\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+void
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconf_file_path\fP paremeters file path\&. 
+.RE
+.PP
+
+.SS "DynamicsSimulation::setDuration (const double & duration)"
+
+.PP
+Sets the simulation duration in milliseconds, this should be synchronized w/r the Time Echo\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIduration\fP simulation duration\&. 
+.RE
+.PP
+
+.SS "DynamicsSimulation::startSimulation (\fBSimulableSequence\fP * dataSynth = \fCnullptr\fP)"
+
+.PP
+Starts the dynamics simulation and, if a PGSE sequence is given, computes the DW signal\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdataSynth\fP optional paramter\&. If this parameter is not given, no signal is computed\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "double DynamicsSimulation::completed"
+Auxiliar variable to save the milestone of percentage of completed walkers 
+.SS "std::vector<unsigned> DynamicsSimulation::cylinders_deque"
+deque with the indexes of the cylinders (used for optmization) 
+.SS "std::vector<\fBCylinder\fP>* DynamicsSimulation::cylinders_list"
+vector with all the isntances of 'Cylider' obstacles 
+.SS "double DynamicsSimulation::icvf"
+Stores the ICVF (1 - Intra-Extra) if needed 
+.SS "int DynamicsSimulation::id"
+Unique id for the dynamic simulation 
+.SS "std::string DynamicsSimulation::ini_pos_file"
+walkers intitial position file 
+.SS "unsigned DynamicsSimulation::ini_pos_file_ini_index"
+starting position in the ini walker position file (multicore support) 
+.SS "double DynamicsSimulation::last_time_dt"
+simulation time steps auxiliar values 
+.SS "double DynamicsSimulation::max_simulation_time"
+Maximum simulation time if not passed we carry all the particles 
+.SS "std::mt19937 DynamicsSimulation::mt"
+rnd, random generator instance 
+.SS "time_t DynamicsSimulation::now"
+Auxiliar Variable for time recording and estimation for time\&. 
+.SS "unsigned DynamicsSimulation::num_simulated_walkers"
+Saves the final number of simulated walkers (time limit) 
+.SS "\fBParameters\fP DynamicsSimulation::params"
+\fBParameters\fP handler instance 
+.SS "std::vector<std::vector<unsigned> > DynamicsSimulation::ply_deque"
+deque with the indexes of the triangles of all ply's (used for opt) 
+.SS "std::vector<\fBPLYObstacle\fP>* DynamicsSimulation::plyObstacles_list"
+pointer to a vector with all the instances of PLYObstacles 
+.SS "bool DynamicsSimulation::print_expected_time"
+Auxiliar flag for time recording and stimation for time\&. 
+.SS "\fBPropagator\fP DynamicsSimulation::propagator"
+\fBPropagator\fP object to compute and save the particles MSD 
+.SS "double DynamicsSimulation::second_passed"
+Simulation total time in seconds 
+.SS "\fBsentinels::Sentinel\fP DynamicsSimulation::sentinela"
+Sentinel initialization to encoutner error in the simulation 
+.SS "double DynamicsSimulation::step_lenght"
+l, step length 
+.SS "unsigned DynamicsSimulation::total_tries"
+Helper variables to compute the estimated ICVF 
+.SS "\fBTrajectory\fP DynamicsSimulation::trajectory"
+\fBTrajectory\fP instance\&. Handles i/o operations 
+.SS "std::vector<\fBVoxel\fP> DynamicsSimulation::voxels_list"
+vector with all the voxels to be simulated (if any) 
+.SS "\fBWalker\fP DynamicsSimulation::walker"
+Single walker to diffuse 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

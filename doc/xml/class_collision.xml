@@ -1,0 +1,358 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_collision" kind="class" language="C++" prot="public">
+    <compoundname>Collision</compoundname>
+    <includes refid="collision_8h" local="no">collision.h</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_collision_1aa7f309840b693689b164c7e4b4d643e5" prot="public" static="no">
+        <name>collision_type</name>
+        <enumvalue id="class_collision_1aa7f309840b693689b164c7e4b4d643e5a5619c670f276ba1f43b1fd8981ff4237" prot="public">
+          <name>hit</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_collision_1aa7f309840b693689b164c7e4b4d643e5aa81a2ed36f71b73ad0c4cd3f283008c7" prot="public">
+          <name>near</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_collision_1aa7f309840b693689b164c7e4b4d643e5ad6fde9bfb3f5e0119764ea20ad1f7865" prot="public">
+          <name>null</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_collision_1aa7f309840b693689b164c7e4b4d643e5ae9d4aef77fe21e211a2b48aaf7f14486" prot="public">
+          <name>boundary</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_collision_1aa7f309840b693689b164c7e4b4d643e5afa7f9aaee6bdb325789ecbeb20bf334f" prot="public">
+          <name>degenerate</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>All the possibles cases or situations where a step can end. The next step is performed according to this state </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="25" column="1" bodyfile="src/collision.h" bodystart="25" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="enum" id="class_collision_1aad433eb4e51dbfd7ab9bbe188fbe47ab" prot="public" static="no">
+        <name>collision_location</name>
+        <enumvalue id="class_collision_1aad433eb4e51dbfd7ab9bbe188fbe47abacb60181a386e24a360e6fc42620fa667" prot="public">
+          <name>inside</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_collision_1aad433eb4e51dbfd7ab9bbe188fbe47aba3ddc94e48fda5e8b0a1806c93ceb8157" prot="public">
+          <name>on_edge</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_collision_1aad433eb4e51dbfd7ab9bbe188fbe47abaaf901f716b62030883d7699191a87754" prot="public">
+          <name>on_vertex</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_collision_1aad433eb4e51dbfd7ab9bbe188fbe47abafc413c08f45b3dc25e1471c9542a3cde" prot="public">
+          <name>voxel</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_collision_1aad433eb4e51dbfd7ab9bbe188fbe47aba4778fce18725479048f0b32d4438108f" prot="public">
+          <name>outside</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_collision_1aad433eb4e51dbfd7ab9bbe188fbe47aba5b0bc47b4863ce82f5160ddcc2af321e" prot="public">
+          <name>unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Only in case of collision (or a very close ending position) this are the cases where the collision can happened. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="31" column="1" bodyfile="src/collision.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_collision_1a384809577e353e0905047beac856015b" prot="public" static="no" mutable="no">
+        <type><ref refid="class_collision_1aa7f309840b693689b164c7e4b4d643e5" kindref="member">collision_type</ref></type>
+        <definition>collision_type Collision::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Saves the type of collsion (if any) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="33" column="1" bodyfile="src/collision.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collision_1ae35c71ff91ffc9c253a345f0b4e2fbba" prot="public" static="no" mutable="no">
+        <type><ref refid="class_collision_1aad433eb4e51dbfd7ab9bbe188fbe47ab" kindref="member">collision_location</ref></type>
+        <definition>collision_location Collision::col_location</definition>
+        <argsstring></argsstring>
+        <name>col_location</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Save the colocation of the collision over the object </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="34" column="1" bodyfile="src/collision.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collision_1a00d821761200316e1d54eace02c725b4" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Collision::colision_point</definition>
+        <argsstring></argsstring>
+        <name>colision_point</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Saves the position of colision </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="35" column="1" bodyfile="src/collision.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collision_1aee20b80597eeea9b0c5a3ff0a5d0c81c" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Collision::bounced_direction</definition>
+        <argsstring></argsstring>
+        <name>bounced_direction</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Save the bounced direction for a given obstacle </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="36" column="1" bodyfile="src/collision.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collision_1a95898b1296dfa87b78e8a1197f0f5ea2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Collision::rn</definition>
+        <argsstring></argsstring>
+        <name>rn</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>saves the local orietnation between the wall and the particle </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="38" column="1" bodyfile="src/collision.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collision_1a6d79ffbca0e7f67fdc9af809f13f7f8a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Collision::u</definition>
+        <argsstring></argsstring>
+        <name>u</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>u position in baricentric coordinates </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="40" column="1" bodyfile="src/collision.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collision_1ade5759fea1e6b41812d2499f1dc06c02" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Collision::v</definition>
+        <argsstring></argsstring>
+        <name>v</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>v position in baricentric coordinates </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="41" column="1" bodyfile="src/collision.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collision_1a195d201b0843d9f7190ac3a27761b4e7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Collision::t</definition>
+        <argsstring></argsstring>
+        <name>t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>signed, collision distance </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="42" column="1" bodyfile="src/collision.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collision_1a50dfece7495474875117cfbb3c4f524d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Collision::triangle_ind</definition>
+        <argsstring></argsstring>
+        <name>triangle_ind</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>In case of a PLY obstacle saves the triangle index. t collison distance </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="44" column="1" bodyfile="src/collision.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_collision_1ad1f81d05e175689b7e31bf36121d1589" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Collision::obstacle_ind</definition>
+        <argsstring></argsstring>
+        <name>obstacle_ind</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>In case of a generic obstacle saves the obstacle index. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="46" column="1" bodyfile="src/collision.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_collision_1aea8004fbf48b79b5db7b784688b23788" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Collision::Collision</definition>
+        <argsstring>()</argsstring>
+        <name>Collision</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="52" column="1" bodyfile="src/collision.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_collision_1a4cd23239c1de38dcc082345934a34441" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Collision::Collision</definition>
+        <argsstring>(double u_, double v_, double t_)</argsstring>
+        <name>Collision</name>
+        <param>
+          <type>double</type>
+          <declname>u_</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>v_</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>t_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="61" column="1" bodyfile="src/collision.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_collision_1a19ae49bcb3b16f4622443a34a171590c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Collision::~Collision</definition>
+        <argsstring>()</argsstring>
+        <name>~Collision</name>
+        <briefdescription>
+<para>Does nothing. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="66" column="1" bodyfile="src/collision.cpp" bodystart="5" bodyend="8"/>
+      </memberdef>
+      <memberdef kind="function" id="class_collision_1aedabfa9b114e4201343963df5698f7ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Collision::doIHaveMorePiorityThan</definition>
+        <argsstring>(Collision &amp;coll)</argsstring>
+        <name>doIHaveMorePiorityThan</name>
+        <param>
+          <type><ref refid="class_collision" kindref="compound">Collision</ref> &amp;</type>
+          <declname>coll</declname>
+        </param>
+        <briefdescription>
+<para>Compares a second collision to determine which one has more priority. The comparison is based on the type of collision and distance. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="73" column="1" bodyfile="src/collision.cpp" bodystart="11" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_collision_1aa7ec5170357d8913c390defd844686e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>Collision::computeCollisionLocation</definition>
+        <argsstring>()</argsstring>
+        <name>computeCollisionLocation</name>
+        <briefdescription>
+<para>Computes, based on the the coordinates u,v,t of the collision, the location relative to the triangle. </para>        </briefdescription>
+        <detaileddescription>
+<para>Auxiliar function for Triangular barriers </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collision.h" line="80" column="1" bodyfile="src/collision.cpp" bodystart="24" bodyend="37"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="class_collision" kindref="compound">Collision</ref> Final class =====================================================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Class to save and handle collisions between walkers and objects. <simplesect kind="author"><para>Jonathan Rafael <heading level="1">November 2016 </heading>
+</para></simplesect>
+</para><para>Class to save and handle collisions between walkers and objects.</para><para>This class should handle all the cases where a collision can happened as well as all the operation between collision. </para>    </detaileddescription>
+    <location file="src/collision.h" line="19" column="1" bodyfile="src/collision.h" bodystart="19" bodyend="82"/>
+    <listofallmembers>
+      <member refid="class_collision_1aee20b80597eeea9b0c5a3ff0a5d0c81c" prot="public" virt="non-virtual"><scope>Collision</scope><name>bounced_direction</name></member>
+      <member refid="class_collision_1aa7f309840b693689b164c7e4b4d643e5ae9d4aef77fe21e211a2b48aaf7f14486" prot="public" virt="non-virtual"><scope>Collision</scope><name>boundary</name></member>
+      <member refid="class_collision_1ae35c71ff91ffc9c253a345f0b4e2fbba" prot="public" virt="non-virtual"><scope>Collision</scope><name>col_location</name></member>
+      <member refid="class_collision_1a00d821761200316e1d54eace02c725b4" prot="public" virt="non-virtual"><scope>Collision</scope><name>colision_point</name></member>
+      <member refid="class_collision_1aea8004fbf48b79b5db7b784688b23788" prot="public" virt="non-virtual"><scope>Collision</scope><name>Collision</name></member>
+      <member refid="class_collision_1a4cd23239c1de38dcc082345934a34441" prot="public" virt="non-virtual"><scope>Collision</scope><name>Collision</name></member>
+      <member refid="class_collision_1aad433eb4e51dbfd7ab9bbe188fbe47ab" prot="public" virt="non-virtual"><scope>Collision</scope><name>collision_location</name></member>
+      <member refid="class_collision_1aa7f309840b693689b164c7e4b4d643e5" prot="public" virt="non-virtual"><scope>Collision</scope><name>collision_type</name></member>
+      <member refid="class_collision_1aa7ec5170357d8913c390defd844686e1" prot="public" virt="non-virtual"><scope>Collision</scope><name>computeCollisionLocation</name></member>
+      <member refid="class_collision_1aa7f309840b693689b164c7e4b4d643e5afa7f9aaee6bdb325789ecbeb20bf334f" prot="public" virt="non-virtual"><scope>Collision</scope><name>degenerate</name></member>
+      <member refid="class_collision_1aedabfa9b114e4201343963df5698f7ef" prot="public" virt="non-virtual"><scope>Collision</scope><name>doIHaveMorePiorityThan</name></member>
+      <member refid="class_collision_1aa7f309840b693689b164c7e4b4d643e5a5619c670f276ba1f43b1fd8981ff4237" prot="public" virt="non-virtual"><scope>Collision</scope><name>hit</name></member>
+      <member refid="class_collision_1aad433eb4e51dbfd7ab9bbe188fbe47abacb60181a386e24a360e6fc42620fa667" prot="public" virt="non-virtual"><scope>Collision</scope><name>inside</name></member>
+      <member refid="class_collision_1aa7f309840b693689b164c7e4b4d643e5aa81a2ed36f71b73ad0c4cd3f283008c7" prot="public" virt="non-virtual"><scope>Collision</scope><name>near</name></member>
+      <member refid="class_collision_1aa7f309840b693689b164c7e4b4d643e5ad6fde9bfb3f5e0119764ea20ad1f7865" prot="public" virt="non-virtual"><scope>Collision</scope><name>null</name></member>
+      <member refid="class_collision_1ad1f81d05e175689b7e31bf36121d1589" prot="public" virt="non-virtual"><scope>Collision</scope><name>obstacle_ind</name></member>
+      <member refid="class_collision_1aad433eb4e51dbfd7ab9bbe188fbe47aba3ddc94e48fda5e8b0a1806c93ceb8157" prot="public" virt="non-virtual"><scope>Collision</scope><name>on_edge</name></member>
+      <member refid="class_collision_1aad433eb4e51dbfd7ab9bbe188fbe47abaaf901f716b62030883d7699191a87754" prot="public" virt="non-virtual"><scope>Collision</scope><name>on_vertex</name></member>
+      <member refid="class_collision_1aad433eb4e51dbfd7ab9bbe188fbe47aba4778fce18725479048f0b32d4438108f" prot="public" virt="non-virtual"><scope>Collision</scope><name>outside</name></member>
+      <member refid="class_collision_1a95898b1296dfa87b78e8a1197f0f5ea2" prot="public" virt="non-virtual"><scope>Collision</scope><name>rn</name></member>
+      <member refid="class_collision_1a195d201b0843d9f7190ac3a27761b4e7" prot="public" virt="non-virtual"><scope>Collision</scope><name>t</name></member>
+      <member refid="class_collision_1a50dfece7495474875117cfbb3c4f524d" prot="public" virt="non-virtual"><scope>Collision</scope><name>triangle_ind</name></member>
+      <member refid="class_collision_1a384809577e353e0905047beac856015b" prot="public" virt="non-virtual"><scope>Collision</scope><name>type</name></member>
+      <member refid="class_collision_1a6d79ffbca0e7f67fdc9af809f13f7f8a" prot="public" virt="non-virtual"><scope>Collision</scope><name>u</name></member>
+      <member refid="class_collision_1aad433eb4e51dbfd7ab9bbe188fbe47aba5b0bc47b4863ce82f5160ddcc2af321e" prot="public" virt="non-virtual"><scope>Collision</scope><name>unknown</name></member>
+      <member refid="class_collision_1ade5759fea1e6b41812d2499f1dc06c02" prot="public" virt="non-virtual"><scope>Collision</scope><name>v</name></member>
+      <member refid="class_collision_1aad433eb4e51dbfd7ab9bbe188fbe47abafc413c08f45b3dc25e1471c9542a3cde" prot="public" virt="non-virtual"><scope>Collision</scope><name>voxel</name></member>
+      <member refid="class_collision_1a19ae49bcb3b16f4622443a34a171590c" prot="public" virt="non-virtual"><scope>Collision</scope><name>~Collision</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

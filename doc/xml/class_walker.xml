@@ -1,0 +1,1038 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_walker" kind="class" language="C++" prot="public">
+    <compoundname>Walker</compoundname>
+    <includes refid="walker_8h" local="no">walker.h</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_walker_1afcad3f5c11d0bd045de22fb0347dc44c" prot="public" static="no">
+        <name>state</name>
+        <enumvalue id="class_walker_1afcad3f5c11d0bd045de22fb0347dc44ca41a8748907223a8e17705338c674a253" prot="public">
+          <name>on_object</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_walker_1afcad3f5c11d0bd045de22fb0347dc44ca6908bdc52b282a759803c8783f8d8727" prot="public">
+          <name>on_edge</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_walker_1afcad3f5c11d0bd045de22fb0347dc44cac5bb87bf010e8b000a7139389fcaa9c3" prot="public">
+          <name>on_vertex</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_walker_1afcad3f5c11d0bd045de22fb0347dc44ca4f5ac98c949b25c9b1a5dbf03046a4b9" prot="public">
+          <name>on_voxel</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_walker_1afcad3f5c11d0bd045de22fb0347dc44ca329068c390790a83508199e9dde77cf7" prot="public">
+          <name>free</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_walker_1afcad3f5c11d0bd045de22fb0347dc44ca8dfa4d363ad27d03c212b1a5c2431d4c" prot="public">
+          <name>bouncing</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>An enum. </para>        </briefdescription>
+        <detaileddescription>
+<para>All the possibles states that a walker can be in a given step. The next step is perform according to this state </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="29" column="1" bodyfile="src/walker.h" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="enum" id="class_walker_1a24246136a10754791b05cb570dbb8417" prot="public" static="no">
+        <name>RelativeLocation</name>
+        <enumvalue id="class_walker_1a24246136a10754791b05cb570dbb8417a1b75b0056750fa4af837e4bca9850277" prot="public">
+          <name>unknown</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_walker_1a24246136a10754791b05cb570dbb8417a303a32add0e4c31f23066fec5c20068c" prot="public">
+          <name>intra</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_walker_1a24246136a10754791b05cb570dbb8417a04ece26f855d26697b35c11a8c94bd89" prot="public">
+          <name>extra</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>An enum. </para>        </briefdescription>
+        <detaileddescription>
+<para>Possible location of the walker inside the voxel. Checks illegal crossings of the barrier (border, lol) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="35" column="1" bodyfile="src/walker.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_walker_1a1008a95833c1f74b53f02e57e84417b7" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Walker::pos_r</definition>
+        <argsstring></argsstring>
+        <name>pos_r</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Real walker position for collision, r stands for real </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="37" column="1" bodyfile="src/walker.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Walker::pos_v</definition>
+        <argsstring></argsstring>
+        <name>pos_v</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_walker" kindref="compound">Walker</ref> current position </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="39" column="1" bodyfile="src/walker.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a8c78216899e04e9439a991cbad9df36f" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Walker::last_pos_r</definition>
+        <argsstring></argsstring>
+        <name>last_pos_r</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_walker" kindref="compound">Walker</ref> voxel last position </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="41" column="1" bodyfile="src/walker.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a2d50601346a754183b38890c18e7a6e7" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Walker::last_pos_v</definition>
+        <argsstring></argsstring>
+        <name>last_pos_v</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_walker" kindref="compound">Walker</ref> real last position </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="43" column="1" bodyfile="src/walker.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a98116f0e5d65e1cf65449d80a2d87617" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Walker::ini_pos</definition>
+        <argsstring></argsstring>
+        <name>ini_pos</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_walker" kindref="compound">Walker</ref> intital position </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="45" column="1" bodyfile="src/walker.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1ad1629485a13c80367a563ed7b88149eb" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Walker::next_direction</definition>
+        <argsstring></argsstring>
+        <name>next_direction</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Auxiliar vector for special states cases, decides the next direction </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="47" column="1" bodyfile="src/walker.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a1ba5a46fddf62eb3eeaabc7c868afe07" prot="public" static="no" mutable="no">
+        <type>Eigen::Matrix3Xd</type>
+        <definition>Eigen::Matrix3Xd Walker::pos_r_log</definition>
+        <argsstring></argsstring>
+        <name>pos_r_log</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>log of the real spin position, used to compute the phase shift </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="49" column="1" bodyfile="src/walker.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a62d99cc92226681123be94e64fb2bf7b" prot="public" static="no" mutable="no">
+        <type>Eigen::Matrix3Xd</type>
+        <definition>Eigen::Matrix3Xd Walker::pos_v_log</definition>
+        <argsstring></argsstring>
+        <name>pos_v_log</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>log of the voxel position, used for collision location and bouncing </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="51" column="1" bodyfile="src/walker.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1adf221f7a635c09cfaafc0dab5aa38106" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Walker::in_obj_index</definition>
+        <argsstring></argsstring>
+        <name>in_obj_index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Auxiliar index to save if the walker was inside a convex object </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="53" column="1" bodyfile="src/walker.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a48d0fe08f2297d9ad56cfaec9ee1926c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Walker::in_ply_index</definition>
+        <argsstring></argsstring>
+        <name>in_ply_index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Auxiliar index to save if the walker was inside a convex ply object </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="55" column="1" bodyfile="src/walker.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a28d139085430c9a11e0a70be2c3083af" prot="public" static="no" mutable="no">
+        <type><ref refid="class_cylinder_collision_sphere" kindref="compound">CylinderCollisionSphere</ref></type>
+        <definition>CylinderCollisionSphere Walker::collision_sphere_cylinders</definition>
+        <argsstring></argsstring>
+        <name>collision_sphere_cylinders</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_collision" kindref="compound">Collision</ref> sphere for collition against cylidners </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="57" column="1" bodyfile="src/walker.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a8aecfb76c9007eb6da99b024bc5e425d" prot="public" static="no" mutable="no">
+        <type><ref refid="class_p_l_y_collision_sphere" kindref="compound">PLYCollisionSphere</ref></type>
+        <definition>PLYCollisionSphere Walker::collision_sphere_ply</definition>
+        <argsstring></argsstring>
+        <name>collision_sphere_ply</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_collision" kindref="compound">Collision</ref> sphere for collition against PLY meshes </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="59" column="1" bodyfile="src/walker.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a8a27ead68d3dc7140afbec2710fb3176" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Walker::initial_sphere_pos_v</definition>
+        <argsstring></argsstring>
+        <name>initial_sphere_pos_v</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Saves the intial positioon of the walker inside the collition sphere </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="61" column="1" bodyfile="src/walker.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a83536011f160b42f6c39f121ee550731" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned Walker::steps_count</definition>
+        <argsstring></argsstring>
+        <name>steps_count</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Counts the number of steps (including bouncings) made. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="63" column="1" bodyfile="src/walker.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1afa37629b74387435a0bb02e0c061a718" prot="public" static="no" mutable="no">
+        <type><ref refid="class_walker_1afcad3f5c11d0bd045de22fb0347dc44c" kindref="member">state</ref></type>
+        <definition>state Walker::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>state memeber </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="65" column="1" bodyfile="src/walker.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1aa80fe894bc14568bdc296083ca5e5492" prot="public" static="no" mutable="no">
+        <type><ref refid="class_walker_1a24246136a10754791b05cb570dbb8417" kindref="member">RelativeLocation</ref></type>
+        <definition>RelativeLocation Walker::initial_location</definition>
+        <argsstring></argsstring>
+        <name>initial_location</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="67" column="1" bodyfile="src/walker.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a77f5c801c38158bb8568f75a22baed20" prot="public" static="no" mutable="no">
+        <type><ref refid="class_walker_1a24246136a10754791b05cb570dbb8417" kindref="member">RelativeLocation</ref></type>
+        <definition>RelativeLocation Walker::location</definition>
+        <argsstring></argsstring>
+        <name>location</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>location on the substrate (if known) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="67" column="1" bodyfile="src/walker.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1aa211ac1f9a396b1bf3b565e0f8ed098a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Walker::intra_extra_consensus</definition>
+        <argsstring></argsstring>
+        <name>intra_extra_consensus</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>intra o extra position by face collision consensus w/r the normal </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="69" column="1" bodyfile="src/walker.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a8ca6c90f124e46869ea752920565e2c2" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned Walker::intra_coll_count</definition>
+        <argsstring></argsstring>
+        <name>intra_coll_count</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>counter of collision in the ïntra-side w/r the normal </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="71" column="1" bodyfile="src/walker.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a28c595f6f6b4c32bed6afb177c0a6608" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned Walker::extra_coll_count</definition>
+        <argsstring></argsstring>
+        <name>extra_coll_count</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>counter of collision in the extra-side w/r the normal </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="73" column="1" bodyfile="src/walker.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a58e2d14d760748687138b7582cd04365" prot="public" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int Walker::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_walker" kindref="compound">Walker</ref> identifier (id) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="75" column="1" bodyfile="src/walker.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a38669698192d39146c77011b69b1e372" prot="public" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int Walker::rejection_count</definition>
+        <argsstring></argsstring>
+        <name>rejection_count</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>counter of the rejected directions in a single time-step </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="77" column="1" bodyfile="src/walker.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_walker_1a7f33d06b7aa5fabf2a2ac15d119bbcc7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float Walker::steps_per_second</definition>
+        <argsstring></argsstring>
+        <name>steps_per_second</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Particles steps per second speeed. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="79" column="1" bodyfile="src/walker.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_walker_1acc0931305bedcf81ff621c31cdf2a92c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Walker::Walker</definition>
+        <argsstring>()</argsstring>
+        <name>Walker</name>
+        <briefdescription>
+<para>Default constructor. </para>        </briefdescription>
+        <detaileddescription>
+<para>Set all variables to cero.</para><para>Based class <ref refid="class_walker" kindref="compound">Walker</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="83" column="1" bodyfile="src/walker.cpp" bodystart="10" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1a562c14b600628c18ac689464bd0f7e35" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Walker::~Walker</definition>
+        <argsstring>()</argsstring>
+        <name>~Walker</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default destructor.</para><para>Does nothing </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="89" column="1" bodyfile="src/walker.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1ada366966172eec6916690c01ac8f01db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Walker::Walker</definition>
+        <argsstring>(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)</argsstring>
+        <name>Walker</name>
+        <param>
+          <type>double</type>
+          <declname>xmin</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>xmax</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>ymin</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>ymax</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>zmin</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>zmax</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>        </briefdescription>
+        <detaileddescription>
+<para>Initialize the walker position in a random position inside the boundaries defined by the limits. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>xmin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>lower x threshold </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>xmax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>upper x threshold </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ymin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>lower y threshold </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ymax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>upper y threshold </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="99" column="1" bodyfile="src/walker.cpp" bodystart="23" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1a682ea5a26950ba7a563ebbf1d1cfe62e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::getRealPosition</definition>
+        <argsstring>(double &amp;, double &amp;, double &amp;) const</argsstring>
+        <name>getRealPosition</name>
+        <param>
+          <type>double &amp;</type>
+          <defname>x_</defname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <defname>y_</defname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <defname>z_</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="102" column="1" bodyfile="src/walker.cpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1a85bf9ae51ffcfa9c797ac863bb0ed58a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::getRealPosition</definition>
+        <argsstring>(Eigen::Vector3d &amp;) const</argsstring>
+        <name>getRealPosition</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <defname>_pos_</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="103" column="1" bodyfile="src/walker.cpp" bodystart="61" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1a01b46473c4c9126531f86084644be87b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::getVoxelPosition</definition>
+        <argsstring>(double &amp;, double &amp;, double &amp;) const</argsstring>
+        <name>getVoxelPosition</name>
+        <param>
+          <type>double &amp;</type>
+          <defname>x_</defname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <defname>y_</defname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <defname>z_</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="104" column="1" bodyfile="src/walker.cpp" bodystart="54" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1aae6ee54e7ca18144ebc63ae30184ac57" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::getVoxelPosition</definition>
+        <argsstring>(Eigen::Vector3d &amp;) const</argsstring>
+        <name>getVoxelPosition</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <defname>_pos_</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="105" column="1" bodyfile="src/walker.cpp" bodystart="66" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1a0341476db76d217c0eec89b5f786dc87" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::getInitialPosition</definition>
+        <argsstring>(double &amp;, double &amp;, double &amp;) const</argsstring>
+        <name>getInitialPosition</name>
+        <param>
+          <type>double &amp;</type>
+          <defname>x_</defname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <defname>y_</defname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <defname>z_</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="106" column="1" bodyfile="src/walker.cpp" bodystart="71" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1a3aa5f7410325a5fc1096684e215e4e3f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::getInitialPosition</definition>
+        <argsstring>(Eigen::Vector3d &amp;) const</argsstring>
+        <name>getInitialPosition</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <defname>_ini_pos_</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="107" column="1" bodyfile="src/walker.cpp" bodystart="78" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1adf89d9d3c6cd537d2587e51775f9b6ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::getNextDirection</definition>
+        <argsstring>(Eigen::Vector3d &amp;) const</argsstring>
+        <name>getNextDirection</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <defname>_direction_</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="108" column="1" bodyfile="src/walker.cpp" bodystart="83" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1a37969cac5ade61c75fb7407b56b535da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>unsigned int</type>
+        <definition>unsigned int Walker::getIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>getIndex</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="109" column="1" bodyfile="src/walker.cpp" bodystart="89" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1a47cb165188d588ea04f090648b091654" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::setRealPosition</definition>
+        <argsstring>(const double &amp;, const double &amp;, const double &amp;)</argsstring>
+        <name>setRealPosition</name>
+        <param>
+          <type>const double &amp;</type>
+          <defname>x_</defname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <defname>y_</defname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <defname>z_</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="112" column="1" bodyfile="src/walker.cpp" bodystart="114" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1ad25cfee48c03072212d9034069002819" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::setRealPosition</definition>
+        <argsstring>(const Eigen::Vector3d &amp;)</argsstring>
+        <name>setRealPosition</name>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <defname>_pos_</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="113" column="1" bodyfile="src/walker.cpp" bodystart="94" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1a4d87112b21f490f19e7b942ca94aae20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::setVoxelPosition</definition>
+        <argsstring>(const double &amp;, const double &amp;, const double &amp;)</argsstring>
+        <name>setVoxelPosition</name>
+        <param>
+          <type>const double &amp;</type>
+          <defname>x_</defname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <defname>y_</defname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <defname>z_</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="114" column="1" bodyfile="src/walker.cpp" bodystart="105" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1aba1f54b57de786fe550ebfcf9f4a7e31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::setVoxelPosition</definition>
+        <argsstring>(const Eigen::Vector3d &amp;)</argsstring>
+        <name>setVoxelPosition</name>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <defname>_pos_</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="115" column="1" bodyfile="src/walker.cpp" bodystart="100" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1a06a696a95f7678cb76be214e90e64337" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::setInitialPosition</definition>
+        <argsstring>(const double &amp;, const double &amp;, const double &amp;)</argsstring>
+        <name>setInitialPosition</name>
+        <param>
+          <type>const double &amp;</type>
+          <defname>x_</defname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <defname>y_</defname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <defname>z_</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="116" column="1" bodyfile="src/walker.cpp" bodystart="123" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1aafa361803280bc080049ea153867b61d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::setInitialPosition</definition>
+        <argsstring>(const Eigen::Vector3d &amp;)</argsstring>
+        <name>setInitialPosition</name>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <defname>temp</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="117" column="1" bodyfile="src/walker.cpp" bodystart="135" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1abdeb613b765c45fdabe2891accdbdfb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::setNextDirection</definition>
+        <argsstring>(Eigen::Vector3d &amp;)</argsstring>
+        <name>setNextDirection</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <defname>next_dir</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="118" column="1" bodyfile="src/walker.cpp" bodystart="142" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1aefd71f5bc3303af7e7748bcac5b6ce92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::setRandomInitialPosition</definition>
+        <argsstring>(const Eigen::Vector3d &amp;min, const Eigen::Vector3d &amp;max)</argsstring>
+        <name>setRandomInitialPosition</name>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <declname>min</declname>
+        </param>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <declname>max</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="119" column="1" bodyfile="src/walker.cpp" bodystart="187" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1aa6643451a4e13c1d7e121fe710a3bade" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::setIndex</definition>
+        <argsstring>(unsigned int &amp;)</argsstring>
+        <name>setIndex</name>
+        <param>
+          <type>unsigned int &amp;</type>
+          <defname>_index</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="120" column="1" bodyfile="src/walker.cpp" bodystart="147" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1a1fff7bf0f8dde00b9909891f060ac009" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::setRealPosLog</definition>
+        <argsstring>(const Eigen::Vector3d &amp;pos, unsigned t)</argsstring>
+        <name>setRealPosLog</name>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="122" column="1" bodyfile="src/walker.cpp" bodystart="152" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1a00a41d2b11cfeffae9ea66f4ea80a568" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::setRealPosLog</definition>
+        <argsstring>(double x, double y, double z, unsigned t)</argsstring>
+        <name>setRealPosLog</name>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="123" column="1" bodyfile="src/walker.cpp" bodystart="159" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1adc7b7500ea403ce7dba872ef729c2c40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::setVoxPosLog</definition>
+        <argsstring>(const Eigen::Vector3d &amp;pos, unsigned t)</argsstring>
+        <name>setVoxPosLog</name>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="124" column="1" bodyfile="src/walker.cpp" bodystart="166" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1adb197a756c457adc604b6605111e9b92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::setVoxPosLog</definition>
+        <argsstring>(double x, double y, double z, unsigned t)</argsstring>
+        <name>setVoxPosLog</name>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="125" column="1" bodyfile="src/walker.cpp" bodystart="173" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="class_walker_1a288f810ee9e4de79a7fe9224de7438b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Walker::setNumberOfSteps</definition>
+        <argsstring>(unsigned T)</argsstring>
+        <name>setNumberOfSteps</name>
+        <param>
+          <type>unsigned</type>
+          <declname>T</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/walker.h" line="128" column="1" bodyfile="src/walker.cpp" bodystart="180" bodyend="184"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Spin Final class =============================================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Basic unit of the diffusion process.</para><para><simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>November 2016 <heading level="1">0.2 </heading>
+</para></simplesect>
+</para><para>Alias for a particle. Basic unit on the simulation process. Saves all the necessary information to perform the particles dynamics. </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="103">
+        <label>Collisionsphere</label>
+        <link refid="class_collisionsphere"/>
+      </node>
+      <node id="104">
+        <label>CylinderCollisionSphere</label>
+        <link refid="class_cylinder_collision_sphere"/>
+        <childnode refid="103" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="102">
+        <label>PLYCollisionSphere</label>
+        <link refid="class_p_l_y_collision_sphere"/>
+        <childnode refid="103" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="101">
+        <label>Walker</label>
+        <link refid="class_walker"/>
+        <childnode refid="102" relation="usage">
+          <edgelabel>collision_sphere_ply</edgelabel>
+        </childnode>
+        <childnode refid="104" relation="usage">
+          <edgelabel>collision_sphere_cylinders</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/walker.h" line="23" column="1" bodyfile="src/walker.h" bodystart="23" bodyend="130"/>
+    <listofallmembers>
+      <member refid="class_walker_1afcad3f5c11d0bd045de22fb0347dc44ca8dfa4d363ad27d03c212b1a5c2431d4c" prot="public" virt="non-virtual"><scope>Walker</scope><name>bouncing</name></member>
+      <member refid="class_walker_1a28d139085430c9a11e0a70be2c3083af" prot="public" virt="non-virtual"><scope>Walker</scope><name>collision_sphere_cylinders</name></member>
+      <member refid="class_walker_1a8aecfb76c9007eb6da99b024bc5e425d" prot="public" virt="non-virtual"><scope>Walker</scope><name>collision_sphere_ply</name></member>
+      <member refid="class_walker_1a24246136a10754791b05cb570dbb8417a04ece26f855d26697b35c11a8c94bd89" prot="public" virt="non-virtual"><scope>Walker</scope><name>extra</name></member>
+      <member refid="class_walker_1a28c595f6f6b4c32bed6afb177c0a6608" prot="public" virt="non-virtual"><scope>Walker</scope><name>extra_coll_count</name></member>
+      <member refid="class_walker_1afcad3f5c11d0bd045de22fb0347dc44ca329068c390790a83508199e9dde77cf7" prot="public" virt="non-virtual"><scope>Walker</scope><name>free</name></member>
+      <member refid="class_walker_1a37969cac5ade61c75fb7407b56b535da" prot="public" virt="non-virtual"><scope>Walker</scope><name>getIndex</name></member>
+      <member refid="class_walker_1a0341476db76d217c0eec89b5f786dc87" prot="public" virt="non-virtual"><scope>Walker</scope><name>getInitialPosition</name></member>
+      <member refid="class_walker_1a3aa5f7410325a5fc1096684e215e4e3f" prot="public" virt="non-virtual"><scope>Walker</scope><name>getInitialPosition</name></member>
+      <member refid="class_walker_1adf89d9d3c6cd537d2587e51775f9b6ad" prot="public" virt="non-virtual"><scope>Walker</scope><name>getNextDirection</name></member>
+      <member refid="class_walker_1a682ea5a26950ba7a563ebbf1d1cfe62e" prot="public" virt="non-virtual"><scope>Walker</scope><name>getRealPosition</name></member>
+      <member refid="class_walker_1a85bf9ae51ffcfa9c797ac863bb0ed58a" prot="public" virt="non-virtual"><scope>Walker</scope><name>getRealPosition</name></member>
+      <member refid="class_walker_1a01b46473c4c9126531f86084644be87b" prot="public" virt="non-virtual"><scope>Walker</scope><name>getVoxelPosition</name></member>
+      <member refid="class_walker_1aae6ee54e7ca18144ebc63ae30184ac57" prot="public" virt="non-virtual"><scope>Walker</scope><name>getVoxelPosition</name></member>
+      <member refid="class_walker_1adf221f7a635c09cfaafc0dab5aa38106" prot="public" virt="non-virtual"><scope>Walker</scope><name>in_obj_index</name></member>
+      <member refid="class_walker_1a48d0fe08f2297d9ad56cfaec9ee1926c" prot="public" virt="non-virtual"><scope>Walker</scope><name>in_ply_index</name></member>
+      <member refid="class_walker_1a58e2d14d760748687138b7582cd04365" prot="public" virt="non-virtual"><scope>Walker</scope><name>index</name></member>
+      <member refid="class_walker_1a98116f0e5d65e1cf65449d80a2d87617" prot="public" virt="non-virtual"><scope>Walker</scope><name>ini_pos</name></member>
+      <member refid="class_walker_1aa80fe894bc14568bdc296083ca5e5492" prot="public" virt="non-virtual"><scope>Walker</scope><name>initial_location</name></member>
+      <member refid="class_walker_1a8a27ead68d3dc7140afbec2710fb3176" prot="public" virt="non-virtual"><scope>Walker</scope><name>initial_sphere_pos_v</name></member>
+      <member refid="class_walker_1a24246136a10754791b05cb570dbb8417a303a32add0e4c31f23066fec5c20068c" prot="public" virt="non-virtual"><scope>Walker</scope><name>intra</name></member>
+      <member refid="class_walker_1a8ca6c90f124e46869ea752920565e2c2" prot="public" virt="non-virtual"><scope>Walker</scope><name>intra_coll_count</name></member>
+      <member refid="class_walker_1aa211ac1f9a396b1bf3b565e0f8ed098a" prot="public" virt="non-virtual"><scope>Walker</scope><name>intra_extra_consensus</name></member>
+      <member refid="class_walker_1a8c78216899e04e9439a991cbad9df36f" prot="public" virt="non-virtual"><scope>Walker</scope><name>last_pos_r</name></member>
+      <member refid="class_walker_1a2d50601346a754183b38890c18e7a6e7" prot="public" virt="non-virtual"><scope>Walker</scope><name>last_pos_v</name></member>
+      <member refid="class_walker_1a77f5c801c38158bb8568f75a22baed20" prot="public" virt="non-virtual"><scope>Walker</scope><name>location</name></member>
+      <member refid="class_walker_1ad1629485a13c80367a563ed7b88149eb" prot="public" virt="non-virtual"><scope>Walker</scope><name>next_direction</name></member>
+      <member refid="class_walker_1afcad3f5c11d0bd045de22fb0347dc44ca6908bdc52b282a759803c8783f8d8727" prot="public" virt="non-virtual"><scope>Walker</scope><name>on_edge</name></member>
+      <member refid="class_walker_1afcad3f5c11d0bd045de22fb0347dc44ca41a8748907223a8e17705338c674a253" prot="public" virt="non-virtual"><scope>Walker</scope><name>on_object</name></member>
+      <member refid="class_walker_1afcad3f5c11d0bd045de22fb0347dc44cac5bb87bf010e8b000a7139389fcaa9c3" prot="public" virt="non-virtual"><scope>Walker</scope><name>on_vertex</name></member>
+      <member refid="class_walker_1afcad3f5c11d0bd045de22fb0347dc44ca4f5ac98c949b25c9b1a5dbf03046a4b9" prot="public" virt="non-virtual"><scope>Walker</scope><name>on_voxel</name></member>
+      <member refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" prot="public" virt="non-virtual"><scope>Walker</scope><name>pos_r</name></member>
+      <member refid="class_walker_1a1ba5a46fddf62eb3eeaabc7c868afe07" prot="public" virt="non-virtual"><scope>Walker</scope><name>pos_r_log</name></member>
+      <member refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" prot="public" virt="non-virtual"><scope>Walker</scope><name>pos_v</name></member>
+      <member refid="class_walker_1a62d99cc92226681123be94e64fb2bf7b" prot="public" virt="non-virtual"><scope>Walker</scope><name>pos_v_log</name></member>
+      <member refid="class_walker_1a38669698192d39146c77011b69b1e372" prot="public" virt="non-virtual"><scope>Walker</scope><name>rejection_count</name></member>
+      <member refid="class_walker_1a24246136a10754791b05cb570dbb8417" prot="public" virt="non-virtual"><scope>Walker</scope><name>RelativeLocation</name></member>
+      <member refid="class_walker_1aa6643451a4e13c1d7e121fe710a3bade" prot="public" virt="non-virtual"><scope>Walker</scope><name>setIndex</name></member>
+      <member refid="class_walker_1a06a696a95f7678cb76be214e90e64337" prot="public" virt="non-virtual"><scope>Walker</scope><name>setInitialPosition</name></member>
+      <member refid="class_walker_1aafa361803280bc080049ea153867b61d" prot="public" virt="non-virtual"><scope>Walker</scope><name>setInitialPosition</name></member>
+      <member refid="class_walker_1abdeb613b765c45fdabe2891accdbdfb6" prot="public" virt="non-virtual"><scope>Walker</scope><name>setNextDirection</name></member>
+      <member refid="class_walker_1a288f810ee9e4de79a7fe9224de7438b3" prot="public" virt="non-virtual"><scope>Walker</scope><name>setNumberOfSteps</name></member>
+      <member refid="class_walker_1aefd71f5bc3303af7e7748bcac5b6ce92" prot="public" virt="non-virtual"><scope>Walker</scope><name>setRandomInitialPosition</name></member>
+      <member refid="class_walker_1a47cb165188d588ea04f090648b091654" prot="public" virt="non-virtual"><scope>Walker</scope><name>setRealPosition</name></member>
+      <member refid="class_walker_1ad25cfee48c03072212d9034069002819" prot="public" virt="non-virtual"><scope>Walker</scope><name>setRealPosition</name></member>
+      <member refid="class_walker_1a1fff7bf0f8dde00b9909891f060ac009" prot="public" virt="non-virtual"><scope>Walker</scope><name>setRealPosLog</name></member>
+      <member refid="class_walker_1a00a41d2b11cfeffae9ea66f4ea80a568" prot="public" virt="non-virtual"><scope>Walker</scope><name>setRealPosLog</name></member>
+      <member refid="class_walker_1a4d87112b21f490f19e7b942ca94aae20" prot="public" virt="non-virtual"><scope>Walker</scope><name>setVoxelPosition</name></member>
+      <member refid="class_walker_1aba1f54b57de786fe550ebfcf9f4a7e31" prot="public" virt="non-virtual"><scope>Walker</scope><name>setVoxelPosition</name></member>
+      <member refid="class_walker_1adc7b7500ea403ce7dba872ef729c2c40" prot="public" virt="non-virtual"><scope>Walker</scope><name>setVoxPosLog</name></member>
+      <member refid="class_walker_1adb197a756c457adc604b6605111e9b92" prot="public" virt="non-virtual"><scope>Walker</scope><name>setVoxPosLog</name></member>
+      <member refid="class_walker_1afcad3f5c11d0bd045de22fb0347dc44c" prot="public" virt="non-virtual"><scope>Walker</scope><name>state</name></member>
+      <member refid="class_walker_1afa37629b74387435a0bb02e0c061a718" prot="public" virt="non-virtual"><scope>Walker</scope><name>status</name></member>
+      <member refid="class_walker_1a83536011f160b42f6c39f121ee550731" prot="public" virt="non-virtual"><scope>Walker</scope><name>steps_count</name></member>
+      <member refid="class_walker_1a7f33d06b7aa5fabf2a2ac15d119bbcc7" prot="public" virt="non-virtual"><scope>Walker</scope><name>steps_per_second</name></member>
+      <member refid="class_walker_1a24246136a10754791b05cb570dbb8417a1b75b0056750fa4af837e4bca9850277" prot="public" virt="non-virtual"><scope>Walker</scope><name>unknown</name></member>
+      <member refid="class_walker_1acc0931305bedcf81ff621c31cdf2a92c" prot="public" virt="non-virtual"><scope>Walker</scope><name>Walker</name></member>
+      <member refid="class_walker_1ada366966172eec6916690c01ac8f01db" prot="public" virt="non-virtual"><scope>Walker</scope><name>Walker</name></member>
+      <member refid="class_walker_1a562c14b600628c18ac689464bd0f7e35" prot="public" virt="non-virtual"><scope>Walker</scope><name>~Walker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

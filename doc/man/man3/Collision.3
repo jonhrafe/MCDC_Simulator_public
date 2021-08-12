@@ -1,0 +1,133 @@
+.TH "Collision" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Collision \- \fBCollision\fP Final class =====================================================================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <collision\&.h>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBcollision_type\fP { \fBhit\fP, \fBnear\fP, \fBnull\fP, \fBboundary\fP, \fBdegenerate\fP }"
+.br
+.ti -1c
+.RI "enum \fBcollision_location\fP { \fBinside\fP, \fBon_edge\fP, \fBon_vertex\fP, \fBvoxel\fP, \fBoutside\fP, \fBunknown\fP }"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCollision\fP (double u_, double v_, double t_)"
+.br
+.ti -1c
+.RI "\fB~Collision\fP ()"
+.br
+.RI "Does nothing\&. "
+.ti -1c
+.RI "bool \fBdoIHaveMorePiorityThan\fP (\fBCollision\fP &coll)"
+.br
+.RI "Compares a second collision to determine which one has more priority\&. The comparison is based on the type of collision and distance\&. "
+.ti -1c
+.RI "void \fBcomputeCollisionLocation\fP ()"
+.br
+.RI "Computes, based on the the coordinates u,v,t of the collision, the location relative to the triangle\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBcollision_type\fP \fBtype\fP"
+.br
+.ti -1c
+.RI "\fBcollision_location\fP \fBcol_location\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBcolision_point\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBbounced_direction\fP"
+.br
+.ti -1c
+.RI "double \fBrn\fP"
+.br
+.ti -1c
+.RI "double \fBu\fP"
+.br
+.ti -1c
+.RI "double \fBv\fP"
+.br
+.ti -1c
+.RI "double \fBt\fP"
+.br
+.ti -1c
+.RI "int \fBtriangle_ind\fP"
+.br
+.ti -1c
+.RI "int \fBobstacle_ind\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBCollision\fP Final class =====================================================================/\&. 
+
+Class to save and handle collisions between walkers and objects\&. 
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.SH "November 2016 "
+.PP
+.RE
+.PP
+.PP
+Class to save and handle collisions between walkers and objects\&.
+.PP
+This class should handle all the cases where a collision can happened as well as all the operation between collision\&. 
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBCollision::collision_location\fP"
+
+.PP
+Only in case of collision (or a very close ending position) this are the cases where the collision can happened\&. 
+.SS "enum \fBCollision::collision_type\fP"
+
+.PP
+All the possibles cases or situations where a step can end\&. The next step is performed according to this state 
+.SH "Member Function Documentation"
+.PP 
+.SS "Collision::computeCollisionLocation ()"
+
+.PP
+Computes, based on the the coordinates u,v,t of the collision, the location relative to the triangle\&. Auxiliar function for Triangular barriers 
+.SH "Member Data Documentation"
+.PP 
+.SS "Eigen::Vector3d Collision::bounced_direction"
+Save the bounced direction for a given obstacle 
+.SS "\fBcollision_location\fP Collision::col_location"
+Save the colocation of the collision over the object 
+.SS "Eigen::Vector3d Collision::colision_point"
+Saves the position of colision 
+.SS "int Collision::obstacle_ind"
+In case of a generic obstacle saves the obstacle index\&. 
+.SS "double Collision::rn"
+saves the local orietnation between the wall and the particle 
+.SS "double Collision::t"
+signed, collision distance 
+.SS "int Collision::triangle_ind"
+In case of a PLY obstacle saves the triangle index\&. t collison distance 
+.SS "\fBcollision_type\fP Collision::type"
+Saves the type of collsion (if any) 
+.SS "double Collision::u"
+u position in baricentric coordinates 
+.SS "double Collision::v"
+v position in baricentric coordinates 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

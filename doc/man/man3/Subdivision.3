@@ -1,0 +1,94 @@
+.TH "Subdivision" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Subdivision \- Auxiliary \fBSubdivision\fP Class =============================================================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <subdivision\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSubdivision\fP ()"
+.br
+.RI "Naive constructor\&. "
+.ti -1c
+.RI "\fBSubdivision\fP (Eigen::Vector3f &, Eigen::Vector3f &)"
+.br
+.RI "Constructor for a defined list of min and max positions\&. "
+.ti -1c
+.RI "bool \fBisInside\fP (Eigen::Vector3d &pos)"
+.br
+.RI "Auxiliary function to check if a 3d position is inside a 'subdivision' i\&.e\&. defined cube\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "Eigen::Vector3f \fBmin_limits\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3f \fBmax_limits\fP"
+.br
+.ti -1c
+.RI "int \fBdensity\fP"
+.br
+.ti -1c
+.RI "int \fBdensity_intra\fP"
+.br
+.ti -1c
+.RI "int \fBdensity_extra\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Auxiliary \fBSubdivision\fP Class =============================================================/\&. 
+
+Auxiliary Class\&. Implementation of the subdivision of a voxel into separate adquisitions
+.PP
+\fBDate:\fP
+.RS 4
+September 2017 
+.RE
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.SH "0\&.1\&.0 "
+.PP
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "bool Subdivision::isInside (Eigen::Vector3d & pos)"
+
+.PP
+Auxiliary function to check if a 3d position is inside a 'subdivision' i\&.e\&. defined cube\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpos\fP 3d position 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "int Subdivision::density"
+Counter to save the number of particles inside that region 
+.SS "int Subdivision::density_extra"
+Counter to save the number of particles labeled as Extra in that region 
+.SS "int Subdivision::density_intra"
+Counter to save the number of particles labeled as Intra in that region 
+.SS "Eigen::Vector3f Subdivision::max_limits"
+Vector with the list of max limits points of each subdivisions 
+.SS "Eigen::Vector3f Subdivision::min_limits"
+Vector with the list of min limits points of each subdivisions 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

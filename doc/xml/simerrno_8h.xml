@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="simerrno_8h" kind="file" language="C++">
+    <compoundname>simerrno.h</compoundname>
+    <includes local="no">assert.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">fstream</includes>
+    <includes refid="parameters_8h" local="yes">parameters.h</includes>
+    <includedby refid="cylindergammadistribution_8h" local="yes">src/cylindergammadistribution.h</includedby>
+    <includedby refid="dynamics_simulation_8cpp" local="yes">src/dynamicsSimulation.cpp</includedby>
+    <includedby refid="main_8cpp" local="yes">src/main.cpp</includedby>
+    <includedby refid="mcsimulation_8cpp" local="yes">src/mcsimulation.cpp</includedby>
+    <includedby refid="parallelmcsimulation_8cpp" local="yes">src/parallelmcsimulation.cpp</includedby>
+    <includedby refid="parameters_8cpp" local="yes">src/parameters.cpp</includedby>
+    <includedby refid="simerrno_8cpp" local="yes">src/simerrno.cpp</includedby>
+    <includedby refid="trajectory_8cpp" local="yes">src/trajectory.cpp</includedby>
+    <incdepgraph>
+      <node id="835">
+        <label>assert.h</label>
+      </node>
+      <node id="840">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="836">
+        <label>string</label>
+      </node>
+      <node id="837">
+        <label>fstream</label>
+      </node>
+      <node id="839">
+        <label>vector</label>
+      </node>
+      <node id="841">
+        <label>subdivision.h</label>
+        <link refid="subdivision_8h_source"/>
+        <childnode refid="840" relation="include">
+        </childnode>
+      </node>
+      <node id="842">
+        <label>utility</label>
+      </node>
+      <node id="838">
+        <label>parameters.h</label>
+        <link refid="parameters_8h_source"/>
+        <childnode refid="839" relation="include">
+        </childnode>
+        <childnode refid="840" relation="include">
+        </childnode>
+        <childnode refid="841" relation="include">
+        </childnode>
+        <childnode refid="842" relation="include">
+        </childnode>
+      </node>
+      <node id="834">
+        <label>src/simerrno.h</label>
+        <link refid="simerrno_8h"/>
+        <childnode refid="835" relation="include">
+        </childnode>
+        <childnode refid="836" relation="include">
+        </childnode>
+        <childnode refid="837" relation="include">
+        </childnode>
+        <childnode refid="838" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="844">
+        <label>src/cylindergammadistribution.h</label>
+        <link refid="cylindergammadistribution_8h_source"/>
+      </node>
+      <node id="843">
+        <label>src/simerrno.h</label>
+        <link refid="simerrno_8h"/>
+        <childnode refid="844" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_sim_errno" prot="public">SimErrno</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="8"><highlight class="preprocessor">#ifndef<sp/>SIMERRNO_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SIMERRNO_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;assert.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;parameters.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="class_sim_errno" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_sim_errno" kindref="compound">SimErrno</ref></highlight></codeline>
+<codeline lineno="24"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_sim_errno" kindref="compound">SimErrno</ref>();</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"></codeline>
+<codeline lineno="32" refid="class_sim_errno_1a8786cb077da0c41a32cd5d96f03fde35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1a8786cb077da0c41a32cd5d96f03fde35" kindref="member">checkFileExist</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>name){</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ifstream<sp/>f(name.c_str());</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f.good();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1aabc7284492cb5f8ef38fce7d4501abbd" kindref="member">checkSimulationParameters</ref>(<ref refid="class_parameters" kindref="compound">Parameters</ref>&amp;<sp/>params);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1ad5048e2a5f5630118ec614afdd4fd197" kindref="member">checkSchemeFile</ref>(<ref refid="class_parameters" kindref="compound">Parameters</ref>&amp;<sp/>params);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1a3a4c60541ecf163e50f70f8b9795be29" kindref="member">checkPLYFiles</ref>(<ref refid="class_parameters" kindref="compound">Parameters</ref>&amp;<sp/>params);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1a077a20f0886022c924911e24fbc91b52" kindref="member">checkCylindersListFile</ref>(<ref refid="class_parameters" kindref="compound">Parameters</ref><sp/>&amp;params);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1a21ed929e9b81e9059d4da3ca03c9d80c" kindref="member">checkInitWalkerFile</ref>(<ref refid="class_parameters" kindref="compound">Parameters</ref><sp/>&amp;params);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1a9b9712b12322cdd0667d6fc4ee7aceaf" kindref="member">checkVoxelLimits</ref>(<ref refid="class_parameters" kindref="compound">Parameters</ref>&amp;<sp/>params);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1a4b59c263ba564ebc9edbd40fe9ec3bc8" kindref="member">checkConfigurationFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*configuration_file);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1a87782efbd7825d733d3f0c760cf47222" kindref="member">printSimulatinInfo</ref>(<ref refid="class_parameters" kindref="compound">Parameters</ref><sp/>&amp;params,<sp/>std::ostream&amp;,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>color<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1a195d934b873f7b10be5f57cf6f77e80f" kindref="member">checkOuputPrefixAndWriteInfo</ref>(<ref refid="class_parameters" kindref="compound">Parameters</ref><sp/>&amp;params);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1aa997e9bec44280eec04ce320f8d75031" kindref="member">checkGammaDistributionParamaters</ref>(<ref refid="class_parameters" kindref="compound">Parameters</ref><sp/>&amp;params);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1acd92c1f938453f86e5f6d6967ed09754" kindref="member">warning</ref>(std::string<sp/>message,<sp/>std::ostream<sp/>&amp;,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>color<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1aef262fffecd567fe6ebcf57aed23e8dd" kindref="member">info</ref>(std::string<sp/>message,<sp/>std::ostream<sp/>&amp;,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>color<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1aafbfe0b71883701a1c8882135c54cfe4" kindref="member">infoMenu</ref>(std::string<sp/>message,<sp/>std::string<sp/>value,<sp/>std::ostream<sp/>&amp;,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>color<sp/>=<sp/>1,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>space<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1a1d49dc3d396b355aee645c6d35436aa9" kindref="member">error</ref>(std::string<sp/>message,<sp/>std::ostream<sp/>&amp;,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>color<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1a786ea76043026ad10aec48bc81137144" kindref="member">expectedTime</ref>(std::string<sp/>completed,<sp/>std::string<sp/>time,<sp/>std::ostream<sp/>&amp;,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>color<sp/>=<sp/>1,<sp/>std::string<sp/>steps_second=</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>std::string<sp/>endl_str<sp/>=</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>currentDateTime();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1a71e44ab51c81191171464b1371887844" kindref="member">checkSubdivisionsFile</ref>(<ref refid="class_parameters" kindref="compound">Parameters</ref><sp/>&amp;<sp/>params);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_sim_errno_1a3dfc14a69998cff0ee82f8bb6ef2ddc4" kindref="member">appendRepetitionLabel</ref>(<ref refid="class_parameters" kindref="compound">Parameters</ref>&amp;<sp/>params);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>SIMERRNO_H</highlight></codeline>
+    </programlisting>
+    <location file="src/simerrno.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,105 @@
+\hypertarget{class_subdivision}{}\section{Subdivision Class Reference}
+\label{class_subdivision}\index{Subdivision@{Subdivision}}
+
+
+Auxiliary \hyperlink{class_subdivision}{Subdivision} Class =============================================================/.  
+
+
+
+
+{\ttfamily \#include $<$subdivision.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_subdivision_ac51db3c00b0e4f7543c34859ad846871}\label{class_subdivision_ac51db3c00b0e4f7543c34859ad846871}} 
+\hyperlink{class_subdivision_ac51db3c00b0e4f7543c34859ad846871}{Subdivision} ()
+\begin{DoxyCompactList}\small\item\em Naive constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_subdivision_a96a55a5e9c88a2ee0640a904bb30141c}\label{class_subdivision_a96a55a5e9c88a2ee0640a904bb30141c}} 
+\hyperlink{class_subdivision_a96a55a5e9c88a2ee0640a904bb30141c}{Subdivision} (Eigen\+::\+Vector3f \&, Eigen\+::\+Vector3f \&)
+\begin{DoxyCompactList}\small\item\em Constructor for a defined list of min and max positions. \end{DoxyCompactList}\item 
+bool \hyperlink{class_subdivision_adb91e1cc1e6959d13220454ddfc7ba28}{is\+Inside} (Eigen\+::\+Vector3d \&pos)
+\begin{DoxyCompactList}\small\item\em Auxiliary function to check if a 3d position is inside a \char`\"{}subdivision\char`\"{} i.\+e. defined cube. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Eigen\+::\+Vector3f \hyperlink{class_subdivision_ac8d84e208bb294b78379a05da4ccfc37}{min\+\_\+limits}
+\item 
+Eigen\+::\+Vector3f \hyperlink{class_subdivision_a96ca3e7e744026fef809ade08d861985}{max\+\_\+limits}
+\item 
+int \hyperlink{class_subdivision_a6135c9e9b9a16f2f316d28071dee16c6}{density}
+\item 
+int \hyperlink{class_subdivision_a2944862a3bafcacaf45a935f266f0cf0}{density\+\_\+intra}
+\item 
+int \hyperlink{class_subdivision_aa9d564a68a0785998db3e129c6698c0f}{density\+\_\+extra}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Auxiliary \hyperlink{class_subdivision}{Subdivision} Class =============================================================/. 
+
+Auxiliary Class. Implementation of the subdivision of a voxel into separate adquisitions
+
+\begin{DoxyDate}{Date}
+September 2017 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Jonathan Rafael \subsection*{0.\+1.\+0 }
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_subdivision_adb91e1cc1e6959d13220454ddfc7ba28}\label{class_subdivision_adb91e1cc1e6959d13220454ddfc7ba28}} 
+\index{Subdivision@{Subdivision}!is\+Inside@{is\+Inside}}
+\index{is\+Inside@{is\+Inside}!Subdivision@{Subdivision}}
+\subsubsection{\texorpdfstring{is\+Inside()}{isInside()}}
+{\footnotesize\ttfamily bool Subdivision\+::is\+Inside (\begin{DoxyParamCaption}\item[{Eigen\+::\+Vector3d \&}]{pos }\end{DoxyParamCaption})}
+
+
+
+Auxiliary function to check if a 3d position is inside a \char`\"{}subdivision\char`\"{} i.\+e. defined cube. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & 3d position \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_subdivision_a6135c9e9b9a16f2f316d28071dee16c6}\label{class_subdivision_a6135c9e9b9a16f2f316d28071dee16c6}} 
+\index{Subdivision@{Subdivision}!density@{density}}
+\index{density@{density}!Subdivision@{Subdivision}}
+\subsubsection{\texorpdfstring{density}{density}}
+{\footnotesize\ttfamily int Subdivision\+::density}
+
+Counter to save the number of particles inside that region \mbox{\Hypertarget{class_subdivision_aa9d564a68a0785998db3e129c6698c0f}\label{class_subdivision_aa9d564a68a0785998db3e129c6698c0f}} 
+\index{Subdivision@{Subdivision}!density\+\_\+extra@{density\+\_\+extra}}
+\index{density\+\_\+extra@{density\+\_\+extra}!Subdivision@{Subdivision}}
+\subsubsection{\texorpdfstring{density\+\_\+extra}{density\_extra}}
+{\footnotesize\ttfamily int Subdivision\+::density\+\_\+extra}
+
+Counter to save the number of particles labeled as Extra in that region \mbox{\Hypertarget{class_subdivision_a2944862a3bafcacaf45a935f266f0cf0}\label{class_subdivision_a2944862a3bafcacaf45a935f266f0cf0}} 
+\index{Subdivision@{Subdivision}!density\+\_\+intra@{density\+\_\+intra}}
+\index{density\+\_\+intra@{density\+\_\+intra}!Subdivision@{Subdivision}}
+\subsubsection{\texorpdfstring{density\+\_\+intra}{density\_intra}}
+{\footnotesize\ttfamily int Subdivision\+::density\+\_\+intra}
+
+Counter to save the number of particles labeled as Intra in that region \mbox{\Hypertarget{class_subdivision_a96ca3e7e744026fef809ade08d861985}\label{class_subdivision_a96ca3e7e744026fef809ade08d861985}} 
+\index{Subdivision@{Subdivision}!max\+\_\+limits@{max\+\_\+limits}}
+\index{max\+\_\+limits@{max\+\_\+limits}!Subdivision@{Subdivision}}
+\subsubsection{\texorpdfstring{max\+\_\+limits}{max\_limits}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3f Subdivision\+::max\+\_\+limits}
+
+Vector with the list of max limits points of each subdivisions \mbox{\Hypertarget{class_subdivision_ac8d84e208bb294b78379a05da4ccfc37}\label{class_subdivision_ac8d84e208bb294b78379a05da4ccfc37}} 
+\index{Subdivision@{Subdivision}!min\+\_\+limits@{min\+\_\+limits}}
+\index{min\+\_\+limits@{min\+\_\+limits}!Subdivision@{Subdivision}}
+\subsubsection{\texorpdfstring{min\+\_\+limits}{min\_limits}}
+{\footnotesize\ttfamily Eigen\+::\+Vector3f Subdivision\+::min\+\_\+limits}
+
+Vector with the list of min limits points of each subdivisions 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/subdivision.\+h\item 
+src/subdivision.\+cpp\end{DoxyCompactItemize}

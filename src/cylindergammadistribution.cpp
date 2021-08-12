@@ -1,13 +1,14 @@
 #include "cylindergammadistribution.h"
 #include <algorithm>    // std::sort
 #include <random>
+#include  "simerrno.h"
 
 using namespace std;
 using namespace Eigen;
 
-CylinderGammaDistribution::CylinderGammaDistribution(unsigned num_cyl, double a, double b,double icvf_,Eigen::Vector3d & min_l, Eigen::Vector3d &max_l, float min_radius = 0.01)
+CylinderGammaDistribution::CylinderGammaDistribution(unsigned num_cyl, double a, double b,double icvf_,Eigen::Vector3d & min_l, Eigen::Vector3d &max_l, float min_radius)
 {
-    num_cylinders = num_cyl;
+    num_obstacles = num_cyl;
     alpha = a;
     beta  = b;
     icvf = icvf_;
@@ -79,13 +80,13 @@ void CylinderGammaDistribution::createGammaSubstrate()
 
     std::mt19937 gen(rd());
     std::uniform_real_distribution<double> udist(0,1);
-    std::vector<double> radiis(num_cylinders,0);
+    std::vector<double> radiis(num_obstacles,0);
 
     bool achieved = false;
 
     int tried = 0;
 
-    for (unsigned i=0; i< num_cylinders; ++i) {
+    for (unsigned i=0; i< num_obstacles; ++i) {
 
         if(tried > 10000){
             string message = " Radii distribution cannot be sampled [Min. radius Error]\n";
@@ -123,7 +124,7 @@ void CylinderGammaDistribution::createGammaSubstrate()
             vector<Cylinder> cylinders_to_add;
 
             cylinders.clear();
-            for(unsigned i = 0 ; i < num_cylinders; i++){
+            for(unsigned i = 0 ; i < num_obstacles; i++){
                 unsigned stuck = 0;
 
                 while(++stuck <= 1000){
@@ -179,8 +180,11 @@ void CylinderGammaDistribution::createGammaSubstrate()
     //TODO cambiar a INFO
     int perc_;
     double icvf_current = computeICVF(cylinders,min_limits, max_limits,perc_);
-    cout << "Percentage of cylinders selected: "+ to_string(double(perc_)/radiis.size()*100.0)
-            + "%,\nICVF achieved: " + to_string(icvf_current*100) + "  ("+ to_string( int((icvf_current/icvf*100))) + "% of the desired icvf)\n" << endl;
+
+     string  message = "Percentage of cylinders selected: "+ to_string(double(perc_)/radiis.size()*100.0)
+            + "%,\nICVF achieved: " + to_string(icvf_current*100) + "  ("+ to_string( int((icvf_current/icvf*100))) + "% of the desired icvf)\n";
+     SimErrno::info(message,cout);
+
 }
 
 void CylinderGammaDistribution::printSubstrate(ostream &out)

@@ -1,0 +1,362 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_triangle" kind="class" language="C++" prot="public">
+    <compoundname>Triangle</compoundname>
+    <includes refid="triangle_8h" local="no">triangle.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_triangle_1a0f6509666826b8e916e8c884e6d92fdf" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned Triangle::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="18" column="1" bodyfile="src/triangle.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_triangle_1a1f17e61561dadac3966d2450dcdb001d" prot="public" static="no" mutable="no">
+        <type><ref refid="class_vertex" kindref="compound">Vertex</ref> *</type>
+        <definition>Vertex* Triangle::vertices</definition>
+        <argsstring></argsstring>
+        <name>vertices</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="19" column="1" bodyfile="src/triangle.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_triangle_1a60f4999d8220f2e9f5361dfc2d3fa7d2" prot="public" static="no" mutable="no">
+        <type>Eigen::Array3i</type>
+        <definition>Eigen::Array3i Triangle::indexes</definition>
+        <argsstring></argsstring>
+        <name>indexes</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="20" column="1" bodyfile="src/triangle.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_triangle_1a90c44b094ed4f5f663b3198f254b015a" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Triangle::normal</definition>
+        <argsstring></argsstring>
+        <name>normal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="21" column="1" bodyfile="src/triangle.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_triangle_1af85e52d2beb9feb49a4ded02061c056a" prot="public" static="no" mutable="no">
+        <type>Eigen::Vector3d</type>
+        <definition>Eigen::Vector3d Triangle::center</definition>
+        <argsstring></argsstring>
+        <name>center</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="24" column="1" bodyfile="src/triangle.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_triangle_1aca1dd750b3a5e13fd86947f318e9176a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double Triangle::radius</definition>
+        <argsstring></argsstring>
+        <name>radius</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="25" column="1" bodyfile="src/triangle.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_triangle_1aaefe4ed500c07918d30c6f0e286332c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Triangle::Triangle</definition>
+        <argsstring>()</argsstring>
+        <name>Triangle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="27" column="1" bodyfile="src/triangle.cpp" bodystart="12" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_triangle_1a420f50ce640dca2aca127ceb68de2e0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Triangle::Triangle</definition>
+        <argsstring>(Vertex *vertices, unsigned index)</argsstring>
+        <name>Triangle</name>
+        <param>
+          <type><ref refid="class_vertex" kindref="compound">Vertex</ref> *</type>
+          <declname>vertices</declname>
+        </param>
+        <param>
+          <type>unsigned</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="28" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="class_triangle_1a31d9c90daae516c82e03dcbb492a1fe5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Triangle::getVertex</definition>
+        <argsstring>(const unsigned i, Eigen::Vector3d &amp;v)</argsstring>
+        <name>getVertex</name>
+        <param>
+          <type>const unsigned</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="30" column="1" bodyfile="src/triangle.cpp" bodystart="20" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_triangle_1ac134db353d4bd34eae298e6220bd0254" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Triangle::getNormal</definition>
+        <argsstring>(Eigen::Vector3d &amp;normal)</argsstring>
+        <name>getNormal</name>
+        <param>
+          <type>Eigen::Vector3d &amp;</type>
+          <declname>normal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="31" column="1" bodyfile="src/triangle.cpp" bodystart="26" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_triangle_1acb81455a547203d7b61b6d178578620a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Triangle::saveNormalAndAuxInfo</definition>
+        <argsstring>()</argsstring>
+        <name>saveNormalAndAuxInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="32" column="1" bodyfile="src/triangle.cpp" bodystart="34" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_triangle_1a087e0b0bfb2c49ed4854d8b0e939e7d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Triangle::rayIntersects</definition>
+        <argsstring>(const Eigen::Vector3d &amp;ray_origin, const Eigen::Vector3d &amp;step, double &amp;t)</argsstring>
+        <name>rayIntersects</name>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <declname>ray_origin</declname>
+        </param>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="33" column="1" bodyfile="src/triangle.cpp" bodystart="53" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="class_triangle_1ac1197111887bcba4098f20a71108105c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Triangle::stepIntersects_MT</definition>
+        <argsstring>(Walker &amp;walker, const Eigen::Vector3d &amp;step, const double &amp;max_length, Collision &amp;colision)</argsstring>
+        <name>stepIntersects_MT</name>
+        <param>
+          <type><ref refid="class_walker" kindref="compound">Walker</ref> &amp;</type>
+          <declname>walker</declname>
+        </param>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>max_length</declname>
+        </param>
+        <param>
+          <type><ref refid="class_collision" kindref="compound">Collision</ref> &amp;</type>
+          <declname>colision</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="34" column="1" bodyfile="src/triangle.cpp" bodystart="207" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="class_triangle_1a01e5c101c7455d7030080594628533bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Triangle::stepIntersects_MT_limits</definition>
+        <argsstring>(const Eigen::Vector3d &amp;ray_origin, const Eigen::Vector3d &amp;step, const double &amp;max_length, Collision &amp;colision, const Eigen::Vector3d &amp;limits_mod, double limit_x, double limit_y, double limit_z)</argsstring>
+        <name>stepIntersects_MT_limits</name>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <declname>ray_origin</declname>
+        </param>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>const double &amp;</type>
+          <declname>max_length</declname>
+        </param>
+        <param>
+          <type><ref refid="class_collision" kindref="compound">Collision</ref> &amp;</type>
+          <declname>colision</declname>
+        </param>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <declname>limits_mod</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>limit_x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>limit_y</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>limit_z</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="35" column="1" bodyfile="src/triangle.cpp" bodystart="281" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="class_triangle_1a733c94320a1effcee36b7382e92be1e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Triangle::rayIntersects_MT</definition>
+        <argsstring>(const Eigen::Vector3d &amp;ray_origin, const Eigen::Vector3d &amp;step, double &amp;u, double &amp;v, double &amp;t)</argsstring>
+        <name>rayIntersects_MT</name>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <declname>ray_origin</declname>
+        </param>
+        <param>
+          <type>const Eigen::Vector3d &amp;</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>u</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="38" column="1" bodyfile="src/triangle.cpp" bodystart="90" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="class_triangle_1afd80e0b45910181568098c04e5a2046d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double Triangle::minDistance</definition>
+        <argsstring>(const Eigen::Vector3d p)</argsstring>
+        <name>minDistance</name>
+        <param>
+          <type>const Eigen::Vector3d</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/triangle.h" line="41" column="1" bodyfile="src/triangle.cpp" bodystart="131" bodyend="134"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Auxiliary class. Implements trangular barriers. ===================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Helper class to strore and handle trangular barriers. <simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>July 2016 <heading level="1">0.2 </heading>
+</para></simplesect>
+</para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="93">
+        <label>Triangle</label>
+        <link refid="class_triangle"/>
+        <childnode refid="94" relation="usage">
+          <edgelabel>vertices</edgelabel>
+        </childnode>
+      </node>
+      <node id="94">
+        <label>Vertex</label>
+        <link refid="class_vertex"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/triangle.h" line="16" column="1" bodyfile="src/triangle.h" bodystart="16" bodyend="44"/>
+    <listofallmembers>
+      <member refid="class_triangle_1af85e52d2beb9feb49a4ded02061c056a" prot="public" virt="non-virtual"><scope>Triangle</scope><name>center</name></member>
+      <member refid="class_triangle_1ac134db353d4bd34eae298e6220bd0254" prot="public" virt="non-virtual"><scope>Triangle</scope><name>getNormal</name></member>
+      <member refid="class_triangle_1a31d9c90daae516c82e03dcbb492a1fe5" prot="public" virt="non-virtual"><scope>Triangle</scope><name>getVertex</name></member>
+      <member refid="class_triangle_1a0f6509666826b8e916e8c884e6d92fdf" prot="public" virt="non-virtual"><scope>Triangle</scope><name>index</name></member>
+      <member refid="class_triangle_1a60f4999d8220f2e9f5361dfc2d3fa7d2" prot="public" virt="non-virtual"><scope>Triangle</scope><name>indexes</name></member>
+      <member refid="class_triangle_1afd80e0b45910181568098c04e5a2046d" prot="public" virt="non-virtual"><scope>Triangle</scope><name>minDistance</name></member>
+      <member refid="class_triangle_1a90c44b094ed4f5f663b3198f254b015a" prot="public" virt="non-virtual"><scope>Triangle</scope><name>normal</name></member>
+      <member refid="class_triangle_1aca1dd750b3a5e13fd86947f318e9176a" prot="public" virt="non-virtual"><scope>Triangle</scope><name>radius</name></member>
+      <member refid="class_triangle_1a087e0b0bfb2c49ed4854d8b0e939e7d2" prot="public" virt="non-virtual"><scope>Triangle</scope><name>rayIntersects</name></member>
+      <member refid="class_triangle_1a733c94320a1effcee36b7382e92be1e6" prot="public" virt="non-virtual"><scope>Triangle</scope><name>rayIntersects_MT</name></member>
+      <member refid="class_triangle_1acb81455a547203d7b61b6d178578620a" prot="public" virt="non-virtual"><scope>Triangle</scope><name>saveNormalAndAuxInfo</name></member>
+      <member refid="class_triangle_1ac1197111887bcba4098f20a71108105c" prot="public" virt="non-virtual"><scope>Triangle</scope><name>stepIntersects_MT</name></member>
+      <member refid="class_triangle_1a01e5c101c7455d7030080594628533bf" prot="public" virt="non-virtual"><scope>Triangle</scope><name>stepIntersects_MT_limits</name></member>
+      <member refid="class_triangle_1aaefe4ed500c07918d30c6f0e286332c5" prot="public" virt="non-virtual"><scope>Triangle</scope><name>Triangle</name></member>
+      <member refid="class_triangle_1a420f50ce640dca2aca127ceb68de2e0f" prot="public" virt="non-virtual"><scope>Triangle</scope><name>Triangle</name></member>
+      <member refid="class_triangle_1a1f17e61561dadac3966d2450dcdb001d" prot="public" virt="non-virtual"><scope>Triangle</scope><name>vertices</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

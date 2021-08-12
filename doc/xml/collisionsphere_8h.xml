@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="collisionsphere_8h" kind="file" language="C++">
+    <compoundname>collisionsphere.h</compoundname>
+    <includes local="no">vector</includes>
+    <includedby refid="collisionsphere_8cpp" local="yes">src/collisionsphere.cpp</includedby>
+    <includedby refid="walker_8h" local="yes">src/walker.h</includedby>
+    <includedby refid="dynamics_simulation_8cpp" local="yes">src/dynamicsSimulation.cpp</includedby>
+    <incdepgraph>
+      <node id="22">
+        <label>vector</label>
+      </node>
+      <node id="21">
+        <label>src/collisionsphere.h</label>
+        <link refid="collisionsphere_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="34">
+        <label>src/gradientwaveform.h</label>
+        <link refid="gradientwaveform_8h_source"/>
+      </node>
+      <node id="27">
+        <label>src/cylindergammadistribution.h</label>
+        <link refid="cylindergammadistribution_8h_source"/>
+      </node>
+      <node id="28">
+        <label>src/dynamicsSimulation.h</label>
+        <link refid="dynamics_simulation_8h_source"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>src/voxel.h</label>
+        <link refid="voxel_8h_source"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>src/cylinder.h</label>
+        <link refid="cylinder_8h_source"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>src/mcsimulation.h</label>
+        <link refid="mcsimulation_8h_source"/>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>src/simulablesequence.h</label>
+        <link refid="simulablesequence_8h_source"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>src/obstacle.h</label>
+        <link refid="obstacle_8h_source"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>src/sentinel.h</label>
+        <link refid="sentinel_8h_source"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>src/walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>src/collisionsphere.h</label>
+        <link refid="collisionsphere_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>src/pgsesequence.h</label>
+        <link refid="pgsesequence_8h_source"/>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>src/plyobstacle.h</label>
+        <link refid="plyobstacle_8h_source"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>src/triangle.h</label>
+        <link refid="triangle_8h_source"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>src/parallelmcsimulation.h</label>
+        <link refid="parallelmcsimulation_8h_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_collisionsphere" prot="public">Collisionsphere</innerclass>
+    <innerclass refid="class_cylinder_collision_sphere" prot="public">CylinderCollisionSphere</innerclass>
+    <innerclass refid="class_p_l_y_collision_sphere" prot="public">PLYCollisionSphere</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="10"><highlight class="preprocessor">#ifndef<sp/>COLLISIONSPHERE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>COLLISIONSPHERE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="class_collisionsphere" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_collisionsphere" kindref="compound">Collisionsphere</ref></highlight></codeline>
+<codeline lineno="24"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="class_collisionsphere_1a4b791781efcb1af5198b22ea0b542cfb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="class_collisionsphere_1a4b791781efcb1af5198b22ea0b542cfb" kindref="member">big_sphere_distance</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="class_collisionsphere_1ae5430c092ea0436edfe0adeb79402ff2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="class_collisionsphere_1ae5430c092ea0436edfe0adeb79402ff2" kindref="member">small_sphere_distance</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>list_size;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_collisionsphere" kindref="compound">Collisionsphere</ref>():big_sphere_distance(0),small_sphere_distance(0),list_size(0){}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="class_cylinder_collision_sphere" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_cylinder_collision_sphere" kindref="compound">CylinderCollisionSphere</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_collisionsphere" kindref="compound">Collisionsphere</ref>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="class_cylinder_collision_sphere_1a89e3bdfa12042aa94c20949587c513d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="class_cylinder_collision_sphere_1a89e3bdfa12042aa94c20949587c513d5" kindref="member">small_sphere_list_end</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="class_cylinder_collision_sphere_1a303b3843a9c8ab9ae3e6f4cce85ae8e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="class_cylinder_collision_sphere_1a303b3843a9c8ab9ae3e6f4cce85ae8e0" kindref="member">big_sphere_list_end</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;unsigned&gt;*<sp/>collision_list;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_cylinder_collision_sphere" kindref="compound">CylinderCollisionSphere</ref>();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>popFromSmallSphere(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>i);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>pushToSmallSphere(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>i);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>popFromBigSphere(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>i);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>pushToBigSphere(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>i);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setBigSphereSize(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setSmallSphereSize(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>push_index(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>element);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="class_p_l_y_collision_sphere" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_p_l_y_collision_sphere" kindref="compound">PLYCollisionSphere</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_collisionsphere" kindref="compound">Collisionsphere</ref>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="class_p_l_y_collision_sphere_1a7fd18a4a8a9dbb2f7104f9b9a5dd6766" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;unsigned&gt;<sp/><ref refid="class_p_l_y_collision_sphere_1a7fd18a4a8a9dbb2f7104f9b9a5dd6766" kindref="member">small_sphere_list_end</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="class_p_l_y_collision_sphere_1aadf7b345b8c91791fa96e00862bc8cbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;unsigned&gt;<sp/><ref refid="class_p_l_y_collision_sphere_1aadf7b345b8c91791fa96e00862bc8cbb" kindref="member">big_sphere_list_end</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="class_p_l_y_collision_sphere_1a6ef04af98385142ed0b41a2e35f423b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;unsigned&gt;&gt;*<sp/><ref refid="class_p_l_y_collision_sphere_1a6ef04af98385142ed0b41a2e35f423b9" kindref="member">collision_list</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_p_l_y_collision_sphere" kindref="compound">PLYCollisionSphere</ref>();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>popFromSmallSphere(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>i,</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>t);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>pushToSmallSphere(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>i,</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>t);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>popFromBigSphere(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>i,</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>t);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>pushToBigSphere(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>i,</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>t);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setBigSphereSize(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setSmallSphereSize(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>push_ply(std::vector&lt;unsigned&gt;<sp/>list);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>COLLISIONSPHERE_H</highlight></codeline>
+    </programlisting>
+    <location file="src/collisionsphere.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="walker_8cpp" kind="file" language="C++">
+    <compoundname>walker.cpp</compoundname>
+    <includes refid="walker_8h" local="yes">walker.h</includes>
+    <includes local="no">stdlib.h</includes>
+    <includes local="no">random</includes>
+    <includes refid="cylinder_8h" local="yes">cylinder.h</includes>
+    <incdepgraph>
+      <node id="1011">
+        <label>collision.h</label>
+        <link refid="collision_8h_source"/>
+        <childnode refid="1002" relation="include">
+        </childnode>
+      </node>
+      <node id="1007">
+        <label>stdlib.h</label>
+      </node>
+      <node id="1002">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="1009">
+        <label>cylinder.h</label>
+        <link refid="cylinder_8h_source"/>
+        <childnode refid="1010" relation="include">
+        </childnode>
+      </node>
+      <node id="1000">
+        <label>src/walker.cpp</label>
+        <link refid="walker_8cpp"/>
+        <childnode refid="1001" relation="include">
+        </childnode>
+        <childnode refid="1007" relation="include">
+        </childnode>
+        <childnode refid="1008" relation="include">
+        </childnode>
+        <childnode refid="1009" relation="include">
+        </childnode>
+      </node>
+      <node id="1010">
+        <label>obstacle.h</label>
+        <link refid="obstacle_8h_source"/>
+        <childnode refid="1011" relation="include">
+        </childnode>
+        <childnode refid="1001" relation="include">
+        </childnode>
+        <childnode refid="1002" relation="include">
+        </childnode>
+      </node>
+      <node id="1008">
+        <label>random</label>
+      </node>
+      <node id="1003">
+        <label>vector</label>
+      </node>
+      <node id="1001">
+        <label>walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="1002" relation="include">
+        </childnode>
+        <childnode refid="1003" relation="include">
+        </childnode>
+        <childnode refid="1004" relation="include">
+        </childnode>
+        <childnode refid="1005" relation="include">
+        </childnode>
+        <childnode refid="1006" relation="include">
+        </childnode>
+      </node>
+      <node id="1005">
+        <label>collisionsphere.h</label>
+        <link refid="collisionsphere_8h_source"/>
+        <childnode refid="1003" relation="include">
+        </childnode>
+      </node>
+      <node id="1006">
+        <label>iostream</label>
+      </node>
+      <node id="1004">
+        <label>deque</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="5"><highlight class="preprocessor">#include<sp/>&quot;walker.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdlib.h&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*<sp/>srand,<sp/>rand<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*random_device<sp/>for<sp/>MAC<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;cylinder.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><ref refid="class_walker_1acc0931305bedcf81ff621c31cdf2a92c" kindref="member">Walker::Walker</ref>()</highlight></codeline>
+<codeline lineno="11"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref><sp/>=<sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref>.setZero(3,1);</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a58e2d14d760748687138b7582cd04365" kindref="member">index</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1afa37629b74387435a0bb02e0c061a718" kindref="member">status</ref><sp/>=<sp/>free;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a83536011f160b42f6c39f121ee550731" kindref="member">steps_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>initial_location<sp/>=<sp/><ref refid="class_walker_1a77f5c801c38158bb8568f75a22baed20" kindref="member">location</ref><sp/>=<sp/>unknown;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1aa211ac1f9a396b1bf3b565e0f8ed098a" kindref="member">intra_extra_consensus</ref><sp/>=<sp/><ref refid="class_walker_1a8ca6c90f124e46869ea752920565e2c2" kindref="member">intra_coll_count</ref><sp/>=<sp/><ref refid="class_walker_1a28c595f6f6b4c32bed6afb177c0a6608" kindref="member">extra_coll_count</ref><sp/>=<sp/><ref refid="class_walker_1a38669698192d39146c77011b69b1e372" kindref="member">rejection_count</ref><sp/>=<sp/><ref refid="class_walker_1a83536011f160b42f6c39f121ee550731" kindref="member">steps_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a7f33d06b7aa5fabf2a2ac15d119bbcc7" kindref="member">steps_per_second</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a48d0fe08f2297d9ad56cfaec9ee1926c" kindref="member">in_ply_index</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1adf221f7a635c09cfaafc0dab5aa38106" kindref="member">in_obj_index</ref><sp/>=-1;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><ref refid="class_walker_1acc0931305bedcf81ff621c31cdf2a92c" kindref="member">Walker::Walker</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>xmin,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>xmax,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ymin,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ymax,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>zmin,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>zmax)</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>std::random_device<sp/>rd;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>gen(rd());</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;double&gt;<sp/>udist(0,1);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>udist(gen);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>[0]<sp/>=<sp/><ref refid="class_walker_1a8c78216899e04e9439a991cbad9df36f" kindref="member">last_pos_r</ref>[0]<sp/>=<sp/><ref refid="class_walker_1a2d50601346a754183b38890c18e7a6e7" kindref="member">last_pos_v</ref>[0]<sp/>=<sp/><ref refid="class_walker_1a98116f0e5d65e1cf65449d80a2d87617" kindref="member">ini_pos</ref>[0]<sp/>=<sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref>[0]<sp/>=<sp/>(t+1)*xmin<sp/>+<sp/>t*xmax;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>t<sp/>=<sp/>udist(gen);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>[1]<sp/>=<sp/><ref refid="class_walker_1a8c78216899e04e9439a991cbad9df36f" kindref="member">last_pos_r</ref>[1]<sp/>=<sp/><ref refid="class_walker_1a2d50601346a754183b38890c18e7a6e7" kindref="member">last_pos_v</ref>[1]<sp/>=<sp/><ref refid="class_walker_1a98116f0e5d65e1cf65449d80a2d87617" kindref="member">ini_pos</ref>[1]<sp/>=<sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref>[1]<sp/>=<sp/>(t+1)*ymin<sp/>+<sp/>t*ymax;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>t<sp/>=<sp/>udist(gen);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>[2]<sp/>=<sp/><ref refid="class_walker_1a8c78216899e04e9439a991cbad9df36f" kindref="member">last_pos_r</ref>[2]<sp/>=<sp/><ref refid="class_walker_1a2d50601346a754183b38890c18e7a6e7" kindref="member">last_pos_v</ref>[2]<sp/>=<sp/><ref refid="class_walker_1a98116f0e5d65e1cf65449d80a2d87617" kindref="member">ini_pos</ref>[2]<sp/>=<sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref>[2]<sp/>=<sp/>(t+1)*zmin<sp/>+<sp/>t*zmax;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a83536011f160b42f6c39f121ee550731" kindref="member">steps_count</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a38669698192d39146c77011b69b1e372" kindref="member">rejection_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1afa37629b74387435a0bb02e0c061a718" kindref="member">status</ref><sp/>=<sp/>free;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a58e2d14d760748687138b7582cd04365" kindref="member">index</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>initial_location<sp/><sp/>=<sp/><ref refid="class_walker_1a77f5c801c38158bb8568f75a22baed20" kindref="member">location</ref><sp/>=<sp/>unknown;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1aa211ac1f9a396b1bf3b565e0f8ed098a" kindref="member">intra_extra_consensus</ref><sp/>=<sp/><ref refid="class_walker_1a8ca6c90f124e46869ea752920565e2c2" kindref="member">intra_coll_count</ref><sp/>=<sp/><ref refid="class_walker_1a28c595f6f6b4c32bed6afb177c0a6608" kindref="member">extra_coll_count</ref><sp/>=0;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a7f33d06b7aa5fabf2a2ac15d119bbcc7" kindref="member">steps_per_second</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a48d0fe08f2297d9ad56cfaec9ee1926c" kindref="member">in_ply_index</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1adf221f7a635c09cfaafc0dab5aa38106" kindref="member">in_obj_index</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::getRealPosition(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;x_,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;y_,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;z_)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="49"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>x_<sp/>=<sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>[0];</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>y_<sp/>=<sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>[1];</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>z_<sp/>=<sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>[2];</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::getVoxelPosition(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;x_,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;y_,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;z_)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="55"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>x_<sp/>=<sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref>[0];</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>y_<sp/>=<sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref>[1];</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>z_<sp/>=<sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref>[2];</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::getRealPosition(Eigen::Vector3d<sp/>&amp;_pos_)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="62"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>_pos_<sp/>=<sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::getVoxelPosition(Eigen::Vector3d<sp/>&amp;_pos_)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="67"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>_pos_<sp/>=<sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::getInitialPosition(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;x_,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;y_,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;z_)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="72"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>x_<sp/>=<sp/><ref refid="class_walker_1a98116f0e5d65e1cf65449d80a2d87617" kindref="member">ini_pos</ref>[0];</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>y_<sp/>=<sp/><ref refid="class_walker_1a98116f0e5d65e1cf65449d80a2d87617" kindref="member">ini_pos</ref>[1];</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>z_<sp/>=<sp/><ref refid="class_walker_1a98116f0e5d65e1cf65449d80a2d87617" kindref="member">ini_pos</ref>[2];</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::getInitialPosition(Eigen::Vector3d<sp/>&amp;_ini_pos_)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="79"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>_ini_pos_<sp/>=<sp/><ref refid="class_walker_1a98116f0e5d65e1cf65449d80a2d87617" kindref="member">ini_pos</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::getNextDirection(Eigen::Vector3d<sp/>&amp;_direction_)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="84"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>_direction_<sp/>=<sp/><ref refid="class_walker_1ad1629485a13c80367a563ed7b88149eb" kindref="member">next_direction</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>Walker::getIndex()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="90"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_walker_1a58e2d14d760748687138b7582cd04365" kindref="member">index</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::setRealPosition(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;_pos_)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a8c78216899e04e9439a991cbad9df36f" kindref="member">last_pos_r</ref><sp/>=<sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref><sp/>=<sp/>_pos_;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::setVoxelPosition(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;_pos_)</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a2d50601346a754183b38890c18e7a6e7" kindref="member">last_pos_v</ref><sp/>=<sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref><sp/>=<sp/>_pos_;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::setVoxelPosition(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;x_,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;y_,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;z_)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a2d50601346a754183b38890c18e7a6e7" kindref="member">last_pos_v</ref><sp/>=<sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref>[0]<sp/>=<sp/>x_;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref>[1]<sp/>=<sp/>y_;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref>[2]<sp/>=<sp/>z_;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::setRealPosition(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;x_,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;y_,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;z_)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a8c78216899e04e9439a991cbad9df36f" kindref="member">last_pos_r</ref><sp/>=<sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>[0]<sp/>=<sp/>x_;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>[1]<sp/>=<sp/>y_;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>[2]<sp/>=<sp/>z_;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::setInitialPosition(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;x_,</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;y_,</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;z_)</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>[0]<sp/><sp/>=<sp/>x_;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>[1]<sp/><sp/>=<sp/>y_;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>[2]<sp/><sp/>=<sp/>z_;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a8c78216899e04e9439a991cbad9df36f" kindref="member">last_pos_r</ref><sp/>=<sp/><ref refid="class_walker_1a2d50601346a754183b38890c18e7a6e7" kindref="member">last_pos_v</ref><sp/>=<sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref><sp/>=<sp/><ref refid="class_walker_1a98116f0e5d65e1cf65449d80a2d87617" kindref="member">ini_pos</ref><sp/>=<sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a83536011f160b42f6c39f121ee550731" kindref="member">steps_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::setInitialPosition(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;temp)</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a8c78216899e04e9439a991cbad9df36f" kindref="member">last_pos_r</ref><sp/>=<sp/><ref refid="class_walker_1a2d50601346a754183b38890c18e7a6e7" kindref="member">last_pos_v</ref><sp/>=<sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref><sp/>=<sp/><ref refid="class_walker_1a98116f0e5d65e1cf65449d80a2d87617" kindref="member">ini_pos</ref><sp/>=<sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref><sp/>=<sp/>temp;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a83536011f160b42f6c39f121ee550731" kindref="member">steps_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::setNextDirection(Eigen::Vector3d<sp/>&amp;next_dir)</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1ad1629485a13c80367a563ed7b88149eb" kindref="member">next_direction</ref><sp/>=<sp/>next_dir;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::setIndex(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>_index)</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a58e2d14d760748687138b7582cd04365" kindref="member">index</ref><sp/>=<sp/>_index;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::setRealPosLog(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;pos,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>t)</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_walker_1a1ba5a46fddf62eb3eeaabc7c868afe07" kindref="member">pos_r_log</ref>(0,t)=pos(0);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_walker_1a1ba5a46fddf62eb3eeaabc7c868afe07" kindref="member">pos_r_log</ref>(1,t)=pos(1);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_walker_1a1ba5a46fddf62eb3eeaabc7c868afe07" kindref="member">pos_r_log</ref>(2,t)=pos(2);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::setRealPosLog(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>z,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>t)</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_walker_1a1ba5a46fddf62eb3eeaabc7c868afe07" kindref="member">pos_r_log</ref>(0,t)=x;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_walker_1a1ba5a46fddf62eb3eeaabc7c868afe07" kindref="member">pos_r_log</ref>(1,t)=y;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_walker_1a1ba5a46fddf62eb3eeaabc7c868afe07" kindref="member">pos_r_log</ref>(2,t)=z;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::setVoxPosLog(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;pos,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>t)</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_walker_1a62d99cc92226681123be94e64fb2bf7b" kindref="member">pos_v_log</ref>(0,t)=pos(0);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_walker_1a62d99cc92226681123be94e64fb2bf7b" kindref="member">pos_v_log</ref>(1,t)=pos(1);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_walker_1a62d99cc92226681123be94e64fb2bf7b" kindref="member">pos_v_log</ref>(2,t)=pos(2);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::setVoxPosLog(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>z,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>t)</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_walker_1a62d99cc92226681123be94e64fb2bf7b" kindref="member">pos_v_log</ref>(0,t)=x;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_walker_1a62d99cc92226681123be94e64fb2bf7b" kindref="member">pos_v_log</ref>(1,t)=y;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;<ref refid="class_walker_1a62d99cc92226681123be94e64fb2bf7b" kindref="member">pos_v_log</ref>(2,t)=z;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::setNumberOfSteps(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>T)</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a1ba5a46fddf62eb3eeaabc7c868afe07" kindref="member">pos_r_log</ref><sp/>=<sp/>Eigen::Matrix3Xd::Zero(3,T+1);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a62d99cc92226681123be94e64fb2bf7b" kindref="member">pos_v_log</ref><sp/>=<sp/>Eigen::Matrix3Xd::Zero(3,T+1);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Walker::setRandomInitialPosition(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;_min,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>&amp;_max)</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a83536011f160b42f6c39f121ee550731" kindref="member">steps_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::random_device<sp/>rd;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>gen(rd());</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;double&gt;<sp/>udist(0,1);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>udist(gen);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>[0]<sp/><sp/>=<sp/>(1-t)*_min(0)+<sp/>t*_max(0);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>t<sp/>=<sp/>udist(gen);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>[1]<sp/><sp/>=<sp/>(1-t)*_min(1)+<sp/>t*_max(1);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>t<sp/>=<sp/>udist(gen);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>[2]<sp/><sp/>=<sp/><sp/>(1-t)*_min(2)+<sp/>t*_max(2);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a8c78216899e04e9439a991cbad9df36f" kindref="member">last_pos_r</ref><sp/>=<sp/><ref refid="class_walker_1a2d50601346a754183b38890c18e7a6e7" kindref="member">last_pos_v</ref><sp/>=<sp/><ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref><sp/>=<sp/><ref refid="class_walker_1a98116f0e5d65e1cf65449d80a2d87617" kindref="member">ini_pos</ref><sp/>=<sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker_1a8c78216899e04e9439a991cbad9df36f" kindref="member">last_pos_r</ref><sp/>=<sp/><ref refid="class_walker_1a2d50601346a754183b38890c18e7a6e7" kindref="member">last_pos_v</ref><sp/>=<sp/><ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref>;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/walker.cpp"/>
+  </compounddef>
+</doxygen>

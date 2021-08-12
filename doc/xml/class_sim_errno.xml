@@ -1,0 +1,651 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_sim_errno" kind="class" language="C++" prot="public">
+    <compoundname>SimErrno</compoundname>
+    <includes refid="simerrno_8h" local="no">simerrno.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_sim_errno_1a3afad3ed9244e3b22c1cfc73c1ee8a1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>SimErrno::SimErrno</definition>
+        <argsstring>()</argsstring>
+        <name>SimErrno</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="26" column="1" bodyfile="src/simerrno.cpp" bodystart="12" bodyend="15"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_sim_errno_1a8786cb077da0c41a32cd5d96f03fde35" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool SimErrno::checkFileExist</definition>
+        <argsstring>(const std::string name)</argsstring>
+        <name>checkFileExist</name>
+        <param>
+          <type>const std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Return true if the file does exist, false otherwise. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>file path </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="32" column="1" bodyfile="src/simerrno.h" bodystart="32" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1aabc7284492cb5f8ef38fce7d4501abbd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SimErrno::checkSimulationParameters</definition>
+        <argsstring>(Parameters &amp;params)</argsstring>
+        <name>checkSimulationParameters</name>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Return false if any of the parameters are inconsistent or bugged. In may assert the program. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="42" column="1" bodyfile="src/simerrno.cpp" bodystart="17" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1ad5048e2a5f5630118ec614afdd4fd197" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SimErrno::checkSchemeFile</definition>
+        <argsstring>(Parameters &amp;params)</argsstring>
+        <name>checkSchemeFile</name>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Return false if any of the parameters are inconsistent or bugged. In may assert the program. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="49" column="1" bodyfile="src/simerrno.cpp" bodystart="184" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1a3a4c60541ecf163e50f70f8b9795be29" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SimErrno::checkPLYFiles</definition>
+        <argsstring>(Parameters &amp;params)</argsstring>
+        <name>checkPLYFiles</name>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Return false if any of the PLY files are inconsistent or bugged. In may assert the program. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="56" column="1" bodyfile="src/simerrno.cpp" bodystart="310" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1a077a20f0886022c924911e24fbc91b52" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SimErrno::checkCylindersListFile</definition>
+        <argsstring>(Parameters &amp;params)</argsstring>
+        <name>checkCylindersListFile</name>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Return false if any of the cylinder list files are inconsistent or bugged. In may assert the program. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="63" column="1" bodyfile="src/simerrno.cpp" bodystart="450" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1a21ed929e9b81e9059d4da3ca03c9d80c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SimErrno::checkInitWalkerFile</definition>
+        <argsstring>(Parameters &amp;params)</argsstring>
+        <name>checkInitWalkerFile</name>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Return false if the initial position file is inconsistent or bugged. In may assert the program. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="70" column="1" bodyfile="src/simerrno.cpp" bodystart="516" bodyend="569"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1a9b9712b12322cdd0667d6fc4ee7aceaf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SimErrno::checkVoxelLimits</definition>
+        <argsstring>(Parameters &amp;params)</argsstring>
+        <name>checkVoxelLimits</name>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Return false if the voxel instances are inconsistent or bugged. In may assert the program. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="77" column="1" bodyfile="src/simerrno.cpp" bodystart="571" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1a4b59c263ba564ebc9edbd40fe9ec3bc8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SimErrno::checkConfigurationFile</definition>
+        <argsstring>(const char *configuration_file)</argsstring>
+        <name>checkConfigurationFile</name>
+        <param>
+          <type>const char *</type>
+          <declname>configuration_file</declname>
+        </param>
+        <briefdescription>
+<para>Return false if the scheme file does not exist or there are inconsistent or bugs. In may assert the program. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="84" column="1" bodyfile="src/simerrno.cpp" bodystart="583" bodyend="726"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1a87782efbd7825d733d3f0c760cf47222" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SimErrno::printSimulatinInfo</definition>
+        <argsstring>(Parameters &amp;params, std::ostream &amp;, bool color=1)</argsstring>
+        <name>printSimulatinInfo</name>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>std::ostream &amp;</type>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>color</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>iostream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>to print to </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>color</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>flag, false if no colour should be display or written </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="91" column="1" bodyfile="src/simerrno.cpp" bodystart="728" bodyend="898"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1a195d934b873f7b10be5f57cf6f77e80f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SimErrno::checkOuputPrefixAndWriteInfo</definition>
+        <argsstring>(Parameters &amp;params)</argsstring>
+        <name>checkOuputPrefixAndWriteInfo</name>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Return false if the output location and prefix are inconsistence or bugged. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="98" column="1" bodyfile="src/simerrno.cpp" bodystart="900" bodyend="920"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1aa997e9bec44280eec04ce320f8d75031" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SimErrno::checkGammaDistributionParamaters</definition>
+        <argsstring>(Parameters &amp;params)</argsstring>
+        <name>checkGammaDistributionParamaters</name>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Return false if the there are errors or inconsistencies in the gamma distr. parameters. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="104" column="1" bodyfile="src/simerrno.cpp" bodystart="922" bodyend="952"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1acd92c1f938453f86e5f6d6967ed09754" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SimErrno::warning</definition>
+        <argsstring>(std::string message, std::ostream &amp;, bool color=1)</argsstring>
+        <name>warning</name>
+        <param>
+          <type>std::string</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>std::ostream &amp;</type>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>color</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iostream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>where to print </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>colour</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>flag, false if no colour should be display or written </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="111" column="1" bodyfile="src/simerrno.cpp" bodystart="954" bodyend="961"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1aef262fffecd567fe6ebcf57aed23e8dd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SimErrno::info</definition>
+        <argsstring>(std::string message, std::ostream &amp;, bool color=1)</argsstring>
+        <name>info</name>
+        <param>
+          <type>std::string</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>std::ostream &amp;</type>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>color</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iostream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>where to print </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>colour</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>flag, false if no colour should be display or written </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="118" column="1" bodyfile="src/simerrno.cpp" bodystart="963" bodyend="969"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1aafbfe0b71883701a1c8882135c54cfe4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SimErrno::infoMenu</definition>
+        <argsstring>(std::string message, std::string value, std::ostream &amp;, bool color=1, int space=0)</argsstring>
+        <name>infoMenu</name>
+        <param>
+          <type>std::string</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::ostream &amp;</type>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>color</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>space</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iostream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>where to print ! </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>colour</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>flag, false if no colour should be display or written ! </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>spacing</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>at the end of the message </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="126" column="1" bodyfile="src/simerrno.cpp" bodystart="971" bodyend="977"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1a1d49dc3d396b355aee645c6d35436aa9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SimErrno::error</definition>
+        <argsstring>(std::string message, std::ostream &amp;, bool color=1)</argsstring>
+        <name>error</name>
+        <param>
+          <type>std::string</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>std::ostream &amp;</type>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>color</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iostream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>where to print ! </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>colour</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>flag, false if no colour should be display or written </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="133" column="1" bodyfile="src/simerrno.cpp" bodystart="979" bodyend="985"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1a786ea76043026ad10aec48bc81137144" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SimErrno::expectedTime</definition>
+        <argsstring>(std::string completed, std::string time, std::ostream &amp;, bool color=1, std::string steps_second=&quot;&quot;, std::string endl_str=&quot;&quot;)</argsstring>
+        <name>expectedTime</name>
+        <param>
+          <type>std::string</type>
+          <declname>completed</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>time</declname>
+        </param>
+        <param>
+          <type>std::ostream &amp;</type>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>color</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>steps_second</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>endl_str</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iostream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>where to print ! </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>colour</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>flag, false if no colour should be display or written ! </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>flag, false if no end of line string should be printing </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="142" column="1" bodyfile="src/simerrno.cpp" bodystart="987" bodyend="1001"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1a5f21f4c97adee0132d4d64b30b89fecd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string SimErrno::currentDateTime</definition>
+        <argsstring>()</argsstring>
+        <name>currentDateTime</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="147" column="1" bodyfile="src/simerrno.cpp" bodystart="1004" bodyend="1013"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1a71e44ab51c81191171464b1371887844" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SimErrno::checkSubdivisionsFile</definition>
+        <argsstring>(Parameters &amp;params)</argsstring>
+        <name>checkSubdivisionsFile</name>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Return false if any of the elements in the file are miss configured. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="153" column="1" bodyfile="src/simerrno.cpp" bodystart="1015" bodyend="1071"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sim_errno_1a3dfc14a69998cff0ee82f8bb6ef2ddc4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void SimErrno::appendRepetitionLabel</definition>
+        <argsstring>(Parameters &amp;params)</argsstring>
+        <name>appendRepetitionLabel</name>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+<para>Appends a repetition label on the prefix command so no results are overwritten, helpful if you are running batch of simulation inside a server. </para>        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>instance </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/simerrno.h" line="160" column="1" bodyfile="src/simerrno.cpp" bodystart="1073" bodyend="1091"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Simulation Input and parameter errors handling class =================================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Class ot handle the errors in the parameters, logical and on the syntaxis. <simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>March 2016 <hruler/>
+</para></simplesect>
+Class to handle the errors in the parameters, logical and on the syntax</para><para>This class contains a set of static methods to check that the configuration files exist and that the parameters are correctly set. This may cause asserts ERRORS or WARNINGS. </para>    </detaileddescription>
+    <location file="src/simerrno.h" line="24" column="1" bodyfile="src/simerrno.h" bodystart="23" bodyend="162"/>
+    <listofallmembers>
+      <member refid="class_sim_errno_1a3dfc14a69998cff0ee82f8bb6ef2ddc4" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>appendRepetitionLabel</name></member>
+      <member refid="class_sim_errno_1a4b59c263ba564ebc9edbd40fe9ec3bc8" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>checkConfigurationFile</name></member>
+      <member refid="class_sim_errno_1a077a20f0886022c924911e24fbc91b52" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>checkCylindersListFile</name></member>
+      <member refid="class_sim_errno_1a8786cb077da0c41a32cd5d96f03fde35" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>checkFileExist</name></member>
+      <member refid="class_sim_errno_1aa997e9bec44280eec04ce320f8d75031" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>checkGammaDistributionParamaters</name></member>
+      <member refid="class_sim_errno_1a21ed929e9b81e9059d4da3ca03c9d80c" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>checkInitWalkerFile</name></member>
+      <member refid="class_sim_errno_1a195d934b873f7b10be5f57cf6f77e80f" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>checkOuputPrefixAndWriteInfo</name></member>
+      <member refid="class_sim_errno_1a3a4c60541ecf163e50f70f8b9795be29" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>checkPLYFiles</name></member>
+      <member refid="class_sim_errno_1ad5048e2a5f5630118ec614afdd4fd197" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>checkSchemeFile</name></member>
+      <member refid="class_sim_errno_1aabc7284492cb5f8ef38fce7d4501abbd" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>checkSimulationParameters</name></member>
+      <member refid="class_sim_errno_1a71e44ab51c81191171464b1371887844" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>checkSubdivisionsFile</name></member>
+      <member refid="class_sim_errno_1a9b9712b12322cdd0667d6fc4ee7aceaf" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>checkVoxelLimits</name></member>
+      <member refid="class_sim_errno_1a5f21f4c97adee0132d4d64b30b89fecd" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>currentDateTime</name></member>
+      <member refid="class_sim_errno_1a1d49dc3d396b355aee645c6d35436aa9" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>error</name></member>
+      <member refid="class_sim_errno_1a786ea76043026ad10aec48bc81137144" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>expectedTime</name></member>
+      <member refid="class_sim_errno_1aef262fffecd567fe6ebcf57aed23e8dd" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>info</name></member>
+      <member refid="class_sim_errno_1aafbfe0b71883701a1c8882135c54cfe4" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>infoMenu</name></member>
+      <member refid="class_sim_errno_1a87782efbd7825d733d3f0c760cf47222" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>printSimulatinInfo</name></member>
+      <member refid="class_sim_errno_1a3afad3ed9244e3b22c1cfc73c1ee8a1f" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>SimErrno</name></member>
+      <member refid="class_sim_errno_1acd92c1f938453f86e5f6d6967ed09754" prot="public" virt="non-virtual"><scope>SimErrno</scope><name>warning</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

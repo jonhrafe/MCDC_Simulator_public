@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="sentinel_8cpp" kind="file" language="C++">
+    <compoundname>sentinel.cpp</compoundname>
+    <includes refid="sentinel_8h" local="yes">sentinel.h</includes>
+    <includes refid="constants_8h" local="yes">constants.h</includes>
+    <includes local="no">iostream</includes>
+    <incdepgraph>
+      <node id="799">
+        <label>limits</label>
+      </node>
+      <node id="785">
+        <label>src/sentinel.cpp</label>
+        <link refid="sentinel_8cpp"/>
+        <childnode refid="786" relation="include">
+        </childnode>
+        <childnode refid="796" relation="include">
+        </childnode>
+        <childnode refid="792" relation="include">
+        </childnode>
+      </node>
+      <node id="788">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="798">
+        <label>string</label>
+      </node>
+      <node id="796">
+        <label>constants.h</label>
+        <link refid="constants_8h_source"/>
+        <childnode refid="797" relation="include">
+        </childnode>
+        <childnode refid="798" relation="include">
+        </childnode>
+        <childnode refid="799" relation="include">
+        </childnode>
+      </node>
+      <node id="786">
+        <label>sentinel.h</label>
+        <link refid="sentinel_8h_source"/>
+        <childnode refid="787" relation="include">
+        </childnode>
+        <childnode refid="793" relation="include">
+        </childnode>
+      </node>
+      <node id="789">
+        <label>vector</label>
+      </node>
+      <node id="787">
+        <label>walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="788" relation="include">
+        </childnode>
+        <childnode refid="789" relation="include">
+        </childnode>
+        <childnode refid="790" relation="include">
+        </childnode>
+        <childnode refid="791" relation="include">
+        </childnode>
+        <childnode refid="792" relation="include">
+        </childnode>
+      </node>
+      <node id="794">
+        <label>subdivision.h</label>
+        <link refid="subdivision_8h_source"/>
+        <childnode refid="788" relation="include">
+        </childnode>
+      </node>
+      <node id="791">
+        <label>collisionsphere.h</label>
+        <link refid="collisionsphere_8h_source"/>
+        <childnode refid="789" relation="include">
+        </childnode>
+      </node>
+      <node id="795">
+        <label>utility</label>
+      </node>
+      <node id="793">
+        <label>parameters.h</label>
+        <link refid="parameters_8h_source"/>
+        <childnode refid="789" relation="include">
+        </childnode>
+        <childnode refid="788" relation="include">
+        </childnode>
+        <childnode refid="794" relation="include">
+        </childnode>
+        <childnode refid="795" relation="include">
+        </childnode>
+      </node>
+      <node id="792">
+        <label>iostream</label>
+      </node>
+      <node id="790">
+        <label>deque</label>
+      </node>
+      <node id="797">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;sentinel.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;constants.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacesentinels" kindref="compound">sentinels</ref>;</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal">Sentinel::Sentinel()</highlight></codeline>
+<codeline lineno="9"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>error<sp/>=<sp/>none;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>bouncings<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>obstacle_id<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>stuck_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>rejected_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>illegal_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>deport_illegals<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//Trump<sp/>mode<sp/>on.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>discard_stucks<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>rejected_step<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Sentinel::clear(){</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>error<sp/>=<sp/>none;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>bouncings<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>obstacle_id<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Sentinel::setBouncingError(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>bouncings){</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>error<sp/>=<sp/>stuck;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;bouncings<sp/>=<sp/>bouncings;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Sentinel::setCrossingError(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">){</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>error<sp/>=<sp/>crossed;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>this-&gt;obstacle_id<sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Sentinel::setRejectedError(){</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>error<sp/>=<sp/>rejected;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Sentinel::checkErrors(<ref refid="class_walker" kindref="compound">Walker</ref><sp/>&amp;walker,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_parameters" kindref="compound">Parameters</ref><sp/>&amp;params,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>noPLY,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal">&amp;<sp/>bouncing_count)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//If<sp/>it<sp/>was<sp/>rejected<sp/>to<sp/>many<sp/>times<sp/>we<sp/>have<sp/>to<sp/>take<sp/>out<sp/>the<sp/>walker.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(walker.<ref refid="class_walker_1a38669698192d39146c77011b69b1e372" kindref="member">rejection_count</ref>&gt;max_rejections){</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setBouncingError(walker.<ref refid="class_walker_1a83536011f160b42f6c39f121ee550731" kindref="member">steps_count</ref>);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stuck_count++;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">(this-&gt;error);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Handle<sp/>&quot;stucked&quot;<sp/>walkers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(bouncing_count<sp/>&gt;<sp/>max_number_bouncings)<sp/>&amp;&amp;<sp/>discard_stucks){</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setBouncingError(walker.<ref refid="class_walker_1a83536011f160b42f6c39f121ee550731" kindref="member">steps_count</ref>);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stuck_count++;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">(this-&gt;error);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(<sp/>(walker.<ref refid="class_walker_1a77f5c801c38158bb8568f75a22baed20" kindref="member">location</ref><sp/>!=<sp/>Walker::unknown)<sp/>&amp;&amp;<sp/>(params.<ref refid="class_parameters_1a2e5fa275543b4a52599e694e64546e13" kindref="member">obstacle_permeability</ref><sp/>&lt;=<sp/>0.0)<sp/>&amp;&amp;<sp/>deport_illegals<sp/>==<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"><sp/>){</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(walker.initial_location<sp/>!=<sp/>walker.<ref refid="class_walker_1a77f5c801c38158bb8568f75a22baed20" kindref="member">location</ref>){</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setCrossingError(uint(walker.<ref refid="class_walker_1adf221f7a635c09cfaafc0dab5aa38106" kindref="member">in_obj_index</ref>));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>illegal_count++;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">(this-&gt;error);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(this-&gt;rejected_step<sp/>==<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">){</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rejected_step<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setRejectedError();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rejected_count++;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal">(this-&gt;error);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Sentinel::deportationProcess(<ref refid="class_walker" kindref="compound">Walker</ref><sp/>&amp;walker,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal">&amp;<sp/>w,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>&amp;t,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>&amp;back_tracking,<sp/><ref refid="class_parameters" kindref="compound">Parameters</ref><sp/>&amp;params,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(this-&gt;error<sp/>==<sp/>Sentinel::ErrorCases::stuck){</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//If<sp/>the<sp/>particle<sp/>got<sp/>stuck<sp/>in<sp/>a<sp/>corner<sp/>or<sp/>bad<sp/>defined<sp/>area.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(params.<ref refid="class_parameters_1aabce43eb8376a94a8e765da99b58d003" kindref="member">verbatim</ref>)</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/>endl<sp/>&lt;&lt;<sp/><sp/>SH_FG_GRAY<sp/>&lt;&lt;<sp/><sp/></highlight><highlight class="stringliteral">&quot;[INFO]<sp/><sp/><sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>SH_DEFAULT<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>Sim:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Walker<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;<sp/>w<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>labeled<sp/>as<sp/>&apos;stuck&apos;<sp/>after<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>this-&gt;bouncings<sp/>&lt;&lt;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/>bouncings.\nBacktraking...\nDone&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//w--;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>back_tracking<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(this-&gt;error<sp/>==<sp/>Sentinel::ErrorCases::crossed){</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//If<sp/>the<sp/>particle<sp/>crosses<sp/>and<sp/>object<sp/>because<sp/>numerical<sp/>problems</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(params.<ref refid="class_parameters_1aabce43eb8376a94a8e765da99b58d003" kindref="member">verbatim</ref>)</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/>endl<sp/>&lt;&lt;<sp/><sp/>SH_FG_GRAY<sp/>&lt;&lt;<sp/><sp/></highlight><highlight class="stringliteral">&quot;[INFO]<sp/><sp/><sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>SH_DEFAULT<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>Sim:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Walker<sp/>&quot;</highlight><highlight class="normal">&lt;&lt;<sp/>w<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>labeled<sp/>as<sp/>&apos;illegal&apos;<sp/>after<sp/>crossing<sp/>obstacle<sp/>id:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>this-&gt;obstacle_id<sp/>&lt;&lt;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\nBacktraking...\nDone&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//w--;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>back_tracking<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(this-&gt;error<sp/>==<sp/>Sentinel::ErrorCases::rejected){</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t--;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(t&gt;1){</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>walker.<ref refid="class_walker_1a1008a95833c1f74b53f02e57e84417b7" kindref="member">pos_r</ref><sp/>=<sp/>Eigen::Vector3d(walker.<ref refid="class_walker_1a1ba5a46fddf62eb3eeaabc7c868afe07" kindref="member">pos_r_log</ref>(0,t),walker.<ref refid="class_walker_1a1ba5a46fddf62eb3eeaabc7c868afe07" kindref="member">pos_r_log</ref>(1,t),walker.<ref refid="class_walker_1a1ba5a46fddf62eb3eeaabc7c868afe07" kindref="member">pos_r_log</ref>(2,t));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>walker.<ref refid="class_walker_1a8c78216899e04e9439a991cbad9df36f" kindref="member">last_pos_r</ref><sp/>=<sp/>Eigen::Vector3d(walker.<ref refid="class_walker_1a1ba5a46fddf62eb3eeaabc7c868afe07" kindref="member">pos_r_log</ref>(0,t-1),walker.<ref refid="class_walker_1a1ba5a46fddf62eb3eeaabc7c868afe07" kindref="member">pos_r_log</ref>(1,t-1),walker.<ref refid="class_walker_1a1ba5a46fddf62eb3eeaabc7c868afe07" kindref="member">pos_r_log</ref>(2,t-1));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>walker.<ref refid="class_walker_1a2c1bf5a8da9e8f3a230a22ab4ae0e373" kindref="member">pos_v</ref><sp/>=<sp/>Eigen::Vector3d(walker.<ref refid="class_walker_1a62d99cc92226681123be94e64fb2bf7b" kindref="member">pos_v_log</ref>(0,t),walker.<ref refid="class_walker_1a62d99cc92226681123be94e64fb2bf7b" kindref="member">pos_v_log</ref>(1,t),walker.<ref refid="class_walker_1a62d99cc92226681123be94e64fb2bf7b" kindref="member">pos_v_log</ref>(2,t));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>walker.<ref refid="class_walker_1a2d50601346a754183b38890c18e7a6e7" kindref="member">last_pos_v</ref><sp/>=<sp/>Eigen::Vector3d(walker.<ref refid="class_walker_1a62d99cc92226681123be94e64fb2bf7b" kindref="member">pos_v_log</ref>(0,t-1),walker.<ref refid="class_walker_1a62d99cc92226681123be94e64fb2bf7b" kindref="member">pos_v_log</ref>(1,t-1),walker.<ref refid="class_walker_1a62d99cc92226681123be94e64fb2bf7b" kindref="member">pos_v_log</ref>(2,t-1));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>walker.<ref refid="class_walker_1a38669698192d39146c77011b69b1e372" kindref="member">rejection_count</ref>++;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/sentinel.cpp"/>
+  </compounddef>
+</doxygen>

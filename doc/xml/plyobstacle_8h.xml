@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="plyobstacle_8h" kind="file" language="C++">
+    <compoundname>plyobstacle.h</compoundname>
+    <includes refid="obstacle_8h" local="yes">obstacle.h</includes>
+    <includes refid="triangle_8h" local="yes">triangle.h</includes>
+    <includedby refid="dynamics_simulation_8h" local="yes">src/dynamicsSimulation.h</includedby>
+    <includedby refid="plyobstacle_8cpp" local="yes">src/plyobstacle.cpp</includedby>
+    <incdepgraph>
+      <node id="731">
+        <label>collision.h</label>
+        <link refid="collision_8h_source"/>
+        <childnode refid="732" relation="include">
+        </childnode>
+      </node>
+      <node id="732">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="730">
+        <label>obstacle.h</label>
+        <link refid="obstacle_8h_source"/>
+        <childnode refid="731" relation="include">
+        </childnode>
+        <childnode refid="733" relation="include">
+        </childnode>
+        <childnode refid="732" relation="include">
+        </childnode>
+      </node>
+      <node id="734">
+        <label>vector</label>
+      </node>
+      <node id="733">
+        <label>walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="732" relation="include">
+        </childnode>
+        <childnode refid="734" relation="include">
+        </childnode>
+        <childnode refid="735" relation="include">
+        </childnode>
+        <childnode refid="736" relation="include">
+        </childnode>
+        <childnode refid="737" relation="include">
+        </childnode>
+      </node>
+      <node id="736">
+        <label>collisionsphere.h</label>
+        <link refid="collisionsphere_8h_source"/>
+        <childnode refid="734" relation="include">
+        </childnode>
+      </node>
+      <node id="729">
+        <label>src/plyobstacle.h</label>
+        <link refid="plyobstacle_8h"/>
+        <childnode refid="730" relation="include">
+        </childnode>
+        <childnode refid="738" relation="include">
+        </childnode>
+      </node>
+      <node id="737">
+        <label>iostream</label>
+      </node>
+      <node id="735">
+        <label>deque</label>
+      </node>
+      <node id="738">
+        <label>triangle.h</label>
+        <link refid="triangle_8h_source"/>
+        <childnode refid="739" relation="include">
+        </childnode>
+        <childnode refid="731" relation="include">
+        </childnode>
+        <childnode refid="733" relation="include">
+        </childnode>
+        <childnode refid="732" relation="include">
+        </childnode>
+      </node>
+      <node id="739">
+        <label>vertex.h</label>
+        <link refid="vertex_8h_source"/>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="741">
+        <label>src/dynamicsSimulation.h</label>
+        <link refid="dynamics_simulation_8h_source"/>
+        <childnode refid="742" relation="include">
+        </childnode>
+      </node>
+      <node id="742">
+        <label>src/mcsimulation.h</label>
+        <link refid="mcsimulation_8h_source"/>
+        <childnode refid="743" relation="include">
+        </childnode>
+      </node>
+      <node id="740">
+        <label>src/plyobstacle.h</label>
+        <link refid="plyobstacle_8h"/>
+        <childnode refid="741" relation="include">
+        </childnode>
+      </node>
+      <node id="743">
+        <label>src/parallelmcsimulation.h</label>
+        <link refid="parallelmcsimulation_8h_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_p_l_y_obstacle" prot="public">PLYObstacle</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="10"><highlight class="preprocessor">#ifndef<sp/>PLYOBSTACLE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PLYOBSTACLE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;obstacle.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;triangle.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="class_p_l_y_obstacle" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_p_l_y_obstacle" kindref="compound">PLYObstacle</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_obstacle" kindref="compound">Obstacle</ref></highlight></codeline>
+<codeline lineno="21"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>vert_number;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>face_number;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>file_path;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_vertex" kindref="compound">Vertex</ref>*<sp/><sp/><sp/><sp/><sp/>vertices;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_triangle" kindref="compound">Triangle</ref>*<sp/><sp/><sp/>faces;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>scale_factor;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>id;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_p_l_y_obstacle" kindref="compound">PLYObstacle</ref>();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_p_l_y_obstacle" kindref="compound">PLYObstacle</ref>(std::string<sp/>path,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>scale_factor_<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_p_l_y_obstacle" kindref="compound">PLYObstacle</ref>(std::string<sp/>path,<sp/>std::vector&lt;Eigen::Vector3d&gt;<sp/>&amp;centers,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>max_distance=INFINITY,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>scale_factor_<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readPLY_ASCII_triangleFan(std::string<sp/>ply_file);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readPLY_ASCII_triangles(std::string<sp/>ply_file);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readPLY_ASCII_trianglesSubdivitionDistance(std::string<sp/>ply_file,<sp/>std::vector&lt;Eigen::Vector3d&gt;<sp/>&amp;centers,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>max_distance);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setScaleFactor(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>scale){scale_factor<sp/>=<sp/>scale;}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>bool<sp/>computeStepCollition(Walker<sp/>&amp;w,<sp/>double<sp/>step[3],<sp/>const<sp/>double<sp/>&amp;step_length,double<sp/>end_point[3],<sp/>Collision&amp;<sp/>colision);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkCollision(<ref refid="class_walker" kindref="compound">Walker</ref><sp/>&amp;walker,<sp/>Eigen::Vector3d<sp/>&amp;step,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;step_lenght,<sp/><ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkCollision(<ref refid="class_walker" kindref="compound">Walker</ref><sp/>&amp;walker,<sp/>Eigen::Vector3d<sp/>&amp;step,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;step_lenght,<sp/><ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision,<sp/>std::vector&lt;unsigned&gt;<sp/>&amp;triangle_list,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>list_end);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>minDistance(<ref refid="class_walker" kindref="compound">Walker</ref>&amp;<sp/>w,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>t);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compare<sp/>2<sp/>coliision<sp/>and<sp/>decides<sp/>wich<sp/>one<sp/>has<sp/>the<sp/>highest<sp/>piority<sp/>and<sp/>if</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>colision_2<sp/>neess<sp/>to<sp/>be<sp/>handled<sp/>differently</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handleCollisions(<ref refid="class_collision" kindref="compound">Collision</ref>&amp;<sp/>colision_confirmed,<sp/><ref refid="class_collision" kindref="compound">Collision</ref>&amp;<sp/>colision_2,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>max_distance,<sp/>Eigen::Vector3d<sp/>&amp;end_point,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>triangle_indx);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Function<sp/>to<sp/>check<sp/>if<sp/>a<sp/>point<sp/>is<sp/>close<sp/>to<sp/>a<sp/>a<sp/>certain<sp/>triangle.<sp/>save<sp/>the<sp/>result<sp/>in<sp/>a<sp/>Collision<sp/>object</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkIfItsNearToTriangle(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Eigen::Vector3d<sp/>end_point,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>triangle_ind,<sp/><ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Given<sp/>the<sp/>collision,<sp/>handles<sp/>the<sp/>next<sp/>walker<sp/>status<sp/>and<sp/>the<sp/>bouncing,<sp/>if<sp/>needed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>updateWalkerStatusAndHandleBouncing(<ref refid="class_walker" kindref="compound">Walker</ref><sp/>&amp;walker,<sp/>Eigen::Vector3d<sp/>&amp;ray_origin,<sp/>Eigen::Vector3d<sp/>&amp;step,<sp/><ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>PLYOBSTACLE_H</highlight></codeline>
+    </programlisting>
+    <location file="src/plyobstacle.h"/>
+  </compounddef>
+</doxygen>

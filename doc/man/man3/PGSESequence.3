@@ -1,0 +1,149 @@
+.TH "PGSESequence" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+PGSESequence
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBSimulableSequence\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBPGSESequence\fP ()"
+.br
+.RI "Default constructor, set default NULL values\&. Not to be used\&. "
+.ti -1c
+.RI "\fBPGSESequence\fP (\fBScheme\fP scheme_)"
+.br
+.RI "Main constructor\&. Takes a pre-loaded \fBScheme\fP file\&. "
+.ti -1c
+.RI "\fBPGSESequence\fP (\fBScheme\fP scheme_, const char *traj_file_name)"
+.br
+.RI "Main constructor\&. Takes a pre-loaded \fBScheme\fP file and a traj file name\&. if this argument is passed a traj file is should be written\&. "
+.ti -1c
+.RI "\fBPGSESequence\fP (const char *scheme_file_name)"
+.br
+.RI "Constructor\&. Takes a the scheme file name to be loaded\&. "
+.ti -1c
+.RI "\fBPGSESequence\fP (const char *scheme_file_name, const char *traj_file_name)"
+.br
+.RI "Constructor\&. Takes a scheme file name to be loaded and atraj file name\&. if this argument is passed a traj file is should be written\&. "
+.ti -1c
+.RI "\fB~PGSESequence\fP ()"
+.br
+.RI "Destuctor\&. Does nothing\&. "
+.ti -1c
+.RI "void \fBgetGradImpulse\fP (int i, double t, double tLast, Eigen::Vector3d &Gdt)"
+.br
+.RI "For using w/o the adt array\&. "
+.ti -1c
+.RI "void \fBgetGradImpuse\fP (int i, double t, Eigen::Vector3d Gdt)"
+.br
+.RI "For using with the adt array\&. "
+.ti -1c
+.RI "double \fBgetbValue\fP (unsigned)"
+.br
+.RI "Analytical defined b-value\&. "
+.ti -1c
+.RI "double \fBgetFreeDecay\fP (unsigned i, double D)"
+.br
+.RI "Expected free Decay\&. "
+.ti -1c
+.RI "double \fBgetNumericalbValue\fP (unsigned)"
+.br
+.ti -1c
+.RI "void \fBgetDWISignal\fP ()"
+.br
+.RI "Computes de DW signal from a trajfile\&. "
+.ti -1c
+.RI "void \fBreadSchemeFile\fP ()"
+.br
+.RI "reads the scheme files "
+.ti -1c
+.RI "virtual void \fBupdate_phase_shift\fP (double dt, double dt_last, \fBWalker\fP walker)"
+.br
+.ti -1c
+.RI "virtual void \fBupdate_phase_shift\fP (double time_step, Eigen::Matrix3Xd \fBtrajectory\fP)"
+.br
+.RI "Updates the phase shift using the full stored trajectory\&. "
+.ti -1c
+.RI "virtual void \fBupdate_DWI_signal\fP (\fBWalker\fP &walker)"
+.br
+.RI "Updates the DWI signal using the cumulated phase shift\&. "
+.ti -1c
+.RI "double \fBget_adt\fP (int grad_index, double t, double tLast)"
+.br
+.RI "computes de signal value and sign in a certain time step\&. "
+.ti -1c
+.RI "double \fBprint_adt_and_dt\fP (int grad_index, double t, double tLast)"
+.br
+.RI "prints the array adt in the format ()\&. "
+.ti -1c
+.RI "virtual void \fBsetNumberOfSteps\fP (unsigned \fBT\fP)"
+.br
+.RI "Set the number of time steps if they are known\&. "
+.ti -1c
+.RI "virtual void \fBcomputeDynamicTimeSteps\fP ()"
+.br
+.RI "Compute the time for all the steps when they are not constant\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "double \fBTE\fP"
+.br
+.ti -1c
+.RI "int \fBT\fP"
+.br
+.ti -1c
+.RI "double \fBdyn_duration\fP"
+.br
+.ti -1c
+.RI "std::vector< std::vector< double > > \fBscheme\fP"
+.br
+.ti -1c
+.RI "\fBTrajectory\fP \fBtrajectory\fP"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "double PGSESequence::getNumericalbValue (unsigned i)"
+
+.PP
+\fBWarning:\fP
+.RS 4
+not implemented yet\&. 
+.RE
+.PP
+
+.SS "void PGSESequence::update_phase_shift (double dt, double dt_last, \fBWalker\fP walker)\fC [virtual]\fP"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP updated walker 
+.RE
+.PP
+
+.PP
+Implements \fBSimulableSequence\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "double PGSESequence::dyn_duration"
+simulation duration (miliseconds) 
+.SS "std::vector< std::vector<double> > PGSESequence::scheme"
+\fBScheme\fP file values 
+.SS "int PGSESequence::T"
+num bins (time steps) 
+.SS "double PGSESequence::TE"
+Time Echo\&. 
+.SS "\fBTrajectory\fP PGSESequence::trajectory"
+If the signal is computed from a \&.trajfile 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

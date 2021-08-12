@@ -1,0 +1,408 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_m_c_simulation" kind="class" language="C++" prot="public">
+    <compoundname>MCSimulation</compoundname>
+    <includes refid="mcsimulation_8h" local="no">mcsimulation.h</includes>
+      <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_m_c_simulation_1aa3853b6cec83b055593cbf58def0c164" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int MCSimulation::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <initializer>=0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>count of </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="31" column="1" bodyfile="src/mcsimulation.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_m_c_simulation_1aff828a83a905ae188146d3ffaa12a1bc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int MCSimulation::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Unique id of the simulation </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="33" column="1" bodyfile="src/mcsimulation.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" prot="public" static="no" mutable="no">
+        <type><ref refid="class_dynamics_simulation" kindref="compound">DynamicsSimulation</ref> *</type>
+        <definition>DynamicsSimulation* MCSimulation::dynamicsEngine</definition>
+        <argsstring></argsstring>
+        <name>dynamicsEngine</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Instance for the particle dynamics </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="35" column="1" bodyfile="src/mcsimulation.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_m_c_simulation_1a87ba6332f1f49024a442981b477360c4" prot="public" static="no" mutable="no">
+        <type><ref refid="class_scheme" kindref="compound">Scheme</ref></type>
+        <definition>Scheme MCSimulation::scheme</definition>
+        <argsstring></argsstring>
+        <name>scheme</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_scheme" kindref="compound">Scheme</ref> file, only PGSE in camino format is supported in 0.2 </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="37" column="1" bodyfile="src/mcsimulation.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" prot="public" static="no" mutable="no">
+        <type><ref refid="class_parameters" kindref="compound">Parameters</ref></type>
+        <definition>Parameters MCSimulation::params</definition>
+        <argsstring></argsstring>
+        <name>params</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_parameters" kindref="compound">Parameters</ref> instance1 <simplesect kind="see"><para>:<ref refid="class_parameters" kindref="compound">Parameters</ref>: </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="39" column="1" bodyfile="src/mcsimulation.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" prot="public" static="no" mutable="no">
+        <type><ref refid="class_simulable_sequence" kindref="compound">SimulableSequence</ref> *</type>
+        <definition>SimulableSequence* MCSimulation::dataSynth</definition>
+        <argsstring></argsstring>
+        <name>dataSynth</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simuleable sequence instance, PGSE and General Wavefroms only </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="41" column="1" bodyfile="src/mcsimulation.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_m_c_simulation_1af53387a4edc7627a77ff03a562f8befa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;float&gt; &gt; MCSimulation::ini_walker_positions</definition>
+        <argsstring></argsstring>
+        <name>ini_walker_positions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>patch for regular sampling in a subdivision </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="43" column="1" bodyfile="src/mcsimulation.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_m_c_simulation_1a8c21d28d54c9c947f6c5465657019ed4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_p_l_y_obstacle" kindref="compound">PLYObstacle</ref> &gt; *</type>
+        <definition>std::vector&lt;PLYObstacle&gt;* MCSimulation::plyObstacles_list</definition>
+        <argsstring></argsstring>
+        <name>plyObstacles_list</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>pointer to a vector with all the instances of PLYObstacles </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="45" column="1" bodyfile="src/mcsimulation.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_m_c_simulation_1a36909899f67439feed1a980037ea8c03" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_cylinder" kindref="compound">Cylinder</ref> &gt; *</type>
+        <definition>std::vector&lt;Cylinder&gt;* MCSimulation::cylinders_list</definition>
+        <argsstring></argsstring>
+        <name>cylinders_list</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>pointer to a vector with all the instances of Cylinders </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="47" column="1" bodyfile="src/mcsimulation.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_m_c_simulation_1a89f56682a13f0bcb2c53d191ca336e35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MCSimulation::MCSimulation</definition>
+        <argsstring>()</argsstring>
+        <name>MCSimulation</name>
+        <briefdescription>
+<para>Default constructor. Intialize everything with 0&apos;s and NULL states, object indexes are set to -1. </para>        </briefdescription>
+        <detaileddescription>
+<para>Secondary constructor.</para><para>Main constructor.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>.conf file name with the full set of experiments parameters.</para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>params_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>preloaded simulation parameters. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="55" column="1" bodyfile="src/mcsimulation.cpp" bodystart="9" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_m_c_simulation_1a5b2bdb95de31810a0d2ee54174e83f98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MCSimulation::MCSimulation</definition>
+        <argsstring>(std::string config_file)</argsstring>
+        <name>MCSimulation</name>
+        <param>
+          <type>std::string</type>
+          <declname>config_file</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="62" column="1" bodyfile="src/mcsimulation.cpp" bodystart="19" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_m_c_simulation_1a76ac3d50d345d249cacc913273b2bd34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MCSimulation::MCSimulation</definition>
+        <argsstring>(Parameters &amp;params_)</argsstring>
+        <name>MCSimulation</name>
+        <param>
+          <type><ref refid="class_parameters" kindref="compound">Parameters</ref> &amp;</type>
+          <declname>params_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="68" column="1" bodyfile="src/mcsimulation.cpp" bodystart="51" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_m_c_simulation_1a859c6ddce0e3c07db0159b2e4906b7ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MCSimulation::~MCSimulation</definition>
+        <argsstring>()</argsstring>
+        <name>~MCSimulation</name>
+        <briefdescription>
+<para>Main destructor. Frees dynamicly allocated memory instances. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="73" column="1" bodyfile="src/mcsimulation.cpp" bodystart="306" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="class_m_c_simulation_1aa305f18bd48dd26f916cc9c006a8dec8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>MCSimulation::startSimulation</definition>
+        <argsstring>()</argsstring>
+        <name>startSimulation</name>
+        <briefdescription>
+<para>Warp function. Calls the dynamicEngine&apos;s native <ref refid="class_dynamics_simulation_1a00cf4a6cbde1ef708fdbd58e8d8a7727" kindref="member">DynamicsSimulation::startSimulation</ref> function. </para>        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="see"><para>:<ref refid="class_dynamics_simulation" kindref="compound">DynamicsSimulation</ref>:. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="78" column="1" bodyfile="src/mcsimulation.cpp" bodystart="89" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="class_m_c_simulation_1aff302334b2743a583b5d6f642d841f2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double MCSimulation::getExpectedFreeeDecay</definition>
+        <argsstring>(unsigned i)</argsstring>
+        <name>getExpectedFreeeDecay</name>
+        <param>
+          <type>unsigned</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="84" column="1" bodyfile="src/mcsimulation.cpp" bodystart="103" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="class_m_c_simulation_1aa60234e3f6d2a100c8b03e4f304b07f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void MCSimulation::iniObstacles</definition>
+        <argsstring>()</argsstring>
+        <name>iniObstacles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Adds all the obstacles defined in the confiuration files. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="89" column="1" bodyfile="src/mcsimulation.cpp" bodystart="114" bodyend="125"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_m_c_simulation_1abd84494b3f949233d4da4148ca856579" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void MCSimulation::addCylindersObstacles</definition>
+        <argsstring>()</argsstring>
+        <name>addCylindersObstacles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="93" column="1" bodyfile="src/mcsimulation.cpp" bodystart="127" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="class_m_c_simulation_1accc0053cb5651483e404561e20028894" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void MCSimulation::addPLYObstacles</definition>
+        <argsstring>()</argsstring>
+        <name>addPLYObstacles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="95" column="1" bodyfile="src/mcsimulation.cpp" bodystart="202" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="class_m_c_simulation_1acf4e2cede47baaac8497cc516ac10f8b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void MCSimulation::addVoxels</definition>
+        <argsstring>()</argsstring>
+        <name>addVoxels</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/mcsimulation.h" line="97" column="1" bodyfile="src/mcsimulation.cpp" bodystart="217" bodyend="222"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Aplication Main Class ======================================================================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Main implementation class. Incorporates the particle&apos;s dynamics and the data synthesis. <simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>November 2016 <heading level="1">1.44.00 </heading>
+</para></simplesect>
+</para><para>Main implementation class. Incorporates the particle&apos;s dynamics and the data synthesis. </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="42">
+        <label>Collisionsphere</label>
+        <link refid="class_collisionsphere"/>
+      </node>
+      <node id="35">
+        <label>SimulableSequence</label>
+        <link refid="class_simulable_sequence"/>
+      </node>
+      <node id="34">
+        <label>MCSimulation</label>
+        <link refid="class_m_c_simulation"/>
+        <childnode refid="35" relation="usage">
+          <edgelabel>dataSynth</edgelabel>
+        </childnode>
+        <childnode refid="36" relation="usage">
+          <edgelabel>scheme</edgelabel>
+        </childnode>
+        <childnode refid="37" relation="usage">
+          <edgelabel>params</edgelabel>
+        </childnode>
+        <childnode refid="38" relation="usage">
+          <edgelabel>dynamicsEngine</edgelabel>
+        </childnode>
+      </node>
+      <node id="39">
+        <label>sentinels::Sentinel</label>
+        <link refid="classsentinels_1_1_sentinel"/>
+      </node>
+      <node id="43">
+        <label>CylinderCollisionSphere</label>
+        <link refid="class_cylinder_collision_sphere"/>
+        <childnode refid="42" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>Scheme</label>
+        <link refid="class_scheme"/>
+      </node>
+      <node id="44">
+        <label>Trajectory</label>
+        <link refid="class_trajectory"/>
+      </node>
+      <node id="45">
+        <label>Propagator</label>
+        <link refid="class_propagator"/>
+      </node>
+      <node id="37">
+        <label>Parameters</label>
+        <link refid="class_parameters"/>
+      </node>
+      <node id="41">
+        <label>PLYCollisionSphere</label>
+        <link refid="class_p_l_y_collision_sphere"/>
+        <childnode refid="42" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>DynamicsSimulation</label>
+        <link refid="class_dynamics_simulation"/>
+        <childnode refid="39" relation="usage">
+          <edgelabel>sentinela</edgelabel>
+        </childnode>
+        <childnode refid="40" relation="usage">
+          <edgelabel>walker</edgelabel>
+        </childnode>
+        <childnode refid="44" relation="usage">
+          <edgelabel>trajectory</edgelabel>
+        </childnode>
+        <childnode refid="37" relation="usage">
+          <edgelabel>params</edgelabel>
+        </childnode>
+        <childnode refid="45" relation="usage">
+          <edgelabel>propagator</edgelabel>
+        </childnode>
+      </node>
+      <node id="40">
+        <label>Walker</label>
+        <link refid="class_walker"/>
+        <childnode refid="41" relation="usage">
+          <edgelabel>collision_sphere_ply</edgelabel>
+        </childnode>
+        <childnode refid="43" relation="usage">
+          <edgelabel>collision_sphere_cylinders</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/mcsimulation.h" line="29" column="1" bodyfile="src/mcsimulation.h" bodystart="28" bodyend="103"/>
+    <listofallmembers>
+      <member refid="class_m_c_simulation_1abd84494b3f949233d4da4148ca856579" prot="private" virt="non-virtual"><scope>MCSimulation</scope><name>addCylindersObstacles</name></member>
+      <member refid="class_m_c_simulation_1accc0053cb5651483e404561e20028894" prot="private" virt="non-virtual"><scope>MCSimulation</scope><name>addPLYObstacles</name></member>
+      <member refid="class_m_c_simulation_1acf4e2cede47baaac8497cc516ac10f8b" prot="private" virt="non-virtual"><scope>MCSimulation</scope><name>addVoxels</name></member>
+      <member refid="class_m_c_simulation_1aa3853b6cec83b055593cbf58def0c164" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>count</name></member>
+      <member refid="class_m_c_simulation_1a36909899f67439feed1a980037ea8c03" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>cylinders_list</name></member>
+      <member refid="class_m_c_simulation_1a7e2496127af6436d64bca7f52bc40c82" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>dataSynth</name></member>
+      <member refid="class_m_c_simulation_1ac453455b2dfb994b7b1a4b7823bd3dc9" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>dynamicsEngine</name></member>
+      <member refid="class_m_c_simulation_1aff302334b2743a583b5d6f642d841f2f" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>getExpectedFreeeDecay</name></member>
+      <member refid="class_m_c_simulation_1aff828a83a905ae188146d3ffaa12a1bc" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>id</name></member>
+      <member refid="class_m_c_simulation_1af53387a4edc7627a77ff03a562f8befa" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>ini_walker_positions</name></member>
+      <member refid="class_m_c_simulation_1aa60234e3f6d2a100c8b03e4f304b07f4" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>iniObstacles</name></member>
+      <member refid="class_m_c_simulation_1a89f56682a13f0bcb2c53d191ca336e35" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>MCSimulation</name></member>
+      <member refid="class_m_c_simulation_1a5b2bdb95de31810a0d2ee54174e83f98" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>MCSimulation</name></member>
+      <member refid="class_m_c_simulation_1a76ac3d50d345d249cacc913273b2bd34" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>MCSimulation</name></member>
+      <member refid="class_m_c_simulation_1aecb8470cb31fa67e38c5d5acd5a80bef" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>params</name></member>
+      <member refid="class_m_c_simulation_1a8c21d28d54c9c947f6c5465657019ed4" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>plyObstacles_list</name></member>
+      <member refid="class_m_c_simulation_1a87ba6332f1f49024a442981b477360c4" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>scheme</name></member>
+      <member refid="class_m_c_simulation_1aa305f18bd48dd26f916cc9c006a8dec8" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>startSimulation</name></member>
+      <member refid="class_m_c_simulation_1a859c6ddce0e3c07db0159b2e4906b7ca" prot="public" virt="non-virtual"><scope>MCSimulation</scope><name>~MCSimulation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

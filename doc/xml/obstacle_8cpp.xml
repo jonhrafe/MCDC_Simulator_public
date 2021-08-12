@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="obstacle_8cpp" kind="file" language="C++">
+    <compoundname>obstacle.cpp</compoundname>
+    <includes refid="obstacle_8h" local="yes">obstacle.h</includes>
+    <includes local="no">math.h</includes>
+    <incdepgraph>
+      <node id="538">
+        <label>collision.h</label>
+        <link refid="collision_8h_source"/>
+        <childnode refid="539" relation="include">
+        </childnode>
+      </node>
+      <node id="539">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="537">
+        <label>obstacle.h</label>
+        <link refid="obstacle_8h_source"/>
+        <childnode refid="538" relation="include">
+        </childnode>
+        <childnode refid="540" relation="include">
+        </childnode>
+        <childnode refid="539" relation="include">
+        </childnode>
+      </node>
+      <node id="536">
+        <label>src/obstacle.cpp</label>
+        <link refid="obstacle_8cpp"/>
+        <childnode refid="537" relation="include">
+        </childnode>
+        <childnode refid="545" relation="include">
+        </childnode>
+      </node>
+      <node id="541">
+        <label>vector</label>
+      </node>
+      <node id="540">
+        <label>walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="539" relation="include">
+        </childnode>
+        <childnode refid="541" relation="include">
+        </childnode>
+        <childnode refid="542" relation="include">
+        </childnode>
+        <childnode refid="543" relation="include">
+        </childnode>
+        <childnode refid="544" relation="include">
+        </childnode>
+      </node>
+      <node id="543">
+        <label>collisionsphere.h</label>
+        <link refid="collisionsphere_8h_source"/>
+        <childnode refid="541" relation="include">
+        </childnode>
+      </node>
+      <node id="545">
+        <label>math.h</label>
+      </node>
+      <node id="544">
+        <label>iostream</label>
+      </node>
+      <node id="542">
+        <label>deque</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;obstacle.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;math.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><ref refid="class_obstacle_1a8f734072321fa06a7b7dae2d5f50f352" kindref="member">Obstacle::Obstacle</ref>():percolation(0),T2(0),id(-1)</highlight></codeline>
+<codeline lineno="5"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_obstacle_1af11af63f11595304ff6d5c1785c03da5" kindref="member">Obstacle::checkCollision</ref>(<ref refid="class_walker" kindref="compound">Walker</ref><sp/>&amp;walker,<sp/>Eigen::Array3d<sp/>&amp;step,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;step_lenght,<sp/><ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision)</highlight></codeline>
+<codeline lineno="9"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Obstacle::elasticBounceAgainsPlane(Eigen::Vector3d<sp/>&amp;ray_origin,<sp/>Eigen::Vector3d<sp/>&amp;normal,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;t,<sp/>Eigen::Vector3d<sp/>&amp;step)</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>ray<sp/>=<sp/><sp/>(-t*step).normalized();</highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rn<sp/>=<sp/>ray.dot(normal);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Caso<sp/>3)<sp/>ni<sp/>cerca<sp/>ni<sp/>paralela</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>step<sp/>=<sp/>-ray<sp/>+<sp/>2.0*normal*rn;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//step<sp/>=<sp/>(rn&gt;0.0)?normal:(-normal);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_obstacle_1a742e9d6ea940b33545cef4f1f2d58566" kindref="member">Obstacle::minDistance</ref>(<ref refid="class_walker" kindref="compound">Walker</ref><sp/>&amp;w)</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/obstacle.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,132 @@
+.TH "CylinderGammaDistribution" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+CylinderGammaDistribution \- \fBCylinderGammaDistribution\fP Class =============================================================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <cylindergammadistribution\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCylinderGammaDistribution\fP (unsigned, double, double, double, Eigen::Vector3d &, Eigen::Vector3d &, float \fBmin_radius\fP)"
+.br
+.RI "Initialize everything\&. "
+.ti -1c
+.RI "void \fBdisplayGammaDistribution\fP ()"
+.br
+.RI "Shows a small histogram of the gamma distribution\&. "
+.ti -1c
+.RI "void \fBcreateGammaSubstrate\fP ()"
+.br
+.RI "Samples and constructs a Gamma distribution\&. "
+.ti -1c
+.RI "void \fBprintSubstrate\fP (std::ostream &out)"
+.br
+.RI "Prints the cylinders positions in a file or output stream\&. "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBnum_cylinders\fP"
+.br
+.ti -1c
+.RI "double \fBalpha\fP"
+.br
+.ti -1c
+.RI "double \fBbeta\fP"
+.br
+.ti -1c
+.RI "double \fBicvf\fP"
+.br
+.ti -1c
+.RI "float \fBmin_radius\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBmin_limits\fP"
+.br
+.ti -1c
+.RI "Eigen::Vector3d \fBmax_limits\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBCylinder\fP > \fBcylinders\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBCylinderGammaDistribution\fP Class =============================================================/\&. 
+
+Class to construct a substrate taken from a Gamma distribution of radiis placed in a single voxel structure\&. 
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+february 2017 
+.SH "0\&.2 "
+.PP
+.RE
+.PP
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "CylinderGammaDistribution::CylinderGammaDistribution (unsigned num_cyl, double a, double b, double icvf_, Eigen::Vector3d & min_l, Eigen::Vector3d & max_l, float min_radius = \fC0\&.01\fP)"
+
+.PP
+Initialize everything\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIP_\fP \fBCylinder\fP origin 
+.br
+\fIQ_\fP cylinder direction\&. 
+.br
+\fIradius_\fP cylinder's radius 
+.br
+\fIscale\fP scale factor for the values passed\&. Useful when reading a file\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void CylinderGammaDistribution::printSubstrate (std::ostream & out)"
+
+.PP
+Prints the cylinders positions in a file or output stream\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIout\fP ostream where to write the info\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "double CylinderGammaDistribution::alpha"
+alpha coefficient of the Gamma distribution 
+.SS "double CylinderGammaDistribution::beta"
+beta coefficient of the gamma distribution 
+.SS "std::vector<\fBCylinder\fP> CylinderGammaDistribution::cylinders"
+\fBCylinder\fP vector 
+.SS "double CylinderGammaDistribution::icvf"
+Achieved intra-celular volum fraction in the substrate 
+.SS "Eigen::Vector3d CylinderGammaDistribution::max_limits"
+voxel max limits (if any) 
+.SS "Eigen::Vector3d CylinderGammaDistribution::min_limits"
+voxel min limits (if any) (bottom left corner) 
+.SS "float CylinderGammaDistribution::min_radius"
+Minimum radius to be sampled from the gamma distribution 
+.SS "unsigned CylinderGammaDistribution::num_cylinders"
+number of cylnders fit inside the substrate 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

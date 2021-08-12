@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="trajectory_8h" kind="file" language="C++">
+    <compoundname>trajectory.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">iostream</includes>
+    <includes local="no">stdio.h</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">Eigen/Sparse</includes>
+    <includes refid="parameters_8h" local="no">parameters.h</includes>
+    <includedby refid="dynamics_simulation_8h" local="yes">src/dynamicsSimulation.h</includedby>
+    <includedby refid="pgsesequence_8h" local="yes">src/pgsesequence.h</includedby>
+    <includedby refid="trajectory_8cpp" local="yes">src/trajectory.cpp</includedby>
+    <incdepgraph>
+      <node id="922">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="915">
+        <label>string</label>
+      </node>
+      <node id="918">
+        <label>fstream</label>
+      </node>
+      <node id="919">
+        <label>Eigen/Sparse</label>
+      </node>
+      <node id="921">
+        <label>vector</label>
+      </node>
+      <node id="923">
+        <label>subdivision.h</label>
+        <link refid="subdivision_8h_source"/>
+        <childnode refid="922" relation="include">
+        </childnode>
+      </node>
+      <node id="924">
+        <label>utility</label>
+      </node>
+      <node id="920">
+        <label>parameters.h</label>
+        <link refid="parameters_8h_source"/>
+        <childnode refid="921" relation="include">
+        </childnode>
+        <childnode refid="922" relation="include">
+        </childnode>
+        <childnode refid="923" relation="include">
+        </childnode>
+        <childnode refid="924" relation="include">
+        </childnode>
+      </node>
+      <node id="916">
+        <label>iostream</label>
+      </node>
+      <node id="914">
+        <label>src/trajectory.h</label>
+        <link refid="trajectory_8h"/>
+        <childnode refid="915" relation="include">
+        </childnode>
+        <childnode refid="916" relation="include">
+        </childnode>
+        <childnode refid="917" relation="include">
+        </childnode>
+        <childnode refid="918" relation="include">
+        </childnode>
+        <childnode refid="919" relation="include">
+        </childnode>
+        <childnode refid="920" relation="include">
+        </childnode>
+      </node>
+      <node id="917">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="930">
+        <label>src/gradientwaveform.h</label>
+        <link refid="gradientwaveform_8h_source"/>
+      </node>
+      <node id="926">
+        <label>src/dynamicsSimulation.h</label>
+        <link refid="dynamics_simulation_8h_source"/>
+        <childnode refid="927" relation="include">
+        </childnode>
+      </node>
+      <node id="927">
+        <label>src/mcsimulation.h</label>
+        <link refid="mcsimulation_8h_source"/>
+        <childnode refid="928" relation="include">
+        </childnode>
+      </node>
+      <node id="929">
+        <label>src/pgsesequence.h</label>
+        <link refid="pgsesequence_8h_source"/>
+        <childnode refid="930" relation="include">
+        </childnode>
+      </node>
+      <node id="925">
+        <label>src/trajectory.h</label>
+        <link refid="trajectory_8h"/>
+        <childnode refid="926" relation="include">
+        </childnode>
+        <childnode refid="929" relation="include">
+        </childnode>
+      </node>
+      <node id="928">
+        <label>src/parallelmcsimulation.h</label>
+        <link refid="parallelmcsimulation_8h_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_trajectory" prot="public">Trajectory</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="7"><highlight class="preprocessor">#ifndef<sp/>TRAJECTORY_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>TRAJECTORY_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;Eigen/Sparse&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;parameters.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="class_trajectory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_trajectory" kindref="compound">Trajectory</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="20" refid="class_trajectory_1aee056cca538c4430eacff9534e43bc8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_trajectory_1aee056cca538c4430eacff9534e43bc8e" kindref="member">trajfile</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="21" refid="class_trajectory_1a6bb5d5e4ad4fb36a65d6cffdc6ab05af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_trajectory_1a6bb5d5e4ad4fb36a65d6cffdc6ab05af" kindref="member">headerfile</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="22" refid="class_trajectory_1a6a7484c5282331583841b038997d597b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>FILE*<sp/>in,<sp/>*<ref refid="class_trajectory_1a6a7484c5282331583841b038997d597b" kindref="member">in_header</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ofstream<sp/>bout,tout,bheaderout,theaderout;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="class_trajectory_1ad9cbff5cf9f84ca1e2378d1d6105c5e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>N,<ref refid="class_trajectory_1ad9cbff5cf9f84ca1e2378d1d6105c5e3" kindref="member">T</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//dynamic<sp/>duration.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dyn_duration;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>io_flag;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="class_trajectory_1a4b6369fb83108e27a774f50c06169817" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;unsigned&gt;<sp/><ref refid="class_trajectory_1a4b6369fb83108e27a774f50c06169817" kindref="member">pos_times</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="class_trajectory_1a66dfa9e8d1e60706b8e8bb1e91a34e29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_trajectory_1a66dfa9e8d1e60706b8e8bb1e91a34e29" kindref="member">isBigEndian</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="class_trajectory_1a1194477068ed051401f99aba4a1056b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_trajectory_1a1194477068ed051401f99aba4a1056b1" kindref="member">write_traj</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="class_trajectory_1a94125474ee64fd3007091a3e88f59769" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_trajectory_1a94125474ee64fd3007091a3e88f59769" kindref="member">write_txt</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="class_trajectory_1a7135e87575f429a7d6ad32477dc96e2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_trajectory_1a7135e87575f429a7d6ad32477dc96e2c" kindref="member">write_bin</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="class_trajectory_1a973422e0d41afe4720fbbf62500a5035" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_trajectory_1a973422e0d41afe4720fbbf62500a5035" kindref="member">steps_subset</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_trajectory_1aa340ba80f1f4d1aa39f19f069d5d8089" kindref="member">Trajectory</ref>();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_trajectory_1aa340ba80f1f4d1aa39f19f069d5d8089" kindref="member">Trajectory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>traj_file,</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isBigEndian_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>std::string<sp/>io_flag_=<sp/></highlight><highlight class="stringliteral">&quot;rb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_trajectory_1ac673c37025ca5353ad99ab41c936e75d" kindref="member">~Trajectory</ref>();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_trajectory_1aaeda8b05ad61298fbd2aba2a3192486e" kindref="member">initTrajectory</ref>(<ref refid="class_parameters" kindref="compound">Parameters</ref><sp/>params);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_trajectory_1a00a28c1782a0a661b40ad9dfefc0d3f4" kindref="member">setTrajFile</ref>(std::string);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_trajectory_1a9aedf2530dca72ca629741585717c64a" kindref="member">closeTrajReaderFile</ref>();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>openTrajReaderFile();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initTrajReaderFile();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readTrajectoryHeader()<sp/>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readCurrentWalkersTrajectory(Eigen::Matrix3Xd&amp;);</highlight></codeline>
+<codeline lineno="74"></codeline>
+<codeline lineno="76"></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_trajectory_1aec9f75fa04452af2199888c47652c7e4" kindref="member">initTrajWriter</ref>();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initTrajWriterBinary();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initTrajWriterText();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeTrajectoryHeaderBinary();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeTrajectoryHeaderText();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>reWriteHeaderFile(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>num_walkers);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writePosition(Eigen::Vector3d&amp;);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writePositionText(Eigen::Vector3d&amp;);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writePositionBinary(Eigen::Vector3d&amp;);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writePosition(Eigen::Matrix3Xd&amp;);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writePositionText(Eigen::Matrix3Xd&amp;);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writePositionBinary(Eigen::Matrix3Xd&amp;);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>swapBE2SE2(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>*source,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>TRAJECTORY_H</highlight></codeline>
+    </programlisting>
+    <location file="src/trajectory.h"/>
+  </compounddef>
+</doxygen>

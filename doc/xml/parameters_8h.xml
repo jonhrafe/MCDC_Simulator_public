@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="parameters_8h" kind="file" language="C++">
+    <compoundname>parameters.h</compoundname>
+    <includes local="no">vector</includes>
+    <includes local="yes">Eigen/Core</includes>
+    <includes refid="subdivision_8h" local="yes">subdivision.h</includes>
+    <includes local="no">utility</includes>
+    <includedby refid="simerrno_8h" local="yes">src/simerrno.h</includedby>
+    <includedby refid="trajectory_8h" local="no">src/trajectory.h</includedby>
+    <includedby refid="dynamics_simulation_8h" local="yes">src/dynamicsSimulation.h</includedby>
+    <includedby refid="sentinel_8h" local="yes">src/sentinel.h</includedby>
+    <includedby refid="parameters_8cpp" local="yes">src/parameters.cpp</includedby>
+    <incdepgraph>
+      <node id="650">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="649">
+        <label>vector</label>
+      </node>
+      <node id="651">
+        <label>subdivision.h</label>
+        <link refid="subdivision_8h_source"/>
+        <childnode refid="650" relation="include">
+        </childnode>
+      </node>
+      <node id="652">
+        <label>utility</label>
+      </node>
+      <node id="648">
+        <label>src/parameters.h</label>
+        <link refid="parameters_8h"/>
+        <childnode refid="649" relation="include">
+        </childnode>
+        <childnode refid="650" relation="include">
+        </childnode>
+        <childnode refid="651" relation="include">
+        </childnode>
+        <childnode refid="652" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="661">
+        <label>src/gradientwaveform.h</label>
+        <link refid="gradientwaveform_8h_source"/>
+      </node>
+      <node id="655">
+        <label>src/cylindergammadistribution.h</label>
+        <link refid="cylindergammadistribution_8h_source"/>
+      </node>
+      <node id="657">
+        <label>src/dynamicsSimulation.h</label>
+        <link refid="dynamics_simulation_8h_source"/>
+        <childnode refid="658" relation="include">
+        </childnode>
+      </node>
+      <node id="658">
+        <label>src/mcsimulation.h</label>
+        <link refid="mcsimulation_8h_source"/>
+        <childnode refid="659" relation="include">
+        </childnode>
+      </node>
+      <node id="662">
+        <label>src/sentinel.h</label>
+        <link refid="sentinel_8h_source"/>
+        <childnode refid="657" relation="include">
+        </childnode>
+      </node>
+      <node id="660">
+        <label>src/pgsesequence.h</label>
+        <link refid="pgsesequence_8h_source"/>
+        <childnode refid="661" relation="include">
+        </childnode>
+      </node>
+      <node id="653">
+        <label>src/parameters.h</label>
+        <link refid="parameters_8h"/>
+        <childnode refid="654" relation="include">
+        </childnode>
+        <childnode refid="656" relation="include">
+        </childnode>
+        <childnode refid="657" relation="include">
+        </childnode>
+        <childnode refid="662" relation="include">
+        </childnode>
+      </node>
+      <node id="656">
+        <label>src/trajectory.h</label>
+        <link refid="trajectory_8h_source"/>
+        <childnode refid="657" relation="include">
+        </childnode>
+        <childnode refid="660" relation="include">
+        </childnode>
+      </node>
+      <node id="659">
+        <label>src/parallelmcsimulation.h</label>
+        <link refid="parallelmcsimulation_8h_source"/>
+      </node>
+      <node id="654">
+        <label>src/simerrno.h</label>
+        <link refid="simerrno_8h_source"/>
+        <childnode refid="655" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_parameters" prot="public">Parameters</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="8"><highlight class="preprocessor">#ifndef<sp/>PARAMETERS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PARAMETERS_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Eigen/Core&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;subdivision.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="class_parameters" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_parameters" kindref="compound">Parameters</ref></highlight></codeline>
+<codeline lineno="23"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="class_parameters_1a35329cc60a28986ee4020457d46921fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a35329cc60a28986ee4020457d46921fb" kindref="member">num_walkers</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="class_parameters_1a3475e7efae778bc7720fe6c17274eef0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a3475e7efae778bc7720fe6c17274eef0" kindref="member">num_steps</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="class_parameters_1add48efa1d9fe056fdb21fe2d2d92533d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1add48efa1d9fe056fdb21fe2d2d92533d" kindref="member">diffusivity</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="class_parameters_1acbe36f055786ddcf8480a49d2c34c914" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1acbe36f055786ddcf8480a49d2c34c914" kindref="member">sim_duration</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="class_parameters_1ac9408092b6254b4ccfecc85decbb1944" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1ac9408092b6254b4ccfecc85decbb1944" kindref="member">write_traj</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="class_parameters_1a15446bf0727ebfe03f119821c7d8ed0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a15446bf0727ebfe03f119821c7d8ed0f" kindref="member">write_txt</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="class_parameters_1a4c98120687d1ba332d0c6cd5a14c59fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a4c98120687d1ba332d0c6cd5a14c59fb" kindref="member">write_bin</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="class_parameters_1a3c37f738b7700bdc22845bc725d51e6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a3c37f738b7700bdc22845bc725d51e6f" kindref="member">scale_from_stu</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="class_parameters_1ab737ef40d88faa6ee8a701013d9d2984" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1ab737ef40d88faa6ee8a701013d9d2984" kindref="member">save_phase_shift</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="class_parameters_1afa076397ed9cbdc4c88215e29b850e3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1afa076397ed9cbdc4c88215e29b850e3c" kindref="member">seed</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="class_parameters_1aabce43eb8376a94a8e765da99b58d003" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1aabce43eb8376a94a8e765da99b58d003" kindref="member">verbatim</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="class_parameters_1a75346dc3b7a41548a2f9e0560343df24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_parameters_1a75346dc3b7a41548a2f9e0560343df24" kindref="member">traj_file</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="class_parameters_1a2662ccc98a7a2b9f0c81f223a8f0748f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_parameters_1a2662ccc98a7a2b9f0c81f223a8f0748f" kindref="member">output_base_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="class_parameters_1a84db69d29321fccb7cc7ea724a74df50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_parameters_1a84db69d29321fccb7cc7ea724a74df50" kindref="member">ini_walkers_file</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="class_parameters_1ae01ac4f7d6d3b9eea6799f5c929ddf00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1ae01ac4f7d6d3b9eea6799f5c929ddf00" kindref="member">ini_walkers_file_count</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="class_parameters_1a87cb2db5b45bf9cb36e74903fecfaa6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_parameters_1a87cb2db5b45bf9cb36e74903fecfaa6e" kindref="member">ini_walker_flag</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="class_parameters_1afbb7caab773abb16753263a0b04c8a2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_parameters_1afbb7caab773abb16753263a0b04c8a2c" kindref="member">scheme_file</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="class_parameters_1aa9d387477810c2bb574b83ecd1fbf8f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/><ref refid="class_parameters_1aa9d387477810c2bb574b83ecd1fbf8f0" kindref="member">min_limits</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="class_parameters_1a879b4c717e0f59c9bbc4b7810b8fdde3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/><ref refid="class_parameters_1a879b4c717e0f59c9bbc4b7810b8fdde3" kindref="member">max_limits</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="class_parameters_1abdef3b0fe62c5fdca7d417d01edd7422" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_parameters_1abdef3b0fe62c5fdca7d417d01edd7422" kindref="member">cylinders_files</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="class_parameters_1a76984fe140c1c6c8a047dd622561200d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_parameters_1a76984fe140c1c6c8a047dd622561200d" kindref="member">PLY_files</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="class_parameters_1a97ed7a4d1b6c6ea8f6507a6a0fc04698" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="class_parameters_1a97ed7a4d1b6c6ea8f6507a6a0fc04698" kindref="member">PLY_scales</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="class_parameters_1a67f6e450517ee21255d72d41bc9f0ce7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="class_parameters_1a67f6e450517ee21255d72d41bc9f0ce7" kindref="member">PLY_percolation</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="class_parameters_1aea1568fbc8a92bd90303ea8afc9e8c63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="class_parameters_1aea1568fbc8a92bd90303ea8afc9e8c63" kindref="member">ini_delta_pos</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="class_parameters_1aab0de21efc3f85e5c44205ed5ebf9d4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1aab0de21efc3f85e5c44205ed5ebf9d4d" kindref="member">num_proc</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="class_parameters_1aefbd07d8501ebb9311bbb1ea7c37be26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;Eigen::Vector3d,Eigen::Vector3d&gt;&gt;<ref refid="class_parameters_1aefbd07d8501ebb9311bbb1ea7c37be26" kindref="member">voxels_list</ref>;<sp/></highlight></codeline>
+<codeline lineno="57" refid="class_parameters_1a4bbfed0148cec6e10d0e90d85437a37a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Eigen::Vector3f&gt;<sp/><ref refid="class_parameters_1a4bbfed0148cec6e10d0e90d85437a37a" kindref="member">prop_dirs</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="class_parameters_1a4f884a7effd3a8816c78084ff3c2b202" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;unsigned&gt;<sp/><ref refid="class_parameters_1a4f884a7effd3a8816c78084ff3c2b202" kindref="member">record_pos_times</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="class_parameters_1a559e66b65a2cb4391d1099bf0db6ec44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;unsigned&gt;<sp/><ref refid="class_parameters_1a559e66b65a2cb4391d1099bf0db6ec44" kindref="member">record_phase_times</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="class_parameters_1af47bd2eada81c6c581aaa8c70d04c8d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;unsigned&gt;<sp/><ref refid="class_parameters_1af47bd2eada81c6c581aaa8c70d04c8d6" kindref="member">record_prop_times</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="class_parameters_1aad79d8e720492fd880ee021c6320dfe0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="class_parameters_1aad79d8e720492fd880ee021c6320dfe0" kindref="member">hex_packing</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="class_parameters_1a3c49b55dc2a2af1c5ddfc3426e2a7936" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a3c49b55dc2a2af1c5ddfc3426e2a7936" kindref="member">hex_packing_radius</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="class_parameters_1a480338071cedf966fdb79b37d9ebe656" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a480338071cedf966fdb79b37d9ebe656" kindref="member">hex_packing_separation</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="class_parameters_1aaef8b4218392fb19de2c5c886f5f7fa0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_parameters_1aaef8b4218392fb19de2c5c886f5f7fa0" kindref="member">gamma_packing</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gamma_output_conf;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>gamma_packing_alpha;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>gamma_packing_beta;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>gamma_icvf;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>gamma_output_configuration;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>gamma_num_cylinders;</highlight></codeline>
+<codeline lineno="74" refid="class_parameters_1a0b44e239201caecaebdb7e956ead1e0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_parameters_1a0b44e239201caecaebdb7e956ead1e0c" kindref="member">min_cyl_radii</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="class_parameters_1a43362cb6e3ea49cc9db9e52c3ebc7140" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a43362cb6e3ea49cc9db9e52c3ebc7140" kindref="member">subdivision_flag</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="class_parameters_1a0d15fd8f1f5c332174864c3acbaf5e10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a0d15fd8f1f5c332174864c3acbaf5e10" kindref="member">number_subdivisions</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="class_parameters_1a1733bfcb8391c494b7b1a317dfda5e44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_parameters_1a1733bfcb8391c494b7b1a317dfda5e44" kindref="member">subdivisions_file</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="class_parameters_1a3c05ff7a30f151c384b83ce3adca26fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Subdivision&gt;<sp/><ref refid="class_parameters_1a3c05ff7a30f151c384b83ce3adca26fa" kindref="member">subdivisions</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="class_parameters_1a2e5fa275543b4a52599e694e64546e13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a2e5fa275543b4a52599e694e64546e13" kindref="member">obstacle_permeability</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="class_parameters_1abe008f02a49ef7f7a6f041f79cc81fbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1abe008f02a49ef7f7a6f041f79cc81fbb" kindref="member">collision_sphere_distance</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="class_parameters_1a66ad8359ef1cc76e8d5581a402cc86b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a66ad8359ef1cc76e8d5581a402cc86b5" kindref="member">max_simulation_time</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="class_parameters_1a947e4b1fef66466119ea7b2e8e2bc0e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a947e4b1fef66466119ea7b2e8e2bc0e4" kindref="member">log_phase_shift</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="class_parameters_1ae30abbd794dee7f5aaf5d3d51152acef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1ae30abbd794dee7f5aaf5d3d51152acef" kindref="member">log_opp</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="class_parameters_1ab1815ac94d73ca8b56a9f12fca04cb89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1ab1815ac94d73ca8b56a9f12fca04cb89" kindref="member">discard_stucks</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="class_parameters_1ac1a5fa4c00eaaf1b40789f329ae20e9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1ac1a5fa4c00eaaf1b40789f329ae20e9a" kindref="member">discard_illegals</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="class_parameters_1a1f5a62a35d6521994a623d0fd0a98a24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a1f5a62a35d6521994a623d0fd0a98a24" kindref="member">log_propagator</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="class_parameters_1a8b7e1481e63d5ac9a36eed8ab310d315" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/><ref refid="class_parameters_1a8b7e1481e63d5ac9a36eed8ab310d315" kindref="member">min_sampling_area</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="class_parameters_1a2bf25423e72a562d5812ed0df3e06e2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/><ref refid="class_parameters_1a2bf25423e72a562d5812ed0df3e06e2d" kindref="member">max_sampling_area</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="class_parameters_1af023e7efce57b9da0837731db6a85c87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1af023e7efce57b9da0837731db6a85c87" kindref="member">custom_sampling_area</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="class_parameters_1a669c92fe7864a00da04bba0c2af93a16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a669c92fe7864a00da04bba0c2af93a16" kindref="member">computeVolume</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="class_parameters_1adacb13afed18c07dfd269fae76f828b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1adacb13afed18c07dfd269fae76f828b3" kindref="member">separate_signals</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="class_parameters_1a1dd221193dd0ad7e34a6b4f7c496d899" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a1dd221193dd0ad7e34a6b4f7c496d899" kindref="member">img_signal</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_parameters_1af4d94ee360ac0157d9065f78797fe9a1" kindref="member">Parameters</ref>();</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1afa8dd9d59fa727c3c2b2fe366efb2c14" kindref="member">readSchemeFile</ref>(std::string<sp/>conf_file);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//Set<sp/>Methods:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setNumWalkers(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>N);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1af61156929c1abed67da0a1c9920ca508" kindref="member">setNumSteps</ref>(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>T);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a7af2bd289f8c8de738d643bb8e05ac62" kindref="member">setDiffusivity</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>Diff);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a934a87940878dc78b75ae4c230132f75" kindref="member">setSimDuration</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>duration);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setWriteTrajFlag(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>write_bin);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setWriteTextFlag(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>write_txt_);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a73a4f685a35f8f7012609effb30a17d8" kindref="member">setMinLimits</ref>(Eigen::Vector3d<sp/>min_limits_);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a96764612c6ee5aeb684e1348e47b2308" kindref="member">setMaxLimits</ref>(Eigen::Vector3d<sp/>max_limits_);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1ac07671c27ff8f0ec9f5d8bdc656e7ffb" kindref="member">setTrajFileName</ref>(std::string<sp/>traj_file_);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1aec6b8dc2c119405ab2cdc4e6622ac616" kindref="member">setOutputBaseFileName</ref>(std::string<sp/>output_base_name_);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a73d64bb093a93c2b806883f5504d8fb5" kindref="member">iniWalkersFileName</ref>(std::string<sp/>ini_walkers_file_);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a95ca6c28a5c87363460ca48eed5f065f" kindref="member">setSchemeFileName</ref>(std::string<sp/>scheme_file_);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>Methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1adb8599bc60f977f684f32a83bbe28fc1" kindref="member">getNumWalkers</ref>();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1aa5aaf80e0189c63090e8f04cf485800f" kindref="member">getNumSteps</ref>();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1ac429071159941e3957eb7c030280a30f" kindref="member">getDiffusivity</ref>();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1a21817e9a0207da2adf32611bcaf889ef" kindref="member">getWriteTrajFlag</ref>();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_parameters_1adb6064f329732640c226608d6e1ddb60" kindref="member">getWriteTextFlag</ref>();</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/><ref refid="class_parameters_1abda8b91e5ac40e67c79184d7071c353a" kindref="member">getMinLimits</ref>();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/><ref refid="class_parameters_1ad4f8b826db4c1b665891740469e41086" kindref="member">getMaxLimits</ref>();</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_parameters_1a38057c2ae3d11b578c8f199d73683ee1" kindref="member">getTrajFileName</ref>();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_parameters_1a794fd941bf5ff311f61f2e6b4f19e64d" kindref="member">getOutputBaseFileName</ref>();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>getIniWalkersFileName();</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_parameters_1a7291b970983c021569cd2e3a0573592c" kindref="member">getSchemeFileName</ref>();</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>str_dist(std::string<sp/>s,<sp/>std::string<sp/>t);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>addSubdivisions();</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readObstacles(std::ifstream<sp/>&amp;in);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readVoxels(std::ifstream&amp;<sp/>in);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readInfoGatheringParams(std::ifstream&amp;<sp/>in);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readHexagonalParams(std::ifstream&amp;<sp/>in);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readGammaParams(std::ifstream&amp;<sp/>in);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readSubdivisionFile();</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readPropagatorDirections(std::string<sp/>dir_path);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readPLYFileList(std::string<sp/>path);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>readPLYFileListScalePercolation(std::string<sp/>path);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>PARAMETERS_H</highlight></codeline>
+    </programlisting>
+    <location file="src/parameters.h"/>
+  </compounddef>
+</doxygen>

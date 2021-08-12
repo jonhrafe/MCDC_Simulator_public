@@ -78,12 +78,17 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 
     if(params.PLY_files.size() > 0){
         info("Checking PLY format...",cout);
-        //assert(checkPLYFiles(params));
+        assert(checkPLYFiles(params));
         info("Done...",cout);
     }
 
     if(params.cylinders_files.size()>0){
         info("Checking Cylinder list format...",cout);
+        checkCylindersListFile(params);
+        info("Done...",cout);
+    }
+    if(params.cylinders_files.size()>0){
+        info("Checking Sphere list format...",cout);
         checkCylindersListFile(params);
         info("Done...",cout);
     }
@@ -98,12 +103,27 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
         checkVoxelLimits(params);
     }
 
-    if(params.hex_packing == true){
+    if(params.hex_cyl_packing == true){
         if(params.hex_packing_radius<= 0){
             error( "Cylinder radius incoherent: " + to_string(params.hex_packing_radius) ,cout);
             assert(0);
             return true;
         }
+
+        if(params.hex_packing_icvf > 0.90){
+            error( "Max achievable ICVF is 0.9 ",cout);
+            assert(0);
+            return true;
+        }
+
+        if(params.hex_packing_icvf <= 0.0){
+            error( "ICVF must be greater than 0.0 ",cout);
+            assert(0);
+            return true;
+        }else{
+            params.hex_packing_separation = sqrt( (2*M_PI*params.hex_packing_radius*params.hex_packing_radius)/(sqrt(3)*params.hex_packing_icvf));
+        }
+
 
         if(params.hex_packing_separation - 2.0*params.hex_packing_radius < 0.0){
             error( "Cylinder separation can't be less that twice the radius (or epsilon close): " + to_string(params.hex_packing_separation) ,cout);
@@ -117,7 +137,42 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 
     }
 
-    if(params.gamma_packing){
+    if(params.hex_sphere_packing == true){
+
+        if(params.hex_packing_radius<= 0){
+            error( "Spheres' radius incoherent: " + to_string(params.hex_packing_radius) ,cout);
+            assert(0);
+            return true;
+        }
+
+        if(params.hex_packing_icvf > 0.69){
+            error( "Max achievable ICVF is 0.69 ",cout);
+            assert(0);
+            return true;
+        }
+
+        if(params.hex_packing_icvf <= 0.0){
+            error( "ICVF must be greater than 0.0 ",cout);
+            assert(0);
+            return true;
+        }else{
+            params.hex_packing_separation = pow((4.*4./3.*M_PI*params.hex_packing_radius*params.hex_packing_radius*params.hex_packing_radius)/(3*params.hex_packing_icvf),1./3.);
+        }
+
+
+        if(params.hex_packing_separation - 2.0*params.hex_packing_radius < 0.0){
+            error( "Cylinder separation can't be less that twice the radius (or epsilon close): " + to_string(params.hex_packing_separation) ,cout);
+            assert(0);
+            return true;
+        }
+
+        if(params.hex_packing_separation - 2.0*params.hex_packing_radius <= 1e-6){
+            warning("Cylinder separation is too close (barrier collision): " + to_string(params.hex_packing_separation) ,cout);
+        }
+
+    }
+
+    if(params.gamma_cyl_packing){
         checkGammaDistributionParamaters(params);
     }
 
@@ -132,7 +187,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
             return true;
         }
 
-        if( (params.number_subdivisions > 0) && (params.voxels_list.size() <=0) && params.gamma_packing ==false){
+        if( (params.number_subdivisions > 0) && (params.voxels_list.size() <=0) && params.gamma_cyl_packing ==false){
             error("subdivisions_number parameter passed without a defined voxel.",cout);
             assert(0);
             return true;
@@ -174,7 +229,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
         }
     }
 
-    if(params.computeVolume && params.voxels_list.size() <=0 && params.gamma_packing==false and params.hex_packing ==false){
+    if(params.computeVolume && params.voxels_list.size() <=0 && params.gamma_cyl_packing==false and params.hex_cyl_packing ==false and params.hex_sphere_packing ==false and params.gamma_sph_packing ==false){
         warning(" Flag: 'compute_volume' ignored, no voxel."  ,cout);
     }
 
@@ -513,6 +568,47 @@ bool SimErrno::checkCylindersListFile(Parameters &params)
     return true;
 }
 
+
+bool SimErrno::checkSphereListFile(Parameters &params)
+{
+    for(unsigned i = 0; i < params.spheres_files.size(); i++){
+        ifstream in(params.cylinders_files[i]);
+
+        if(!in){
+            error( "Spheres list file cannot be open." ,cout);
+            assert(0);
+            in.close();
+            return true;
+        }
+
+        bool first=true;
+        for( std::string line; getline( in, line ); )
+        {
+            if(first) {
+                std::vector<std::string> jkr = split_(line,' ');
+                if (jkr.size()!= 1){
+                    error( "First line must be only the overall scale factor: ",cout);
+                    in.close();
+                    assert(0);
+                    return true;
+                }
+                first-=1;continue;
+            }
+
+            std::vector<std::string> jkr = split_(line,' ');
+
+            if(jkr.size() != 4){
+                error( "Sphere list file is not in the correct format." ,cout);
+                in.close();
+                assert(0);
+                return true;
+            }
+        }
+        in.close();
+    }
+    return true;
+}
+
 bool SimErrno::checkInitWalkerFile(Parameters &params)
 {
 
@@ -638,6 +734,10 @@ bool SimErrno::checkConfigurationFile(const char* configuration_file)
             count_hexa_obstacle_tag++;
             fixed_configuration = true;
         }
+        else if(Parameters::str_dist(tmp,"<sphere_hex_packing>") <= 0){
+            count_hexa_obstacle_tag++;
+            fixed_configuration = true;
+        }
         else if(Parameters::str_dist(tmp,"</log>") <= 0){
             count_tag_log--;
         }
@@ -654,6 +754,9 @@ bool SimErrno::checkConfigurationFile(const char* configuration_file)
             count_tag_phase--;
         }
         else if(Parameters::str_dist(tmp,"</cylinder_hex_packing>") <= 0){
+            count_hexa_obstacle_tag--;
+        }
+        else if(Parameters::str_dist(tmp,"</sphere_hex_packing>") <= 0){
             count_hexa_obstacle_tag--;
         }
         else if(Parameters::str_dist(tmp,"<spawning_area>") == 0){
@@ -702,7 +805,7 @@ bool SimErrno::checkConfigurationFile(const char* configuration_file)
         return true;
     }
     if(count_hexa_obstacle_tag!= 0 ){
-        error( "<cylinder_hex_packing> tag is not properly set in: " + string(configuration_file),cout);
+        error( "<obstacle_hex_packing> tag is not properly set in: " + string(configuration_file),cout);
         assert(0);
         return true;
     }
@@ -755,20 +858,39 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
     if(params.PLY_files.size() > 0)
         infoMenu(" Number of PLYs:        ------", to_string( params.PLY_files.size()),out, color,35);
 
-    answer = (params.cylinders_files.size() > 0) || params.gamma_packing || params.hex_packing ?" true":" false";
+    answer = (params.cylinders_files.size() > 0) || params.gamma_cyl_packing || params.hex_cyl_packing ?" true":" false";
     infoMenu(" Cylinder obstacles:    ------",  answer, out, color,35);
 
-    if(params.hex_packing){
+    if(params.hex_cyl_packing){
         infoMenu(" Hexagonal Configuration:  ---", "true", out, color,35);
         infoMenu(" Hex. radius:           ------",  " "+ to_string(params.hex_packing_radius*1e3)+" um",out, color,35);
-        infoMenu(" Separation:            ------",  " "+ to_string(params.hex_packing_separation*1e3)+" um",out, color,35);
+        infoMenu(" Hex. ICVF:             ------",  " "+ to_string(params.hex_packing_icvf),out, color,35);
+        //infoMenu(" Separation:            ------",  " "+ to_string(params.hex_packing_separation*1e3)+" um",out, color,35);
     }
 
-    if(params.gamma_packing){
-        infoMenu(" Gamma Configuration:   ------", "true", out, color,35);
+    answer = (params.spheres_files.size() > 0) || params.gamma_sph_packing || params.hex_sphere_packing ?" true":" false";
+    infoMenu(" Spherical obstacles:    ------",  answer, out, color,34);
+
+    if(params.hex_sphere_packing){
+        infoMenu(" Hex. sph. configuration:  ---", "true", out, color,35);
+        infoMenu(" Hex. radius:           ------",  " "+ to_string(params.hex_packing_radius*1e3)+" um",out, color,35);
+        infoMenu(" Hex. ICVF:             ------",  " "+ to_string(params.hex_packing_icvf),out, color,35);
+        //infoMenu(" Separation:            ------",  " "+ to_string(params.hex_packing_separation*1e3)+" um",out, color,35);
+    }
+
+    if(params.gamma_cyl_packing){
+        infoMenu(" Gamma Configuration:   ------", " true", out, color,35);
         infoMenu(" Gamma alpha:           ------",  " "+ to_string(params.gamma_packing_alpha)+" um",out, color,35);
         infoMenu(" Gamma scale:           ------",  " "+ to_string(params.gamma_packing_beta),out, color,35);
-        infoMenu(" Min. radius:           ------",  " "+ to_string(params.min_cyl_radii)+" um",out, color,35);
+        infoMenu(" Target ICVF:           ------",  " "+ to_string(params.gamma_icvf),out, color,35);
+        infoMenu(" Min. radius:           ------",  " "+ to_string(params.min_obstacle_radii)+" um",out, color,35);
+    }
+    if(params.gamma_sph_packing){
+        infoMenu(" Gamma sph configuration: ----", " true", out, color,35);
+        infoMenu(" Gamma alpha:           ------",  " "+ to_string(params.gamma_packing_alpha)+" um",out, color,35);
+        infoMenu(" Gamma scale:           ------",  " "+ to_string(params.gamma_packing_beta),out, color,35);
+        infoMenu(" Target ICVF:           ------",  " "+ to_string(params.gamma_icvf),out, color,35);
+        infoMenu(" Min. radius:           ------",  " "+ to_string(params.min_obstacle_radii)+" um",out, color,35);
     }
 
     answer = (params.write_traj)?" true":" false";
@@ -843,7 +965,7 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
 
 
     if(params.max_simulation_time > 1){
-        infoMenu(" Max simulation time: --------", " " + to_string( params.max_simulation_time) +" secs",out, color,35);
+        infoMenu(" Max simulation time:   --------", " " + to_string( params.max_simulation_time) +" secs",out, color,35);
     }
 
     if(params.scheme_file.length() > 1){
@@ -944,7 +1066,7 @@ bool SimErrno::checkGammaDistributionParamaters(Parameters &params)
     }
 
 
-    if(params.gamma_num_cylinders >= 1e6){
+    if(params.gamma_num_obstacles >= 1e6){
         warning("Number of cylinders to sample might be erroneous",cout,true);
     }
 

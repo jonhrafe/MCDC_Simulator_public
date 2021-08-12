@@ -1,0 +1,187 @@
+.TH "GradientWaveform" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+GradientWaveform \- Gradient Wavefroms =============================================================/\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <gradientwaveform\&.h>\fP
+.PP
+Inherits \fBSimulableSequence\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBGradientWaveform\fP ()"
+.br
+.RI "Default constructor, set default NULL values\&. Not to be used\&. "
+.ti -1c
+.RI "\fBGradientWaveform\fP (\fBScheme\fP &scheme)"
+.br
+.RI "Main constructor\&. Takes a pre-loaded \fBScheme\fP file\&. "
+.ti -1c
+.RI "\fBGradientWaveform\fP (\fBScheme\fP &scheme_, const char *traj_file_name)"
+.br
+.RI "Main constructor\&. Takes a pre-loaded \fBScheme\fP file and a traj file name\&. if this argument is passed a traj file is should be written\&. "
+.ti -1c
+.RI "double \fBgetNumericalbValue\fP (unsigned)"
+.br
+.ti -1c
+.RI "void \fBgetDWISignal\fP ()"
+.br
+.RI "Computes de DW signal from a trajfile\&. "
+.ti -1c
+.RI "void \fBreadSchemeFile\fP ()"
+.br
+.RI "reads the waveform "
+.ti -1c
+.RI "void \fBgetInterpolatedGradImpulse\fP (uint rep_index, double dt_sim, double t_sim_last, Eigen::Vector3d &Gdt)"
+.br
+.RI "For using with the adt array\&. "
+.ti -1c
+.RI "void \fBupdate_phase_shift\fP (double time_step, Eigen::Matrix3Xd \fBtrajectory\fP)"
+.br
+.ti -1c
+.RI "void \fBupdate_phase_shift\fP (double \fBdt\fP, double dt_last, \fBWalker\fP walker)"
+.br
+.ti -1c
+.RI "void \fBupdate_DWI_signal\fP (\fBWalker\fP &walker)"
+.br
+.RI "Updates the DWI signal using the cumulated phase shift\&. "
+.ti -1c
+.RI "void \fBsetNumberOfSteps\fP (unsigned \fBT\fP)"
+.br
+.RI "Set the number of time steps if they are known\&. "
+.ti -1c
+.RI "void \fBgetGradImpulse\fP (int i, double t, double tLast, Eigen::Vector3d &Gdt)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "double \fBTE\fP"
+.br
+.ti -1c
+.RI "uint \fBT\fP"
+.br
+.ti -1c
+.RI "double \fBdyn_duration\fP"
+.br
+.ti -1c
+.RI "int \fBwave_bins\fP"
+.br
+.ti -1c
+.RI "double \fBwave_duration\fP"
+.br
+.ti -1c
+.RI "double \fBdt\fP"
+.br
+.ti -1c
+.RI "bool \fBscale_from_stu\fP"
+.br
+.ti -1c
+.RI "std::vector< std::vector< float > > \fBwaveform\fP"
+.br
+.ti -1c
+.RI "\fBTrajectory\fP \fBtrajectory\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Gradient Wavefroms =============================================================/\&. 
+
+Implementation of the the General Wavefroms\&.
+.PP
+Main implementation of the gradient waveforms protocol 
+.PP
+\fBAuthor:\fP
+.RS 4
+Jonathan Rafael 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+November 2017 
+.SH "1\&.42 "
+.PP
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void GradientWaveform::getGradImpulse (int i, double t, double tLast, Eigen::Vector3d & Gdt)\fC [virtual]\fP"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP \fBWalker\fP index 
+.br
+\fIt\fP current time step (in milisenconds) 
+.br
+\fItLast\fP last time step (in milisenconds) 
+.br
+\fIGdt\fP vector to compute de G*dt impulse 
+.RE
+.PP
+
+.PP
+Implements \fBSimulableSequence\fP\&.
+.SS "double GradientWaveform::getNumericalbValue (unsigned)"
+
+.PP
+\fBWarning:\fP
+.RS 4
+not implemented yet\&. 
+.RE
+.PP
+
+.SS "void GradientWaveform::update_phase_shift (double time_step, Eigen::Matrix3Xd trajectory)\fC [virtual]\fP"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP updated the phase shift over a whole trajectory 
+.RE
+.PP
+
+.PP
+Implements \fBSimulableSequence\fP\&.
+.SS "void GradientWaveform::update_phase_shift (double dt, double dt_last, \fBWalker\fP walker)\fC [virtual]\fP"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP updated walker 
+.RE
+.PP
+
+.PP
+Implements \fBSimulableSequence\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "double GradientWaveform::dt"
+individual time steps (miliseconds) of the wave 
+.SS "double GradientWaveform::dyn_duration"
+simulation duration (miliseconds) 
+.SS "bool GradientWaveform::scale_from_stu"
+True if the input is in standar units 
+.SS "uint GradientWaveform::T"
+num bins (time steps) 
+.SS "double GradientWaveform::TE"
+Time Echo\&. 
+.SS "\fBTrajectory\fP GradientWaveform::trajectory"
+If the signal is computed from a \&.trajfile 
+.SS "int GradientWaveform::wave_bins"
+Wave discretization 
+.SS "double GradientWaveform::wave_duration"
+Wave duration (should be less qeual than dyn_dur\&.) 
+.SS "std::vector< std::vector<float> > GradientWaveform::waveform"
+Defined waveforms 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

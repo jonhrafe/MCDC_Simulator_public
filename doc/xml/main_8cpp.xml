@@ -1,0 +1,467 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="main_8cpp" kind="file" language="C++">
+    <compoundname>main.cpp</compoundname>
+    <includes local="no">iostream</includes>
+    <includes local="yes">Eigen/Core</includes>
+    <includes local="yes">Eigen/Dense</includes>
+    <includes refid="dynamics_simulation_8h" local="yes">dynamicsSimulation.h</includes>
+    <includes local="no">fstream</includes>
+    <includes refid="pgsesequence_8h" local="yes">pgsesequence.h</includes>
+    <includes refid="parallelmcsimulation_8h" local="yes">parallelmcsimulation.h</includes>
+    <includes refid="voxel_8h" local="yes">voxel.h</includes>
+    <includes refid="cylinder_8h" local="yes">cylinder.h</includes>
+    <includes local="no">thread</includes>
+    <includes refid="simerrno_8h" local="yes">simerrno.h</includes>
+    <incdepgraph>
+      <node id="458">
+        <label>limits</label>
+      </node>
+      <node id="429">
+        <label>src/main.cpp</label>
+        <link refid="main_8cpp"/>
+        <childnode refid="430" relation="include">
+        </childnode>
+        <childnode refid="431" relation="include">
+        </childnode>
+        <childnode refid="432" relation="include">
+        </childnode>
+        <childnode refid="433" relation="include">
+        </childnode>
+        <childnode refid="442" relation="include">
+        </childnode>
+        <childnode refid="459" relation="include">
+        </childnode>
+        <childnode refid="461" relation="include">
+        </childnode>
+        <childnode refid="453" relation="include">
+        </childnode>
+        <childnode refid="454" relation="include">
+        </childnode>
+        <childnode refid="463" relation="include">
+        </childnode>
+        <childnode refid="464" relation="include">
+        </childnode>
+      </node>
+      <node id="460">
+        <label>scheme.h</label>
+        <link refid="scheme_8h_source"/>
+        <childnode refid="435" relation="include">
+        </childnode>
+        <childnode refid="438" relation="include">
+        </childnode>
+      </node>
+      <node id="465">
+        <label>assert.h</label>
+      </node>
+      <node id="450">
+        <label>collision.h</label>
+        <link refid="collision_8h_source"/>
+        <childnode refid="431" relation="include">
+        </childnode>
+      </node>
+      <node id="433">
+        <label>dynamicsSimulation.h</label>
+        <link refid="dynamics_simulation_8h_source"/>
+        <childnode refid="434" relation="include">
+        </childnode>
+        <childnode refid="438" relation="include">
+        </childnode>
+        <childnode refid="431" relation="include">
+        </childnode>
+        <childnode refid="430" relation="include">
+        </childnode>
+        <childnode refid="439" relation="include">
+        </childnode>
+        <childnode refid="440" relation="include">
+        </childnode>
+        <childnode refid="447" relation="include">
+        </childnode>
+        <childnode refid="444" relation="include">
+        </childnode>
+        <childnode refid="448" relation="include">
+        </childnode>
+        <childnode refid="453" relation="include">
+        </childnode>
+        <childnode refid="454" relation="include">
+        </childnode>
+        <childnode refid="455" relation="include">
+        </childnode>
+        <childnode refid="456" relation="include">
+        </childnode>
+      </node>
+      <node id="453">
+        <label>voxel.h</label>
+        <link refid="voxel_8h_source"/>
+        <childnode refid="431" relation="include">
+        </childnode>
+        <childnode refid="450" relation="include">
+        </childnode>
+        <childnode refid="434" relation="include">
+        </childnode>
+      </node>
+      <node id="431">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="456">
+        <label>propagator.h</label>
+        <link refid="propagator_8h_source"/>
+        <childnode refid="457" relation="include">
+        </childnode>
+        <childnode refid="431" relation="include">
+        </childnode>
+        <childnode refid="435" relation="include">
+        </childnode>
+      </node>
+      <node id="438">
+        <label>string</label>
+      </node>
+      <node id="454">
+        <label>cylinder.h</label>
+        <link refid="cylinder_8h_source"/>
+        <childnode refid="449" relation="include">
+        </childnode>
+      </node>
+      <node id="442">
+        <label>fstream</label>
+      </node>
+      <node id="462">
+        <label>mcsimulation.h</label>
+        <link refid="mcsimulation_8h_source"/>
+        <childnode refid="433" relation="include">
+        </childnode>
+        <childnode refid="460" relation="include">
+        </childnode>
+        <childnode refid="435" relation="include">
+        </childnode>
+      </node>
+      <node id="447">
+        <label>simulablesequence.h</label>
+        <link refid="simulablesequence_8h_source"/>
+        <childnode refid="438" relation="include">
+        </childnode>
+        <childnode refid="435" relation="include">
+        </childnode>
+        <childnode refid="434" relation="include">
+        </childnode>
+        <childnode refid="445" relation="include">
+        </childnode>
+      </node>
+      <node id="457">
+        <label>constants.h</label>
+        <link refid="constants_8h_source"/>
+        <childnode refid="441" relation="include">
+        </childnode>
+        <childnode refid="438" relation="include">
+        </childnode>
+        <childnode refid="458" relation="include">
+        </childnode>
+      </node>
+      <node id="443">
+        <label>Eigen/Sparse</label>
+      </node>
+      <node id="449">
+        <label>obstacle.h</label>
+        <link refid="obstacle_8h_source"/>
+        <childnode refid="450" relation="include">
+        </childnode>
+        <childnode refid="434" relation="include">
+        </childnode>
+        <childnode refid="431" relation="include">
+        </childnode>
+      </node>
+      <node id="439">
+        <label>random</label>
+      </node>
+      <node id="432">
+        <label>Eigen/Dense</label>
+      </node>
+      <node id="455">
+        <label>sentinel.h</label>
+        <link refid="sentinel_8h_source"/>
+        <childnode refid="434" relation="include">
+        </childnode>
+        <childnode refid="444" relation="include">
+        </childnode>
+      </node>
+      <node id="435">
+        <label>vector</label>
+      </node>
+      <node id="434">
+        <label>walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="431" relation="include">
+        </childnode>
+        <childnode refid="435" relation="include">
+        </childnode>
+        <childnode refid="436" relation="include">
+        </childnode>
+        <childnode refid="437" relation="include">
+        </childnode>
+        <childnode refid="430" relation="include">
+        </childnode>
+      </node>
+      <node id="445">
+        <label>subdivision.h</label>
+        <link refid="subdivision_8h_source"/>
+        <childnode refid="431" relation="include">
+        </childnode>
+      </node>
+      <node id="437">
+        <label>collisionsphere.h</label>
+        <link refid="collisionsphere_8h_source"/>
+        <childnode refid="435" relation="include">
+        </childnode>
+      </node>
+      <node id="459">
+        <label>pgsesequence.h</label>
+        <link refid="pgsesequence_8h_source"/>
+        <childnode refid="435" relation="include">
+        </childnode>
+        <childnode refid="430" relation="include">
+        </childnode>
+        <childnode refid="440" relation="include">
+        </childnode>
+        <childnode refid="431" relation="include">
+        </childnode>
+        <childnode refid="447" relation="include">
+        </childnode>
+        <childnode refid="460" relation="include">
+        </childnode>
+      </node>
+      <node id="446">
+        <label>utility</label>
+      </node>
+      <node id="448">
+        <label>plyobstacle.h</label>
+        <link refid="plyobstacle_8h_source"/>
+        <childnode refid="449" relation="include">
+        </childnode>
+        <childnode refid="451" relation="include">
+        </childnode>
+      </node>
+      <node id="444">
+        <label>parameters.h</label>
+        <link refid="parameters_8h_source"/>
+        <childnode refid="435" relation="include">
+        </childnode>
+        <childnode refid="431" relation="include">
+        </childnode>
+        <childnode refid="445" relation="include">
+        </childnode>
+        <childnode refid="446" relation="include">
+        </childnode>
+      </node>
+      <node id="430">
+        <label>iostream</label>
+      </node>
+      <node id="436">
+        <label>deque</label>
+      </node>
+      <node id="463">
+        <label>thread</label>
+      </node>
+      <node id="451">
+        <label>triangle.h</label>
+        <link refid="triangle_8h_source"/>
+        <childnode refid="452" relation="include">
+        </childnode>
+        <childnode refid="450" relation="include">
+        </childnode>
+        <childnode refid="434" relation="include">
+        </childnode>
+        <childnode refid="431" relation="include">
+        </childnode>
+      </node>
+      <node id="440">
+        <label>trajectory.h</label>
+        <link refid="trajectory_8h_source"/>
+        <childnode refid="438" relation="include">
+        </childnode>
+        <childnode refid="430" relation="include">
+        </childnode>
+        <childnode refid="441" relation="include">
+        </childnode>
+        <childnode refid="442" relation="include">
+        </childnode>
+        <childnode refid="443" relation="include">
+        </childnode>
+        <childnode refid="444" relation="include">
+        </childnode>
+      </node>
+      <node id="461">
+        <label>parallelmcsimulation.h</label>
+        <link refid="parallelmcsimulation_8h_source"/>
+        <childnode refid="462" relation="include">
+        </childnode>
+        <childnode refid="463" relation="include">
+        </childnode>
+      </node>
+      <node id="441">
+        <label>stdio.h</label>
+      </node>
+      <node id="452">
+        <label>vertex.h</label>
+        <link refid="vertex_8h_source"/>
+      </node>
+      <node id="464">
+        <label>simerrno.h</label>
+        <link refid="simerrno_8h_source"/>
+        <childnode refid="465" relation="include">
+        </childnode>
+        <childnode refid="438" relation="include">
+        </childnode>
+        <childnode refid="442" relation="include">
+        </childnode>
+        <childnode refid="444" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="main_8cpp_1a91ad9478d81a7aaf2593e8d9c3d06a14" prot="public" static="no">
+        <type>unsigned int</type>
+        <definition>typedef unsigned int uint</definition>
+        <argsstring></argsstring>
+        <name>uint</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/main.cpp" line="20" column="1" bodyfile="src/main.cpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="main_8cpp_1aead97c99e70c0da7036fbbe230ef68b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void printUsage</definition>
+        <argsstring>()</argsstring>
+        <name>printUsage</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/main.cpp" line="25" column="1" bodyfile="src/main.cpp" bodystart="55" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="main_8cpp_1a31702bdafbf80639ac544c04a6733f52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int main</definition>
+        <argsstring>(int argn, char *argv[])</argsstring>
+        <name>main</name>
+        <param>
+          <type>int</type>
+          <declname>argn</declname>
+        </param>
+        <param>
+          <type>char *</type>
+          <declname>argv</declname>
+          <array>[]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/main.cpp" line="27" column="1" bodyfile="src/main.cpp" bodystart="27" bodyend="53"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>o<sp/><sp/><sp/>o<sp/><sp/><sp/>o-o<sp/><sp/><sp/><sp/><sp/>oo-o<sp/><sp/><sp/><sp/><sp/>o-o<sp/><sp/><sp/><sp/><sp/><sp/>o-o<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>o<sp/><sp/><sp/><sp/><sp/><sp/>o</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>|\<sp/>/|<sp/><sp/>/<sp/><sp/><sp/><sp/><sp/><sp/><sp/>/<sp/>|<sp/><sp/>\<sp/><sp/><sp/>/<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/><sp/><sp/><sp/><sp/>o<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/><sp/><sp/><sp/><sp/><sp/>|</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>|<sp/>O<sp/>|<sp/>O<sp/><sp/><sp/><sp/><sp/><sp/><sp/>o<sp/><sp/>|<sp/><sp/><sp/>O<sp/>O<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>o-o<sp/><sp/><sp/><sp/>o-O-o<sp/>o<sp/><sp/>o<sp/>|<sp/><sp/>oo<sp/>-o-<sp/>o-o<sp/>o-o</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>|<sp/><sp/><sp/>|<sp/><sp/>\<sp/><sp/><sp/><sp/><sp/>/<sp/><sp/><sp/>|<sp/><sp/>/<sp/><sp/><sp/>\<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>|<sp/>|<sp/>|<sp/>|<sp/>|<sp/><sp/>|<sp/>|<sp/>|<sp/>|<sp/><sp/>|<sp/><sp/>|<sp/>|<sp/>|</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>o<sp/><sp/><sp/>o<sp/><sp/><sp/>o-o<sp/>o<sp/><sp/><sp/><sp/>o-o<sp/><sp/><sp/><sp/><sp/>o-o<sp/><sp/><sp/><sp/><sp/>o--o<sp/><sp/>|<sp/>o<sp/>o<sp/>o<sp/>o--o<sp/>o<sp/>o-o-<sp/>o<sp/><sp/>o-o<sp/>o</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Eigen/Core&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Eigen/Dense&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;dynamicsSimulation.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;pgsesequence.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;parallelmcsimulation.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;voxel.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;cylinder.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;simerrno.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>uint;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_eigen" kindref="compound">Eigen</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>printUsage();</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>main(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argn,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[])</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>conf<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal">(argn<sp/>==<sp/>2){</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conf<sp/>=<sp/>argv[1];</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>printUsage();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>-1;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_parallel_m_c_simulation" kindref="compound">ParallelMCSimulation</ref><sp/>simulation_short_scheme(conf);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>simulation_short_scheme.startSimulation();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>__linux__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>command<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;notify-send<sp/>-i<sp/>emblem-default<sp/>\&quot;MC/DC\&quot;<sp/>\&quot;Simulation<sp/>Finished\&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>system<sp/>(command.c_str());</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>printUsage(){</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>███╗<sp/><sp/><sp/>███╗<sp/>██████╗<sp/><sp/><sp/><sp/>██╗██████╗<sp/><sp/>██████╗&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>████╗<sp/>████║██╔════╝<sp/><sp/><sp/>██╔╝██╔══██╗██╔════╝&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>██╔████╔██║██║<sp/><sp/><sp/><sp/><sp/><sp/><sp/>██╔╝<sp/>██║<sp/><sp/>██║██║<sp/><sp/><sp/><sp/><sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>██║╚██╔╝██║██║<sp/><sp/><sp/><sp/><sp/><sp/>██╔╝<sp/><sp/>██║<sp/><sp/>██║██║<sp/><sp/><sp/><sp/><sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>██║<sp/>╚═╝<sp/>██║╚██████╗██╔╝<sp/><sp/><sp/>██████╔╝╚██████╗&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>╚═╝<sp/><sp/><sp/><sp/><sp/>╚═╝<sp/>╚═════╝╚═╝<sp/><sp/><sp/><sp/>╚═════╝<sp/><sp/>╚═════╝&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/>endl;<sp/>cout<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>Version:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>VERSION_ID<sp/>&lt;&lt;<sp/>endl;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>Usage:<sp/>MC-DC_Simulator<sp/>&lt;configuration_file.conf&gt;\n\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&lt;configuration_file.conf&gt;<sp/><sp/>Plain<sp/>.txt<sp/>file<sp/>with<sp/>the<sp/>simulation<sp/>parameters<sp/>(see<sp/>doc<sp/>for<sp/>examples):\n\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>N<sp/>&lt;int&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Number<sp/>of<sp/>particles.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>T<sp/>&lt;int&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Number<sp/>of<sp/>time<sp/>steps.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>duration<sp/>&lt;float&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Diffusion<sp/>duration<sp/>in<sp/>seconds.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>out_file_index<sp/>&lt;string&gt;<sp/><sp/><sp/><sp/><sp/><sp/>Simulation<sp/>ouput<sp/>path<sp/>and<sp/>prefix.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>scheme_file<sp/>&lt;string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Simulation<sp/>protocol.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>scale_from_stu<sp/>&lt;int&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>not<sp/>0<sp/>if<sp/>the<sp/>protocol<sp/>is<sp/>in<sp/>SU.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>write_txt<sp/>&lt;int&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>not<sp/>0<sp/>for<sp/>.txt<sp/>ouput.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>write_bin<sp/>&lt;int&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>not<sp/>0<sp/>for<sp/>.bin<sp/>ouput.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>write_traj_file<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>not<sp/>0<sp/>to<sp/>write<sp/>the<sp/>trajfile.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>&lt;obstacle&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Obstacle<sp/>definition<sp/>tag.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>&lt;cylinder_gamma_packing&gt;<sp/><sp/><sp/><sp/><sp/>Gamma<sp/>cylinders<sp/>obstacles<sp/>tag.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>&lt;ply_obstacle&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ply-mesh-model<sp/>obstacle<sp/>tag.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>ini_walkers_pos<sp/>&lt;string&gt;<sp/><sp/><sp/><sp/><sp/>Custom<sp/>initial<sp/>particles<sp/>position<sp/>(intra,<sp/>extra).\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>num_process<sp/>&lt;int&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Number<sp/>of<sp/>processors<sp/>to<sp/>use.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>&lt;END&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>END<sp/>of<sp/>the<sp/>conf-file<sp/>parameters<sp/>(needed).\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/main.cpp"/>
+  </compounddef>
+</doxygen>

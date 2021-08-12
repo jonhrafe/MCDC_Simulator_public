@@ -1,0 +1,405 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dynamics_simulation_8h" kind="file" language="C++">
+    <compoundname>dynamicsSimulation.h</compoundname>
+    <includes refid="walker_8h" local="yes">walker.h</includes>
+    <includes local="no">string</includes>
+    <includes local="yes">Eigen/Core</includes>
+    <includes local="no">iostream</includes>
+    <includes local="no">random</includes>
+    <includes refid="trajectory_8h" local="yes">trajectory.h</includes>
+    <includes refid="simulablesequence_8h" local="yes">simulablesequence.h</includes>
+    <includes refid="parameters_8h" local="yes">parameters.h</includes>
+    <includes refid="plyobstacle_8h" local="yes">plyobstacle.h</includes>
+    <includes refid="voxel_8h" local="yes">voxel.h</includes>
+    <includes refid="cylinder_8h" local="yes">cylinder.h</includes>
+    <includes refid="sentinel_8h" local="yes">sentinel.h</includes>
+    <includes refid="propagator_8h" local="yes">propagator.h</includes>
+    <includedby refid="dynamics_simulation_8cpp" local="yes">src/dynamicsSimulation.cpp</includedby>
+    <includedby refid="main_8cpp" local="yes">src/main.cpp</includedby>
+    <includedby refid="mcsimulation_8h" local="yes">src/mcsimulation.h</includedby>
+    <incdepgraph>
+      <node id="374">
+        <label>limits</label>
+      </node>
+      <node id="366">
+        <label>collision.h</label>
+        <link refid="collision_8h_source"/>
+        <childnode refid="349" relation="include">
+        </childnode>
+      </node>
+      <node id="347">
+        <label>src/dynamicsSimulation.h</label>
+        <link refid="dynamics_simulation_8h"/>
+        <childnode refid="348" relation="include">
+        </childnode>
+        <childnode refid="354" relation="include">
+        </childnode>
+        <childnode refid="349" relation="include">
+        </childnode>
+        <childnode refid="353" relation="include">
+        </childnode>
+        <childnode refid="355" relation="include">
+        </childnode>
+        <childnode refid="356" relation="include">
+        </childnode>
+        <childnode refid="363" relation="include">
+        </childnode>
+        <childnode refid="360" relation="include">
+        </childnode>
+        <childnode refid="364" relation="include">
+        </childnode>
+        <childnode refid="369" relation="include">
+        </childnode>
+        <childnode refid="370" relation="include">
+        </childnode>
+        <childnode refid="371" relation="include">
+        </childnode>
+        <childnode refid="372" relation="include">
+        </childnode>
+      </node>
+      <node id="369">
+        <label>voxel.h</label>
+        <link refid="voxel_8h_source"/>
+        <childnode refid="349" relation="include">
+        </childnode>
+        <childnode refid="366" relation="include">
+        </childnode>
+        <childnode refid="348" relation="include">
+        </childnode>
+      </node>
+      <node id="349">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="372">
+        <label>propagator.h</label>
+        <link refid="propagator_8h_source"/>
+        <childnode refid="373" relation="include">
+        </childnode>
+        <childnode refid="349" relation="include">
+        </childnode>
+        <childnode refid="350" relation="include">
+        </childnode>
+      </node>
+      <node id="354">
+        <label>string</label>
+      </node>
+      <node id="370">
+        <label>cylinder.h</label>
+        <link refid="cylinder_8h_source"/>
+        <childnode refid="365" relation="include">
+        </childnode>
+      </node>
+      <node id="358">
+        <label>fstream</label>
+      </node>
+      <node id="363">
+        <label>simulablesequence.h</label>
+        <link refid="simulablesequence_8h_source"/>
+        <childnode refid="354" relation="include">
+        </childnode>
+        <childnode refid="350" relation="include">
+        </childnode>
+        <childnode refid="348" relation="include">
+        </childnode>
+        <childnode refid="361" relation="include">
+        </childnode>
+      </node>
+      <node id="373">
+        <label>constants.h</label>
+        <link refid="constants_8h_source"/>
+        <childnode refid="357" relation="include">
+        </childnode>
+        <childnode refid="354" relation="include">
+        </childnode>
+        <childnode refid="374" relation="include">
+        </childnode>
+      </node>
+      <node id="359">
+        <label>Eigen/Sparse</label>
+      </node>
+      <node id="365">
+        <label>obstacle.h</label>
+        <link refid="obstacle_8h_source"/>
+        <childnode refid="366" relation="include">
+        </childnode>
+        <childnode refid="348" relation="include">
+        </childnode>
+        <childnode refid="349" relation="include">
+        </childnode>
+      </node>
+      <node id="355">
+        <label>random</label>
+      </node>
+      <node id="371">
+        <label>sentinel.h</label>
+        <link refid="sentinel_8h_source"/>
+        <childnode refid="348" relation="include">
+        </childnode>
+        <childnode refid="360" relation="include">
+        </childnode>
+      </node>
+      <node id="350">
+        <label>vector</label>
+      </node>
+      <node id="348">
+        <label>walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="349" relation="include">
+        </childnode>
+        <childnode refid="350" relation="include">
+        </childnode>
+        <childnode refid="351" relation="include">
+        </childnode>
+        <childnode refid="352" relation="include">
+        </childnode>
+        <childnode refid="353" relation="include">
+        </childnode>
+      </node>
+      <node id="361">
+        <label>subdivision.h</label>
+        <link refid="subdivision_8h_source"/>
+        <childnode refid="349" relation="include">
+        </childnode>
+      </node>
+      <node id="352">
+        <label>collisionsphere.h</label>
+        <link refid="collisionsphere_8h_source"/>
+        <childnode refid="350" relation="include">
+        </childnode>
+      </node>
+      <node id="362">
+        <label>utility</label>
+      </node>
+      <node id="364">
+        <label>plyobstacle.h</label>
+        <link refid="plyobstacle_8h_source"/>
+        <childnode refid="365" relation="include">
+        </childnode>
+        <childnode refid="367" relation="include">
+        </childnode>
+      </node>
+      <node id="360">
+        <label>parameters.h</label>
+        <link refid="parameters_8h_source"/>
+        <childnode refid="350" relation="include">
+        </childnode>
+        <childnode refid="349" relation="include">
+        </childnode>
+        <childnode refid="361" relation="include">
+        </childnode>
+        <childnode refid="362" relation="include">
+        </childnode>
+      </node>
+      <node id="353">
+        <label>iostream</label>
+      </node>
+      <node id="351">
+        <label>deque</label>
+      </node>
+      <node id="367">
+        <label>triangle.h</label>
+        <link refid="triangle_8h_source"/>
+        <childnode refid="368" relation="include">
+        </childnode>
+        <childnode refid="366" relation="include">
+        </childnode>
+        <childnode refid="348" relation="include">
+        </childnode>
+        <childnode refid="349" relation="include">
+        </childnode>
+      </node>
+      <node id="356">
+        <label>trajectory.h</label>
+        <link refid="trajectory_8h_source"/>
+        <childnode refid="354" relation="include">
+        </childnode>
+        <childnode refid="353" relation="include">
+        </childnode>
+        <childnode refid="357" relation="include">
+        </childnode>
+        <childnode refid="358" relation="include">
+        </childnode>
+        <childnode refid="359" relation="include">
+        </childnode>
+        <childnode refid="360" relation="include">
+        </childnode>
+      </node>
+      <node id="357">
+        <label>stdio.h</label>
+      </node>
+      <node id="368">
+        <label>vertex.h</label>
+        <link refid="vertex_8h_source"/>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="375">
+        <label>src/dynamicsSimulation.h</label>
+        <link refid="dynamics_simulation_8h"/>
+        <childnode refid="376" relation="include">
+        </childnode>
+      </node>
+      <node id="376">
+        <label>src/mcsimulation.h</label>
+        <link refid="mcsimulation_8h_source"/>
+        <childnode refid="377" relation="include">
+        </childnode>
+      </node>
+      <node id="377">
+        <label>src/parallelmcsimulation.h</label>
+        <link refid="parallelmcsimulation_8h_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_dynamics_simulation" prot="public">DynamicsSimulation</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="9"><highlight class="preprocessor">#ifndef<sp/>DynamicsSimulation_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>DynamicsSimulation_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;walker.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;Eigen/Core&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;trajectory.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;simulablesequence.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;parameters.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;plyobstacle.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;voxel.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;cylinder.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sentinel.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;propagator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="class_dynamics_simulation" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_dynamics_simulation" kindref="compound">DynamicsSimulation</ref></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34" refid="class_dynamics_simulation_1a67cd4cd9a2e7cd2339c98dae60e66dde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_parameters" kindref="compound">Parameters</ref><sp/><sp/><sp/><ref refid="class_dynamics_simulation_1a67cd4cd9a2e7cd2339c98dae60e66dde" kindref="member">params</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="class_dynamics_simulation_1a9a5d2596527abdcdd185430c97dea9ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_walker" kindref="compound">Walker</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dynamics_simulation_1a9a5d2596527abdcdd185430c97dea9ad" kindref="member">walker</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="class_dynamics_simulation_1ab69fedf7129784621eec440ba873218d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_trajectory" kindref="compound">Trajectory</ref><sp/><sp/><sp/><ref refid="class_dynamics_simulation_1ab69fedf7129784621eec440ba873218d" kindref="member">trajectory</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="class_dynamics_simulation_1a03ba104f00ae772e9b8fb55e7878c793" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/><ref refid="class_dynamics_simulation_1a03ba104f00ae772e9b8fb55e7878c793" kindref="member">mt</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="class_dynamics_simulation_1ad6dddce1d5bc30d3e61dceb69652c893" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation_1ad6dddce1d5bc30d3e61dceb69652c893" kindref="member">step_lenght</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="class_dynamics_simulation_1a46187e70aad2b130249ba3d1dd6a3c75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation_1a46187e70aad2b130249ba3d1dd6a3c75" kindref="member">second_passed</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="class_dynamics_simulation_1a337972272af798cb8606796116145d11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation_1a337972272af798cb8606796116145d11" kindref="member">max_simulation_time</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="class_dynamics_simulation_1a6a210fb28fe2f996c226614742a25214" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation_1a6a210fb28fe2f996c226614742a25214" kindref="member">completed</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="class_dynamics_simulation_1a4fb0e535753c48b4a2647502379aebaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="class_dynamics_simulation_1a4fb0e535753c48b4a2647502379aebaf" kindref="member">ini_pos_file</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="class_dynamics_simulation_1a8e20cd71b55dda041844cfc305851dbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation_1a8e20cd71b55dda041844cfc305851dbe" kindref="member">ini_pos_file_ini_index</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="class_dynamics_simulation_1aa178498c8be8af1a515a8c0a02187600" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation_1aa178498c8be8af1a515a8c0a02187600" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="class_dynamics_simulation_1aed384434dc469e766301268dcf1ec4ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classsentinels_1_1_sentinel" kindref="compound">sentinels::Sentinel</ref><sp/><ref refid="class_dynamics_simulation_1aed384434dc469e766301268dcf1ec4ab" kindref="member">sentinela</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="class_dynamics_simulation_1a830b3e0aa0ce95720ea0a8180e2cffec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector<sp/>&lt;PLYObstacle&gt;*<sp/><ref refid="class_dynamics_simulation_1a830b3e0aa0ce95720ea0a8180e2cffec" kindref="member">plyObstacles_list</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="class_dynamics_simulation_1a938c4df48ca1cabcadefb974093d4a57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector<sp/>&lt;Cylinder&gt;*<sp/><ref refid="class_dynamics_simulation_1a938c4df48ca1cabcadefb974093d4a57" kindref="member">cylinders_list</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="class_dynamics_simulation_1a927a79875ff2f035d929229cf4471756" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;unsigned&gt;<sp/><sp/><ref refid="class_dynamics_simulation_1a927a79875ff2f035d929229cf4471756" kindref="member">cylinders_deque</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="class_dynamics_simulation_1ad920a07f2c8c85fab7a1aec983c15b20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;unsigned&gt;&gt;<sp/><ref refid="class_dynamics_simulation_1ad920a07f2c8c85fab7a1aec983c15b20" kindref="member">ply_deque</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="class_dynamics_simulation_1ab68d71822661c3608bde4553392c9bd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector<sp/>&lt;Voxel&gt;<sp/><ref refid="class_dynamics_simulation_1ab68d71822661c3608bde4553392c9bd1" kindref="member">voxels_list</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="class_dynamics_simulation_1a62f78ae3e723206d16f1528e344ab1e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_propagator" kindref="compound">Propagator</ref><sp/><ref refid="class_dynamics_simulation_1a62f78ae3e723206d16f1528e344ab1e9" kindref="member">propagator</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="class_dynamics_simulation_1ac4161cbca21d20fde85817a21b99bd07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation_1ac4161cbca21d20fde85817a21b99bd07" kindref="member">icvf</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="class_dynamics_simulation_1abb056d8cde70aab8b6fa81ee8cdb231e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>intra_tries,<sp/><ref refid="class_dynamics_simulation_1abb056d8cde70aab8b6fa81ee8cdb231e" kindref="member">total_tries</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/******<sp/><sp/><sp/>Auxiliar<sp/>variables<sp/><sp/><sp/>********/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>Eigen::Vector3d<sp/>step;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="class_dynamics_simulation_1aa73be02bc4cb5027a1bc4a0b6b91b4b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>time_step,<sp/>time_dt,<sp/><ref refid="class_dynamics_simulation_1aa73be02bc4cb5027a1bc4a0b6b91b4b2" kindref="member">last_time_dt</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ifstream<sp/>iniPos;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="class_dynamics_simulation_1a4e14e7f5efc039772219b00b02381db1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>time_t<sp/>start,<ref refid="class_dynamics_simulation_1a4e14e7f5efc039772219b00b02381db1" kindref="member">now</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="class_dynamics_simulation_1a8742da6be78261e71b9b8cd4de0df488" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation_1a8742da6be78261e71b9b8cd4de0df488" kindref="member">print_expected_time</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="class_dynamics_simulation_1a8772d8683d6089eef368212ee99d12d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation_1a8772d8683d6089eef368212ee99d12d5" kindref="member">num_simulated_walkers</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>aux_walker_index;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/******<sp/>END<sp/>Auxiliar<sp/>variables<sp/>********/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_dynamics_simulation_1ad9a3e1f235466c3827cb49c67d3a6147" kindref="member">DynamicsSimulation</ref>();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_dynamics_simulation_1ad9a3e1f235466c3827cb49c67d3a6147" kindref="member">DynamicsSimulation</ref>(std::string<sp/>conf_file);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_dynamics_simulation_1ad9a3e1f235466c3827cb49c67d3a6147" kindref="member">DynamicsSimulation</ref>(<ref refid="class_parameters" kindref="compound">Parameters</ref><sp/>&amp;params_);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_dynamics_simulation_1a15a1f18a99d606ef2ca939e718ca996f" kindref="member">~DynamicsSimulation</ref>();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation_1a00cf4a6cbde1ef708fdbd58e8d8a7727" kindref="member">startSimulation</ref>(<ref refid="class_simulable_sequence" kindref="compound">SimulableSequence</ref>*<sp/>dataSynth<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation_1a67adab75eba635447c1b1b2b26d1e0ab" kindref="member">readConfigurationFile</ref>(std::string<sp/>conf_file_path);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//SET<sp/>VALUES<sp/>FUNCTIONS</highlight></codeline>
+<codeline lineno="111"><highlight class="comment"></highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation_1a9148a30590bef5c766fd2366bbd16eb8" kindref="member">setDuration</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>duration);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setWalkersNum(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal">&amp;<sp/>N);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setStepsNum(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>&amp;T);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>secondsToMinutes(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation_1ae7aa76c335aceb658a4ffc683898077c" kindref="member">isInIntra</ref>(Eigen::Vector3d&amp;<sp/>position,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>cyl_id,<sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>ply_id,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>distance_to_be_intra_ply=1e-6);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_dynamics_simulation_1aeae993217cebb5c23f68cb3e04cf8e49" kindref="member">writePropagator</ref>(std::string<sp/>path);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isInsideCylinders(Eigen::Vector3d&amp;<sp/>position,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>cyl_id,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>distance_to_be_inside=1e-6);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isInsidePLY(Eigen::Vector3d&amp;<sp/>position,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&amp;<sp/>ply_id,</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>distance_to_be_inside=1e-6);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>generateStep(Eigen::Vector3d&amp;<sp/>step<sp/>,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>l);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>generateDirectedStep(Eigen::Vector3d&amp;<sp/>new_step<sp/>,<sp/>Eigen::Vector3d<sp/>&amp;direction);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>updateWalkerPosition(Eigen::Vector3d&amp;step);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkObstacleCollision(Eigen::Vector3d&amp;<sp/>amended_step,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;tmax,<sp/>Eigen::Vector3d<sp/>&amp;end_point,<sp/><ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>updateWalkerPositionAndHandleBouncing(Eigen::Vector3d&amp;<sp/>amended_step,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>tmax,<sp/><ref refid="class_collision" kindref="compound">Collision</ref>&amp;<sp/>colision);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handleCollisions(<ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision,<sp/><ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision_tmp,<sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;max_collision_distance,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>indx);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>mapWalkerIntoVoxel(Eigen::Vector3d<sp/>&amp;amended_step,<sp/><ref refid="class_collision" kindref="compound">Collision</ref><sp/>&amp;colision,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>barrier_thickness);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getTimeDt(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>&amp;last_time_dt,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>time_dt,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>l,<sp/><ref refid="class_simulable_sequence" kindref="compound">SimulableSequence</ref>*<sp/>dataSynth,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>t,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>time_step);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initSimulation();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>expectedTimeAndMaxTimeCheck(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>w);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeDWSignal(<ref refid="class_simulable_sequence" kindref="compound">SimulableSequence</ref><sp/>*dataSynth);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>iniWalkerPosition();</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateWalkerObstacleIndexes(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>t_);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initWalkerObstacleIndexes();</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateCollitionSphere(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>t);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getAnIntraCellularPosition(Eigen::Vector3d&amp;<sp/>intra_pos,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;cyl_ind,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>&amp;ply_ind);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getAnExtraCellularPosition(Eigen::Vector3d&amp;<sp/>extra_pos);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkIfPosInsideVoxel(Eigen::Vector3d&amp;<sp/>pos);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initObstacleInformation();</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updatePropagator(Eigen::Matrix3Xd&amp;<sp/>log_pos_r);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>normalizePropagator(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>num_samples);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>computeICVF();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>finalPositionCheck();</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//DynamicsSimulation_H</highlight></codeline>
+    </programlisting>
+    <location file="src/dynamicsSimulation.h"/>
+  </compounddef>
+</doxygen>

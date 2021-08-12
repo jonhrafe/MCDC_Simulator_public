@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_scheme" kind="class" language="C++" prot="public">
+    <compoundname>Scheme</compoundname>
+    <includes refid="scheme_8h" local="no">scheme.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_scheme_1afa0549aa16f4f6c62d6c397909be3350" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Scheme::scheme_file</definition>
+        <argsstring></argsstring>
+        <name>scheme_file</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_scheme" kindref="compound">Scheme</ref> file path </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheme.h" line="17" column="1" bodyfile="src/scheme.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheme_1a276a907de6afa60b6826552f337e310b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Scheme::header</definition>
+        <argsstring></argsstring>
+        <name>header</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Header on the scheme_file </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheme.h" line="18" column="1" bodyfile="src/scheme.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheme_1a3a767ed00f8859a04857812e370c6db5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Scheme::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sequence type (PGSE only so far) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheme.h" line="19" column="1" bodyfile="src/scheme.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheme_1ae41c5ea2b3aab4492f95b2479945b729" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Scheme::num_rep</definition>
+        <argsstring></argsstring>
+        <name>num_rep</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of gradients </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheme.h" line="20" column="1" bodyfile="src/scheme.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheme_1ae2b4a7f1d0f06f4bea2a7f2761cbe2a7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float Scheme::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>time duration (wavefroms) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheme.h" line="22" column="1" bodyfile="src/scheme.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheme_1a9715a33d087d317724e96229572ebe0d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float Scheme::T</definition>
+        <argsstring></argsstring>
+        <name>T</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>number of time steps (wavefroms) </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheme.h" line="23" column="1" bodyfile="src/scheme.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheme_1ac66ecb38621208f8dd1b5334919316cf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Scheme::scale_from_stu</definition>
+        <argsstring></argsstring>
+        <name>scale_from_stu</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>True if the input is in standar units </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheme.h" line="24" column="1" bodyfile="src/scheme.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_scheme_1aa0d26e624075fbac339a746ed10b2dc0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; double &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt;double&gt; &gt; Scheme::scheme</definition>
+        <argsstring></argsstring>
+        <name>scheme</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_scheme" kindref="compound">Scheme</ref> values </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheme.h" line="27" column="1" bodyfile="src/scheme.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_scheme_1aa0b319a6594176dea40ca78562401b53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Scheme::Scheme</definition>
+        <argsstring>()</argsstring>
+        <name>Scheme</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheme.h" line="32" column="1" bodyfile="src/scheme.cpp" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scheme_1a932eafa378988202a457037db3846aac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Scheme::Scheme</definition>
+        <argsstring>(std::string scheme_file_)</argsstring>
+        <name>Scheme</name>
+        <param>
+          <type>std::string</type>
+          <declname>scheme_file_</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheme.h" line="38" column="1" bodyfile="src/scheme.cpp" bodystart="12" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scheme_1af8f283786d3b27d97c55d92b9ae8b20b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Scheme::~Scheme</definition>
+        <argsstring>()</argsstring>
+        <name>~Scheme</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheme.h" line="40" column="1" bodyfile="src/scheme.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scheme_1a6c117cd4fa744d12abecb9184df30356" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Scheme::readSchemeFile</definition>
+        <argsstring>(std::string scheme_file_, bool scale_from_stu=0)</argsstring>
+        <name>readSchemeFile</name>
+        <param>
+          <type>std::string</type>
+          <declname>scheme_file_</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>scale_from_stu</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheme.h" line="45" column="1" bodyfile="src/scheme.cpp" bodystart="18" bodyend="65"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_scheme_1a8cf558f2e2138a0a99b0752d54b7d37e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Scheme::readPGSE</definition>
+        <argsstring>(std::ifstream &amp;in, bool scale_from_stu)</argsstring>
+        <name>readPGSE</name>
+        <param>
+          <type>std::ifstream &amp;</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>scale_from_stu</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheme.h" line="49" column="1" bodyfile="src/scheme.cpp" bodystart="67" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scheme_1af2e69a5fd0326c951b1f5dfafe343b05" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Scheme::readAPGSE</definition>
+        <argsstring>(std::ifstream &amp;in, bool scale_from_stu)</argsstring>
+        <name>readAPGSE</name>
+        <param>
+          <type>std::ifstream &amp;</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>scale_from_stu</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheme.h" line="50" column="1" bodyfile="src/scheme.cpp" bodystart="95" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="class_scheme_1a2ad5d376b65d5fab2ceacef5448a6f16" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Scheme::readWaveForm</definition>
+        <argsstring>(std::ifstream &amp;in, bool scale_from_stu)</argsstring>
+        <name>readWaveForm</name>
+        <param>
+          <type>std::ifstream &amp;</type>
+          <declname>in</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>scale_from_stu</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/scheme.h" line="51" column="1" bodyfile="src/scheme.cpp" bodystart="124" bodyend="128"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Auxiliary class to save scheme_files values =============================================================/. </para>    </briefdescription>
+    <detaileddescription>
+<para>Helper class to store, handle and read scheme files values . <simplesect kind="author"><para>Jonathan Rafael </para></simplesect>
+<simplesect kind="date"><para>November 2016 <heading level="1">0.2 </heading>
+</para></simplesect>
+</para>    </detaileddescription>
+    <location file="src/scheme.h" line="15" column="1" bodyfile="src/scheme.h" bodystart="14" bodyend="53"/>
+    <listofallmembers>
+      <member refid="class_scheme_1ae2b4a7f1d0f06f4bea2a7f2761cbe2a7" prot="public" virt="non-virtual"><scope>Scheme</scope><name>duration</name></member>
+      <member refid="class_scheme_1a276a907de6afa60b6826552f337e310b" prot="public" virt="non-virtual"><scope>Scheme</scope><name>header</name></member>
+      <member refid="class_scheme_1ae41c5ea2b3aab4492f95b2479945b729" prot="public" virt="non-virtual"><scope>Scheme</scope><name>num_rep</name></member>
+      <member refid="class_scheme_1af2e69a5fd0326c951b1f5dfafe343b05" prot="private" virt="non-virtual"><scope>Scheme</scope><name>readAPGSE</name></member>
+      <member refid="class_scheme_1a8cf558f2e2138a0a99b0752d54b7d37e" prot="private" virt="non-virtual"><scope>Scheme</scope><name>readPGSE</name></member>
+      <member refid="class_scheme_1a6c117cd4fa744d12abecb9184df30356" prot="public" virt="non-virtual"><scope>Scheme</scope><name>readSchemeFile</name></member>
+      <member refid="class_scheme_1a2ad5d376b65d5fab2ceacef5448a6f16" prot="private" virt="non-virtual"><scope>Scheme</scope><name>readWaveForm</name></member>
+      <member refid="class_scheme_1ac66ecb38621208f8dd1b5334919316cf" prot="public" virt="non-virtual"><scope>Scheme</scope><name>scale_from_stu</name></member>
+      <member refid="class_scheme_1aa0d26e624075fbac339a746ed10b2dc0" prot="public" virt="non-virtual"><scope>Scheme</scope><name>scheme</name></member>
+      <member refid="class_scheme_1aa0b319a6594176dea40ca78562401b53" prot="public" virt="non-virtual"><scope>Scheme</scope><name>Scheme</name></member>
+      <member refid="class_scheme_1a932eafa378988202a457037db3846aac" prot="public" virt="non-virtual"><scope>Scheme</scope><name>Scheme</name></member>
+      <member refid="class_scheme_1afa0549aa16f4f6c62d6c397909be3350" prot="public" virt="non-virtual"><scope>Scheme</scope><name>scheme_file</name></member>
+      <member refid="class_scheme_1a9715a33d087d317724e96229572ebe0d" prot="public" virt="non-virtual"><scope>Scheme</scope><name>T</name></member>
+      <member refid="class_scheme_1a3a767ed00f8859a04857812e370c6db5" prot="public" virt="non-virtual"><scope>Scheme</scope><name>type</name></member>
+      <member refid="class_scheme_1af8f283786d3b27d97c55d92b9ae8b20b" prot="public" virt="non-virtual"><scope>Scheme</scope><name>~Scheme</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

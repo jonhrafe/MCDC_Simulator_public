@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="_r_e_a_d_m_e_8md" kind="file" language="Markdown">
+    <compoundname>README.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">##<sp/>Monte<sp/>Carlo<sp/>Diffusion<sp/>and<sp/>Collision<sp/>Simulator</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Static<sp/>building<sp/>from<sp/>sources:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">####Assuming<sp/>a<sp/>bin<sp/>folder:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Cretes<sp/>a<sp/>folder</highlight></codeline>
+<codeline><highlight class="normal">`mkdir<sp/>bin`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Compiles<sp/>all<sp/>the<sp/>magic<sp/>(statically,<sp/>slowly,<sp/>but<sp/>without<sp/>messy<sp/>.o)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">`g++<sp/>-O3<sp/>-std=c++11<sp/>-lpthread<sp/>-std=c++0x<sp/>-pthread<sp/>-I.<sp/>main.cpp<sp/>simulablesequence.cpp<sp/>vertex.cpp<sp/>obstacle.cpp<sp/>collision.cpp<sp/>scheme.cpp<sp/>voxel.cpp<sp/>cylinder.cpp<sp/>walker.cpp<sp/>mcsimulation.cpp<sp/>parallelmcsimulation.cpp<sp/>trajectory.cpp<sp/>triangle.cpp<sp/>parameters.cpp<sp/>plyobstacle.cpp<sp/>pgsesequence.cpp<sp/>dynamicsSimulation.cpp<sp/>simerrno.cpp<sp/>collisionsphere.cpp<sp/><sp/>cylindergammadistribution.cpp<sp/>sentinel.cpp<sp/>subdivision.cpp<sp/>gradientwaveform.cpp<sp/>propagator.cpp<sp/>-o<sp/>bin/MC-DC_Simulator`</highlight></codeline>
+    </programlisting>
+    <location file="src/README.md"/>
+  </compounddef>
+</doxygen>

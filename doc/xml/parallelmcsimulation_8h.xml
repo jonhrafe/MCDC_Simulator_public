@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="parallelmcsimulation_8h" kind="file" language="C++">
+    <compoundname>parallelmcsimulation.h</compoundname>
+    <includes refid="mcsimulation_8h" local="yes">mcsimulation.h</includes>
+    <includes local="no">thread</includes>
+    <includedby refid="main_8cpp" local="yes">src/main.cpp</includedby>
+    <includedby refid="parallelmcsimulation_8cpp" local="yes">src/parallelmcsimulation.cpp</includedby>
+    <incdepgraph>
+      <node id="629">
+        <label>limits</label>
+      </node>
+      <node id="630">
+        <label>scheme.h</label>
+        <link refid="scheme_8h_source"/>
+        <childnode refid="605" relation="include">
+        </childnode>
+        <childnode refid="609" relation="include">
+        </childnode>
+      </node>
+      <node id="621">
+        <label>collision.h</label>
+        <link refid="collision_8h_source"/>
+        <childnode refid="604" relation="include">
+        </childnode>
+      </node>
+      <node id="602">
+        <label>dynamicsSimulation.h</label>
+        <link refid="dynamics_simulation_8h_source"/>
+        <childnode refid="603" relation="include">
+        </childnode>
+        <childnode refid="609" relation="include">
+        </childnode>
+        <childnode refid="604" relation="include">
+        </childnode>
+        <childnode refid="608" relation="include">
+        </childnode>
+        <childnode refid="610" relation="include">
+        </childnode>
+        <childnode refid="611" relation="include">
+        </childnode>
+        <childnode refid="618" relation="include">
+        </childnode>
+        <childnode refid="615" relation="include">
+        </childnode>
+        <childnode refid="619" relation="include">
+        </childnode>
+        <childnode refid="624" relation="include">
+        </childnode>
+        <childnode refid="625" relation="include">
+        </childnode>
+        <childnode refid="626" relation="include">
+        </childnode>
+        <childnode refid="627" relation="include">
+        </childnode>
+      </node>
+      <node id="624">
+        <label>voxel.h</label>
+        <link refid="voxel_8h_source"/>
+        <childnode refid="604" relation="include">
+        </childnode>
+        <childnode refid="621" relation="include">
+        </childnode>
+        <childnode refid="603" relation="include">
+        </childnode>
+      </node>
+      <node id="604">
+        <label>Eigen/Core</label>
+      </node>
+      <node id="627">
+        <label>propagator.h</label>
+        <link refid="propagator_8h_source"/>
+        <childnode refid="628" relation="include">
+        </childnode>
+        <childnode refid="604" relation="include">
+        </childnode>
+        <childnode refid="605" relation="include">
+        </childnode>
+      </node>
+      <node id="609">
+        <label>string</label>
+      </node>
+      <node id="625">
+        <label>cylinder.h</label>
+        <link refid="cylinder_8h_source"/>
+        <childnode refid="620" relation="include">
+        </childnode>
+      </node>
+      <node id="613">
+        <label>fstream</label>
+      </node>
+      <node id="601">
+        <label>mcsimulation.h</label>
+        <link refid="mcsimulation_8h_source"/>
+        <childnode refid="602" relation="include">
+        </childnode>
+        <childnode refid="630" relation="include">
+        </childnode>
+        <childnode refid="605" relation="include">
+        </childnode>
+      </node>
+      <node id="618">
+        <label>simulablesequence.h</label>
+        <link refid="simulablesequence_8h_source"/>
+        <childnode refid="609" relation="include">
+        </childnode>
+        <childnode refid="605" relation="include">
+        </childnode>
+        <childnode refid="603" relation="include">
+        </childnode>
+        <childnode refid="616" relation="include">
+        </childnode>
+      </node>
+      <node id="628">
+        <label>constants.h</label>
+        <link refid="constants_8h_source"/>
+        <childnode refid="612" relation="include">
+        </childnode>
+        <childnode refid="609" relation="include">
+        </childnode>
+        <childnode refid="629" relation="include">
+        </childnode>
+      </node>
+      <node id="614">
+        <label>Eigen/Sparse</label>
+      </node>
+      <node id="620">
+        <label>obstacle.h</label>
+        <link refid="obstacle_8h_source"/>
+        <childnode refid="621" relation="include">
+        </childnode>
+        <childnode refid="603" relation="include">
+        </childnode>
+        <childnode refid="604" relation="include">
+        </childnode>
+      </node>
+      <node id="610">
+        <label>random</label>
+      </node>
+      <node id="626">
+        <label>sentinel.h</label>
+        <link refid="sentinel_8h_source"/>
+        <childnode refid="603" relation="include">
+        </childnode>
+        <childnode refid="615" relation="include">
+        </childnode>
+      </node>
+      <node id="605">
+        <label>vector</label>
+      </node>
+      <node id="603">
+        <label>walker.h</label>
+        <link refid="walker_8h_source"/>
+        <childnode refid="604" relation="include">
+        </childnode>
+        <childnode refid="605" relation="include">
+        </childnode>
+        <childnode refid="606" relation="include">
+        </childnode>
+        <childnode refid="607" relation="include">
+        </childnode>
+        <childnode refid="608" relation="include">
+        </childnode>
+      </node>
+      <node id="616">
+        <label>subdivision.h</label>
+        <link refid="subdivision_8h_source"/>
+        <childnode refid="604" relation="include">
+        </childnode>
+      </node>
+      <node id="607">
+        <label>collisionsphere.h</label>
+        <link refid="collisionsphere_8h_source"/>
+        <childnode refid="605" relation="include">
+        </childnode>
+      </node>
+      <node id="617">
+        <label>utility</label>
+      </node>
+      <node id="619">
+        <label>plyobstacle.h</label>
+        <link refid="plyobstacle_8h_source"/>
+        <childnode refid="620" relation="include">
+        </childnode>
+        <childnode refid="622" relation="include">
+        </childnode>
+      </node>
+      <node id="615">
+        <label>parameters.h</label>
+        <link refid="parameters_8h_source"/>
+        <childnode refid="605" relation="include">
+        </childnode>
+        <childnode refid="604" relation="include">
+        </childnode>
+        <childnode refid="616" relation="include">
+        </childnode>
+        <childnode refid="617" relation="include">
+        </childnode>
+      </node>
+      <node id="608">
+        <label>iostream</label>
+      </node>
+      <node id="606">
+        <label>deque</label>
+      </node>
+      <node id="631">
+        <label>thread</label>
+      </node>
+      <node id="622">
+        <label>triangle.h</label>
+        <link refid="triangle_8h_source"/>
+        <childnode refid="623" relation="include">
+        </childnode>
+        <childnode refid="621" relation="include">
+        </childnode>
+        <childnode refid="603" relation="include">
+        </childnode>
+        <childnode refid="604" relation="include">
+        </childnode>
+      </node>
+      <node id="611">
+        <label>trajectory.h</label>
+        <link refid="trajectory_8h_source"/>
+        <childnode refid="609" relation="include">
+        </childnode>
+        <childnode refid="608" relation="include">
+        </childnode>
+        <childnode refid="612" relation="include">
+        </childnode>
+        <childnode refid="613" relation="include">
+        </childnode>
+        <childnode refid="614" relation="include">
+        </childnode>
+        <childnode refid="615" relation="include">
+        </childnode>
+      </node>
+      <node id="600">
+        <label>src/parallelmcsimulation.h</label>
+        <link refid="parallelmcsimulation_8h"/>
+        <childnode refid="601" relation="include">
+        </childnode>
+        <childnode refid="631" relation="include">
+        </childnode>
+      </node>
+      <node id="612">
+        <label>stdio.h</label>
+      </node>
+      <node id="623">
+        <label>vertex.h</label>
+        <link refid="vertex_8h_source"/>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_parallel_m_c_simulation" prot="public">ParallelMCSimulation</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="7"><highlight class="preprocessor">#ifndef<sp/>PARALLELMCSIMULATION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>PARALLELMCSIMULATION_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;mcsimulation.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="class_parallel_m_c_simulation" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_parallel_m_c_simulation" kindref="compound">ParallelMCSimulation</ref></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="class_parallel_m_c_simulation_1a83f856aaa88a403c657c7b8234deee7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_parameters" kindref="compound">Parameters</ref><sp/><ref refid="class_parallel_m_c_simulation_1a83f856aaa88a403c657c7b8234deee7a" kindref="member">params</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="24" refid="class_parallel_m_c_simulation_1ad122df5454bb26a56e89c9077560a33d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_parallel_m_c_simulation_1ad122df5454bb26a56e89c9077560a33d" kindref="member">mean_second_passed</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25" refid="class_parallel_m_c_simulation_1a18326e05c32fac82264d7351d78a7433" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="class_parallel_m_c_simulation_1a18326e05c32fac82264d7351d78a7433" kindref="member">total_sim_particles</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="class_parallel_m_c_simulation_1a6ee1dfd6e695ec5ec7d4c2ed94f233cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="class_parallel_m_c_simulation_1a6ee1dfd6e695ec5ec7d4c2ed94f233cf" kindref="member">stuck_count</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="class_parallel_m_c_simulation_1ae667ec358689a3a7b42876b401a5fce5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/><ref refid="class_parallel_m_c_simulation_1ae667ec358689a3a7b42876b401a5fce5" kindref="member">illegal_count</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="class_parallel_m_c_simulation_1a871e3fdace01984a533792dd49bebd1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_parallel_m_c_simulation_1a871e3fdace01984a533792dd49bebd1b" kindref="member">icvf</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="class_parallel_m_c_simulation_1aa51edc0c79c6ae66ddd0046d21b871d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_parallel_m_c_simulation_1aa51edc0c79c6ae66ddd0046d21b871d4" kindref="member">aprox_volumen</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="class_parallel_m_c_simulation_1af16d292f007b8391122a035022422ed5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MCSimulation*&gt;<sp/><ref refid="class_parallel_m_c_simulation_1af16d292f007b8391122a035022422ed5" kindref="member">simulations</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="class_parallel_m_c_simulation_1a2a0f1cc2812c1a35e5e38d9d9ddde78b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/><ref refid="class_parallel_m_c_simulation_1a2a0f1cc2812c1a35e5e38d9d9ddde78b" kindref="member">sim_threads</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="class_parallel_m_c_simulation_1aa90f4d989bc868b6d225c0c5b9fe832a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector<sp/>&lt;PLYObstacle&gt;<sp/><ref refid="class_parallel_m_c_simulation_1aa90f4d989bc868b6d225c0c5b9fe832a" kindref="member">plyObstacles_list</ref>;<sp/></highlight></codeline>
+<codeline lineno="34" refid="class_parallel_m_c_simulation_1a4c36ff5327e9f19258fed5d64d48fdb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector<sp/>&lt;Cylinder&gt;<sp/><ref refid="class_parallel_m_c_simulation_1a4c36ff5327e9f19258fed5d64d48fdb8" kindref="member">cylinders_list</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="class_parallel_m_c_simulation_1a5efe5faa45e57e6ff3827e9ec9e52a64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Eigen::Vector3f&gt;<sp/><ref refid="class_parallel_m_c_simulation_1a5efe5faa45e57e6ff3827e9ec9e52a64" kindref="member">total_ini_walker_pos</ref>;<sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_parallel_m_c_simulation" kindref="compound">ParallelMCSimulation</ref>(std::string<sp/>config_file);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_parallel_m_c_simulation" kindref="compound">ParallelMCSimulation</ref>(<ref refid="class_parameters" kindref="compound">Parameters</ref><sp/>&amp;params);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_parallel_m_c_simulation" kindref="compound">ParallelMCSimulation</ref>(){}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="class_parallel_m_c_simulation" kindref="compound">ParallelMCSimulation</ref>();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_parallel_m_c_simulation_1a7d9420ac20b19cb1c74f81bdbad94196" kindref="member">startSimulation</ref>();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>getNumberOfProcessors();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initializeUnitSimulations();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>jointResults();</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>specialInitializations();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>addCylindersObstaclesFromFiles();</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>addCylindersConfigurations();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>PARALLELMCSIMULATION_H</highlight></codeline>
+    </programlisting>
+    <location file="src/parallelmcsimulation.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="class_cylinder_collision_sphere" kind="class" language="C++" prot="public">
+    <compoundname>CylinderCollisionSphere</compoundname>
+    <basecompoundref refid="class_collisionsphere" prot="public" virt="non-virtual">Collisionsphere</basecompoundref>
+    <includes refid="collisionsphere_8h" local="no">collisionsphere.h</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_cylinder_collision_sphere_1a89e3bdfa12042aa94c20949587c513d5" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned CylinderCollisionSphere::small_sphere_list_end</definition>
+        <argsstring></argsstring>
+        <name>small_sphere_list_end</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Index of the LAST element on the list for the small collision sphere </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="42" column="1" bodyfile="src/collisionsphere.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cylinder_collision_sphere_1a303b3843a9c8ab9ae3e6f4cce85ae8e0" prot="public" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned CylinderCollisionSphere::big_sphere_list_end</definition>
+        <argsstring></argsstring>
+        <name>big_sphere_list_end</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Index of the LAST element on the list for the big collision sphere </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="43" column="1" bodyfile="src/collisionsphere.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cylinder_collision_sphere_1a2c925c436410847d2f6079cd5331eada" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; unsigned &gt; *</type>
+        <definition>std::vector&lt;unsigned&gt;* CylinderCollisionSphere::collision_list</definition>
+        <argsstring></argsstring>
+        <name>collision_list</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="45" column="1" bodyfile="src/collisionsphere.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_cylinder_collision_sphere_1ac4f58e8792fdcdfe475b9556dc804553" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>CylinderCollisionSphere::CylinderCollisionSphere</definition>
+        <argsstring>()</argsstring>
+        <name>CylinderCollisionSphere</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>&lt;Pointer to List with the cylinders indexes. The indexes are permuted in its position. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="47" column="1" bodyfile="src/collisionsphere.cpp" bodystart="7" bodyend="9"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_collision_sphere_1ad4cfd86c6ab7035b9ba67277792c132f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void CylinderCollisionSphere::popFromSmallSphere</definition>
+        <argsstring>(unsigned i)</argsstring>
+        <name>popFromSmallSphere</name>
+        <param>
+          <type>unsigned</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+<para>This function receives a index from the collision list and moves the value to the last position of the list. then decrease the inner sphere end index. This way this index is no longer considered inner collision list. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="54" column="1" bodyfile="src/collisionsphere.cpp" bodystart="43" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_collision_sphere_1aa369aaa1ce839382c915ac4f32ac82ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void CylinderCollisionSphere::pushToSmallSphere</definition>
+        <argsstring>(unsigned i)</argsstring>
+        <name>pushToSmallSphere</name>
+        <param>
+          <type>unsigned</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+<para>This function receives a index from the collision list and moves the value to the last position of the list. then increase the inner sphere end index. This way this index is now included in the inner collision list. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="61" column="1" bodyfile="src/collisionsphere.cpp" bodystart="11" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_collision_sphere_1a06a8f75674ef0bcc44a820e948624f60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void CylinderCollisionSphere::popFromBigSphere</definition>
+        <argsstring>(unsigned i)</argsstring>
+        <name>popFromBigSphere</name>
+        <param>
+          <type>unsigned</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+<para>This function receives a index from the collision list and moves the value to the last position of the list. Then decrease the inner sphere end index. This way this index is now excluded in the outer collision list. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="68" column="1" bodyfile="src/collisionsphere.cpp" bodystart="56" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_collision_sphere_1a8742564f85c9fede195ee716a3b16042" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void CylinderCollisionSphere::pushToBigSphere</definition>
+        <argsstring>(unsigned i)</argsstring>
+        <name>pushToBigSphere</name>
+        <param>
+          <type>unsigned</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+<para>This function receives a index from the collision list and moves the value to the last position of the list. Then increase the inner sphere end index. This way this index is now included in the outer collision list. </para>        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="75" column="1" bodyfile="src/collisionsphere.cpp" bodystart="28" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_collision_sphere_1a3fe165c817a66074e737985efd87128b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void CylinderCollisionSphere::setBigSphereSize</definition>
+        <argsstring>(float size)</argsstring>
+        <name>setBigSphereSize</name>
+        <param>
+          <type>float</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>of the list </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="80" column="1" bodyfile="src/collisionsphere.cpp" bodystart="74" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_collision_sphere_1a6e7f5ff8f4e5c076edb5f1cbee433a34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void CylinderCollisionSphere::setSmallSphereSize</definition>
+        <argsstring>(float size)</argsstring>
+        <name>setSmallSphereSize</name>
+        <param>
+          <type>float</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>of the list </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="85" column="1" bodyfile="src/collisionsphere.cpp" bodystart="78" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cylinder_collision_sphere_1af2977e3da60e7a4c1e4ae4fccf03ed09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void CylinderCollisionSphere::push_index</definition>
+        <argsstring>(unsigned int element)</argsstring>
+        <name>push_index</name>
+        <param>
+          <type>unsigned int</type>
+          <declname>element</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>element</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>value to be added to the obstacle list </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/collisionsphere.h" line="90" column="1" bodyfile="src/collisionsphere.cpp" bodystart="82" bodyend="86"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Class to save the cylinderical obstacles that a can collide to a walker. </para>    </briefdescription>
+    <detaileddescription>
+<para>Class to save the PLY mehses and the subset of triangles that a can collide to a walker. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="13">
+        <label>Collisionsphere</label>
+        <link refid="class_collisionsphere"/>
+      </node>
+      <node id="12">
+        <label>CylinderCollisionSphere</label>
+        <link refid="class_cylinder_collision_sphere"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="15">
+        <label>Collisionsphere</label>
+        <link refid="class_collisionsphere"/>
+      </node>
+      <node id="14">
+        <label>CylinderCollisionSphere</label>
+        <link refid="class_cylinder_collision_sphere"/>
+        <childnode refid="15" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/collisionsphere.h" line="38" column="1" bodyfile="src/collisionsphere.h" bodystart="38" bodyend="92"/>
+    <listofallmembers>
+      <member refid="class_collisionsphere_1a4b791781efcb1af5198b22ea0b542cfb" prot="public" virt="non-virtual"><scope>CylinderCollisionSphere</scope><name>big_sphere_distance</name></member>
+      <member refid="class_cylinder_collision_sphere_1a303b3843a9c8ab9ae3e6f4cce85ae8e0" prot="public" virt="non-virtual"><scope>CylinderCollisionSphere</scope><name>big_sphere_list_end</name></member>
+      <member refid="class_cylinder_collision_sphere_1a2c925c436410847d2f6079cd5331eada" prot="public" virt="non-virtual"><scope>CylinderCollisionSphere</scope><name>collision_list</name></member>
+      <member refid="class_collisionsphere_1acd591f09debfac154b54e109967cd4f2" prot="public" virt="non-virtual"><scope>CylinderCollisionSphere</scope><name>Collisionsphere</name></member>
+      <member refid="class_cylinder_collision_sphere_1ac4f58e8792fdcdfe475b9556dc804553" prot="public" virt="non-virtual"><scope>CylinderCollisionSphere</scope><name>CylinderCollisionSphere</name></member>
+      <member refid="class_collisionsphere_1abf63a29c825cdd63ecb86d1dc430a0d4" prot="public" virt="non-virtual"><scope>CylinderCollisionSphere</scope><name>list_size</name></member>
+      <member refid="class_cylinder_collision_sphere_1a06a8f75674ef0bcc44a820e948624f60" prot="public" virt="non-virtual"><scope>CylinderCollisionSphere</scope><name>popFromBigSphere</name></member>
+      <member refid="class_cylinder_collision_sphere_1ad4cfd86c6ab7035b9ba67277792c132f" prot="public" virt="non-virtual"><scope>CylinderCollisionSphere</scope><name>popFromSmallSphere</name></member>
+      <member refid="class_cylinder_collision_sphere_1af2977e3da60e7a4c1e4ae4fccf03ed09" prot="public" virt="non-virtual"><scope>CylinderCollisionSphere</scope><name>push_index</name></member>
+      <member refid="class_cylinder_collision_sphere_1a8742564f85c9fede195ee716a3b16042" prot="public" virt="non-virtual"><scope>CylinderCollisionSphere</scope><name>pushToBigSphere</name></member>
+      <member refid="class_cylinder_collision_sphere_1aa369aaa1ce839382c915ac4f32ac82ca" prot="public" virt="non-virtual"><scope>CylinderCollisionSphere</scope><name>pushToSmallSphere</name></member>
+      <member refid="class_cylinder_collision_sphere_1a3fe165c817a66074e737985efd87128b" prot="public" virt="non-virtual"><scope>CylinderCollisionSphere</scope><name>setBigSphereSize</name></member>
+      <member refid="class_cylinder_collision_sphere_1a6e7f5ff8f4e5c076edb5f1cbee433a34" prot="public" virt="non-virtual"><scope>CylinderCollisionSphere</scope><name>setSmallSphereSize</name></member>
+      <member refid="class_collisionsphere_1ae5430c092ea0436edfe0adeb79402ff2" prot="public" virt="non-virtual"><scope>CylinderCollisionSphere</scope><name>small_sphere_distance</name></member>
+      <member refid="class_cylinder_collision_sphere_1a89e3bdfa12042aa94c20949587c513d5" prot="public" virt="non-virtual"><scope>CylinderCollisionSphere</scope><name>small_sphere_list_end</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

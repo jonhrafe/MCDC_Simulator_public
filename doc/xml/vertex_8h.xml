@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="vertex_8h" kind="file" language="C++">
+    <compoundname>vertex.h</compoundname>
+    <includedby refid="triangle_8h" local="yes">src/triangle.h</includedby>
+    <includedby refid="vertex_8cpp" local="yes">src/vertex.cpp</includedby>
+    <invincdepgraph>
+      <node id="970">
+        <label>src/dynamicsSimulation.h</label>
+        <link refid="dynamics_simulation_8h_source"/>
+        <childnode refid="971" relation="include">
+        </childnode>
+      </node>
+      <node id="971">
+        <label>src/mcsimulation.h</label>
+        <link refid="mcsimulation_8h_source"/>
+        <childnode refid="972" relation="include">
+        </childnode>
+      </node>
+      <node id="969">
+        <label>src/plyobstacle.h</label>
+        <link refid="plyobstacle_8h_source"/>
+        <childnode refid="970" relation="include">
+        </childnode>
+      </node>
+      <node id="968">
+        <label>src/triangle.h</label>
+        <link refid="triangle_8h_source"/>
+        <childnode refid="969" relation="include">
+        </childnode>
+      </node>
+      <node id="972">
+        <label>src/parallelmcsimulation.h</label>
+        <link refid="parallelmcsimulation_8h_source"/>
+      </node>
+      <node id="967">
+        <label>src/vertex.h</label>
+        <link refid="vertex_8h"/>
+        <childnode refid="968" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_vertex" prot="public">Vertex</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="9"><highlight class="preprocessor">#ifndef<sp/>VERTEX_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>VERTEX_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15" refid="class_vertex" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_vertex" kindref="compound">Vertex</ref>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_vertex" kindref="compound">Vertex</ref>();</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_vertex" kindref="compound">Vertex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>x,</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>y,</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>z);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>index;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/>points[3];</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>operator<sp/>()(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>i){<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>points[i];}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>VERTEX_H</highlight></codeline>
+    </programlisting>
+    <location file="src/vertex.h"/>
+  </compounddef>
+</doxygen>

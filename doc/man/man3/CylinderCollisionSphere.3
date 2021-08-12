@@ -1,0 +1,106 @@
+.TH "CylinderCollisionSphere" 3 "Sun May 9 2021" "Version 1.42.14_wf" "MCDC_simulator" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+CylinderCollisionSphere \- Class to save the cylinderical obstacles that a can collide to a walker\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <collisionsphere\&.h>\fP
+.PP
+Inherits \fBCollisionsphere\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCylinderCollisionSphere\fP ()"
+.br
+.ti -1c
+.RI "void \fBpopFromSmallSphere\fP (unsigned i)"
+.br
+.RI "This function receives a index from the collision list and moves the value to the last position of the list\&. then decrease the inner sphere end index\&. This way this index is no longer considered inner collision list\&. "
+.ti -1c
+.RI "void \fBpushToSmallSphere\fP (unsigned i)"
+.br
+.RI "This function receives a index from the collision list and moves the value to the last position of the list\&. then increase the inner sphere end index\&. This way this index is now included in the inner collision list\&. "
+.ti -1c
+.RI "void \fBpopFromBigSphere\fP (unsigned i)"
+.br
+.RI "This function receives a index from the collision list and moves the value to the last position of the list\&. Then decrease the inner sphere end index\&. This way this index is now excluded in the outer collision list\&. "
+.ti -1c
+.RI "void \fBpushToBigSphere\fP (unsigned i)"
+.br
+.RI "This function receives a index from the collision list and moves the value to the last position of the list\&. Then increase the inner sphere end index\&. This way this index is now included in the outer collision list\&. "
+.ti -1c
+.RI "void \fBsetBigSphereSize\fP (float size)"
+.br
+.ti -1c
+.RI "void \fBsetSmallSphereSize\fP (float size)"
+.br
+.ti -1c
+.RI "void \fBpush_index\fP (unsigned int element)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "unsigned \fBsmall_sphere_list_end\fP"
+.br
+.ti -1c
+.RI "unsigned \fBbig_sphere_list_end\fP"
+.br
+.ti -1c
+.RI "std::vector< unsigned > * \fBcollision_list\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Class to save the cylinderical obstacles that a can collide to a walker\&. 
+
+Class to save the PLY mehses and the subset of triangles that a can collide to a walker\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "CylinderCollisionSphere::CylinderCollisionSphere ()"
+<Pointer to List with the cylinders indexes\&. The indexes are permuted in its position\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void CylinderCollisionSphere::push_index (unsigned int element)"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIelement\fP value to be added to the obstacle list 
+.RE
+.PP
+
+.SS "void CylinderCollisionSphere::setBigSphereSize (float size)"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsize\fP of the list 
+.RE
+.PP
+
+.SS "void CylinderCollisionSphere::setSmallSphereSize (float size)"
+
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsize\fP of the list 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "unsigned CylinderCollisionSphere::big_sphere_list_end"
+Index of the LAST element on the list for the big collision sphere 
+.SS "unsigned CylinderCollisionSphere::small_sphere_list_end"
+Index of the LAST element on the list for the small collision sphere 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for MCDC_simulator from the source code\&.

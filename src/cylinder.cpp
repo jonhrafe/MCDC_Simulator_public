@@ -13,7 +13,7 @@ Cylinder::Cylinder()
 
 Cylinder::~Cylinder()
 {
-    id = count--;
+    count--;
 }
 
 Cylinder::Cylinder(const Cylinder &cyl)

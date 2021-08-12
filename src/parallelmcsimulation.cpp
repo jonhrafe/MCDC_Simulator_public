@@ -4,7 +4,7 @@
 #include "constants.h"
 #include "simerrno.h"
 #include "cylindergammadistribution.h"
-
+#include "spheregammadistribution.h"
 
 //* Auxiliare method to split words in a line using the spaces*//
 template<typename Out>
@@ -43,7 +43,6 @@ ParallelMCSimulation::ParallelMCSimulation(std::string config_file)
     initializeUnitSimulations();
 
     SimErrno::printSimulatinInfo(params,std::cout);
-
 
 }
 
@@ -144,9 +143,10 @@ void ParallelMCSimulation::startSimulation()
     }
 
 
-    if(params.hex_packing == true){
+    if(params.hex_cyl_packing == true){
         SimErrno::info("Hex. packing radius: "+ to_string( params.hex_packing_radius)    ,out,false);
         SimErrno::info("Hex. packing separation: " +  to_string( params.hex_packing_separation) ,out,false);
+        SimErrno::info("Hex. packing ICVF: " +  to_string( params.hex_packing_icvf) ,out,false);
     }
     out.close();
 }
@@ -174,6 +174,7 @@ void ParallelMCSimulation::initializeUnitSimulations()
         MCSimulation* simulation_ = new MCSimulation(params_temp);
         simulation_->plyObstacles_list = &this->plyObstacles_list;
         simulation_->cylinders_list = &this->cylinders_list;
+        simulation_->sphere_list = &this->spheres_list;
         simulation_->dynamicsEngine->print_expected_time = 0;
         simulations.push_back(simulation_);
 
@@ -193,6 +194,7 @@ void ParallelMCSimulation::initializeUnitSimulations()
     //simulation_->dynamicsEngine->print_expected_time = 0;
     simulation_->plyObstacles_list = &this->plyObstacles_list;
     simulation_->cylinders_list = &this->cylinders_list;
+    simulation_->sphere_list    = &this->spheres_list;
     simulations.push_back(simulation_);
 
     if(params.verbatim)
@@ -378,42 +380,24 @@ void ParallelMCSimulation::jointResults()
     for(unsigned i = 0 ; i < simulations.size();i++){
         stuck_count   += simulations[i]->dynamicsEngine->sentinela.stuck_count;
         illegal_count += simulations[i]->dynamicsEngine->sentinela.illegal_count;
-        icvf+= simulations[i]->dynamicsEngine->num_simulated_walkers*simulations[i]->dynamicsEngine->icvf;
+        icvf+=           simulations[i]->dynamicsEngine->num_simulated_walkers*simulations[i]->dynamicsEngine->icvf;
     }
 
-    //icvf= float(this->total_sim_particles)/float(this->total_ini_walker_pos.size());
+    icvf/= float(this->total_sim_particles);
 
+    if(params.custom_sampling_area == false and params.voxels_list.size()>0){
+        for(auto i = 0; i<3;i++){
+           params.min_sampling_area[i]= params.voxels_list[0].first[i];
+           params.max_sampling_area[i]= params.voxels_list[0].second[i];
+        }
+    }
 
-    //cout << icvf << " ICVF "<< endl;
+    float sampling_volume =1;
 
+    for (auto i =0; i < 3;i++ ){
+        sampling_volume*= (params.max_sampling_area[i]-params.min_sampling_area[i]);
+    }
 
-//    if(params.custom_sampling_area == false and params.voxels_list.size()>0){
-//        for(auto i = 0; i<3;i++){
-//           params.min_sampling_area[i]= params.voxels_list[0].first[i];
-//           params.max_sampling_area[i]= params.voxels_list[0].second[i];
-//        }
-//    }
-
-    float sampling_volume =0;
-
-//    for (auto i =0; i < 3;i++ ){
-//        sampling_area*= (params.max_sampling_area[i]-params.min_sampling_area[i]);
-//    }
-
-//    if(params.subdivision_mask.size() >0){
-//        for (unsigned i = 0 ; i < params.subdivision_mask.size(); i++){
-//            if(params.subdivision_mask[i]){
-//                Eigen::Vector3f center,min_limit = params.subdivisions[i].min_limits,max_limit = params.subdivisions[i].max_limits;
-//                float subdiv_volume = 1;
-//                for (auto j = 0 ; j < 3; j++)
-//                    subdiv_volume *= ( params.subdivisions[i].max_limits,max_limit[j] - params.subdivisions[i].min_limits[j]);
-
-//                sampling_volume+=subdiv_volume;
-//            }
-//        }
-//    }
-
-    //cout << sampling_volume << endl;
 
     aprox_volumen = (icvf)*sampling_volume;
 
@@ -643,8 +627,8 @@ void ParallelMCSimulation::jointResults()
 
 void ParallelMCSimulation::specialInitializations()
 {
-    addCylindersConfigurations();
-    addCylindersObstaclesFromFiles();
+    addObstacleConfigurations();
+    addObstaclesFromFiles();
 
     if(params.number_subdivisions>1){
         params.addSubdivisions();
@@ -661,7 +645,7 @@ void ParallelMCSimulation::specialInitializations()
 }
 
 
-void ParallelMCSimulation::addCylindersObstaclesFromFiles()
+void ParallelMCSimulation::addObstaclesFromFiles()
 {
     for(unsigned i = 0; i < params.cylinders_files.size(); i++){
 
@@ -710,12 +694,39 @@ void ParallelMCSimulation::addCylindersObstaclesFromFiles()
             in.close();
         }
     }
+
+    for(unsigned i = 0; i < params.spheres_files.size(); i++){
+        std::ifstream in(params.spheres_files[i]);
+        if(!in){
+            return;
+        }
+
+        bool first=true;
+        for( std::string line; getline( in, line ); )
+        {
+            if(first) {first-=1;continue;}
+            break;
+        }
+        in.close();
+
+        in.open(params.spheres_files[i]);
+        double x,y,z,r;
+        double scale;
+        in >> scale;
+
+        while (in >> x >> y >> z >> r)
+        {
+            spheres_list.push_back(Sphere(Eigen::Vector3d(x,y,z),r,scale));
+        }
+        in.close();
+    }
 }
 
-void ParallelMCSimulation::addCylindersConfigurations()
+void ParallelMCSimulation::addObstacleConfigurations()
 {
 
-    if(params.hex_packing){
+    if(params.hex_cyl_packing){
+
         double rad = params.hex_packing_radius,sep = params.hex_packing_separation;
 
         // h = sqrt(3)/2 * sep
@@ -738,19 +749,55 @@ void ParallelMCSimulation::addCylindersConfigurations()
 
         pair<Eigen::Vector3d,Eigen::Vector3d> voxel_(Eigen::Vector3d(0,0,0),Eigen::Vector3d(sep,2.0*h,2.0*h));
         params.voxels_list.push_back(voxel_);
+    }
+
+    if(params.hex_sphere_packing){
+
+         double rad = params.hex_packing_radius,sep = params.hex_packing_separation;
+         double h = sqrt(3.)/2.0*sep;
+         //double h = 0.866025404*sep;
+
+        // // [0.0, 0.0, 0.0, 1.0],[s, 0.0, 0.0, 1.0],
+         spheres_list.push_back(Sphere(Eigen::Vector3d(0.0, 0.0, 0.0),rad));
+         spheres_list.push_back(Sphere(Eigen::Vector3d(sep, 0.0, 0.0),rad));
+
+        // // [s/2.0, h, 0.0, 1.0],
+         spheres_list.push_back(Sphere(Eigen::Vector3d(sep/2.0, h, 0.0),rad));
+
+        // // [0.0, 2*h, 0.0, 1.0],[s, 2*h, 0.0, 1.0],
+         spheres_list.push_back(Sphere(Eigen::Vector3d(0.0, 2.*h, 0.0),rad));
+         spheres_list.push_back(Sphere(Eigen::Vector3d(sep, 2.*h, 0.0),rad));
+
+        // // [0.0, h, h, 1.0],[s, h, h, 1.0],
+        spheres_list.push_back(Sphere(Eigen::Vector3d(0.0, h, h),rad));
+        spheres_list.push_back(Sphere(Eigen::Vector3d(sep, h, h),rad));
+
+        // // [s/2, 0, h, 1.0],[s/2, 2*h, h, 1.0],
+        spheres_list.push_back(Sphere(Eigen::Vector3d(sep/2., 0.0, h),rad));
+        spheres_list.push_back(Sphere(Eigen::Vector3d(sep/2., 2.0*h, h),rad));
+
+        // // [0.0, h, -h, 1.0],[s, h, -h, 1.0],
+        spheres_list.push_back(Sphere(Eigen::Vector3d(0.0, h, -h),rad));
+        spheres_list.push_back(Sphere(Eigen::Vector3d(sep,h,-h),rad));
+
+        // // [s/2, 0, -h, 1.0],[s/2, 2*h, -h, 1.0],
+        spheres_list.push_back(Sphere(Eigen::Vector3d(sep/2.0 ,0.0 ,-h),rad));
+        spheres_list.push_back(Sphere(Eigen::Vector3d(sep/2.0,2.0*h,-h),rad));
+
+        pair<Eigen::Vector3d,Eigen::Vector3d> voxel_(Eigen::Vector3d(0,0,-h),Eigen::Vector3d(sep,2.0*h,h));
+        params.voxels_list.push_back(voxel_);
 
     }
 
 
-    if(params.gamma_packing == true){
+    if(params.gamma_cyl_packing == true){
 
         string message = "Initialializing Gamma distribution (" + std::to_string(params.gamma_packing_alpha) + ","
                 + std::to_string(params.gamma_packing_beta) + ").\n";
         SimErrno::info(message,cout);
 
-
-        CylinderGammaDistribution gamma_dist(params.gamma_num_cylinders,params.gamma_packing_alpha, params.gamma_packing_beta,params.gamma_icvf
-                                             ,params.min_limits, params.max_limits,params.min_cyl_radii);
+        CylinderGammaDistribution gamma_dist(params.gamma_num_obstacles,params.gamma_packing_alpha, params.gamma_packing_beta,params.gamma_icvf
+                                             ,params.min_limits, params.max_limits,params.min_obstacle_radii);
 
         gamma_dist.displayGammaDistribution();
 
@@ -776,9 +823,51 @@ void ParallelMCSimulation::addCylindersConfigurations()
 
         this->cylinders_list = gamma_dist.cylinders;
 
-        params.cylinders_files.push_back(file);
+        //params.cylinders_files.push_back(file);
+
+        out.close();
 
         SimErrno::info("Done.\n",cout);
     }
+
+
+    if(params.gamma_sph_packing == true){
+
+        string message = "Initialializing Gamma distribution (" + std::to_string(params.gamma_packing_alpha) + ","
+                + std::to_string(params.gamma_packing_beta) + ").\n";
+        SimErrno::info(message,cout);
+
+        SphereGammaDistribution gamma_dist(params.gamma_num_obstacles,params.gamma_packing_alpha, params.gamma_packing_beta,params.gamma_icvf
+                                             ,params.min_limits, params.max_limits,params.min_obstacle_radii);
+
+        gamma_dist.displayGammaDistribution();
+
+        gamma_dist.createGammaSubstrate();
+
+        params.max_limits = gamma_dist.max_limits;
+        params.min_limits = gamma_dist.min_limits;
+
+        if(params.voxels_list.size()<=0){
+            pair<Eigen::Vector3d,Eigen::Vector3d> voxel_(params.min_limits,params.max_limits);
+            params.voxels_list.push_back(voxel_);
+        }
+        else{
+            params.voxels_list[0].first =  params.min_limits;
+            params.voxels_list[0].second = params.max_limits;
+        }
+
+        string file = params.output_base_name + "_gamma_distributed_sphere_list.txt";
+
+        ofstream out(file);
+
+        gamma_dist.printSubstrate(out);
+
+        this->spheres_list = gamma_dist.spheres;
+
+        //params.cylinders_files.push_back(file);
+        out.close();
+        SimErrno::info("Done.\n",cout);
+    }
+
 
 }

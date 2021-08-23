@@ -32,6 +32,7 @@ public:
 
     collision_type type;                /*!< Saves the type of collsion (if any)                    */
     collision_location col_location;    /*!< Save the colocation of the collision over the object   */
+    bool col_percolation;               /*!< Boolean variable that stores whether the walker is percolating through the obstacle*/
     Eigen::Vector3d colision_point;     /*!< Saves the position of colision*/
     Eigen::Vector3d bounced_direction;  /*!< Save the bounced direction for a given obstacle        */
 

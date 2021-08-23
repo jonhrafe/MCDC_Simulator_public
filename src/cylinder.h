@@ -58,10 +58,12 @@ public:
      *  \param 3d step. Is assumed to be normalized.
      *  \param step_length, length used as the maximum step collision distance.
      *  \param collision, Collision instance to save the collision (if any) details.
+     *  \param D_in diffusivity in the intracellular region.
+     *  \param D_ex diffusivity in the extracellular region.
      *  \return true only if there was a Collision::hit status. \see Collision.
      *  \brief Basic collision function. Returns the if there was any collision on against the obstacle.
      */
-    bool checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision);
+    bool checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision, double &D_in, double &D_ex);
 
     /*! \fn  minDistance
      *  \param walker, Walker instance in the simulation.
@@ -78,7 +80,7 @@ private:
      *  \param step, step vector where to move.
      *  \brief Returns true if it was any analytical collision to the infinite plane
      */
-    inline bool handleCollition(Walker& walker, Collision &colision, Eigen::Vector3d& step,double& a,double& b, double& c,double& discr,double& step_length);
+    inline bool handleCollition(Walker& walker, Collision &colision, Eigen::Vector3d& step,double& a,double& b, double& c,double& discr,double& step_length, double &D_in, double &D_ex);
 
 };
 

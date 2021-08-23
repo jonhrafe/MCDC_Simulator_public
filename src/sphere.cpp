@@ -14,7 +14,7 @@ Sphere::Sphere(const Sphere &sph)
     id = count++;
 }
 
-bool Sphere::checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision)
+bool Sphere::checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision, double &D_in, double &D_ex)
 {
 
     //Origin of the ray
@@ -50,12 +50,12 @@ bool Sphere::checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_
     }
 
     //if we arrived here we need to compute the quadratic equation.
-    return handleCollition(walker,colision,step,a,b,c,discr,step_lenght);
+    return handleCollition(walker,colision,step,a,b,c,discr,step_lenght,D_in,D_ex);
 
 }
 
 
-inline bool Sphere::handleCollition(Walker& walker, Collision &colision, Vector3d& step,double& a,double& b, double& c,double& discr,double& step_length){
+inline bool Sphere::handleCollition(Walker& walker, Collision &colision, Vector3d& step,double& a,double& b, double& c,double& discr,double& step_length, double& D_in, double& D_ex){
 
     double t1 = (-b - sqrt(discr))/a;
 
@@ -71,14 +71,14 @@ inline bool Sphere::handleCollition(Walker& walker, Collision &colision, Vector3
 
     //WARNING: Cuidar este patch
     // Implementa Percolacion
-    if(percolation>0.0){
+    /*if(percolation>0.0){
         double _percolation_ (double(rand())/RAND_MAX);
 
         if( percolation - _percolation_ > EPS_VAL ){
             count_perc_crossings++;
             return false;
         }
-    }
+    }*/
 
     // a spin that's bouncing ignores collision at 0 (is in a wall)
     if(walker.status == Walker::bouncing){
@@ -124,7 +124,25 @@ inline bool Sphere::handleCollition(Walker& walker, Collision &colision, Vector3
     elasticBounceAgainsPlane(walker.pos_v,normal,colision.t,temp_step);
 
     colision.bounced_direction = temp_step.normalized();
-
+    double percolation_in_ex= percolation;
+    double percolation_ex_in= sqrt(D_in/D_ex)*percolation_in_ex;
+    if(percolation_in_ex>0.0){
+      double _percolation_((double)rand()/RAND_MAX);
+      if( colision.col_location == Collision::inside){
+        if( percolation_in_ex - _percolation_ > EPS_VAL ){
+          count_perc_crossings++;
+          colision.col_percolation=true;
+          colision.bounced_direction=step;
+        }
+    }
+    if( colision.col_location == Collision::outside){
+      if( percolation_ex_in - _percolation_ > EPS_VAL ){
+          count_perc_crossings++;
+          colision.col_percolation=true;
+          colision.bounced_direction=step;
+        }
+    }
+  }
     return true;
 
 }

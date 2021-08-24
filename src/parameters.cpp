@@ -20,6 +20,11 @@ Parameters::Parameters()
     hex_packing_radius      = 0;
     hex_packing_separation  = 0;
 
+    fcc_sphere_packing = false;
+    fcc_packing_radius = 0.0;
+    fcc_packing_separation = 0;
+    fcc_packing_icvf = 0.0;
+
     gamma_cyl_packing = false;
     gamma_sph_packing = false;
     gamma_packing_alpha = 0;
@@ -40,7 +45,6 @@ Parameters::Parameters()
     custom_sampling_area = false;
     separate_signals = false;
     img_signal = false;
-    hex_sphere_packing = false;
 
     for (auto i= 0;i<3; i++)
         min_sampling_area[i] = max_sampling_area[i] = 0.0;

@@ -25,8 +25,10 @@ public:
 
     unsigned num_walkers;                           /*!< N, number of walkers                                                       */
     unsigned num_steps;                             /*!< T, number of steps                                                         */
-    double diffusivity_in;                          /*!< D_in, diffusivity constant                                                 */
-    double diffusivity_ex;                          /*!< D_ex, diffusivity constant                                                 */
+    // default value is set to -1, as it is later used to distinguish between single diffusion and multiple diffusion cases
+    double diffusivity=-1.0;                        /*!< D, diffusivity constant                                                    */
+    double diffusivity_in=-1.0;                     /*!< D_in, diffusivity constant                                                 */
+    double diffusivity_ex=-1.0;                     /*!< D_ex, diffusivity constant                                                 */
     double sim_duration;                            /*!< simulation total time                                                      */
     bool write_traj;                                /*!< flag, write a traj file or not, binary format only                         */
     bool write_txt;                                 /*!< flag, writes DWI output signals in .txt if True                            */
@@ -71,6 +73,7 @@ public:
     double fcc_packing_radius;                      /*!< float, constant radius for the cylinders                                   */
     double fcc_packing_separation;                  /*!< float, separation distance betwen cylinders (separation > 2*radius)        */
     double fcc_packing_icvf;                        /*!< float, ICVF computed or passed as parameter                                */
+    std::string fcc_vertices_path;                  /*!< path to text file containing position of fcc vertices                      */
     bool        gamma_cyl_packing;                  /*!< flag, true if a gamma distribution of cylinders will be initialized        */
     bool        gamma_sph_packing;                  /*!< flag, true if a gamma distribution of  SPHERES will be initialized         */
     bool        gamma_output_conf;
@@ -137,6 +140,12 @@ public:
     */
     void setNumSteps(unsigned T);
 
+    /*! \fn  setDiffusivity
+     *  \param Diff diffusivity value.
+     *  \brief set the simulation diffusivity.
+    */
+    void setDiffusivity(double Diff);
+
     /*! \fn  setDiffusivity_in
      *  \param Diff diffusivity value.
      *  \brief set the simulation diffusivity in the intracellular region.
@@ -148,6 +157,7 @@ public:
      *  \brief set the simulation diffusivity in the extracellular region.
     */
     void setDiffusivity_ex(double Diff);
+
     /*! \fn setSimDuration
      *  \param duration simulation duration.
      *  \brief sets the simulation duration.
@@ -215,15 +225,20 @@ public:
     unsigned getNumSteps();
 
     /*! \fn getDiffusivity
+     *  \return Diffusivity
+    */
+    double getDiffusivity();
+
+
+    /*! \fn getDiffusivity_in
      *  \return Diffusivity_in
     */
     double getDiffusivity_in();
 
-    /*! \fn getDiffusivity
+    /*! \fn getDiffusivity_ex
      *  \return Diffusivity_ex
     */
     double getDiffusivity_ex();
-
     /*! \fn getWriteTrajFlag
      *  \return flag of the  binary traj file writer
     */
@@ -285,6 +300,12 @@ private:
     */
     void readVoxels(std::ifstream& in);
 
+    /*! \fn readFCCParams
+     *  \param file input iostreams
+     *  \brief reads the parameters needed to define an fcc packing of spheres
+    */
+    void readFCCParams(std::ifstream& in);
+
     /*! \fn r readInfoGatheringParam
      *  \param file input iostreams
      *  \brief reads the the list of times and positions to be recorded and written
@@ -297,12 +318,6 @@ private:
      *  \brief reads the parameters needed to define an hexagonal packing of cylinders
     */
     void readHexagonalParams(std::ifstream& in);
-
-    /*! \fn readFCCParams
-     *  \param file input iostreams
-     *  \brief reads the parameters needed to define an fcc packing of spheres
-    */
-    void readFCCParams(std::ifstream& in);
 
     /*! \fn readGammaParams
      *  \param file input iostreams

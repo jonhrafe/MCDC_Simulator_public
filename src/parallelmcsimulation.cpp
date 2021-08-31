@@ -757,6 +757,7 @@ void ParallelMCSimulation::addObstacleConfigurations()
     }
 
     if(params.hex_sphere_packing){
+
          double rad = params.hex_packing_radius,sep = params.hex_packing_separation;
          double h = sqrt(3.)/2.0*sep;
          //double h = 0.866025404*sep;
@@ -795,7 +796,9 @@ void ParallelMCSimulation::addObstacleConfigurations()
 
     if(params.fcc_sphere_packing == true){
         double rad = params.fcc_packing_radius,sep = params.fcc_packing_separation;
-        ifstream myFileStream_("/home/rochi/work/monteCarloSolver/MCDC_Simulator_public-beta_branch_validated_fcc_packingg_of_permeable_spheres/pts.txt");
+        ifstream myFileStream_(params.fcc_vertices_path);
+        cout << params.fcc_vertices_path;
+        //ifstream myFileStream_("/home/rochi/work/monteCarloSolver/MCDC_Simulator_public-beta_branch_validated_fcc_packingg_of_permeable_spheres/pts.txt");
         if(!myFileStream_.is_open()){
           cout<<"File failed to open";
         }
@@ -830,6 +833,7 @@ void ParallelMCSimulation::addObstacleConfigurations()
         pair<Eigen::Vector3d,Eigen::Vector3d> voxel_(Eigen::Vector3d(0,0,0),Eigen::Vector3d(10*sep,10*sep,10*sep));
         params.voxels_list.push_back(voxel_);
     }
+
     if(params.gamma_cyl_packing == true){
 
         string message = "Initialializing Gamma distribution (" + std::to_string(params.gamma_packing_alpha) + ","

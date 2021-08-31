@@ -3,6 +3,7 @@
 #include <iostream>
 #include "constants.h"
 #include "simerrno.h"
+
 using namespace std;
 
 Parameters::Parameters()
@@ -76,6 +77,9 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         }
         else if(str_dist(tmp,"scheme_file") <= 1){
             in >> scheme_file;
+        }
+        else if(str_dist(tmp,"diffusivity") <= 1){
+            in >> diffusivity;
         }
         else if(str_dist(tmp,"diffusivity_in") <= 1){
             in >> diffusivity_in;
@@ -217,6 +221,7 @@ void Parameters::readSchemeFile(std::string conf_file_path)
 
     if(scale_from_stu){
         //m^2/s to mm^2/ms
+        diffusivity*=m2_to_mm2/s_to_ms;
         diffusivity_in*=m2_to_mm2/s_to_ms;
         diffusivity_ex*=m2_to_mm2/s_to_ms;
         //seconds to ms
@@ -240,6 +245,11 @@ void Parameters::setNumWalkers(unsigned N)
 void Parameters::setNumSteps(unsigned T)
 {
     num_steps = T;
+}
+
+void Parameters::setDiffusivity(double D)
+{
+    diffusivity = D;
 }
 
 void Parameters::setDiffusivity_in(double D)
@@ -309,6 +319,11 @@ unsigned Parameters::getNumWalkers()
 unsigned Parameters::getNumSteps()
 {
     return num_steps;
+}
+
+double Parameters::getDiffusivity()
+{
+    return diffusivity;
 }
 
 double Parameters::getDiffusivity_in()
@@ -606,6 +621,7 @@ void Parameters::readHexagonalParams(ifstream &in)
     }
 }
 
+
 void Parameters::readFCCParams(ifstream &in)
 {
     string tmp="";
@@ -624,6 +640,10 @@ void Parameters::readFCCParams(ifstream &in)
 
         if(str_dist(tmp,"icvf") <= 1){
             in >> fcc_packing_icvf;
+        }
+
+        if(str_dist(tmp,"path") <= 1){
+            in >> fcc_vertices_path;
         }
 
         if(str_dist(tmp,"</sphere_fcc_packing>") == 0){

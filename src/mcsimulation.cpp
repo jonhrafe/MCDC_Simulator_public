@@ -111,7 +111,12 @@ double MCSimulation::getExpectedFreeeDecay(unsigned i)
 {
     if(dataSynth){
         double b = dataSynth->getbValue(i);
-        return exp(-b*params.diffusivity_in);
+        if(params.diffusivity_ex>0.0){
+            return exp(-b*params.diffusivity_ex);
+        }
+        else{
+            return exp(-b*params.diffusivity);
+        }
     }
 
     return -1;

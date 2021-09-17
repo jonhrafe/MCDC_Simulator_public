@@ -3,6 +3,7 @@
 #include <iostream>
 #include "constants.h"
 #include "simerrno.h"
+
 using namespace std;
 
 Parameters::Parameters()
@@ -19,6 +20,11 @@ Parameters::Parameters()
     hex_sphere_packing = false;
     hex_packing_radius      = 0;
     hex_packing_separation  = 0;
+
+    fcc_sphere_packing = false;
+    fcc_packing_radius = 0.0;
+    fcc_packing_separation = 0;
+    fcc_packing_icvf = 0.0;
 
     gamma_cyl_packing = false;
     gamma_sph_packing = false;
@@ -40,7 +46,6 @@ Parameters::Parameters()
     custom_sampling_area = false;
     separate_signals = false;
     img_signal = false;
-    hex_sphere_packing = false;
 
     for (auto i= 0;i<3; i++)
         min_sampling_area[i] = max_sampling_area[i] = 0.0;
@@ -75,6 +80,12 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         }
         else if(str_dist(tmp,"diffusivity") <= 1){
             in >> diffusivity;
+        }
+        else if(str_dist(tmp,"diffusivity_in") <= 1){
+            in >> diffusivity_in;
+        }
+        else if(str_dist(tmp,"diffusivity_ex") <= 1){
+            in >> diffusivity_ex;
         }
         else if( (str_dist(tmp,"out_traj_file_index") <= 2) or (str_dist(tmp,"exp_prefix") <= 2)) {
             in >> traj_file;
@@ -211,6 +222,8 @@ void Parameters::readSchemeFile(std::string conf_file_path)
     if(scale_from_stu){
         //m^2/s to mm^2/ms
         diffusivity*=m2_to_mm2/s_to_ms;
+        diffusivity_in*=m2_to_mm2/s_to_ms;
+        diffusivity_ex*=m2_to_mm2/s_to_ms;
         //seconds to ms
         sim_duration*=s_to_ms;
     }
@@ -237,6 +250,16 @@ void Parameters::setNumSteps(unsigned T)
 void Parameters::setDiffusivity(double D)
 {
     diffusivity = D;
+}
+
+void Parameters::setDiffusivity_in(double D)
+{
+    diffusivity_in = D;
+}
+
+void Parameters::setDiffusivity_ex(double D)
+{
+    diffusivity_ex = D;
 }
 
 void Parameters::setSimDuration(double duration)
@@ -301,6 +324,16 @@ unsigned Parameters::getNumSteps()
 double Parameters::getDiffusivity()
 {
     return diffusivity;
+}
+
+double Parameters::getDiffusivity_in()
+{
+    return diffusivity_in;
+}
+
+double Parameters::getDiffusivity_ex()
+{
+    return diffusivity_ex;
 }
 
 bool Parameters::getWriteTrajFlag()
@@ -403,6 +436,11 @@ void Parameters::readObstacles(ifstream& in)
         if(str_dist(tmp,"<sphere_hex_packing>") <=1){
             this->hex_sphere_packing = true;
             readHexagonalParams(in);
+            num_obstacles++;
+        }
+        if(str_dist(tmp,"<sphere_fcc_packing>") <=1){
+            this->fcc_sphere_packing = true;
+            readFCCParams(in);
             num_obstacles++;
         }
         if(str_dist(tmp,"<cylinder_gamma_packing>") <=1){
@@ -583,6 +621,36 @@ void Parameters::readHexagonalParams(ifstream &in)
     }
 }
 
+
+void Parameters::readFCCParams(ifstream &in)
+{
+    string tmp="";
+
+    while(true)
+    {
+        in >> tmp;
+        std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
+
+        if(str_dist(tmp,"radius") <= 1){
+            in >> fcc_packing_radius;
+        }
+        if(str_dist(tmp,"separation") <= 1){
+            in >> fcc_packing_separation;
+        }
+
+        if(str_dist(tmp,"icvf") <= 1){
+            in >> fcc_packing_icvf;
+        }
+
+        if(str_dist(tmp,"path") <= 1){
+            in >> fcc_vertices_path;
+        }
+
+        if(str_dist(tmp,"</sphere_fcc_packing>") == 0){
+            break;
+        }
+    }
+}
 
 void Parameters::readGammaParams(ifstream &in)
 {

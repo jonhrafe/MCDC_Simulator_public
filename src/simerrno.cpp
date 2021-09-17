@@ -56,7 +56,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
         return true;
     }
 
-    if(params.diffusivity <= 0.0){
+    if(params.diffusivity <= 0.0 and params.diffusivity_in <=0.0 and params.diffusivity_ex<=0.0){
         error( " Paticle diffusivity wrongly initialized.",cout);
         assert(0);
         return true;
@@ -172,6 +172,43 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 
     }
 
+    if(params.fcc_sphere_packing == true){
+
+        if(params.fcc_packing_radius<= 0){
+            error( "Spheres' radius incoherent: " + to_string(params.fcc_packing_radius) ,cout);
+            assert(0);
+            return true;
+        }
+
+        if(params.fcc_packing_icvf > 0.75){
+            error( "Max achievable ICVF is 0.7404 ",cout);
+            assert(0);
+            return true;
+        }
+
+        if(params.fcc_packing_icvf <= 0.0){
+            error( "ICVF must be greater than 0.0 ",cout);
+            assert(0);
+            return true;
+        }else{
+            params.fcc_packing_separation = pow((4.*4.*M_PI*params.fcc_packing_radius*params.fcc_packing_radius*params.fcc_packing_radius)/(3*params.fcc_packing_icvf),1./3.);
+        }
+
+        if(params.fcc_packing_separation - 2.0*params.fcc_packing_radius < 0.0){
+            error( "FCC flag "+ to_string(params.fcc_sphere_packing) , cout);
+            error( "Hex sphere flag "+ to_string(params.hex_sphere_packing) , cout);
+            error( "Hex cylinder flag "+ to_string(params.hex_cyl_packing) , cout);
+            error( "FCC packing radius: " + to_string(params.fcc_packing_radius) ,cout);
+            error( "Sphere separation can't be less that twice the radius (or epsilon close): " + to_string(params.fcc_packing_separation),cout);
+            assert(0);
+            return true;
+        }
+
+        if(params.fcc_packing_separation - 2.0*params.fcc_packing_radius <= 1e-6){
+            warning("Sphere separation is too close (barrier collision): " + to_string(params.fcc_packing_separation) ,cout);
+        }
+    }
+
     if(params.gamma_cyl_packing){
         checkGammaDistributionParamaters(params);
     }
@@ -229,7 +266,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
         }
     }
 
-    if(params.computeVolume && params.voxels_list.size() <=0 && params.gamma_cyl_packing==false and params.hex_cyl_packing ==false and params.hex_sphere_packing ==false and params.gamma_sph_packing ==false){
+    if(params.computeVolume && params.voxels_list.size() <=0 && params.gamma_cyl_packing==false and params.hex_cyl_packing ==false and params.hex_sphere_packing ==false and params.fcc_sphere_packing== false and params.gamma_sph_packing ==false){
         warning(" Flag: 'compute_volume' ignored, no voxel."  ,cout);
     }
 
@@ -685,7 +722,7 @@ bool SimErrno::checkConfigurationFile(const char* configuration_file)
     info("Checking configuration file labels...",cout);
 
     int count_tag_obstacle=0,count_tag_voxels=0,count_tag_log=0,count_tag_delta=0;
-    int count_tag_phase = 0, count_tag_positions = 0, count_hexa_obstacle_tag=0;
+    int count_tag_phase = 0, count_tag_positions = 0, count_hexa_obstacle_tag=0, count_fcc_obstacle_tag=0;
     int count_tag_sampling_area=0;
 
 
@@ -738,6 +775,10 @@ bool SimErrno::checkConfigurationFile(const char* configuration_file)
             count_hexa_obstacle_tag++;
             fixed_configuration = true;
         }
+        else if(Parameters::str_dist(tmp,"<sphere_fcc_packing>") <= 0){
+            count_fcc_obstacle_tag++;
+            fixed_configuration = true;
+        }
         else if(Parameters::str_dist(tmp,"</log>") <= 0){
             count_tag_log--;
         }
@@ -758,6 +799,9 @@ bool SimErrno::checkConfigurationFile(const char* configuration_file)
         }
         else if(Parameters::str_dist(tmp,"</sphere_hex_packing>") <= 0){
             count_hexa_obstacle_tag--;
+        }
+        else if(Parameters::str_dist(tmp,"</sphere_fcc_packing>") <= 0){
+            count_fcc_obstacle_tag--;
         }
         else if(Parameters::str_dist(tmp,"<spawning_area>") == 0){
             count_tag_sampling_area++;
@@ -845,11 +889,22 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
 
     infoMenu(" Number of cores:       ------",  to_string(params.num_proc ), out, color,35);
 
-    if(params.scale_from_stu)
-        infoMenu(" Diffusivity:           ------",  to_string(params.diffusivity*1e6)+"e-9 m^2/s",out, color,35);
-    else
-        infoMenu(" Diffusivity:           ------",  to_string(params.diffusivity*1e6)+"e-6 mm^2/ms",out, color,35);
-
+    if(params.scale_from_stu){
+        if (params.diffusivity_in>0.0 and params.diffusivity_ex>0.0){
+            infoMenu(" Diffusivity_in:           ------",  to_string(params.diffusivity_in*1e6)+"e-9 m^2/s",out, color,35);
+            infoMenu(" Diffusivity_ex:           ------",  to_string(params.diffusivity_ex*1e6)+"e-9 m^2/s",out, color,35);
+        }else{
+          infoMenu(" Diffusivity:           ------",  to_string(params.diffusivity*1e6)+"e-9 m^2/s",out, color,35);
+        }
+    }
+    else{
+        if (params.diffusivity_in>0.0 and params.diffusivity_ex>0.0){
+            infoMenu(" Diffusivity_in:           ------",  to_string(params.diffusivity_in*1e6)+"e-9 m^2/s",out, color,35);
+            infoMenu(" Diffusivity_ex:           ------",  to_string(params.diffusivity_ex*1e6)+"e-9 m^2/s",out, color,35);
+        }else{
+            infoMenu(" Diffusivity:           ------",  to_string(params.diffusivity*1e6)+"e-9 m^2/s",out, color,35);
+        }
+    }
     infoMenu(" Particle dynamics duration: -",  " " + to_string(params.sim_duration) +" ms" , out, color,35);
 
     answer = (params.PLY_files.size() > 0)?" true":" false";

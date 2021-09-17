@@ -292,8 +292,11 @@ void DynamicsSimulation::initSimulation()
 {
 
     // Initial step length = sqrt(6*D*dt/T)
-    step_lenght = sqrt(6.0*(params.diffusivity*params.sim_duration)/double(params.num_steps));
-
+    if (params.diffusivity_in<0.0 and params.diffusivity_ex<0.0){
+        step_lenght = sqrt(6.0*(params.diffusivity*params.sim_duration)/double(params.num_steps));
+    }else{
+        step_lenght = 0.0;
+    }
     // Writes the header file and opens .traj file (if required)
     trajectory.initTrajWriter();
 
@@ -478,6 +481,16 @@ void DynamicsSimulation::iniWalkerPosition()
             walker.location = (intra_flag==1)?Walker::RelativeLocation::intra:Walker::RelativeLocation::extra;
             walker.initial_location = walker.location;
         }
+        if (params.diffusivity_in>0.0 and params.diffusivity_ex>0.0){
+            bool intra_flag =isInIntra(walker.ini_pos, walker.in_obj_index,walker.in_ply_index, walker.in_sph_index, 0.0);
+            walker.location = (intra_flag==1)?Walker::RelativeLocation::intra:Walker::RelativeLocation::extra;
+            walker.initial_location = walker.location;
+            if(intra_flag){
+                step_lenght = sqrt(6.0*params.diffusivity_in*params.sim_duration/params.num_steps);
+            }else{
+                step_lenght = sqrt(6.0*params.diffusivity_ex*params.sim_duration/params.num_steps);
+            }
+        }
     }
     else{
         walker.setInitialPosition(Vector3d(0,0,0));
@@ -490,12 +503,12 @@ void DynamicsSimulation::initWalkerObstacleIndexes()
 
      //* Cylinders Collision Sphere *//
 
-    // The outer collision sphere has a radius r = l*T 
+    // The outer collision sphere has a radius r = l*T
     float outer_col_dist_factor = float(params.num_steps*step_lenght);
 
     walker.initial_sphere_pos_v = walker.pos_v;
     walker.cylinders_collision_sphere.setBigSphereSize(outer_col_dist_factor);
-    
+
     // The inner collision sphere has radius l*T*collision_sphere_distance
     float inner_col_dist_factor = step_lenght*sqrt(params.num_steps)*params.collision_sphere_distance;
     walker.cylinders_collision_sphere.setSmallSphereSize(inner_col_dist_factor);
@@ -535,7 +548,7 @@ void DynamicsSimulation::initWalkerObstacleIndexes()
     }
 
     //* PLY Collision Sphere *//
-    
+
     walker.ply_collision_sphere.setBigSphereSize(outer_col_dist_factor);
     walker.ply_collision_sphere.setSmallSphereSize(inner_col_dist_factor);
 
@@ -901,9 +914,14 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
 
     //Initialize values, arrays and files.
     initSimulation();
-
+    double l;
     //Alias of the step length, may vary when the time step is dynamic.
-    double l = step_lenght;
+    if (params.diffusivity_in<0.0 and params.diffusivity_ex<0.0){
+        l = step_lenght;
+    }else{
+        l=0.0;
+    }
+
     bool back_tracking;
 
     /*********************   WARNING  **********************/
@@ -922,6 +940,10 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         // Initialize the walker initial position
         iniWalkerPosition();
 
+        if (params.diffusivity_in>0.0 and params.diffusivity_ex>0.0){
+            l = step_lenght;
+        }
+
         // Selects only obstacles that are close enough to collide and the ones inside a collision sphere
         initWalkerObstacleIndexes();
 
@@ -929,11 +951,12 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         walker.setRealPosLog(walker.pos_r,0);
         walker.setVoxPosLog (walker.pos_v,0);
 
-        //cout << "\n Iniatial postionl                                                                  ";
-        //cout << walker.ini_pos[0] << " "  << walker.ini_pos[1] << " "  << walker.ini_pos[2] << endl;
-
         for(unsigned t = 1 ; t <= params.num_steps; t++) //T+1 steps in total (avoid errors)
         {
+            if (params.diffusivity_in>0.0 and params.diffusivity_ex>0.0){
+                l = step_lenght;
+            }
+
             //Get the time step in milliseconds
             getTimeDt(last_time_dt,time_dt,l,dataSynth,t,time_step);
 
@@ -1138,7 +1161,7 @@ bool DynamicsSimulation::updateWalkerPosition(Eigen::Vector3d& step) {
     do{
         bounced = false;
         bouncing_count++;
-        
+
         // Checks the number of bouncing per step.
         walker.steps_count++;
 
@@ -1194,7 +1217,7 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
 
     // The collision checks the three possible obstacles in this order: Voxel, Cylinders, PLY.
     // The closest collision is kept at the end.
-    
+
     //Check Voxel limits
     for(unsigned int i = 0 ; i < voxels_list.size(); i++ )
     {
@@ -1206,8 +1229,12 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
     for(unsigned int i = 0 ; i < walker.cylinders_collision_sphere.small_sphere_list_end; i++ )
     {
         unsigned index = walker.cylinders_collision_sphere.collision_list->at(i);
+        if (params.diffusivity_in<0.0 and params.diffusivity_ex<0.0){
+            (*cylinders_list)[index].checkCollision(walker,bounced_step,tmax,colision_tmp);
+        }else{
+            (*cylinders_list)[index].checkCollision(walker,bounced_step,tmax,colision_tmp,params.diffusivity_in,params.diffusivity_ex);
+        }
 
-        (*cylinders_list)[index].checkCollision(walker,bounced_step,tmax,colision_tmp);
         handleCollisions(colision,colision_tmp,max_collision_distance,index);
     }
 
@@ -1215,8 +1242,12 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
     for(unsigned int i = 0 ; i < walker.spheres_collision_sphere.small_sphere_list_end; i++ )
     {
         unsigned index = walker.spheres_collision_sphere.collision_list->at(i);
+        if (params.diffusivity_in<0.0 and params.diffusivity_ex<0.0){
+            (*spheres_list)[index].checkCollision(walker,bounced_step,tmax,colision_tmp);
+        }else{
+            (*spheres_list)[index].checkCollision(walker,bounced_step,tmax,colision_tmp,params.diffusivity_in,params.diffusivity_ex);
+        }
 
-        (*spheres_list)[index].checkCollision(walker,bounced_step,tmax,colision_tmp);
         handleCollisions(colision,colision_tmp,max_collision_distance,index);
     }
 
@@ -1314,7 +1345,11 @@ void DynamicsSimulation::getTimeDt(double &last_time_dt, double &time_dt, double
         if(dataSynth->dynamic){
             last_time_dt = dataSynth->time_steps[t-1];
             time_dt = dataSynth->time_steps[t];
-            l = sqrt(6.0*(params.diffusivity*(time_dt - last_time_dt)));
+            if (params.diffusivity_ex<0.0){
+                l = sqrt(6.0*(params.diffusivity*(time_dt - last_time_dt)));
+            }else{
+                l = sqrt(6.0*(params.diffusivity_ex*(time_dt - last_time_dt)));
+            }
         }
     }
 }
@@ -1357,21 +1392,48 @@ bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced
 
         walker.status = Walker::bouncing;
 
+
+        if (params.diffusivity_in>0.0 and params.diffusivity_ex>0.0){
+
+            if(colision.col_percolation){
+                // Labels the walker w/r it's orientation.
+                if(colision.col_location == Collision::inside){
+                    walker.intra_extra_consensus++;
+                    walker.location = Walker::extra;
+                    bounced_step=step;
+                    double step_lenght_after_crossing= sqrt(6.0*params.diffusivity_in*params.sim_duration/params.num_steps);
+                    step_lenght= step_lenght_after_crossing;
+                  }
+                if(colision.col_location == Collision::outside){
+                  walker.intra_extra_consensus--;
+                  walker.location = Walker::intra;
+                  bounced_step=step;
+                  double step_lenght_after_crossing= sqrt(6.0*params.diffusivity_ex*params.sim_duration/params.num_steps);
+                  step_lenght= step_lenght_after_crossing;
+                }
+                if(walker.initial_location == Walker::unknown){
+                  walker.initial_location = walker.location;
+                }
+          }
+        }else{
+
+            // Labels the walker w/r it's orientation.
+            if(colision.col_location == Collision::inside){
+                walker.intra_extra_consensus--;
+                walker.location = Walker::intra;
+            }
+            if(colision.col_location == Collision::outside){
+                walker.intra_extra_consensus++;
+                walker.location = Walker::extra;
+            }
+            if(walker.initial_location == Walker::unknown){
+                walker.initial_location = walker.location;
+            }
+        }
         tmax -= displ;
-
-        // Labels the walker w/r it's orientation.
-        if(colision.col_location == Collision::inside){
-            walker.intra_extra_consensus--;
-            walker.location = Walker::intra;
+        if (tmax <0){
+          tmax=0;
         }
-        if(colision.col_location == Collision::outside){
-            walker.intra_extra_consensus++;
-            walker.location = Walker::extra;
-        }
-        if(walker.initial_location == Walker::unknown){
-            walker.initial_location = walker.location;
-        }
-
         //We update the position.
         walker.setRealPosition (real_pos   + displ*bounced_step);
         walker.setVoxelPosition(voxel_pos  + displ*bounced_step);
@@ -1426,5 +1488,3 @@ void DynamicsSimulation::setStepsNum(const unsigned &T)
     params.num_steps = T;
     trajectory.T = T;
 }
-
-

@@ -78,6 +78,58 @@ bool Cylinder::checkCollision(Walker &walker, Eigen::Vector3d &step, double &ste
 
 }
 
+
+bool Cylinder::checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision, double &D_in, double &D_ex)
+{
+    //Origin of the ray
+    Vector3d O;
+    walker.getVoxelPosition(O);
+    Vector3d m = O - P;
+
+    //minimum distance to the cylinder axis.
+    double distance_to_cilinder = (D.cross(-m)).norm();
+    double d_ = distance_to_cilinder - radius;
+
+    //If the minimum distance from the walker to the cylinder is more than
+    // the actual step size, we can discard this collision.
+    if(d_> EPS_VAL){
+        if(d_ > step_lenght+barrier_tickness){
+            return false;
+        }
+    }
+
+    double md = m.dot(D);
+    double nd = step.dot(D);
+    double nn = 1.0;
+    double mm = m.dot(m);
+    double a  = nn - nd*nd;
+    double k  = mm - radius*radius;
+    double c  = k  - md*md;
+
+
+    //Parallel trajectory // WARNING: Check this stuff
+    if(fabs(a) < 1e-5 && fabs(c)<barrier_tickness){
+        colision.type = Collision::near;
+        colision.rn = c;
+        colision.obstacle_ind = id;
+        return true;
+    }
+
+    double mn = m.dot(step);
+    double b = mn - nd*md;
+    double discr = b*b - a*c;
+
+    //No real roots
+    if(discr < 0.0){
+        colision.type = Collision::null;
+        return false;
+    }
+
+    //if we arrived here we need to compute the quadratic equation.
+    return handleCollition(walker,colision,step,a,b,c,discr,step_lenght,D_in,D_ex);
+
+}
+
 inline bool Cylinder::handleCollition(Walker& walker, Collision &colision, Vector3d& step,double& a,double& b, double& c,double& discr,double& step_length){
 
     double t1 = (-b - sqrt(discr))/a;
@@ -163,6 +215,99 @@ inline bool Cylinder::handleCollition(Walker& walker, Collision &colision, Vecto
 
 }
 
+inline bool Cylinder::handleCollition(Walker& walker, Collision &colision, Vector3d& step,double& a,double& b, double& c,double& discr,double& step_length, double& D_in, double& D_ex){
+
+    double t1 = (-b - sqrt(discr))/a;
+
+    double t2 = (-b + sqrt(discr))/a;
+
+
+    //if we are completely sure that no collision happened
+    if( ( (t1 < 0.0) || (t1 > step_length+barrier_tickness) ) && ( (t2 < 0.0) || (t2 > step_length+barrier_tickness)) ){
+        colision.type = Collision::null;
+        return false;
+    }
+
+    // a spin that's bouncing ignores collision at 0 (is in a wall)
+    if(walker.status == Walker::bouncing){
+
+        //if the collision are too close or negative.
+        if( ( (t1 < EPS_VAL) || (t1 > step_length+barrier_tickness)) && (( t2 < EPS_VAL) || (t2 > step_length+barrier_tickness)) ){
+            colision.type = Collision::null;
+            return false;
+        }
+
+        if( t1 >= EPS_VAL && t1 < t2)
+            colision.t = fmin(t1,step_length);
+        else
+            colision.t = fmin(t2,step_length);
+    }
+    else{
+        if( t1>0.0 && t1 <t2)
+            colision.t = fmin(t1,step_length);
+        else
+            colision.t = fmin(t2,step_length);
+    }
+
+    colision.type = Collision::hit;
+    colision.obstacle_ind = id;
+
+    if(c<-1e-10){
+        colision.col_location = Collision::inside;
+        walker.in_obj_index = id;
+    }
+    else if(c>1e-10){
+        colision.col_location = Collision::outside;
+    }
+    else{
+        colision.col_location = Collision::unknown;
+    }
+
+    colision.rn = c;
+
+    colision.colision_point = walker.pos_v + colision.t*step;
+
+    if (fabs(a) < EPS_VAL){
+        colision.col_location = Collision::on_edge;
+        colision.bounced_direction = -step;
+    }
+    else{
+        Eigen::Vector3d V = colision.colision_point - P;
+        double v = V.dot(D);
+        Eigen::Vector3d axis_point = P + v*D;
+        //Normal point
+        Eigen::Vector3d normal = (colision.colision_point-axis_point).normalized();
+
+        Eigen::Vector3d temp_step = step;
+        elasticBounceAgainsPlane(walker.pos_v,normal,colision.t,temp_step);
+
+        colision.bounced_direction = temp_step.normalized();
+
+    }
+    double percolation_in_ex= percolation;
+    double percolation_ex_in= sqrt(D_in/D_ex)*percolation_in_ex;
+    if(percolation_in_ex>0.0){
+      double _percolation_((double)rand()/RAND_MAX);
+      if( colision.col_location == Collision::inside){
+          if( percolation_in_ex - _percolation_ > EPS_VAL ){
+              count_perc_crossings++;
+              colision.col_percolation=true;
+              colision.bounced_direction=step;
+            }
+        }
+      if( colision.col_location == Collision::outside){
+          if( percolation_ex_in - _percolation_ > EPS_VAL ){
+              count_perc_crossings++;
+              colision.col_percolation=true;
+              colision.bounced_direction=step;
+            }
+        }
+    }
+    return true;
+
+}
+
+
 double Cylinder::minDistance(Walker &w){
 
     //Origin of the ray
@@ -177,5 +322,3 @@ double Cylinder::minDistance(Walker &w){
    // return d_>0.0?d_:0.0;
     return d_;
 }
-
-

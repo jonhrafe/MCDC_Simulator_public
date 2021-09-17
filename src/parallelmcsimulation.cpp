@@ -5,7 +5,12 @@
 #include "simerrno.h"
 #include "cylindergammadistribution.h"
 #include "spheregammadistribution.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
 
+using namespace std;
 //* Auxiliare method to split words in a line using the spaces*//
 template<typename Out>
 void split_(const std::string &s, char delim, Out result) {
@@ -789,6 +794,45 @@ void ParallelMCSimulation::addObstacleConfigurations()
 
     }
 
+    if(params.fcc_sphere_packing == true){
+        double rad = params.fcc_packing_radius,sep = params.fcc_packing_separation;
+        ifstream myFileStream_(params.fcc_vertices_path);
+        cout << params.fcc_vertices_path;
+        //ifstream myFileStream_("/home/rochi/work/monteCarloSolver/MCDC_Simulator_public-beta_branch_validated_fcc_packingg_of_permeable_spheres/pts.txt");
+        if(!myFileStream_.is_open()){
+          cout<<"File failed to open";
+        }
+
+        string posx_,posy_,posz_;
+        string line="";
+        double* posx = NULL;
+        double* posy = NULL;
+        double* posz = NULL;
+        posx = new double[6084];
+        posy = new double[6084];
+        posz = new double[6084];
+        int count =0;
+        while(getline(myFileStream_, line)){
+          stringstream ss(line);
+          getline(ss,posx_,',');
+          getline(ss,posy_,',');
+          getline(ss,posz_,',');
+          posx[count]=stod(posx_);
+          posy[count]=stod(posy_);
+          posz[count]=stod(posz_);
+          count=count+1;
+        }
+        myFileStream_.close();
+        for (int i=0; i<6084; i++){
+          spheres_list.push_back(Sphere(Eigen::Vector3d(posx[i]*sep, posy[i]*sep, posz[i]*sep),rad));
+        }
+        delete [] posx;
+        delete [] posy;
+        delete [] posz;
+
+        pair<Eigen::Vector3d,Eigen::Vector3d> voxel_(Eigen::Vector3d(0,0,0),Eigen::Vector3d(10*sep,10*sep,10*sep));
+        params.voxels_list.push_back(voxel_);
+    }
 
     if(params.gamma_cyl_packing == true){
 

@@ -1401,14 +1401,14 @@ bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced
                     walker.intra_extra_consensus++;
                     walker.location = Walker::extra;
                     bounced_step=step;
-                    double step_lenght_after_crossing= sqrt(6.0*params.diffusivity_in*params.sim_duration/params.num_steps);
+                    double step_lenght_after_crossing= sqrt(6.0*params.diffusivity_ex*params.sim_duration/params.num_steps);
                     step_lenght= step_lenght_after_crossing;
                   }
                 if(colision.col_location == Collision::outside){
                   walker.intra_extra_consensus--;
                   walker.location = Walker::intra;
                   bounced_step=step;
-                  double step_lenght_after_crossing= sqrt(6.0*params.diffusivity_ex*params.sim_duration/params.num_steps);
+                  double step_lenght_after_crossing= sqrt(6.0*params.diffusivity_in*params.sim_duration/params.num_steps);
                   step_lenght= step_lenght_after_crossing;
                 }
                 if(walker.initial_location == Walker::unknown){

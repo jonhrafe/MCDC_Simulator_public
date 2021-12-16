@@ -133,6 +133,7 @@ void DynamicsSimulation::initObstacleInformation(){
         params.collision_sphere_distance = inner_col_dist_factor;
     }
 
+    cout << "col def " << inner_col_dist_factor << endl << params.collision_sphere_distance << endl;
     //Cylinders list of index initialization
     for(unsigned i= 0 ; i < (*cylinders_list).size();i++){
         cylinders_deque.push_back(i);
@@ -490,6 +491,7 @@ void DynamicsSimulation::iniWalkerPosition()
             }else{
                 step_lenght = sqrt(6.0*params.diffusivity_ex*params.sim_duration/params.num_steps);
             }
+
         }
     }
     else{
@@ -1168,12 +1170,15 @@ bool DynamicsSimulation::updateWalkerPosition(Eigen::Vector3d& step) {
         // True if there was a collision and the particle needs to be bounced.
         update_walker_status |= checkObstacleCollision(bounced_step, tmax, end_point, colision);
 
-        // Updates the position and bouncing direction.
         if(update_walker_status){
+
             bounced = updateWalkerPositionAndHandleBouncing(bounced_step,tmax,colision);
-            // restarts the variables.
+
+            
             update_walker_status = false;
             colision.type = Collision::null;
+            colision.col_percolation = false ; 
+            colision.t = INFINITY_VALUE;
         }
         else{
             if (colision.type == Collision::null){
@@ -1185,7 +1190,6 @@ bool DynamicsSimulation::updateWalkerPosition(Eigen::Vector3d& step) {
         sentinela.checkErrors(walker,params,((*plyObstacles_list).size() == 0),bouncing_count);
 
     }while(bounced);
-
 
     if(tmax >= 0.0){
 

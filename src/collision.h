@@ -50,7 +50,7 @@ public:
      *  \brief Initialize everything with 0's and NULL states, the triangle and object indexes are set
      *  to -1.
      */
-    Collision():u(0),v(0),t(1e15),triangle_ind(-1),obstacle_ind(-1){type=null;col_location=unknown;}
+    Collision():u(0),v(0),t(1e15),col_percolation(false),triangle_ind(-1),obstacle_ind(-1){type=null;col_location=unknown;}
 
     /*! \fn  Default constructor.
      *  \brief Initialize everything with 0's and NULL states, the triangle and object indexes are
@@ -59,7 +59,8 @@ public:
      *  \param u is for parametric coordinates of a plane or triangle.
      *  \param t is the collision distance,
      */
-    Collision(double u_,double v_,double t_):u(u_),v(v_),t(t_),triangle_ind(-1),obstacle_ind(-1){}
+    Collision(double u_,double v_,double t_):u(u_),v(v_),t(t_),col_percolation(false),triangle_ind(-1),obstacle_ind(-1){}
+
 
     //! \fn Default destructor.
     /*! \brief Does nothing.

@@ -133,7 +133,6 @@ void DynamicsSimulation::initObstacleInformation(){
         params.collision_sphere_distance = inner_col_dist_factor;
     }
 
-    cout << "col def " << inner_col_dist_factor << endl << params.collision_sphere_distance << endl;
     //Cylinders list of index initialization
     for(unsigned i= 0 ; i < (*cylinders_list).size();i++){
         cylinders_deque.push_back(i);

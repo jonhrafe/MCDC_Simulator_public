@@ -1176,8 +1176,10 @@ bool DynamicsSimulation::updateWalkerPosition(Eigen::Vector3d& step) {
             
             update_walker_status = false;
             colision.type = Collision::null;
+            /*
             colision.col_percolation = false ; 
             colision.t = INFINITY_VALUE;
+            */
         }
         else{
             if (colision.type == Collision::null){

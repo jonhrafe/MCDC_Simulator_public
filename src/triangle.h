@@ -11,7 +11,7 @@
 #include "vertex.h"
 #include "collision.h"
 #include "walker.h"
-#include "Eigen/Core"
+#include <Eigen/Core>
 
 class Triangle{
 public:

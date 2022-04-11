@@ -11,10 +11,10 @@
 
 #include "walker.h"
 #include <string>
-#include "Eigen/Core"
+#include <Eigen/Core>
 #include <iostream>
 #include <random>
-#include "trajectory.h"
+#include <trajectory.h>
 #include "simulablesequence.h"
 #include "parameters.h"
 #include "plyobstacle.h"
@@ -36,7 +36,11 @@ public:
     Walker       walker;                            /*!< Single walker to diffuse                                                   */
     Trajectory   trajectory;                        /*!< Trajectory instance. Handles i/o operations                                */
     std::mt19937 mt;                                /*!< rnd, random generator instance                                             */
-    double step_lenght;                             /*!< l, step length                                                             */
+    double step_lenght_intra;                       /*!< l, step length in intra-cellular space                                     */
+    double step_lenght_extra;                       /*!< l, step length in extra-cellular space                                     */
+    double step_length_pref;                        /*!< Common part of step length                                                 */
+    double curr_step_lenght;                         /*!< l, step length at current step                                             */
+    double curr_diffusivity;                         /*!< diffusivity at current step                                             */
     double second_passed;                           /*!< Simulation total time in seconds                                           */
     double max_simulation_time;                     /*!< Maximum simulation time if not passed we carry all the particles           */
     double completed;                               /*!< Auxiliar variable to save the milestone of percentage of completed walkers */
@@ -44,16 +48,18 @@ public:
     unsigned ini_pos_file_ini_index;                /*!< starting position in the ini walker position file (multicore support)      */
     int id;                                         /*!< Unique id for the dynamic simulation                                       */
     sentinels::Sentinel sentinela;                  /*!< Sentinel initialization to encoutner error in the simulation               */
-    std::vector <PLYObstacle>* plyObstacles_list;   /*!< pointer to a vector with all the instances of PLYObstacles                 */
-    std::vector <Cylinder>* cylinders_list;         /*!< pointer to a vector with all the isntances of "Cylider" obstacles          */
-    std::vector <Sphere>* spheres_list;           /*!< pointer to a vector with all the isntances of "Spheres" obstacles          */
+    std::vector <PLYObstacle> plyObstacles_list;    /*!< vector with all the instances of PLYObstacles                              */
+    std::vector <Cylinder> cylinders_list;          /*!< vector with all the isntances of "Cylider" obstacles                       */
     std::vector<unsigned>  cylinders_deque;         /*!< deque with the indexes of the cylinders (used for optmization)             */
-    std::vector<unsigned>  spheres_deque;           /*!< deque with the indexes of the spheres (used for optmization)               */
     std::vector<std::vector<unsigned>> ply_deque;   /*!< deque with the indexes of the triangles of all ply's (used for opt)        */
     std::vector <Voxel> voxels_list;                /*!< vector with all the voxels to be simulated (if any)                        */
     Propagator propagator;                          /*!< Propagator object to compute and save the particles MSD                    */
     double icvf;                                    /*!< Stores the ICVF (1 - Intra-Extra) if needed                                */
     unsigned intra_tries, total_tries;              /*!< Helper variables to compute the estimated ICVF                             */
+
+    std::vector <Sphere> spheres_list;              /*!< vector with all the isntances of "Sphere" obstacles                       */
+    std::vector<unsigned>  spheres_deque;           /*!< deque with the indexes of the spheres (used for optmization)             */
+
 
     /******   Auxiliar variables   ********/
     Eigen::Vector3d step;
@@ -67,8 +73,6 @@ public:
     bool print_expected_time;                       /*!< Auxiliar flag for time recording and stimation for time.                   */
 
     unsigned num_simulated_walkers;                 /*!< Saves the final number of simulated walkers (time limit)                   */
-
-    unsigned aux_walker_index;
     /****** END Auxiliar variables ********/
 
 
@@ -98,7 +102,7 @@ public:
      *  \param  dataSynth optional paramter. If this parameter is not given, no signal is computed.
      *  \brief  Starts the dynamics simulation and, if a PGSE sequence is given, computes the DW signal.
      */
-    void startSimulation(SimulableSequence* dataSynth = nullptr);
+    void startSimulation(SimulableSequence* dataSynth = NULL);
 
     /*! \fn     readConfigurationFile
      *  \param  conf_file_path paremeters file path.
@@ -135,19 +139,18 @@ public:
      *         with a defined "inside region" can be considered. Voxel periodicity is not
      *         considered
      */
-    bool isInIntra(Eigen::Vector3d& position, int& cyl_id,  int& ply_id, int& sph_id, double distance_to_be_intra_ply=1e-6);
+    bool isInIntra(Eigen::Vector3d& position, double distance_to_be_intra_ply=1e-6);
 
     /*!
      * \brief   Writes to disk the final propagator matrix.
      */
     void writePropagator(std::string path);
 
-    bool isInsideCylinders(Eigen::Vector3d& position,int& cyl_id,double distance_to_be_inside=1e-6);
+    bool isInsideCylinders(Eigen::Vector3d& position,double distance_to_be_inside=1e-6);
 
-    bool isInsidePLY(Eigen::Vector3d& position,int& ply_id,double distance_to_be_inside=1e-6);
+    bool isInsidePLY(Eigen::Vector3d& position,double distance_to_be_inside=1e-6);
 
-    bool isInsideSpheres(Eigen::Vector3d &position, int& sph_id,double distance_to_be_inside);
-
+    bool isInsideSpheres(Eigen::Vector3d& position,double distance_to_be_inside=1e-6);
 
 private:    
     /*! \fn     generateStep
@@ -172,6 +175,8 @@ private:
      *  \return returns false if the was any problem.
      */
     bool updateWalkerPosition(Eigen::Vector3d&step);
+    bool updateWalkerPosition(Eigen::Vector3d&step, unsigned &t);
+    
 
     /*! \fn     checkObstacleCollision
      *  \param  amended_step, step to be "amended", this is corrected against bouncing and voxel limits
@@ -194,6 +199,7 @@ private:
      *  \return returns true if the collision was a correct bouncing.
      */
     inline bool updateWalkerPositionAndHandleBouncing(Eigen::Vector3d& amended_step, double& tmax, Collision& colision);
+    inline bool updateWalkerPositionAndHandleBouncing(Eigen::Vector3d& amended_step, double& tmax, Collision& colision, unsigned &t);
 
     /*! \fn     handleCollisions
      *  \param  collision A given collision with the highest priority so far.
@@ -258,6 +264,14 @@ private:
      */
     inline void initWalkerObstacleIndexes();
 
+
+    /*!
+     * \brief   Update step length from position of the walker.
+     * \param   curr_step_lenght step length
+     * \param   curr_diffusivity Diffusivity of the medium
+     */
+    inline void updateStepLength(double &l);
+
     /*!
      * \brief   Updates the list of indexes inside the inner and outher collision spheres.
      * \param   t number of steps in the simulation. Used to estimate the diffusion coeff.
@@ -268,7 +282,7 @@ private:
      * \brief   finds an intra celullar 3d position inside the voxel (needs a voxel initialized).
      * \param   intra_pos vector to save the 3d position.
      */
-    inline void getAnIntraCellularPosition(Eigen::Vector3d& intra_pos, int &cyl_ind, int &ply_ind, int &sph_ind);
+    inline void getAnIntraCellularPosition(Eigen::Vector3d& intra_pos);
 
     /*!
      * \brief   finds an extra cellular 3d position inside the voxel (needs a voxel initialized).

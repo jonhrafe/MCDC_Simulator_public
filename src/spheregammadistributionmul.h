@@ -1,14 +1,14 @@
-//!  SphereGammaDistribution Class =============================================================/
+//!  SphereGammaDistributionMul Class =============================================================/
 /*!
-*   \details   Class to construct a substrate taken from a Gamma distribution of radiis placed in
+*   \details   Class to construct a substrate taken from Multi Gamma distribution of radiis placed in
 *              a single voxel structure.
 *   \author    Remy Gardier
-*   \date      January 2021
+*   \date      March 2022
 *   \version   0.0
 =================================================================================================*/
 
-#ifndef SPHEREGAMMADISTRIBUTION_H
-#define SPHEREGAMMADISTRIBUTION_H
+#ifndef SPHEREGAMMADISTRIBUTIONMUL_H
+#define SPHEREGAMMADISTRIBUTIONMUL_H
 
 #include "Eigen/Core"
 #include <vector>
@@ -17,13 +17,13 @@
 #include <iostream>
 #include "sphere.h"
 
-class SphereGammaDistribution
+class SphereGammaDistributionMul
 {
 public:
 
-    unsigned num_spheres;                             /*!< number of spheres fit inside the substrate                                */
-    double alpha;                                   /*!< alpha coefficient of the Gamma distribution                                */
-    double beta;                                    /*!< beta coefficient of the gamma distribution                                 */
+    std::vector<unsigned> num_spheres;                             /*!< number of spheres fit inside the substrate                                */
+    std::vector<double> alpha;                                   /*!< alpha coefficient of the Gamma distribution                                */
+    std::vector<double> beta;                                    /*!< beta coefficient of the gamma distribution                                 */
     double icvf;                                    /*!< Achieved intra-celular volum fraction in the substrate                     */
 
     Eigen::Vector3d min_limits;                     /*!< voxel min limits (if any) (bottom left corner)                             */
@@ -36,7 +36,7 @@ public:
      *  \param scale scale factor for the values passed. Useful when reading a file.
      *  \brief Initialize everything.
      */
-    SphereGammaDistribution(unsigned ,double,double, double,Eigen::Vector3d &, Eigen::Vector3d &);
+    SphereGammaDistributionMul(std::vector<unsigned> ,std::vector<double>,std::vector<double>, double,Eigen::Vector3d &, Eigen::Vector3d &);
 
 
     // void setVariables(unsigned num_sph, double a, double b,double icvf_,Eigen::Vector3d & min_l, Eigen::Vector3d &max_l);
@@ -92,4 +92,4 @@ private:
 
 };
 
-#endif // SPHEREGAMMADISTRIBUTION_H
+#endif // SPHEREGAMMADISTRIBUTIONMUL_H

@@ -3,7 +3,6 @@
 #include <iostream>
 #include "constants.h"
 #include "simerrno.h"
-
 using namespace std;
 
 Parameters::Parameters()
@@ -13,29 +12,37 @@ Parameters::Parameters()
     seed                = -1;
     save_phase_shift    = false;
     write_traj          = false;
+    write_hit           = false;
+    write_full_c        = false;
     write_txt           = false;
     write_bin           =  true;
 
-    hex_cyl_packing    = false;
-    hex_sphere_packing = false;
+    hex_packing = false;
     hex_packing_radius      = 0;
     hex_packing_separation  = 0;
 
-    fcc_sphere_packing = false;
-    fcc_packing_radius = 0.0;
-    fcc_packing_separation = 0;
-    fcc_packing_icvf = 0.0;
-
-    gamma_cyl_packing = false;
-    gamma_sph_packing = false;
+    gamma_packing = false;
     gamma_packing_alpha = 0;
     gamma_packing_beta  = 0;
-    gamma_num_obstacles = 0;
-    gamma_icvf          = 0;
-    min_obstacle_radii  = 0;
+    gamma_num_cylinders = 0;
+    gamma_icvf = 0;
+
+    gamma_packing_s = false;
+    gamma_packing_alpha_s = 0;
+    gamma_packing_beta_s  = 0;
+    gamma_num_spheres_s   = 0;
+    gamma_icvf_s = 0;
+
+    uniform_packing_s = false;                      /*!< flag, true if a gamma distribution of spheres will be initialized        */
+    uniform_packing_output_conf_s = false;
+    uniform_packing_icvf_s = 0.0;
+    uniform_packing_output_configuration_s = 0.0;
+
+
 
     ini_walkers_file = "";
     num_proc    = 0;
+    hex_packing = false;
     verbatim    = false;
 
     record_phase_times.clear();
@@ -44,9 +51,6 @@ Parameters::Parameters()
 
     computeVolume = false;
     custom_sampling_area = false;
-    separate_signals = false;
-    img_signal = false;
-
     for (auto i= 0;i<3; i++)
         min_sampling_area[i] = max_sampling_area[i] = 0.0;
 }
@@ -78,17 +82,15 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         else if(str_dist(tmp,"scheme_file") <= 1){
             in >> scheme_file;
         }
-        else if(str_dist(tmp,"diffusivity") <= 1){
-            in >> diffusivity;
+        else if(str_dist(tmp,"diffusivity_intra") <= 1){
+            in >> diffusivity_intra;
         }
-        else if(str_dist(tmp,"diffusivity_in") <= 1){
-            in >> diffusivity_in;
-        }
-        else if(str_dist(tmp,"diffusivity_ex") <= 1){
-            in >> diffusivity_ex;
+        else if(str_dist(tmp,"diffusivity_extra") <= 1){
+            in >> diffusivity_extra;
         }
         else if( (str_dist(tmp,"out_traj_file_index") <= 2) or (str_dist(tmp,"exp_prefix") <= 2)) {
             in >> traj_file;
+            hit_file= traj_file;
             output_base_name = traj_file;
         }
         else if( str_dist(tmp,"ini_walkers_file") <= 3){
@@ -102,6 +104,12 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         }
         else if(str_dist(tmp,"write_traj_file") <= 2){
             in >> write_traj;
+        }
+        else if(str_dist(tmp,"write_hit_file") <= 2){
+            in >> write_hit;
+        }
+        else if(str_dist(tmp,"write_full_c_file") <= 2){
+            in >> write_full_c;
         }
         else if(str_dist(tmp,"scale_from_stu") <= 2){
             in >> scale_from_stu;
@@ -151,12 +159,11 @@ void Parameters::readSchemeFile(std::string conf_file_path)
                 assert(0);
             }
         }
-        else if(str_dist(tmp,"subdivisions_number") <= 2)
+        else if(str_dist(tmp,"subdivisions_number") <= 1)
         {
             in >> number_subdivisions;
-            subdivision_flag = (number_subdivisions>1)?true:false;
-
-            if(number_subdivisions > 500 || number_subdivisions <=0 ){
+            subdivision_flag |= (number_subdivisions>1)?true:false;
+            if(number_subdivisions > 100){
                 SimErrno::error("Unrealistic number of resulting subdivision voxels : " + std::to_string(number_subdivisions) + "^3",cout);
 
                 assert(0);
@@ -168,9 +175,16 @@ void Parameters::readSchemeFile(std::string conf_file_path)
             readSubdivisionFile();
             subdivision_flag |= (subdivisions.size()>0);
         }
+        /*
         else if((str_dist(tmp,"permeability") <= 1) || (str_dist(tmp,"obstacle_permeability") <= 2))
+        
         {
-            in >> obstacle_permeability;
+            readPermeability(in);
+        }
+        */
+        else if((str_dist(tmp,"<permeability>") <= 1))
+        {
+            readPermeability(in);
         }
         else if( str_dist(tmp,"coll_sphere_dist") <= 2 || str_dist(tmp,"colision_dist") <= 2 || str_dist(tmp,"sphere_size") <= 2)
         {
@@ -186,11 +200,6 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         }
         else if( str_dist(tmp,"compute_volume") <= 1 )
         {
-           this->computeVolume = true;
-        }
-        else if( str_dist(tmp,"separate_signals") <= 1 )
-        {
-           this->separate_signals = true;
            this->computeVolume = true;
         }
         else if( str_dist(tmp,"log_phase_shift") <= 2 )
@@ -221,17 +230,17 @@ void Parameters::readSchemeFile(std::string conf_file_path)
 
     if(scale_from_stu){
         //m^2/s to mm^2/ms
-        diffusivity*=m2_to_mm2/s_to_ms;
-        diffusivity_in*=m2_to_mm2/s_to_ms;
-        diffusivity_ex*=m2_to_mm2/s_to_ms;
+        diffusivity_intra*=m2_to_mm2/s_to_ms;
+        diffusivity_extra*=m2_to_mm2/s_to_ms;
         //seconds to ms
         sim_duration*=s_to_ms;
     }
 
-
+    if(number_subdivisions>1){
+        addSubdivisions();
+    }
 
     in.close();
-
     return;
 }
 
@@ -247,19 +256,10 @@ void Parameters::setNumSteps(unsigned T)
     num_steps = T;
 }
 
-void Parameters::setDiffusivity(double D)
+void Parameters::setDiffusivity(double Di, double De)
 {
-    diffusivity = D;
-}
-
-void Parameters::setDiffusivity_in(double D)
-{
-    diffusivity_in = D;
-}
-
-void Parameters::setDiffusivity_ex(double D)
-{
-    diffusivity_ex = D;
+    diffusivity_intra = Di;
+    diffusivity_extra = De;
 }
 
 void Parameters::setSimDuration(double duration)
@@ -271,6 +271,16 @@ void Parameters::setWriteTrajFlag(bool write_bin)
 {
     write_traj = write_bin;
 }
+void Parameters::setWriteHitFlag(bool write_bin)
+{
+    write_hit = write_bin;
+}
+
+void Parameters::setWriteFullFlag(bool write_full_c_)
+{
+    write_full_c = write_full_c_;
+}
+
 
 void Parameters::setWriteTextFlag(bool write_txt_)
 {
@@ -291,6 +301,11 @@ void Parameters::setMaxLimits(Eigen::Vector3d max_limits_)
 void Parameters::setTrajFileName(std::string traj_file_)
 {
     traj_file = traj_file_;
+}
+
+void Parameters::setHitFileName(std::string hit_file_)
+{
+    hit_file = hit_file_;
 }
 
 void Parameters::setOutputBaseFileName(std::string output_base_name_)
@@ -321,24 +336,27 @@ unsigned Parameters::getNumSteps()
     return num_steps;
 }
 
-double Parameters::getDiffusivity()
+double Parameters::getDiffusivity_intra()
 {
-    return diffusivity;
+    return diffusivity_intra;
 }
 
-double Parameters::getDiffusivity_in()
+double Parameters::getDiffusivity_extra()
 {
-    return diffusivity_in;
+    return diffusivity_extra;
 }
-
-double Parameters::getDiffusivity_ex()
-{
-    return diffusivity_ex;
-}
-
 bool Parameters::getWriteTrajFlag()
 {
     return write_traj;
+}
+bool Parameters::getWriteHitFlag()
+{
+    return write_hit;
+}
+
+bool Parameters::getWriteFullFlag()
+{
+    return write_full_c;
 }
 
 bool Parameters::getWriteTextFlag()
@@ -359,6 +377,11 @@ Eigen::Vector3d Parameters::getMaxLimits()
 std::string Parameters::getTrajFileName()
 {
     return traj_file;
+}
+
+std::string Parameters::getHitFileName()
+{
+    return hit_file;
 }
 
 std::string Parameters::getOutputBaseFileName()
@@ -392,12 +415,6 @@ void Parameters::readObstacles(ifstream& in)
             cylinders_files.push_back(path);
             num_obstacles++;
         }
-        if(str_dist(tmp,"spheres_list") <= 2){
-            string path;
-            in >> path;
-            spheres_files.push_back(path);
-            num_obstacles++;
-        }
         if(str_dist(tmp,"oriented_cylinders_list") <= 2){
             string path;
             in >> path;
@@ -408,7 +425,6 @@ void Parameters::readObstacles(ifstream& in)
             string path;
             in >> path;
             PLY_files.push_back(path);
-            PLY_percolation.push_back(0);
             num_obstacles++;
         }
         if(str_dist(tmp,"ply_scale") <= 1){
@@ -416,49 +432,48 @@ void Parameters::readObstacles(ifstream& in)
             in >> scale_;
             PLY_scales.push_back(scale_);
         }
-        if(str_dist(tmp,"ply_file_list") <= 2){
-            string path;
-            in >> path;
-            readPLYFileList(path);
-            num_obstacles++;
-        }
-        if(str_dist(tmp,"ply_file_list_scale_permeability") <= 3){
-            string path;
-            in >> path;
-            readPLYFileListScalePercolation(path);
-            num_obstacles++;
-        }
         if(str_dist(tmp,"<cylinder_hex_packing>") <=1){
-            this->hex_cyl_packing = true;
             readHexagonalParams(in);
             num_obstacles++;
         }
-        if(str_dist(tmp,"<sphere_hex_packing>") <=1){
-            this->hex_sphere_packing = true;
-            readHexagonalParams(in);
-            num_obstacles++;
-        }
-        if(str_dist(tmp,"<sphere_fcc_packing>") <=1){
-            this->fcc_sphere_packing = true;
-            readFCCParams(in);
-            num_obstacles++;
-        }
+
         if(str_dist(tmp,"<cylinder_gamma_packing>") <=1){
-            gamma_cyl_packing = true;
             readGammaParams(in);
             num_obstacles++;
         }
+        
         if(str_dist(tmp,"<sphere_gamma_packing>") <=1){
-            gamma_sph_packing = true;
-            readGammaParams(in);
+            readGammaParams_s(in);
+            num_obstacles++;
+        }        
+        if(str_dist(tmp,"<sphere_gammamul_packing>") <=1){
+            readGammaParams_smul(in);
+            num_obstacles++;
+        }        
+        
+        if(str_dist(tmp,"<sphere_uniform_packing>") <=1){
+            std::cout<<tmp<<std::endl;
+            readUniformPackingParams_s(in);
             num_obstacles++;
         }
+
+        if(str_dist(tmp,"spheres_list") <= 2){
+            string path;
+            in >> path;
+            spheres_files.push_back(path);
+            num_obstacles++;   
+        }        
+
     }
 
     if(num_obstacles ==0){
         SimErrno::warning("<obstacle> tag initialized, but no valid obstacle tag found",cout);
     }
 
+    //    if(PLY_scales.size() < PLY_files.size()){
+    //        for(unsigned int i = PLY_scales.size()-1; i < PLY_scales.size(); i++ )
+    //            PLY_scales[i] = 1;
+    //    }
 }
 
 void Parameters::readVoxels(ifstream& in)
@@ -573,11 +588,15 @@ void Parameters::readInfoGatheringParams(ifstream& in)
                 if(str_dist(tmp,"directions")<2){
                     std::string dir_path;
                     in >> dir_path;
+                    cout << dir_path << endl; 
                     readPropagatorDirections(dir_path);
                     // Read directions
                 }
                 else if(tmp.compare("t") == 0){
-                    this->record_prop_times.push_back(num_steps);
+                    unsigned step_idx;
+                    in >> step_idx;
+                    //this->record_prop_times.push_back(num_steps);
+                    this->record_prop_times.push_back(step_idx);                    
                 }
                 else{
                     unsigned time = unsigned(stoul(tmp));
@@ -597,9 +616,11 @@ void Parameters::readInfoGatheringParams(ifstream& in)
 
 void Parameters::readHexagonalParams(ifstream &in)
 {
+    hex_packing = true;
+
     string tmp="";
 
-    while(true)
+    while(str_dist(tmp,"</cylinder_hex_packing>"))
     {
         in >> tmp;
         std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
@@ -610,53 +631,17 @@ void Parameters::readHexagonalParams(ifstream &in)
         if(str_dist(tmp,"separation") <= 1){
             in >> hex_packing_separation;
         }
-
-        if(str_dist(tmp,"icvf") <= 1){
-            in >> hex_packing_icvf;
-        }
-
-        if(str_dist(tmp,"</cylinder_hex_packing>") == 0 || str_dist(tmp,"</sphere_hex_packing>") == 0){
-            break;
-        }
-    }
-}
-
-
-void Parameters::readFCCParams(ifstream &in)
-{
-    string tmp="";
-
-    while(true)
-    {
-        in >> tmp;
-        std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
-
-        if(str_dist(tmp,"radius") <= 1){
-            in >> fcc_packing_radius;
-        }
-        if(str_dist(tmp,"separation") <= 1){
-            in >> fcc_packing_separation;
-        }
-
-        if(str_dist(tmp,"icvf") <= 1){
-            in >> fcc_packing_icvf;
-        }
-
-        if(str_dist(tmp,"path") <= 1){
-            in >> fcc_vertices_path;
-        }
-
-        if(str_dist(tmp,"</sphere_fcc_packing>") == 0){
-            break;
-        }
     }
 }
 
 void Parameters::readGammaParams(ifstream &in)
 {
+
+    gamma_packing = true;
+
     string tmp="";
 
-    while(str_dist(tmp,"</cylinder_gamma_packing>") > 0 || str_dist(tmp,"</sphere_gamma_packing") > 0 )
+    while(str_dist(tmp,"</cylinder_gamma_packing>") > 0)
     {
         in >> tmp;
         std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
@@ -673,28 +658,176 @@ void Parameters::readGammaParams(ifstream &in)
             in >> gamma_packing_beta;
         }
         else if(str_dist(tmp,"num_cylinders") <= 1){
-            in >> gamma_num_obstacles;
-        }
-        else if(str_dist(tmp,"num_spheres") <= 1){
-            in >> gamma_num_obstacles;
+            in >> gamma_num_cylinders;
         }
         else if(str_dist(tmp,"icvf") <= 1){
             in >> gamma_icvf;
-        }
-        else if(str_dist(tmp,"min_radius") <= 1){
-            in >> min_obstacle_radii;
         }
         else if(str_dist(tmp,"") == 0){
             in.clear();
             //in.ignore();
         }
-        else if(str_dist(tmp,"</cylinder_gamma_packing>") ==0 || str_dist(tmp,"</sphere_gamma_packing>") == 0  ){
+        else if(str_dist(tmp,"</cylinder_gamma_packing>") ==0){
             break;
         }
 
         tmp = "";
     }
 }
+
+void Parameters::readGammaParams_s(ifstream &in)
+{
+
+    gamma_packing_s = true;
+
+    string tmp="";
+
+    while(str_dist(tmp,"</sphere_gamma_packing>") > 0)
+    {
+        in >> tmp;
+        std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
+        if(str_dist(tmp,"output_conf") <= 1){
+            string tst;
+
+            in >> tst;
+            in >> gamma_output_conf_s;
+        }
+        else if(str_dist(tmp,"alpha") <= 1 or str_dist(tmp,"shape") <= 1){
+            in >> gamma_packing_alpha_s;
+        }
+        else if(str_dist(tmp,"beta") <= 1 or str_dist(tmp,"scale") <= 1){
+            in >> gamma_packing_beta_s;
+        }
+        else if(str_dist(tmp,"num_spheres") <= 1){
+            in >> gamma_num_spheres_s;
+        }
+        else if(str_dist(tmp,"icvf") <= 1){
+            in >> gamma_icvf_s;
+        }
+        else if(str_dist(tmp,"") == 0){
+            in.clear();
+            //in.ignore();
+        }
+        else if(str_dist(tmp,"</sphere_gamma_packing>") ==0){
+            break;
+        }
+
+        tmp = "";
+    }
+}
+void Parameters::readGammaParams_smul(ifstream &in)
+{
+
+    gamma_packing_smul = true;
+
+    string tmp="";
+
+    while(str_dist(tmp,"</sphere_gammamul_packing>") > 0)
+    {
+        in >> tmp;
+        std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
+        if(str_dist(tmp,"output_conf") <= 1){
+            string tst;
+            in >> tst;
+            in >> gamma_output_conf_smul;
+        }
+        else if(str_dist(tmp,"alpha") <= 1 or str_dist(tmp,"shape") <= 1){
+            string tmp2 ;
+            getline(in, tmp2);
+            istringstream alphas(tmp2);
+            double alpha_;
+            while(alphas >> alpha_){gamma_packing_alpha_smul.push_back(alpha_);}
+        }
+        else if(str_dist(tmp,"beta") <= 1 or str_dist(tmp,"scale") <= 1){
+            string tmp2 ;
+            getline(in, tmp2);
+            istringstream betas(tmp2);
+            double beta_;
+            while(betas >> beta_){gamma_packing_beta_smul.push_back(beta_);}
+        }
+        else if(str_dist(tmp,"num_spheres") <= 1){
+            string tmp2 ;
+            getline(in, tmp2);
+            istringstream nbsphs(tmp2);
+            unsigned nbsph_;
+            while(nbsphs >> nbsph_){gamma_num_spheres_smul.push_back(nbsph_);}
+        }
+        else if(str_dist(tmp,"icvf") <= 1){
+            in >> gamma_icvf_smul;
+        }
+        else if(str_dist(tmp,"") == 0){
+            in.clear();
+            //in.ignore();
+        }
+        else if(str_dist(tmp,"</sphere_gammamul_packing>") ==0){
+            break;
+        }
+
+        tmp = "";
+    }
+}
+
+void Parameters::readUniformPackingParams_s(ifstream &in)
+{
+
+    uniform_packing_s = true;
+
+    string tmp="";
+
+    while(str_dist(tmp,"</sphere_uniform_packing>") > 0)
+    {
+        in >> tmp;
+        std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
+        if(str_dist(tmp,"output_conf") <= 1){
+            string tst;
+
+            in >> tst;
+            in >> uniform_packing_output_conf_s;
+        }
+        else if(str_dist(tmp,"num_spheres") <= 1){
+    
+            string line="";
+            getline(in, line);
+            istringstream iss(line);
+
+            unsigned subs;
+            iss >> subs;
+
+            while (iss){
+                uniform_packing_num_spheres_s.push_back(subs);
+                iss >> subs;
+            };
+
+        }
+        else if(str_dist(tmp,"radii") <= 1){
+            
+            string line="";
+            getline(in, line);
+            istringstream iss(line);
+
+            double subs;
+            iss >> subs;
+            while (iss){
+                uniform_packing_radii_s.push_back(subs);
+                iss >> subs;
+            };
+
+        }        
+        else if(str_dist(tmp,"icvf") <= 1){
+            in >> uniform_packing_icvf_s;
+        }
+        else if(str_dist(tmp,"") == 0){
+            in.clear();
+            //in.ignore();
+        }
+        else if(str_dist(tmp,"</sphere_uniform_packing>") ==0){
+            break;
+        }
+
+        tmp = "";
+    }
+}
+
 
 void Parameters::readSubdivisionFile()
 {
@@ -746,13 +879,9 @@ void Parameters::addSubdivisions()
                 tmp.max_limits[2] = tmp.min_limits[2] + gap[2];
 
                 subdivisions.push_back(tmp);
-
-                //cout << ' ' << tmp.min_limits[0] << ' ' << tmp.min_limits[1] <<  ' ' <<tmp.min_limits[2] << endl;
-                //cout << ' ' << tmp.max_limits[0] << ' ' << tmp.max_limits[1] <<  ' ' <<tmp.max_limits[2] << endl;
             }
         }
     }
-
 }
 
 void Parameters::readPropagatorDirections(string dir_path)
@@ -776,59 +905,30 @@ void Parameters::readPropagatorDirections(string dir_path)
             this->prop_dirs.push_back(direction.normalized());
     }
 
+    cout << direction << endl;
+
     in.close();
 }
 
-void Parameters::readPLYFileList(string path){
 
-    ifstream in(path);
-
-    if(in.fail()){
-        SimErrno::error("PLY file list not found in:",cout);
-        cout << path << endl;
-        assert(0);
-    }
-
-    float scale;
-    in >> scale;
-
-    if(scale <=0.0){
-        SimErrno::error("PLY scale must be a positive number",cout);
-        assert(0);
-    }
-
-    if(scale >=1e6 || scale <= 1e-6){
-        SimErrno::warning("PLY may be unsuitable for simulation.",cout);
-        assert(0);
-    }
-
-    string ply_file;
-    while( in >> ply_file){
-        PLY_files.push_back(ply_file);
-        PLY_scales.push_back(scale);
-        PLY_percolation.push_back(0.0);
-    }
-    in.close();
-}
-
-void Parameters::readPLYFileListScalePercolation(string path)
+void Parameters::readPermeability(ifstream& in)
 {
-    ifstream in(path);
+    
+    string tmp="";
 
-    if(in.fail()){
-        SimErrno::error("PLY file list not found in:",cout);
-        cout << path << endl;
-        assert(0);
-    }
-
-    float scale,percolation;
-    string ply_file;
-    while( in >> ply_file){
-        in >> scale;
-        in >> percolation;
-        PLY_files.push_back(ply_file);
-        PLY_scales.push_back(scale);
-        PLY_percolation.push_back(percolation);
-    }
-    in.close();
+    while( !(str_dist(tmp,"</permeability>") <= 2)){
+        in >> tmp;
+        std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
+        if(str_dist(tmp,"global") <= 1){
+            // One permeability for all obstacles
+            in >> obstacle_permeability;
+        }
+        if(str_dist(tmp,"local") <= 1){
+            // One permeability per obstacles
+            string path;
+            in >> path;
+            permeability_files.push_back(path);
+            //obstacle_permeability = 1.0;
+        }
+    } 
 }

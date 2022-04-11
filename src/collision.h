@@ -32,7 +32,6 @@ public:
 
     collision_type type;                /*!< Saves the type of collsion (if any)                    */
     collision_location col_location;    /*!< Save the colocation of the collision over the object   */
-    bool col_percolation;               /*!< Boolean variable that stores whether the walker is percolating through the obstacle*/
     Eigen::Vector3d colision_point;     /*!< Saves the position of colision*/
     Eigen::Vector3d bounced_direction;  /*!< Save the bounced direction for a given obstacle        */
 
@@ -46,11 +45,13 @@ public:
                                         collison distance                                           */
     int obstacle_ind;                   /*!< In case of a generic obstacle saves the obstacle index.*/
 
+    double perm_crossing;                 /*!< Greater than 0 if particle crossed the membrane
+
     /*! \fn  Default constructor.
      *  \brief Initialize everything with 0's and NULL states, the triangle and object indexes are set
      *  to -1.
      */
-    Collision():u(0),v(0),t(1e15),col_percolation(false),triangle_ind(-1),obstacle_ind(-1){type=null;col_location=unknown;}
+    Collision():u(0),v(0),t(1e15),triangle_ind(-1),obstacle_ind(-1),perm_crossing(0){type=null;col_location=unknown;}
 
     /*! \fn  Default constructor.
      *  \brief Initialize everything with 0's and NULL states, the triangle and object indexes are
@@ -59,8 +60,7 @@ public:
      *  \param u is for parametric coordinates of a plane or triangle.
      *  \param t is the collision distance,
      */
-    Collision(double u_,double v_,double t_):u(u_),v(v_),t(t_),col_percolation(false),triangle_ind(-1),obstacle_ind(-1){}
-
+    Collision(double u_,double v_,double t_):u(u_),v(v_),t(t_),triangle_ind(-1),obstacle_ind(-1),perm_crossing(0){}
 
     //! \fn Default destructor.
     /*! \brief Does nothing.

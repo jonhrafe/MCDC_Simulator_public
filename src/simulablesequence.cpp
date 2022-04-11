@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <math.h>
-#include "constants.h"
+
 using namespace std;
 
 
@@ -88,26 +88,10 @@ void SimulableSequence::cleanDWISignal(){
 }
 
 void SimulableSequence::initializeSubdivisionSignals(){
-
     for(uint s = 0; s < subdivisions.size(); s++){
         vector<double> tmp_DWI(num_rep,0);
         vector<double> tmp_DWIi(num_rep,0);
         this->sub_DWI.push_back(tmp_DWI);
         this->sub_DWIi.push_back(tmp_DWIi);
-
-        if(separate_signal){
-            vector<double> tmp_DWI_intra(num_rep,0);
-            vector<double> tmp_DWI_extra(num_rep,0);
-            this->sub_DWI_intra.push_back(tmp_DWI_intra);
-            this->sub_DWI_extra.push_back(tmp_DWI_extra);
-        }
-    }
-}
-
-void SimulableSequence::initializeIntraExtraSignals()
-{
-    for(auto i =0; i < num_rep; i++){
-        this->DWI_intra.push_back(0);
-        this->DWI_extra.push_back(0);
     }
 }

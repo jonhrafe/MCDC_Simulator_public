@@ -3,7 +3,7 @@
 *   \details   Basic class to store and handle all the possible simulation parameters.
 *   \author    Jonathan Rafael
 *   \date      November 2016
-*   \version   1.5
+*   \version   0.2
 *===========================================================================================================*/
 #ifndef PARAMETERS_H
 #define PARAMETERS_H
@@ -25,12 +25,14 @@ public:
 
     unsigned num_walkers;                           /*!< N, number of walkers                                                       */
     unsigned num_steps;                             /*!< T, number of steps                                                         */
-    // default value is set to -1, as it is later used to distinguish between single diffusion and multiple diffusion cases
-    double diffusivity=-1.0;                        /*!< D, diffusivity constant                                                    */
-    double diffusivity_in=-1.0;                     /*!< D_in, diffusivity constant                                                 */
-    double diffusivity_ex=-1.0;                     /*!< D_ex, diffusivity constant                                                 */
+    double diffusivity_intra;                       /*!< Di, intra-cellular diffusivity constant                                    */
+    double diffusivity_extra;                       /*!< De, extra-cellular diffusivity constant                                    */
     double sim_duration;                            /*!< simulation total time                                                      */
     bool write_traj;                                /*!< flag, write a traj file or not, binary format only                         */
+    bool write_hit;                                /*!< flag, write a hit file or not, binary format only                         */
+
+    bool write_full_c;
+
     bool write_txt;                                 /*!< flag, writes DWI output signals in .txt if True                            */
     bool write_bin;                                 /*!< flag, writes the output signal in binary format (True by default)          */
     bool scale_from_stu;                            /*!< flag, true if the scheme file is in standar units m,s                      */
@@ -38,6 +40,7 @@ public:
     long seed;                                      /*!< Initial seed for the random generator                                      */
     bool verbatim;                                  /*!< False to omit displaying state and warnings                                */
     std::string traj_file;                          /*!< Trajectory file path                                                       */
+    std::string hit_file;                           /*!< Hit file path                                                       */
     std::string output_base_name;                   /*!< output files base name (path + sufix)                                      */
     std::string ini_walkers_file;                   /*!< initial walker position file (if any)                                      */
     unsigned ini_walkers_file_count;                /*!< number of walker positions initialize in the configuration file            */
@@ -46,13 +49,11 @@ public:
     Eigen::Vector3d min_limits;                     /*!< voxel min limits (if any) (bottom left corner)                             */
     Eigen::Vector3d max_limits;                     /*!< voxel max limits (if any)                                                  */
 
+    std::vector<std::string> spheres_files;         /*!< file paths with a list of spheres obstacles                              */
     std::vector<std::string> cylinders_files;       /*!< file paths with a list of cilinders obstacles                              */
     std::vector<std::string> PLY_files;             /*!< file paths with PLY obstacle files                                         */
-    std::vector<std::string> spheres_files;         /*!< file paths with spheres obstacle files                                     */
     std::vector<double> PLY_scales;                 /*!< Auxiliary vector to save PLY file scales                                   */
-    std::vector<double> PLY_percolation;            /*!< Auxiliary vector to save PLY percolation                                   */
-
-    std::vector<float> ini_delta_pos;               /*!< Delta position for the walkers                                             */
+    std::vector<float> ini_delta_pos;               /*!< Delta position for the wlakers                                             */
 
     unsigned num_proc;                              /*!< Number of precessors/process to launch in parallel                         */
 
@@ -64,32 +65,63 @@ public:
     std::vector<unsigned> record_phase_times;       /*!< time indexes, used to save the phase shif of all walkers at certain time   */
     std::vector<unsigned> record_prop_times;        /*!< time indexes, used to save the mean propagator of the walkers at c. times  */
 
-    bool   hex_cyl_packing;                         /*!< flag, true if an haxagonal packing should be used                          */
-    bool   hex_sphere_packing;                      /*!< flag, true if an haxagonal packing OF SPHERES should be used               */
-    double hex_packing_radius;                      /*!< float, constant radius for the cylinders                                   */
+    bool   hex_packing;                             /*!< flag, true if an haxagonal packing should be used                          */
+    double hex_packing_radius;                      /*!< float, constant radius for the cylinders                                          */
     double hex_packing_separation;                  /*!< float, separation distance betwen cylinders (separation > 2*radius)        */
-    double hex_packing_icvf;                        /*!< float, ICVF computed or passed as parameter                                */
-    bool   fcc_sphere_packing;                      /*!< flag, true if a fcc packing of spheres should be used                      */
-    double fcc_packing_radius;                      /*!< float, constant radius for the cylinders                                   */
-    double fcc_packing_separation;                  /*!< float, separation distance betwen cylinders (separation > 2*radius)        */
-    double fcc_packing_icvf;                        /*!< float, ICVF computed or passed as parameter                                */
-    std::string fcc_vertices_path;                  /*!< path to text file containing position of fcc vertices                      */
-    bool        gamma_cyl_packing;                  /*!< flag, true if a gamma distribution of cylinders will be initialized        */
-    bool        gamma_sph_packing;                  /*!< flag, true if a gamma distribution of  SPHERES will be initialized         */
+
+    bool        gamma_packing;                      /*!< flag, true if a gamma distribution of cylinders will be initialized        */
     bool        gamma_output_conf;
     double      gamma_packing_alpha;
     double      gamma_packing_beta;
     double      gamma_icvf;
     double      gamma_output_configuration;
-    unsigned    gamma_num_obstacles;
-    float       min_obstacle_radii;                 /*!< Minimum radii (in um) to be sampled                                        */
+    unsigned    gamma_num_cylinders;
+    
+    /*
+     Implementation of gamma sphere packing by Remy -
+    */
+    bool        gamma_packing_s;                      /*!< flag, true if a gamma distribution of spheres will be initialized        */
+    bool        gamma_output_conf_s;
+    double      gamma_packing_alpha_s;
+    double      gamma_packing_beta_s;
+    double      gamma_icvf_s;
+    double      gamma_output_configuration_s;
+    unsigned    gamma_num_spheres_s;
+
+    /*
+     Implementation of multi gamma sphere packing by Remy -
+    */
+    bool        gamma_packing_smul;                      /*!< flag, true if a multi gamma distribution of spheres will be initialized        */
+    bool        gamma_output_conf_smul;
+    std::vector<double>      gamma_packing_alpha_smul;
+    std::vector<double>      gamma_packing_beta_smul;
+    double      gamma_icvf_smul;
+    double      gamma_output_configuration_smul;
+    std::vector<unsigned>    gamma_num_spheres_smul;
+
+
+    /*
+     Implementation of uniform sphere packing by Remy -
+    */
+    bool                    uniform_packing_s;                      /*!< flag, true if a gamma distribution of spheres will be initialized        */
+    bool                    uniform_packing_output_conf_s;
+    double                  uniform_packing_icvf_s;
+    double                  uniform_packing_output_configuration_s;
+    std::vector<unsigned>   uniform_packing_num_spheres_s;
+    std::vector<double>     uniform_packing_radii_s;
+
+    /* 
+    Implementation of multiple permeability by Remy
+    */ 
+    double obstacle_permeability     = -1.0;           /*!< Obstacles permeability if global                                          */
+    std::vector<std::string> permeability_files;    /*!< Obstacles permeability file if local                                       */
+
 
     bool subdivision_flag           = false;        /*!< flag to check if we have several voxel subdivision to compute the signal   */
     unsigned number_subdivisions    = 0;            /*!< saves the number of subdivisions for an initialzied voxel (needed)         */
     std::string subdivisions_file   = "";           /*!< file with the list of subdivisions coordinates to compute the signal       */
     std::vector<Subdivision> subdivisions;          /*!< saves actual positions of the subdivision to compute the signal            */
 
-    double obstacle_permeability     = 0;           /*!< Obstacles permeability                                                     */
     double collision_sphere_distance = 0;           /*!<  Custiom size for the collision sphere                                     */
     double max_simulation_time       = 0;           /*!< Maximum simulation time for the DYNAMIC SIMULATION                         */
 
@@ -104,10 +136,6 @@ public:
     Eigen::Vector3d max_sampling_area;              /*!< Max defining point to delimiter the uniform sampling of walkers            */
     bool custom_sampling_area;                      /*!< True if a custom sampling area is defined (voxel for default)              */
     bool computeVolume;                             /*!< Forces the volumen computation (slower) even without custom sampling       */
-    bool separate_signals;                          /*!< Separate the signals into intra and extra (compute_volume on)              */
-    bool img_signal;                                /*!< True to save the img part of the dwi signal (false by default)             */
-
-
     /*! \fn Parameters
      *  \brief Default constructor. Sets all the parameters to default and NULL values.
      */
@@ -140,23 +168,12 @@ public:
     */
     void setNumSteps(unsigned T);
 
-    /*! \fn  setDiffusivity
-     *  \param Diff diffusivity value.
-     *  \brief set the simulation diffusivity.
+    /*! \fn  setDiffusivities
+     *  \param Diff_i intra-axonal diffusivity value.
+     *  \param Diff_e extra-axonal diffusivity value
+     *  \brief set the simulation diffusivities.
     */
-    void setDiffusivity(double Diff);
-
-    /*! \fn  setDiffusivity_in
-     *  \param Diff diffusivity value.
-     *  \brief set the simulation diffusivity in the intracellular region.
-    */
-    void setDiffusivity_in(double Diff);
-
-    /*! \fn  setDiffusivity_ex
-     *  \param Diff diffusivity value.
-     *  \brief set the simulation diffusivity in the extracellular region.
-    */
-    void setDiffusivity_ex(double Diff);
+    void setDiffusivity(double Diff_i, double Diff_e);
 
     /*! \fn setSimDuration
      *  \param duration simulation duration.
@@ -169,6 +186,19 @@ public:
      *  \brief sets the flag to save a binary traj file.
     */
     void setWriteTrajFlag(bool write_bin);
+
+        /*! \fn setHitFlag
+     *  \param write_bin, boolean flag (0,1).
+     *  \brief sets the flag to save a binary hit file.
+    */
+    void setWriteHitFlag(bool write_bin);
+
+        /*! \fn setFullFlag
+     *  \param write_full_c_, boolean flag (0,1).
+     *  \brief sets the flag to save the full colision file.
+    */
+    void setWriteFullFlag(bool write_full_c_);
+
 
     /*! \fn setWriteTxtFlag
      *  \param write_bin, boolean flag (0,1).
@@ -193,6 +223,13 @@ public:
      *  \brief Set the prefix of the name for the traj file (txt and .traj)
     */
     void setTrajFileName(std::string traj_file_);
+
+    /*! \fn setHitFileName
+     *  \param hit_file_ prefix of the hit file.
+     *  \brief Set the prefix of the name for the hit file (txt and .hit)
+    */
+    void setHitFileName(std::string hit_file_);
+
 
     /*! \fn setOutputBaseFileName
      *  \param output_base_name prefix for the outputs
@@ -224,25 +261,31 @@ public:
     */
     unsigned getNumSteps();
 
-    /*! \fn getDiffusivity
-     *  \return Diffusivity
+    /*! \fn getDiffusivity_intra
+     *  \return intra-axonal Diffusivity
     */
-    double getDiffusivity();
+    double getDiffusivity_intra();
+
+    /*! \fn getDiffusivity_extra
+     *  \return extra-axonal Diffusivity
+    */
+    double getDiffusivity_extra();
 
 
-    /*! \fn getDiffusivity_in
-     *  \return Diffusivity_in
-    */
-    double getDiffusivity_in();
-
-    /*! \fn getDiffusivity_ex
-     *  \return Diffusivity_ex
-    */
-    double getDiffusivity_ex();
     /*! \fn getWriteTrajFlag
      *  \return flag of the  binary traj file writer
     */
     bool getWriteTrajFlag();
+
+        /*! \fn getWriteHitFlag
+     *  \return flag of the  binary hit file writer
+    */
+    bool getWriteHitFlag();
+
+    /*! \fn getWriteFullFlag
+     *  \return flag of the  binary hit file writer
+    */
+    bool getWriteFullFlag();
 
     /*! \fn getWriteTextFlag
      *  \return flag of the text write traj
@@ -264,6 +307,11 @@ public:
     */
     std::string getTrajFileName();
 
+    /*! \fn getHitFileName
+     *  \return trajectory prefix
+    */
+    std::string getHitFileName();
+
     /*! \fn getOutputBaseFileName
      *  \return Output prefix
     */
@@ -281,11 +329,6 @@ public:
 
     static int str_dist(std::string s, std::string t);
 
-    /*! \fn
-     *  \brief adds the number of given subdivisions for the voxel
-    */
-    void addSubdivisions();
-
 private:
 
     /*! \fn readObstacles
@@ -299,12 +342,6 @@ private:
      *  \brief reads the full list of voxel on the configuration file.
     */
     void readVoxels(std::ifstream& in);
-
-    /*! \fn readFCCParams
-     *  \param file input iostreams
-     *  \brief reads the parameters needed to define an fcc packing of spheres
-    */
-    void readFCCParams(std::ifstream& in);
 
     /*! \fn r readInfoGatheringParam
      *  \param file input iostreams
@@ -324,6 +361,25 @@ private:
      *  \brief reads the parameters needed to define an gamma distributed packing of cylinders
     */
     void readGammaParams(std::ifstream& in);
+    
+    /*! \fn readGammaParams_s
+     *  \param file input iostreams
+     *  \brief reads the parameters needed to define an gamma distributed packing of spheres
+    */
+    void readGammaParams_s(std::ifstream& in);
+
+    /*! \fn readGammaParams_smul
+     *  \param file input iostreams
+     *  \brief reads the parameters needed to define an multi gamma distributed packing of spheres
+    */
+    void readGammaParams_smul(std::ifstream& in);
+
+
+    /*! \fn readUniformParams_s
+     *  \param file input iostreams
+     *  \brief reads the parameters needed to define a packing of spheres with fixed radius
+    */
+    void readUniformPackingParams_s(std::ifstream &in);
 
     /*! \fn readHexagonalParams
      *  \param file input iostreams
@@ -332,20 +388,21 @@ private:
     void readSubdivisionFile();
 
     /*! \fn
+     *  \brief adds the number of given subdivisions for the voxel
+    */
+    void addSubdivisions();
+
+
+    /*! \fn
      *  \brief read the directions used to compute the propagator.
     */
     void readPropagatorDirections(std::string dir_path);
 
-    /*! \fn
-     *  \brief read a file with one ply scale value and then a list of ply files .
+    /*! \fn readPermeability
+     *  \param file input iostreams
+     *  \brief reads the permeability on the configuration file.
     */
-    void readPLYFileList(std::string path);
-
-    /*! \fn
-     *  \brief read a file with the path, scale and percolation of each ply
-     *
-    */
-    void readPLYFileListScalePercolation(std::string path);
+    void readPermeability(std::ifstream &in);
 
 
 };

@@ -24,6 +24,7 @@ public:
     Eigen::Vector3d D;      /*!< Pre-computed and normalized P - Q vector                       */
     double radius;          /*!< Radius of the cylinder                                         */
 
+
     /*!
      *  \brief Default constructor. Does nothing
      */
@@ -41,7 +42,7 @@ public:
     Cylinder(Eigen::Vector3d P_, Eigen::Vector3d Q_, double radius_, double scale = 1):P(P_*scale),Q(Q_*scale),radius(radius_*scale){
         D  = (Q_-P_).normalized();
         Q = P+D;
-        id = count++;
+        id = count++;     
     }
 
     /*!
@@ -63,18 +64,6 @@ public:
      */
     bool checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision);
 
-    /*! \fn  checkCollision for multi-compartment diffusion
-    *  \param walker, Walker instance in the simulation.
-    *  \param 3d step. Is assumed to be normalized.
-    *  \param step_length, length used as the maximum step collision distance.
-    *  \param collision, Collision instance to save the collision (if any) details.
-    *  \param D_in diffusivity in the intracellular region.
-    *  \param D_ex diffusivity in the extracellular region.
-    *  \return true only if there was a Collision::hit status. \see Collision.
-    *  \brief Basic collision function. Returns the if there was any collision on against the obstacle.
-    */
-    bool checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision, double &D_in, double &D_ex);
-
     /*! \fn  minDistance
      *  \param walker, Walker instance in the simulation.
      *  \brief Returns the minimum distance from the walker to the cylinder. Used to set the reachable
@@ -91,15 +80,6 @@ private:
      *  \brief Returns true if it was any analytical collision to the infinite plane
      */
     inline bool handleCollition(Walker& walker, Collision &colision, Eigen::Vector3d& step,double& a,double& b, double& c,double& discr,double& step_length);
-
-    /*! \fn  handleCollition for multi-compartment diffusion
-    *  \param walker, Walker instance in the simulation.
-    *  \param collision, Collision instance to save all the information.
-    *  \param step, step vector where to move.
-    *  \brief Returns true if it was any analytical collision to the infinite plane
-    */
-    inline bool handleCollition(Walker& walker, Collision &colision, Eigen::Vector3d& step,double& a,double& b, double& c,double& discr,double& step_length, double &D_in, double &D_ex);
-
 
 };
 

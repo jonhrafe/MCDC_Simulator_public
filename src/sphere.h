@@ -1,16 +1,17 @@
 //!  Sphere Obstacle Derived Class =============================================================/
 /*!
-*   \details   Sphere obstacle class derived from an Obstacle. Defines a analyitical sphere of radius
-*   r and centered in center
-*   \author    Jonathan Rafael
-*   \date      2020
-*   \version   1.5
+*   \details   Sphere class derived from an Obstacle. Defines sphere of radius R
+*   \author    Remy Gardier
+*   \date      January 2021
+*   \version   0.0
 =================================================================================================*/
+
 
 #ifndef SPHERE_H
 #define SPHERE_H
 
 #include "obstacle.h"
+
 
 class Sphere : public Obstacle
 {
@@ -18,32 +19,34 @@ public:
 
     static int count;
 
-    Eigen::Vector3d center;    /*!< Cilinder Axis reference Points, P should be the "center"      */
-    double radius;             /*!< Radius of the Sphere                                          */
+    Eigen::Vector3d P;      /*!< Center of the sphere   */
+    double radius;          /*!< Radius of the sphere   */
 
     /*!
      *  \brief Default constructor. Does nothing
      */
-    Sphere(){id = count++;}
-    /*!
-     *  \brief Default destructor. Does nothing
-     */
-    ~Sphere(){count--;}
+    Sphere();
+
+    ~Sphere(); 
 
     /*!
-     *  \param center Sphere origin
-     *  \param radius Sphere's radius
-     *  \param scale  overall scale for when reading files.
+     *  \param P_ Sphere origin
+     *  \param radius_ sphere's radius
+     *  \param scale scale factor for the values passed. Useful when reading a file.
      *  \brief Initialize everything.
      */
-    Sphere(Eigen::Vector3d center_, double radius_,double scale =1):center(center_*scale),radius(radius_*scale){
+    Sphere(Eigen::Vector3d P_, double radius_, double scale = 1, double percolation_=0.0):P(P_*scale), radius(radius_*scale){
+        percolation = percolation_;
         id = count++;
     }
 
     /*!
-     *  \brief constrcutor by copy
+     *  \param P_ Sphere origin
+     *  \param radius_ sphere's radius
+     *  \param scale scale factor for the values passed. Useful when reading a file.
+     *  \brief Initialize everything.
      */
-    Sphere(Sphere const &sph);
+   Sphere(Sphere const &sph);
 
     /*! \fn  checkCollision
      *  \param walker, Walker instance in the simulation.
@@ -55,22 +58,10 @@ public:
      */
     bool checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision);
 
-    /*! \fn  checkCollision for multi-compartment diffusion
-     *  \param walker, Walker instance in the simulation.
-     *  \param 3d step. Is assumed to be normalized.
-     *  \param step_length, length used as the maximum step collision distance.
-     *  \param collision, Collision instance to save the collision (if any) details.
-     *  \param D_in diffusivity in the intracellular region.
-     *  \param D_ex diffusivity in the extracellular region.
-     *  \return true only if there was a Collision::hit status. \see Collision.
-     *  \brief Basic collision function. Returns the if there was any collision on against the obstacle.
-     */
-    bool checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision, double &D_in, double &D_ex);
-
     /*! \fn  minDistance
      *  \param walker, Walker instance in the simulation.
-     *  \brief Returns the minimum distance from the walker to the Sphere. Used to set the reachable
-     *  Spheres that a given walker can reach.
+     *  \brief Returns the minimum distance from the walker to the sphere. Used to set the reachable
+     *  sphere that a given walker can reach.
      */
     double minDistance(Walker &w);
 
@@ -84,13 +75,6 @@ private:
      */
     inline bool handleCollition(Walker& walker, Collision &colision, Eigen::Vector3d& step,double& a,double& b, double& c,double& discr,double& step_length);
 
-    /*! \fn  handleCollition for multi-compartment diffusion
-    *  \param walker, Walker instance in the simulation.
-    *  \param collision, Collision instance to save all the information.
-    *  \param step, step vector where to move.
-    *  \brief Returns true if it was any analytical collision to the infinite plane
-    */
-    inline bool handleCollition(Walker& walker, Collision &colision, Eigen::Vector3d& step,double& a,double& b, double& c,double& discr,double& step_length, double &D_in, double &D_ex);
 };
 
-#endif // Sphere_H
+#endif // SPHERE_H

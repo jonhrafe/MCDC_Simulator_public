@@ -4,11 +4,11 @@
 /*******************************************   Cylinder Sphere Collision Implementation ***********************************************/
 
 
-ObstacleCollisionSphere::ObstacleCollisionSphere():small_sphere_list_end(0),big_sphere_list_end(0)
+CylinderCollisionSphere::CylinderCollisionSphere():small_sphere_list_end(0),big_sphere_list_end(0)
 {
 }
 
-void ObstacleCollisionSphere::pushToSmallSphere(unsigned i)
+void CylinderCollisionSphere::pushToSmallSphere(unsigned i)
 {
     //If i is already inside the "good" side we do nothing
     if(i < small_sphere_list_end || small_sphere_list_end == collision_list->size()){
@@ -25,7 +25,7 @@ void ObstacleCollisionSphere::pushToSmallSphere(unsigned i)
         big_sphere_list_end = small_sphere_list_end;
 }
 
-void ObstacleCollisionSphere::pushToBigSphere(unsigned i)
+void CylinderCollisionSphere::pushToBigSphere(unsigned i)
 {
     //If i is already on the "other" side we do nothing
     if(i < big_sphere_list_end || big_sphere_list_end == collision_list->size()){
@@ -40,7 +40,7 @@ void ObstacleCollisionSphere::pushToBigSphere(unsigned i)
 }
 
 
-void ObstacleCollisionSphere::popFromSmallSphere(unsigned i)
+void CylinderCollisionSphere::popFromSmallSphere(unsigned i)
 {
     //If i is already on the "other" side we do nothing
     if(i >= small_sphere_list_end || small_sphere_list_end == 0){
@@ -53,7 +53,7 @@ void ObstacleCollisionSphere::popFromSmallSphere(unsigned i)
     small_sphere_list_end--;
 }
 
-void ObstacleCollisionSphere::popFromBigSphere(unsigned i)
+void CylinderCollisionSphere::popFromBigSphere(unsigned i)
 {
     //If i is already on the "other" side we do nothing
     if(i >= big_sphere_list_end || big_sphere_list_end == 0){
@@ -71,15 +71,15 @@ void ObstacleCollisionSphere::popFromBigSphere(unsigned i)
 }
 
 
-void ObstacleCollisionSphere::setBigSphereSize(float size){
+void CylinderCollisionSphere::setBigSphereSize(float size){
     big_sphere_distance = size;
 }
 
-void ObstacleCollisionSphere::setSmallSphereSize(float size){
+void CylinderCollisionSphere::setSmallSphereSize(float size){
     small_sphere_distance = size;
 }
 
-void ObstacleCollisionSphere::push_index(unsigned int element)
+void CylinderCollisionSphere::push_index(unsigned int element)
 {
         collision_list->push_back(element);
         list_size++;
@@ -184,6 +184,90 @@ void PLYCollisionSphere::push_ply(std::vector<unsigned> list)
 }
 
 
+
+/*******************************************   Sphere Sphere Collision Implementation ***********************************************/
+
+
+SphereCollisionSphere::SphereCollisionSphere():small_sphere_list_end(0),big_sphere_list_end(0)
+{
+}
+
+void SphereCollisionSphere::pushToSmallSphere(unsigned i)
+{
+    //If i is already inside the "good" side we do nothing
+    if(i < small_sphere_list_end || small_sphere_list_end == collision_list->size()){
+        return;
+    }
+
+    unsigned jkr = collision_list->at(i);
+    collision_list->at(i) = collision_list->at(small_sphere_list_end);
+    collision_list->at(small_sphere_list_end) = jkr;
+    small_sphere_list_end++;
+
+    // WARNING small sphere size should never be greater than the big one.
+    if(small_sphere_list_end > big_sphere_list_end)
+        big_sphere_list_end = small_sphere_list_end;
+}
+
+void SphereCollisionSphere::pushToBigSphere(unsigned i)
+{
+    //If i is already on the "other" side we do nothing
+    if(i < big_sphere_list_end || big_sphere_list_end == collision_list->size()){
+        return;
+    }
+
+    unsigned jkr = collision_list->at(i);
+    collision_list->at(i)=collision_list->at(big_sphere_list_end);
+    collision_list->at(big_sphere_list_end) = jkr;
+    big_sphere_list_end++;
+
+}
+
+
+void SphereCollisionSphere::popFromSmallSphere(unsigned i)
+{
+    //If i is already on the "other" side we do nothing
+    if(i >= small_sphere_list_end || small_sphere_list_end == 0){
+        return;
+    }
+
+    unsigned jkr = collision_list->at(i);
+    collision_list->at(i)=collision_list->at(small_sphere_list_end-1);
+    collision_list->at(small_sphere_list_end-1) = jkr;
+    small_sphere_list_end--;
+}
+
+void SphereCollisionSphere::popFromBigSphere(unsigned i)
+{
+    //If i is already on the "other" side we do nothing
+    if(i >= big_sphere_list_end || big_sphere_list_end == 0){
+        return;
+    }
+
+    unsigned jkr = collision_list->at(i);
+    collision_list->at(i)=collision_list->at(big_sphere_list_end-1);
+    collision_list->at(big_sphere_list_end-1) = jkr;
+    big_sphere_list_end--;
+
+    // WARNING small sphere size should never be greater than the big one.
+    if(big_sphere_list_end < small_sphere_list_end)
+        small_sphere_list_end = big_sphere_list_end;
+}
+
+
+void SphereCollisionSphere::setBigSphereSize(float size){
+    big_sphere_distance = size;
+}
+
+void SphereCollisionSphere::setSmallSphereSize(float size){
+    small_sphere_distance = size;
+}
+
+void SphereCollisionSphere::push_index(unsigned int element)
+{
+        collision_list->push_back(element);
+        list_size++;
+}
 
 
 

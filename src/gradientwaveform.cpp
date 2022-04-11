@@ -10,7 +10,7 @@
 
 #include "gradientwaveform.h"
 #include "constants.h"
-#include "Eigen/Dense"
+#include <Eigen/Dense>
 #include <math.h>
 #include <algorithm>
 #include <fstream>
@@ -34,21 +34,16 @@ GradientWaveform::GradientWaveform()
     wave_duration  = 0;
     dt = 0;
     wave_bins = 0;
-    separate_signal=false;
-    num_rep=0;
 }
 
 GradientWaveform::GradientWaveform(Scheme &scheme_)
 {
-    this->num_rep=0;
     dynamic = false;
     save_phase_shift = true;
     percent_steps_in = -1;
     readSchemeParameters(scheme_);
     //phase_shift_distribution.resize(num_rep,3600);
     phase_shift_distribution = Eigen::ArrayXXf::Zero(num_rep,3600);
-    separate_signal=false;
-
 }
 
 //TODO correjir esto
@@ -63,7 +58,6 @@ GradientWaveform::GradientWaveform(Scheme& scheme_, const char *traj_file_name)
     dyn_duration = trajectory.dyn_duration;
     //phase_shift_distribution.resize(scheme_.num_rep,3600); // Dynamic duration no es igual que el waveform duration
     phase_shift_distribution = Eigen::ArrayXXf::Zero(num_rep,3600);
-    separate_signal=false;
 }
 
 double GradientWaveform::getNumericalbValue(unsigned)
@@ -80,8 +74,7 @@ void GradientWaveform::readSchemeParameters(Scheme &scheme_)
 
     for(unsigned i = 0 ; i < uint(num_rep); i++){
         DWI.push_back(0);
-        if(this->img_signal == true)
-            DWIi.push_back(0);
+        DWIi.push_back(0);
         phase_shift.push_back(0);
     }
 }
@@ -124,6 +117,7 @@ void GradientWaveform::readSchemeFile()
             this->waveform.push_back(wave_vector);
         }
     }
+
     in.close();
 }
 
@@ -249,8 +243,7 @@ void GradientWaveform::getDWISignal()
 
         for(uint s=0; s < num_rep; s++){
             DWI[s] += cos(phase_shift[s]); // Real part
-            if(this->img_signal == true)
-                DWIi[s]+= sin(phase_shift[s]); // Img part
+            DWIi[s]+= sin(phase_shift[s]); // Img part
 
             phase_shift[s] = 0;
         }
@@ -267,22 +260,7 @@ void GradientWaveform::update_DWI_signal(Walker& walker)
         double sin_phase_shift = sin(phase_shift[s]);
 
         DWI[s] += cos_phase_shift; // Real part
-        if(this->img_signal == true)
-            DWIi[s]+= sin_phase_shift; // Img part
-
-        if(this->separate_signal){
-
-            if(walker.location == Walker::RelativeLocation::intra){
-                DWI_intra[s]+=cos_phase_shift;
-            }
-            else if(walker.location == Walker::RelativeLocation::extra){
-                DWI_extra[s]+=cos_phase_shift;
-            }
-            else{
-                cout << walker.location << endl;
-
-            }
-        }
+        DWIi[s]+= sin_phase_shift; // Img part
 
         if(save_phase_shift){
             //Index between 0 and 3600, this give us a histogram with 3600 bins
@@ -295,18 +273,7 @@ void GradientWaveform::update_DWI_signal(Walker& walker)
 
                 if( subdivisions[i].isInside(walker.pos_v)){
                     sub_DWI[i][s] += cos_phase_shift; // Real part
-                    if(this->img_signal == true)
-                        sub_DWIi[i][s]+= sin_phase_shift; // Img part
-
-                    if(separate_signal){
-                        if(walker.location == Walker::RelativeLocation::intra){
-                            sub_DWI_intra[i][s]+=cos_phase_shift;
-                        }
-                        else if(walker.location == Walker::RelativeLocation::extra){
-                            sub_DWI_extra[i][s]+=cos_phase_shift;
-                        }
-                    }
-
+                    sub_DWIi[i][s]+= sin_phase_shift; // Img part
                     break;  //WARNING this break means that the subdivision are mutally exclusive
                 }
             }

@@ -1,14 +1,14 @@
-//!  SphereGammaDistribution Class =============================================================/
+//!  SpherePackingUniform Class =============================================================/
 /*!
-*   \details   Class to construct a substrate taken from a Gamma distribution of radiis placed in
+*   \details   Class to construct a substrate from radiis placed in
 *              a single voxel structure.
 *   \author    Remy Gardier
-*   \date      January 2021
+*   \date      May 2021
 *   \version   0.0
 =================================================================================================*/
 
-#ifndef SPHEREGAMMADISTRIBUTION_H
-#define SPHEREGAMMADISTRIBUTION_H
+#ifndef SPHEREPACKINGUNIFORM_H
+#define SPHEREPACKINGUNIFORM_H
 
 #include "Eigen/Core"
 #include <vector>
@@ -17,18 +17,18 @@
 #include <iostream>
 #include "sphere.h"
 
-class SphereGammaDistribution
+class SpherePackingUniform
 {
 public:
 
-    unsigned num_spheres;                             /*!< number of spheres fit inside the substrate                                */
-    double alpha;                                   /*!< alpha coefficient of the Gamma distribution                                */
-    double beta;                                    /*!< beta coefficient of the gamma distribution                                 */
+    std::vector<unsigned> num_spheres;               /*!< number of spheres fit inside the substrate per radius     */
+    unsigned nb_spheres;                             /*!< Total number of spheres                                   */
+    std::vector<double> radii_spheres;                       /*!< Vector of radius                                */
     double icvf;                                    /*!< Achieved intra-celular volum fraction in the substrate                     */
 
     Eigen::Vector3d min_limits;                     /*!< voxel min limits (if any) (bottom left corner)                             */
     Eigen::Vector3d max_limits;                     /*!< voxel max limits (if any)                                                  */
-    std::vector<Sphere> spheres;                /*!< Spheres vector                                                             */
+    std::vector<Sphere> spheres;                    /*!< Spheres vector                                                             */
 
     /*!
      *  \param P_ Sphere origin
@@ -36,21 +36,15 @@ public:
      *  \param scale scale factor for the values passed. Useful when reading a file.
      *  \brief Initialize everything.
      */
-    SphereGammaDistribution(unsigned ,double,double, double,Eigen::Vector3d &, Eigen::Vector3d &);
+    SpherePackingUniform(std::vector<unsigned>, std::vector<double>, double, Eigen::Vector3d &, Eigen::Vector3d &);
 
 
     // void setVariables(unsigned num_sph, double a, double b,double icvf_,Eigen::Vector3d & min_l, Eigen::Vector3d &max_l);
 
-
     /*!
-     *  \brief Shows a small histogram of the gamma distribution
+     *  \brief Construct substrate
     */
-    void displayGammaDistribution();
-
-    /*!
-     *  \brief Samples and constructs a Gamma distribution
-    */
-    void createGammaSubstrate();
+    void createSubstrate();
 
     /*!
      *  \brief Prints the sphere positions in a file or output stream.
@@ -92,4 +86,4 @@ private:
 
 };
 
-#endif // SPHEREGAMMADISTRIBUTION_H
+#endif // SPHEREPACKINGUNIFORM_H

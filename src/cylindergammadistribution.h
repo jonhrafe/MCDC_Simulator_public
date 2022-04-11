@@ -21,17 +21,15 @@ class CylinderGammaDistribution
 {
 public:
 
-    unsigned num_obstacles;                         /*!< number of cylnders fit inside the substrate                                */
+    unsigned num_cylinders;                         /*!< number of cylnders fit inside the substrate                                */
     double alpha;                                   /*!< alpha coefficient of the Gamma distribution                                */
     double beta;                                    /*!< beta coefficient of the gamma distribution                                 */
     double icvf;                                    /*!< Achieved intra-celular volum fraction in the substrate                     */
-    float min_radius;                                /*!< Minimum radius to be sampled from the gamma distribution                  */
 
     Eigen::Vector3d min_limits;                     /*!< voxel min limits (if any) (bottom left corner)                             */
     Eigen::Vector3d max_limits;                     /*!< voxel max limits (if any)                                                  */
     std::vector<Cylinder> cylinders;                /*!< Cylinder vector                                                            */
 
-
     /*!
      *  \param P_ Cylinder origin
      *  \param Q_ cylinder direction.
@@ -39,16 +37,7 @@ public:
      *  \param scale scale factor for the values passed. Useful when reading a file.
      *  \brief Initialize everything.
      */
-    CylinderGammaDistribution(){}
-
-    /*!
-     *  \param P_ Cylinder origin
-     *  \param Q_ cylinder direction.
-     *  \param radius_ cylinder's radius
-     *  \param scale scale factor for the values passed. Useful when reading a file.
-     *  \brief Initialize everything.
-     */
-    CylinderGammaDistribution(unsigned, double, double, double, Eigen::Vector3d &, Eigen::Vector3d &, float min_radius = 0.001);
+    CylinderGammaDistribution(unsigned,double,double,double,Eigen::Vector3d &, Eigen::Vector3d &);
 
     /*!
      *  \brief Shows a small histogram of the gamma distribution

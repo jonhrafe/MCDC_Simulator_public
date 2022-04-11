@@ -1,7 +1,7 @@
 #include "obstacle.h"
 #include <math.h>
 
-Obstacle::Obstacle():percolation(0),T2(0),id(-1)
+Obstacle::Obstacle():percolation(0.0),T2(0.0),prob_cross_e_i(0.0), prob_cross_i_e(0.0), diffusivity_i(0.0), diffusivity_e(0.0)
 {
 }
 
@@ -27,4 +27,14 @@ double Obstacle::minDistance(Walker &w)
 {
     return 0;
 
+}
+
+void Obstacle::setPercolation(double &percolation_)
+{
+    percolation = percolation_;
+}
+
+void Obstacle::setDiffusion(double &diffusivity_i_, double &diffusivity_e_){
+    diffusivity_i = diffusivity_i_;
+    diffusivity_e = diffusivity_e_;
 }

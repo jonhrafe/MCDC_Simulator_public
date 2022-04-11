@@ -1,21 +1,19 @@
 #include "cylindergammadistribution.h"
 #include <algorithm>    // std::sort
 #include <random>
-#include  "simerrno.h"
 
 using namespace std;
 using namespace Eigen;
 
-CylinderGammaDistribution::CylinderGammaDistribution(unsigned num_cyl, double a, double b,double icvf_,Eigen::Vector3d & min_l, Eigen::Vector3d &max_l, float min_radius)
+CylinderGammaDistribution::CylinderGammaDistribution(unsigned num_cyl, double a, double b,double icvf_,Eigen::Vector3d & min_l, Eigen::Vector3d &max_l)
 {
-    num_obstacles = num_cyl;
+    num_cylinders = num_cyl;
     alpha = a;
     beta  = b;
     icvf = icvf_;
     min_limits = min_l;
     max_limits = max_l;
     cylinders.clear();
-    this->min_radius = min_radius;
 }
 
 void CylinderGammaDistribution::computeMinimalSize(std::vector<double> radiis, double icvf_,Eigen::Vector3d& l){
@@ -50,7 +48,6 @@ void CylinderGammaDistribution::displayGammaDistribution()
 
     for (int i=0; i<nrolls; ++i) {
         double number = distribution(generator);
-
         if (number<10) ++p[int(number)];
         else ++p[10];
     }
@@ -80,29 +77,11 @@ void CylinderGammaDistribution::createGammaSubstrate()
 
     std::mt19937 gen(rd());
     std::uniform_real_distribution<double> udist(0,1);
-    std::vector<double> radiis(num_obstacles,0);
+    std::vector<double> radiis(num_cylinders,0);
 
     bool achieved = false;
-
-    int tried = 0;
-
-    for (unsigned i=0; i< num_obstacles; ++i) {
-
-        if(tried > 10000){
-            string message = " Radii distribution cannot be sampled [Min. radius Error]\n";
-            SimErrno::error(message,cout);
-            assert(0);
-        }
-        double jkr =  distribution(generator);
-
-        if(jkr< this->min_radius){
-            i--;
-            tried++;
-            continue;
-        }
-        tried=0;
-
-        radiis[i] = jkr*1e-3; //WE CONVERT FROM UM TO MM HERE
+    for (unsigned i=0; i< num_cylinders; ++i) {
+        radiis[i] = distribution(generator)*1e-3;
     }
 
     // using a lambda function:
@@ -124,7 +103,7 @@ void CylinderGammaDistribution::createGammaSubstrate()
             vector<Cylinder> cylinders_to_add;
 
             cylinders.clear();
-            for(unsigned i = 0 ; i < num_obstacles; i++){
+            for(unsigned i = 0 ; i < num_cylinders; i++){
                 unsigned stuck = 0;
 
                 while(++stuck <= 1000){
@@ -166,9 +145,8 @@ void CylinderGammaDistribution::createGammaSubstrate()
                 break;
             }
         }
-        cylinders.clear();
+        cylinders.clear();;
         adjustments++;
-        cout << best_icvf << endl;
         if(adjustments > max_adjustments){
             break;
         }
@@ -180,11 +158,8 @@ void CylinderGammaDistribution::createGammaSubstrate()
     //TODO cambiar a INFO
     int perc_;
     double icvf_current = computeICVF(cylinders,min_limits, max_limits,perc_);
-
-     string  message = "Percentage of cylinders selected: "+ to_string(double(perc_)/radiis.size()*100.0)
-            + "%,\nICVF achieved: " + to_string(icvf_current*100) + "  ("+ to_string( int((icvf_current/icvf*100))) + "% of the desired icvf)\n";
-     SimErrno::info(message,cout);
-
+    cout << "Percentage of cylinders selected: "+ to_string(double(perc_)/radiis.size()*100.0)
+            + "%,\nICVF achieved: " + to_string(icvf_current*100) + "  ("+ to_string( int((icvf_current/icvf*100))) + "% of the desired icvf)\n" << endl;
 }
 
 void CylinderGammaDistribution::printSubstrate(ostream &out)
@@ -194,11 +169,11 @@ void CylinderGammaDistribution::printSubstrate(ostream &out)
 
         out << cylinders[i].P[0]*1e3 << " " << cylinders[i].P[1]*1e3 << " " << cylinders[i].P[2]*1e3 << " "
                                      << cylinders[i].Q[0]*1e3 << " " << cylinders[i].Q[1]*1e3 << " " << cylinders[i].Q[2]*1e3 << " "
-                                     << cylinders[i].radius*1e3 << endl;
+                                     << cylinders[i].radius*1e3 << endl;;
     }
 }
 
-bool CylinderGammaDistribution::checkForCollition(  Cylinder cyl, Vector3d min_limits, Vector3d max_limits, std::vector<Cylinder>& cylinders_to_add,double &min_distance)
+bool CylinderGammaDistribution::checkForCollition(Cylinder cyl, Vector3d min_limits, Vector3d max_limits, std::vector<Cylinder>& cylinders_to_add,double &min_distance)
 {
     cylinders_to_add.clear();
 
@@ -309,6 +284,7 @@ void CylinderGammaDistribution::checkBoundaryConditions(Cylinder cyl, std::vecto
         }
     }
 
+    /* Why no brackets here ? */
     if(to_add.size() == 3)
         for(unsigned j = 1 ; j < 3; j++){
             Cylinder jkr(to_add[j]);

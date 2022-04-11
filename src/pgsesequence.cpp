@@ -1,6 +1,6 @@
 #include "pgsesequence.h"
 #include "constants.h"
-#include "Eigen/Dense"
+#include <Eigen/Dense>
 #include <math.h>
 #include <algorithm>
 #include <fstream>
@@ -19,13 +19,11 @@ PGSESequence::PGSESequence()
     save_phase_shift = true;
     percent_steps_in = -1;
     T = 0;
-    separate_signal=false;
 }
 
 
 PGSESequence::PGSESequence(Scheme scheme_)
 {
-    num_rep=0;
     dynamic = false;
     save_phase_shift = true;
     percent_steps_in = -1;
@@ -180,7 +178,6 @@ void PGSESequence::readSchemeParameters(Scheme scheme_){
     for(unsigned i = 0 ; i < num_rep; i++){
         DWI.push_back(0);
         DWIi.push_back(0);
-
         phase_shift.push_back(0);
         scheme.push_back(scheme_.scheme[i]);
     }
@@ -206,15 +203,7 @@ void PGSESequence::readSchemeFile()
     while( in >> tmp){
         scheme_line.push_back(tmp);
         DWI.push_back(0);
-
-        if(this->img_signal == true)
-            DWIi.push_back(0);
-
-        if(separate_signal){
-            DWI_extra.push_back(0);
-            DWI_intra.push_back(0);
-        }
-
+        DWIi.push_back(0);
         num_rep++;
         for(int i = 0 ; i < 6; i++){
             in >> tmp;
@@ -287,22 +276,7 @@ void PGSESequence::update_DWI_signal(Walker& walker)
         double sin_phase_shift = sin(phase_shift[s]);
 
         DWI[s] += cos_phase_shift; // Real part
-
-        if(this->img_signal == true)
-            DWIi[s]+= sin_phase_shift; // Img part
-
-        if(this->separate_signal){
-
-            if(walker.location == Walker::RelativeLocation::intra){
-                DWI_intra[s]+=cos_phase_shift;
-            }
-            else if(walker.location == Walker::RelativeLocation::extra){
-                DWI_extra[s]+=cos_phase_shift;
-            }
-            else{
-                cout << walker.location << endl;
-            }
-        }
+        DWIi[s]+= sin_phase_shift; // Img part
 
         if(save_phase_shift){
             //Index between 0 and 3600, this give us a histogram with 3600 bins
@@ -315,19 +289,7 @@ void PGSESequence::update_DWI_signal(Walker& walker)
 
                 if( subdivisions[i].isInside(walker.pos_v)){
                     sub_DWI[i][s] += cos_phase_shift; // Real part
-
-                    if(this->img_signal)
-                        sub_DWIi[i][s]+= sin_phase_shift; // Img part
-
-                    if(separate_signal){
-                        if(walker.location == Walker::RelativeLocation::intra){
-                            sub_DWI_intra[i][s]+=cos_phase_shift;
-                        }
-                        else if(walker.location == Walker::RelativeLocation::extra){
-                            sub_DWI_extra[i][s]+=cos_phase_shift;
-                        }
-                    }
-
+                    sub_DWIi[i][s]+= sin_phase_shift; // Img part
                     break;  //WARNING this break means that the subdivision are mutally exclusive
                 }
             }
@@ -507,9 +469,7 @@ void PGSESequence::getDWISignal()
 
         for(uint s=0; s < num_rep; s++){
             DWI[s] += cos(phase_shift[s]); // Real part
-
-            if(this->img_signal == true)
-                DWIi[s]+= sin(phase_shift[s]); // Img part
+            DWIi[s]+= sin(phase_shift[s]); // Img part
 
             phase_shift[s] = 0;
         }

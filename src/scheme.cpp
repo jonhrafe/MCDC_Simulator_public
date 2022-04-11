@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <assert.h>
-#include "constants.h"
+#include <constants.h>
 using namespace std;
 
 Scheme::Scheme()
@@ -20,7 +20,7 @@ void Scheme::readSchemeFile(string scheme_file_,bool scale_from_stu)
     ifstream in(scheme_file_.c_str());
 
     if(!in.is_open()){
-        std::cout << "Error loading the file" << std::endl;
+        std::cout << "error al abrir archivo" << std::endl;
         in.close();
         return;
     }

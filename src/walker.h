@@ -52,23 +52,27 @@ public:
 
     int in_obj_index;                                               /*!< Auxiliar index to save if the walker was inside a convex object        */
 
-    int in_ply_index;                                               /*!< Auxiliar index to save if the walker was inside a convex ply object    */
+    CylinderCollisionSphere collision_sphere_cylinders;             /*!< Collision sphere for collition against cylidners                       */
 
-    int in_sph_index;                                               /*!< Auxiliar index to save if the walker was inside a sphere               */
+    PLYCollisionSphere collision_sphere_ply;                        /*!< Collision sphere for collition against PLY meshes                      */
 
-    ObstacleCollisionSphere cylinders_collision_sphere;             /*!< Collision sphere for collition against cylidners                       */
-
-    ObstacleCollisionSphere spheres_collision_sphere;               /*!< Collision sphere for collition against cylidners                       */
-
-    PLYCollisionSphere ply_collision_sphere;                        /*!< Collision sphere for collition against PLY meshes                      */
+    SphereCollisionSphere collision_sphere_spheres;                 /*!< Collision sphere for collition against spheres                         */
 
     Eigen::Vector3d initial_sphere_pos_v;                           /*!< Saves the intial positioon of the walker inside the collition sphere   */
 
     unsigned steps_count;                                           /*!< Counts the number of steps (including bouncings) made.                 */
 
-    state status;                                                   /*!< state memeber */
+    state status;                                                   /*!< state memeber                                                          */
 
-    RelativeLocation initial_location, location;                    /*!< location on the substrate (if known)*/
+    RelativeLocation initial_location, location;                    /*!< location on the substrate (if known)                                   */
+
+    Eigen::VectorXi colision_in_log, colision_ext_log;                                   /*!< Vector of colision for logging                                         */
+
+    Eigen::VectorXi crossing_in_log, crossing_ext_log;                                   /*!< Vector of crossing for logging                                         */
+
+    unsigned colision_in, colision_ext;                                              /*!< Retains the number of hit per step                                      */ 
+
+    unsigned crossing_in, crossing_ext;                                              /*!< Retains the number of crossing per step                                */
 
     int intra_extra_consensus;                                      /*!< intra o extra position by face collision consensus w/r the normal*/
 
@@ -130,6 +134,9 @@ public:
 
 
     void setNumberOfSteps(unsigned T);
+
+    void setColision(unsigned hit_in, unsigned hit_ext, unsigned cross_in, unsigned cross_ext, unsigned t);
+
 
 };
 

@@ -1,15 +1,18 @@
-#include "spheregammadistribution.h"
+#include "spherepackinguniform.h"
 #include <algorithm>    // std::sort
 #include <random>
 
 using namespace std;
 using namespace Eigen;
 
-SphereGammaDistribution::SphereGammaDistribution(unsigned num_sph, double a, double b,double icvf_,Eigen::Vector3d &min_l, Eigen::Vector3d &max_l)
+SpherePackingUniform::SpherePackingUniform(std::vector<unsigned> num_sph, std::vector<double> radii_spheres_, double icvf_,Eigen::Vector3d &min_l, Eigen::Vector3d &max_l)
 {
     num_spheres = num_sph;
-    alpha = a;
-    beta  = b;
+    nb_spheres=0;
+    for (unsigned i =0; i<num_spheres.size(); i++){
+        nb_spheres = nb_spheres +  num_spheres[i];
+    }
+    radii_spheres = radii_spheres_;
     icvf = icvf_;
     min_limits = min_l;
     max_limits = max_l;
@@ -17,7 +20,7 @@ SphereGammaDistribution::SphereGammaDistribution(unsigned num_sph, double a, dou
 }
 
 
-void SphereGammaDistribution::computeMinimalSize(std::vector<double> radiis, double icvf_,Eigen::Vector3d& l){
+void SpherePackingUniform::computeMinimalSize(std::vector<double> radiis, double icvf_,Eigen::Vector3d& l){
 
    
     if(icvf_>= 0.7 && icvf_ < 0.99){
@@ -35,69 +38,32 @@ void SphereGammaDistribution::computeMinimalSize(std::vector<double> radiis, dou
     l = {l_,l_,l_};
 }
 
-void SphereGammaDistribution::displayGammaDistribution()
+
+void SpherePackingUniform::createSubstrate()
 {
-    const int nrolls=10000;  // number of experiments
-    const int nstars=100;    // maximum number of stars to distribute
-    string message;
-    std::random_device rd;
-    std::default_random_engine generator(rd());
-    std::gamma_distribution<double> distribution(alpha,beta);
-
-    int p[11]={};
-
-    for (int i=0; i<nrolls; ++i) {
-        double number = distribution(generator);
-        if (number<10) ++p[int(number)];
-        else ++p[10];
-    }
-
-    for (int i=0; i<9; ++i) {
-        message = std::to_string(i) + "-" + std::to_string(i+1) + ": " + std::string(p[i]*nstars/nrolls,'*');
-        SimErrno::info(message,cout);
-    }
-    message = "9-10:" + std::string(p[9]*nstars/nrolls,'*') ;
-    SimErrno::info(message,cout);
-    message = ">10: " +  std::string(p[10]*nstars/nrolls,'*') + "\n" ;
-    SimErrno::info(message,cout);
-}
-
-void SphereGammaDistribution::createGammaSubstrate()
-{
-    // generate the gamma distribution
-    std::random_device rd;
-    std::default_random_engine generator(rd());
-    std::gamma_distribution<double> distribution(alpha,beta);
-    uint repetition = 100;
+    uint repetition = 40;
     uint max_adjustments = 5;
     double best_icvf = 0;
     vector<Sphere> best_spheres;
     Eigen::Vector3d best_max_limits;
     min_limits = {0.,0.,0.};
 
+    std::random_device rd;
+
     std::mt19937 gen(rd());
     std::uniform_real_distribution<double> udist(0,1);
-    std::vector<double> radiis(num_spheres,0);
+    std::vector<double> radiis(nb_spheres,0.0);
 
     bool achieved = false;
+    unsigned nb_sphere_acc = 0;
 
-    /*
-    for (unsigned i=0; i< num_spheres; ++i) {
-        radiis[i] = distribution(generator)*1e-3;
-    }
-    */
-
-    double radius_min = 2.5e-4; // To be added as parameter
-    double radius_max = 1.0;    // To be added as parameter
-    double rad_curr = 0.0;
-    unsigned counter = 0;
-
-    while(counter < num_spheres){
-        rad_curr = distribution(generator)*1e-3;
-        if((rad_curr > radius_min) & (rad_curr < radius_max)){
-            radiis[counter] = rad_curr;
-            counter++;
+    for (unsigned j=0; j<num_spheres.size(); j++){
+        for(unsigned i=0; i< num_spheres[j]; i++){
+            double random_rad = udist(gen) * 1e-10;
+            radiis[nb_sphere_acc] = radii_spheres[j]*1e-3 + random_rad;
+            nb_sphere_acc += 1;
         }
+
     }
 
     // using a lambda function:
@@ -119,7 +85,7 @@ void SphereGammaDistribution::createGammaSubstrate()
             vector<Sphere> spheres_to_add;
 
             spheres.clear();
-            for(unsigned i = 0 ; i < num_spheres; i++){
+            for(unsigned i = 0 ; i < nb_spheres; i++){
                 unsigned stuck = 0;
 
                 while(++stuck <= 1000){
@@ -180,7 +146,7 @@ void SphereGammaDistribution::createGammaSubstrate()
             + "%,\nICVF achieved: " + to_string(icvf_current*100) + "  ("+ to_string( int((icvf_current/icvf*100))) + "% of the desired icvf)\n" << endl;
 }
 
-void SphereGammaDistribution::printSubstrate(ostream &out)
+void SpherePackingUniform::printSubstrate(ostream &out)
 {
     out << 1e-3 << endl;
     for(unsigned i = 0; i <spheres.size(); i++){
@@ -190,7 +156,7 @@ void SphereGammaDistribution::printSubstrate(ostream &out)
     }
 }
 
-bool SphereGammaDistribution::checkForCollition(Sphere sph, Vector3d min_limits, Vector3d max_limits, std::vector<Sphere>& spheres_to_add,double &min_distance)
+bool SpherePackingUniform::checkForCollition(Sphere sph, Vector3d min_limits, Vector3d max_limits, std::vector<Sphere>& spheres_to_add,double &min_distance)
 {
     spheres_to_add.clear();
 
@@ -242,7 +208,7 @@ are considered the same. This becasuse we don't track wich cylinders had to be r
 symmetry
 */
 
-double SphereGammaDistribution::computeICVF(std::vector<Sphere>& spheres, Vector3d& min_limits, Vector3d& max_limits,int& num_no_repeat)
+double SpherePackingUniform::computeICVF(std::vector<Sphere>& spheres, Vector3d& min_limits, Vector3d& max_limits,int& num_no_repeat)
 {
     if (spheres.size() == 0)
         return 0;
@@ -276,7 +242,7 @@ double SphereGammaDistribution::computeICVF(std::vector<Sphere>& spheres, Vector
 }
 
 
-void SphereGammaDistribution::checkBoundaryConditions(Sphere sph, std::vector<Sphere>& spheres_to_add, Vector3d min_limits, Vector3d max_limits){
+void SpherePackingUniform::checkBoundaryConditions(Sphere sph, std::vector<Sphere>& spheres_to_add, Vector3d min_limits, Vector3d max_limits){
     vector<Sphere> to_add;
 
     to_add.push_back(sph);

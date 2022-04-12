@@ -96,6 +96,10 @@ std::vector<double> GaussianDistribution::createRadiiList(){
             }
     }
     }
+    std::sort(radiis_packing.begin(),radiis_packing.end(),[](const double a, double  b) -> bool
+    {
+        return a> b;
+    });
     return radiis_packing;
 
 }

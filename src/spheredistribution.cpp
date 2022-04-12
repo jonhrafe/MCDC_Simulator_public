@@ -45,11 +45,10 @@ void SphereDistribution::createSubstrate()
     std::mt19937 gen(rd());
     std::uniform_real_distribution<double> udist(0,1);
 
-    // First draw all radii from all distriubtions
     double tot_num_obstacles(this->radiis.size());
 
 
-     // We increease 1% the total area. (Is prefered to fit all the spheres than achieve a perfect ICVF.)
+    // We increease 1% the total area. (Is prefered to fit all the spheres than achieve a perfect ICVF.)
     bool achieved = false;
     uint adjustments = 0;
 

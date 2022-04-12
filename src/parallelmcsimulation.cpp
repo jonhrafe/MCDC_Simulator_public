@@ -3,10 +3,12 @@
 #include <vector>
 #include "constants.h"
 #include "simerrno.h"
-#include "cylindergammadistribution.h"
-#include "spheregammadistribution.h"
-#include "spheregammadistributionmul.h"
-#include "spherepackinguniform.h"
+#include "gammadistribution.h"
+#include "uniformdistribution.h"
+#include "gaussiandistribution.h"
+#include "spheredistribution.h"
+#include "cylinderdistribution.h"
+
 
 using namespace std;
 
@@ -459,141 +461,161 @@ void ParallelMCSimulation::specialInitializations()
 {
     if(params.gamma_packing == true){
 
-        string message = "Initialializing Gamma distribution (" + std::to_string(params.gamma_packing_alpha) + ","
-                + std::to_string(params.gamma_packing_beta) + ").\n";
-        SimErrno::info(message,cout);
-
-        CylinderGammaDistribution gamma_dist(params.gamma_num_cylinders,params.gamma_packing_alpha, params.gamma_packing_beta,params.gamma_icvf
-                                             ,params.min_limits, params.max_limits);
-
-        gamma_dist.displayGammaDistribution();
-
-        gamma_dist.createGammaSubstrate();
-
-        params.max_limits = gamma_dist.max_limits;
-        params.min_limits = gamma_dist.min_limits;
-
-        if(params.voxels_list.size()<=0){
-            pair<Eigen::Vector3d,Eigen::Vector3d> voxel_(params.min_limits,params.max_limits);
-            params.voxels_list.push_back(voxel_);
-        }
-        else{
-            params.voxels_list[0].first =  params.min_limits;
-            params.voxels_list[0].second = params.max_limits;
-        }
-
-        string file = params.output_base_name + "_gamma_distributed_cylinder_list.txt";
-
-        ofstream out(file);
-
-        gamma_dist.printSubstrate(out);
-
-        params.cylinders_files.push_back(file);
-
-        SimErrno::info("Done.\n",cout);
-    }
-
-    if(params.gamma_packing_s == true){
-
-        string message = "Initialializing Gamma distribution (" + std::to_string(params.gamma_packing_alpha_s) + ","
-                + std::to_string(params.gamma_packing_beta_s) + ").\n";
-        SimErrno::info(message,cout);
-
-        SphereGammaDistribution gamma_dist(params.gamma_num_spheres_s,params.gamma_packing_alpha_s, params.gamma_packing_beta_s, params.gamma_icvf_s
-                                             ,params.min_limits, params.max_limits);
-
-        gamma_dist.displayGammaDistribution();
-
-        gamma_dist.createGammaSubstrate();
-
-        params.max_limits = gamma_dist.max_limits;
-        params.min_limits = gamma_dist.min_limits;
-
-        if(params.voxels_list.size()<=0){
-            pair<Eigen::Vector3d,Eigen::Vector3d> voxel_(params.min_limits,params.max_limits);
-            params.voxels_list.push_back(voxel_);
-        }
-        else{
-            params.voxels_list[0].first =  params.min_limits;
-            params.voxels_list[0].second = params.max_limits;
-        }
-
-        string file = params.output_base_name + "_gamma_distributed_sphere_list.txt";
-
-        ofstream out(file);
-
-        gamma_dist.printSubstrate(out);
-
-        params.spheres_files.push_back(file);
-
-        SimErrno::info("Done.\n",cout);
-    }
-
-    if(params.gamma_packing_smul == true){
-
-        string message = "Initialializing Multi Gamma distribution\n";
-        SimErrno::info(message,cout);
-
-        SphereGammaDistributionMul gamma_dist(params.gamma_num_spheres_smul,params.gamma_packing_alpha_smul, params.gamma_packing_beta_smul, params.gamma_icvf_smul
-                                             ,params.min_limits, params.max_limits);
-
-        gamma_dist.createGammaSubstrate();
-
-        params.max_limits = gamma_dist.max_limits;
-        params.min_limits = gamma_dist.min_limits;
-
-        if(params.voxels_list.size()<=0){
-            pair<Eigen::Vector3d,Eigen::Vector3d> voxel_(params.min_limits,params.max_limits);
-            params.voxels_list.push_back(voxel_);
-        }
-        else{
-            params.voxels_list[0].first =  params.min_limits;
-            params.voxels_list[0].second = params.max_limits;
-        }
-
-        string file = params.output_base_name + "_gamma_mul_distributed_sphere_list.txt";
-
-        ofstream out(file);
-
-        gamma_dist.printSubstrate(out);
-
-        params.spheres_files.push_back(file);
-
-        SimErrno::info("Done.\n",cout);
-    }
-
-    if(params.uniform_packing_s == true){
-
-        string message = "Initialializing Sphere packing.\n";
-        SimErrno::info(message,cout);
-
-        SpherePackingUniform sphere_packing_dist(params.uniform_packing_num_spheres_s,params.uniform_packing_radii_s, params.uniform_packing_icvf_s
-                                             ,params.min_limits, params.max_limits);
-
+        // Statistic
+        GammaDistribution stat_dist(params.packing_num_obstacles, params.gamma_packing_alpha, params.gamma_packing_beta);
+        stat_dist.displayDistribution();
+        std::vector<double> radiis_list(stat_dist.createRadiiList());
         
-        sphere_packing_dist.createSubstrate();
-
-        params.max_limits = sphere_packing_dist.max_limits;
-        params.min_limits = sphere_packing_dist.min_limits;
-
-        if(params.voxels_list.size()<=0){
-            pair<Eigen::Vector3d,Eigen::Vector3d> voxel_(params.min_limits,params.max_limits);
-            params.voxels_list.push_back(voxel_);
+        string message = "Initialializing Gamma distribution\n";
+        
+        for (unsigned i=0;i<params.gamma_packing_alpha.size();++i){
+            message+="("+ std::to_string(params.gamma_packing_alpha[i]) + ","
+                + std::to_string(params.gamma_packing_beta[i]) + ").\n";
         }
-        else{
-            params.voxels_list[0].first =  params.min_limits;
-            params.voxels_list[0].second = params.max_limits;
+        
+        if (params.packing_cyl==true){
+
+            message += " Cylinders \n";
+            SimErrno::info(message,cout);        
+            
+            // Obstacle
+            CylinderDistribution packing_dist(params.packing_icvf, params.min_limits, params.max_limits, radiis_list);
+            packing_dist.createSubstrate();
+
+
+            string file = params.output_base_name + "_gamma_packing_cylinder_list.txt";
+            params.cylinders_files.push_back(file);
+            ofstream out(file);
+            packing_dist.printSubstrate(out);
+            
+
+            params.max_limits = packing_dist.max_limits;
+            params.min_limits = packing_dist.min_limits;
+
+            if(params.voxels_list.size()<=0){
+                pair<Eigen::Vector3d,Eigen::Vector3d> voxel_(params.min_limits,params.max_limits);
+                params.voxels_list.push_back(voxel_);
+            }
+            else{
+                params.voxels_list[0].first =  params.min_limits;
+                params.voxels_list[0].second = params.max_limits;
+            }
+            SimErrno::info("Done.\n",cout);
         }
 
-        string file = params.output_base_name + "_uniform_sphere_packing_sphere_list.txt";
+        if (params.packing_s==true){
+            message += " Spheres \n";
+            SimErrno::info(message,cout);      
 
-        ofstream out(file);
+            // Obstacle
+            SphereDistribution packing_dist(params.packing_icvf, params.min_limits, params.max_limits, radiis_list);
+            packing_dist.createSubstrate();
 
-        sphere_packing_dist.printSubstrate(out);
+            string file = params.output_base_name + "_gamma_packing_sphere_list.txt";
+            ofstream out(file);
+            packing_dist.printSubstrate(out);            
+            params.spheres_files.push_back(file);
+            
+            params.max_limits = packing_dist.max_limits;
+            params.min_limits = packing_dist.min_limits;
 
-        params.spheres_files.push_back(file);
+            if(params.voxels_list.size()<=0){
+                pair<Eigen::Vector3d,Eigen::Vector3d> voxel_(params.min_limits,params.max_limits);
+                params.voxels_list.push_back(voxel_);
+            }
+            else{
+                params.voxels_list[0].first =  params.min_limits;
+                params.voxels_list[0].second = params.max_limits;
+            }
 
-        SimErrno::info("Done.\n",cout);
+            SimErrno::info("Done.\n",cout);
+
+        } 
+
+    }
+
+    if(params.uniform_packing == true){
+        // Statistic
+        UniformDistribution stat_dist(params.packing_num_obstacles,params.uniform_packing_radii);
+        stat_dist.displayDistribution();
+        std::vector<double> radiis_list(stat_dist.createRadiiList());
+
+        string message = "Initialializing Uniform packing of spheres \n";
+        for (unsigned i=0;i<params.uniform_packing_radii.size();++i){
+            message+="("+ std::to_string(params.uniform_packing_radii[i]) + ").\n";
+        }
+
+        if (params.packing_s==true){
+            message += " Spheres \n";
+            SimErrno::info(message,cout);  
+
+            // Obstacle
+            SphereDistribution packing_dist(params.packing_icvf, params.min_limits, params.max_limits, radiis_list);
+            packing_dist.createSubstrate();
+
+                        
+            string file = params.output_base_name + "_uniform_packing_sphere_list.txt";
+            params.spheres_files.push_back(file);
+            ofstream out(file);
+            packing_dist.printSubstrate(out);
+
+            params.max_limits = packing_dist.max_limits;
+            params.min_limits = packing_dist.min_limits;
+
+            if(params.voxels_list.size()<=0){
+                pair<Eigen::Vector3d,Eigen::Vector3d> voxel_(params.min_limits,params.max_limits);
+                params.voxels_list.push_back(voxel_);
+            }
+            else{
+                params.voxels_list[0].first =  params.min_limits;
+                params.voxels_list[0].second = params.max_limits;
+            }
+
+            SimErrno::info("Done.\n",cout);
+        }
+
+    }
+    if(params.gaussian_packing == true){
+
+        // Statistic
+        GaussianDistribution stat_dist(params.packing_num_obstacles,params.gaussian_packing_mean, params.gaussian_packing_std);
+        stat_dist.displayDistribution();
+        std::vector<double> radiis_list(stat_dist.createRadiiList());
+        
+
+        string message = "Initialializing Gaussian packing of spheres \n";
+        for (unsigned i=0;i<params.gaussian_packing_mean.size();++i){
+            message+="("+ std::to_string(params.gaussian_packing_mean[i]) + "," + std::to_string(params.gaussian_packing_std[i])+ ").\n";
+        }
+        if (params.packing_s==true){
+
+            message += " Spheres \n";
+            SimErrno::info(message,cout);  
+         
+            // Obstacle
+            SphereDistribution packing_dist(params.packing_icvf, params.min_limits, params.max_limits, radiis_list);
+            packing_dist.createSubstrate();
+                         
+            string file = params.output_base_name + "_gaussian_packing_sphere_list.txt";
+            params.spheres_files.push_back(file);
+            ofstream out(file);
+            packing_dist.printSubstrate(out);
+
+            params.max_limits = packing_dist.max_limits;
+            params.min_limits = packing_dist.min_limits;
+
+            if(params.voxels_list.size()<=0){
+                pair<Eigen::Vector3d,Eigen::Vector3d> voxel_(params.min_limits,params.max_limits);
+                params.voxels_list.push_back(voxel_);
+            }
+            else{
+                params.voxels_list[0].first =  params.min_limits;
+                params.voxels_list[0].second = params.max_limits;
+            }
+
+            SimErrno::info("Done.\n",cout);
+        }
+
     }
 
 }

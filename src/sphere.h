@@ -22,6 +22,8 @@ public:
     Eigen::Vector3d P;      /*!< Center of the sphere   */
     double radius;          /*!< Radius of the sphere   */
 
+    double volume;
+
     /*!
      *  \brief Default constructor. Does nothing
      */
@@ -38,6 +40,7 @@ public:
     Sphere(Eigen::Vector3d P_, double radius_, double scale = 1, double percolation_=0.0):P(P_*scale), radius(radius_*scale){
         percolation = percolation_;
         id = count++;
+        volume = 4./3.*M_PI * (radius_*scale) *  (radius_*scale)  *  (radius_*scale);
     }
 
     /*!

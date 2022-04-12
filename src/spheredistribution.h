@@ -1,14 +1,14 @@
-//!  SphereGammaDistribution Class =============================================================/
+//!  SphereDistribution Class =============================================================/
 /*!
-*   \details   Class to construct a substrate taken from a Gamma distribution of radiis placed in
+*   \details   Base class to construct a substrate made of spheres from a distribution of radiis placed in
 *              a single voxel structure.
 *   \author    Remy Gardier
-*   \date      January 2021
+*   \date      April 2022
 *   \version   0.0
 =================================================================================================*/
 
-#ifndef SPHEREGAMMADISTRIBUTION_H
-#define SPHEREGAMMADISTRIBUTION_H
+#ifndef SPHEREDISTRIBUTION_H
+#define SPHEREDISTRIBUTION_H
 
 #include "Eigen/Core"
 #include <vector>
@@ -16,47 +16,40 @@
 #include "simerrno.h"
 #include <iostream>
 #include "sphere.h"
+#include "obstacledistribution.h"
 
-class SphereGammaDistribution
+class SphereDistribution : public ObstacleDistribution
 {
 public:
 
-    unsigned num_spheres;                             /*!< number of spheres fit inside the substrate                                */
-    double alpha;                                   /*!< alpha coefficient of the Gamma distribution                                */
-    double beta;                                    /*!< beta coefficient of the gamma distribution                                 */
-    double icvf;                                    /*!< Achieved intra-celular volum fraction in the substrate                     */
-
-    Eigen::Vector3d min_limits;                     /*!< voxel min limits (if any) (bottom left corner)                             */
-    Eigen::Vector3d max_limits;                     /*!< voxel max limits (if any)                                                  */
-    std::vector<Sphere> spheres;                /*!< Spheres vector                                                             */
+    std::vector<Sphere> spheres;                    /*!< Spheres vector                                                             */
+    
 
     /*!
-     *  \param P_ Sphere origin
-     *  \param radius_ sphere's radius
-     *  \param scale scale factor for the values passed. Useful when reading a file.
+     *  \brief Default constructor. Does nothing
+     */
+    SphereDistribution(); 
+
+
+    /*!
+     *  \param icvf_ Intra-cellular volume fraction
+     *  \param min_l voxel min limits
+     *  \param max_l voxel min limits
      *  \brief Initialize everything.
      */
-    SphereGammaDistribution(unsigned ,double,double, double,Eigen::Vector3d &, Eigen::Vector3d &);
-
-
-    // void setVariables(unsigned num_sph, double a, double b,double icvf_,Eigen::Vector3d & min_l, Eigen::Vector3d &max_l);
-
+    SphereDistribution(double &, Eigen::Vector3d &, Eigen::Vector3d &, std::vector<double> &);
 
     /*!
-     *  \brief Shows a small histogram of the gamma distribution
+     *  \brief Samples and constructs a distribution
     */
-    void displayGammaDistribution();
-
-    /*!
-     *  \brief Samples and constructs a Gamma distribution
-    */
-    void createGammaSubstrate();
+    void createSubstrate();
 
     /*!
      *  \brief Prints the sphere positions in a file or output stream.
      *  \param out ostream where to write the info.
     */
     void printSubstrate(std::ostream& out); 
+
 
 private:
 
@@ -87,9 +80,14 @@ private:
     */
     double  computeICVF(std::vector<Sphere> &spheres, Eigen::Vector3d &min_limits, Eigen::Vector3d &max_limits, int &num_no_repeat);
 
+    /*!
+     *  \brief Estimate the minimal voxel side length from Intra Celular Volum Fraction and the radiis of the obstacles
+     *  \param radiis List of radiis.
+     *  \param icvf_ Intra-cellular volume fraction
+     *  \param l voxel side length.
+    */
     void computeMinimalSize(std::vector<double> radiis, double icvf_, Eigen::Vector3d& l);
-
 
 };
 
-#endif // SPHEREGAMMADISTRIBUTION_H
+#endif // SPHEREDISTRIBUTION_H

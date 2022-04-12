@@ -24,6 +24,8 @@ public:
     Eigen::Vector3d D;      /*!< Pre-computed and normalized P - Q vector                       */
     double radius;          /*!< Radius of the cylinder                                         */
 
+    double volume;          /*!< Volume/area of the cylinder                                    */
+
 
     /*!
      *  \brief Default constructor. Does nothing
@@ -43,6 +45,7 @@ public:
         D  = (Q_-P_).normalized();
         Q = P+D;
         id = count++;     
+        volume = M_PI * (radius_*scale) *  (radius_*scale);
     }
 
     /*!

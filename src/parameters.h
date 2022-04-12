@@ -65,50 +65,58 @@ public:
     std::vector<unsigned> record_phase_times;       /*!< time indexes, used to save the phase shif of all walkers at certain time   */
     std::vector<unsigned> record_prop_times;        /*!< time indexes, used to save the mean propagator of the walkers at c. times  */
 
+    
+    /* 
+    Packing : 
+        1. Distribution
+            - Gamma 
+            - Uniform
+            - Hexagonal
+
+        2. Type of obstacle
+            - Cylinder 
+            - Spheres
+    */
+    std::vector<unsigned>   packing_num_obstacles;
+    bool                    packing_output_conf;
+    double                  packing_icvf;
+    double                  packing_output_configuration;
+
+
+    /*
+     Implementation of packing distribution by Remy -
+    */
+
+    bool        gamma_packing;                      /*!< flag, true if a gamma distribution of cylinders will be initialized        */
+    std::vector<double>      gamma_packing_alpha;
+    std::vector<double>      gamma_packing_beta;
+
+    bool                    uniform_packing;                      /*!< flag, true if a gamma distribution of spheres will be initialized        */
+    std::vector<double>     uniform_packing_radii;
+
+    bool        gaussian_packing;                      /*!< flag, true if a gamma distribution of cylinders will be initialized        */
+    std::vector<double>      gaussian_packing_mean;
+    std::vector<double>      gaussian_packing_std;
+
+    
     bool   hex_packing;                             /*!< flag, true if an haxagonal packing should be used                          */
     double hex_packing_radius;                      /*!< float, constant radius for the cylinders                                          */
     double hex_packing_separation;                  /*!< float, separation distance betwen cylinders (separation > 2*radius)        */
 
-    bool        gamma_packing;                      /*!< flag, true if a gamma distribution of cylinders will be initialized        */
+    
+
+    /*
+     Implementation of packing type by Remy -
+    */
+    bool        packing_cyl;
+    bool        packing_s;
+
+
+    // For compilation
     bool        gamma_output_conf;
-    double      gamma_packing_alpha;
-    double      gamma_packing_beta;
     double      gamma_icvf;
     double      gamma_output_configuration;
     unsigned    gamma_num_cylinders;
-    
-    /*
-     Implementation of gamma sphere packing by Remy -
-    */
-    bool        gamma_packing_s;                      /*!< flag, true if a gamma distribution of spheres will be initialized        */
-    bool        gamma_output_conf_s;
-    double      gamma_packing_alpha_s;
-    double      gamma_packing_beta_s;
-    double      gamma_icvf_s;
-    double      gamma_output_configuration_s;
-    unsigned    gamma_num_spheres_s;
-
-    /*
-     Implementation of multi gamma sphere packing by Remy -
-    */
-    bool        gamma_packing_smul;                      /*!< flag, true if a multi gamma distribution of spheres will be initialized        */
-    bool        gamma_output_conf_smul;
-    std::vector<double>      gamma_packing_alpha_smul;
-    std::vector<double>      gamma_packing_beta_smul;
-    double      gamma_icvf_smul;
-    double      gamma_output_configuration_smul;
-    std::vector<unsigned>    gamma_num_spheres_smul;
-
-
-    /*
-     Implementation of uniform sphere packing by Remy -
-    */
-    bool                    uniform_packing_s;                      /*!< flag, true if a gamma distribution of spheres will be initialized        */
-    bool                    uniform_packing_output_conf_s;
-    double                  uniform_packing_icvf_s;
-    double                  uniform_packing_output_configuration_s;
-    std::vector<unsigned>   uniform_packing_num_spheres_s;
-    std::vector<double>     uniform_packing_radii_s;
 
     /* 
     Implementation of multiple permeability by Remy
@@ -356,30 +364,37 @@ private:
     */
     void readHexagonalParams(std::ifstream& in);
 
+
     /*! \fn readGammaParams
      *  \param file input iostreams
-     *  \brief reads the parameters needed to define an gamma distributed packing of cylinders
+     *  \brief reads the parameters needed to define a new packing
+    */
+    void readPackingParams(std::ifstream& in);
+
+    /*! \fn readObstacleType
+     *  \param file input iostreams
+     *  \brief reads the type of obstacle to define a new packing
+    */
+    void readObstacleType(std::ifstream& in);
+
+    
+    /*! \fn readGammaParams
+     *  \param file input iostreams
+     *  \brief reads the parameters needed to define an gamma distributed packing
     */
     void readGammaParams(std::ifstream& in);
-    
-    /*! \fn readGammaParams_s
-     *  \param file input iostreams
-     *  \brief reads the parameters needed to define an gamma distributed packing of spheres
-    */
-    void readGammaParams_s(std::ifstream& in);
 
-    /*! \fn readGammaParams_smul
+    /*! \fn readUniformParams
      *  \param file input iostreams
-     *  \brief reads the parameters needed to define an multi gamma distributed packing of spheres
+     *  \brief reads the parameters needed to define a packing of obstacle with fixed radius
     */
-    void readGammaParams_smul(std::ifstream& in);
+    void readUniformParams(std::ifstream &in);
 
-
-    /*! \fn readUniformParams_s
+    /*! \fn readGaussianParams
      *  \param file input iostreams
-     *  \brief reads the parameters needed to define a packing of spheres with fixed radius
+     *  \brief reads the parameters needed to define a gaussian packing of obstacle 
     */
-    void readUniformPackingParams_s(std::ifstream &in);
+    void readGaussianParams(std::ifstream &in);
 
     /*! \fn readHexagonalParams
      *  \param file input iostreams

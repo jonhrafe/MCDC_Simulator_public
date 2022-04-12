@@ -23,6 +23,7 @@ Cylinder::Cylinder(const Cylinder &cyl)
     Q = cyl.Q;
     P = cyl.P;
     radius = cyl.radius;
+    volume = cyl.volume;
     id = count++;
 }
 

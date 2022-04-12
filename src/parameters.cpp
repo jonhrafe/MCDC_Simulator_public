@@ -21,28 +21,26 @@ Parameters::Parameters()
     hex_packing_radius      = 0;
     hex_packing_separation  = 0;
 
-    gamma_packing = false;
-    gamma_packing_alpha = 0;
-    gamma_packing_beta  = 0;
-    gamma_num_cylinders = 0;
-    gamma_icvf = 0;
+    gamma_packing   = false;
+    uniform_packing = false;                      /*!< flag, true if a gamma distribution of spheres will be initialized        */
+    hex_packing     = false;
+    packing_cyl     = false;
+    packing_s       = false;
 
-    gamma_packing_s = false;
-    gamma_packing_alpha_s = 0;
-    gamma_packing_beta_s  = 0;
-    gamma_num_spheres_s   = 0;
-    gamma_icvf_s = 0;
+    packing_icvf    = 0;
+    packing_output_configuration = 0.0;
 
-    uniform_packing_s = false;                      /*!< flag, true if a gamma distribution of spheres will be initialized        */
-    uniform_packing_output_conf_s = false;
-    uniform_packing_icvf_s = 0.0;
-    uniform_packing_output_configuration_s = 0.0;
+        // For compilation
+    gamma_output_conf=0;
+    gamma_icvf=EPS_VAL;
+    gamma_output_configuration=0.0;
+    gamma_num_cylinders=0;
 
 
+    packing_output_conf = false;
 
     ini_walkers_file = "";
     num_proc    = 0;
-    hex_packing = false;
     verbatim    = false;
 
     record_phase_times.clear();
@@ -432,28 +430,9 @@ void Parameters::readObstacles(ifstream& in)
             in >> scale_;
             PLY_scales.push_back(scale_);
         }
-        if(str_dist(tmp,"<cylinder_hex_packing>") <=1){
-            readHexagonalParams(in);
-            num_obstacles++;
-        }
 
-        if(str_dist(tmp,"<cylinder_gamma_packing>") <=1){
-            readGammaParams(in);
-            num_obstacles++;
-        }
-        
-        if(str_dist(tmp,"<sphere_gamma_packing>") <=1){
-            readGammaParams_s(in);
-            num_obstacles++;
-        }        
-        if(str_dist(tmp,"<sphere_gammamul_packing>") <=1){
-            readGammaParams_smul(in);
-            num_obstacles++;
-        }        
-        
-        if(str_dist(tmp,"<sphere_uniform_packing>") <=1){
-            std::cout<<tmp<<std::endl;
-            readUniformPackingParams_s(in);
+        if(str_dist(tmp,"<new_packing>") <=1){
+            readPackingParams(in);
             num_obstacles++;
         }
 
@@ -620,7 +599,7 @@ void Parameters::readHexagonalParams(ifstream &in)
 
     string tmp="";
 
-    while(str_dist(tmp,"</cylinder_hex_packing>"))
+    while(str_dist(tmp,"</hex_packing>"))
     {
         in >> tmp;
         std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
@@ -634,6 +613,57 @@ void Parameters::readHexagonalParams(ifstream &in)
     }
 }
 
+
+void Parameters::readPackingParams(ifstream &in)
+{
+    string tmp="";
+
+    while(str_dist(tmp,"</new_packing>") > 0)
+    {
+        in >> tmp;
+        std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
+
+        if(str_dist(tmp,"<gamma_packing>") <= 1){
+            readGammaParams(in);
+
+        }
+        if(str_dist(tmp,"<uniform_packing>") <= 1){
+            readUniformParams(in);
+
+        }
+        
+        if(str_dist(tmp,"<gaussian_packing>") <= 1){
+            readGaussianParams(in);
+
+        }
+        if(str_dist(tmp,"<hex_packing>") <=1){
+            readHexagonalParams(in);
+        }
+
+        if(str_dist(tmp,"obstacle_type") <= 1){
+            readObstacleType(in);
+        }
+        else if(str_dist(tmp,"</new_packing>") ==0){
+            break;
+        }
+
+        tmp = "";
+    }
+}
+
+void Parameters::readObstacleType(ifstream &in)
+{
+    string tmp;
+    in >> tmp;
+    std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
+    if(str_dist(tmp,"sphere") <= 1){
+        packing_s = true;
+    }
+    else if(str_dist(tmp,"cylinder") <= 1){
+        packing_cyl = true;
+    }
+}
+
 void Parameters::readGammaParams(ifstream &in)
 {
 
@@ -641,125 +671,44 @@ void Parameters::readGammaParams(ifstream &in)
 
     string tmp="";
 
-    while(str_dist(tmp,"</cylinder_gamma_packing>") > 0)
-    {
-        in >> tmp;
-        std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
-        if(str_dist(tmp,"output_conf") <= 1){
-            string tst;
-
-            in >> tst;
-            in >> gamma_output_conf;
-        }
-        else if(str_dist(tmp,"alpha") <= 1 or str_dist(tmp,"shape") <= 1){
-            in >> gamma_packing_alpha;
-        }
-        else if(str_dist(tmp,"beta") <= 1 or str_dist(tmp,"scale") <= 1){
-            in >> gamma_packing_beta;
-        }
-        else if(str_dist(tmp,"num_cylinders") <= 1){
-            in >> gamma_num_cylinders;
-        }
-        else if(str_dist(tmp,"icvf") <= 1){
-            in >> gamma_icvf;
-        }
-        else if(str_dist(tmp,"") == 0){
-            in.clear();
-            //in.ignore();
-        }
-        else if(str_dist(tmp,"</cylinder_gamma_packing>") ==0){
-            break;
-        }
-
-        tmp = "";
-    }
-}
-
-void Parameters::readGammaParams_s(ifstream &in)
-{
-
-    gamma_packing_s = true;
-
-    string tmp="";
-
-    while(str_dist(tmp,"</sphere_gamma_packing>") > 0)
-    {
-        in >> tmp;
-        std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
-        if(str_dist(tmp,"output_conf") <= 1){
-            string tst;
-
-            in >> tst;
-            in >> gamma_output_conf_s;
-        }
-        else if(str_dist(tmp,"alpha") <= 1 or str_dist(tmp,"shape") <= 1){
-            in >> gamma_packing_alpha_s;
-        }
-        else if(str_dist(tmp,"beta") <= 1 or str_dist(tmp,"scale") <= 1){
-            in >> gamma_packing_beta_s;
-        }
-        else if(str_dist(tmp,"num_spheres") <= 1){
-            in >> gamma_num_spheres_s;
-        }
-        else if(str_dist(tmp,"icvf") <= 1){
-            in >> gamma_icvf_s;
-        }
-        else if(str_dist(tmp,"") == 0){
-            in.clear();
-            //in.ignore();
-        }
-        else if(str_dist(tmp,"</sphere_gamma_packing>") ==0){
-            break;
-        }
-
-        tmp = "";
-    }
-}
-void Parameters::readGammaParams_smul(ifstream &in)
-{
-
-    gamma_packing_smul = true;
-
-    string tmp="";
-
-    while(str_dist(tmp,"</sphere_gammamul_packing>") > 0)
+    while(str_dist(tmp,"</gamma_packing>") > 0)
     {
         in >> tmp;
         std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
         if(str_dist(tmp,"output_conf") <= 1){
             string tst;
             in >> tst;
-            in >> gamma_output_conf_smul;
+            in >> packing_output_conf;
         }
         else if(str_dist(tmp,"alpha") <= 1 or str_dist(tmp,"shape") <= 1){
             string tmp2 ;
             getline(in, tmp2);
             istringstream alphas(tmp2);
             double alpha_;
-            while(alphas >> alpha_){gamma_packing_alpha_smul.push_back(alpha_);}
+            while(alphas >> alpha_){gamma_packing_alpha.push_back(alpha_);}
         }
         else if(str_dist(tmp,"beta") <= 1 or str_dist(tmp,"scale") <= 1){
             string tmp2 ;
             getline(in, tmp2);
             istringstream betas(tmp2);
             double beta_;
-            while(betas >> beta_){gamma_packing_beta_smul.push_back(beta_);}
+            while(betas >> beta_){gamma_packing_beta.push_back(beta_);}
         }
-        else if(str_dist(tmp,"num_spheres") <= 1){
+        else if(str_dist(tmp,"num_obstacles") <= 1){
             string tmp2 ;
             getline(in, tmp2);
             istringstream nbsphs(tmp2);
             unsigned nbsph_;
-            while(nbsphs >> nbsph_){gamma_num_spheres_smul.push_back(nbsph_);}
+            while(nbsphs >> nbsph_){packing_num_obstacles.push_back(nbsph_);}
         }
         else if(str_dist(tmp,"icvf") <= 1){
-            in >> gamma_icvf_smul;
+            in >> packing_icvf;
         }
         else if(str_dist(tmp,"") == 0){
             in.clear();
             //in.ignore();
         }
-        else if(str_dist(tmp,"</sphere_gammamul_packing>") ==0){
+        else if(str_dist(tmp,"</gamma_packing>") ==0){
             break;
         }
 
@@ -767,36 +716,30 @@ void Parameters::readGammaParams_smul(ifstream &in)
     }
 }
 
-void Parameters::readUniformPackingParams_s(ifstream &in)
+
+void Parameters::readUniformParams(ifstream &in)
 {
 
-    uniform_packing_s = true;
+    uniform_packing = true;
 
     string tmp="";
 
-    while(str_dist(tmp,"</sphere_uniform_packing>") > 0)
+    while(str_dist(tmp,"</uniform_packing>") > 0)
     {
         in >> tmp;
         std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
         if(str_dist(tmp,"output_conf") <= 1){
             string tst;
-
             in >> tst;
-            in >> uniform_packing_output_conf_s;
+            in >> packing_output_conf;
         }
-        else if(str_dist(tmp,"num_spheres") <= 1){
+        else if(str_dist(tmp,"num_obstacles") <= 1){
     
-            string line="";
+            string line;
             getline(in, line);
             istringstream iss(line);
-
             unsigned subs;
-            iss >> subs;
-
-            while (iss){
-                uniform_packing_num_spheres_s.push_back(subs);
-                iss >> subs;
-            };
+            while (iss >> subs){packing_num_obstacles.push_back(subs);};
 
         }
         else if(str_dist(tmp,"radii") <= 1){
@@ -804,23 +747,76 @@ void Parameters::readUniformPackingParams_s(ifstream &in)
             string line="";
             getline(in, line);
             istringstream iss(line);
-
             double subs;
-            iss >> subs;
-            while (iss){
-                uniform_packing_radii_s.push_back(subs);
-                iss >> subs;
-            };
+            while (iss >> subs){uniform_packing_radii.push_back(subs);};
 
         }        
         else if(str_dist(tmp,"icvf") <= 1){
-            in >> uniform_packing_icvf_s;
+            in >> packing_icvf;
         }
         else if(str_dist(tmp,"") == 0){
             in.clear();
             //in.ignore();
         }
-        else if(str_dist(tmp,"</sphere_uniform_packing>") ==0){
+        else if(str_dist(tmp,"</uniform_packing>") ==0){
+            break;
+        }
+
+        tmp = "";
+    }
+}
+
+void Parameters::readGaussianParams(ifstream &in)
+{
+
+    gaussian_packing = true;
+
+    string tmp="";
+
+    while(str_dist(tmp,"</gaussian_packing>") > 0)
+    {
+        in >> tmp;
+        std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
+        if(str_dist(tmp,"output_conf") <= 1){
+            string tst;
+            in >> tst;
+            in >> packing_output_conf;
+        }
+        else if(str_dist(tmp,"num_obstacles") <= 1){
+    
+            string line;
+            getline(in, line);
+            istringstream iss(line);
+            unsigned subs;
+            while (iss >> subs){packing_num_obstacles.push_back(subs);};
+
+        }
+        else if(str_dist(tmp,"mean") <= 1){
+            
+            string line="";
+            getline(in, line);
+            istringstream iss(line);
+            double subs;
+            while (iss >> subs){gaussian_packing_mean.push_back(subs);};
+
+        } 
+        else if(str_dist(tmp,"std") <= 1){
+            
+            string line="";
+            getline(in, line);
+            istringstream iss(line);
+            double subs;
+            while (iss >> subs){gaussian_packing_std.push_back(subs);};
+
+        }        
+        else if(str_dist(tmp,"icvf") <= 1){
+            in >> packing_icvf;
+        }
+        else if(str_dist(tmp,"") == 0){
+            in.clear();
+            //in.ignore();
+        }
+        else if(str_dist(tmp,"</gaussian_packing>") ==0){
             break;
         }
 

@@ -23,6 +23,7 @@ Sphere::Sphere(const Sphere &sph)
     P               = sph.P;
     radius          = sph.radius;
     id              = count++;
+    volume          = sph.volume;
 
     // To be improved: move this line to Obstacle class.
     percolation     = sph.percolation;

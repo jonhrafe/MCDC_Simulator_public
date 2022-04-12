@@ -1,27 +1,19 @@
-#include "spherepackinguniform.h"
+#include "spheredistribution.h"
 #include <algorithm>    // std::sort
 #include <random>
 
 using namespace std;
 using namespace Eigen;
 
-SpherePackingUniform::SpherePackingUniform(std::vector<unsigned> num_sph, std::vector<double> radii_spheres_, double icvf_,Eigen::Vector3d &min_l, Eigen::Vector3d &max_l)
+SphereDistribution::SphereDistribution(){}
+
+SphereDistribution::SphereDistribution(double &icvf_,Eigen::Vector3d &min_l, Eigen::Vector3d &max_l, std::vector<double> &radiis_) : ObstacleDistribution(icvf_, min_l, max_l, radiis_)
 {
-    num_spheres = num_sph;
-    nb_spheres=0;
-    for (unsigned i =0; i<num_spheres.size(); i++){
-        nb_spheres = nb_spheres +  num_spheres[i];
-    }
-    radii_spheres = radii_spheres_;
-    icvf = icvf_;
-    min_limits = min_l;
-    max_limits = max_l;
     spheres.clear();
 }
 
-
-void SpherePackingUniform::computeMinimalSize(std::vector<double> radiis, double icvf_,Eigen::Vector3d& l){
-
+void SphereDistribution::computeMinimalSize(std::vector<double> radiis, double icvf_,Eigen::Vector3d& l){
+    
    
     if(icvf_>= 0.7 && icvf_ < 0.99){
         icvf_+=0.01;
@@ -39,53 +31,40 @@ void SpherePackingUniform::computeMinimalSize(std::vector<double> radiis, double
 }
 
 
-void SpherePackingUniform::createSubstrate()
+void SphereDistribution::createSubstrate()
 {
-    uint repetition = 40;
+    // generate the distribution
+    std::random_device rd;
+    uint repetition = 100;
     uint max_adjustments = 5;
     double best_icvf = 0;
     vector<Sphere> best_spheres;
     Eigen::Vector3d best_max_limits;
     min_limits = {0.,0.,0.};
 
-    std::random_device rd;
-
     std::mt19937 gen(rd());
     std::uniform_real_distribution<double> udist(0,1);
-    std::vector<double> radiis(nb_spheres,0.0);
 
-    bool achieved = false;
-    unsigned nb_sphere_acc = 0;
-
-    for (unsigned j=0; j<num_spheres.size(); j++){
-        for(unsigned i=0; i< num_spheres[j]; i++){
-            double random_rad = udist(gen) * 1e-10;
-            radiis[nb_sphere_acc] = radii_spheres[j]*1e-3 + random_rad;
-            nb_sphere_acc += 1;
-        }
-
-    }
-
-    // using a lambda function:
-    std::sort(radiis.begin(),radiis.end(),[](const double a, double  b) -> bool
-    {
-        return a> b;
-    });
+    // First draw all radii from all distriubtions
+    double tot_num_obstacles(this->radiis.size());
 
 
-    uint adjustments = 0;
      // We increease 1% the total area. (Is prefered to fit all the spheres than achieve a perfect ICVF.)
-    double adj_increase = icvf*0.01;
+    bool achieved = false;
+    uint adjustments = 0;
+
+    double adj_increase = this->icvf*0.01;
+
     while(!achieved){
 
         double target_icvf = this->icvf+adjustments*adj_increase;
-        computeMinimalSize(radiis,target_icvf,max_limits);
+        computeMinimalSize(this->radiis,target_icvf,max_limits);
 
         for(uint t = 0 ;  t < repetition; t++){
             vector<Sphere> spheres_to_add;
 
             spheres.clear();
-            for(unsigned i = 0 ; i < nb_spheres; i++){
+            for(unsigned i = 0 ; i < tot_num_obstacles; i++){
                 unsigned stuck = 0;
 
                 while(++stuck <= 1000){
@@ -98,7 +77,7 @@ void SpherePackingUniform::createSubstrate()
                     double z = (t*max_limits[2] + (1-t)*min_limits[2]);
 
                     Vector3d P = {x,y,z};
-                    Sphere sph(P,radiis[i]);
+                    Sphere sph(P,this->radiis[i]);
 
 
                     double min_distance;
@@ -113,7 +92,7 @@ void SpherePackingUniform::createSubstrate()
                 }
 
                 int dummy;
-                double icvf_current = computeICVF(spheres,min_limits, max_limits,dummy);
+                double icvf_current = computeICVF(spheres, min_limits, max_limits,dummy);
                 if(icvf_current > best_icvf ){
                     best_icvf = icvf_current;
                     best_spheres.clear();
@@ -141,12 +120,12 @@ void SpherePackingUniform::createSubstrate()
 
     //TODO cambiar a INFO
     int perc_;
-    double icvf_current = computeICVF(spheres,min_limits, max_limits,perc_);
-    cout << "Percentage of spheres selected: "+ to_string(double(perc_)/radiis.size()*100.0)
+    double icvf_current = computeICVF(spheres, min_limits, max_limits,perc_);
+    cout << "Percentage of spheres selected: "+ to_string(double(perc_)/this->radiis.size()*100.0)
             + "%,\nICVF achieved: " + to_string(icvf_current*100) + "  ("+ to_string( int((icvf_current/icvf*100))) + "% of the desired icvf)\n" << endl;
 }
 
-void SpherePackingUniform::printSubstrate(ostream &out)
+void SphereDistribution::printSubstrate(ostream &out)
 {
     out << 1e-3 << endl;
     for(unsigned i = 0; i <spheres.size(); i++){
@@ -156,7 +135,7 @@ void SpherePackingUniform::printSubstrate(ostream &out)
     }
 }
 
-bool SpherePackingUniform::checkForCollition(Sphere sph, Vector3d min_limits, Vector3d max_limits, std::vector<Sphere>& spheres_to_add,double &min_distance)
+bool SphereDistribution::checkForCollition(Sphere sph, Vector3d min_limits, Vector3d max_limits, std::vector<Sphere>& spheres_to_add,double &min_distance)
 {
     spheres_to_add.clear();
 
@@ -202,13 +181,8 @@ bool SpherePackingUniform::checkForCollition(Sphere sph, Vector3d min_limits, Ve
 
 }
 
-/*
-WARNING: The way we discard repeated cylinders is using radius. Repreated radius (like really the same)
-are considered the same. This becasuse we don't track wich cylinders had to be replciated to mantain the voxel
-symmetry
-*/
 
-double SpherePackingUniform::computeICVF(std::vector<Sphere>& spheres, Vector3d& min_limits, Vector3d& max_limits,int& num_no_repeat)
+double SphereDistribution::computeICVF(std::vector<Sphere>& spheres, Vector3d& min_limits, Vector3d& max_limits,int& num_no_repeat)
 {
     if (spheres.size() == 0)
         return 0;
@@ -232,9 +206,7 @@ double SpherePackingUniform::computeICVF(std::vector<Sphere>& spheres, Vector3d&
         else{
             rad_holder = spheres[i].radius;
         }
-
-        double rad = spheres[i].radius;
-        VolS += 4./3.*M_PI * rad * rad * rad;
+        VolS += spheres[i].volume;
         num_no_repeat++;
     }
     
@@ -242,7 +214,7 @@ double SpherePackingUniform::computeICVF(std::vector<Sphere>& spheres, Vector3d&
 }
 
 
-void SpherePackingUniform::checkBoundaryConditions(Sphere sph, std::vector<Sphere>& spheres_to_add, Vector3d min_limits, Vector3d max_limits){
+void SphereDistribution::checkBoundaryConditions(Sphere sph, std::vector<Sphere>& spheres_to_add, Vector3d min_limits, Vector3d max_limits){
     vector<Sphere> to_add;
 
     to_add.push_back(sph);

@@ -922,6 +922,9 @@ void SimErrno::checkOuputPrefixAndWriteInfo(Parameters &params)
 
 bool SimErrno::checkGammaDistributionParamaters(Parameters &params)
 {
+
+    /*
+    
     if( params.gamma_packing_alpha <= 0 || params.gamma_packing_beta <=0){
         error("Gamma distribution parameters are not on the supported range",cout,true);
         assert(0);
@@ -934,6 +937,7 @@ bool SimErrno::checkGammaDistributionParamaters(Parameters &params)
     if(params.gamma_packing_beta >=  10){
         warning("The inverse shape parameter might be on a unsuitable range",cout,true);
     }
+    */
 
     if(params.gamma_icvf <= 0 || params.gamma_icvf  > 1){
         error("ICVF should be in the range: (0,1] ",cout,true);

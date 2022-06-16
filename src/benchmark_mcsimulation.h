@@ -1,5 +1,5 @@
-#ifndef BENCHMARK_H
-#define BENCHMARK_H
+#ifndef BENCHMARK_MCSIMULATION_H
+#define BENCHMARK_MCSIMULATION_H
 
 #include "mcsimulation.h"
 #include <parameters.h>

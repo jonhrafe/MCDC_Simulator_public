@@ -1,4 +1,4 @@
-#include <benchmark.h>
+#include <benchmark_mcsimulation.h>
 #include <iostream>
 
 using namespace std;

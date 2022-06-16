@@ -16,7 +16,7 @@
 #include <thread>
 #include "simerrno.h"
 
-#include <benchmark.h>
+#include <benchmark_mcsimulation.h>
 #include <nvtx3/nvToolsExt.h> 
 
 typedef unsigned int uint;

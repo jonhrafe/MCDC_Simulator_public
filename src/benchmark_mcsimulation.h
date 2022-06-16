@@ -8,7 +8,7 @@
 using namespace std;
 
 
-class Benchmark
+class Benchmark_mcsimulation
 {
 public:
 
@@ -26,18 +26,18 @@ public:
     /*! \fn  Benchmark.
      *  \brief  Default constructor.
      */
-    Benchmark(); 
+    Benchmark_mcsimulation(); 
 
     /*! \fn  Benchmark.
      *  \brief Constructor with benchmark test id.
      */
-    Benchmark(unsigned int id_); 
+    Benchmark_mcsimulation(unsigned int id_); 
 
 
     /*! \fn  ~Benchmark.
      *  \brief Main destructor. Frees dynamicly allocated memory instances.
      */
-    ~Benchmark();
+    ~Benchmark_mcsimulation();
 
 
     /*! \fn  startBenchmark.
@@ -72,4 +72,4 @@ private:
 
 };
 
-#endif BENCHMARK_H
+#endif BENCHMARK_MCSIMULATION_H

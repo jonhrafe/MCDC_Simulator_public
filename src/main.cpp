@@ -53,7 +53,7 @@ int main(int argn, char* argv[])
      
         unsigned int benchmark_id_ = (unsigned int) (stoi(argv[2]));
         
-        Benchmark benchmark(benchmark_id_);
+        Benchmark_mcsimulation benchmark(benchmark_id_);
      
         benchmark.startBenchmark();
 

@@ -2,6 +2,7 @@
 #define BENCHMARK_MCSIMULATION_H
 
 #include "mcsimulation.h"
+#include "parallelmcsimulation.h"
 #include <parameters.h>
 #include <nvtx3/nvToolsExt.h> 
 
@@ -22,6 +23,7 @@ public:
 
 
     MCSimulation* simulation;                   /*!< Pointer to MCSimulation instance                       */
+    ParallelMCSimulation* parallelsimulation;
 
     /*! \fn  Benchmark.
      *  \brief  Default constructor.

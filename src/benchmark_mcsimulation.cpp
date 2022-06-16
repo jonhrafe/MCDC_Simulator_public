@@ -30,8 +30,17 @@ void Benchmark_mcsimulation::startBenchmark()
 
     selectBenchmark(); 
 
+    
     //2. Launch benchmark
 
+    parallelsimulation =  new ParallelMCSimulation(benchmark_params);    
+
+    cout << parallelsimulation->spheres_list.size() << parallelsimulation->plyObstacles_list.size() << endl;
+
+    parallelsimulation->startSimulation();
+
+
+    /*
     simulation = new MCSimulation(benchmark_params);    
 
     simulation->sphere_list         = &this->spheres_list;
@@ -42,7 +51,7 @@ void Benchmark_mcsimulation::startBenchmark()
 
     // 3. Save results
     writeBenchmark();
-
+    */
 }
 
 void Benchmark_mcsimulation::selectBenchmark()
@@ -59,9 +68,9 @@ void Benchmark_mcsimulation::selectBenchmark()
 
     params_tmp.scale_from_stu       = true;
     params_tmp.write_txt            = true;
-    params_tmp.write_bin            =  false;
-    params_tmp.write_traj = false;
-    params_tmp.separate_signals     = true;
+    params_tmp.write_bin            = false;
+    params_tmp.write_traj           = false;
+    params_tmp.separate_signals     = false;
     
 
     params_tmp.ini_walker_flag      = "delta";
@@ -73,30 +82,40 @@ void Benchmark_mcsimulation::selectBenchmark()
     params_tmp.sim_duration        = 50;
     params_tmp.diffusivity         = 2e-9;
 
+
+
     // Benchmark-specific parameters
     if(benchmark_id==1){
 
         // Sphere case
         cout << "Sphere benchmark" << endl;
 
-        params_tmp.output_base_name     = "benchmark/output/sphere_gamma_packing";
-        params_tmp.traj_file            = params_tmp.output_base_name;                                                
-
+        params_tmp.output_base_name     = "benchmark/output/sphere/sphere_gamma_packing";
+ 
         // Sphere list
         string path_sphere_list = params_tmp.output_base_name + "_gamma_distributed_sphere_list.txt";
-
-        loadSpheres(path_sphere_list, params_tmp);
-
-        // Voxel
-        string path_voxel       = params_tmp.output_base_name + "_voxel.txt";
-        loadVoxel(path_voxel, params_tmp);
-
+        params_tmp.spheres_files.push_back(path_sphere_list); 
+        
+        
+        //loadSpheres(path_sphere_list, params_tmp);
+        
     }
 
     else if(benchmark_id==2){
+
         // PLY case
-        cout << "PLY benchmark";
+        cout << "PLY benchmark" << endl;
+
+        params_tmp.output_base_name = "benchmark/output/ply/hexagonal_packed_spheres";
+        params_tmp.PLY_files.push_back("benchmark/output/ply/hexagonal_packed_spheres.ply");
+
     }
+
+    params_tmp.traj_file            = params_tmp.output_base_name;                                                
+    
+    // Voxel
+    string path_voxel = params_tmp.output_base_name + "_voxel.txt";
+    loadVoxel(path_voxel, params_tmp);
 
     benchmark_params = params_tmp;
 

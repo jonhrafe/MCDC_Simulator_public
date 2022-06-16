@@ -97,16 +97,15 @@ MCSimulation::MCSimulation(Parameters& params_)
 
 void MCSimulation::startSimulation()
 {
-
     iniObstacles();
-    
+
     if(dataSynth != nullptr){
         dynamicsEngine->startSimulation(dataSynth);
     }
     else{
         dynamicsEngine->startSimulation();
     }
-
+    
 }
 
 double MCSimulation::getExpectedFreeeDecay(unsigned i)

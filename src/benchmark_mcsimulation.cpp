@@ -35,8 +35,6 @@ void Benchmark_mcsimulation::startBenchmark()
 
     parallelsimulation =  new ParallelMCSimulation(benchmark_params);    
 
-    cout << parallelsimulation->spheres_list.size() << parallelsimulation->plyObstacles_list.size() << endl;
-
     parallelsimulation->startSimulation();
 
 
@@ -70,17 +68,17 @@ void Benchmark_mcsimulation::selectBenchmark()
     params_tmp.write_txt            = true;
     params_tmp.write_bin            = false;
     params_tmp.write_traj           = false;
-    params_tmp.separate_signals     = false;
+    params_tmp.separate_signals     = true;
     
 
     params_tmp.ini_walker_flag      = "delta";
-    params_tmp.scheme_file          = "benchmark/scheme_files/PGSE_sample_scheme.scheme";
+    params_tmp.scheme_file          = "benchmark/scheme_files/10shell_fixed_DdTe.scheme";
 
     params_tmp.num_proc            = 1; 
-    params_tmp.num_walkers         = 10;
-    params_tmp.num_steps           = 10; 
-    params_tmp.sim_duration        = 50;
-    params_tmp.diffusivity         = 2e-9;
+    params_tmp.num_walkers         = 100;
+    params_tmp.num_steps           = 100; 
+    params_tmp.sim_duration        = 60;
+    params_tmp.diffusivity         = 2e-6;
 
 
 
@@ -108,7 +106,8 @@ void Benchmark_mcsimulation::selectBenchmark()
 
         params_tmp.output_base_name = "benchmark/output/ply/hexagonal_packed_spheres";
         params_tmp.PLY_files.push_back("benchmark/output/ply/hexagonal_packed_spheres.ply");
-
+        params_tmp.PLY_scales.push_back(1e-3);
+        params_tmp.PLY_percolation.push_back(0.0);
     }
 
     params_tmp.traj_file            = params_tmp.output_base_name;                                                

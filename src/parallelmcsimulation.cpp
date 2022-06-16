@@ -74,10 +74,10 @@ void ParallelMCSimulation::startSimulation()
         sim_threads.push_back(std::thread(&MCSimulation::startSimulation,(simulations[i])));
     }
 
-    for(unsigned i =0; i < simulations.size(); i++){
+        for(unsigned i =0; i < simulations.size(); i++){
         sim_threads[i].join();
     }
-
+    
     for(unsigned i =0; i < simulations.size(); i++){
         mean_second_passed  += simulations[i]->dynamicsEngine->second_passed/double(simulations.size());
         total_sim_particles += simulations[i]->dynamicsEngine->num_simulated_walkers;
@@ -857,6 +857,8 @@ void ParallelMCSimulation::addObstacleConfigurations()
         }
 
         string file = params.output_base_name + "_gamma_distributed_sphere_list.txt";
+
+        cout << file;
 
         ofstream out(file);
 

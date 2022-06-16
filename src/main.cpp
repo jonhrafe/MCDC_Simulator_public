@@ -16,6 +16,9 @@
 #include <thread>
 #include "simerrno.h"
 
+#include <benchmark.h>
+#include <nvtx3/nvToolsExt.h> 
+
 typedef unsigned int uint;
 
 using namespace std;
@@ -26,29 +29,43 @@ void printUsage();
 int main(int argn, char* argv[])
 {
 
-    string conf = "";
-
     if(argn == 2){
+
+        string conf = "";
+
         conf = argv[1];
+
+        ParallelMCSimulation simulation(conf);
+
+        simulation.startSimulation();
+
+        #ifdef __linux__
+
+            string command = "notify-send -i emblem-default \"MC/DC\" \"Simulation Finished\"";
+            system (command.c_str());
+        #endif
+
+        return 0;
     }
+
+    else if(argn==3){
+        
+     
+        unsigned int benchmark_id_ = (unsigned int) (stoi(argv[2]));
+        
+        Benchmark benchmark(benchmark_id_);
+     
+        benchmark.startBenchmark();
+
+        return 0;
+
+
+    }
+
     else{
         printUsage();
         return -1;
     }
-
-
-    ParallelMCSimulation simulation(conf);
-
-    simulation.startSimulation();
-
-    #ifdef __linux__
-
-        string command = "notify-send -i emblem-default \"MC/DC\" \"Simulation Finished\"";
-        system (command.c_str());
-    #endif
-
-    return 0;
-
 }
 
 void printUsage(){
@@ -84,3 +101,4 @@ void printUsage(){
 
     cout << "   <END>                        END of the conf-file parameters (needed).\n";
 }
+

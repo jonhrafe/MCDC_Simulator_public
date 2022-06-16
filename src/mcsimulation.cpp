@@ -4,6 +4,9 @@
 #include "pgsesequence.h"
 #include "gradientwaveform.h"
 
+#include <nvtx3/nvToolsExt.h> 
+
+
 int MCSimulation::count =0;
 
 MCSimulation::MCSimulation()
@@ -60,7 +63,6 @@ MCSimulation::MCSimulation(Parameters& params_)
     sphere_list    = nullptr;
     cylinders_list = nullptr;
 
-
     params = params_;
     dynamicsEngine = new DynamicsSimulation(params);
 
@@ -97,7 +99,7 @@ void MCSimulation::startSimulation()
 {
 
     iniObstacles();
-
+    
     if(dataSynth != nullptr){
         dynamicsEngine->startSimulation(dataSynth);
     }

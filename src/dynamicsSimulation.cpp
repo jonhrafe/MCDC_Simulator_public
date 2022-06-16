@@ -23,6 +23,9 @@
 #include "simerrno.h"
 #include "simulablesequence.h"
 
+#include <nvtx3/nvToolsExt.h> 
+
+
 using namespace Eigen;
 using namespace std;
 using namespace sentinels;
@@ -125,6 +128,7 @@ DynamicsSimulation::DynamicsSimulation(Parameters& params_) {
     intra_tries=0;
     total_tries=0;
     aux_walker_index = 0;
+
 }
 
 void DynamicsSimulation::initObstacleInformation(){
@@ -133,6 +137,8 @@ void DynamicsSimulation::initObstacleInformation(){
         params.collision_sphere_distance = inner_col_dist_factor;
     }
 
+
+    
     //Cylinders list of index initialization
     for(unsigned i= 0 ; i < (*cylinders_list).size();i++){
         cylinders_deque.push_back(i);
@@ -329,7 +335,7 @@ void DynamicsSimulation::initSimulation()
         }
     }
 
-    initObstacleInformation();
+    initObstacleInformation();    
 
     //Flags for the crossing and stuck particles. (numerical error sentinels)
     sentinela.deport_illegals = params.discard_illegals;
@@ -912,8 +918,11 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
     /*                                                     */
     /*********************   WARNING  **********************/
     unsigned w=0;
+
+
     for (w = 0 ; w < params.num_walkers; w++)
     {
+
         //flag in case there was any error with the particle.
         back_tracking = false;
 
@@ -934,6 +943,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
 
         for(unsigned t = 1 ; t <= params.num_steps; t++) //T+1 steps in total (avoid errors)
         {
+
             //Get the time step in milliseconds
             getTimeDt(last_time_dt,time_dt,l,dataSynth,t,time_step);
 
@@ -943,6 +953,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             // Moves the particle. Checks collision and handles bouncing.
             try{
                 updateWalkerPosition(step);
+
             }
             catch(Sentinel::ErrorCases error){
 
@@ -965,8 +976,11 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             //updates the collision neighborhood (if any)
             updateCollitionSphere(t);
 
+
             walker.steps_count++;
             walker.rejection_count = 0;
+
+
         }// end for t
 
         if(!back_tracking)
@@ -981,6 +995,8 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             continue;
         }
 
+
+
         //updates the phase shift.
         if(dataSynth)
             dataSynth->update_phase_shift(this->time_step,walker.pos_r_log);
@@ -988,6 +1004,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         //Update de DWI signal
         if(dataSynth)
             dataSynth->update_DWI_signal(walker);
+
 
         //Write the positions.
         trajectory.writePosition(walker.pos_r_log);
@@ -1003,6 +1020,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
                  << "Max time limit reached: Simulation halted after "<< ++w << " spins" << endl;
             break;
         }
+
 
     }// for w
 
@@ -1143,11 +1161,15 @@ bool DynamicsSimulation::updateWalkerPosition(Eigen::Vector3d& step) {
         walker.steps_count++;
 
         // True if there was a collision and the particle needs to be bounced.
+        nvtxRangeId_t r1 = nvtxRangeStartA("Check obstacle collision");
         update_walker_status |= checkObstacleCollision(bounced_step, tmax, end_point, colision);
-
+        nvtxRangeEnd(r1);   
         // Updates the position and bouncing direction.
         if(update_walker_status){
+            nvtxRangeId_t r2 = nvtxRangeStartA("updateWalkerPositionAndHandleBouncing");
             bounced = updateWalkerPositionAndHandleBouncing(bounced_step,tmax,colision);
+            nvtxRangeEnd(r2);
+            
             // restarts the variables.
             update_walker_status = false;
             colision.type = Collision::null;

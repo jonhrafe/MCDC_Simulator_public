@@ -356,3 +356,13 @@ void SphereGammaDistribution::checkBoundaryConditions(Sphere sph, std::vector<Sp
         }
     }
 }
+
+void SphereGammaDistribution::printSubstrate(ostream &out)
+{
+    out << 1e-3 << endl;
+    for(unsigned i = 0; i < spheres.size(); i++){
+
+        out << spheres[i].center[0]*1e3 << " " << spheres[i].center[1]*1e3 << " " << spheres[i].center[2]*1e3 << " "
+                                     << spheres[i].radius*1e3 << endl;
+    }
+}

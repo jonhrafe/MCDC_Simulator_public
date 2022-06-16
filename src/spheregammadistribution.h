@@ -39,6 +39,9 @@ public:
     */
     void createGammaSubstrate();
 
+    void printSubstrate(std::ostream& out);
+
+
 private:
 
     /*!

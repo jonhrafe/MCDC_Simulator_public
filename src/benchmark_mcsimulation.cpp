@@ -66,21 +66,21 @@ void Benchmark_mcsimulation::selectBenchmark()
   // Common parameters 
   Parameters params_tmp;
 
-  params_tmp.scale_from_stu       = true;
-  params_tmp.write_txt            = true;
-  params_tmp.write_bin            = false;
-  params_tmp.write_traj           = false;
-  params_tmp.separate_signals     = false;
+    params_tmp.scale_from_stu       = true;
+    params_tmp.write_txt            = true;
+    params_tmp.write_bin            = false;
+    params_tmp.write_traj           = false;
+    params_tmp.separate_signals     = true;
+    
 
+    params_tmp.ini_walker_flag      = "delta";
+    params_tmp.scheme_file          = "benchmark/scheme_files/10shell_fixed_DdTe.scheme";
 
-  params_tmp.ini_walker_flag      = "delta";
-  params_tmp.scheme_file          = "benchmark/scheme_files/PGSE_sample_scheme.scheme";
-
-  params_tmp.num_proc            = 1; 
-  params_tmp.num_walkers         = 10;
-  params_tmp.num_steps           = 10; 
-  params_tmp.sim_duration        = 50;
-  params_tmp.diffusivity         = 2e-9;
+    params_tmp.num_proc            = 1; 
+    params_tmp.num_walkers         = 100;
+    params_tmp.num_steps           = 100; 
+    params_tmp.sim_duration        = 60;
+    params_tmp.diffusivity         = 2e-6;
 
 
 
@@ -106,23 +106,25 @@ void Benchmark_mcsimulation::selectBenchmark()
       // PLY case
       cout << "PLY benchmark" << endl;
 
-      params_tmp.output_base_name = "benchmark/output/ply/hexagonal_packed_spheres";
-      params_tmp.PLY_files.push_back("benchmark/output/ply/hexagonal_packed_spheres.ply");
-
+        params_tmp.output_base_name = "benchmark/output/ply/hexagonal_packed_spheres";
+        params_tmp.PLY_files.push_back("benchmark/output/ply/hexagonal_packed_spheres.ply");
+        params_tmp.PLY_scales.push_back(1e-3);
+        params_tmp.PLY_percolation.push_back(0.0);
     }
   else if (benchmark_id==3){
       cout << "PLY cilinders" << endl;
 
-      params_tmp.output_base_name = "benchmark/output/cylinderPly_";
+      params_tmp.output_base_name =  "benchmark/output/cylinderPly/50L_70icvf";
       params_tmp.PLY_files.push_back("benchmark/output/cylinderPly/50L_70icvf.ply");
+      params_tmp.PLY_scales.push_back(1e-3);
+      params_tmp.PLY_percolation.push_back(0.0);
 
     }
   else if (benchmark_id==4){
       cout << "List cylinders" << endl;
 
-      params_tmp.output_base_name = "benchmark/output/cylinderList";
-      params_tmp.PLY_files.push_back("benchmark/output/ply/cylinderList/50L_70icvf_endpoints.txt");
-      params_tmp.cylinders_files.push_back(" ")       /*!< file paths with a list of cilinders obstacles                              */
+      params_tmp.output_base_name =        "benchmark/output/cylinderList/50L_70icvf";
+      params_tmp.cylinders_files.push_back("benchmark/output/cylinderList/50L_70icvf.txt")  ;     /*!< file paths with a list of cilinders obstacles                              */;;
 
   }
   params_tmp.traj_file            = params_tmp.output_base_name;                                                

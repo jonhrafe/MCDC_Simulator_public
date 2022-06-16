@@ -53,7 +53,10 @@ ParallelMCSimulation::ParallelMCSimulation(Parameters &params)
     total_sim_particles = 0;
     SimErrno::checkSimulationParameters(params);
     this->params = params;
+    
+
     initializeUnitSimulations();
+
     SimErrno::printSimulatinInfo(params,std::cout);
     icvf=0;
 }
@@ -157,6 +160,8 @@ void ParallelMCSimulation::initializeUnitSimulations()
 
     //Build anything that needs to be syn between simulations.
     specialInitializations();
+
+
 
     // The number of walker N devided between all the processes
 

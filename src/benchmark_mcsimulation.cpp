@@ -4,19 +4,19 @@
 using namespace std;
 
 
-Benchmark::Benchmark()
+Benchmark_mcsimulation::Benchmark_mcsimulation()
 {
     benchmark_id = 0; 
 
 }
 
 
-Benchmark::Benchmark(unsigned int id_)
+Benchmark_mcsimulation::Benchmark_mcsimulation(unsigned int id_)
 {
     benchmark_id = id_; 
 }
 
-void Benchmark::startBenchmark()
+void Benchmark_mcsimulation::startBenchmark()
 {
 
     /*
@@ -45,7 +45,7 @@ void Benchmark::startBenchmark()
 
 }
 
-void Benchmark::selectBenchmark()
+void Benchmark_mcsimulation::selectBenchmark()
 {
 
     if(benchmark_id==0){
@@ -103,7 +103,7 @@ void Benchmark::selectBenchmark()
     return;
 }
 
-void Benchmark::loadSpheres(string path_sphere_list, Parameters &params_tmp){
+void Benchmark_mcsimulation::loadSpheres(string path_sphere_list, Parameters &params_tmp){
 
     params_tmp.spheres_files.push_back(path_sphere_list); 
 
@@ -126,7 +126,7 @@ void Benchmark::loadSpheres(string path_sphere_list, Parameters &params_tmp){
     }
 }
 
-void Benchmark::loadVoxel(string path_voxel, Parameters &params_tmp){
+void Benchmark_mcsimulation::loadVoxel(string path_voxel, Parameters &params_tmp){
 
     std::ifstream in(path_voxel);
 
@@ -160,7 +160,7 @@ void Benchmark::loadVoxel(string path_voxel, Parameters &params_tmp){
     }
 }
 
-void Benchmark::writeBenchmark()
+void Benchmark_mcsimulation::writeBenchmark()
 {
     std::string outDWI          = benchmark_params.output_base_name  + "_DWI.txt";
     std::string outDWI_intra    = benchmark_params.output_base_name  + "_DWI_intra.txt";
@@ -205,6 +205,6 @@ void Benchmark::writeBenchmark()
 }
 
 
-Benchmark::~Benchmark()
+Benchmark_mcsimulation::~Benchmark_mcsimulation()
 {
 }

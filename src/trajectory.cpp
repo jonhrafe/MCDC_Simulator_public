@@ -52,7 +52,6 @@ void Trajectory::initTrajectory(Parameters params)
         std::sort(pos_times.begin(),pos_times.end());
     }
 
-    cout << trajfile;
 }
 
 void Trajectory::initTrajWriter()

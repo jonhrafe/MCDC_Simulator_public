@@ -299,9 +299,11 @@ void PGSESequence::update_DWI_signal(Walker& walker)
             else if(walker.location == Walker::RelativeLocation::extra){
                 DWI_extra[s]+=cos_phase_shift;
             }
+            /*
             else{
                 cout << walker.location << endl;
             }
+            */
         }
 
         if(save_phase_shift){

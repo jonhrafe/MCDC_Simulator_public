@@ -75,12 +75,18 @@ void Benchmark_mcsimulation::selectBenchmark()
     params_tmp.scheme_file          = "benchmark/scheme_files/10shell_fixed_DdTe.scheme";
 
     params_tmp.num_proc            = 1; 
-    params_tmp.num_walkers         = 100;
-    params_tmp.num_steps           = 100; 
-    params_tmp.sim_duration        = 60;
+    
+    /*
+    params_tmp.num_walkers         = pow(50, 3);
+    params_tmp.num_steps           = 11400; 
+    params_tmp.sim_duration        = 57;
     params_tmp.diffusivity         = 2e-6;
-
-
+    */
+    
+    params_tmp.num_walkers         = 1000;
+    params_tmp.num_steps           = 200; 
+    params_tmp.sim_duration        = 1;
+    params_tmp.diffusivity         = 2e-6;
 
     // Benchmark-specific parameters
     if(benchmark_id==1){
@@ -88,10 +94,10 @@ void Benchmark_mcsimulation::selectBenchmark()
         // Sphere case
         cout << "Sphere benchmark" << endl;
 
-        params_tmp.output_base_name     = "benchmark/output/sphere/sphere_gamma_packing";
+        params_tmp.output_base_name     = "benchmark/output/sphere/R_2_R_4_v_50_ICVF_0.57_gaussian_sphere_packing";
  
         // Sphere list
-        string path_sphere_list = params_tmp.output_base_name + "_gamma_distributed_sphere_list.txt";
+        string path_sphere_list = params_tmp.output_base_name + "_sphere_list.txt";
         params_tmp.spheres_files.push_back(path_sphere_list); 
         
         

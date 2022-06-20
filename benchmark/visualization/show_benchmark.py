@@ -3,6 +3,30 @@ import numpy as np
 
 import matplotlib.pyplot as plt 
 
+def add_plot_info(ax, title='', legend='', xlabel='', ylabel='', fs=15, xlims=None, ylims=None, xscale=None, yscale=None, xticks=None, yticks=None):
+    ax.set_title(title, fontsize=fs)
+    ax.set_xlabel(xlabel, fontsize=int(fs*0.9))
+    ax.set_ylabel(ylabel, fontsize=int(fs*0.9))
+    ax.xaxis.set_tick_params(labelsize=int(fs*0.75))
+    ax.yaxis.set_tick_params(labelsize=int(fs*0.75))
+
+    if xticks is not None: ax.set_xticks(xticks)
+    if yticks is not None: ax.set_yticks(yticks)
+    
+    
+    if xlims is not None: ax.set_xlim(xlims)
+    if ylims is not None: ax.set_ylim(ylims)
+    
+
+    if legend is not None:
+        ax.legend(legend) if len(legend) else ax.legend(fontsize=int(fs*0.75))
+
+    if xscale is not None: ax.set_xscale(xscale)
+    if yscale is not None: ax.set_yscale(yscale)
+    
+    return
+
+
 def give_b(exp_proto):
 
     gyro    = GYRO/1e3
@@ -57,37 +81,76 @@ def load_S(path_exp, bin=True):
     return S_real, S_img, S_intra, S_extra
 
 
+def powder_averaged_S(S_, exp_proto):
+
+
+    S_b_d   = np.zeros((b_vals_u.size, t_diff_u.size))
+
+    for bb_idx, bb in enumerate(b_vals_u): 
+        for tt_idx, tt in enumerate(t_diff_u):
+            idx_ = np.where((b_vals==bb)&(t_diff==tt))[0]
+            S_b_d[bb_idx, tt_idx] = S_[idx_].mean()
+
+    return S_b_d 
+    
 
 def show_benchmark():
 
-    # 1. Load scheme
-    exp_protocol = read_scheme(PATH_SCHEME)
 
     # 2. Load signals 
 
-    # 2.1 Spheres 
+    # 2.1 Spheres list
     exp_sphere_list     = "R_2_R_4_v_50_ICVF_0.57_gaussian_sphere_packing"
     path_sphere_list    = os.path.join(PATH_OUTPUT_FOLDER, "sphere", exp_sphere_list)
 
-    S_real_sphere, S_img_sphere, S_intra_sphere, S_extra_sphere = load_S(path_sphere_list, bin=False)
+    S_real_sphere_list, S_img_sphere_list, S_intra_sphere_list, S_extra_sphere_list = load_S(path_sphere_list, bin=False)
+    S_powder_sphere_list = powder_averaged_S(S_real_sphere_list, exp_protocol)
 
+
+    # 2.2 Spheres PLY
+    exp_sphere_ply     = "R_2_R_4_v_50_ICVF_0.57_gaussian_sphere_packing"
+    path_sphere_ply    = os.path.join(PATH_OUTPUT_FOLDER, "sphere", exp_sphere_list)
+
+    S_real_sphere_ply, S_img_sphere_ply, S_intra_sphere_ply, S_extra_sphere_ply = load_S(path_sphere_ply, bin=False)
+    S_powder_sphere_ply = powder_averaged_S(S_real_sphere_ply, exp_protocol)
+    
 
     # 3. Visualization
-    # 3.1 Signals
+    # 3.1 Raw signals
     
-    f_sig, ax_sig = plt.subplots(1, 1, figsize=FIG_S)
-    ax_sig.plot(S_real_sphere, label="Full")
-    ax_sig.plot(S_intra_sphere, label="Intra")
-    ax_sig.plot(S_extra_sphere, label="Extra")
+    f_sig, ax_sig = plt.subplots(1, 2, figsize=(FIG_W*2, FIG_W))
+    ax_sig[0].plot(S_real_sphere_list, label="Full")
+    ax_sig[0].plot(S_intra_sphere_list, label="Intra")
+    ax_sig[0].plot(S_extra_sphere_list, label="Extra")
+    
+
+    ax_sig[1].plot(S_real_sphere_ply, label="Full")
+    ax_sig[1].plot(S_intra_sphere_ply, label="Intra")
+    ax_sig[1].plot(S_extra_sphere_ply, label="Extra")
+    
+
+    add_plot_info(ax_sig[0], title="Sphere list", xlabel="Exp")
+    add_plot_info(ax_sig[1], title="Sphere PLY", xlabel="Exp")
+    
+
+    plt.legend()
+    f_sig.savefig(os.path.join(PATH_SAVE, "signals_raw.png"))
+
+    # 3.2 Powder averaged signals
+    f_sig_powder, ax_sig_powder = plt.subplots(1, 2, figsize=(FIG_W*2, FIG_W))
+    ax_sig_powder[0].plot(b_vals_u, S_powder_sphere_list, label="Full")
+    ax_sig_powder[1].plot(b_vals_u, S_powder_sphere_ply, label="Full")
+    
+    add_plot_info(ax_sig_powder[0], title="Sphere list", xlabel=r"$b$")
+    add_plot_info(ax_sig_powder[1], title="Sphere PLY", xlabel=r"$b$")
+
     
     plt.legend()
-    f_sig.savefig(os.path.join(PATH_SAVE, "signals.png"))
-    
+    f_sig_powder.savefig(os.path.join(PATH_SAVE, "signals_powder.png"))
 
     return 
 
 def main():
-    show_benchmark()
 
     return 
 
@@ -105,4 +168,14 @@ if __name__=="__main__":
     PATH_OUTPUT_FOLDER  = "./benchmark/output"
     PATH_SCHEME         = "./benchmark/scheme_files/10shell_fixed_DdTe.scheme"
 
-    main()
+
+    # 1. Load scheme
+    exp_protocol        = read_scheme(PATH_SCHEME)
+
+    b_vals      = give_b(exp_protocol)
+    b_vals_u    = np.unique(b_vals)
+    t_diff      = exp_protocol[:, 4]
+    t_diff_u    = np.unique(t_diff)
+
+
+    show_benchmark()

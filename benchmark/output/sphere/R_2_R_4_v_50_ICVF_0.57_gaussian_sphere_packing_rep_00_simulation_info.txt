@@ -5,10 +5,9 @@
 [INFO]    Number of cores:       ---------------------------------------15
 [INFO]    Diffusivity:           ------------------------2.000000e-9 m^2/s
 [INFO]    Particle dynamics duration: ----------------------- 57.000000 ms
-[INFO]    PLY obstacles:         ------------------------------------ true
-[INFO]    Number of PLYs:        ----------------------------------------1
+[INFO]    PLY obstacles:         ----------------------------------- false
 [INFO]    Cylinder obstacles:    ----------------------------------- false
-[INFO]    Spherical obstacles:    ---------------------------------- false
+[INFO]    Spherical obstacles:    ----------------------------------- true
 [INFO]    Write trajfile:        ----------------------------------- false
 [INFO]    Write to binary:       ----------------------------------- false
 [INFO]    Write to txt:          ------------------------------------ true
@@ -21,13 +20,9 @@
 [INFO]    Walker initial position file: ---------------------------- false
 [INFO]    Save fixed walker positions: ----------------------------- false
 [INFO]    Initial delta position: ---------------------------------- false
-[INFO]    Number of voxels:      --------------------------------------- 0
+[INFO]    Number of voxels:      --------------------------------------- 1
 [INFO]    Border Patrol          -------------------------------------- On
 [INFO]    Discard stuck spins    -------------------------------------- On
 [INFO]    Scheme file name:      --------------- 10shell_fixed_DdTe.scheme
-[INFO]    Date and Time:         ------------------- 20-06-2022 (09:22:02)
+[INFO]    Date and Time:         ------------------- 20-06-2022 (11:15:50)
 
-[INFO]     All 15 simulations ended after: 82 minutes and 55 seconds in average
-[INFO]     Number of particles labeled as stuck: 1
-[INFO]     Number of particles eliminated due crossings: 5
-[INFO]     Mean simulation speed: 286386 steps/second

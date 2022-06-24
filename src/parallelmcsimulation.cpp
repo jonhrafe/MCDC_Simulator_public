@@ -53,7 +53,7 @@ ParallelMCSimulation::ParallelMCSimulation(Parameters &params)
     total_sim_particles = 0;
     SimErrno::checkSimulationParameters(params);
     this->params = params;
-    
+
 
     initializeUnitSimulations();
 
@@ -158,10 +158,9 @@ void ParallelMCSimulation::startSimulation()
 void ParallelMCSimulation::initializeUnitSimulations()
 {
 
-    //Build anything that needs to be syn between simulations.
+
+     //Build anything that needs to be syn between simulations.
     specialInitializations();
-
-
 
     // The number of walker N devided between all the processes
 
@@ -186,6 +185,8 @@ void ParallelMCSimulation::initializeUnitSimulations()
         if(params.verbatim)
             SimErrno::info( " Sim: " + to_string(simulation_->dynamicsEngine->id) + " Initialized",cout);
     }
+
+
 
     //We set thet remaining walkers so it sums up the desired total
 
@@ -212,6 +213,92 @@ void ParallelMCSimulation::jointResults()
     //====================================================================================================
     //Complete DWI data.
     //====================================================================================================
+
+    if(simulations[0]->dataSynthCuda){
+
+
+        std::string outDWI    = params.output_base_name  + "_DWI.txt";
+        std::string outDWI_intra    = params.output_base_name  + "_DWI_intra.txt";
+        std::string outDWI_extra    = params.output_base_name  + "_DWI_extra.txt";
+        std::string outDWIi   = params.output_base_name  + "_DWI_img.txt";
+        std::string outPhase  = params.output_base_name  + "_phase_shift.txt";
+
+        std::ofstream phase_out,phase_bout, dwi_out, dwii_out, dwi_bout, dwii_bout,
+                      dwi_intra_out,dwi_extra_out,dwi_intra_bout,dwi_extra_bout;
+
+        if(params.write_txt){
+            dwi_out.open(outDWI  ,std::ofstream::out);       //real part
+
+
+            if(params.img_signal == true)
+             dwii_out.open(outDWIi,std::ofstream::out);       //img part
+
+            if(params.separate_signals == true){
+                dwi_intra_out.open(outDWI_intra ,std::ofstream::out);       //intra part
+                dwi_extra_out.open(outDWI_extra ,std::ofstream::out);       //extra part
+            }
+        }
+
+
+
+        for (unsigned i = 0 ; i < simulations[0]->dataSynthCuda->DWI.size(); i++ )
+        {
+            double DWI   = 0;
+            double DWIi  = 0;
+            double DWI_intra   = 0;
+            double DWI_extra   = 0;
+
+            std::vector<int> phase(3600, 0);
+            for(unsigned p = 0; p < params.num_proc; p++)
+            {
+                DWI+= simulations[p]->dataSynthCuda->DWI[i];       //real part
+
+                if(params.img_signal == true)
+                    DWIi+= simulations[p]->dataSynthCuda->DWIi[i];      //img  part
+
+                if(params.separate_signals){
+                    DWI_intra+=  simulations[p]->dataSynthCuda->DWI_intra[i];      //intra part
+                    DWI_extra+=  simulations[p]->dataSynthCuda->DWI_extra[i];      //extra part
+                }
+
+                // for each histogram bin, 36000 fixed size
+                for(unsigned h = 0; h < 3600; h++)
+                {
+                    phase[h]+=simulations[p]->dataSynthCuda->phase_shift_distribution(i,h);
+                }
+
+            }
+
+
+            if(params.write_txt){
+                dwi_out  << DWI << std::endl;
+
+                if(params.img_signal == true)
+                    dwii_out << DWIi << std::endl;
+
+                if(params.separate_signals){
+                    dwi_intra_out << DWI_intra << std::endl;
+                    dwi_extra_out << DWI_extra << std::endl;
+                }
+            }
+
+
+        }
+
+        if(params.write_txt){
+            dwi_out.close();
+
+            if(params.img_signal == true)
+                dwii_out.close();
+
+            if(params.separate_signals){
+                dwi_intra_out.close();
+                dwi_extra_out.close();
+            }
+        }
+
+    }
+
 
     //Writes the ouput data
     if(simulations[0]->dataSynth){

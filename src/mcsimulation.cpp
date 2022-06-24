@@ -3,6 +3,7 @@
 #include "simerrno.h"
 #include "pgsesequence.h"
 #include "gradientwaveform.h"
+#include "pgsesequencecuda.cuh"
 
 #include <nvtx3/nvToolsExt.h> 
 
@@ -63,8 +64,13 @@ MCSimulation::MCSimulation(Parameters& params_)
     sphere_list    = nullptr;
     cylinders_list = nullptr;
 
+    dataSynthCuda   = nullptr;
+
     params = params_;
+
     dynamicsEngine = new DynamicsSimulation(params);
+
+    /*
 
     if(params.scheme_file.length() > 2){
         scheme.readSchemeFile(params.scheme_file,params.scale_from_stu);
@@ -76,7 +82,7 @@ MCSimulation::MCSimulation(Parameters& params_)
     if(scheme.type == "WAVEFORM"){
         dataSynth = new GradientWaveform(scheme);
     }
-
+    
     dataSynth->setNumberOfSteps(dynamicsEngine->params.num_steps);
     dataSynth->separate_signal = params.separate_signals;
 
@@ -89,6 +95,27 @@ MCSimulation::MCSimulation(Parameters& params_)
     if(params.separate_signals)
         dataSynth->initializeIntraExtraSignals();
 
+
+
+    */
+
+     // CUDA datasynth
+    if(scheme.type == "PGSE"){
+        dataSynthCuda = new PGSESequenceCuda(scheme);
+    }
+
+    dataSynthCuda->setNumberOfSteps(dynamicsEngine->params.num_steps);
+    dataSynthCuda->separate_signal = params.separate_signals;
+
+    if(params.subdivision_flag){
+        dataSynthCuda->subdivision_flag = true;
+        dataSynthCuda->subdivisions = params.subdivisions;
+        dataSynthCuda->initializeSubdivisionSignals();
+    }
+
+    if(params.separate_signals)
+        dataSynthCuda->initializeIntraExtraSignals();
+
     dynamicsEngine->id = count;
     id = count;
     count++;
@@ -97,13 +124,21 @@ MCSimulation::MCSimulation(Parameters& params_)
 
 void MCSimulation::startSimulation()
 {
+
     iniObstacles();
 
+    
     if(dataSynth != nullptr){
         dynamicsEngine->startSimulation(dataSynth);
     }
+    /*
     else{
         dynamicsEngine->startSimulation();
+    }
+    */
+    if(dataSynthCuda != nullptr){
+        
+        dynamicsEngine->startSimulationCuda(dataSynthCuda);
     }
     
 }

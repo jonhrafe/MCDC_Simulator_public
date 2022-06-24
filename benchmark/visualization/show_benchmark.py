@@ -62,19 +62,22 @@ def load_S(path_exp, bin=True):
     else: 
         with open(path_exp+'_DWI.txt', 'r') as f:
             S_real = np.loadtxt(f) 
+            S_real/=S_real.max()
 
         try:
             with open(path_exp+'_DWI_img.txt', 'r') as f:
-                S_img = np.loadtxt(f) 
+                S_img = np.loadtxt(f)
+                S_img/=S_img.max() 
         except FileNotFoundError:
             S_img = None
 
         try:
             with open(path_exp+'_DWI_intra.txt', 'r') as f:
-                S_intra = np.loadtxt(f) 
+                S_intra = np.loadtxt(f)
+                S_intra/=S_intra.max() 
             with open(path_exp+'_DWI_extra.txt', 'r') as f:
                 S_extra = np.loadtxt(f) 
-            
+                S_extra/=S_extra.max()
         except FileNotFoundError:
             S_intra, S_extra = None, None
         
@@ -100,11 +103,19 @@ def show_benchmark():
     # 2. Load signals 
 
     # 2.1 Spheres list
-    exp_sphere_list     = "R_2_R_4_v_50_ICVF_0.57_gaussian_sphere_packing"
+    exp_sphere_list     = "R_2_R_4_v_50_ICVF_0.57_gaussian_sphere_packing_orig"
     path_sphere_list    = os.path.join(PATH_OUTPUT_FOLDER, "sphere", exp_sphere_list)
 
     S_real_sphere_list, S_img_sphere_list, S_intra_sphere_list, S_extra_sphere_list = load_S(path_sphere_list, bin=False)
     S_powder_sphere_list = powder_averaged_S(S_real_sphere_list, exp_protocol)
+
+
+    exp_sphere_list_cuda     = "R_2_R_4_v_50_ICVF_0.57_gaussian_sphere_packing_rep_04"
+    path_sphere_list_cuda    = os.path.join(PATH_OUTPUT_FOLDER, "sphere", exp_sphere_list_cuda)
+
+    S_real_sphere_list_cuda, _, _, _ = load_S(path_sphere_list_cuda, bin=False)
+    S_powder_sphere_list_cuda = powder_averaged_S(S_real_sphere_list_cuda, exp_protocol)
+
 
 
     # 2.2 Spheres PLY
@@ -123,6 +134,7 @@ def show_benchmark():
     ax_sig[0].plot(S_intra_sphere_list, label="Intra")
     ax_sig[0].plot(S_extra_sphere_list, label="Extra")
     
+    ax_sig[0].plot(S_real_sphere_list_cuda, label="Full - Cuda")
 
     ax_sig[1].plot(S_real_sphere_ply, label="Full")
     ax_sig[1].plot(S_intra_sphere_ply, label="Intra")
@@ -139,6 +151,8 @@ def show_benchmark():
     # 3.2 Powder averaged signals
     f_sig_powder, ax_sig_powder = plt.subplots(1, 2, figsize=(FIG_W*2, FIG_W))
     ax_sig_powder[0].plot(b_vals_u, S_powder_sphere_list, label="Full")
+    ax_sig_powder[0].plot(b_vals_u, S_powder_sphere_list_cuda, label="Full")
+    
     ax_sig_powder[1].plot(b_vals_u, S_powder_sphere_ply, label="Full")
     
     add_plot_info(ax_sig_powder[0], title="Sphere list", xlabel=r"$b$")
@@ -147,6 +161,10 @@ def show_benchmark():
     
     plt.legend()
     f_sig_powder.savefig(os.path.join(PATH_SAVE, "signals_powder.png"))
+
+    # 3.3 ADC
+    
+
 
     return 
 

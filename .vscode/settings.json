@@ -52,6 +52,15 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "thread": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "core": "cpp",
+        "bitset": "cpp",
+        "codecvt": "cpp",
+        "condition_variable": "cpp",
+        "unordered_set": "cpp",
+        "filesystem": "cpp",
+        "mutex": "cpp",
+        "cinttypes": "cpp",
+        "__nullptr": "cpp"
     }
 }

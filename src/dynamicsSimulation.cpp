@@ -23,6 +23,10 @@
 #include "simerrno.h"
 #include "simulablesequence.h"
 
+#include <cuda.h>
+#include "cuda_runtime.h"
+
+#include "simulablesequencecuda.h"
 #include <nvtx3/nvToolsExt.h> 
 
 
@@ -424,8 +428,20 @@ void DynamicsSimulation::writeDWSignal(SimulableSequence* dataSynth)
     }
 }
 
+void DynamicsSimulation::writeDWSignalCuda(SimulableSequenceCuda* dataSynthCuda)
+{
+    //Writes the output data
+    if(dataSynthCuda){
+        dataSynthCuda->writeResultingData(params.output_base_name);
+        if(params.log_phase_shift)
+            dataSynthCuda->writePhaseShiftDistribution(params.output_base_name);
+    }
+}
+
 void DynamicsSimulation::iniWalkerPosition()
 {
+
+
     walker.initial_location = Walker::unknown;
     walker.location         = Walker::unknown;
     walker.intra_extra_consensus = walker.intra_coll_count = walker.extra_coll_count=walker.rejection_count=0;
@@ -446,7 +462,10 @@ void DynamicsSimulation::iniWalkerPosition()
 
     }
     //If the number of positions is less than the walkers, it restarts.
-    else */if(iniPos.is_open()){
+    else */
+    
+    
+    if(iniPos.is_open()){
         double x,y,z;
 
         iniPos >> x; iniPos >> y; iniPos >> z;
@@ -458,8 +477,8 @@ void DynamicsSimulation::iniWalkerPosition()
             ini_pos_file_ini_index = 0;
         }
     }
-    else if (params.ini_delta_pos.size() > 0){
-        walker.setRandomInitialPosition(Vector3d(double(params.ini_delta_pos[0]),double(params.ini_delta_pos[1]),double(params.ini_delta_pos[2])),
+    else if (params.ini_delta_pos.size()  > 0){
+            walker.setRandomInitialPosition(Vector3d(double(params.ini_delta_pos[0]),double(params.ini_delta_pos[1]),double(params.ini_delta_pos[2])),
                 Vector3d(double(params.ini_delta_pos[0]),double(params.ini_delta_pos[1]),double(params.ini_delta_pos[2])));
     }
     else if(params.ini_walker_flag.compare("intra")== 0){
@@ -478,6 +497,7 @@ void DynamicsSimulation::iniWalkerPosition()
     }
     //Todo: poner esto bien sin el caso de hexapacking
     else if(voxels_list.size() > 0 or params.custom_sampling_area){
+
         walker.setRandomInitialPosition(params.min_sampling_area,params.max_sampling_area);
         if(params.computeVolume){
             bool intra_flag =isInIntra(walker.ini_pos, walker.in_obj_index,walker.in_ply_index, walker.in_sph_index, 0.0);
@@ -488,6 +508,7 @@ void DynamicsSimulation::iniWalkerPosition()
     else{
         walker.setInitialPosition(Vector3d(0,0,0));
     }
+
 }
 
 
@@ -905,6 +926,7 @@ bool DynamicsSimulation::isInIntra(Vector3d &position, int& cyl_id,  int& ply_id
 
 void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
 
+    printf("******************** CPU SIMULATION ********************\n");
     //Initialize values, arrays and files.
     initSimulation();
 
@@ -993,9 +1015,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         //If there was an error, we don't compute the signal or write anything.
         if(back_tracking){
             continue;
-        }
-
-
+        }        
 
         //updates the phase shift.
         if(dataSynth)
@@ -1061,6 +1081,289 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
 
     return;
 }
+
+
+void DynamicsSimulation::startSimulationCuda(SimulableSequenceCuda *dataSynthCuda) {
+
+
+    printf("******************** GPU SIMULATION ********************\n");
+    //Initialize values, arrays and files.
+    initSimulation();
+
+    //Alias of the step length, may vary when the time step is dynamic.
+    double l = step_lenght;
+    bool back_tracking;
+
+    /*********************   WARNING  **********************/
+    /*                                                     */
+    /*                 DYNAMIC SIMULATION CORE             */
+    /*                                                     */
+    /*********************   WARNING  **********************/
+    unsigned int w=0;
+    int idx_traj = 0;
+
+    
+    int walker_batch_size_max = 32*256;
+    int walker_batch_size = min(walker_batch_size_max, (int)params.num_walkers);
+    int nb_batch = params.num_walkers / walker_batch_size; 
+    int last_batch_size = params.num_walkers % walker_batch_size;
+
+    /* Initialize variables needed for datasynth
+    */
+
+    nvtxRangeId_t rInitCuda = nvtxRangeStartA("Cuda Init");
+
+    printf("Traj init...\n ");
+    double *traj_mat;
+    cudaMallocManaged(&traj_mat, (3*(1+params.num_steps)*walker_batch_size)*sizeof(double));
+    for (unsigned int traji=0;traji<(3*(1+params.num_steps)*walker_batch_size);traji++){traj_mat[traji]=0.0;}
+    printf("Done\n");
+
+    dataSynthCuda->initCudaVariables(walker_batch_size);
+    nvtxRangeEnd(rInitCuda); 
+
+    printf("Nb walkers: %d - Batch size : %d - Nb full batch: %d - Last Batch size: %d \n", params.num_walkers, walker_batch_size, nb_batch, last_batch_size); 
+
+    // Loop on walker batch - Simulation with full batch
+    for (unsigned int walker_batch_start = 0 ; walker_batch_start < nb_batch; walker_batch_start++)
+    {
+        printf("Batch ID %d / %d \n", walker_batch_start+1, nb_batch);
+
+        idx_traj = 0;
+        dataSynthCuda->resetCudaVariables(walker_batch_size);
+
+
+        // Loop on walkers in batch
+        nvtxRangeId_t rBatchSimu = nvtxRangeStartA("Batch simulation");
+
+        for (unsigned int walker_index_in_batch = 0 ; walker_index_in_batch < walker_batch_size; walker_index_in_batch++)
+        {
+            //flag in case there was any error with the particle.
+            back_tracking = false;
+
+            walker.setIndex(w);
+
+            // Initialize the walker initial position
+            iniWalkerPosition();
+
+            // Selects only obstacles that are close enough to collide and the ones inside a collision sphere
+            initWalkerObstacleIndexes();
+
+            //Initial position;
+            walker.setRealPosLog(walker.pos_r,0);
+            walker.setVoxPosLog (walker.pos_v,0);
+
+            traj_mat[idx_traj] = (double)walker.pos_r(0);
+            traj_mat[idx_traj+1] = (double)walker.pos_r(1);
+            traj_mat[idx_traj+2]= (double)walker.pos_r(2);
+
+            idx_traj +=3; 
+
+            for(unsigned t = 1 ; t <= params.num_steps; t++) //T+1 steps in total (avoid errors)
+            {
+
+                /* 
+                DO WE NEED DYNAMIC UPDATE?
+                //Get the time step in milliseconds
+                getTimeDt(last_time_dt,time_dt,l,dataSynthCuda,t,time_step);
+                */
+
+                getTimeDtCuda(last_time_dt,time_dt,t,time_step);
+
+                //Generates a random oriented step of size l
+                generateStep(step,l);
+
+                // Moves the particle. Checks collision and handles bouncing.
+                try{
+                    updateWalkerPosition(step);
+
+                }
+                catch(Sentinel::ErrorCases error){
+
+                    // Possible errors, or numerical un-handed cases should end here.
+                    sentinela.deportationProcess(walker,w,t,back_tracking,params,id);
+
+                    if ( (error == Sentinel::ErrorCases::stuck) || (error == Sentinel::ErrorCases::crossed)){
+                        //w--;
+                        break;
+                    }
+
+                    if ( error == Sentinel::rejected  )
+                        continue;
+                }
+
+                // Saves the final particle position after bouncing in the time t.
+                walker.setRealPosLog(walker.pos_r,t);
+                walker.setVoxPosLog (walker.pos_v,t);
+
+                //updates the collision neighborhood (if any)
+                updateCollitionSphere(t);
+
+
+                walker.steps_count++;
+                walker.rejection_count = 0;
+
+                // Save variables for GPU calculation
+                traj_mat[idx_traj] = (double)(walker.pos_r(0));
+                traj_mat[idx_traj+1] = (double)(walker.pos_r(1));
+                traj_mat[idx_traj+2]= (double)(walker.pos_r(2));
+                idx_traj +=3; 
+
+            }// end for t
+
+
+            w++;
+
+        }// for walker_index_in_batch
+        
+        nvtxRangeEnd(rBatchSimu);  
+
+        /* Update phase shift on CUDA
+        1. Run GPU kernel
+        2. Save signal BAck to host
+        3. Delete variables
+        */     
+
+        nvtxRangeId_t rDataSynth = nvtxRangeStartA("Data generation");
+  
+        dataSynthCuda->update_phase_shift_DWI_signal(traj_mat, walker_batch_size);
+
+        nvtxRangeEnd(rDataSynth);  
+
+        //Displays the remained expected time and check for the time limit.
+        if(expectedTimeAndMaxTimeCheck(w)){
+            cout << "\n" << SH_BG_LIGHT_YELLOW <<  "[Warning]" << SH_DEFAULT << "  Sim: " << id << " "
+                 << "Max time limit reached: Simulation halted after "<< ++w << " spins" << endl;
+            break;
+        }
+
+
+    }// for walker_batch
+
+    // Remaining walkers
+    printf("Last batch size %d\n",last_batch_size );
+
+    if (last_batch_size > 0){
+
+        idx_traj = 0;
+        dataSynthCuda->resetCudaVariables(walker_batch_size);
+
+
+        // Loop on walkers in batch
+        for (unsigned int walker_index_in_batch = 0 ; walker_index_in_batch < last_batch_size; walker_index_in_batch++){
+            walker.setIndex(w);
+
+            // Initialize the walker initial position
+            iniWalkerPosition();
+
+            // Selects only obstacles that are close enough to collide and the ones inside a collision sphere
+            initWalkerObstacleIndexes();
+
+            //Initial position;
+            walker.setRealPosLog(walker.pos_r,0);
+            walker.setVoxPosLog (walker.pos_v,0);
+
+            traj_mat[idx_traj] = (float)walker.pos_r(0);
+            traj_mat[idx_traj+1] = (float)walker.pos_r(1);
+            traj_mat[idx_traj+2]= (float)walker.pos_r(2);
+
+            idx_traj +=3; 
+
+
+            for(unsigned t = 1 ; t <= params.num_steps; t++) //T+1 steps in total (avoid errors)
+            {
+
+                getTimeDtCuda(last_time_dt,time_dt,t,time_step);
+
+                //Generates a random oriented step of size l
+                generateStep(step,l);
+
+                // Moves the particle. Checks collision and handles bouncing.
+                try{
+                    updateWalkerPosition(step);
+
+                }
+                catch(Sentinel::ErrorCases error){
+
+                    // Possible errors, or numerical un-handed cases should end here.
+                    sentinela.deportationProcess(walker,w,t,back_tracking,params,id);
+
+                    if ( (error == Sentinel::ErrorCases::stuck) || (error == Sentinel::ErrorCases::crossed)){
+                        //w--;
+                        break;
+                    }
+
+                    if ( error == Sentinel::rejected  )
+                        continue;
+                }
+
+                // Saves the final particle position after bouncing in the time t.
+                walker.setRealPosLog(walker.pos_r,t);
+                walker.setVoxPosLog (walker.pos_v,t);
+
+                //updates the collision neighborhood (if any)
+                updateCollitionSphere(t);
+
+                walker.steps_count++;
+                walker.rejection_count = 0;
+
+                // Save variables for GPU calculation
+                traj_mat[idx_traj] = (float)walker.pos_r(0);
+                traj_mat[idx_traj+1] = (float)walker.pos_r(1);
+                traj_mat[idx_traj+2]= (float)walker.pos_r(2);
+                idx_traj +=3; 
+
+            }// end for t
+            w++;
+
+        }// for walker_index_in_batch
+
+        dataSynthCuda->update_phase_shift_DWI_signal(traj_mat, last_batch_size);
+    }
+    
+    // Free memory
+    cudaFree(traj_mat);
+    dataSynthCuda->freeCudaVariables();
+    
+    
+    /*********************   WARNING  **********************/
+    /*                                                     */
+    /*         END OF THE DYNAMIC SIMULATION CORE          */
+    /*                                                     */
+    /*********************   WARNING  **********************/
+
+    num_simulated_walkers = w;
+
+    if(num_simulated_walkers<= params.num_walkers){
+
+        trajectory.reWriteHeaderFile(num_simulated_walkers);
+
+        this->params.num_walkers = num_simulated_walkers;
+    }
+
+    if(params.log_propagator){
+        normalizePropagator(num_simulated_walkers);
+    }
+
+    //computes the ICVF from the initialization.
+    computeICVF();
+
+    // Info display.
+    time(&now);
+    second_passed = difftime(now,start);
+    if(params.verbatim)
+        SimErrno::info(" Sim: " + to_string(id) + " Simulation ended after: "
+                       + secondsToMinutes(second_passed) + " seconds" ,cout);
+
+
+    // Writes the final DWI signal, and the phase shift.
+    if(params.log_opp)
+        writeDWSignalCuda(dataSynthCuda);
+
+    return;
+}
+
+
 
 DynamicsSimulation::~DynamicsSimulation() {
     if(iniPos.is_open())
@@ -1161,14 +1464,10 @@ bool DynamicsSimulation::updateWalkerPosition(Eigen::Vector3d& step) {
         walker.steps_count++;
 
         // True if there was a collision and the particle needs to be bounced.
-        nvtxRangeId_t r1 = nvtxRangeStartA("Check obstacle collision");
         update_walker_status |= checkObstacleCollision(bounced_step, tmax, end_point, colision);
-        nvtxRangeEnd(r1);   
         // Updates the position and bouncing direction.
         if(update_walker_status){
-            nvtxRangeId_t r2 = nvtxRangeStartA("updateWalkerPositionAndHandleBouncing");
             bounced = updateWalkerPositionAndHandleBouncing(bounced_step,tmax,colision);
-            nvtxRangeEnd(r2);
             
             // restarts the variables.
             update_walker_status = false;
@@ -1340,6 +1639,13 @@ void DynamicsSimulation::getTimeDt(double &last_time_dt, double &time_dt, double
         }
     }
 }
+
+void DynamicsSimulation::getTimeDtCuda(double &last_time_dt, double &time_dt, unsigned t, double time_step)
+{
+    last_time_dt = time_step*(t-1);
+    time_dt = time_step*(t);
+}
+
 
 bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced_step, double &tmax, Collision &colision)
 {

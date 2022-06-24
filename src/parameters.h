@@ -100,6 +100,8 @@ public:
     bool separate_signals;                          /*!< Separate the signals into intra and extra (compute_volume on)              */
     bool img_signal;                                /*!< True to save the img part of the dwi signal (false by default)             */
 
+    bool cpu_computation = true;                    /*!< True to compute the dwi signal on cpu (true by default)             */
+    bool gpu_computation = false;                   /*!< True to compute the dwi signal on gpu (true by default)             */
 
     /*! \fn Parameters
      *  \brief Default constructor. Sets all the parameters to default and NULL values.

@@ -25,6 +25,7 @@
 #include "sphere.h"
 
 
+#include "simulablesequencecuda.h"
 /*! \class DynamicsSimulation
  *  \brief  Main class, implements the particles dynamics. Handles collisions and bouncing.
  */
@@ -99,6 +100,14 @@ public:
      *  \brief  Starts the dynamics simulation and, if a PGSE sequence is given, computes the DW signal.
      */
     void startSimulation(SimulableSequence* dataSynth = nullptr);
+
+
+    /*! \fn     startSimulationCuda.
+     *  \param  dataSynth optional paramter. If this parameter is not given, no signal is computed.
+     *  \brief  Starts the dynamics simulation and, if a PGSE sequence is given, computes the DW signal.
+     */
+    void startSimulationCuda(SimulableSequenceCuda* dataSynth = nullptr);
+
 
     /*! \fn     readConfigurationFile
      *  \param  conf_file_path paremeters file path.
@@ -222,6 +231,19 @@ private:
      */
     inline void getTimeDt(double &last_time_dt, double& time_dt, double& l, SimulableSequence* dataSynth, unsigned t, double time_step);
 
+   /*! \fn     getTimeDt
+     * \param   last_time_dt saves the last time step;
+     * \param   time_dt actual time step;
+     * \param   new step size if the time was dynamic
+     * \param   dataSynt the PGSE sequence, if the steps are dynamic.
+     * \param   t number of step.
+     * \param   time_step size in milliseconds between steps.
+     * \brief   Computes the step time. If the time steps are not dynamic this is just a constant sum.
+     */
+    inline void getTimeDtCuda(double &last_time_dt, double& time_dt, unsigned t, double time_step);
+
+
+
     /*! \fn     initSimulation
      * \brief   Initialize simulation variables and write (if needed) header files.
      */
@@ -238,6 +260,13 @@ private:
      * \brief   computes and writes the resulting diffusion signal for all the shells.
      */
     inline void writeDWSignal(SimulableSequence *dataSynth);
+
+   /*! \fn     writeDWSignalCuda
+     * \param   dataSynth Simuleable sequence used to the data Sythesis. NULL assumed to skip.
+     * \brief   computes and writes the resulting diffusion signal for all the shells.
+     */
+    inline void writeDWSignalCuda(SimulableSequenceCuda *dataSynthCuda);
+
 
     /*! \fn     iniWalkerPosition
      * \brief   initialize the first walker position depending if a file was passed, the voxel limits,

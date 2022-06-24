@@ -22,6 +22,8 @@
 #include "scheme.h"
 #include <vector>
 
+
+
 /*! \class MCSimulation
  * \brief  Main implementation class. Incorporates the particle's dynamics and the data synthesis.
  */
@@ -48,6 +50,8 @@ public:
 
     std::vector <Sphere>* sphere_list;        /*!< pointer to a vector with all the instances of Spheres   */
 
+
+    SimulableSequenceCuda* dataSynthCuda;       /*!< Simuleable sequence instance, PGSE and General Wavefroms only  */
 
 
     /*! \fn  MCSimulation.

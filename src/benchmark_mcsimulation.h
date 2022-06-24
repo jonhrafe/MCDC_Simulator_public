@@ -56,17 +56,6 @@ private:
     */
     void selectBenchmark();
 
-    /*! \fn  writeBenchmark.
-     *  \brief Save benchmark test results.
-    */
-    void writeBenchmark();
-
-
-    /*! \fn  loadSpheres.
-     *  \brief Load sphere list
-    */
-    void loadSpheres(string path_sphere_list, Parameters &params);
-
     /*! \fn  loadVoxel.
      *  \brief Load voxel
     */
@@ -74,4 +63,4 @@ private:
 
 };
 
-#endif BENCHMARK_MCSIMULATION_H
+#endif

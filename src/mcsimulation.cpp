@@ -286,6 +286,7 @@ void MCSimulation::addSpheresObstaclesFromFiles()
             else{
                 perm_ = params.obstacle_permeability;
             }            
+           
             sph.setPercolation(perm_);
 
             // Diffusion coefficient - Useless now, to be implemented for obstacle specific Di

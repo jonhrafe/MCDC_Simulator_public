@@ -11,6 +11,9 @@
 #include "collision.h"
 #include "walker.h"
 #include <Eigen/Core>
+#include <random>
+
+
 class Obstacle
 {
 public:

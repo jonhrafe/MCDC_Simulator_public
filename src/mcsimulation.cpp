@@ -151,7 +151,6 @@ void MCSimulation::addCylindersObstaclesFromFiles()
         std::ifstream in(params.cylinders_files[i]);
 
         if(!in){
-            //std::cout << "\033[1;37m[INFO]\033[0m Sim: " << count << " " << "[ERROR] Unable to open:" << params.cylinders_files[i] << std::endl;
             return;
         }
 
@@ -169,7 +168,20 @@ void MCSimulation::addCylindersObstaclesFromFiles()
         }
         in.close();
 
+        // Permeability file - if any
+        double perm_; 
+
+        std::ifstream in_perm;
+        if(params.cylinder_permeability_files.size() >0){
+            in_perm.open(params.cylinder_permeability_files[i]);
+        }
+
+        // Diffusion coefficients
+        double diff_i; 
+        double diff_e;
+        
         in.open(params.cylinders_files[i]);
+
 
         if(z_flag){
             double x,y,z,r;
@@ -177,8 +189,27 @@ void MCSimulation::addCylindersObstaclesFromFiles()
             in >> scale;
             while (in >> x >> y >> z >> r)
             {
-                dynamicsEngine->cylinders_list.push_back(Cylinder(Eigen::Vector3d(x,y,z),Eigen::Vector3d(x,y,z+1.0),r,scale));
+                Cylinder cyl(Cylinder(Eigen::Vector3d(x,y,z),Eigen::Vector3d(x,y,z+1.0),r,scale, perm_));
+
+                // Local permeability - Different for each obstacle
+                if(in_perm){
+                    in_perm >> perm_;
+                }
+                // Global permeability - Same for all obstacle
+                else{
+                    perm_ = params.obstacle_permeability;
+                }  
+        
+                cyl.setPercolation(perm_);
+
+                // Diffusion coefficient - Useless now, to be implemented for obstacle specific Di
+                diff_i = params.diffusivity_intra; 
+                diff_e = params.diffusivity_extra;
+                cyl.setDiffusion(diff_i, diff_e);
+
+                dynamicsEngine->cylinders_list.push_back(cyl);
             }
+            in_perm.close();
             in.close();
         }
         else{
@@ -187,17 +218,56 @@ void MCSimulation::addCylindersObstaclesFromFiles()
             in >> scale;
             while (in >> x >> y >> z >> ox >> oy >> oz >> r)
             {
-                dynamicsEngine->cylinders_list.push_back(Cylinder(Eigen::Vector3d(x,y,z),Eigen::Vector3d(ox,oy,oz),r,scale));
+
+                Cylinder cyl(Eigen::Vector3d(x,y,z),Eigen::Vector3d(ox,oy,oz),r,scale, perm_);
+
+                // Local permeability - Different for each obstacle
+                if(in_perm){
+                    in_perm >> perm_;
+                }
+                // Global permeability - Same for all obstacle
+                else{
+                    perm_ = params.obstacle_permeability;
+                }  
+        
+                cyl.setPercolation(perm_);
+
+                // Diffusion coefficient - Useless now, to be implemented for obstacle specific Di
+                diff_i = params.diffusivity_intra; 
+                diff_e = params.diffusivity_extra;
+                cyl.setDiffusion(diff_i, diff_e);
+
+                dynamicsEngine->cylinders_list.push_back(cyl);
             }
+            in_perm.close();
             in.close();
         }
+
     }
 }
+
 
 void MCSimulation::addPLYObstaclesFromFiles()
 {
     for(unsigned i = 0; i < params.PLY_files.size(); i++){
-        dynamicsEngine->plyObstacles_list.push_back(PLYObstacle(params.PLY_files[i],params.PLY_scales[i]));
+
+        PLYObstacle ply_(params.PLY_files[i],params.PLY_scales[i]);
+
+        // Permeability - Kept outside initialization to be consistent with cylinders and spheres. Easily moved to ply constructor. 
+        double perm_; 
+        perm_ = params.PLY_permeability[i];
+        ply_.setPercolation(perm_);
+
+        // Diffusion coefficient - Useless now, to be implemented for obstacle specific Di
+        double diff_i; 
+        double diff_e;
+        
+        diff_i = params.diffusivity_intra; 
+        diff_e = params.diffusivity_extra;
+        ply_.setDiffusion(diff_i, diff_e);
+
+        // Add PLY to list
+        dynamicsEngine->plyObstacles_list.push_back(ply_);
     }
 }
 
@@ -239,10 +309,8 @@ void MCSimulation::addCylindersConfigurations()
 
 void MCSimulation::addSpheresObstaclesFromFiles()
 {
-
     for(unsigned i = 0; i < params.spheres_files.size(); i++){
 
-        bool z_flag = false;
         std::ifstream in(params.spheres_files[i]);
 
         if(!in){
@@ -261,8 +329,8 @@ void MCSimulation::addSpheresObstaclesFromFiles()
         double perm_; 
 
         std::ifstream in_perm;
-        if(params.permeability_files.size() >0){
-            in_perm.open(params.permeability_files[i]);
+        if(params.sphere_permeability_files.size() >0){
+            in_perm.open(params.sphere_permeability_files[i]);
         }
 
         // Diffusion coefficients
@@ -279,14 +347,14 @@ void MCSimulation::addSpheresObstaclesFromFiles()
             Sphere sph(Eigen::Vector3d(x,y,z),r,scale);
 
             // Local permeability - Different for each obstacle
-            if(in_perm){
+            if(in_perm.is_open()){
                 in_perm >> perm_;
             }
             // Global permeability - Same for all obstacle
             else{
                 perm_ = params.obstacle_permeability;
             }            
-           
+
             sph.setPercolation(perm_);
 
             // Diffusion coefficient - Useless now, to be implemented for obstacle specific Di
@@ -295,7 +363,7 @@ void MCSimulation::addSpheresObstaclesFromFiles()
             sph.setDiffusion(diff_i, diff_e);
             
             // Add sphere to list
-            dynamicsEngine->spheres_list.push_back(sph);            
+            dynamicsEngine->spheres_list.push_back(sph);     
         }
         in.close();
         in_perm.close();

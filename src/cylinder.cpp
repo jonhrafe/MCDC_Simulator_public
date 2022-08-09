@@ -25,6 +25,13 @@ Cylinder::Cylinder(const Cylinder &cyl)
     radius = cyl.radius;
     volume = cyl.volume;
     id = count++;
+
+    // To be improved: move this line to Obstacle class.
+    percolation     = cyl.percolation;
+    diffusivity_e   = cyl.diffusivity_e; 
+    diffusivity_i   = cyl.diffusivity_i;
+    prob_cross_e_i  = cyl.prob_cross_e_i;
+    prob_cross_i_e  = cyl.prob_cross_i_e;
 }
 
 bool Cylinder::checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision)

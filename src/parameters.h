@@ -122,8 +122,9 @@ public:
     Implementation of multiple permeability by Remy
     */ 
     double obstacle_permeability     = -1.0;           /*!< Obstacles permeability if global                                          */
-    std::vector<std::string> permeability_files;    /*!< Obstacles permeability file if local                                       */
-
+    std::vector<std::string> sphere_permeability_files;    /*!< Obstacles permeability file if local                                       */
+    std::vector<std::string> cylinder_permeability_files;    /*!< Obstacles permeability file if local                                       */
+    std::vector<double> PLY_permeability;
 
     bool subdivision_flag           = false;        /*!< flag to check if we have several voxel subdivision to compute the signal   */
     unsigned number_subdivisions    = 0;            /*!< saves the number of subdivisions for an initialzied voxel (needed)         */
@@ -419,6 +420,23 @@ private:
     */
     void readPermeability(std::ifstream &in);
 
+    /*! \fn readPLY
+     *  \param file input iostreams
+     *  \brief read a ply file.
+    */
+    void readPLY(std::ifstream &in);
+
+    /*! \fn readSphereList
+     *  \param file input iostreams
+     *  \brief read a list of spheres.
+    */
+    void readSphereList(std::ifstream &in);
+
+    /*! \fn readCylinderList
+     *  \param file input iostreams
+     *  \brief read a list of cylinders.
+    */
+    void readCylinderList(std::ifstream &in);
 
 };
 

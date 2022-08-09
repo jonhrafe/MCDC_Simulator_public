@@ -131,11 +131,12 @@ void DynamicsSimulation::initObstacleInformation(){
         if(cylinders_list[i].percolation > 0.0){
             double dse = sqrt(step_length_pref*cylinders_list[i].diffusivity_e);
             double dsi = sqrt(step_length_pref*cylinders_list[i].diffusivity_i);
-            double prob_cross_i_e = cylinders_list[i].percolation * dse * 2. / 3. / cylinders_list[i].diffusivity_e;
-            double prob_cross_e_i = cylinders_list[i].percolation * dsi * 2. / 3. / cylinders_list[i].diffusivity_i;       
 
-            cylinders_list[i].prob_cross_e_i = prob_cross_e_i / (1.- 0.5 * (prob_cross_e_i + prob_cross_i_e));
-            cylinders_list[i].prob_cross_i_e = prob_cross_i_e / (1.- 0.5 * (prob_cross_e_i + prob_cross_i_e));
+            double prob_cross_i_e = cylinders_list[i].percolation * dsi * 2. / 3. / cylinders_list[i].diffusivity_i;
+            double prob_cross_e_i = cylinders_list[i].percolation * dse * 2. / 3. / cylinders_list[i].diffusivity_e; 
+
+            cylinders_list[i].prob_cross_e_i = prob_cross_e_i / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
+            cylinders_list[i].prob_cross_i_e = prob_cross_i_e / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
             
         }
 
@@ -155,11 +156,13 @@ void DynamicsSimulation::initObstacleInformation(){
         if(plyObstacles_list[i].percolation > 0.0){
             double dse = sqrt(step_length_pref*plyObstacles_list[i].diffusivity_e);
             double dsi = sqrt(step_length_pref*plyObstacles_list[i].diffusivity_i);
-            double prob_cross_i_e = plyObstacles_list[i].percolation * dse * 2. / 3. / plyObstacles_list[i].diffusivity_e;
-            double prob_cross_e_i = plyObstacles_list[i].percolation * dsi * 2. / 3. / plyObstacles_list[i].diffusivity_i;       
 
-            plyObstacles_list[i].prob_cross_e_i = prob_cross_e_i / (1.- 0.5 * (prob_cross_e_i + prob_cross_i_e));
-            plyObstacles_list[i].prob_cross_i_e = prob_cross_i_e / (1.- 0.5 * (prob_cross_e_i + prob_cross_i_e));
+            double prob_cross_i_e = plyObstacles_list[i].percolation * dsi * 2. / 3. / plyObstacles_list[i].diffusivity_i;
+            double prob_cross_e_i = plyObstacles_list[i].percolation * dse * 2. / 3. / plyObstacles_list[i].diffusivity_e; 
+
+            plyObstacles_list[i].prob_cross_e_i = prob_cross_e_i / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
+            plyObstacles_list[i].prob_cross_i_e = prob_cross_i_e / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
+
             
         }
 
@@ -180,11 +183,12 @@ void DynamicsSimulation::initObstacleInformation(){
 
             double dse = sqrt(step_length_pref*spheres_list[i].diffusivity_e);
             double dsi = sqrt(step_length_pref*spheres_list[i].diffusivity_i);
-            double prob_cross_i_e = spheres_list[i].percolation * dse * 2. / 3. / spheres_list[i].diffusivity_e;
-            double prob_cross_e_i = spheres_list[i].percolation * dsi * 2. / 3. / spheres_list[i].diffusivity_i;       
+            
+            double prob_cross_i_e = spheres_list[i].percolation * dsi * 2. / 3. / spheres_list[i].diffusivity_i;
+            double prob_cross_e_i = spheres_list[i].percolation * dse * 2. / 3. / spheres_list[i].diffusivity_e; 
 
-            spheres_list[i].prob_cross_e_i = prob_cross_e_i / (1.- 0.5 * (prob_cross_e_i + prob_cross_i_e));
-            spheres_list[i].prob_cross_i_e = prob_cross_i_e / (1.- 0.5 * (prob_cross_e_i + prob_cross_i_e));
+            spheres_list[i].prob_cross_e_i = prob_cross_e_i / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
+            spheres_list[i].prob_cross_i_e = prob_cross_i_e / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
         }
     }
     walker.collision_sphere_spheres.collision_list        = &spheres_deque;
@@ -992,12 +996,13 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
 
         }// end for t
 
+        /*
         if(!back_tracking)
             if(finalPositionCheck()){
                 back_tracking=true;
                 w--;
             }
-
+        */
         //If there was an error, we don't compute the signal or write anything.
         if(back_tracking){
             continue;

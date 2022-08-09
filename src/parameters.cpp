@@ -179,11 +179,12 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         {
             readPermeability(in);
         }
-        */
         else if((str_dist(tmp,"<permeability>") <= 1))
         {
             readPermeability(in);
         }
+
+        */
         else if( str_dist(tmp,"coll_sphere_dist") <= 2 || str_dist(tmp,"colision_dist") <= 2 || str_dist(tmp,"sphere_size") <= 2)
         {
             in >> collision_sphere_distance;
@@ -407,10 +408,8 @@ void Parameters::readObstacles(ifstream& in)
         in >> tmp;
         std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
 
-        if(str_dist(tmp,"cylinders_list") <= 2){
-            string path;
-            in >> path;
-            cylinders_files.push_back(path);
+        if(str_dist(tmp,"<cylinders_list>") <= 2){
+            readCylinderList(in);
             num_obstacles++;
         }
         if(str_dist(tmp,"oriented_cylinders_list") <= 2){
@@ -419,16 +418,9 @@ void Parameters::readObstacles(ifstream& in)
             cylinders_files.push_back(path);
             num_obstacles++;
         }
-        if(str_dist(tmp,"ply") <= 1){
-            string path;
-            in >> path;
-            PLY_files.push_back(path);
+        if(str_dist(tmp,"<ply>") <= 1){
+            readPLY(in);
             num_obstacles++;
-        }
-        if(str_dist(tmp,"ply_scale") <= 1){
-            double scale_;
-            in >> scale_;
-            PLY_scales.push_back(scale_);
         }
 
         if(str_dist(tmp,"<new_packing>") <=1){
@@ -436,25 +428,16 @@ void Parameters::readObstacles(ifstream& in)
             num_obstacles++;
         }
 
-        if(str_dist(tmp,"spheres_list") <= 2){
-            string path;
-            in >> path;
-            spheres_files.push_back(path);
+        if(str_dist(tmp,"<spheres_list>") <= 2){
+            readSphereList(in);
             num_obstacles++;   
         }        
 
     }
-
     if(num_obstacles ==0){
         SimErrno::warning("<obstacle> tag initialized, but no valid obstacle tag found",cout);
     }
-
-    //    if(PLY_scales.size() < PLY_files.size()){
-    //        for(unsigned int i = PLY_scales.size()-1; i < PLY_scales.size(); i++ )
-    //            PLY_scales[i] = 1;
-    //    }
 }
-
 void Parameters::readVoxels(ifstream& in)
 {
     string tmp="";
@@ -907,24 +890,78 @@ void Parameters::readPropagatorDirections(string dir_path)
 }
 
 
-void Parameters::readPermeability(ifstream& in)
+void Parameters::readPLY(ifstream& in)
 {
-    
-    string tmp="";
+    string path;
+    in >> path;
+    PLY_files.push_back(path);
 
-    while( !(str_dist(tmp,"</permeability>") <= 2)){
+    // Default scale is 1 and permeability 0 - Need one parameter per PLY obstacle for "mcsimulation" class
+
+    string tmp      = "";
+    double perm_    = 0.0;
+    double scale_   = 1.0;
+
+    while(!(str_dist(tmp,"</ply>") <= 2)){
         in >> tmp;
         std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
-        if(str_dist(tmp,"global") <= 1){
-            // One permeability for all obstacles
-            in >> obstacle_permeability;
+        // One permeability per PLY file
+        //in >> obstacle_permeability;
+        if((str_dist(tmp,"permeability") <= 1)){in >> perm_;}
+        if(str_dist(tmp,"ply_scale") <= 1){in >> scale_;}
+    }
+    PLY_scales.push_back(scale_);
+    PLY_permeability.push_back(perm_);
+         
+}
+
+void Parameters::readSphereList(ifstream& in)
+{
+    string path;
+    in >> path;
+    spheres_files.push_back(path);
+
+    string tmp="";
+    while(!(str_dist(tmp,"</spheres_list>") <= 2)){
+        in >> tmp;
+        if(!(str_dist(tmp,"permeability") <= 2)){
+        
+            std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
+            if(str_dist(tmp,"global") <= 1){
+                // One permeability for all obstacles
+                in >> obstacle_permeability;
+            }
+            if(str_dist(tmp,"local") <= 1){
+                // One permeability per obstacles
+                string path;
+                in >> path;
+                sphere_permeability_files.push_back(path);
         }
-        if(str_dist(tmp,"local") <= 1){
-            // One permeability per obstacles
-            string path;
-            in >> path;
-            permeability_files.push_back(path);
-            //obstacle_permeability = 1.0;
+    }
+    } 
+}
+
+void Parameters::readCylinderList(ifstream& in)
+{
+    string path;
+    in >> path;
+    cylinders_files.push_back(path);
+
+    string tmp="";
+    while(!(str_dist(tmp,"</cylinder_list>") <= 2)){
+        in >> tmp;    
+        if(!(str_dist(tmp,"permeability") <= 2)){
+                    std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
+            if(str_dist(tmp,"global") <= 1){
+                // One permeability for all obstacles
+                in >> obstacle_permeability;
+            }
+            if(str_dist(tmp,"local") <= 1){
+                // One permeability per obstacles
+                string path;
+                in >> path;
+                cylinder_permeability_files.push_back(path);
         }
+    }
     } 
 }

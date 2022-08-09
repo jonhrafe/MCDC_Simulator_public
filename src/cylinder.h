@@ -41,11 +41,12 @@ public:
      *  \param scale scale factor for the values passed. Useful when reading a file.
      *  \brief Initialize everything.
      */
-    Cylinder(Eigen::Vector3d P_, Eigen::Vector3d Q_, double radius_, double scale = 1):P(P_*scale),Q(Q_*scale),radius(radius_*scale){
+    Cylinder(Eigen::Vector3d P_, Eigen::Vector3d Q_, double radius_, double scale = 1, double percolation_=0.0):P(P_*scale),Q(Q_*scale),radius(radius_*scale){
         D  = (Q_-P_).normalized();
         Q = P+D;
         id = count++;     
         volume = M_PI * (radius_*scale) *  (radius_*scale);
+        percolation = percolation_;
     }
 
     /*!

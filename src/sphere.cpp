@@ -126,7 +126,12 @@ inline bool Sphere::handleCollition(Walker& walker, Collision &colision, Vector3
     if((this->percolation>0.0)){
         if(colision.type == Collision::hit && colision.col_location != Collision::voxel){
 
-            double _percolation_ ((double)rand()/RAND_MAX); 
+            std::mt19937 gen_perm;          // Random engine for permeability
+            std::random_device rd;
+            gen_perm.seed(rd());
+            std::uniform_real_distribution<double> udist(0,1);
+            
+            double _percolation_ = udist(gen_perm); 
 
             double dynamic_percolation = 0.0;
             

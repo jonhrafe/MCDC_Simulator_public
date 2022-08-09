@@ -4,6 +4,7 @@
 #include <constants.h>
 #include <Eigen/Dense>
 
+
 using namespace std;
 
 PLYObstacle::PLYObstacle()
@@ -30,6 +31,7 @@ PLYObstacle::PLYObstacle(string path, double scale_factor_)
 
     readPLY_ASCII_triangles(path);
 }
+
 
 void PLYObstacle::readPLY_ASCII_triangles(std::string ply_file)
 {
@@ -66,9 +68,7 @@ void PLYObstacle::readPLY_ASCII_triangles(std::string ply_file)
         in >> vertices[i].points[1];
         in >> vertices[i].points[2];
 
-        //cout << vertices[i].points[0] << " " << vertices[i].points[1] << " " << vertices[i].points[2] << " " << endl;
     }
-
 
     for (unsigned i =0; i< vert_number; i++){
         vertices[i].points[0]*=scale_factor;
@@ -152,32 +152,7 @@ bool PLYObstacle::checkCollision(Walker &walker, Eigen::Vector3d &step, double &
     if(colision.type == Collision::null){
         return false;
     }
-
-    if((this->percolation>0.0)){
-        if(colision.type == Collision::hit && colision.col_location != Collision::voxel){
-
-            double _percolation_ ((double)rand()/RAND_MAX); 
-
-            double dynamic_percolation = 0.0;
-            
-            if (colision.col_location == Collision::inside){ 
-                dynamic_percolation =  this->prob_cross_i_e; 
-            } 
-
-            else if (colision.col_location == Collision::outside){
-                dynamic_percolation = this->prob_cross_e_i;
-            } 
-
-            if( dynamic_percolation - _percolation_ > EPS_VAL ){            
-                count_perc_crossings++;
-                colision.perm_crossing      = _percolation_;
-                colision.bounced_direction  = step; 
-                return true;
-            }
-        }  
-    }
-    colision.perm_crossing = 0.;
-
+        
     return true;
 }
 
@@ -194,6 +169,7 @@ void PLYObstacle::handleCollisions(Collision &colision_confirmed, Collision &col
     if (colision_confirmed.type == Collision::hit || colision_confirmed.type == Collision::boundary){
         if(colision_2.doIHaveMorePiorityThan(colision_confirmed)){
             colision_confirmed = colision_2;
+            max_distance = colision_2.t;
             colision_confirmed.triangle_ind = triangle_indx;
         }
         return;
@@ -202,7 +178,7 @@ void PLYObstacle::handleCollisions(Collision &colision_confirmed, Collision &col
     if(colision_confirmed.type == Collision::near ){
         if (colision_2.type == Collision::hit || colision_2.type == Collision::boundary){
             colision_confirmed = colision_2;
-            //max_distance = colision_2.t;
+            max_distance = colision_2.t;
             colision_confirmed.triangle_ind = triangle_indx;
         }
         return;
@@ -216,6 +192,7 @@ void PLYObstacle::handleCollisions(Collision &colision_confirmed, Collision &col
         // if we were near indeed
         if(colision_2.type != Collision::null){
             colision_confirmed = colision_2;
+            max_distance = colision_2.t;
             colision_confirmed.triangle_ind = triangle_indx;
         }
         return;
@@ -256,6 +233,9 @@ bool PLYObstacle::updateWalkerStatusAndHandleBouncing(Walker &walker, Eigen::Vec
     //If was a hit and need to bounce;
     if(colision.type == Collision::hit){
         bounced = true;
+
+        colision.perm_crossing = 0.;
+
         if (colision.col_location == Collision::on_edge || colision.col_location == Collision::on_vertex){
             colision.bounced_direction = -step;
             //WARNING: REMOVE THIS
@@ -274,6 +254,32 @@ bool PLYObstacle::updateWalkerStatusAndHandleBouncing(Walker &walker, Eigen::Vec
             double dot = ((walker.pos_v - faces[colision.triangle_ind].center).normalized()).dot(normal);
 
             colision.col_location = (dot < -1e-5)?Collision::inside:(dot > 1e-5)?Collision::outside:Collision::unknown;
+
+            if((this->percolation>0.0)){
+                if(colision.col_location != Collision::voxel){
+
+
+                    std::mt19937 gen_perm;
+                    std::random_device rd;
+                    gen_perm.seed(rd());
+                    std::uniform_real_distribution<double> udist(0,1);
+                    
+                    double _percolation_ = udist(gen_perm);
+                    
+                    double dynamic_percolation = 0.0;
+                    
+                    if (colision.col_location == Collision::inside){dynamic_percolation =  this->prob_cross_i_e;} 
+
+                    else if (colision.col_location == Collision::outside){dynamic_percolation = this->prob_cross_e_i;} 
+
+                    if( dynamic_percolation - _percolation_ > EPS_VAL ){       
+                        count_perc_crossings++;
+                        colision.perm_crossing      = _percolation_;
+                        colision.bounced_direction  = step; 
+                    }
+                    
+                }  
+            }
         }
     }
     else if(colision.type == Collision::near){

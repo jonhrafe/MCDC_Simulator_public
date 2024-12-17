@@ -1,2 +1,5 @@
 MC-DC_Simulator:
 	g++ -O3 -std=c++11 -lpthread -std=c++0x -pthread -w -I. main.cpp simulablesequence.cpp vertex.cpp obstacle.cpp collision.cpp scheme.cpp voxel.cpp cylinder.cpp walker.cpp mcsimulation.cpp parallelmcsimulation.cpp trajectory.cpp triangle.cpp parameters.cpp plyobstacle.cpp pgsesequence.cpp dynamicsSimulation.cpp simerrno.cpp collisionsphere.cpp  cylindergammadistribution.cpp sentinel.cpp subdivision.cpp gradientwaveform.cpp propagator.cpp sphere.cpp sphere.h spheregammadistribution.cpp spheregammadistribution.h -o ../MC-DC_Simulator
+	
+dataSynth:
+	g++ -O3 -std=c++11 -lpthread -std=c++0x -pthread -w -I. dataSynth.cpp simulablesequence.cpp vertex.cpp obstacle.cpp collision.cpp scheme.cpp voxel.cpp cylinder.cpp walker.cpp mcsimulation.cpp parallelmcsimulation.cpp trajectory.cpp triangle.cpp parameters.cpp plyobstacle.cpp pgsesequence.cpp dynamicsSimulation.cpp simerrno.cpp collisionsphere.cpp  cylindergammadistribution.cpp sentinel.cpp subdivision.cpp gradientwaveform.cpp propagator.cpp sphere.cpp sphere.h spheregammadistribution.cpp spheregammadistribution.h -o ../dataSynth

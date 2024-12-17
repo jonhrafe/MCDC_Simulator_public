@@ -5,15 +5,15 @@
 // o   o   o-o o    o-o     o-o     o--o  | o o o o--o o o-o- o  o-o o
 
 #include <iostream>
+#include <thread>
+#include <fstream>
 #include "Eigen/Core"
 #include "Eigen/Dense"
 #include "dynamicsSimulation.h"
-#include <fstream>
 #include "pgsesequence.h"
 #include "parallelmcsimulation.h"
 #include "voxel.h"
 #include "cylinder.h"
-#include <thread>
 #include "simerrno.h"
 
 typedef unsigned int uint;

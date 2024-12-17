@@ -7,7 +7,7 @@
 
 #ifndef COLLISION_H
 #define COLLISION_H
-#include <Eigen/Core>
+#include "Eigen/Core"
 
 /*! \class Collision
  *  \brief Class to save and handle collisions between walkers and objects.

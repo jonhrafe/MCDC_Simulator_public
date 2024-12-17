@@ -14,7 +14,7 @@
 #include <vector>
 #include <iostream>
 #include "trajectory.h"
-#include <Eigen/Core>
+#include "Eigen/Core"
 #include "simulablesequence.h"
 #include "scheme.h"
 typedef unsigned long ulong;

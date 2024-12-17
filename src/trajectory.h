@@ -11,8 +11,8 @@
 #include <iostream>
 #include <stdio.h>
 #include <fstream>
-#include <Eigen/Sparse>
-#include <parameters.h>
+#include "Eigen/Sparse"
+#include "parameters.h"
 
 
 class Trajectory {

@@ -9,8 +9,8 @@
 
 #ifndef VOXEL_H
 #define VOXEL_H
-#include <Eigen/Core>
-#include <collision.h>
+#include "Eigen/Core"
+#include "collision.h"
 #include "walker.h"
 
 /*! \class Plane

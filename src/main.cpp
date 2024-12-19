@@ -15,6 +15,7 @@
 #include "voxel.h"
 #include "cylinder.h"
 #include "simerrno.h"
+#include "benchmark.h"
 
 typedef unsigned int uint;
 
@@ -27,19 +28,33 @@ int main(int argn, char* argv[])
 {
 
     string conf = "";
+    string output_benchmark = "";
 
     if(argn == 2){
         conf = argv[1];
     }
-    else{
+    else if(argn == 3){
+        string secondParam = argv[1];
+        if (secondParam == "--conf") {
+            conf = argv[2];
+
+            ParallelMCSimulation simulation(conf);
+
+            simulation.startSimulation();
+
+        } else if (secondParam == "--benchmark") {
+            output_benchmark = argv[2];
+
+            Benchmark bench(output_benchmark);
+            bench.start();
+        } else {
+            printUsage();
+            return -1;
+        }
+    } else {
         printUsage();
         return -1;
     }
-
-
-    ParallelMCSimulation simulation(conf);
-
-    simulation.startSimulation();
 
     #ifdef __linux__
 

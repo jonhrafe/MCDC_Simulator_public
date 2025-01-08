@@ -3,7 +3,7 @@
 #include <limits>       // std::numeric_limits
 #include <math.h>
 #include <cstddef>
-#include <Eigen/Dense>
+#include "Eigen/Dense"
 #include <iostream>
 #include "constants.h"
 
@@ -11,13 +11,17 @@ using namespace std;
 
 Triangle::Triangle()
 {
+
+    indexes[0]=0;
+    indexes[1]=1;
+    indexes[2]=2;
     vertices = NULL;
     normal[0]=0;
     normal[1]=0;
     normal[2]=0;
 }
 
-void Triangle::getVertex(const unsigned i, Eigen::Vector3d &v){
+void Triangle::getVertex(const unsigned i, Eigen::Vector3d &v) {
     v[0] = vertices[indexes[i]].points[0];
     v[1] = vertices[indexes[i]].points[1];
     v[2] = vertices[indexes[i]].points[2];
@@ -50,7 +54,7 @@ void Triangle::saveNormalAndAuxInfo()
     this->radius =sqrt(fmax(d1,fmax(d2,d3)));
 }
 
-bool Triangle::rayIntersects(const Eigen::Vector3d &ray_origin, const Eigen::Vector3d &step, double &t)
+bool Triangle::rayIntersects(const Eigen::Vector3d &ray_origin, const Eigen::Vector3d &step, double &t) 
 {
     Eigen::Vector3d e1,e2,pvec,tvec,qvec;
     Eigen::Vector3d a,b,c;
@@ -127,15 +131,15 @@ bool Triangle::rayIntersects_MT(const Eigen::Vector3d & ray_origin, const Eigen:
     return true;
 }
 
-#if PRECISE_T_MIN_D == 0
-double Triangle::minDistance(const Eigen::Vector3d p){
+#if PRECISE_T_MIN_D == 1
+double Triangle::minDistance(const Eigen::Vector3d p) {
         //    distance to sphere
         return fmax(0,(p-center).norm()-radius);
 }
 
 #else
 
-double Triangle::minDistance(const Eigen::Vector3d p)
+double Triangle::minDistance(const Eigen::Vector3d p) 
 {
     double EPS = 1e-1;
 
@@ -343,4 +347,168 @@ void Triangle::stepIntersects_MT_limits(const Eigen::Vector3d &ray_origin, const
 
     colision.type = Collision::hit;
 
+}
+
+static const double INTERSECTION_EPS = 1e-12;
+
+/**
+ * @brief Check if two 3D points are close to each other (same vertex).
+ */
+inline bool isClose(const Eigen::Vector3d &p1, const Eigen::Vector3d &p2, double eps = 1e-12) {
+    return (p1 - p2).squaredNorm() < eps*eps;
+}
+
+/**
+ * @brief Check if a point P is inside the triangle formed by A, B, C (using barycentric coordinates).
+ * @param P - the point to test
+ * @param A,B,C - the triangle vertices
+ * @return true if inside (or on edge), false otherwise
+ */
+bool pointInTriangle(const Eigen::Vector3d &P,
+                     const Eigen::Vector3d &A,
+                     const Eigen::Vector3d &B,
+                     const Eigen::Vector3d &C)
+{
+    // Compute vectors
+    Eigen::Vector3d v0 = C - A;
+    Eigen::Vector3d v1 = B - A;
+    Eigen::Vector3d v2 = P - A;
+
+    // Compute dot products
+    double dot00 = v0.dot(v0);
+    double dot01 = v0.dot(v1);
+    double dot02 = v0.dot(v2);
+    double dot11 = v1.dot(v1);
+    double dot12 = v1.dot(v2);
+
+    // Compute barycentric coordinates
+    double invDenom = 1.0 / (dot00 * dot11 - dot01 * dot01);
+    double u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+    double v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+
+    // Check if point is in triangle
+    return (u >= -INTERSECTION_EPS) && (v >= -INTERSECTION_EPS) &&
+           (u + v <= 1.0 + INTERSECTION_EPS);
+}
+
+/**
+ * @brief Check intersection of a line segment [P0,P1] with triangle [A,B,C].
+ *        This is a standard segment-triangle intersection using a Möller–Trumbore style test.
+ * @param P0,P1 the endpoints of the segment
+ * @param A,B,C the triangle’s vertices
+ * @param tOut  the intersection parameter (0 <= t <= 1 for segment intersection)
+ * @return true if they intersect, false otherwise
+ */
+bool segmentIntersectsTriangle(const Eigen::Vector3d &P0,
+                               const Eigen::Vector3d &P1,
+                               const Eigen::Vector3d &A,
+                               const Eigen::Vector3d &B,
+                               const Eigen::Vector3d &C,
+                               double &tOut)
+{
+    const double EPS = 1e-10;
+
+    Eigen::Vector3d e1 = B - A;
+    Eigen::Vector3d e2 = C - A;
+    Eigen::Vector3d d  = P1 - P0;  // segment direction
+
+    Eigen::Vector3d p  = d.cross(e2);
+    double det = e1.dot(p);
+
+    // If det is near zero, there is no intersection (or the line is parallel).
+    if (fabs(det) < EPS) {
+        return false;
+    }
+
+    double invDet = 1.0 / det;
+    Eigen::Vector3d T = P0 - A;
+
+    // Calculate U parameter
+    double u = T.dot(p) * invDet;
+    if (u < 0.0 - EPS || u > 1.0 + EPS) {
+        return false;
+    }
+
+    // Calculate V parameter
+    Eigen::Vector3d q = T.cross(e1);
+    double v = d.dot(q) * invDet;
+    if (v < 0.0 - EPS || (u + v) > 1.0 + EPS) {
+        return false;
+    }
+
+    // Calculate t to find out where intersection happens on the line
+    double t = e2.dot(q) * invDet;
+    if (t < 0.0 - EPS || t > 1.0 + EPS) {
+        // For pure line intersection, we wouldn't check 0..1, 
+        // but for segment we need t in [0,1].
+        return false;
+    }
+
+    tOut = t;
+    return true;
+}
+
+/**
+ * @brief Check if any edge of triangle1 intersects triangle2
+ */
+bool anyEdgeIntersectsTriangle(const Eigen::Vector3d &A1,
+                               const Eigen::Vector3d &B1,
+                               const Eigen::Vector3d &C1,
+                               const Eigen::Vector3d &A2,
+                               const Eigen::Vector3d &B2,
+                               const Eigen::Vector3d &C2)
+{
+    double tIgnore;
+    // Check the 3 edges of the first triangle
+    if (segmentIntersectsTriangle(A1, B1, A2, B2, C2, tIgnore)) return true;
+    if (segmentIntersectsTriangle(B1, C1, A2, B2, C2, tIgnore)) return true;
+    if (segmentIntersectsTriangle(C1, A1, A2, B2, C2, tIgnore)) return true;
+    return false;
+}
+
+/**
+ * @brief The main function to check if two triangles intersect.
+ *        - Skips intersection if the triangles appear to share any vertex (adjacent).
+ *        - Otherwise performs edge-edge tests and "vertex-in-triangle" tests.
+ *
+ * @param other the other triangle
+ * @return true if they intersect, false otherwise
+ */
+bool Triangle::triangleIntersects(Triangle &other)
+{
+    // 1) Check if they share a vertex (adjacency check).
+    //    If yes, skip intersection test and return false (or do whatever is needed).
+    Eigen::Vector3d A1, B1, C1;
+    getVertex(0, A1);
+    getVertex(1, B1);
+    getVertex(2, C1);
+
+    Eigen::Vector3d A2, B2, C2;
+    other.getVertex(0, A2);
+    other.getVertex(1, B2);
+    other.getVertex(2, C2);
+
+
+
+    // Epsilon for "almost the same" vertex
+    const double adjacencyEps = 1e-12;
+    // Compare all 3 vertices from "this" to all 3 from "other"
+    Eigen::Vector3d tri1Vertices[3] = {A1, B1, C1};
+    Eigen::Vector3d tri2Vertices[3] = {A2, B2, C2};
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            if (isClose(tri1Vertices[i], tri2Vertices[j], adjacencyEps)) {
+                // They share (approximately) the same vertex => adjacent (same mesh?), skip
+                return false;
+            }
+        }
+    }
+    
+
+    // 2) Check edges of one triangle vs. the other
+    if (anyEdgeIntersectsTriangle(A1, B1, C1, A2, B2, C2)) return true;
+    if (anyEdgeIntersectsTriangle(A2, B2, C2, A1, B1, C1)) return true;
+
+    // If none of the above conditions is true, the triangles do not intersect.
+    return false;
 }

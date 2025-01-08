@@ -1,12 +1,7 @@
-// o   o   o-o     oo-o     o-o      o-o               o      o
-// |\ /|  /       / |  \   /        |     o            |      |
-// | O | O       o  |   O O          o-o    o-O-o o  o |  oo -o- o-o o-o
-// |   |  \     /   |  /   \            | | | | | |  | | | |  |  | | |
-// o   o   o-o o    o-o     o-o     o--o  | o o o o--o o o-o- o  o-o o
-
 #include <iostream>
 #include <thread>
 #include <fstream>
+#include <chrono>
 #include "Eigen/Core"
 #include "Eigen/Dense"
 #include "dynamicsSimulation.h"
@@ -16,86 +11,102 @@
 #include "cylinder.h"
 #include "simerrno.h"
 #include "benchmark.h"
+#include "plyobstacle.h"
+#include "FixedGrid.h"
 
 typedef unsigned int uint;
 
 using namespace std;
 using namespace Eigen;
 
-void printUsage();
 
 int main(int argn, char* argv[])
 {
+    // Load PLY file
+    string ply_ = "/home/jonathan/Downloads/output_mesh.ply";
+    PLYObstacle ply(ply_);
+    cout << "Number of triangles: " << ply.face_number << endl;
 
-    string conf = "";
-    string output_benchmark = "";
-
-    if(argn == 2){
-        conf = argv[1];
+    // Create a list of triangles in Eigen format
+    vector<array<Vector3d, 3>> triangles;
+    for (auto i = 0; i < ply.face_number; i++) {
+        Vector3d A, B, C;
+        ply.faces[i].getVertex(0, A);
+        ply.faces[i].getVertex(1, B);
+        ply.faces[i].getVertex(2, C);
+        triangles.push_back({A, B, C});
     }
-    else if(argn == 3){
-        string secondParam = argv[1];
-        if (secondParam == "--conf") {
-            conf = argv[2];
 
-            ParallelMCSimulation simulation(conf);
+    // Initialize FixedGrid
+    double min_cell_size = 1; // Adjust as needed
+    FixedGrid grid(triangles, min_cell_size);
 
-            simulation.startSimulation();
+    std::cout << "Grid initialized" << std::endl;
+    std::cout << "Grid size: " << grid.grid_dims[0] << " x " << grid.grid_dims[1] << " x " << grid.grid_dims[2] << std::endl;
 
-        } else if (secondParam == "--benchmark") {
-            output_benchmark = argv[2];
+    // Prepare intersection mask
+    vector<int> intersected_mask(ply.face_number, 0);
 
-            Benchmark bench(output_benchmark);
-            bench.start();
-        } else {
-            printUsage();
-            return -1;
+    // Generate output file name with PLY model name appended
+    size_t last_slash = ply_.find_last_of('/');
+    string ply_name = (last_slash != string::npos) ? ply_.substr(last_slash + 1) : ply_;
+    size_t last_dot = ply_name.find_last_of('.');
+    ply_name = (last_dot != string::npos) ? ply_name.substr(0, last_dot) : ply_name;
+
+    string output_file = "intersected_faces_CPU_" + ply_name + ".txt";
+    ofstream out(output_file);
+
+    // Progress update frequency
+    int progress_update = (ply.face_number > 10000) ? 1000 : 10;
+    progress_update = (ply.face_number > 100000) ? 10000 : progress_update;
+
+    // Start timing
+    auto start_time = chrono::high_resolution_clock::now();
+
+    // Triangle intersection detection using FixedGrid
+    for (auto i = 0; i < ply.face_number; i++) {
+        // Get triangles near the current triangle
+        const auto& tri = triangles[i];
+        auto nearby_indices = grid.getTrianglesForTriangle(tri[0], tri[1], tri[2]);
+
+        if ((i % progress_update) == 0) {
+            cout << "Progress: " << i << " of " << ply.face_number
+                 << " : " << float(i) / float(ply.face_number - 1) * 100 << "%" << endl;
+
+            //sort nearby_indices
+            sort(nearby_indices.begin(), nearby_indices.end());
+
+            // for (auto &i : nearby_indices){
+            //     cout << i << endl;
+            // }
+            cout << "Nearby triangles: " << nearby_indices.size() << endl;
+            //return 0;
         }
-    } else {
-        printUsage();
-        return -1;
+
+        // Check intersections only with nearby triangles
+        for (const auto& j : nearby_indices) {
+            if (i != j && ply.faces[i].triangleIntersects(ply.faces[j])) {
+                intersected_mask[i] = 1;
+                intersected_mask[j] = 1;
+            }
+        }
     }
 
-    #ifdef __linux__
+    // End timing
+    auto end_time     = chrono::high_resolution_clock::now();
+    double total_time = chrono::duration<double>(end_time - start_time).count();
+    double time_per_triangle = total_time / ply.face_number;
 
-        string command = "notify-send -i emblem-default \"MC/DC\" \"Simulation Finished\"";
-        system (command.c_str());
-    #endif
+    // Write results to the output file
+    for (auto i = 0; i < ply.face_number; i++) {
+        out << intersected_mask[i] << endl;
+    }
+    out.close();
+
+    // Print timing results
+    cout << "Results written to " << output_file << endl;
+    cout << "Total processing time: " << total_time << " seconds" << endl;
+    cout << "Average time per triangle: " << time_per_triangle << " seconds" << endl;
 
     return 0;
-
-}
-
-void printUsage(){
-
-    cout << " ███╗   ███╗ ██████╗    ██╗██████╗  ██████╗" << endl;
-    cout << " ████╗ ████║██╔════╝   ██╔╝██╔══██╗██╔════╝" << endl;
-    cout << " ██╔████╔██║██║       ██╔╝ ██║  ██║██║     " << endl;
-    cout << " ██║╚██╔╝██║██║      ██╔╝  ██║  ██║██║     " << endl;
-    cout << " ██║ ╚═╝ ██║╚██████╗██╔╝   ██████╔╝╚██████╗" << endl;
-    cout << " ╚═╝     ╚═╝ ╚═════╝╚═╝    ╚═════╝  ╚═════╝" << endl;
-
-    cout << endl; cout << endl;
-    cout << " Version: " << VERSION_ID << endl;
-    cout << " Usage: MC-DC_Simulator <configuration_file.conf>\n\n";
-    cout << " <configuration_file.conf>  Plain .txt file with the simulation parameters (see https://github.com/jonhrafe/MCDC_Simulator_public):\n\n";
-
-    cout << "   N <int>                      Number of particles.\n";
-    cout << "   T <int>                      Number of time steps.\n";
-    cout << "   duration <float>             Diffusion duration in seconds.\n";
-    cout << "   out_file_index <string>      Simulation ouput path and prefix.\n";
-    cout << "   scheme_file <string>         Simulation protocol.\n";
-    cout << "   scale_from_stu <int>         not 0 if the protocol is in SU.\n";
-
-    cout << "   write_txt <int>              not 0 for .txt ouput.\n";
-    cout << "   write_bin <int>              not 0 for .bin ouput.\n";
-    cout << "   write_traj_file              not 0 to write the trajfile.\n";
-
-    cout << "   <obstacle>                   Obstacle definition tag.\n";
-    cout << "   <cylinder_gamma_packing>     Gamma cylinders obstacles tag.\n";
-    cout << "   <ply_obstacle>               ply-mesh-model obstacle tag.\n";
-    cout << "   ini_walkers_pos <string>     Custom initial particles position (intra, extra).\n";
-    cout << "   num_process <int>            Number of processors to use.\n";
-
-    cout << "   <END>                        END of the conf-file parameters (needed).\n";
 }

@@ -1,76 +1,92 @@
-# Compiler
+# Makefile
+
+# Compiler Definitions
 CXX = g++
+NVCC = nvcc
 
-# Common flags (for release build)
-CXXFLAGS = -O3 -std=c++17 -march=native -flto -lpthread -pthread  -I.
+# Host Include Paths
+HOST_INCLUDES = -I. -IEigen
 
-# Debug flags (additional to common settings, reduced optimizations, adds debug symbols)
-DEBUG_FLAGS = -O0 -g -DDEBUG
+# Device Include Paths
+DEVICE_INCLUDES = -I.
 
-# Source files
-SOURCES = main.cpp \
-          simulablesequence.cpp \
-          vertex.cpp \
-          obstacle.cpp \
-          collision.cpp \
-          scheme.cpp \
-          voxel.cpp \
-          cylinder.cpp \
-          walker.cpp \
-          mcsimulation.cpp \
-          parallelmcsimulation.cpp \
-          trajectory.cpp \
-          triangle.cpp \q
-          parameters.cpp \
-          plyobstacle.cpp \
-          pgsesequence.cpp \
-          dynamicsSimulation.cpp \
-          simerrno.cpp \
-          collisionsphere.cpp \
-          cylindergammadistribution.cpp \
-          sentinel.cpp \
-          subdivision.cpp \
-          gradientwaveform.cpp \
-          propagator.cpp \
-          sphere.cpp \
-          spheregammadistribution.cpp \
-		  benchmark.cpp
+# Common C++ Flags for CPU Build
+CXXFLAGS = -std=c++17 -pthread  -w -O3 $(HOST_INCLUDES)
 
-# Object files for release build
-OBJECTS = $(SOURCES:.cpp=.o)
+# CUDA Compiler Flags for CUDA Build
+#NVCCFLAGS = -std=c++11 -gencode arch=compute_61,code=sm_61 -lcudart -lstdc++ -lm \
+            --compiler-bindir=/usr/bin/gcc-10
 
-# Object files for debug build (separate set)
-OBJECTS_DEBUG = $(SOURCES:.cpp=.debug.o)
+# CUDA Compiler Flags for CUDA Build
+NVCCFLAGS = -std=c++14 -lcudart -lstdc++ -lm -w \
+            --compiler-bindir=/usr/bin/gcc-8
+# Source Files
+SOURCES_CPP = main.cpp \
+              simulablesequence.cpp \
+              vertex.cpp \
+              obstacle.cpp \
+              collision.cpp \
+              scheme.cpp \
+              voxel.cpp \
+              cylinder.cpp \
+              walker.cpp \
+              mcsimulation.cpp \
+              parallelmcsimulation.cpp \
+              trajectory.cpp \
+              triangle.cpp \
+              parameters.cpp \
+              plyobstacle.cpp \
+              pgsesequence.cpp \
+              dynamicsSimulation.cpp \
+              simerrno.cpp \
+              collisionsphere.cpp \
+              cylindergammadistribution.cpp \
+              sentinel.cpp \
+              subdivision.cpp \
+              gradientwaveform.cpp \
+              propagator.cpp \
+              sphere.cpp \
+              spheregammadistribution.cpp \
+              benchmark.cpp \
+              FixedGrid.cpp
 
-# Headers (if you have headers that affect all sources, list them here)
-HEADERS = constants.h
+SRC_CU = CUDAInt.cu TriangleInt.cu
 
-# Final executables
+# Object Files
+OBJECTS_CPP = $(SOURCES_CPP:.cpp=.o)
+OBJECTS_CU = $(SRC_CU:.cu=.o)
+
+# Static Library
+LIB_HOST = libhost.a
+
+# Executables
 TARGET = ../MC-DC_Simulator
-DEBUG_TARGET = ../MC-DC_Simulator_debug
+CUDA_TARGET = ../CUDAInt
 
-# Default rule: build the release version
+# Default Target: Build CPU Executable
 all: $(TARGET)
 
-# Release link step
-$(TARGET): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) -o $@ $(OBJECTS)
+# CPU Compilation
+$(TARGET): $(OBJECTS_CPP)
+	$(CXX) $(CXXFLAGS) -o $@ $(OBJECTS_CPP)
 
-# Release compilation step
-%.o: %.cpp $(HEADERS)
+%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Debug target
-debug: $(DEBUG_TARGET)
+# Create Static Library
+$(LIB_HOST): $(OBJECTS_CPP)
+	ar rcs $@ $(OBJECTS_CPP)
 
-# Debug link step (using debug objects)
-$(DEBUG_TARGET): $(OBJECTS_DEBUG)
-	$(CXX) $(CXXFLAGS) $(DEBUG_FLAGS) -o $@ $(OBJECTS_DEBUG)
+# CUDA Target
+cuda: $(CUDA_TARGET)
 
-# Debug compilation step (note: uses .debug.o)
-%.debug.o: %.cpp $(HEADERS)
-	$(CXX) $(CXXFLAGS) $(DEBUG_FLAGS) -c $< -o $@
+# CUDA Compilation
+$(CUDA_TARGET): $(OBJECTS_CU) $(LIB_HOST)
+	$(NVCC) $(NVCCFLAGS) -o $@ $(OBJECTS_CU) -L. -lhost
 
-# Clean up intermediate and final files
+%.o: %.cu
+	$(NVCC) -c $< -o $@ $(NVCCFLAGS) $(DEVICE_INCLUDES)
+
+# Clean Target
 clean:
-	rm -f $(OBJECTS) $(OBJECTS_DEBUG) $(TARGET) $(DEBUG_TARGET)
+	rm -f $(OBJECTS_CPP) $(OBJECTS_CU) $(LIB_HOST) $(TARGET) $(CUDA_TARGET) *.o

@@ -40,3 +40,6 @@ dev/*
 MC-DC_Simulator
 MC-DC_Simulator_debug
 dataSynth
+*.ply
+CUDAIn*
+*.txt

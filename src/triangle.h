@@ -13,6 +13,8 @@
 #include "walker.h"
 #include "Eigen/Core"
 
+
+
 class Triangle{
 public:
     unsigned        index;
@@ -29,8 +31,8 @@ public:
 
     void getVertex(const unsigned i, Eigen::Vector3d &v);
     void getNormal(Eigen::Vector3d &normal);
-    void saveNormalAndAuxInfo();
-    bool rayIntersects(const Eigen::Vector3d &ray_origin, const Eigen::Vector3d &step, double &t);
+    void saveNormalAndAuxInfo() ;
+    bool rayIntersects(const Eigen::Vector3d &ray_origin, const Eigen::Vector3d &step, double &t) ;
     void stepIntersects_MT(Walker& walker,const Eigen::Vector3d &step, const double &max_length, Collision &colision);
     void stepIntersects_MT_limits(const Eigen::Vector3d &ray_origin,const Eigen::Vector3d &step, const double &max_length, Collision &colision,
     const Eigen::Vector3d &limits_mod, double limit_x,double limit_y,double limit_z);
@@ -41,6 +43,12 @@ public:
     double minDistance(const Eigen::Vector3d p);
     //double minDistancePrecise(const Eigen::Vector3d p);
 
+
+    bool triangleIntersects( Triangle &other) ;  
+
+
+
 };
+
 
 #endif // TRIANGLE_H

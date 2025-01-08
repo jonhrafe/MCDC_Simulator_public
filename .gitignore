@@ -43,3 +43,4 @@ dataSynth
 *.ply
 CUDAIn*
 *.txt
+*.debug_o

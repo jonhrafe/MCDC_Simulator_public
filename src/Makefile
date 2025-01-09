@@ -146,6 +146,12 @@ plyInt: $(PLYInt_TARGET)
 $(PLYInt_TARGET): $(PLY_OBJECTS)
 	$(CXX) $(CXXFLAGS_RELEASE) -o $@ $(PLY_OBJECTS)
 
+# CUDA Target
+cudaInt: $(CUDA_TARGET)
+# Datasynth Compilation
+$(CUDA_TARGET): $(OBJECTS_CU) $(LIB_HOST)
+	$(NVCC) $(NVCCFLAGS) -o $@ $(OBJECTS_CU) -L. -lhost -w
+    
 # Clean Target
 clean:
 	rm -f $(OBJECTS_CPP) $(OBJECTS_CU) $(DEBUG_OBJECTS_CPP) $(DEBUG_OBJECTS_CU) $(LIB_HOST) $(TARGET) $(CUDA_TARGET) $(PLYInt_TARGET) $(DEBUG_TARGET) $(CPUInt_DEBUG_TARGET) $(GPUInt_DEBUG_TARGET) *.o *.debug_o

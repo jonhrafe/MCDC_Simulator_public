@@ -50,7 +50,8 @@ SOURCES_CPP = main.cpp \
               sphere.cpp \
               spheregammadistribution.cpp \
               benchmark.cpp \
-              FixedGrid.cpp
+              FixedGrid.cpp \
+              AABBFixedGrid.cpp
 
 SRC_CU = CUDAInt.cu TriangleInt.cu
 

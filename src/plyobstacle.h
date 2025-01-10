@@ -12,6 +12,7 @@
 
 #include "obstacle.h"
 #include "triangle.h"
+#include "AABBFixedGrid.h"
 
 /*! \class  PLYObstacle
  *  \brief  Implements obstacles loaded from pre-constructed PLY meshes. The PLY format should be without any other
@@ -28,6 +29,8 @@ public:
     Triangle*   faces;
     double      scale_factor;
     int         id;
+    std::vector<AABB> aabbs;
+    AABBFixedGrid AABBgrid;
 
     PLYObstacle();
     PLYObstacle(std::string path,double scale_factor_ = 1);
@@ -37,6 +40,8 @@ public:
     void readPLY_ASCII_triangleFan(std::string ply_file);
     void readPLY_ASCII_triangles(std::string ply_file);
     void readPLY_ASCII_trianglesSubdivitionDistance(std::string ply_file, std::vector<Eigen::Vector3d> &centers, double max_distance);
+
+    void createAABBs();
 
     void setScaleFactor(double scale){scale_factor = scale;}
 

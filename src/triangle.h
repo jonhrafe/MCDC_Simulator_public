@@ -12,7 +12,7 @@
 #include "collision.h"
 #include "walker.h"
 #include "Eigen/Core"
-
+#include "AABBFixedGrid.h"
 
 
 class Triangle{
@@ -46,6 +46,7 @@ public:
 
     bool triangleIntersects( Triangle &other) ;  
 
+    AABB computeAABB();
 
 
 };

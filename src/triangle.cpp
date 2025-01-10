@@ -512,3 +512,19 @@ bool Triangle::triangleIntersects(Triangle &other)
     // If none of the above conditions is true, the triangles do not intersect.
     return false;
 }
+
+AABB Triangle::computeAABB() {
+    Eigen::Vector3d v0, v1, v2;
+
+    // Get the vertices of the triangle
+    getVertex(0, v0);
+    getVertex(1, v1);
+    getVertex(2, v2);
+
+    // Compute the min and max bounds
+    Eigen::Vector3d min_bounds = v0.cwiseMin(v1).cwiseMin(v2);
+    Eigen::Vector3d max_bounds = v0.cwiseMax(v1).cwiseMax(v2);
+
+    // Return as an AABB structure
+    return AABB(min_bounds, max_bounds);
+}

@@ -58,4 +58,6 @@ typedef unsigned int ulong;
 const double inner_col_dist_factor      = 0.25;
 
 
+
+
 #endif // CONSTANTS_H

@@ -29,6 +29,9 @@ PLYObstacle::PLYObstacle(string path, double scale_factor_)
     percolation  = 0;
     count_perc_crossings = 0;
     readPLY_ASCII_triangles(path);
+    createAABBs();
+    //Todo make a dynamic size for the grid
+    AABBgrid.InitializeGrid(this->aabbs,0.0001);
 }
 
 PLYObstacle::PLYObstacle(string path, std::vector<Eigen::Vector3d> &centers, double max_distance, double scale_factor_)
@@ -42,6 +45,8 @@ PLYObstacle::PLYObstacle(string path, std::vector<Eigen::Vector3d> &centers, dou
     percolation  = 0;
     count_perc_crossings = 0;
     readPLY_ASCII_trianglesSubdivitionDistance(path,centers,max_distance);
+    createAABBs();
+    AABBgrid.InitializeGrid(this->aabbs,0.0001);
 }
 
 
@@ -185,6 +190,13 @@ void PLYObstacle::readPLY_ASCII_trianglesSubdivitionDistance(string ply_file, ve
 
 }
 
+void PLYObstacle::createAABBs()
+{
+    aabbs.resize(face_number);
+    for (unsigned i = 0; i < face_number; i++){
+        aabbs[i] = faces[i].computeAABB();
+    }
+}
 
 bool PLYObstacle::checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision)
 {

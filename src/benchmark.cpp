@@ -57,9 +57,9 @@ void Benchmark::start()
     params_h1.num_proc = 1;
     params_h1.seed = 42;
 
-    ParallelMCSimulation Sim1(params_h1);
+    //ParallelMCSimulation Sim1(params_h1);
 
-    Sim1.startSimulation();
+    //Sim1.startSimulation();
 
     /*
      * 2.01 separation and n-1 processor:
@@ -76,9 +76,9 @@ void Benchmark::start()
     params_h3.hex_packing_separation = 2.1e-3;
     params_h3.num_proc = std::thread::hardware_concurrency()-1;
     params_h3.write_txt      = true;
-    ParallelMCSimulation Sim3(params_h3);
+    //ParallelMCSimulation Sim3(params_h3);
 
-    Sim3.startSimulation();
+    //Sim3.startSimulation();
 
     /*
      * 2.01 separation and n-1 processor:
@@ -93,12 +93,13 @@ void Benchmark::start()
 
     params_h5.scheme_file = output_dir + "/benchmark.scheme";
     params_h5.output_base_name = output_dir + "/benchmark_single_PLY" + timestamp;
-    params_h5.num_walkers = 10000;
-    params_h5.num_steps   = 1000;
-    params_h5.sim_duration= 36;
-    params_h5.diffusivity = 0.8e-6;
+    params_h5.num_walkers  = 10000;
+    params_h5.num_steps    = 1000;
+    params_h5.sim_duration = 36;
+    params_h5.diffusivity  = 0.8e-6;
     params_h5.write_txt      = true;
     params_h5.scale_from_stu = true;
+    params_h5.write_traj     = false;
     params_h5.PLY_files.push_back("instructions/meshes/hexagonal_packed_spheres.ply");
     params_h5.PLY_scales.push_back(1e-3);
     params_h5.PLY_percolation.push_back(0.0);
@@ -112,8 +113,6 @@ void Benchmark::start()
     ParallelMCSimulation Sim5(params_h5);
 
     Sim5.startSimulation();
-
-
 }
 
 

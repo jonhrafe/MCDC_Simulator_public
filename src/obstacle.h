@@ -20,6 +20,7 @@ public:
     double percolation;             /*!< Percolation value between 0 and 1.                                         */
     double T2;                      /*!< T2 decay, not used by default                                              */
 
+
     /*! \fn  Obstacle
      *  \brief Default constructor. Does nothing.
      */

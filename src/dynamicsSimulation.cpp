@@ -1191,6 +1191,8 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
     //To keep track of the closest collision
     double max_collision_distance = tmax;
 
+    // Calculate the ray endpoint
+    end_point = ray_origin + tmax * bounced_step;
 
     // The collision checks the three possible obstacles in this order: Voxel, Cylinders, PLY.
     // The closest collision is kept at the end.
@@ -1211,7 +1213,7 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
         handleCollisions(colision,colision_tmp,max_collision_distance,index);
     }
 
-    //For each Spehere Obstacle
+    //For each Sphere Obstacle
     for(unsigned int i = 0 ; i < walker.spheres_collision_sphere.small_sphere_list_end; i++ )
     {
         unsigned index = walker.spheres_collision_sphere.collision_list->at(i);
@@ -1221,20 +1223,37 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
     }
 
     //For each PLY Obstacles
-    for(unsigned int i = 0 ; i < walker.ply_collision_sphere.collision_list->size(); i++ )
-    {
+    // for(unsigned int i = 0 ; i < walker.ply_collision_sphere.collision_list->size(); i++ )
+    // {
 
-        if((walker.in_ply_index >=0) && walker.in_ply_index != int(i)){
-            continue;
-        }
+    //     if((walker.in_ply_index >=0) && walker.in_ply_index != int(i)){
+    //         continue;
+    //     }
 
-        (*plyObstacles_list)[i].checkCollision(walker,bounced_step,tmax,colision_tmp, walker.ply_collision_sphere.collision_list->at(i),
-                                            walker.ply_collision_sphere.small_sphere_list_end[i]);
+    //     (*plyObstacles_list)[i].checkCollision(walker,bounced_step,tmax,colision_tmp, walker.ply_collision_sphere.collision_list->at(i),
+    //                                         walker.ply_collision_sphere.small_sphere_list_end[i]);
 
+    //     handleCollisions(colision,colision_tmp,max_collision_distance,i);
+    // }
+
+        // Calculate the ray endpoint
+
+    end_point = ray_origin + tmax * bounced_step;
+
+    for (unsigned int i = 0; i < plyObstacles_list->size(); i++) {
+
+        // Retrieve grid cells overlapping the ray's bounding box
+        AABB ray_aabb(ray_origin.cwiseMin(end_point), ray_origin.cwiseMax(end_point));
+        std::vector<uint> vector_with_triangles_in_cell = (*plyObstacles_list)[i].AABBgrid.getAABBsInCells(ray_aabb); // Assume `aabb_fixed_grid` exists
+        // Check for collisions and populate collision vector
+        (*plyObstacles_list)[i].checkCollision(walker, bounced_step, tmax, colision_tmp,vector_with_triangles_in_cell,vector_with_triangles_in_cell.size());
+
+        //cout << vector_with_triangles_in_cell.size() << endl;
+
+        // Handle collisions using the extracted triangles
         handleCollisions(colision,colision_tmp,max_collision_distance,i);
     }
-
-
+    
     return colision.type != Collision::null;
 }
 

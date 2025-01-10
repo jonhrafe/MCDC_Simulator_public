@@ -43,6 +43,8 @@ public:
 
     void createAABBs();
 
+    double computeOptimalCellSize(double memory_limit_mb, double min_cell_size_um) const;
+
     void setScaleFactor(double scale){scale_factor = scale;}
 
 //  bool computeStepCollition(Walker &w, double step[3], const double &step_length,double end_point[3], Collision& colision);

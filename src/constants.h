@@ -24,7 +24,7 @@
 #define SH_FG_GREEN             "\033[0;32m"
 #define SH_DEFAULT              "\033[0m"
 
-#define VERSION_ID              "1.50.000"
+#define VERSION_ID              "1.51.beta"
 
 const double m_to_mm = 1e3;                     /*!< meters to milimeters constant                              */
 const double s_to_ms = 1e3;                     /*!< seconds to milisecodns constant                            */
@@ -57,7 +57,7 @@ typedef unsigned int ulong;
 /*!< inner collision sphere relative size                                                                       */
 const double inner_col_dist_factor      = 0.25;
 
-
-
+/*!< Memory limit for the AABB grid in MB. Default 10 GB.                                                       */
+double AABB_memory_limit_mb = 10000.0; 
 
 #endif // CONSTANTS_H

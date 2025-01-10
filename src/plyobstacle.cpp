@@ -3,6 +3,7 @@
 #include <iostream>
 #include "constants.h"
 #include "Eigen/Dense"
+#include "simerrno.h"
 
 using namespace std;
 
@@ -31,7 +32,10 @@ PLYObstacle::PLYObstacle(string path, double scale_factor_)
     readPLY_ASCII_triangles(path);
     createAABBs();
     //Todo make a dynamic size for the grid
-    AABBgrid.InitializeGrid(this->aabbs,0.0001);
+
+    double min_cell_size_um = 0.1;  // Example: 0.1 microns
+    double optimal_cell_size = computeOptimalCellSize(AABB_memory_limit_mb, min_cell_size_um);
+    AABBgrid.InitializeGrid(this->aabbs,optimal_cell_size);
 }
 
 PLYObstacle::PLYObstacle(string path, std::vector<Eigen::Vector3d> &centers, double max_distance, double scale_factor_)
@@ -46,7 +50,12 @@ PLYObstacle::PLYObstacle(string path, std::vector<Eigen::Vector3d> &centers, dou
     count_perc_crossings = 0;
     readPLY_ASCII_trianglesSubdivitionDistance(path,centers,max_distance);
     createAABBs();
-    AABBgrid.InitializeGrid(this->aabbs,0.0001);
+
+    double memory_limit_mb = 10000.0; // Example: 500 MB
+    double min_cell_size_um = 0.1;  // Example: 0.1 microns
+    double optimal_cell_size = computeOptimalCellSize(memory_limit_mb, min_cell_size_um);
+    AABBgrid.InitializeGrid(this->aabbs,optimal_cell_size);
+    
 }
 
 
@@ -197,6 +206,58 @@ void PLYObstacle::createAABBs()
         aabbs[i] = faces[i].computeAABB();
     }
 }
+
+double PLYObstacle::computeOptimalCellSize(double memory_limit_mb, double min_cell_size_um) const {
+    // Convert memory limit to bytes
+    const double memory_limit_bytes = memory_limit_mb * 1024 * 1024;
+
+    // Compute global bounding box volume
+    Eigen::Vector3d global_min = Eigen::Vector3d::Constant(std::numeric_limits<double>::max());
+    Eigen::Vector3d global_max = Eigen::Vector3d::Constant(std::numeric_limits<double>::lowest());
+
+    for (const auto& aabb : aabbs) {
+        for (int i = 0; i < 3; ++i) {
+            global_min[i] = std::min(global_min[i], aabb.min_b[i]);
+            global_max[i] = std::max(global_max[i], aabb.max_b[i]);
+        }
+    }
+    Eigen::Vector3d global_size = global_max - global_min;
+    double global_volume = global_size.prod();
+
+    // Compute average AABB volume
+    double total_aabb_volume = 0.0;
+    for (const auto& aabb : aabbs) {
+        double aabb_volume = 1.0;
+        for (int i = 0; i < 3; ++i) {
+            aabb_volume *= (aabb.max_b[i] - aabb.min_b[i]);
+        }
+        total_aabb_volume += aabb_volume;
+    }
+    double avg_aabb_volume = total_aabb_volume / aabbs.size();
+
+    // Estimate grid dimensions based on global volume and target memory limit
+    double estimated_cell_size = std::cbrt(avg_aabb_volume * 2.0); // 2 AABBs per cell heuristic
+
+    // Adjust cell size to fit within memory constraints
+    double grid_cells = (global_volume / std::pow(estimated_cell_size, 3));
+    double estimated_memory_usage = grid_cells * sizeof(std::vector<int>); // Approx memory per cell
+
+    while (estimated_memory_usage > memory_limit_bytes && estimated_cell_size < global_size.minCoeff()) {
+        estimated_cell_size *= 1.1; // Gradually increase cell size to reduce memory usage
+        grid_cells = (global_volume / std::pow(estimated_cell_size, 3));
+        estimated_memory_usage = grid_cells * sizeof(std::vector<int>);
+
+        if(estimated_memory_usage > memory_limit_bytes){
+            string message = "AABB collision max memory reached. (" + std::to_string(memory_limit_mb) + " MB) increase mem limit in constants.h \n";
+            SimErrno::info(message,cout);
+        }
+    }
+
+    // Enforce minimum cell size
+    double min_cell_size_m = min_cell_size_um * 1e-3; // Convert microns to mm
+    return std::max(estimated_cell_size, min_cell_size_m);
+}
+
 
 bool PLYObstacle::checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision)
 {

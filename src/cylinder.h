@@ -12,7 +12,7 @@
 #define CYLINDER_H
 
 #include "obstacle.h"
-
+#include "AABBFixedGrid.h"
 
 class Cylinder : public Obstacle
 {
@@ -69,6 +69,12 @@ public:
      *  cylinders that a given walker can reach.
      */
     double minDistance(Walker &w);
+
+    /*! \fn  computeAABB
+     *  \brief Computes the Axis Aligned Bounding Box for the cylinder.
+     */
+    AABB computeAABB(double length = 1.0) const;
+
 
 private:
 

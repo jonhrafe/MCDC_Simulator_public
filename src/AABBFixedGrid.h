@@ -7,7 +7,8 @@
 #include <Eigen/Core>
 #include <limits>
 #include <cmath>
-
+#include "simerrno.h"
+#include <iostream>
 struct AABB {
     double min_b[3]; // Minimum bounds
     double max_b[3]; // Maximum bounds
@@ -47,9 +48,11 @@ public:
 
     std::vector<uint> getAABBsInCells(const AABB& query_aabb) const;
 
+    double computeOptimalCellSize(std::vector<AABB> &aabbs, double memory_limit_mb, double min_cell_size_um) const;
+
     // Accessors
     std::array<int, 3> getDimensions() const;
-    Eigen::Vector3d getMinBounds() const;
+    Eigen::Vector3d getMinBounds() const;;
     Eigen::Vector3d getCellSize() const;
 
 private:

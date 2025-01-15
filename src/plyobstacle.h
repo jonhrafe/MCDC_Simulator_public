@@ -13,7 +13,7 @@
 #include "obstacle.h"
 #include "triangle.h"
 #include "AABBFixedGrid.h"
-
+#include "constants.h"
 /*! \class  PLYObstacle
  *  \brief  Implements obstacles loaded from pre-constructed PLY meshes. The PLY format should be without any other
  *          experiment.
@@ -42,8 +42,6 @@ public:
     void readPLY_ASCII_trianglesSubdivitionDistance(std::string ply_file, std::vector<Eigen::Vector3d> &centers, double max_distance);
 
     void createAABBs();
-
-    double computeOptimalCellSize(double memory_limit_mb, double min_cell_size_um) const;
 
     void setScaleFactor(double scale){scale_factor = scale;}
 

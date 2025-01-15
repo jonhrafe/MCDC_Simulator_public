@@ -45,14 +45,16 @@ public:
     int id;                                         /*!< Unique id for the dynamic simulation                                       */
     sentinels::Sentinel sentinela;                  /*!< Sentinel initialization to encoutner error in the simulation               */
     std::vector <PLYObstacle>* plyObstacles_list;   /*!< pointer to a vector with all the instances of PLYObstacles                 */
-    std::vector <Cylinder>* cylinders_list;         /*!< pointer to a vector with all the isntances of "Cylider" obstacles          */
-    std::vector <Sphere>* spheres_list;           /*!< pointer to a vector with all the isntances of "Spheres" obstacles          */
+    std::vector <Cylinder>* cylinders_list;         /*!< pointer to a vector with all the instances of "Cylider" obstacles          */
+    std::vector <Sphere>* spheres_list;             /*!< pointer to a vector with all the instances of "Spheres" obstacles          */
     std::vector<unsigned>  cylinders_deque;         /*!< deque with the indexes of the cylinders (used for optmization)             */
     std::vector<unsigned>  spheres_deque;           /*!< deque with the indexes of the spheres (used for optmization)               */
     std::vector<std::vector<unsigned>> ply_deque;   /*!< deque with the indexes of the triangles of all ply's (used for opt)        */
     std::vector <Voxel> voxels_list;                /*!< vector with all the voxels to be simulated (if any)                        */
     Propagator propagator;                          /*!< Propagator object to compute and save the particles MSD                    */
     double icvf;                                    /*!< Stores the ICVF (1 - Intra-Extra) if needed                                */
+    AABBFixedGrid* spheresAABBGrid;                 /*!< Pointer to the AABB grid for the spheres                                   */
+    AABBFixedGrid* cylindersAABBGrid;               /*!< Pointer to the AABB grid for the cylinders                                 */
     unsigned intra_tries, total_tries;              /*!< Helper variables to compute the estimated ICVF                             */
 
     /******   Auxiliar variables   ********/

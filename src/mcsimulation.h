@@ -21,6 +21,7 @@
 #include "dynamicsSimulation.h"
 #include "scheme.h"
 #include <vector>
+#include "AABBFixedGrid.h"
 
 /*! \class MCSimulation
  * \brief  Main implementation class. Incorporates the particle's dynamics and the data synthesis.
@@ -48,6 +49,9 @@ public:
 
     std::vector <Sphere>* sphere_list;        /*!< pointer to a vector with all the instances of Spheres   */
 
+    AABBFixedGrid* spheresAABBGrid;            /*!< Pointer to the AABB grid for the spheres                */
+
+    AABBFixedGrid* cylindersAABBGrid;          /*!< Pointer to the AABB grid for the cylinders              */
 
 
     /*! \fn  MCSimulation.

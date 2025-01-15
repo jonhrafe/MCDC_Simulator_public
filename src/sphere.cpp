@@ -143,3 +143,10 @@ double Sphere::minDistance(Walker &w){
    // return d_>0.0?d_:0.0;
     return d_;
 }
+
+AABB Sphere::computeAABB() const
+{
+    Vector3d min = center - Vector3d(radius, radius, radius);
+    Vector3d max = center + Vector3d(radius, radius, radius);
+    return AABB(min, max);
+}

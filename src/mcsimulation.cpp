@@ -13,6 +13,9 @@ MCSimulation::MCSimulation()
     dataSynth = nullptr;
     sphere_list = nullptr;
     cylinders_list = nullptr;
+    spheresAABBGrid = nullptr;
+    cylindersAABBGrid = nullptr;
+
     id = count;
     count++;
 }
@@ -25,6 +28,8 @@ MCSimulation::MCSimulation(std::string config_file)
     dataSynth      = nullptr;
     sphere_list    = nullptr;
     cylinders_list = nullptr;
+    spheresAABBGrid = nullptr;
+    cylindersAABBGrid = nullptr;
 
     params.readSchemeFile(config_file);
     dynamicsEngine = new DynamicsSimulation(params);
@@ -59,7 +64,8 @@ MCSimulation::MCSimulation(Parameters& params_)
     dataSynth      = nullptr;
     sphere_list    = nullptr;
     cylinders_list = nullptr;
-
+    spheresAABBGrid = nullptr;
+    cylindersAABBGrid = nullptr;
 
     params = params_;
     dynamicsEngine = new DynamicsSimulation(params);
@@ -135,6 +141,8 @@ void MCSimulation::addObstacles()
 {
     this->dynamicsEngine->cylinders_list = this->cylinders_list;
     this->dynamicsEngine->spheres_list   = this->sphere_list;
+    this->dynamicsEngine->cylindersAABBGrid = this->cylindersAABBGrid;
+    this->dynamicsEngine->spheresAABBGrid   = this->spheresAABBGrid;
 }
 
 

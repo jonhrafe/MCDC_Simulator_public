@@ -57,7 +57,9 @@ typedef unsigned int ulong;
 /*!< inner collision sphere relative size                                                                       */
 const double inner_col_dist_factor      = 0.25;
 
+/*!< AABB minimum cell size regardless memory limit                                                             */
+const  double min_cell_size_um = 0.1;          
 /*!< Memory limit for the AABB grid in MB. Default 10 GB.                                                       */
-double AABB_memory_limit_mb = 10000.0; 
+const double AABB_memory_limit_mb = 10000.0; 
 
 #endif // CONSTANTS_H

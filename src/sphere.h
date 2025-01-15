@@ -11,6 +11,7 @@
 #define SPHERE_H
 
 #include "obstacle.h"
+#include "AABBFixedGrid.h"
 
 class Sphere : public Obstacle
 {
@@ -61,6 +62,10 @@ public:
      *  Spheres that a given walker can reach.
      */
     double minDistance(Walker &w);
+
+    AABB computeAABB() const;
+
+
 
 private:
 

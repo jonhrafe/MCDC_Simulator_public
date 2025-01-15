@@ -9,6 +9,7 @@
 
 #include "mcsimulation.h"
 #include <thread>
+#include "AABBFixedGrid.h"
 
 
 /*! \class ParallelMCSimulation
@@ -31,7 +32,14 @@ public:
     std::vector<std::thread> sim_threads;        /*!< Number of threads (instances and processors) to be used            */
     std::vector <PLYObstacle> plyObstacles_list; /*!< vector with all the instances of PLYObstacles                      */
     std::vector <Cylinder> cylinders_list;       /*!< vector with all the instances of cylinders                         */
-    std::vector <Sphere> spheres_list;          /*!< vector with all the instances of cylinders                         */
+    std::vector <Sphere>  spheres_list;          /*!< vector with all the instances of cylinders                         */
+    
+    std::vector<AABB> cylinders_aabbs;           /*!< vector with the AABBs of the cylinders                              */
+    std::vector<AABB> spheres_aabbs;             /*!< vector with the AABBs of the spheres                                */
+    AABBFixedGrid spheresAABBGrid;               /*!< AABB grid for the spheres                                           */
+    AABBFixedGrid cylindersAABBGrid;             /*!< AABB grid for the cylinders                                         */
+
+
 
     std::vector<Eigen::Vector3f> total_ini_walker_pos; /*!< Number of threads (instances and processors) to be used      */
 
@@ -87,6 +95,11 @@ private:
      *  \brief Used to initialize the hexagonal packing
     */
     void addObstacleConfigurations();
+
+    /*!
+     *  \brief Initialize the AABB grids for the spheres and cylinders
+    */
+    void initializeAABBsGrids();
 
 };
 

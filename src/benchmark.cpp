@@ -41,7 +41,7 @@ void Benchmark::start()
 
     //create this folder: params_h1.output_base_name = output_dir + "/test1/
     
-    params_h1.scheme_file = output_dir + "/benchmark.scheme";
+    params_h1.scheme_file =  "dev/Scheme_3shells3_40ms.txt";
     std::string timestamp = getCurrentDateTime();
     params_h1.output_base_name = output_dir + "/benchmark_test1_single_Hexagonal_" + timestamp;
     params_h1.num_walkers = 10000;
@@ -57,9 +57,9 @@ void Benchmark::start()
     params_h1.num_proc = 1;
     params_h1.seed = 42;
 
-    //ParallelMCSimulation Sim1(params_h1);
+    ParallelMCSimulation Sim1(params_h1);
 
-    //Sim1.startSimulation();
+    Sim1.startSimulation();
 
     /*
      * 2.01 separation and n-1 processor:
@@ -76,16 +76,47 @@ void Benchmark::start()
     params_h3.hex_packing_separation = 2.1e-3;
     params_h3.num_proc = std::thread::hardware_concurrency()-1;
     params_h3.write_txt      = true;
-    //ParallelMCSimulation Sim3(params_h3);
+    ParallelMCSimulation Sim3(params_h3);
 
-    //Sim3.startSimulation();
+    Sim3.startSimulation();
+
+    cout << endl << endl;
+    cout << SH_FG_PURPLE << "/********************   3rd experiment:  *************************/" << SH_DEFAULT << "\n";
+
+    SimErrno::info("Sphere distribution. Single processor",cout);
+
+    Parameters params_h4;
+
+    params_h4.scheme_file = output_dir + "/benchmark.scheme";
+    timestamp = getCurrentDateTime();
+    params_h4.output_base_name = output_dir + "/benchmark_test1_single_Hexagonal_" + timestamp;
+    params_h4.num_walkers = 10000;
+    params_h4.num_steps   = 1000;
+    params_h4.sim_duration= 36;
+    params_h4.diffusivity = 2.0e-6;
+    params_h4.write_txt      = true;
+    params_h4.write_bin      = false;
+    params_h4.scale_from_stu = true;
+    params_h4.write_traj    = false;
+    params_h4.gamma_sph_packing = true;
+    params_h4.gamma_packing_alpha = 1.0;
+    params_h4.gamma_packing_beta = 0.5;
+    params_h4.gamma_num_obstacles = 100;
+    params_h4.gamma_icvf = 0.50;
+    params_h4.num_proc = 1;
+    params_h4.seed = 42;
+
+    ParallelMCSimulation Sim4(params_h4);
+
+    Sim4.startSimulation();
+
 
     /*
      * 2.01 separation and n-1 processor:
     */
 
     cout << endl << endl;
-    cout << SH_FG_PURPLE << "/********************  3th experiment:  *************************/" << SH_DEFAULT << "\n";
+    cout << SH_FG_PURPLE << "/********************  4th experiment:  *************************/" << SH_DEFAULT << "\n";
 
     SimErrno::info("PLY Mesh File",cout);
 
@@ -103,7 +134,7 @@ void Benchmark::start()
     params_h5.PLY_files.push_back("instructions/meshes/hexagonal_packed_spheres.ply");
     params_h5.PLY_scales.push_back(1e-3);
     params_h5.PLY_percolation.push_back(0.0);
-    params_h5.num_proc = std::thread::hardware_concurrency()-1;
+    params_h5.num_proc = 1;std::thread::hardware_concurrency()-1;
     params_h5.ini_delta_pos = {0,0,0};
     params_h5.ini_walker_flag = "delta";
 

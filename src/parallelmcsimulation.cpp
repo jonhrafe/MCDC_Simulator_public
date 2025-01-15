@@ -159,8 +159,6 @@ void ParallelMCSimulation::initializeUnitSimulations()
     specialInitializations();
 
     // The number of walker N devided between all the processes
-
-
     unsigned N_per_sim = params.num_walkers/params.num_proc;
 
     for(unsigned i = 0; i < params.num_proc-1; i++){
@@ -176,6 +174,8 @@ void ParallelMCSimulation::initializeUnitSimulations()
         simulation_->cylinders_list = &this->cylinders_list;
         simulation_->sphere_list = &this->spheres_list;
         simulation_->dynamicsEngine->print_expected_time = 0;
+        simulation_->spheresAABBGrid   = &this->spheresAABBGrid;
+        simulation_->cylindersAABBGrid = &this->cylindersAABBGrid;
         simulations.push_back(simulation_);
 
         if(params.verbatim)
@@ -195,6 +195,8 @@ void ParallelMCSimulation::initializeUnitSimulations()
     simulation_->plyObstacles_list = &this->plyObstacles_list;
     simulation_->cylinders_list = &this->cylinders_list;
     simulation_->sphere_list    = &this->spheres_list;
+    simulation_->spheresAABBGrid   = &this->spheresAABBGrid;
+    simulation_->cylindersAABBGrid = &this->cylindersAABBGrid;
     simulations.push_back(simulation_);
 
     if(params.verbatim)
@@ -630,6 +632,8 @@ void ParallelMCSimulation::specialInitializations()
     addObstacleConfigurations();
     addObstaclesFromFiles();
 
+    initializeAABBsGrids();
+
     if(params.number_subdivisions>1){
         params.addSubdivisions();
     }
@@ -870,4 +874,36 @@ void ParallelMCSimulation::addObstacleConfigurations()
     }
 
 
+}
+
+void ParallelMCSimulation::initializeAABBsGrids(){
+
+    this->cylinders_aabbs.resize(cylinders_list.size());
+    this->spheres_aabbs.resize(spheres_list.size());
+
+    // We need to know how big is the AABB of the cylinders
+    Eigen::Vector3d min_cyl_center = Eigen::Vector3d(1e10,1e10,1e10);
+    Eigen::Vector3d max_cyl_center = Eigen::Vector3d(-1e10,-1e10,-1e10);
+    for (int i = 0; i < this->cylinders_list.size(); i++){
+        min_cyl_center = min_cyl_center.cwiseMin(this->cylinders_list[i].P);
+        max_cyl_center = max_cyl_center.cwiseMax(this->cylinders_list[i].P);
+    }
+
+    double distance = (max_cyl_center - min_cyl_center).norm();
+    for (int i = 0; i < this->cylinders_list.size(); i++){
+        this->cylinders_aabbs[i] = this->cylinders_list[i].computeAABB(distance*2);
+    }
+
+    for (int i = 0; i < this->spheres_list.size(); i++){
+        this->spheres_aabbs[i] = this->spheres_list[i].computeAABB();
+    }
+
+    double cyl_grid_size = this->cylindersAABBGrid.computeOptimalCellSize(this->cylinders_aabbs,AABB_memory_limit_mb, min_cell_size_um);
+    double sph_grid_size = this->spheresAABBGrid.computeOptimalCellSize(this->spheres_aabbs,AABB_memory_limit_mb, min_cell_size_um);
+
+    cout << cyl_grid_size << endl;
+    cout << sph_grid_size << endl;
+    
+    this->cylindersAABBGrid.InitializeGrid(this->cylinders_aabbs,cyl_grid_size);
+    this->spheresAABBGrid.InitializeGrid(this->spheres_aabbs,sph_grid_size);
 }

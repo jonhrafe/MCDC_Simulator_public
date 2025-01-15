@@ -6,7 +6,7 @@
  *
  * Project MC/DC Simulator
  * @author Jonathan
- * @version 1.42 stable
+ * @version 1.6 stable
  */
 
 
@@ -22,7 +22,6 @@
 #include "collisionsphere.h"
 #include "simerrno.h"
 #include "simulablesequence.h"
-
 using namespace Eigen;
 using namespace std;
 using namespace sentinels;
@@ -779,9 +778,19 @@ bool DynamicsSimulation::isInsideSpheres(Vector3d &position, int& sph_id,double 
     Walker tmp;
     tmp.setInitialPosition(position);
 
+    //Small step in a fixed direction
+    Vector3d step = Vector3d(1.0,1.0,1.0);
+    // Make an small step in the direction of the step
+    Vector3d end_point = position + 1e-10 * step;
+    // Create an AABB with the position and the end point
+    AABB ray_aabb(position.cwiseMin(end_point), position.cwiseMax(end_point));
+    std::vector<uint> spheres_indexes_in_cell = this->spheresAABBGrid->getAABBsInCells(ray_aabb);
+
+
+
     //track the number of positions checks for intra/extra positions
 
-    for(unsigned i = 0 ; i < spheres_list->size(); i++){
+    for(auto i : spheres_indexes_in_cell){
 
         double dis = (*spheres_list)[i].minDistance(tmp);
 
@@ -801,9 +810,17 @@ bool DynamicsSimulation::isInsideCylinders(Vector3d &position, int& cyl_id,doubl
     Walker tmp;
     tmp.setInitialPosition(position);
 
+    //Small step in a fixed direction
+    Vector3d step = Vector3d(1.0,1.0,1.0);
+    // Make an small step in the direction of the step
+    Vector3d end_point = position + 1e-10 * step;
+    // Create an AABB with the position and the end point
+    AABB ray_aabb(position.cwiseMin(end_point), position.cwiseMax(end_point));
+    std::vector<uint> cylinders_indexes_in_cell = this->cylindersAABBGrid->getAABBsInCells(ray_aabb);
+
     //track the number of positions checks for intra/extra positions
 
-    for(unsigned i = 0 ; i < cylinders_list->size(); i++){
+    for(auto i : cylinders_indexes_in_cell){
 
         double dis = (*cylinders_list)[i].minDistance(tmp);
 
@@ -843,21 +860,39 @@ bool DynamicsSimulation::isInsidePLY(Vector3d &position, int &ply_id,double dist
 
     //2) We corroborate by casting an infinite ray and checking collisions
 
+    //Small step in a fixed direction
+    Vector3d min_center = (*plyObstacles_list)[min_i_index].faces[min_j_index].center;
+    // Make an small step in the direction of the step
+    AABB ray_aabb(position.cwiseMin(min_center), position.cwiseMax(min_center));
+
     Eigen::Vector3d ray = (-position + (*plyObstacles_list)[min_i_index].faces[min_j_index].center).normalized();
     Collision colision_temp;
 
     double new_min_t = 1e6;
+
     for (unsigned i=0; i < (*plyObstacles_list).size(); i++){
-        for (unsigned j=0; j < (*plyObstacles_list)[i].face_number; j++){
-            (*plyObstacles_list)[i].faces[j].stepIntersects_MT(tmp,ray,1e8,colision_temp);
+        std::vector<uint> vector_with_triangles_in_cell = (*plyObstacles_list)[i].AABBgrid.getAABBsInCells(ray_aabb); 
+
+        for (auto index :vector_with_triangles_in_cell){
+            (*plyObstacles_list)[i].faces[index].stepIntersects_MT(tmp,ray,1e8,colision_temp);
 
             if(colision_temp.type == Collision::hit and new_min_t > colision_temp.t){
                 new_min_t = colision_temp.t;
                 min_i_index = i;
-                min_j_index = j;
+                min_j_index = index;
             }
         }
     }
+
+            // for (unsigned j=0; j < (*plyObstacles_list)[i].face_number; j++){
+        //     (*plyObstacles_list)[i].faces[j].stepIntersects_MT(tmp,ray,1e8,colision_temp);
+
+        //     if(colision_temp.type == Collision::hit and new_min_t > colision_temp.t){
+        //         new_min_t = colision_temp.t;
+        //         min_i_index = i;
+        //         min_j_index = j;
+        //     }
+        // }
 
     //3) Finally we check the sign of the closest collision. The sign indicates either intra or extra.
     if(min_i_index >= 0){
@@ -885,11 +920,11 @@ bool DynamicsSimulation::isInIntra(Vector3d &position, int& cyl_id,  int& ply_id
     }
 
     if(plyObstacles_list->size()>0){
-        isIntra|=isInsidePLY(position,ply_id,distance_to_be_intra_ply);
+        isIntra|= this->isInsidePLY(position,ply_id,distance_to_be_intra_ply);
     }
 
     if(spheres_list->size()>0){
-        isIntra|=isInsideSpheres(position,sph_id,barrier_tickness);
+        isIntra|=this->isInsideSpheres(position,sph_id,barrier_tickness);
     }
     return isIntra;
 }
@@ -1205,6 +1240,34 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
         handleCollisions(colision,colision_tmp,max_collision_distance,i);
     }
 
+    if(cylinders_list->size() > 0){
+        //For each Cylinder Obstacles
+        std::vector<uint> cylinders_indexes_in_cell = this->cylindersAABBGrid->getAABBsInCells(ray_aabb);
+        for (auto index: cylinders_indexes_in_cell) {
+            (*cylinders_list)[index].checkCollision(walker, bounced_step, tmax, colision_tmp);
+            handleCollisions(colision, colision_tmp, max_collision_distance, index);
+        }
+    }
+
+    if(spheres_list->size() > 0){
+        //For each Sphere Obstacles
+         std::vector<uint> spheres_indexes_in_cell = this->spheresAABBGrid->getAABBsInCells(ray_aabb);
+         //cout << spheres_indexes_in_cell.size() << endl;
+        for (auto index: spheres_indexes_in_cell) {
+            (*spheres_list)[index].checkCollision(walker, bounced_step, tmax, colision_tmp);
+            handleCollisions(colision, colision_tmp, max_collision_distance, index);
+        }
+    }
+
+    for (unsigned int i = 0; i < plyObstacles_list->size(); i++) {
+        std::vector<uint> vector_with_triangles_in_cell = (*plyObstacles_list)[i].AABBgrid.getAABBsInCells(ray_aabb); 
+        // Check for collisions and populate collision vector
+        (*plyObstacles_list)[i].checkCollision(walker, bounced_step, tmax, colision_tmp,vector_with_triangles_in_cell,vector_with_triangles_in_cell.size());
+        // Handle collisions using the extracted triangles
+        handleCollisions(colision,colision_tmp,max_collision_distance,i);
+    }
+    
+    return colision.type != Collision::null;
     //For each Cylinder Obstacles
     // for(unsigned int i = 0 ; i < walker.cylinders_collision_sphere.small_sphere_list_end; i++ )
     // {
@@ -1236,37 +1299,6 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
 
     //     handleCollisions(colision,colision_tmp,max_collision_distance,i);
     // }
-    // Retrieve grid cells overlapping the ray's bounding box
-
-
-    if(cylinders_list->size() > 0){
-        //For each Cylinder Obstacles
-        std::vector<uint> cylinders_indexes_in_cell = this->cylindersAABBGrid->getAABBsInCells(ray_aabb);
-        for (auto index: cylinders_indexes_in_cell) {
-            (*cylinders_list)[index].checkCollision(walker, bounced_step, tmax, colision_tmp);
-            handleCollisions(colision, colision_tmp, max_collision_distance, index);
-        }
-    }
-
-    if(spheres_list->size() > 0){
-        //For each Sphere Obstacles
-         std::vector<uint> spheres_indexes_in_cell = this->spheresAABBGrid->getAABBsInCells(ray_aabb);
-         //cout << spheres_indexes_in_cell.size() << endl;
-        for (auto index: spheres_indexes_in_cell) {
-            (*spheres_list)[index].checkCollision(walker, bounced_step, tmax, colision_tmp);
-            handleCollisions(colision, colision_tmp, max_collision_distance, index);
-        }
-    }
-
-    for (unsigned int i = 0; i < plyObstacles_list->size(); i++) {
-        std::vector<uint> vector_with_triangles_in_cell = (*plyObstacles_list)[i].AABBgrid.getAABBsInCells(ray_aabb); 
-        // Check for collisions and populate collision vector
-        (*plyObstacles_list)[i].checkCollision(walker, bounced_step, tmax, colision_tmp,vector_with_triangles_in_cell,vector_with_triangles_in_cell.size());
-        // Handle collisions using the extracted triangles
-        handleCollisions(colision,colision_tmp,max_collision_distance,i);
-    }
-    
-    return colision.type != Collision::null;
 }
 
 

@@ -51,6 +51,13 @@ PLYObstacle::PLYObstacle(string path, std::vector<Eigen::Vector3d> &centers, dou
 
     //double optimal_cell_size = computeOptimalCellSize(AABB_memory_limit_mb, min_cell_size_um);
     double optimal_cell_size = this->AABBgrid.computeOptimalCellSize(this->aabbs,AABB_memory_limit_mb, min_cell_size_um);
+
+        if(optimal_cell_size < 100){
+        std::string message = "Spheres' grid size: " + std::to_string(optimal_cell_size*1000) + " um";
+        SimErrno::info(message,cout);
+    }
+    
+
     AABBgrid.InitializeGrid(this->aabbs,optimal_cell_size);
     
 }

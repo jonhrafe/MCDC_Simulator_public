@@ -901,8 +901,16 @@ void ParallelMCSimulation::initializeAABBsGrids(){
     double cyl_grid_size = this->cylindersAABBGrid.computeOptimalCellSize(this->cylinders_aabbs,AABB_memory_limit_mb, min_cell_size_um);
     double sph_grid_size = this->spheresAABBGrid.computeOptimalCellSize(this->spheres_aabbs,AABB_memory_limit_mb, min_cell_size_um);
 
-    cout << cyl_grid_size << endl;
-    cout << sph_grid_size << endl;
+
+    if(cyl_grid_size < 100){
+        std::string message = "Cylinders' grid size: " + std::to_string(cyl_grid_size*1000) + " um";
+        SimErrno::info(message,cout);
+    }
+
+    if(sph_grid_size < 100){
+        std::string message = "Spheres' grid size: " + std::to_string(sph_grid_size*1000) + " um";
+        SimErrno::info(message,cout);
+    }
     
     this->cylindersAABBGrid.InitializeGrid(this->cylinders_aabbs,cyl_grid_size);
     this->spheresAABBGrid.InitializeGrid(this->spheres_aabbs,sph_grid_size);

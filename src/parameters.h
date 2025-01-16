@@ -26,6 +26,8 @@ public:
     unsigned num_walkers;                           /*!< N, number of walkers                                                       */
     unsigned num_steps;                             /*!< T, number of steps                                                         */
     double diffusivity;                             /*!< D, diffusivity constant                                                    */
+    double diff_intra;                              /*!< Intra diffusivity constant                                                 */
+    double diff_extra;                              /*!< Extra diffusivity constant                                                 */
     double sim_duration;                            /*!< simulation total time                                                      */
     bool write_traj;                                /*!< flag, write a traj file or not, binary format only                         */
     bool write_txt;                                 /*!< flag, writes DWI output signals in .txt if True                            */
@@ -314,5 +316,4 @@ private:
 
 
 };
-
 #endif // PARAMETERS_H

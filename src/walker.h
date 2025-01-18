@@ -82,6 +82,10 @@ public:
 
     float steps_per_second;                                         /*!< Particles steps per second speeed.*/
 
+    double step_lenght;                                             /*!< Step lenght of the walker based on the diffusivity or compartment*/
+
+    bool perm_crossed_flag;                                         /*!< Flag to check if the particle crossed a permeable barrier        */
+
     //! Default constructor.
     /*! Set all variables to cero.*/
     Walker();

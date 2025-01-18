@@ -631,11 +631,42 @@ void ParallelMCSimulation::specialInitializations()
 {
     addObstacleConfigurations();
     addObstaclesFromFiles();
-
     initializeAABBsGrids();
 
     if(params.number_subdivisions>1){
         params.addSubdivisions();
+    }
+    double time_step = params.sim_duration/double(params.num_steps);
+
+    for (auto cyl: cylinders_list){
+        if(cyl.d_intra<0)
+            cyl.d_intra = params.diff_intra;
+        if (cyl.percolation > 0){
+            double dse = sqrt(6*time_step*params.diff_extra);
+            double dsi = sqrt(6*time_step*cyl.d_intra);
+
+            double prob_cross_i_e = cyl.percolation * dsi * 2.0 / 3.0 / cyl.d_intra;
+            double prob_cross_e_i = cyl.percolation * dse * 2.0 / 3.0 / params.diff_extra; 
+
+            cyl.prob_cross_e_i = prob_cross_e_i / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
+            cyl.prob_cross_i_e = prob_cross_i_e / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
+        }
+    }
+
+    for (auto sph: spheres_list){
+        if(sph.d_intra<0)
+            sph.d_intra = params.diff_intra;
+
+        if (sph.percolation > 0){
+            double dse = sqrt(6*time_step*params.diff_extra);
+            double dsi = sqrt(6*time_step*sph.d_intra);
+
+            double prob_cross_i_e = sph.percolation * dsi * 2.0 / 3.0 / sph.d_intra;
+            double prob_cross_e_i = sph.percolation * dse * 2.0 / 3.0 / params.diff_extra; 
+
+            sph.prob_cross_e_i = prob_cross_e_i / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
+            sph.prob_cross_i_e = prob_cross_i_e / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
+        }
     }
 
    //std::cout << params.img_signal << std::endl;
@@ -645,6 +676,22 @@ void ParallelMCSimulation::specialInitializations()
         plyObstacles_list.push_back(PLYObstacle(params.PLY_files[i],params.PLY_scales[i]));
         plyObstacles_list.back().id=i;
         plyObstacles_list.back().percolation = params.PLY_percolation[i];
+
+        if(plyObstacles_list.back().d_intra<0)
+            plyObstacles_list.back().d_intra = params.diff_intra;
+
+        if (plyObstacles_list.back().percolation > 0){
+            double dse = sqrt(6.0*time_step*params.diff_extra);
+            double dsi = sqrt(6.0*time_step*plyObstacles_list.back().d_intra);
+
+            double prob_cross_i_e = plyObstacles_list.back().percolation * dsi * 2.0 / 3.0 / plyObstacles_list.back().d_intra;
+            double prob_cross_e_i = plyObstacles_list.back().percolation * dse * 2.0 / 3.0 / params.diff_extra; 
+
+            plyObstacles_list.back().prob_cross_e_i = prob_cross_e_i / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
+            plyObstacles_list.back().prob_cross_i_e = prob_cross_i_e / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
+
+            cout << plyObstacles_list.back().prob_cross_i_e << " " << plyObstacles_list.back().prob_cross_e_i  << endl;
+        }
     }
 }
 

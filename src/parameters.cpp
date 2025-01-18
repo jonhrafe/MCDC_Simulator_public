@@ -76,6 +76,12 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         else if(str_dist(tmp,"diffusivity") <= 1){
             in >> diffusivity;
         }
+        else if ((str_dist(tmp,"diff_intra")<=2) || (str_dist(tmp,"dintra")<=2)){
+            in >> diff_intra;
+        }
+        else if ( (str_dist(tmp,"diff_extra")<=2) || (str_dist(tmp,"dextra")<=2)){
+            in >> diff_extra;
+        }
         else if( (str_dist(tmp,"out_traj_file_index") <= 2) or (str_dist(tmp,"exp_prefix") <= 2)) {
             in >> traj_file;
             output_base_name = traj_file;

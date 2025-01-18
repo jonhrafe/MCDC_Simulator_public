@@ -69,17 +69,6 @@ inline bool Sphere::handleCollition(Walker& walker, Collision &colision, Vector3
     }
 
 
-    //WARNING: Cuidar este patch
-    // Implementa Percolacion
-    if(percolation>0.0){
-        double _percolation_ (double(rand())/RAND_MAX);
-
-        if( percolation - _percolation_ > EPS_VAL ){
-            count_perc_crossings++;
-            return false;
-        }
-    }
-
     // a spin that's bouncing ignores collision at 0 (is in a wall)
     if(walker.status == Walker::bouncing){
 
@@ -117,6 +106,20 @@ inline bool Sphere::handleCollition(Walker& walker, Collision &colision, Vector3
 
     colision.rn = c;
     colision.colision_point = walker.pos_v + colision.t*step;
+
+    //WARNING: Cuidar este patch
+    // Implementa Percolacion
+    if(this->percolation>0.0){
+        double _percolation_ ((double)rand()/RAND_MAX);
+
+        double dynamic_percolation = (colision.col_location == Collision::inside)?this->prob_cross_i_e:this->prob_cross_e_i;
+        
+        if( dynamic_percolation - _percolation_ > EPS_VAL ){            
+            count_perc_crossings++;
+            walker.perm_crossed_flag = true;
+            return false;
+        }
+    }
 
     //Normal point
     Eigen::Vector3d normal = (colision.colision_point-this->center).normalized();

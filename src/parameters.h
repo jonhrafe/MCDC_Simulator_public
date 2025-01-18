@@ -102,6 +102,8 @@ public:
     bool separate_signals;                          /*!< Separate the signals into intra and extra (compute_volume on)              */
     bool img_signal;                                /*!< True to save the img part of the dwi signal (false by default)             */
 
+    bool update_step;                               /*!< True to update the step size in the simulation (false by default)          */
+
 
     /*! \fn Parameters
      *  \brief Default constructor. Sets all the parameters to default and NULL values.

@@ -46,7 +46,7 @@ DynamicsSimulation::DynamicsSimulation() {
     num_simulated_walkers = 0;
 
     params.diffusivity = DIFF_CONST;
-    step_lenght = sqrt(6.0*params.diffusivity*params.sim_duration/params.num_steps);
+    walker.step_lenght = sqrt(6.0*params.diffusivity*params.sim_duration/params.num_steps);
     params.write_traj = trajectory.write_traj = false;
     params.write_txt = trajectory.write_txt   = false;
 
@@ -223,15 +223,12 @@ bool DynamicsSimulation::finalPositionCheck()
 {
     int cyl_id,ply_id,sph_id;
 
-    if( ((*plyObstacles_list).size()>0) and sentinela.deport_illegals and params.obstacle_permeability <=0){
+    if( ((*plyObstacles_list).size()>0) && sentinela.deport_illegals && (walker.perm_crossed_flag == false)){
 
         bool isIntra = isInIntra(this->walker.pos_v,cyl_id,ply_id,sph_id,0);
-
         //cout << endl << endl << isIntra << " " << this->walker.location << "  " << walker.initial_location << endl;
-
         if((isIntra and this->walker.initial_location == Walker::extra) or ((!isIntra and this->walker.initial_location == Walker::intra))){
 //            cout << "Im working" << endl;
-
 //            cout << (this->walker.initial_location == Walker::intra) <<  "Intra"  << endl;
 //            cout << isIntra << endl;
             return true;
@@ -289,9 +286,8 @@ void DynamicsSimulation::writePropagator(std::string path)
 
 void DynamicsSimulation::initSimulation()
 {
-
     // Initial step length = sqrt(6*D*dt/T)
-    step_lenght = sqrt(6.0*(params.diffusivity*params.sim_duration)/double(params.num_steps));
+    walker.step_lenght = sqrt(6.0*(params.diffusivity*params.sim_duration)/double(params.num_steps));
 
     // Writes the header file and opens .traj file (if required)
     trajectory.initTrajWriter();
@@ -422,6 +418,7 @@ void DynamicsSimulation::iniWalkerPosition()
     walker.initial_location = Walker::unknown;
     walker.location         = Walker::unknown;
     walker.intra_extra_consensus = walker.intra_coll_count = walker.extra_coll_count=walker.rejection_count=0;
+    walker.perm_crossed_flag = false;
 
 /*
     if(params.custom_ini_walker_pos.size()>0){
@@ -573,10 +570,10 @@ void DynamicsSimulation::updateCollitionSphere(unsigned t)
 
     float sphere_sqrd_displacement = float((walker.initial_sphere_pos_v-walker.pos_v).norm());
 
-    if(sphere_sqrd_displacement  + float(step_lenght)   > outher_ball_size){
+    if(sphere_sqrd_displacement  + float(walker.step_lenght)   > outher_ball_size){
         initWalkerObstacleIndexes();
     }
-    else if(sphere_sqrd_displacement + float(step_lenght) > inner_ball_size    ){
+    else if(sphere_sqrd_displacement + float(walker.step_lenght) > inner_ball_size    ){
         updateWalkerObstacleIndexes(t);
     }
 }
@@ -684,11 +681,11 @@ bool DynamicsSimulation::checkIfPosInsideVoxel(Vector3d &pos)
     return false;
 }
 
-//TODO: Use t to decrease the size of the sphere.
+//TODO: Remove this deprecated.
 void DynamicsSimulation::updateWalkerObstacleIndexes(unsigned t_)
 {
 
-    float outher_col_dist_factor = float(params.num_steps-t_+1.0*step_lenght);
+    float outher_col_dist_factor = float(params.num_steps-t_+1.0*walker.step_lenght);
     walker.ply_collision_sphere.setBigSphereSize(outher_col_dist_factor);
 
     walker.initial_sphere_pos_v = walker.pos_v;
@@ -838,28 +835,50 @@ bool DynamicsSimulation::isInsideCylinders(Vector3d &position, int& cyl_id,doubl
 bool DynamicsSimulation::isInsidePLY(Vector3d &position, int &ply_id,double distance_to_be_inside)
 {
     ply_id= -1;
-
-    //1) We find the closest PLY and triangle based on the triangle's center
     Walker tmp;
     tmp.setInitialPosition(position);
 
+    // 0) We create an small ABB around the position of interest and find a triangle visible from the position
     double t,min_t = 1e6;
     unsigned min_j_index = 0;
     int min_i_index = -1;
-    for (unsigned i=0; i < (*plyObstacles_list).size(); i++){
-        for (unsigned j=0; j < (*plyObstacles_list)[i].face_number; j++){
-            t = (position - (*plyObstacles_list)[i].faces[j].center).squaredNorm();
-            // cout << t<< endl;
-            if(t< min_t){
+    std::vector<uint> collision_candidates;
+    double small_step = min_cell_size_um*0.001; //min size of an AABB;
+    do{
+        Vector3d step = Vector3d(1.0,1.0,1.0);
+
+        Vector3d abb_min = position - small_step*step;
+        Vector3d abb_max = position + small_step*step;
+        AABB dynamic_ray_abb(abb_min.cwiseMin(abb_max),abb_min.cwiseMax(abb_max));
+
+        for (int i = 0 ; i < plyObstacles_list->size(); i++){
+            collision_candidates = (*plyObstacles_list)[i].AABBgrid.getAABBsInCells(dynamic_ray_abb);
+            if(collision_candidates.size() > 0){
+                t = (position - (*plyObstacles_list)[i].faces[collision_candidates[0]].center).squaredNorm();
                 min_i_index = i;
-                min_j_index = j;
-                min_t = t;
+                min_j_index = collision_candidates[0];
+                small_step = 1;
+            }
+        }
+        small_step+=small_step;
+    }while(small_step < 1e-1);
+    //1) If we failed we find the closest triangle to the position
+    if(min_i_index < 0){
+        //cout << "FAILED " << endl;
+        for (unsigned i=0; i < (*plyObstacles_list).size(); i++){
+            for (unsigned j=0; j < (*plyObstacles_list)[i].face_number; j++){
+                t = (position - (*plyObstacles_list)[i].faces[j].center).squaredNorm();
+                // cout << t<< endl;
+                if(t< min_t){
+                    min_i_index = i;
+                    min_j_index = j;
+                    min_t = t;
+                }
             }
         }
     }
 
     //2) We corroborate by casting an infinite ray and checking collisions
-
     //Small step in a fixed direction
     Vector3d min_center = (*plyObstacles_list)[min_i_index].faces[min_j_index].center;
     // Make an small step in the direction of the step
@@ -936,7 +955,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
     initSimulation();
 
     //Alias of the step length, may vary when the time step is dynamic.
-    double l = step_lenght;
+    double l = walker.step_lenght;
     bool back_tracking;
 
     /*********************   WARNING  **********************/
@@ -951,24 +970,28 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         back_tracking = false;
 
         walker.setIndex(w);
-
         // Initialize the walker initial position
         iniWalkerPosition();
 
         // Selects only obstacles that are close enough to collide and the ones inside a collision sphere
         initWalkerObstacleIndexes();
 
+        updateStepLength();
+
         //Initial position;
         walker.setRealPosLog(walker.pos_r,0);
         walker.setVoxPosLog (walker.pos_v,0);
-
-        //cout << "\n Iniatial postionl                                                                  ";
-        //cout << walker.ini_pos[0] << " "  << walker.ini_pos[1] << " "  << walker.ini_pos[2] << endl;
 
         for(unsigned t = 1 ; t <= params.num_steps; t++) //T+1 steps in total (avoid errors)
         {
             //Get the time step in milliseconds
             getTimeDt(last_time_dt,time_dt,l,dataSynth,t,time_step);
+
+            if(walker.perm_crossed_flag){
+                //walker.perm_crossed_flag = false;
+                //walker.initial_location = walker.location;
+                updateStepLength();
+            }
 
             //Generates a random oriented step of size l
             generateStep(step,l);
@@ -1000,6 +1023,8 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
 
             walker.steps_count++;
             walker.rejection_count = 0;
+
+
         }// end for t
 
         if(!back_tracking)
@@ -1145,7 +1170,6 @@ void DynamicsSimulation::generateDirectedStep(Vector3d &new_step, Vector3d &dire
  */
 bool DynamicsSimulation::updateWalkerPosition(Eigen::Vector3d& step) {
 
-
     //new step to take
     Vector3d bounced_step = step.normalized(),end_point;
     Vector3d previous_real_position, previous_voxel_position, real_pos, voxel_pos;
@@ -1162,7 +1186,7 @@ bool DynamicsSimulation::updateWalkerPosition(Eigen::Vector3d& step) {
     bool update_walker_status  = false;
 
     // Maximum displacement. Is updated after each bouncing (if any)
-    double tmax = step_lenght;
+    double tmax = walker.step_lenght;
 
     // Clears the status of the sentinel.
     sentinela.clear();
@@ -1196,7 +1220,6 @@ bool DynamicsSimulation::updateWalkerPosition(Eigen::Vector3d& step) {
 
     }while(bounced);
 
-
     if(tmax >= 0.0){
 
         // Update the walker position after the bouncing (or not)
@@ -1212,7 +1235,6 @@ bool DynamicsSimulation::updateWalkerPosition(Eigen::Vector3d& step) {
 
 bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &tmax, Eigen::Vector3d& end_point,Collision& colision)
 {
-
     Collision colision_tmp;
     colision_tmp.type = Collision::null;
     colision_tmp.t = INFINITY_VALUE;
@@ -1226,9 +1248,7 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
 
     // Calculate the ray endpoint
     end_point = ray_origin + tmax * bounced_step;
-
     AABB ray_aabb(ray_origin.cwiseMin(end_point), ray_origin.cwiseMax(end_point));
-
 
     // The collision checks the three possible obstacles in this order: Voxel, Cylinders, PLY.
     // The closest collision is kept at the end.
@@ -1336,14 +1356,12 @@ void DynamicsSimulation::handleCollisions(Collision &colision, Collision &colisi
 
         return;
     }
-
     colision = colision_2;
 }
 
 
 void DynamicsSimulation::mapWalkerIntoVoxel(Eigen::Vector3d& bounced_step, Collision &colision,double barrier_thicknes)
 {
-
     walker.setRealPosition(walker.pos_r + colision.t*bounced_step);
 
     Eigen::Vector3d voxel_pos = walker.pos_v + (colision.t)*bounced_step;
@@ -1360,7 +1378,6 @@ void DynamicsSimulation::mapWalkerIntoVoxel(Eigen::Vector3d& bounced_step, Colli
             mapped = true;
         }
     }
-
     walker.setVoxelPosition(voxel_pos);
 
     if (mapped){
@@ -1372,7 +1389,7 @@ void DynamicsSimulation::getTimeDt(double &last_time_dt, double &time_dt, double
 {
     last_time_dt = time_step*(t-1);
     time_dt = time_step*(t);
-    //Todo: remoce this.
+    //Todo: remove this. Deprecated
     if(dataSynth){
         if(dataSynth->dynamic){
             last_time_dt = dataSynth->time_steps[t-1];
@@ -1384,7 +1401,6 @@ void DynamicsSimulation::getTimeDt(double &last_time_dt, double &time_dt, double
 
 bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced_step, double &tmax, Collision &colision)
 {
-
     // To avoid numerical errors.
     double min_step_length = barrier_tickness;
 
@@ -1400,7 +1416,7 @@ bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced
 
     if (tmax < min_step_length)
     {
-        tmax = 0;
+        tmax = 0.0;
         return false;
     }
 
@@ -1419,7 +1435,6 @@ bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced
         }
 
         walker.status = Walker::bouncing;
-
         tmax -= displ;
 
         // Labels the walker w/r it's orientation.
@@ -1443,11 +1458,8 @@ bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced
     }
     else if(colision.type == Collision::hit && colision.col_location == Collision::voxel)
     {
-
         bounced = true;
-
         walker.status = Walker::on_voxel;
-
         mapWalkerIntoVoxel(bounced_step,colision,barrier_tickness);
         bounced_step = colision.bounced_direction;
         tmax-=colision.t;
@@ -1470,8 +1482,6 @@ bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced
     return bounced;
 }
 
-
-
 void DynamicsSimulation::setDuration(const double &duration)
 {
     params.sim_duration = duration;
@@ -1491,3 +1501,18 @@ void DynamicsSimulation::setStepsNum(const unsigned &T)
 }
 
 
+void DynamicsSimulation::updateStepLength(){
+        //todo: use the object's diffusion coefficient.
+
+        int cyl_id=-1,ply_id=-1,sph_id=-1;
+        bool isIntra = isInIntra(this->walker.pos_v,cyl_id,ply_id,sph_id,0);
+
+        if(isIntra){
+            double diff = (cyl_id>=0)?(*cylinders_list)[cyl_id].d_intra:(ply_id>=0)?(*plyObstacles_list)[ply_id].d_intra:(sph_id>=0)?(*spheres_list)[sph_id].d_intra:params.diff_intra;
+            walker.step_lenght = sqrt(6.0*(params.diff_intra*params.sim_duration)/double(params.num_steps));
+            //cout << cyl_id << " " << ply_id << " " << sph_id << " " << endl;
+        }
+        else{
+            walker.step_lenght = sqrt(6.0*(params.diff_extra*params.sim_duration)/double(params.num_steps));
+        }
+}

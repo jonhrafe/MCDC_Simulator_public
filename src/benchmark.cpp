@@ -92,7 +92,7 @@ void Benchmark::start()
 
     ParallelMCSimulation Sim1(params_h1);
 
-    //Sim1.startSimulation();
+    Sim1.startSimulation();
 
     /*
      * 2.01 separation and n-1 processor:
@@ -110,7 +110,7 @@ void Benchmark::start()
     params_h3.write_txt      = true;
     ParallelMCSimulation Sim3(params_h3);
 
-    //Sim3.startSimulation();
+    Sim3.startSimulation();
 
     cout << endl << endl;
     cout << SH_FG_PURPLE << "/********************   3rd experiment:  *************************/" << SH_DEFAULT << "\n";
@@ -157,10 +157,12 @@ void Benchmark::start()
 
     params_h5.scheme_file =  "dev/Scheme_3shells3_40ms.txt";
     params_h5.output_base_name = output_dir + "/benchmark_single_PLY_" + timestamp;
-    params_h5.num_walkers  = 10000;
+    params_h5.num_walkers  = 1000;
     params_h5.num_steps    = 1000;
     params_h5.sim_duration = 41;
-    params_h5.diffusivity  = 0.8e-6;
+    params_h5.diffusivity  = 0.800e-6;
+    params_h5.diff_intra   = 0.800e-6;
+    params_h5.diff_extra   = 0.600e-6;
     params_h5.write_bin      = false;
     params_h5.write_txt      = true;
     params_h5.scale_from_stu = true;
@@ -169,19 +171,17 @@ void Benchmark::start()
     params_h5.PLY_scales.push_back(1e-3);
     params_h5.PLY_percolation.push_back(0.0);
     params_h5.num_proc = 1;std::thread::hardware_concurrency()-1;
-    params_h5.ini_delta_pos = {0,0,0};
-    params_h5.ini_walker_flag = "delta";
-
-    std::pair<Eigen::Vector3d,Eigen::Vector3d> voxel(Eigen::Vector3d(-1e-3,-1e-3,-2e-3),Eigen::Vector3d(1e-3,1e-3,2e-3));
-
+    //params_h5.ini_delta_pos = {0,0,0};
+    params_h5.ini_walker_flag = "intra";
+    //params_h5.obstacle_permeability = 0.0001;
+    //params_h5.discard_illegals = false;
+    std::pair<Eigen::Vector3d,Eigen::Vector3d> voxel(Eigen::Vector3d(-6e-3,-6e-3,-6e-3),Eigen::Vector3d(6e-3,6e-3,6e-3));
     params_h5.voxels_list.push_back(voxel);
     ParallelMCSimulation Sim5(params_h5);
 
-    //Sim5.startSimulation();
-
-
-
-        std::vector<std::string> expected_files = {
+    Sim5.startSimulation();
+    
+    std::vector<std::string> expected_files = {
         "dev/benchmark_test1_single_Hexagonal_DWI.txt",
         "dev/benchmark_test2_N-1_DWI.txt",
         "dev/benchmark_test3_spheres_DWI.txt",

@@ -57,9 +57,25 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
     }
 
     if(params.diffusivity <= 0.0){
-        error( " Paticle diffusivity wrongly initialized.",cout);
-        assert(0);
-        return true;
+        if((params.diff_intra <= 0.0) || (params.diff_extra <= 0.0)){
+            error( " Intra and extra diffusivities wrongly initialized.",cout);
+            assert(0);
+            return true;
+        }
+        params.diffusivity = (params.diff_intra + params.diff_extra)/2.0;
+        params.update_step = true;
+        info( " Particles dynamic step computation enabled",cout);
+    }
+
+    if(params.diff_extra <=0 || params.diff_extra <=0){
+        if(params.diffusivity <= 0.0){
+            error( " Intra and extra diffusivities wrongly initialized.",cout);
+            assert(0);
+            return true;
+        }
+        params.diff_intra = params.diffusivity;
+        params.diff_extra = params.diffusivity;
+        params.update_step = false;
     }
 
     if (params.num_proc == 0){
@@ -845,10 +861,12 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
 
     infoMenu(" Number of cores:       ------",  to_string(params.num_proc ), out, color,35);
 
-    if(params.scale_from_stu)
+    if(params.diff_intra < 0 || params.diff_extra < 0)
         infoMenu(" Diffusivity:           ------",  to_string(params.diffusivity*1e6)+"e-9 m^2/s",out, color,35);
-    else
-        infoMenu(" Diffusivity:           ------",  to_string(params.diffusivity*1e6)+"e-6 mm^2/ms",out, color,35);
+    else{
+        infoMenu(" Intra diffusivity:      ------",  to_string(params.diff_intra*1e6)+"e-9 m^2/s",out, color,35);
+        infoMenu(" Extra diffusivity:      ------",  to_string(params.diff_extra*1e6)+"e-9 m^2/s",out, color,35);
+    }
 
     infoMenu(" Particle dynamics duration: -",  " " + to_string(params.sim_duration) +" ms" , out, color,35);
 
@@ -941,8 +959,10 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
     if((params.ini_walker_flag.compare("intra")==0) || (params.ini_walker_flag.compare("extra")==0))
     infoMenu(" Walkers initial position: -----", " "+params.ini_walker_flag, out, color,33);
 
-
-    infoMenu(" Number of voxels:      ------", " " + to_string( params.voxels_list.size()),out, color,35);
+    if(params.gamma_cyl_packing || params.gamma_sph_packing || params.hex_cyl_packing || params.hex_sphere_packing)
+        infoMenu(" Number of voxels:      ------", " " + to_string( 1),out, color,35);
+    else
+        infoMenu(" Number of voxels:      ------", " " + to_string( params.voxels_list.size()),out, color,35);
 
     if(params.custom_sampling_area)
         infoMenu(" Custom spawning area:  ------"," true" ,out, color,35);

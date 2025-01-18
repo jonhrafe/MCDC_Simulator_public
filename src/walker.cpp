@@ -18,6 +18,8 @@ Walker::Walker()
     steps_per_second = 0;
     in_ply_index = -1;
     in_obj_index =-1;
+    in_sph_index =-1;
+    perm_crossed_flag = false;
 }
 
 Walker::Walker(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)
@@ -43,6 +45,7 @@ Walker::Walker(double xmin, double xmax, double ymin, double ymax, double zmin, 
     steps_per_second = 0;
     in_ply_index = -1;
     in_obj_index = -1;
+    perm_crossed_flag = false;
 }
 
 void Walker::getRealPosition(double &x_, double &y_, double &z_) const

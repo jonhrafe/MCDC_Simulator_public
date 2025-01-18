@@ -3,7 +3,7 @@
 *   \details   Father class to define the base of any other obstacle (wall or substrate)
 *   \author    Jonathan Rafael
 *   \date      November 2016
-*   \version   1.42
+*   \version   1.6
  =====================================================================================================*/
 
 #ifndef OBSTACLE_H
@@ -19,7 +19,9 @@ public:
     int count_perc_crossings;       /*!< Auxiliar value to count the number of percolatin crossings in a simulation */
     double percolation;             /*!< Percolation value between 0 and 1.                                         */
     double T2;                      /*!< T2 decay, not used by default                                              */
-
+    double d_intra;                 /*!< Internal Diffusion coefficient                                             */
+    double prob_cross_e_i;         /*!< Probability of crossing from the the exterior                               */
+    double prob_cross_i_e;         /*!< Probability of crossing to   the the interior                               */
 
     /*! \fn  Obstacle
      *  \brief Default constructor. Does nothing.

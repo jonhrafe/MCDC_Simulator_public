@@ -93,8 +93,6 @@ std::vector<uint> AABBFixedGrid::getAABBsInCells(const AABB& query_aabb) const {
     std::array<int, 3> min_cell = getCellIndex(Eigen::Vector3d(query_aabb.min_b[0], query_aabb.min_b[1], query_aabb.min_b[2]));
     std::array<int, 3> max_cell = getCellIndex(Eigen::Vector3d(query_aabb.max_b[0], query_aabb.max_b[1], query_aabb.max_b[2]));
 
-
-
     std::unordered_set<uint> unique_indices;
 
     for (int x = min_cell[0]; x <= max_cell[0]; ++x) {

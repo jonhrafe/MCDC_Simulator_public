@@ -285,17 +285,6 @@ void PLYObstacle::handleCollisions(Collision &colision_confirmed, Collision &col
     if (colision_2.type == Collision::null)
         return;
 
-    //WARNING: Cuidar este patch
-    // Implementa Percolacion
-    if(percolation>0.0){
-        double _percolation_ ((double)rand()/RAND_MAX);
-
-        if( percolation - _percolation_ > EPS_VAL ){
-            count_perc_crossings++;
-            return;
-        }
-    }
-
     colision_2.triangle_ind = triangle_indx;
 
     if (colision_confirmed.type == Collision::hit || colision_confirmed.type == Collision::boundary){
@@ -365,10 +354,9 @@ bool PLYObstacle::updateWalkerStatusAndHandleBouncing(Walker &walker, Eigen::Vec
         bounced = true;
         if (colision.col_location == Collision::on_edge || colision.col_location == Collision::on_vertex){
             colision.bounced_direction = -step;
-            //WARNING: REMOVE THIS
-           // cout << "Edge" << endl;
         }
-        else{
+        else
+        {
             Eigen::Vector3d normal;
             faces[colision.triangle_ind].getNormal(normal);
 
@@ -381,6 +369,21 @@ bool PLYObstacle::updateWalkerStatusAndHandleBouncing(Walker &walker, Eigen::Vec
             double dot = ((walker.pos_v - faces[colision.triangle_ind].center).normalized()).dot(normal);
 
             colision.col_location = (dot < -1e-5)?Collision::inside:(dot > 1e-5)?Collision::outside:Collision::unknown;
+
+            //WARNING: Cuidar este patch
+            // Implementa Percolacion
+            if(this->percolation>0.0){
+                double _percolation_ ((double)rand()/RAND_MAX);
+                double dynamic_percolation = (colision.col_location == Collision::inside)?this->prob_cross_i_e:this->prob_cross_e_i;
+                
+                if( dynamic_percolation - _percolation_ > EPS_VAL ){            
+                    count_perc_crossings++;
+                    walker.perm_crossed_flag = true;
+                    colision.bounced_direction = step;
+                    //colision.type = Collision::null;
+                    return false;
+                }
+            }
         }
     }
     else if(colision.type == Collision::near){

@@ -36,7 +36,7 @@ public:
     Walker       walker;                            /*!< Single walker to diffuse                                                   */
     Trajectory   trajectory;                        /*!< Trajectory instance. Handles i/o operations                                */
     std::mt19937 mt;                                /*!< rnd, random generator instance                                             */
-    double step_lenght;                             /*!< l, step length                                                             */
+    //double step_lenght;                             /*!< l, step length                                                             */
     double second_passed;                           /*!< Simulation total time in seconds                                           */
     double max_simulation_time;                     /*!< Maximum simulation time if not passed we carry all the particles           */
     double completed;                               /*!< Auxiliar variable to save the milestone of percentage of completed walkers */
@@ -306,7 +306,7 @@ private:
 
     inline bool finalPositionCheck();
 
-
+    inline void updateStepLength();
 
 };
 

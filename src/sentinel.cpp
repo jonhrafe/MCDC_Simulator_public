@@ -67,7 +67,7 @@ bool Sentinel::checkErrors(Walker &walker, const Parameters &params, bool noPLY,
 
     if( (walker.location != Walker::unknown) && (walker.perm_crossed_flag == false) && deport_illegals == true ){
         if(walker.initial_location != walker.location){
-            setCrossingError(uint(walker.in_obj_index));
+            setCrossingError(uint(max(walker.in_cyl_index,max(walker.in_ply_index,walker.in_sph_index))));
             illegal_count++;
             throw(this->error);
         }

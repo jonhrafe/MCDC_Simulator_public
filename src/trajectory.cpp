@@ -98,8 +98,7 @@ void Trajectory::initTrajWriterText()
     theaderout.open((trajfile + ".hdr.txt").c_str(), std::ios::out);
 
     if(!tout || !theaderout){
-        //TODO: Error handling
-        std::cout << "Cannot open " << (trajfile + ".traj.txt").c_str()<< std::endl;
+        SimErrno::error("Cannot open " + trajfile + ".traj.txt",cout);
         return;
     }
 }
@@ -160,8 +159,7 @@ void Trajectory::reWriteHeaderFile(unsigned num_walkers)
         if(write_txt){
             theaderout.open((trajfile + ".hdr.txt").c_str(), std::ios::out);
             if( !theaderout){
-                //TODO: Error handling
-                std::cout << "Cannot open header:  " << trajfile.c_str() << std::endl;
+                SimErrno::error("Cannot open header:  " + trajfile,cout);
                 return;
             }
 
@@ -177,8 +175,7 @@ void Trajectory::reWriteHeaderFile(unsigned num_walkers)
         if(write_bin){
             bheaderout.open((trajfile + ".bhdr").c_str(), std::ofstream::binary);
             if( !bheaderout){
-                //TODO: Error handling
-                std::cout << "Cannot open header: " << trajfile.c_str() << std::endl;
+                SimErrno::error("Cannot open header:  " + trajfile,cout);
                 return;
             }
 

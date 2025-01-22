@@ -1,7 +1,7 @@
 #include "obstacle.h"
 #include <math.h>
 
-Obstacle::Obstacle():percolation(0),T2(0),id(-1),d_intra(-1.0),count_perc_crossings(0),prob_cross_e_i(0),prob_cross_i_e(0)
+Obstacle::Obstacle():percolation(0),T2(1e50),id(-1),d_intra(-1.0),count_perc_crossings(0),prob_cross_e_i(0),prob_cross_i_e(0)
 {
 }
 

@@ -4,7 +4,7 @@
 
 #include <vector>
 #include <array>
-#include <Eigen/Core>
+#include "Eigen/Core"
 #include <limits>
 #include <cmath>
 #include "simerrno.h"

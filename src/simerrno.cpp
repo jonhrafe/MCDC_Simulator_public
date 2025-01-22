@@ -30,8 +30,8 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
         return true;
     }
 
-    if(params.num_steps > 1e7){
-        error( " Maximum number of steps is fixed to 1e7.",cout);
+    if(params.num_steps > 1e8){
+        error( " Maximum number of steps is fixed to 1e8.",cout);
         assert(0);
         return true;
     }

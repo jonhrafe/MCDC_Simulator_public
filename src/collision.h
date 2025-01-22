@@ -41,15 +41,14 @@ public:
     double v;                           /*!< v position in baricentric coordinates                  */
     double t;                           /*!< signed, collision distance                             */
 
-    int triangle_ind;                   /*!< In case of a PLY obstacle saves the triangle index. t
-                                        collison distance                                           */
-    int obstacle_ind;                   /*!< In case of a generic obstacle saves the obstacle index.*/
+    int triangle_ind;                   /*!< In case of a PLY obstacle saves the triangle index.    */
+    int obstacle_id;                   /*!<  Saves the obstacle's unique id.                        */
 
     /*! \fn  Default constructor.
      *  \brief Initialize everything with 0's and NULL states, the triangle and object indexes are set
      *  to -1.
      */
-    Collision():u(0),v(0),t(1e15),triangle_ind(-1),obstacle_ind(-1){type=null;col_location=unknown;}
+    Collision():u(0),v(0),t(1e15),triangle_ind(-1),obstacle_id(-1){type=null;col_location=unknown;}
 
     /*! \fn  Default constructor.
      *  \brief Initialize everything with 0's and NULL states, the triangle and object indexes are
@@ -58,7 +57,7 @@ public:
      *  \param u is for parametric coordinates of a plane or triangle.
      *  \param t is the collision distance,
      */
-    Collision(double u_,double v_,double t_):u(u_),v(v_),t(t_),triangle_ind(-1),obstacle_ind(-1){}
+    Collision(double u_,double v_,double t_):u(u_),v(v_),t(t_),triangle_ind(-1),obstacle_id(-1){}
 
     //! \fn Default destructor.
     /*! \brief Does nothing.

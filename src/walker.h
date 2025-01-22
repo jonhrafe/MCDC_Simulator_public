@@ -50,9 +50,13 @@ public:
 
     Eigen::Matrix3Xd pos_v_log;                                     /*!< log of the voxel position, used for collision location and bouncing    */
 
-    int in_obj_index;                                               /*!< Auxiliar index to save if the walker was inside a convex object        */
+    Eigen::VectorXd t2_log;                                         /*!< log of the T2 decay of the walker                                      */
 
-    int in_ply_index;                                               /*!< Auxiliar index to save if the walker was inside a convex ply object    */
+    int col_obj_id;                                                 /*!< Auxiliar index to save if the walker was inside a convex object        */
+
+    int in_cyl_index;                                               /*!< Auxiliar index to save if the walker was inside a cylinder             */
+
+    int in_ply_index;                                               /*!< Auxiliar index to save if the walker was inside a        ply object    */
 
     int in_sph_index;                                               /*!< Auxiliar index to save if the walker was inside a sphere               */
 

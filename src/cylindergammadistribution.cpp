@@ -177,14 +177,12 @@ void CylinderGammaDistribution::createGammaSubstrate()
     cylinders = best_cylinders;
     max_limits = best_max_limits;
 
-    //TODO cambiar a INFO
     int perc_;
     double icvf_current = computeICVF(cylinders,min_limits, max_limits,perc_);
 
      string  message = "Percentage of cylinders selected: "+ to_string(double(perc_)/radiis.size()*100.0)
             + "%,\nICVF achieved: " + to_string(icvf_current*100) + "  ("+ to_string( int((icvf_current/icvf*100))) + "% of the desired icvf)\n";
      SimErrno::info(message,cout);
-
 }
 
 void CylinderGammaDistribution::printSubstrate(ostream &out)

@@ -104,7 +104,9 @@ public:
 
     bool update_step;                               /*!< True to update the step size in the simulation (false by default)          */
 
-
+    double t2_intra;                                /*!< default T2 intra value                                                     */
+    double t2_extra;                                /*!< default T2 extra value                                                     */
+    
     /*! \fn Parameters
      *  \brief Default constructor. Sets all the parameters to default and NULL values.
      */

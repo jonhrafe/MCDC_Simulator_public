@@ -67,37 +67,59 @@ int main(int argn, char* argv[])
     return 0;
 
 }
+void printUsage() {
+    cout << R"(
+   *                    (                           
+ (  `      (            )\ )    (        )       )  
+ )\))(     )\          (()/(    )\    ( /(    ( /(  
+((_)()\  (((_)         /(_)) (((_)   )(_))   )\()) 
+(_()((_) )\___     __  (_))_  )\___  ((_)    ((_)\  
+|  \/  |((/ __|   / /  |   \((/ __| |_  )   / (_) 
+| |\/| | | (__   / /   | |) || (__   / /  _| () |  
+|_|  |_|  \___| /_/    |___/  \___| /___|(_)\__/
 
-void printUsage(){
+ MC-DC Simulator - Advanced Diffusion MRI Simulation
+ Version: )" << VERSION_ID << R"(
 
-    cout << " ███╗   ███╗ ██████╗    ██╗██████╗  ██████╗" << endl;
-    cout << " ████╗ ████║██╔════╝   ██╔╝██╔══██╗██╔════╝" << endl;
-    cout << " ██╔████╔██║██║       ██╔╝ ██║  ██║██║     " << endl;
-    cout << " ██║╚██╔╝██║██║      ██╔╝  ██║  ██║██║     " << endl;
-    cout << " ██║ ╚═╝ ██║╚██████╗██╔╝   ██████╔╝╚██████╗" << endl;
-    cout << " ╚═╝     ╚═╝ ╚═════╝╚═╝    ╚═════╝  ╚═════╝" << endl;
+ Usage:
+   MC-DC_Simulator <configuration_file.conf>
+   MC-DC_Simulator --conf <configuration_file.conf>
+   MC-DC_Simulator --benchmark <output_file>
 
-    cout << endl; cout << endl;
-    cout << " Version: " << VERSION_ID << endl;
-    cout << " Usage: MC-DC_Simulator <configuration_file.conf>\n\n";
-    cout << " <configuration_file.conf>  Plain .txt file with the simulation parameters (see https://github.com/jonhrafe/MCDC_Simulator_public):\n\n";
+ Parameters (configuration file):
+   Simulation Parameters:
+   
+     N <int>                 Number of particles in the simulation.
+     T <int>                 Number of time steps.
+     duration <float>        Diffusion duration (seconds).
 
-    cout << "   N <int>                      Number of particles.\n";
-    cout << "   T <int>                      Number of time steps.\n";
-    cout << "   duration <float>             Diffusion duration in seconds.\n";
-    cout << "   out_file_index <string>      Simulation ouput path and prefix.\n";
-    cout << "   scheme_file <string>         Simulation protocol.\n";
-    cout << "   scale_from_stu <int>         not 0 if the protocol is in SU.\n";
+   File Outputs:
+     out_file_index <string> Output path and prefix for simulation results.
+     write_txt <int>         1 for .txt output, 0 to disable.
+     write_bin <int>         1 for .bin output, 0 to disable.
+     write_traj_file <int>   1 to output trajectory files, 0 to disable.
 
-    cout << "   write_txt <int>              not 0 for .txt ouput.\n";
-    cout << "   write_bin <int>              not 0 for .bin ouput.\n";
-    cout << "   write_traj_file              not 0 to write the trajfile.\n";
+   Obstacle and Protocol:
+     scheme_file <string>    Path to the simulation protocol file.
+     scale_from_stu <int>    Set to 1 if protocol uses scaled units, 0 otherwise.
+     <obstacle>              Define obstacle configurations (e.g., sphere, cylinder).
+     <cylinder_gamma_packing> Specify gamma cylinder obstacle settings.
+     <ply_obstacle>          Define PLY mesh model obstacles.
+     ini_walkers_pos <string> Custom initial positions for particles (e.g., intra, extra).
 
-    cout << "   <obstacle>                   Obstacle definition tag.\n";
-    cout << "   <cylinder_gamma_packing>     Gamma cylinders obstacles tag.\n";
-    cout << "   <ply_obstacle>               ply-mesh-model obstacle tag.\n";
-    cout << "   ini_walkers_pos <string>     Custom initial particles position (intra, extra).\n";
-    cout << "   num_process <int>            Number of processors to use.\n";
+   Performance and Process Management:
+     num_process <int>       Number of processors to use (for parallelism).
 
-    cout << "   <END>                        END of the conf-file parameters (needed).\n";
-} 
+   Other:
+     <END>                   Marks the end of the configuration file (mandatory).
+
+ Examples:
+   MC-DC_Simulator simulation.conf
+   MC-DC_Simulator --conf simulation.conf
+   MC-DC_Simulator --benchmark benchmark_results.txt
+
+ For detailed instructions and examples, see:
+   https://github.com/jonhrafe/MCDC_Simulator_public
+
+)";
+}

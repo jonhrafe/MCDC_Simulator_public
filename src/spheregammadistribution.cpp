@@ -151,7 +151,6 @@ void SphereGammaDistribution::createGammaSubstrate()
     spheres = best_spheres;
     max_limits = best_max_limits;
 
-    //TODO cambiar a INFO
     int perc_;
     double icvf_current = computeICVF(spheres,min_limits, max_limits,perc_);
     string  message = "Percentage of spheres  selected: "+ to_string(double(perc_)/radiis.size()*100.0)

@@ -17,9 +17,10 @@ Walker::Walker()
     intra_extra_consensus = intra_coll_count = extra_coll_count = rejection_count = steps_count = 0;
     steps_per_second = 0;
     in_ply_index = -1;
-    in_obj_index =-1;
+    in_cyl_index =-1;
     in_sph_index =-1;
     perm_crossed_flag = false;
+
 }
 
 Walker::Walker(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)
@@ -27,7 +28,6 @@ Walker::Walker(double xmin, double xmax, double ymin, double ymax, double zmin, 
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<double> udist(0,1);
-
 
     double t = udist(gen);
     pos_r[0] = last_pos_r[0] = last_pos_v[0] = ini_pos[0] = pos_v[0] = (t+1)*xmin + t*xmax;
@@ -43,8 +43,10 @@ Walker::Walker(double xmin, double xmax, double ymin, double ymax, double zmin, 
     initial_location  = location = unknown;
     intra_extra_consensus = intra_coll_count = extra_coll_count =0;
     steps_per_second = 0;
+    in_sph_index = -1;
     in_ply_index = -1;
-    in_obj_index = -1;
+    in_cyl_index = -1;
+    //col_obj_id = -1; // unique index of the object
     perm_crossed_flag = false;
 }
 
@@ -184,6 +186,7 @@ void Walker::setNumberOfSteps(unsigned T)
 {
     pos_r_log = Eigen::Matrix3Xd::Zero(3,T+1);
     pos_v_log = Eigen::Matrix3Xd::Zero(3,T+1);
+    t2_log    = Eigen::VectorXd::Zero(T+1);
 }
 
 

@@ -637,8 +637,13 @@ void ParallelMCSimulation::specialInitializations()
         params.addSubdivisions();
     }
     double time_step = params.sim_duration/double(params.num_steps);
+    int unique_index = 0; //unique index for each onstacle
+    for (auto& cyl: cylinders_list){
+        cyl.id = unique_index++;
 
-    for (auto cyl: cylinders_list){
+        if(cyl.T2 > 1e5){
+            cyl.T2= params.t2_intra;
+        }
         if(cyl.d_intra<0)
             cyl.d_intra = params.diff_intra;
         if (cyl.percolation > 0){
@@ -653,7 +658,11 @@ void ParallelMCSimulation::specialInitializations()
         }
     }
 
-    for (auto sph: spheres_list){
+    for (auto& sph: spheres_list){
+        sph.id = unique_index++;
+        if(sph.T2 > 1e5){
+            sph.T2= params.t2_intra;
+        }
         if(sph.d_intra<0)
             sph.d_intra = params.diff_intra;
 
@@ -674,9 +683,12 @@ void ParallelMCSimulation::specialInitializations()
         //std::cout << i << std::endl;
         //plyObstacles_list.push_back(PLYObstacle(params.PLY_files[i],centers,max_distance,params.PLY_scales[i]));
         plyObstacles_list.push_back(PLYObstacle(params.PLY_files[i],params.PLY_scales[i]));
-        plyObstacles_list.back().id=i;
+        plyObstacles_list.back().id=unique_index++;
         plyObstacles_list.back().percolation = params.PLY_percolation[i];
 
+        if(plyObstacles_list.back().T2 > 1e5){
+            plyObstacles_list.back().T2= params.t2_intra;
+        }
         if(plyObstacles_list.back().d_intra<0)
             plyObstacles_list.back().d_intra = params.diff_intra;
 

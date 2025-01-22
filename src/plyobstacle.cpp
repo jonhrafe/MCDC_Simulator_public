@@ -49,7 +49,6 @@ PLYObstacle::PLYObstacle(string path, std::vector<Eigen::Vector3d> &centers, dou
     readPLY_ASCII_trianglesSubdivitionDistance(path,centers,max_distance);
     createAABBs();
 
-    //double optimal_cell_size = computeOptimalCellSize(AABB_memory_limit_mb, min_cell_size_um);
     double optimal_cell_size = this->AABBgrid.computeOptimalCellSize(this->aabbs,AABB_memory_limit_mb, min_cell_size_um);
 
         if(optimal_cell_size < 100){
@@ -194,13 +193,8 @@ void PLYObstacle::readPLY_ASCII_trianglesSubdivitionDistance(string ply_file, ve
             in_index++;
         }
 
-        //cout << faces[i].indexes[0] << " " << faces[i].indexes[1] << " "  << faces[i].indexes[2] << endl;
     }
-
-    cout << "before " << face_number << endl;
     face_number = in_index;
-    cout << "after " << face_number << endl;
-
 }
 
 void PLYObstacle::createAABBs()
@@ -351,6 +345,7 @@ bool PLYObstacle::updateWalkerStatusAndHandleBouncing(Walker &walker, Eigen::Vec
 
     //If was a hit and need to bounce;
     if(colision.type == Collision::hit){
+        colision.obstacle_id = id;
         bounced = true;
         if (colision.col_location == Collision::on_edge || colision.col_location == Collision::on_vertex){
             colision.bounced_direction = -step;

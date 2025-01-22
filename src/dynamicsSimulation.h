@@ -251,8 +251,9 @@ private:
     /*!
      * \brief   fill the list of indexes in walkers such that the obstacle is close enough for collision.
      * \todo    Implement the function minDistance for PLY's obstacles
+     * deprecated
      */
-    inline void updateWalkerObstacleIndexes(unsigned t_);
+    // inline void updateWalkerObstacleIndexes(unsigned t_);
 
     /*!
      * \brief   Initialize the list of obstacles indexes for the collision optimization.
@@ -263,8 +264,9 @@ private:
     /*!
      * \brief   Updates the list of indexes inside the inner and outher collision spheres.
      * \param   t number of steps in the simulation. Used to estimate the diffusion coeff.
+     * DEPRECATED
      */
-    inline void updateCollitionSphere(unsigned t);
+    //inline void updateCollitionSphere(unsigned t);
 
     /*!
      * \brief   finds an intra celullar 3d position inside the voxel (needs a voxel initialized).
@@ -295,7 +297,6 @@ private:
      */
     inline void updatePropagator(Eigen::Matrix3Xd& log_pos_r);
 
-
     /*!
      * \brief   Function to internally normaliza the propagator using the final number of
      *          simualted signals.
@@ -307,6 +308,8 @@ private:
     inline bool finalPositionCheck();
 
     inline void updateStepLength();
+
+    inline void updateT2DecayLog(int t);
 
 };
 

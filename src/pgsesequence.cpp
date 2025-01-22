@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <time.h>       /* time_t, struct tm, difftime, time, mktime */
 #include <assert.h>
-
+#include "simerrno.h"
 using namespace std;
 
 PGSESequence::PGSESequence()
@@ -192,7 +192,7 @@ void PGSESequence::readSchemeFile()
 
     //TODO: Error handling
     if(!in.is_open()){
-        cout << "[ERROR] Can't open the scheme file " << endl;
+        SimErrno::error("Scheme file cannot be open: " + scheme_file,cout);
         in.close();
         return;
     }
@@ -281,6 +281,8 @@ void PGSESequence::update_phase_shift(double time_step, Eigen::Matrix3Xd traject
 
 void PGSESequence::update_DWI_signal(Walker& walker)
 {
+
+    
     for(uint s=0; s< uint(num_rep); s++){
 
         double cos_phase_shift = cos(phase_shift[s]);

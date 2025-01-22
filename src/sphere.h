@@ -25,7 +25,7 @@ public:
     /*!
      *  \brief Default constructor. Does nothing
      */
-    Sphere(){id = count++;}
+    Sphere(){count++;}
     /*!
      *  \brief Default destructor. Does nothing
      */
@@ -38,7 +38,7 @@ public:
      *  \brief Initialize everything.
      */
     Sphere(Eigen::Vector3d center_, double radius_,double scale =1):center(center_*scale),radius(radius_*scale){
-        id = count++;
+        count++;
     }
 
     /*!

@@ -11,7 +11,7 @@ Sphere::Sphere(const Sphere &sph)
 {
     center = sph.center;
     radius = sph.radius;
-    id = count++;
+    count++;
 }
 
 bool Sphere::checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision)
@@ -91,11 +91,10 @@ inline bool Sphere::handleCollition(Walker& walker, Collision &colision, Vector3
     }
 
     colision.type = Collision::hit;
-    colision.obstacle_ind = -1;
+    colision.obstacle_id = this->id;
 
     if(c<-1e-10){
         colision.col_location = Collision::inside;
-        walker.in_obj_index = -1;
     }
     else if(c>1e-10){
         colision.col_location = Collision::outside;

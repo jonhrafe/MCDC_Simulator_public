@@ -264,8 +264,8 @@ void DynamicsSimulation::writePropagator(std::string path)
         tout.open(path, std::ios::out);
 
         if(!tout){
-            //TODO: Error handling
-            std::cout << "Cannot open " << path.c_str()<< std::endl;
+            std::string error = "Cannot open: " + path;
+            SimErrno::error(error,cout);
             return;
         }
 
@@ -325,6 +325,7 @@ void DynamicsSimulation::initSimulation()
     }
 
     initObstacleInformation();
+
 
     //Flags for the crossing and stuck particles. (numerical error sentinels)
     sentinela.deport_illegals = params.discard_illegals;
@@ -417,26 +418,13 @@ void DynamicsSimulation::iniWalkerPosition()
 {
     walker.initial_location = Walker::unknown;
     walker.location         = Walker::unknown;
+    walker.col_obj_id = -1;
+    walker.in_ply_index = walker.in_cyl_index = walker.in_sph_index = -1;
     walker.intra_extra_consensus = walker.intra_coll_count = walker.extra_coll_count=walker.rejection_count=0;
     walker.perm_crossed_flag = false;
+    walker.t2_log[0] =1.0;
 
-/*
-    if(params.custom_ini_walker_pos.size()>0){
-        double x,y,z;
-        x= params.custom_ini_walker_pos[aux_walker_index][0];
-        y= params.custom_ini_walker_pos[aux_walker_index][1];
-        z= params.custom_ini_walker_pos[aux_walker_index][2];
-        aux_walker_index++;
-        //cout << x << ' ' << y << ' ' << z << endl;
-        walker.setInitialPosition(x,y,z);
-
-        bool intra_flag =isInIntra(walker.ini_pos, walker.in_obj_index,walker.in_ply_index, 0.0);
-        walker.location = (intra_flag==1)?Walker::RelativeLocation::intra:Walker::RelativeLocation::extra;
-        walker.initial_location = walker.location;
-
-    }
-    //If the number of positions is less than the walkers, it restarts.
-    else */if(iniPos.is_open()){
+    if(iniPos.is_open()){
         double x,y,z;
 
         iniPos >> x; iniPos >> y; iniPos >> z;
@@ -454,7 +442,9 @@ void DynamicsSimulation::iniWalkerPosition()
     }
     else if(params.ini_walker_flag.compare("intra")== 0){
         Vector3d intra_pos;
-        getAnIntraCellularPosition(intra_pos,walker.in_obj_index,walker.in_ply_index,walker.in_sph_index);
+        int in_cyl,in_ply,in_sph;
+        getAnIntraCellularPosition(intra_pos,walker.in_cyl_index,walker.in_ply_index,walker.in_sph_index);
+        //walker.in_obj_index = max(in_cyl,max(in_ply,in_sph));
         walker.setInitialPosition(intra_pos);
         walker.intra_extra_consensus--;
         walker.initial_location = Walker::intra;
@@ -470,7 +460,7 @@ void DynamicsSimulation::iniWalkerPosition()
     else if(voxels_list.size() > 0 or params.custom_sampling_area){
         walker.setRandomInitialPosition(params.min_sampling_area,params.max_sampling_area);
         if(params.computeVolume){
-            bool intra_flag =isInIntra(walker.ini_pos, walker.in_obj_index,walker.in_ply_index, walker.in_sph_index, 0.0);
+            bool intra_flag =isInIntra(walker.ini_pos, walker.in_cyl_index,walker.in_ply_index, walker.in_sph_index, 0.0);
             walker.location = (intra_flag==1)?Walker::RelativeLocation::intra:Walker::RelativeLocation::extra;
             walker.initial_location = walker.location;
         }
@@ -563,20 +553,20 @@ void DynamicsSimulation::initWalkerObstacleIndexes()
 }
 
 
-void DynamicsSimulation::updateCollitionSphere(unsigned t)
-{
-    float inner_ball_size = walker.ply_collision_sphere.small_sphere_distance;
-    float outher_ball_size = walker.ply_collision_sphere.big_sphere_distance;
+// void DynamicsSimulation::updateCollitionSphere(unsigned t)
+// {
+//     float inner_ball_size = walker.ply_collision_sphere.small_sphere_distance;
+//     float outher_ball_size = walker.ply_collision_sphere.big_sphere_distance;
 
-    float sphere_sqrd_displacement = float((walker.initial_sphere_pos_v-walker.pos_v).norm());
+//     float sphere_sqrd_displacement = float((walker.initial_sphere_pos_v-walker.pos_v).norm());
 
-    if(sphere_sqrd_displacement  + float(walker.step_lenght)   > outher_ball_size){
-        initWalkerObstacleIndexes();
-    }
-    else if(sphere_sqrd_displacement + float(walker.step_lenght) > inner_ball_size    ){
-        updateWalkerObstacleIndexes(t);
-    }
-}
+//     if(sphere_sqrd_displacement  + float(walker.step_lenght)   > outher_ball_size){
+//         initWalkerObstacleIndexes();
+//     }
+//     else if(sphere_sqrd_displacement + float(walker.step_lenght) > inner_ball_size    ){
+//         updateWalkerObstacleIndexes(t);
+//     }
+// }
 
 void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos,int &cyl_ind, int& ply_ind, int& sph_ind)
 {
@@ -617,7 +607,7 @@ void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos,int &cyl
        // cout << initialization_gap[2] << endl;
         Vector3d pos_temp = {x,y,z};
 
-        if(checkIfPosInsideVoxel(pos_temp) && (isInIntra(pos_temp,cyl_ind,ply_ind, sph_ind,-0.1))){
+        if(checkIfPosInsideVoxel(pos_temp) && (isInIntra(pos_temp,cyl_ind,ply_ind, sph_ind,-0.01))){
             intra_pos = pos_temp;
             return;
         }
@@ -681,78 +671,6 @@ bool DynamicsSimulation::checkIfPosInsideVoxel(Vector3d &pos)
     return false;
 }
 
-//TODO: Remove this deprecated.
-void DynamicsSimulation::updateWalkerObstacleIndexes(unsigned t_)
-{
-
-    float outher_col_dist_factor = float(params.num_steps-t_+1.0*walker.step_lenght);
-    walker.ply_collision_sphere.setBigSphereSize(outher_col_dist_factor);
-
-    walker.initial_sphere_pos_v = walker.pos_v;
-
-    //Cylinders obstacle update.
-    walker.cylinders_collision_sphere.small_sphere_list_end = 0;
-
-    for(unsigned i = 0 ; i < walker.cylinders_collision_sphere.big_sphere_list_end; i++ )
-    {
-        unsigned index = walker.cylinders_collision_sphere.collision_list->at(i);
-        float dist    = float((*cylinders_list)[index].minDistance(walker));
-
-        if (dist > walker.cylinders_collision_sphere.big_sphere_distance)
-        {
-            walker.cylinders_collision_sphere.popFromBigSphere(i);
-        }
-        if (dist < walker.cylinders_collision_sphere.small_sphere_distance)
-        {
-            walker.cylinders_collision_sphere.pushToSmallSphere(i);
-        }
-    }
-
-    //Spheres obstacle update.
-    walker.spheres_collision_sphere.small_sphere_list_end = 0;
-
-    for(unsigned i = 0 ; i < walker.spheres_collision_sphere.big_sphere_list_end; i++ )
-    {
-        unsigned index = walker.spheres_collision_sphere.collision_list->at(i);
-        float dist    = float((*spheres_list)[index].minDistance(walker));
-
-        if (dist > walker.spheres_collision_sphere.big_sphere_distance)
-        {
-            walker.spheres_collision_sphere.popFromBigSphere(i);
-        }
-        if (dist < walker.spheres_collision_sphere.small_sphere_distance)
-        {
-            walker.spheres_collision_sphere.pushToSmallSphere(i);
-        }
-    }
-
-    //PLY update obstacle
-    for(unsigned i = 0 ; i < walker.ply_collision_sphere.list_size; i++ )
-    {
-        walker.ply_collision_sphere.small_sphere_list_end[i] = 0;
-
-
-        for(unsigned t = 0 ; t < walker.ply_collision_sphere.big_sphere_list_end[i]; t++){
-            float dist  = INFINITY_VALUE;
-            if((walker.in_ply_index <=0) || walker.in_ply_index == int(i)){
-                unsigned triangle_index = walker.ply_collision_sphere.collision_list->at(i)[t];
-                dist = float((*plyObstacles_list)[i].minDistance(walker,triangle_index));
-            }
-
-            if (dist > walker.ply_collision_sphere.big_sphere_distance)
-            {
-                walker.ply_collision_sphere.popFromBigSphere(i,t);
-            }
-
-            if (dist < walker.ply_collision_sphere.small_sphere_distance)
-            {
-                walker.ply_collision_sphere.pushToSmallSphere(i,t);
-            }
-        }
-    }
-
-    // cout  << " " << walker.collision_sphere_ply.small_sphere_list_end[0] << endl;
-}
 
 string DynamicsSimulation::secondsToMinutes(double t)
 {
@@ -784,16 +702,13 @@ bool DynamicsSimulation::isInsideSpheres(Vector3d &position, int& sph_id,double 
     std::vector<uint> spheres_indexes_in_cell = this->spheresAABBGrid->getAABBsInCells(ray_aabb);
 
 
-
     //track the number of positions checks for intra/extra positions
-
-    for(auto i : spheres_indexes_in_cell){
-
-        double dis = (*spheres_list)[i].minDistance(tmp);
+    for(auto index : spheres_indexes_in_cell){
+        double dis = (*spheres_list)[index].minDistance(tmp);
 
         if( dis <= distance_to_be_inside ){
             intra_tries++;
-            sph_id = i;
+            sph_id = index;
             return true;
         }
     }
@@ -817,13 +732,13 @@ bool DynamicsSimulation::isInsideCylinders(Vector3d &position, int& cyl_id,doubl
 
     //track the number of positions checks for intra/extra positions
 
-    for(auto i : cylinders_indexes_in_cell){
+    for(auto index : cylinders_indexes_in_cell){
 
-        double dis = (*cylinders_list)[i].minDistance(tmp);
+        double dis = (*cylinders_list)[index].minDistance(tmp);
 
         if( dis <= distance_to_be_inside ){
             intra_tries++;
-            cyl_id = i;
+            cyl_id = index;
             return true;
         }
     }
@@ -862,6 +777,7 @@ bool DynamicsSimulation::isInsidePLY(Vector3d &position, int &ply_id,double dist
         }
         small_step+=small_step;
     }while(small_step < 1e-1);
+
     //1) If we failed we find the closest triangle to the position
     if(min_i_index < 0){
         //cout << "FAILED " << endl;
@@ -902,16 +818,6 @@ bool DynamicsSimulation::isInsidePLY(Vector3d &position, int &ply_id,double dist
             }
         }
     }
-
-            // for (unsigned j=0; j < (*plyObstacles_list)[i].face_number; j++){
-        //     (*plyObstacles_list)[i].faces[j].stepIntersects_MT(tmp,ray,1e8,colision_temp);
-
-        //     if(colision_temp.type == Collision::hit and new_min_t > colision_temp.t){
-        //         new_min_t = colision_temp.t;
-        //         min_i_index = i;
-        //         min_j_index = j;
-        //     }
-        // }
 
     //3) Finally we check the sign of the closest collision. The sign indicates either intra or extra.
     if(min_i_index >= 0){
@@ -974,13 +880,17 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         iniWalkerPosition();
 
         // Selects only obstacles that are close enough to collide and the ones inside a collision sphere
-        initWalkerObstacleIndexes();
-
-        updateStepLength();
+        //initWalkerObstacleIndexes();
 
         //Initial position;
         walker.setRealPosLog(walker.pos_r,0);
         walker.setVoxPosLog (walker.pos_v,0);
+
+        updateStepLength();
+
+        int T2_obstacle_log[params.num_steps];
+        for (auto i :T2_obstacle_log)
+            i = -1;
 
         for(unsigned t = 1 ; t <= params.num_steps; t++) //T+1 steps in total (avoid errors)
         {
@@ -1017,15 +927,18 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             // Saves the final particle position after bouncing in the time t.
             walker.setRealPosLog(walker.pos_r,t);
             walker.setVoxPosLog (walker.pos_v,t);
-
-            //updates the collision neighborhood (if any)
-            //updateCollitionSphere(t);
-
+            updateT2DecayLog(t);
             walker.steps_count++;
             walker.rejection_count = 0;
-
-
+            
+            
         }// end for t
+
+        // cout << "T2 log ";
+        // for ( int i=0; i<walker.t2_log.size(); i++)
+        //     cout << walker.t2_log[i] << " " ;
+        // cout << endl; 
+
 
         if(!back_tracking)
             if(finalPositionCheck()){
@@ -1265,7 +1178,7 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
         std::vector<uint> cylinders_indexes_in_cell = this->cylindersAABBGrid->getAABBsInCells(ray_aabb);
         for (auto index: cylinders_indexes_in_cell) {
             (*cylinders_list)[index].checkCollision(walker, bounced_step, tmax, colision_tmp);
-            handleCollisions(colision, colision_tmp, max_collision_distance, index);
+            handleCollisions(colision, colision_tmp, max_collision_distance, (*cylinders_list)[index].id);
         }
     }
 
@@ -1275,7 +1188,7 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
          //cout << spheres_indexes_in_cell.size() << endl;
         for (auto index: spheres_indexes_in_cell) {
             (*spheres_list)[index].checkCollision(walker, bounced_step, tmax, colision_tmp);
-            handleCollisions(colision, colision_tmp, max_collision_distance, index);
+            handleCollisions(colision, colision_tmp, max_collision_distance, (*spheres_list)[index].id);
         }
     }
 
@@ -1284,41 +1197,10 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
         // Check for collisions and populate collision vector
         (*plyObstacles_list)[i].checkCollision(walker, bounced_step, tmax, colision_tmp,vector_with_triangles_in_cell,vector_with_triangles_in_cell.size());
         // Handle collisions using the extracted triangles
-        handleCollisions(colision,colision_tmp,max_collision_distance,i);
+        handleCollisions(colision,colision_tmp,max_collision_distance,(*plyObstacles_list)[i].id);
     }
     
     return colision.type != Collision::null;
-    //For each Cylinder Obstacles
-    // for(unsigned int i = 0 ; i < walker.cylinders_collision_sphere.small_sphere_list_end; i++ )
-    // {
-    //     unsigned index = walker.cylinders_collision_sphere.collision_list->at(i);
-
-    //     (*cylinders_list)[index].checkCollision(walker,bounced_step,tmax,colision_tmp);
-    //     handleCollisions(colision,colision_tmp,max_collision_distance,index);
-    // }
-
-    // //For each Sphere Obstacle
-    // for(unsigned int i = 0 ; i < walker.spheres_collision_sphere.small_sphere_list_end; i++ )
-    // {
-    //     unsigned index = walker.spheres_collision_sphere.collision_list->at(i);
-
-    //     (*spheres_list)[index].checkCollision(walker,bounced_step,tmax,colision_tmp);
-    //     handleCollisions(colision,colision_tmp,max_collision_distance,index);
-    // }
-
-    //For each PLY Obstacles
-    // for(unsigned int i = 0 ; i < walker.ply_collision_sphere.collision_list->size(); i++ )
-    // {
-
-    //     if((walker.in_ply_index >=0) && walker.in_ply_index != int(i)){
-    //         continue;
-    //     }
-
-    //     (*plyObstacles_list)[i].checkCollision(walker,bounced_step,tmax,colision_tmp, walker.ply_collision_sphere.collision_list->at(i),
-    //                                         walker.ply_collision_sphere.small_sphere_list_end[i]);
-
-    //     handleCollisions(colision,colision_tmp,max_collision_distance,i);
-    // }
 }
 
 
@@ -1328,13 +1210,13 @@ void DynamicsSimulation::handleCollisions(Collision &colision, Collision &colisi
     if (colision_2.type == Collision::null)
         return;
 
-    colision_2.obstacle_ind = int(indx);
+    colision_2.obstacle_id = int(indx);
 
     if (colision.type == Collision::hit || colision.type == Collision::boundary){
         if(colision_2.doIHaveMorePiorityThan(colision)){
             colision = colision_2;
             max_collision_distance = colision_2.t;
-            colision.obstacle_ind = int(indx);
+            colision.obstacle_id = int(indx);
         }
         return;
     }
@@ -1343,7 +1225,7 @@ void DynamicsSimulation::handleCollisions(Collision &colision, Collision &colisi
         if (colision_2.type == Collision::hit || colision_2.type == Collision::boundary){
             colision = colision_2;
             max_collision_distance = colision_2.t;
-            colision.obstacle_ind = int(indx);
+            colision.obstacle_id = int(indx);
         }
         return;
     }
@@ -1352,7 +1234,7 @@ void DynamicsSimulation::handleCollisions(Collision &colision, Collision &colisi
     if(colision_2.type == Collision::near){
 
         colision = colision_2;
-        colision.obstacle_ind = int(indx);
+        colision.obstacle_id = int(indx);
 
         return;
     }
@@ -1441,10 +1323,12 @@ bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced
         if(colision.col_location == Collision::inside){
             walker.intra_extra_consensus--;
             walker.location = Walker::intra;
+            walker.col_obj_id = colision.obstacle_id;
         }
         if(colision.col_location == Collision::outside){
             walker.intra_extra_consensus++;
             walker.location = Walker::extra;
+            walker.col_obj_id = colision.obstacle_id;
         }
         if(walker.initial_location == Walker::unknown){
             walker.initial_location = walker.location;
@@ -1466,9 +1350,10 @@ bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced
     }
     else if(colision.type == Collision::near){
         //sentinela.rejected_step   = true;
-        Eigen::Vector3d direction = -bounced_step; //WARNING: deberiamos usar el bounced step.
+        Eigen::Vector3d direction = -bounced_step; 
         generateDirectedStep(walker.next_direction,direction);
         walker.status = Walker::on_object;
+        walker.col_obj_id = colision.obstacle_id;
         return false;
     }
     else if(colision.type == Collision::degenerate){
@@ -1504,15 +1389,37 @@ void DynamicsSimulation::setStepsNum(const unsigned &T)
 void DynamicsSimulation::updateStepLength(){
         //todo: use the object's diffusion coefficient.
 
-        int cyl_id=-1,ply_id=-1,sph_id=-1;
-        bool isIntra = isInIntra(this->walker.pos_v,cyl_id,ply_id,sph_id,0);
+        bool isIntra = isInIntra(this->walker.pos_v,walker.in_cyl_index,walker.in_ply_index,walker.in_sph_index,0);
 
         if(isIntra){
-            double diff = (cyl_id>=0)?(*cylinders_list)[cyl_id].d_intra:(ply_id>=0)?(*plyObstacles_list)[ply_id].d_intra:(sph_id>=0)?(*spheres_list)[sph_id].d_intra:params.diff_intra;
+            double diff = (walker.in_cyl_index>=0)?(*cylinders_list)[walker.in_cyl_index].d_intra:(walker.in_ply_index>=0)?(*plyObstacles_list)[walker.in_ply_index].d_intra:(walker.in_sph_index>=0)?(*spheres_list)[walker.in_sph_index].d_intra:params.diff_intra;
             walker.step_lenght = sqrt(6.0*(params.diff_intra*params.sim_duration)/double(params.num_steps));
+
             //cout << cyl_id << " " << ply_id << " " << sph_id << " " << endl;
         }
         else{
             walker.step_lenght = sqrt(6.0*(params.diff_extra*params.sim_duration)/double(params.num_steps));
         }
+}
+
+void DynamicsSimulation::updateT2DecayLog(int t){
+
+    double T2_eff ;
+
+    if(walker.in_cyl_index >= 0){
+        T2_eff = (*cylinders_list)[walker.in_cyl_index].T2;
+    }
+    else if(walker.in_ply_index >= 0){
+        T2_eff = (*plyObstacles_list)[walker.in_ply_index].T2;
+    }
+    else if(walker.in_sph_index >= 0){
+        T2_eff = (*spheres_list)[walker.in_sph_index].T2;
+    }
+    else{
+        T2_eff = params.t2_extra;
+    }
+
+    walker.t2_log[t] = walker.t2_log[t-1]*exp(-time_step/T2_eff);
+
+    //cout << " " << t << " " << time_step << " " << T2_eff << " " << walker.t2_log[t] << endl;
 }

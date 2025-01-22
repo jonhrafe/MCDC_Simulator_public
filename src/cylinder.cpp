@@ -8,7 +8,7 @@ using namespace Eigen;
 int Cylinder::count = 0;
 Cylinder::Cylinder()
 {
-    id = count++;
+    count++;
 }
 
 Cylinder::~Cylinder()
@@ -23,7 +23,7 @@ Cylinder::Cylinder(const Cylinder &cyl)
     Q = cyl.Q;
     P = cyl.P;
     radius = cyl.radius;
-    id = count++;
+    count++;
 
 }
 
@@ -59,7 +59,7 @@ bool Cylinder::checkCollision(Walker &walker, Eigen::Vector3d &step, double &ste
     if(fabs(a) < 1e-5 && fabs(c)<barrier_tickness){
         colision.type = Collision::near;
         colision.rn = c;
-        colision.obstacle_ind = id;
+        colision.obstacle_id = id;
         return true;
     }
 
@@ -113,11 +113,10 @@ inline bool Cylinder::handleCollition(Walker& walker, Collision &colision, Vecto
     }
 
     colision.type = Collision::hit;
-    colision.obstacle_ind = id;
+    colision.obstacle_id = id;
 
     if(c<-1e-10){
         colision.col_location = Collision::inside;
-        walker.in_obj_index = id;
     }
     else if(c>1e-10){
         colision.col_location = Collision::outside;

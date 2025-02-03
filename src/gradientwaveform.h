@@ -84,11 +84,13 @@ public:
     /**
       * @brief Updates the DWI signal using the cumulated phase shift
       */
-     void update_DWI_signal(Walker &walker);
+     void update_DWI_signal(Walker &walker, double dt);
 
      void setNumberOfSteps(unsigned T);
 
      void getGradImpulse(int i, double t, double tLast, Eigen::Vector3d& Gdt);
+
+     double getTE(unsigned s);
 
 
 private:

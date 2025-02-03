@@ -92,7 +92,7 @@ public:
     /**
      * @brief Updates the DWI signal using the cumulated phase shift
      */
-    virtual void update_DWI_signal(Walker& walker) = 0;
+    virtual void update_DWI_signal(Walker& walker, double dt) = 0;
 
     /**
      * @brief Set the number of time steps if they are known

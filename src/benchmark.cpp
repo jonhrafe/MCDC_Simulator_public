@@ -122,28 +122,28 @@ void Benchmark::start()
     params_h4.scheme_file =  "dev/Scheme_3shells3_40ms.txt";
     timestamp = getCurrentDateTime();
     params_h4.output_base_name = output_dir + "/benchmark_test3_spheres_" + timestamp;
-    params_h4.num_walkers = 10000;
+    params_h4.num_walkers = 20;
     params_h4.num_steps   = 1000;
     params_h4.sim_duration= 41;
     params_h4.diffusivity = 2.0e-6;
     params_h4.write_txt      = true;
     params_h4.write_bin      = false;
     params_h4.scale_from_stu = true;
-    params_h4.write_traj    = false;
+    params_h4.write_traj    = true;
     params_h4.gamma_sph_packing = true;
-    params_h4.gamma_packing_alpha = 1.0;
+    params_h4.gamma_packing_alpha = 5.0;
     params_h4.gamma_packing_beta = 0.5;
-    params_h4.gamma_num_obstacles = 100;
+    params_h4.gamma_num_obstacles = 1;
+    params_h4.t2_extra = 40;
+    params_h4.t2_intra = 50;
     params_h4.gamma_icvf = 0.50;
-    //params_h4.ini_walker_flag = "extra";
+    params_h4.ini_walker_flag = "intra";
     params_h4.num_proc = 1;
     params_h4.seed = 42;
 
     ParallelMCSimulation Sim4(params_h4);
 
     Sim4.startSimulation();
-
-
     /*
      * 2.01 separation and n-1 processor:
     */
@@ -166,8 +166,8 @@ void Benchmark::start()
     params_h5.write_bin      = false;
     params_h5.write_txt      = true;
     params_h5.scale_from_stu = true;
-    params_h5.write_traj     = false;
-    params_h5.PLY_files.push_back("instructions/meshes/hexagonal_packed_spheres.ply");
+    params_h5.write_traj     = true;
+    params_h5.PLY_files.push_back("instructions/meshes/hexagonal_packed_spheres_INT.ply");
     params_h5.PLY_scales.push_back(1e-3);
     params_h5.PLY_percolation.push_back(0.0);
     params_h5.num_proc = 1;std::thread::hardware_concurrency()-1;

@@ -473,100 +473,9 @@ void DynamicsSimulation::iniWalkerPosition()
 
 void DynamicsSimulation::initWalkerObstacleIndexes()
 {
-
-//      //* Cylinders Collision Sphere *//
-
-//     // The outer collision sphere has a radius r = l*T 
-//     //float outer_col_dist_factor = float(params.num_steps*step_lenght);
-
-//     //walker.initial_sphere_pos_v = walker.pos_v;
-//     //walker.cylinders_collision_sphere.setBigSphereSize(outer_col_dist_factor);
-    
-//     // The inner collision sphere has radius l*T*collision_sphere_distance
-//     //float inner_col_dist_factor = step_lenght*sqrt(params.num_steps)*params.collision_sphere_distance;
-//    // walker.cylinders_collision_sphere.setSmallSphereSize(inner_col_dist_factor);
-
-//     // // New version Cylinders obstacle selection
-//     // walker.cylinders_collision_sphere.small_sphere_list_end = 0;
-//     // walker.cylinders_collision_sphere.big_sphere_list_end = unsigned(cylinders_deque.size());
-
-//     // // We add and remove the cylinder indexes that are or not inside sphere.
-//     // for(unsigned i = 0 ; i < walker.cylinders_collision_sphere.list_size; i++ ){
-//     //     unsigned index = walker.cylinders_collision_sphere.collision_list->at(i);
-//     //     float dist = float((*cylinders_list)[index].minDistance(walker));
-//     //     if (dist < walker.cylinders_collision_sphere.small_sphere_distance){
-//     //         walker.cylinders_collision_sphere.pushToSmallSphere(i);
-//     //     }
-//     // }
-
-
-//     //* Spheres Collision Sphere *//
-
-//     // The outer collision sphere has a radius r = l*T
-//     //walker.spheres_collision_sphere.setBigSphereSize(outer_col_dist_factor);
-//     // The inner collision sphere has radius l*T*collision_sphere_distance
-//     //walker.spheres_collision_sphere.setSmallSphereSize(inner_col_dist_factor);
-
-//     // New version  obstacle selection
-//     walker.spheres_collision_sphere.small_sphere_list_end = 0;
-//     walker.spheres_collision_sphere.big_sphere_list_end = unsigned(spheres_deque.size());
-
-//     // We add and remove the sphere indexes that are or not inside sphere.
-//     for(unsigned i = 0 ; i < walker.spheres_collision_sphere.list_size; i++ ){
-//         unsigned index = walker.spheres_collision_sphere.collision_list->at(i);
-//         float dist = float((*spheres_list)[index].minDistance(walker));
-//         if (dist < walker.spheres_collision_sphere.small_sphere_distance){
-//             walker.spheres_collision_sphere.pushToSmallSphere(i);
-//         }
-//     }
-
-    //* PLY Collision Sphere *//
-    
-    // walker.ply_collision_sphere.setBigSphereSize(outer_col_dist_factor);
-    // walker.ply_collision_sphere.setSmallSphereSize(inner_col_dist_factor);
-
-    // //cout << outer_col_dist_factor << endl;
-    // //cout << inner_col_dist_factor << endl;
-
-    // for(unsigned i = 0 ; i < walker.ply_collision_sphere.list_size; i++ )
-    // {
-    //     walker.ply_collision_sphere.small_sphere_list_end[i] = 0;
-    //     walker.ply_collision_sphere.big_sphere_list_end[i] = (*plyObstacles_list)[i].face_number;
-    //     for(unsigned t = 0 ; t < (*plyObstacles_list)[i].face_number; t++){
-
-    //         unsigned index = walker.ply_collision_sphere.collision_list->at(i)[t];
-    //         float dist = float((*plyObstacles_list)[i].minDistance(walker,index));
-
-    //         if (dist > walker.ply_collision_sphere.big_sphere_distance)
-    //         {
-    //             walker.ply_collision_sphere.popFromBigSphere(i,t);
-    //         }
-
-    //         if (dist < walker.ply_collision_sphere.small_sphere_distance)
-    //         {
-    //             walker.ply_collision_sphere.pushToSmallSphere(i,t);
-    //         }
-    //     }
-    // }
-
-
+//deprecated
 }
 
-
-// void DynamicsSimulation::updateCollitionSphere(unsigned t)
-// {
-//     float inner_ball_size = walker.ply_collision_sphere.small_sphere_distance;
-//     float outher_ball_size = walker.ply_collision_sphere.big_sphere_distance;
-
-//     float sphere_sqrd_displacement = float((walker.initial_sphere_pos_v-walker.pos_v).norm());
-
-//     if(sphere_sqrd_displacement  + float(walker.step_lenght)   > outher_ball_size){
-//         initWalkerObstacleIndexes();
-//     }
-//     else if(sphere_sqrd_displacement + float(walker.step_lenght) > inner_ball_size    ){
-//         updateWalkerObstacleIndexes(t);
-//     }
-// }
 
 void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos,int &cyl_ind, int& ply_ind, int& sph_ind)
 {
@@ -862,6 +771,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
 
     //Alias of the step length, may vary when the time step is dynamic.
     double l = walker.step_lenght;
+
     bool back_tracking;
 
     /*********************   WARNING  **********************/
@@ -958,7 +868,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
 
         //Update de DWI signal
         if(dataSynth)
-            dataSynth->update_DWI_signal(walker);
+            dataSynth->update_DWI_signal(walker,time_step);
 
         //Write the positions.
         trajectory.writePosition(walker.pos_r_log);

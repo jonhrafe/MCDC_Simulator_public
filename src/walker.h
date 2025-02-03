@@ -84,7 +84,7 @@ public:
 
     unsigned int rejection_count;                                   /*!< counter of the rejected directions in a single time-step*/
 
-    float steps_per_second;                                         /*!< Particles steps per second speeed.*/
+    float steps_per_second;                                         /*!< Particles steps per second speed.*/
 
     double step_lenght;                                             /*!< Step lenght of the walker based on the diffusivity or compartment*/
 

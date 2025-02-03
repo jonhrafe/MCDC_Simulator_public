@@ -87,6 +87,11 @@ public:
      */
     double getFreeDecay(unsigned i,double D);
 
+    /**
+     * @brief Get echo time..
+     */
+    double getTE(unsigned);
+
 
     //TODO: to implement
     /**
@@ -117,7 +122,7 @@ public:
     /**
      * @brief Updates the DWI signal using the cumulated phase shift
      */
-    virtual void update_DWI_signal(Walker &walker);
+    virtual void update_DWI_signal(Walker &walker,double dt);
 
     /**
      * @brief computes de signal value and sign in a certain time step.

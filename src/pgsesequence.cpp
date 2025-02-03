@@ -279,27 +279,36 @@ void PGSESequence::update_phase_shift(double time_step, Eigen::Matrix3Xd traject
     }
 }
 
-void PGSESequence::update_DWI_signal(Walker& walker)
+void PGSESequence::update_DWI_signal(Walker& walker, double dt)
 {
 
-    
     for(uint s=0; s< uint(num_rep); s++){
 
         double cos_phase_shift = cos(phase_shift[s]);
         double sin_phase_shift = sin(phase_shift[s]);
 
-        DWI[s] += cos_phase_shift; // Real part
+        // t2 decay computation
+        double te = getTE(s);
+        unsigned pos = int(te/dt);
+        pos = (pos >= T)?T-1:pos;
+        double T2 = walker.t2_log[pos];
+
+        double cos_phase_shift_T2 = cos_phase_shift*T2;
+        double sin_phase_shift_T2 = sin_phase_shift*T2;
+        
+        DWI[s] += cos_phase_shift_T2; // Real part
 
         if(this->img_signal == true)
-            DWIi[s]+= sin_phase_shift; // Img part
+            DWIi[s]+= sin_phase_shift_T2; // Img part
+
 
         if(this->separate_signal){
 
             if(walker.location == Walker::RelativeLocation::intra){
-                DWI_intra[s]+=cos_phase_shift;
+                DWI_intra[s]+=cos_phase_shift_T2;
             }
             else if(walker.location == Walker::RelativeLocation::extra){
-                DWI_extra[s]+=cos_phase_shift;
+                DWI_extra[s]+=cos_phase_shift_T2;
             }
             else{
                 cout << walker.location << endl;
@@ -316,17 +325,17 @@ void PGSESequence::update_DWI_signal(Walker& walker)
             for(uint i = 0 ; i < subdivisions.size(); i++){
 
                 if( subdivisions[i].isInside(walker.pos_v)){
-                    sub_DWI[i][s] += cos_phase_shift; // Real part
+                    sub_DWI[i][s] += cos_phase_shift_T2; // Real part
 
                     if(this->img_signal)
-                        sub_DWIi[i][s]+= sin_phase_shift; // Img part
+                        sub_DWIi[i][s]+= sin_phase_shift_T2; // Img part
 
                     if(separate_signal){
                         if(walker.location == Walker::RelativeLocation::intra){
-                            sub_DWI_intra[i][s]+=cos_phase_shift;
+                            sub_DWI_intra[i][s]+=cos_phase_shift_T2;
                         }
                         else if(walker.location == Walker::RelativeLocation::extra){
-                            sub_DWI_extra[i][s]+=cos_phase_shift;
+                            sub_DWI_extra[i][s]+=cos_phase_shift_T2;
                         }
                     }
 
@@ -454,6 +463,11 @@ double PGSESequence::getFreeDecay(unsigned i,double D){
     double b = getbValue(i);
 
     return exp(-b*D);
+}
+
+double PGSESequence::getTE(unsigned s)
+{
+    return scheme[s][6];
 }
 
 
@@ -591,3 +605,5 @@ double PGSESequence::get_adt(int grad_index, double t, double tLast){
 
     return sgn*(t-tLast);
 }
+
+

@@ -78,6 +78,7 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         }
         else if(str_dist(tmp,"diffusivity") <= 1){
             in >> diffusivity;
+            diff_intra = diff_extra = diffusivity;
         }
         else if ((str_dist(tmp,"diff_intra")<=1) || (str_dist(tmp,"dintra")<=1)){
             in >> diff_intra;

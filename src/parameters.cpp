@@ -227,6 +227,9 @@ void Parameters::readSchemeFile(std::string conf_file_path)
     if(scale_from_stu){
         //m^2/s to mm^2/ms
         diffusivity*=m2_to_mm2/s_to_ms;
+        
+        diff_intra*=m2_to_mm2/s_to_ms;
+        diff_extra*=m2_to_mm2/s_to_ms;
         //seconds to ms
         sim_duration*=s_to_ms;
     }

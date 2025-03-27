@@ -209,6 +209,34 @@ void Walker::setRandomInitialPosition(const Eigen::Vector3d &_min, const Eigen::
     last_pos_r = last_pos_v = pos_r;
 }
 
+void Walker::setRegularGridPosition(const Eigen::Vector3d &min, const Eigen::Vector3d &max, unsigned int index, unsigned int total_walkers)
+{
+    steps_count = 0;
+
+    // Calculate grid dimensions based on total number of walkers
+    // We'll try to make it as cubic as possible
+    unsigned int grid_size = std::ceil(std::cbrt(total_walkers));
+    unsigned int grid_size_squared = grid_size * grid_size;
+    
+    // Calculate grid indices
+    unsigned int z = index % grid_size;
+    unsigned int y = (index / grid_size) % grid_size;
+    unsigned int x = index / grid_size_squared;
+    
+    // Calculate position with small offset to avoid edges
+    double offset = 0.01; // 1% offset from edges
+    double dx = (max[0] - min[0]) * (1 - 2*offset) / (grid_size - 1);
+    double dy = (max[1] - min[1]) * (1 - 2*offset) / (grid_size - 1);
+    double dz = (max[2] - min[2]) * (1 - 2*offset) / (grid_size - 1);
+    
+    pos_r[0] = min[0] + offset * (max[0] - min[0]) + x * dx;
+    pos_r[1] = min[1] + offset * (max[1] - min[1]) + y * dy;
+    pos_r[2] = min[2] + offset * (max[2] - min[2]) + z * dz;
+
+    last_pos_r = last_pos_v = pos_v = ini_pos = pos_r;
+    last_pos_r = last_pos_v = pos_r;
+}
+
 
 
 

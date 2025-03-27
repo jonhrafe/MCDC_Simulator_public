@@ -59,9 +59,12 @@ DynamicsSimulation::DynamicsSimulation() {
         mt.seed(rd());
     }
 
+    // Pre-allocate the distribution for better performance
+    dist = std::uniform_real_distribution<double>(0,1);
+
     print_expected_time = 1;
     icvf=0;
-    intra_tries=0;
+    intra_particles=0;
     total_tries=0;
     aux_walker_index = 0;
 }
@@ -91,7 +94,7 @@ DynamicsSimulation::DynamicsSimulation(std::string conf_file) {
 
     this->step(1)=0;
     icvf=0;
-    intra_tries=0;
+    intra_particles=0;
     total_tries=0;
     aux_walker_index = 0;
 }
@@ -121,7 +124,7 @@ DynamicsSimulation::DynamicsSimulation(Parameters& params_) {
     print_expected_time  = 1;
     this->step(1)=0;
     icvf=0;
-    intra_tries=0;
+    intra_particles=0;
     total_tries=0;
     aux_walker_index = 0;
 }
@@ -216,7 +219,7 @@ void DynamicsSimulation::normalizePropagator(float num_samples)
 
 void DynamicsSimulation::computeICVF()
 {
-    icvf = float(intra_tries)/float(total_tries);
+    icvf = float(intra_particles)/float(num_simulated_walkers);
 }
 
 bool DynamicsSimulation::finalPositionCheck()
@@ -234,6 +237,10 @@ bool DynamicsSimulation::finalPositionCheck()
             return true;
         }
     }
+
+    if(walker.location == Walker::intra)
+        intra_particles++;
+ 
     return false;
 }
 
@@ -456,14 +463,17 @@ void DynamicsSimulation::iniWalkerPosition()
         walker.initial_location = Walker::extra;
         walker.intra_extra_consensus++;
     }
-    //Todo: poner esto bien sin el caso de hexapacking
     else if(voxels_list.size() > 0 or params.custom_sampling_area){
-        walker.setRandomInitialPosition(params.min_sampling_area,params.max_sampling_area);
-        if(params.computeVolume){
-            bool intra_flag =isInIntra(walker.ini_pos, walker.in_cyl_index,walker.in_ply_index, walker.in_sph_index, 0.0);
-            walker.location = (intra_flag==1)?Walker::RelativeLocation::intra:Walker::RelativeLocation::extra;
-            walker.initial_location = walker.location;
+        if(params.regular_sampling) {
+            walker.setRegularGridPosition(params.min_sampling_area, params.max_sampling_area, walker.index, params.num_walkers);
+        } else {
+            walker.setRandomInitialPosition(params.min_sampling_area, params.max_sampling_area);
         }
+        // if(params.computeVolume){
+        //     bool intra_flag =isInIntra(walker.pos_v, walker.in_cyl_index,walker.in_ply_index, walker.in_sph_index, -0.0001);
+        //     walker.location = (intra_flag==1)?Walker::RelativeLocation::intra:Walker::RelativeLocation::extra;
+        //     walker.initial_location = walker.location;
+        // }
     }
     else{
         walker.setInitialPosition(Vector3d(0,0,0));
@@ -616,7 +626,6 @@ bool DynamicsSimulation::isInsideSpheres(Vector3d &position, int& sph_id,double 
         double dis = (*spheres_list)[index].minDistance(tmp);
 
         if( dis <= distance_to_be_inside ){
-            intra_tries++;
             sph_id = index;
             return true;
         }
@@ -632,21 +641,23 @@ bool DynamicsSimulation::isInsideCylinders(Vector3d &position, int& cyl_id,doubl
     tmp.setInitialPosition(position);
 
     //Small step in a fixed direction
-    Vector3d step = Vector3d(1.0,1.0,1.0);
-    // Make an small step in the direction of the step
-    Vector3d end_point = position + 1e-10 * step;
+    Vector3d step = Vector3d(1.0,1.0,0.1);
+    // Make an small step in the direction of the step in the planze Z=0
+
+    Vector3d z_position = position;
+    z_position[2] = 0.0;
+    Vector3d end_point = z_position + 1e-3 * step;
     // Create an AABB with the position and the end point
-    AABB ray_aabb(position.cwiseMin(end_point), position.cwiseMax(end_point));
+    AABB ray_aabb(z_position.cwiseMin(end_point), z_position.cwiseMax(end_point));
     std::vector<uint> cylinders_indexes_in_cell = this->cylindersAABBGrid->getAABBsInCells(ray_aabb);
 
     //track the number of positions checks for intra/extra positions
 
     for(auto index : cylinders_indexes_in_cell){
-
+    //for(auto index = 0; index < cylinders_list->size(); index++){
         double dis = (*cylinders_list)[index].minDistance(tmp);
 
         if( dis <= distance_to_be_inside ){
-            intra_tries++;
             cyl_id = index;
             return true;
         }
@@ -735,7 +746,6 @@ bool DynamicsSimulation::isInsidePLY(Vector3d &position, int &ply_id,double dist
         //Orientation respect the triangle
         double dot = ((position - (*plyObstacles_list)[min_i_index].faces[min_j_index].center).normalized()).dot(normal);
         if (dot < distance_to_be_inside){
-            intra_tries++;
             ply_id = min_i_index;
             return true;
         }
@@ -748,7 +758,6 @@ bool DynamicsSimulation::isInsidePLY(Vector3d &position, int &ply_id,double dist
 bool DynamicsSimulation::isInIntra(Vector3d &position, int& cyl_id,  int& ply_id, int& sph_id, double distance_to_be_intra_ply)
 {
     bool isIntra = false;
-    total_tries++;
     if(cylinders_list->size()>0){
         isIntra|= this->isInsideCylinders(position,cyl_id,barrier_tickness);
     }
@@ -942,13 +951,10 @@ void DynamicsSimulation::readConfigurationFile(std::string conf_file_path) {
  * @return void
  */
 void DynamicsSimulation::generateStep(Vector3d & step, double l) {
-
     if(walker.status == Walker::on_object){
         step = walker.next_direction.normalized();
         return;
     }
-
-    std::uniform_real_distribution<double> dist(0,1);
 
     /* Unbiased random direction*/
     double theta  = 2.0*M_PI*dist(mt);
@@ -962,13 +968,9 @@ void DynamicsSimulation::generateStep(Vector3d & step, double l) {
     step(2) = l*cosPhi;
 
     step.normalize();
-
 }
 
 void DynamicsSimulation::generateDirectedStep(Vector3d &new_step, Vector3d &direction){
-
-    std::uniform_real_distribution<double> dist(0,1);
-
     /* Unbiased random direction*/
     double theta  = 2.0*M_PI*dist(mt);
     double cosPhi = 2.0*dist(mt)-1.0;
@@ -1084,9 +1086,15 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
     }
 
     if(cylinders_list->size() > 0){
+
+        // Calculate the ray endpoint in z-0
+        Eigen::Vector3d z_ray_origin = ray_origin; z_ray_origin[2] = 0.0;
+        Eigen::Vector3d z_end_point = z_ray_origin + tmax * bounced_step;
+        AABB ray_aabb(z_ray_origin.cwiseMin(z_end_point), z_ray_origin.cwiseMax(z_end_point));
         //For each Cylinder Obstacles
         std::vector<uint> cylinders_indexes_in_cell = this->cylindersAABBGrid->getAABBsInCells(ray_aabb);
         for (auto index: cylinders_indexes_in_cell) {
+        //for (auto index = 0; index < cylinders_list->size(); index++){
             (*cylinders_list)[index].checkCollision(walker, bounced_step, tmax, colision_tmp);
             handleCollisions(colision, colision_tmp, max_collision_distance, (*cylinders_list)[index].id);
         }

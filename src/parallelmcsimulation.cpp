@@ -135,11 +135,24 @@ void ParallelMCSimulation::startSimulation()
 
 
     if((params.custom_sampling_area or params.voxels_list.size()>0) and (params.computeVolume)){
+
+        float sampling_volume =1;
+
+        for (auto i =0; i < 3;i++ ){
+            sampling_volume*= (params.max_sampling_area[i]-params.min_sampling_area[i]);
+        }
+
         string message="Estimated Intra-axonal volume from sampling (mm^3):";
         out << std::scientific;
         SimErrno::info(message,out,false);
         out << std::scientific;
         out << aprox_volumen << endl;
+        message = "Total sampling volume (mm^3):";
+        SimErrno::info(message,out,false);
+        out << sampling_volume << endl;
+        message = "Estimated ICVF from sampling:";
+        SimErrno::info(message,out,false);
+        out << std::fixed << std::setprecision(4) << icvf << endl;
     }
 
 
@@ -646,7 +659,13 @@ void ParallelMCSimulation::specialInitializations()
         }
         if(cyl.d_intra<0)
             cyl.d_intra = params.diff_intra;
+
+        if(cyl.percolation <= 0 && params.obstacle_permeability > 0)
+            cyl.percolation = params.obstacle_permeability;
+
         if (cyl.percolation > 0){
+
+            cyl.percolation = params.obstacle_permeability;
             double dse = sqrt(6*time_step*params.diff_extra);
             double dsi = sqrt(6*time_step*cyl.d_intra);
 
@@ -655,6 +674,10 @@ void ParallelMCSimulation::specialInitializations()
 
             cyl.prob_cross_e_i = prob_cross_e_i / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
             cyl.prob_cross_i_e = prob_cross_i_e / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
+
+            if(params.verbatim){
+                cout << cyl.prob_cross_i_e << " " << cyl.prob_cross_e_i  << endl;
+            }
         }
     }
 
@@ -666,6 +689,9 @@ void ParallelMCSimulation::specialInitializations()
         if(sph.d_intra<0)
             sph.d_intra = params.diff_intra;
 
+        if(sph.percolation <= 0 && params.obstacle_permeability > 0)
+        sph.percolation = params.obstacle_permeability;
+
         if (sph.percolation > 0){
             double dse = sqrt(6*time_step*params.diff_extra);
             double dsi = sqrt(6*time_step*sph.d_intra);
@@ -675,6 +701,10 @@ void ParallelMCSimulation::specialInitializations()
 
             sph.prob_cross_e_i = prob_cross_e_i / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
             sph.prob_cross_i_e = prob_cross_i_e / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
+
+            if(params.verbatim){
+                cout << sph.prob_cross_i_e << " " << sph.prob_cross_e_i  << endl;
+            }
         }
     }
 
@@ -950,7 +980,7 @@ void ParallelMCSimulation::initializeAABBsGrids(){
 
     double distance = (max_cyl_center - min_cyl_center).norm();
     for (int i = 0; i < this->cylinders_list.size(); i++){
-        this->cylinders_aabbs[i] = this->cylinders_list[i].computeAABB(distance*2);
+        this->cylinders_aabbs[i] = this->cylinders_list[i].computeAABB(0.002); //hard coded to 2 um
     }
 
     for (int i = 0; i < this->spheres_list.size(); i++){

@@ -80,17 +80,17 @@ void Parameters::readSchemeFile(std::string conf_file_path)
             in >> diffusivity;
             diff_intra = diff_extra = diffusivity;
         }
-        else if ((str_dist(tmp,"diff_intra")<=1) || (str_dist(tmp,"dintra")<=1)){
+        else if ((str_dist(tmp,"diff_intra")<=0) || (str_dist(tmp,"dintra")<=0) || (str_dist(tmp,"d_intra")<=0)){
             in >> diff_intra;
         }
-        else if ( (str_dist(tmp,"diff_extra")<=1) || (str_dist(tmp,"dextra")<=1)){
+        else if ( (str_dist(tmp,"diff_extra")<=0) || (str_dist(tmp,"dextra")<=0)|| (str_dist(tmp,"d_extra")<=0)){
             in >> diff_extra;
         }
-        else if ( (str_dist(tmp,"t2_intra")<=1) || (str_dist(tmp,"t2extra")<=1)){
+        else if ( (str_dist(tmp,"t2_intra")<=0) || (str_dist(tmp,"t2intra")<=0)){
             in >> t2_intra;
         }
-        else if ( (str_dist(tmp,"t2_extra")<=1) || (str_dist(tmp,"t2extra")<=1)){
-            in >> t2_intra;
+        else if ( (str_dist(tmp,"t2_extra")<=0) || (str_dist(tmp,"t2extra")<=0)){
+            in >> t2_extra;
         }
         else if( (str_dist(tmp,"out_traj_file_index") <= 2) or (str_dist(tmp,"exp_prefix") <= 2)) {
             in >> traj_file;
@@ -125,6 +125,9 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         }
         else if(str_dist(tmp,"<log>") == 0){
             readInfoGatheringParams(in);
+        }
+        else if(str_dist(tmp,"<regular_sampling>") <= 3){
+            regular_sampling = true;
         }
         else if(str_dist(tmp,"<sampling_area>") ==0 || str_dist(tmp,"<spawning_area>") ==0){
             float tmp;
@@ -232,6 +235,9 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         diff_extra*=m2_to_mm2/s_to_ms;
         //seconds to ms
         sim_duration*=s_to_ms;
+
+        t2_intra*=s_to_ms;
+        t2_extra*=s_to_ms;
     }
 
 

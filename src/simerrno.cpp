@@ -868,6 +868,19 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
         infoMenu(" Extra diffusivity:      ------",  to_string(params.diff_extra*1e6)+"e-9 m^2/s",out, color,35);
     }
 
+    if( params.t2_intra < 10000){
+        infoMenu(" T2 intra:              ------",  to_string(params.t2_intra) + " s",out, color,35);
+    }
+    else{
+        infoMenu(" T2 intra:              ------",   "inf s",out, color,35);
+    }
+    if(params.t2_extra < 10000 ){
+        infoMenu(" T2 extra:              ------",  to_string(params.t2_extra) + " s",out, color,35);
+    }
+    else{
+        infoMenu(" T2 extra:              ------",   "inf s",out, color,35);
+    }
+
     infoMenu(" Particle dynamics duration: -",  " " + to_string(params.sim_duration) +" ms" , out, color,35);
 
     answer = (params.PLY_files.size() > 0)?" true":" false";

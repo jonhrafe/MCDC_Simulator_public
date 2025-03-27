@@ -36,6 +36,7 @@ public:
     Walker       walker;                            /*!< Single walker to diffuse                                                   */
     Trajectory   trajectory;                        /*!< Trajectory instance. Handles i/o operations                                */
     std::mt19937 mt;                                /*!< rnd, random generator instance                                             */
+    std::uniform_real_distribution<double> dist;       /*!< uniform distribution for random numbers                                    */
     //double step_lenght;                             /*!< l, step length                                                             */
     double second_passed;                           /*!< Simulation total time in seconds                                           */
     double max_simulation_time;                     /*!< Maximum simulation time if not passed we carry all the particles           */
@@ -55,7 +56,7 @@ public:
     double icvf;                                    /*!< Stores the ICVF (1 - Intra-Extra) if needed                                */
     AABBFixedGrid* spheresAABBGrid;                 /*!< Pointer to the AABB grid for the spheres                                   */
     AABBFixedGrid* cylindersAABBGrid;               /*!< Pointer to the AABB grid for the cylinders                                 */
-    unsigned intra_tries, total_tries;              /*!< Helper variables to compute the estimated ICVF                             */
+    unsigned intra_particles, total_tries;              /*!< Helper variables to compute the estimated ICVF                             */
 
     /******   Auxiliar variables   ********/
     Eigen::Vector3d step;

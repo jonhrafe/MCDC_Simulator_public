@@ -185,8 +185,12 @@ AABB Cylinder::computeAABB(double length ) const
 {
 
     // compute the extreme points of the cylinder
-    Eigen::Vector3d p_extreme1 = P.array() - radius - length*D.array();
-    Eigen::Vector3d p_extreme2 = P.array() + radius - length*D.array();
+    Eigen::Vector3d p_extreme1 = P.array() - radius;
+    Eigen::Vector3d p_extreme2 = P.array() + radius;
+
+    p_extreme1[2] = -length/2.0;
+    p_extreme2[2] = length/2.0;
+
     // compute the coefficient-wise min and max
     Eigen::Vector3d min = p_extreme1.cwiseMin(p_extreme2);
     Eigen::Vector3d max = p_extreme1.cwiseMax(p_extreme2);

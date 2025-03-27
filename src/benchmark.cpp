@@ -122,22 +122,22 @@ void Benchmark::start()
     params_h4.scheme_file =  "dev/Scheme_3shells3_40ms.txt";
     timestamp = getCurrentDateTime();
     params_h4.output_base_name = output_dir + "/benchmark_test3_spheres_" + timestamp;
-    params_h4.num_walkers = 20;
+    params_h4.num_walkers = 10000;
     params_h4.num_steps   = 1000;
     params_h4.sim_duration= 41;
     params_h4.diffusivity = 2.0e-6;
     params_h4.write_txt      = true;
     params_h4.write_bin      = false;
     params_h4.scale_from_stu = true;
-    params_h4.write_traj    = true;
+    params_h4.write_traj    = false;
     params_h4.gamma_sph_packing = true;
     params_h4.gamma_packing_alpha = 5.0;
     params_h4.gamma_packing_beta = 0.5;
-    params_h4.gamma_num_obstacles = 1;
-    params_h4.t2_extra = 40;
-    params_h4.t2_intra = 50;
+    params_h4.gamma_num_obstacles = 100;
+    //params_h4.t2_extra = 1000000;
+    //params_h4.t2_intra = 1000000;
     params_h4.gamma_icvf = 0.50;
-    params_h4.ini_walker_flag = "intra";
+    //params_h4.ini_walker_flag = "intra";
     params_h4.num_proc = 1;
     params_h4.seed = 42;
 
@@ -211,6 +211,7 @@ void Benchmark::start()
             double mad = calculateMeanAbsoluteDifference(expected, output);
 
             std::cout << "Experiment " << i + 1 << ": Mean Absolute Difference = " << mad << "\n";
+            std::cout << "Passed: " << (mad < 0.1 ? "\033[32myes\033[0m" : "\033[31mno\033[0m") << "\n";
         } catch (const std::exception& e) {
             std::cerr << "Error in experiment " << i + 1 << ": " << e.what() << "\n";
         }

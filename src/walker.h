@@ -129,6 +129,7 @@ public:
     void  setInitialPosition(const Eigen::Vector3d &);
     void  setNextDirection(Eigen::Vector3d &);
     void  setRandomInitialPosition(const Eigen::Vector3d &min, const Eigen::Vector3d &max);
+    void  setRegularGridPosition(const Eigen::Vector3d &min, const Eigen::Vector3d &max, unsigned int index, unsigned int total_walkers);
     void  setIndex(unsigned int&);
 
     void setRealPosLog(const Eigen::Vector3d &pos,unsigned t);

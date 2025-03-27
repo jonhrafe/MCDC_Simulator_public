@@ -145,7 +145,7 @@ double AABBFixedGrid::computeOptimalCellSize(std::vector<AABB> &aabbs, double me
     double avg_aabb_volume = total_aabb_volume / aabbs.size();
 
     // Estimate grid dimensions based on global volume and target memory limit
-    double estimated_cell_size = std::cbrt(avg_aabb_volume * 0.5); // 1 AABBs per cell heuristic
+    double estimated_cell_size = std::cbrt(avg_aabb_volume)/2; // 1 AABBs per cell heuristic
 
     // Adjust cell size to fit within memory constraints
     double grid_cells = (global_volume / std::pow(estimated_cell_size, 3));

@@ -332,10 +332,10 @@ void GradientWaveform::update_DWI_signal(Walker& walker,double dt)
 
                 subdivisions[i].density++;
 
-                if(walker.intra_extra_consensus<0){
-                        subdivisions[i].density_intra++;
+                if(walker.location == Walker::intra){
+                    subdivisions[i].density_intra++;
                 }
-                else if(walker.intra_extra_consensus>0){
+                else if(walker.location == Walker::extra){
                     subdivisions[i].density_extra++;
                 }
                 break;  //WARNING this break means that the subdivision are mutally exclusive

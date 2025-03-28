@@ -47,6 +47,8 @@ Parameters::Parameters()
 
     //max limits of doble
     t2_extra = t2_intra = 1.0e10;
+    regular_sampling = false;
+    ini_walker_flag = "";
 }
 
 void Parameters::readSchemeFile(std::string conf_file_path)

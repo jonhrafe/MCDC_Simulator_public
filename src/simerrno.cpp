@@ -249,6 +249,11 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
         warning(" Flag: 'compute_volume' ignored, no voxel."  ,cout);
     }
 
+    if(params.regular_sampling == true and params.ini_walker_flag.compare("") != 0){
+        error(" Regular sampling and custom initial walker position cannot be used at the same time.",cout);
+        assert(0);
+    }
+
     return false;
 }
 
@@ -859,7 +864,7 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
 
     infoMenu(" Number of steps:       ------",  to_string(params.num_steps), out, color,35);
 
-    infoMenu(" Number of cores:       ------",  to_string(params.num_proc ), out, color,35);
+    infoMenu(" Particle dynamics duration: -",  " " + to_string(params.sim_duration) +" ms" , out, color,35);
 
     if(params.diff_intra < 0 || params.diff_extra < 0)
         infoMenu(" Diffusivity:           ------",  to_string(params.diffusivity*1e6)+"e-9 m^2/s",out, color,35);
@@ -880,8 +885,6 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
     else{
         infoMenu(" T2 extra:              ------",   "inf s",out, color,35);
     }
-
-    infoMenu(" Particle dynamics duration: -",  " " + to_string(params.sim_duration) +" ms" , out, color,35);
 
     answer = (params.PLY_files.size() > 0)?" true":" false";
     infoMenu(" PLY obstacles:         ------", answer, out, color,35);
@@ -972,6 +975,13 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
     if((params.ini_walker_flag.compare("intra")==0) || (params.ini_walker_flag.compare("extra")==0))
     infoMenu(" Walkers initial position: -----", " "+params.ini_walker_flag, out, color,33);
 
+    if(params.regular_sampling == true){
+        infoMenu(" Regular sampling:      ------", " true", out, color,35);
+    }
+    else{
+        infoMenu(" Random sampling:       ------", " true", out, color,35);
+    }
+ 
     if(params.gamma_cyl_packing || params.gamma_sph_packing || params.hex_cyl_packing || params.hex_sphere_packing)
         infoMenu(" Number of voxels:      ------", " " + to_string( 1),out, color,35);
     else
@@ -996,6 +1006,7 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
     answer = (params.discard_stucks == true)?" On":" Off";
     infoMenu(" Discard stuck spins    ------",  answer, out, color,35);
 
+    infoMenu(" Number of cores:       ------",  to_string(params.num_proc ), out, color,35);
 
     if(params.max_simulation_time > 1){
         infoMenu(" Max simulation time:   --------", " " + to_string( params.max_simulation_time) +" secs",out, color,35);

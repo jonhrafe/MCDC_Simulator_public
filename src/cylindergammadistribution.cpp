@@ -191,8 +191,7 @@ void CylinderGammaDistribution::printSubstrate(ostream &out)
     for(unsigned i = 0; i < cylinders.size(); i++){
 
         out << cylinders[i].P[0]*1e3 << " " << cylinders[i].P[1]*1e3 << " " << cylinders[i].P[2]*1e3 << " "
-                                     << cylinders[i].Q[0]*1e3 << " " << cylinders[i].Q[1]*1e3 << " " << cylinders[i].Q[2]*1e3 << " "
-                                     << cylinders[i].radius*1e3 << endl;
+            << cylinders[i].radius*1e3 << " " << cylinders[i].percolation << " " << cylinders[i].T2 << endl;
     }
 }
 

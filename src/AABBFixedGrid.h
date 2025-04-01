@@ -55,7 +55,6 @@ public:
     Eigen::Vector3d getMinBounds() const;;
     Eigen::Vector3d getCellSize() const;
 
-private:
     double cell_size;
     std::array<int, 3> grid_dims;
     Eigen::Vector3d min_bounds;

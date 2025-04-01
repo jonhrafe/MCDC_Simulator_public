@@ -646,9 +646,6 @@ void ParallelMCSimulation::specialInitializations()
     addObstaclesFromFiles();
     initializeAABBsGrids();
 
-    if(params.number_subdivisions>1){
-        params.addSubdivisions();
-    }
     double time_step = params.sim_duration/double(params.num_steps);
     int unique_index = 0; //unique index for each onstacle
     for (auto& cyl: cylinders_list){
@@ -734,8 +731,102 @@ void ParallelMCSimulation::specialInitializations()
 
             cout << plyObstacles_list.back().prob_cross_i_e << " " << plyObstacles_list.back().prob_cross_e_i  << endl;
         }
+
+        
+    }
+    if(cylinders_list.size() > 0){
+        string file = params.output_base_name + "_gamma_distributed_cylinder_list.txt";
+
+        ofstream out(file);
+        out << 1e-3 << endl;
+        for(unsigned i = 0; i < cylinders_list.size(); i++){
+
+        out << cylinders_list[i].P[0]*1e3 << " " << cylinders_list[i].P[1]*1e3 << " " << cylinders_list[i].P[2]*1e3 << " "
+                << cylinders_list[i].radius*1e3 << " " << cylinders_list[i].percolation << " " << cylinders_list[i].T2 << endl;
+        }
+        out.close();
+    }
+    if(spheres_list.size() > 0){
+        string file = params.output_base_name + "_gamma_distributed_sphere_list.txt";
+
+        ofstream out(file);
+        out << 1e-3 << endl;
+        for(unsigned i = 0; i < spheres_list.size(); i++){
+
+            out << spheres_list[i].center[0]*1e3 << " " << spheres_list[i].center[1]*1e3 << " " << spheres_list[i].center[2]*1e3 << " "
+                << spheres_list[i].radius*1e3 << " " << spheres_list[i].percolation << " " << spheres_list[i].T2 << endl;
+        }
+        out.close();
+    }
+
+    // Compute bounding box if requested
+    if(params.bounding_box) {
+        if(cylinders_list.size() > 0) {
+            SimErrno::error("Bounding box initialization is not supported when cylinders are present. Please remove cylinders or disable bounding box initialization.", cout);
+            assert(false);
+            return;
+        }
+
+        if(params.gamma_sph_packing || params.gamma_cyl_packing){
+            SimErrno::error("Bounding box initialization is not supported when gamma distributions are present. Please remove gamma distributions or disable bounding box initialization.", cout);
+            assert(false);
+            return;
+        }
+
+        if(spheres_list.size() == 0 && plyObstacles_list.size() == 0){
+            SimErrno::error("No obstacles present. Please add obstacles or disable bounding box initialization.", cout);
+            assert(false);
+            return;
+        }
+
+
+        Eigen::Vector3d min_limits = Eigen::Vector3d(1e10, 1e10, 1e10);
+        Eigen::Vector3d max_limits = Eigen::Vector3d(-1e10, -1e10, -1e10);
+
+        // Consider spheres
+        for(const auto& sph : spheres_list) {
+            min_limits = min_limits.cwiseMin(sph.center - Eigen::Vector3d(sph.radius, sph.radius, sph.radius));
+            max_limits = max_limits.cwiseMax(sph.center + Eigen::Vector3d(sph.radius, sph.radius, sph.radius));
+        }
+
+        // Consider PLY files
+        for(const auto& ply : plyObstacles_list) {
+            for(unsigned i = 0; i < ply.vert_number; i++) {
+                Eigen::Vector3d vertex(ply.vertices[i].points[0], ply.vertices[i].points[1], ply.vertices[i].points[2]);
+                min_limits = min_limits.cwiseMin(vertex);
+                max_limits = max_limits.cwiseMax(vertex);
+            }
+        }
+
+        // Update voxel limits
+        if(params.voxels_list.size() <= 0) {
+            pair<Eigen::Vector3d, Eigen::Vector3d> voxel_(min_limits, max_limits);
+            params.voxels_list.push_back(voxel_);
+        } else {
+            params.voxels_list[0].first = min_limits;
+            params.voxels_list[0].second = max_limits;
+        }
+
+        // Update sampling area if not set
+        if(!params.custom_sampling_area) {
+            params.min_sampling_area = min_limits;
+            params.max_sampling_area = max_limits;
+        }
+
+        if(params.verbatim) {
+            SimErrno::info("Bounding box computed from obstacles:", cout);
+            SimErrno::info("Min limits: (" + to_string(min_limits[0]) + ", " + to_string(min_limits[1]) + ", " + to_string(min_limits[2]) + ")", cout);
+            SimErrno::info("Max limits: (" + to_string(max_limits[0]) + ", " + to_string(max_limits[1]) + ", " + to_string(max_limits[2]) + ")", cout);
+        }
+
+        if(params.number_subdivisions>1){
+            params.addSubdivisions();
+        }
     }
 }
+        
+    
+
 
 
 void ParallelMCSimulation::addObstaclesFromFiles()
@@ -756,7 +847,7 @@ void ParallelMCSimulation::addObstaclesFromFiles()
             if(first) {first-=1;continue;}
 
             std::vector<std::string> jkr = split(line,' ');
-            if (jkr.size() != 7){
+            if (jkr.size() != 6){
                 z_flag = true;
                 //std::cout << "\033[1;33m[Warning]\033[0m Cylinder orientation was set towards the Z direction by default" << std::endl;
             }
@@ -772,17 +863,20 @@ void ParallelMCSimulation::addObstaclesFromFiles()
             in >> scale;
             while (in >> x >> y >> z >> r)
             {
-                cylinders_list.push_back(Cylinder(Eigen::Vector3d(x,y,z),Eigen::Vector3d(x,y,z+1.0),r,scale));
+                cylinders_list.push_back(Cylinder(Eigen::Vector3d(x,y,z),Eigen::Vector3d(x,y,z+0.01),r,scale));
             }
             in.close();
         }
         else{
-            double x,y,z,ox,oy,oz,r;
+            double x,y,z,r,p,t2;
             double scale;
             in >> scale;
-            while (in >> x >> y >> z >> ox >> oy >> oz >> r)
+            while (in >> x >> y >> z  >> r >> p >> t2)
             {
-                cylinders_list.push_back(Cylinder(Eigen::Vector3d(x,y,z),Eigen::Vector3d(ox,oy,oz),r,scale));
+                Cylinder cylinder(Eigen::Vector3d(x,y,z),Eigen::Vector3d(x,y,z+0.01),r,scale);
+                cylinder.percolation = p;
+                cylinder.T2 = t2;
+                cylinders_list.push_back(cylinder);
             }
             in.close();
         }
@@ -803,13 +897,16 @@ void ParallelMCSimulation::addObstaclesFromFiles()
         in.close();
 
         in.open(params.spheres_files[i]);
-        double x,y,z,r;
+        double x,y,z,r,p,t2;
         double scale;
         in >> scale;
 
-        while (in >> x >> y >> z >> r)
+        while (in >> x >> y >> z >> r >> p >> t2)
         {
-            spheres_list.push_back(Sphere(Eigen::Vector3d(x,y,z),r,scale));
+            Sphere sphere(Eigen::Vector3d(x,y,z),r,scale);
+            sphere.percolation = p;
+            sphere.T2 = t2;
+            spheres_list.push_back(sphere);
         }
         in.close();
     }
@@ -908,17 +1005,17 @@ void ParallelMCSimulation::addObstacleConfigurations()
             params.voxels_list[0].second = params.max_limits;
         }
 
-        string file = params.output_base_name + "_gamma_distributed_cylinder_list.txt";
+        //string file = params.output_base_name + "_gamma_distributed_cylinder_list.txt";
 
-        ofstream out(file);
+        //ofstream out(file);
 
-        gamma_dist.printSubstrate(out);
+        //gamma_dist.printSubstrate(out);
 
         this->cylinders_list = gamma_dist.cylinders;
 
         //params.cylinders_files.push_back(file);
 
-        out.close();
+        //out.close();
 
         SimErrno::info("Done.\n",cout);
     }
@@ -949,16 +1046,15 @@ void ParallelMCSimulation::addObstacleConfigurations()
             params.voxels_list[0].second = params.max_limits;
         }
 
-        string file = params.output_base_name + "_gamma_distributed_sphere_list.txt";
+        // string file = params.output_base_name + "_gamma_distributed_sphere_list.txt";
 
-        ofstream out(file);
+        // ofstream out(file);
 
-        gamma_dist.printSubstrate(out);
+        // gamma_dist.printSubstrate(out);
 
         this->spheres_list = gamma_dist.spheres;
 
-        //params.cylinders_files.push_back(file);
-        out.close();
+        //out.close();
         SimErrno::info("Done.\n",cout);
     }
 

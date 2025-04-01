@@ -252,7 +252,7 @@ void PGSESequence::update_phase_shift(double time_step, Eigen::Matrix3Xd traject
     Eigen::Vector3d Gdt;
     double dt,dt_last;
 
-    for (uint t=1; t < this->T ;t++){ //TODO: checar si deberia ser <= T
+    for (uint t=1; t < this->T ;t++){ 
         //Displacement
         xt[0] = trajectory(0,t) - trajectory(0,0);
         xt[1] = trajectory(1,t) - trajectory(1,0);

@@ -203,7 +203,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
             return true;
         }
 
-        if( (params.number_subdivisions > 0) && (params.voxels_list.size() <=0) && params.gamma_cyl_packing ==false){
+        if( (params.number_subdivisions > 0) && (params.voxels_list.size() <=0) && params.gamma_cyl_packing ==false && params.hex_cyl_packing == false &&  params.gamma_sph_packing == false && params.bounding_box == false){
             error("subdivisions_number parameter passed without a defined voxel.",cout);
             assert(0);
             return true;
@@ -245,7 +245,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
         }
     }
 
-    if(params.computeVolume && params.voxels_list.size() <=0 && params.gamma_cyl_packing==false and params.hex_cyl_packing ==false and params.hex_sphere_packing ==false and params.gamma_sph_packing ==false){
+    if(params.computeVolume && params.voxels_list.size() <=0 && params.gamma_cyl_packing==false and params.hex_cyl_packing ==false and params.hex_sphere_packing ==false and params.gamma_sph_packing ==false and params.bounding_box == false){
         warning(" Flag: 'compute_volume' ignored, no voxel."  ,cout);
     }
 
@@ -552,16 +552,16 @@ bool SimErrno::checkCylindersListFile(Parameters &params)
 
             std::vector<std::string> jkr = split_(line,' ');
 
-            if(jkr.size() != 7 && jkr.size() != 4){
+            if(jkr.size() != 6 && jkr.size() != 4){
                 error( "Cylinder list file is not in the correct format." ,cout);
                 in.close();
                 assert(0);
                 return true;
             }
 
-            if (jkr.size() != 7){
+            if (jkr.size() != 6){
                 z_flag = true;
-                warning("No cylinders orientation inlcluded. Cylinder orientation was set towards the Z direction by default for all cylinders.",cout);
+                warning("No permeability and t2 defined. Cylinder orientation was set towards the Z direction by default for all cylinders.",cout);
             }
             break;
         }
@@ -570,13 +570,19 @@ bool SimErrno::checkCylindersListFile(Parameters &params)
         in.open(params.cylinders_files[i]);
 
         if(!z_flag){
-            double x,y,z,ox,oy,oz,r;
+            double x,y,z,r,p,t2;
             double scale;
             in >> scale;
-            while (in >> x >> y >> z >> ox >> oy >> oz >> r)
+            while (in >> x >> y >> z >> r >> p >> t2)
             {
-                if ((x - ox) == 0.0 && (z - oz) == 0.0 && (y - oy) == 0.0){
-                    error( "Cylinder list has wrongly defined cylinders. Invalid orientation: ",cout);
+                if ((t2) < 0.0){
+                    error( "T2 value incorrectly assigned ",cout);
+                    in.close();
+                    assert(0);
+                    return true;
+                }
+                if ((p) < 0.0 || (p) > 1.0){
+                    error( "Permeability value incorrectly assigned ",cout);
                     in.close();
                     assert(0);
                     return true;
@@ -618,14 +624,36 @@ bool SimErrno::checkSphereListFile(Parameters &params)
 
             std::vector<std::string> jkr = split_(line,' ');
 
-            if(jkr.size() != 4){
-                error( "Sphere list file is not in the correct format." ,cout);
+            if(jkr.size() != 6){
+                error( "Sphere list file is not in the correct format (x,y,z,r,p,t2)." ,cout);
                 in.close();
                 assert(0);
                 return true;
             }
         }
         in.close();
+
+        in.open(params.cylinders_files[i]);
+        double x,y,z,r,p,t2;
+        double scale;
+        in >> scale;
+        while (in >> x >> y >> z >> r >> p >> t2)
+        {
+            if ((t2) < 0.0){
+                error( "T2 value incorrectly assigned ",cout);
+                in.close();
+                assert(0);
+                return true;
+            }
+            if ((p) < 0.0 || (p) > 1.0){
+                error( "Permeability value incorrectly assigned ",cout);
+                in.close();
+                assert(0);
+                return true;
+            }
+        }
+        in.close();
+    
     }
     return true;
 }
@@ -986,6 +1014,9 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
         infoMenu(" Number of voxels:      ------", " " + to_string( 1),out, color,35);
     else
         infoMenu(" Number of voxels:      ------", " " + to_string( params.voxels_list.size()),out, color,35);
+
+    if(params.bounding_box)
+        infoMenu(" Bounding box:          ------", " true",out, color,35);
 
     if(params.custom_sampling_area)
         infoMenu(" Custom spawning area:  ------"," true" ,out, color,35);

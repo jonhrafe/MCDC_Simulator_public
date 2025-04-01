@@ -225,15 +225,11 @@ void DynamicsSimulation::computeICVF()
 bool DynamicsSimulation::finalPositionCheck()
 {
     int cyl_id,ply_id,sph_id;
-
+    bool isIntra = isInIntra(this->walker.pos_v,cyl_id,ply_id,sph_id,0);
+    walker.location = isIntra ? Walker::intra : Walker::extra;
     if( ((*plyObstacles_list).size()>0) && sentinela.deport_illegals && (walker.perm_crossed_flag == false)){
-
-        bool isIntra = isInIntra(this->walker.pos_v,cyl_id,ply_id,sph_id,0);
         //cout << endl << endl << isIntra << " " << this->walker.location << "  " << walker.initial_location << endl;
         if((isIntra and this->walker.initial_location == Walker::extra) or ((!isIntra and this->walker.initial_location == Walker::intra))){
-//            cout << "Im working" << endl;
-//            cout << (this->walker.initial_location == Walker::intra) <<  "Intra"  << endl;
-//            cout << isIntra << endl;
             return true;
         }
     }

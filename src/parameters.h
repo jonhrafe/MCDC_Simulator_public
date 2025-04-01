@@ -43,6 +43,7 @@ public:
     std::string ini_walker_flag;                    /*!< where to initialize the walkers                                            */
     bool regular_sampling;                          /*!< flag, true if the walkers are initialized in a regular grid                */
     std::string scheme_file;                        /*!< signal adquisition scheme file (if any)                                    */
+    bool bounding_box;                              /*!< flag, true if the bounding box is used                                     */
     Eigen::Vector3d min_limits;                     /*!< voxel min limits (if any) (bottom left corner)                             */
     Eigen::Vector3d max_limits;                     /*!< voxel max limits (if any)                                                  */
 

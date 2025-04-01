@@ -122,6 +122,9 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         else if ((str_dist(tmp,"<voxels>") == 0) or (str_dist(tmp,"<voxel>") == 0)){
             readVoxels(in);
         }
+        else if(str_dist(tmp,"<bounding_box>") == 0){
+            bounding_box = true;
+        }
         else if(str_dist(tmp,"num_process") <= 1 || str_dist(tmp,"processors") <= 1){
             in >> num_proc;
         }

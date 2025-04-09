@@ -385,7 +385,6 @@ bool SimErrno::checkSchemeFile(Parameters &params)
 
 bool SimErrno::checkPLYFiles(Parameters &params)
 {
-
     bool degenerated = false;
     unsigned int degenerated_triangles = 0;
     for (unsigned i = 0 ;i < params.PLY_files.size(); i++)
@@ -405,6 +404,20 @@ bool SimErrno::checkPLYFiles(Parameters &params)
            in.close();
            return false;
        }
+
+        // Check if it's a binary PLY file
+        std::string format_line;
+        bool is_binary = false;
+        std::getline(in, format_line); // Get the rest of the first line
+        std::getline(in, format_line); // Get the format line
+        
+        if(format_line.find("binary") != std::string::npos){
+            is_binary = true;
+            // Binary PLY files are handled separately by the PLYObstacle class
+            warning("Binary PLY files are not checked for errors. PLY should be triangulated." ,cout);
+            in.close();
+            continue;
+        }
 
         unsigned vert_number=0,face_number=0;
         std::string tmp = "";
@@ -488,16 +501,13 @@ bool SimErrno::checkPLYFiles(Parameters &params)
 
     if(degenerated){
         warning( "PLY contains ("+  std::to_string(degenerated_triangles) + ") highly irregular triangles. Possible numerical errors and optimization failures may occur.",cout);
-
     }
-
 
     if(params.PLY_files.size() > params.PLY_scales.size()){
         warning( "PLY scale is not set for all files. Scale will be set as default (1e-3). Substrate scale Warning.",cout);
 
         while(params.PLY_files.size() > params.PLY_scales.size())
             params.PLY_scales.push_back(1.0e-3);
-
     }
 
     return true;
@@ -917,9 +927,11 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
     answer = (params.PLY_files.size() > 0)?" true":" false";
     infoMenu(" PLY obstacles:         ------", answer, out, color,35);
 
-    if(params.PLY_files.size() > 0)
+    if(params.PLY_files.size() > 0){
         infoMenu(" Number of PLYs:        ------", to_string( params.PLY_files.size()),out, color,35);
+    }
 
+    
     answer = (params.cylinders_files.size() > 0) || params.gamma_cyl_packing || params.hex_cyl_packing ?" true":" false";
     infoMenu(" Cylinder obstacles:    ------",  answer, out, color,35);
 

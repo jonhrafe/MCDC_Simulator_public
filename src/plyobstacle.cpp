@@ -28,7 +28,14 @@ PLYObstacle::PLYObstacle(string path, double scale_factor_)
     scale_factor = scale_factor_;
     percolation  = 0;
     count_perc_crossings = 0;
-    readPLY_ASCII_triangles(path);
+    
+    // Check if the PLY file is binary format
+    if (isPLYBinary(path)) {
+        readPLY_Binary(path);
+    } else {
+        readPLY_ASCII_triangles(path);
+    }
+    
     createAABBs();
     //Todo make a dynamic size for the grid
 
@@ -46,19 +53,24 @@ PLYObstacle::PLYObstacle(string path, std::vector<Eigen::Vector3d> &centers, dou
     scale_factor = scale_factor_;
     percolation  = 0;
     count_perc_crossings = 0;
-    readPLY_ASCII_trianglesSubdivitionDistance(path,centers,max_distance);
+    
+    // Check if the PLY file is binary format
+    if (isPLYBinary(path)) {
+        readPLY_Binary_trianglesSubdivitionDistance(path, centers, max_distance);
+    } else {
+        readPLY_ASCII_trianglesSubdivitionDistance(path, centers, max_distance);
+    }
+    
     createAABBs();
 
     double optimal_cell_size = this->AABBgrid.computeOptimalCellSize(this->aabbs,AABB_memory_limit_mb, min_cell_size_um);
 
-        if(optimal_cell_size < 100){
+    if(optimal_cell_size < 100){
         std::string message = "Spheres' grid size: " + std::to_string(optimal_cell_size*1000) + " um";
         SimErrno::info(message,cout);
     }
-    
 
     AABBgrid.InitializeGrid(this->aabbs,optimal_cell_size);
-    
 }
 
 
@@ -115,7 +127,7 @@ void PLYObstacle::readPLY_ASCII_triangles(std::string ply_file)
         in >> faces[i].indexes[2];
         faces[i].vertices = vertices;
         faces[i].saveNormalAndAuxInfo();
-        //cout << faces[i].indexes[0] << " " << faces[i].indexes[1] << " "  << faces[i].indexes[2] << endl;
+        //cout << faces[i].indexes[0] << " " << faces[i].indexes[1] << "  " << faces[i].indexes[2] << endl;
     }
 
 }
@@ -391,6 +403,243 @@ bool PLYObstacle::updateWalkerStatusAndHandleBouncing(Walker &walker, Eigen::Vec
 double PLYObstacle::minDistance(Walker &w, unsigned t)
 {
     return faces[t].minDistance(w.pos_v);
+}
+
+bool PLYObstacle::isPLYBinary(std::string ply_file)
+{
+    std::ifstream in(ply_file.c_str(), std::ifstream::in);
+    if (!in) {
+        std::cout << "Error opening file " << ply_file << std::endl;
+        return false;
+    }
+
+    std::string line;
+    while (std::getline(in, line)) {
+        if (line.find("binary") != std::string::npos) {
+            in.close();
+            return true;
+        }
+        if (line.find("ascii") != std::string::npos) {
+            in.close();
+            return false;
+        }
+        if (line == "end_header") {
+            break;
+        }
+    }
+    in.close();
+    return false; // Default to ASCII if not specified
+}
+
+void PLYObstacle::readPLY_Binary(std::string ply_file)
+{
+    if (vertices != nullptr)
+        delete[] vertices;
+    if (faces != nullptr)
+        delete[] faces;
+
+    // Open file in binary mode
+    std::ifstream in(ply_file.c_str(), std::ios::binary);
+
+    if (!in) {
+        std::cout << "Error opening file " << ply_file << std::endl;
+        assert(1);
+        return;
+    }
+
+    // Parse header (still in ASCII)
+    std::string line;
+    
+    // Read first line - should be "ply"
+    std::getline(in, line);
+    if (line.compare("ply") != 0) {
+        std::cout << "Not a valid PLY file: missing 'ply' header" << std::endl;
+        in.close();
+        assert(1);
+        return;
+    }
+    
+    // Parse header to get element counts
+    vert_number = 0;
+    face_number = 0;
+    
+    while (std::getline(in, line)) {
+        // Check if header section is done
+        if (line == "end_header") {
+            break;
+        }
+        
+        // Extract element counts
+        if (line.find("element vertex") != std::string::npos) {
+            sscanf(line.c_str(), "element vertex %u", &vert_number);
+        } else if (line.find("element face") != std::string::npos) {
+            sscanf(line.c_str(), "element face %u", &face_number);
+        }
+    }
+    
+    if (vert_number == 0 || face_number == 0) {
+        std::cout << "Invalid PLY file: missing vertex or face counts" << std::endl;
+        in.close();
+        assert(1);
+        return;
+    }
+    
+    // Allocate memory for vertices and faces
+    vertices = new Vertex[vert_number];
+    faces = new Triangle[face_number];
+    
+    // Read vertex data
+    for (unsigned i = 0; i < vert_number; i++) {
+        float x, y, z;
+        in.read(reinterpret_cast<char*>(&x), sizeof(float));
+        in.read(reinterpret_cast<char*>(&y), sizeof(float));
+        in.read(reinterpret_cast<char*>(&z), sizeof(float));
+        
+        vertices[i].points[0] = static_cast<double>(x) * scale_factor;
+        vertices[i].points[1] = static_cast<double>(y) * scale_factor;
+        vertices[i].points[2] = static_cast<double>(z) * scale_factor;
+    }
+    
+    // Read face data
+    for (unsigned i = 0; i < face_number; i++) {
+        uint8_t num_vertices;
+        in.read(reinterpret_cast<char*>(&num_vertices), sizeof(uint8_t));
+        
+        if (num_vertices != 3) {
+            std::cout << "Non-triangle face detected. Only triangular faces are supported." << std::endl;
+            in.close();
+            assert(1);
+            return;
+        }
+        
+        uint32_t v1, v2, v3;
+        in.read(reinterpret_cast<char*>(&v1), sizeof(uint32_t));
+        in.read(reinterpret_cast<char*>(&v2), sizeof(uint32_t));
+        in.read(reinterpret_cast<char*>(&v3), sizeof(uint32_t));
+        
+        faces[i].indexes[0] = v1;
+        faces[i].indexes[1] = v2;
+        faces[i].indexes[2] = v3;
+        faces[i].vertices = vertices;
+        faces[i].saveNormalAndAuxInfo();
+    }
+    
+    in.close();
+}
+
+void PLYObstacle::readPLY_Binary_trianglesSubdivitionDistance(std::string ply_file, std::vector<Eigen::Vector3d>& centers, double max_distance)
+{
+    if (vertices != nullptr)
+        delete[] vertices;
+    if (faces != nullptr)
+        delete[] faces;
+
+    // Open file in binary mode
+    std::ifstream in(ply_file.c_str(), std::ios::binary);
+
+    if (!in) {
+        std::cout << "Error opening file " << ply_file << std::endl;
+        assert(0);
+        return;
+    }
+
+    // Parse header (still in ASCII)
+    std::string line;
+    
+    // Read first line - should be "ply"
+    std::getline(in, line);
+    if (line.compare("ply") != 0) {
+        std::cout << "Not a valid PLY file: missing 'ply' header" << std::endl;
+        in.close();
+        assert(0);
+        return;
+    }
+    
+    // Parse header to get element counts
+    vert_number = 0;
+    face_number = 0;
+    
+    while (std::getline(in, line)) {
+        // Check if header section is done
+        if (line == "end_header") {
+            break;
+        }
+        
+        // Extract element counts
+        if (line.find("element vertex") != std::string::npos) {
+            sscanf(line.c_str(), "element vertex %u", &vert_number);
+        } else if (line.find("element face") != std::string::npos) {
+            sscanf(line.c_str(), "element face %u", &face_number);
+        }
+    }
+    
+    if (vert_number == 0 || face_number == 0) {
+        std::cout << "Invalid PLY file: missing vertex or face counts" << std::endl;
+        in.close();
+        assert(0);
+        return;
+    }
+    
+    // Allocate memory for vertices and faces
+    vertices = new Vertex[vert_number];
+    faces = new Triangle[face_number];
+    
+    // Read vertex data
+    for (unsigned i = 0; i < vert_number; i++) {
+        float x, y, z;
+        in.read(reinterpret_cast<char*>(&x), sizeof(float));
+        in.read(reinterpret_cast<char*>(&y), sizeof(float));
+        in.read(reinterpret_cast<char*>(&z), sizeof(float));
+        
+        vertices[i].points[0] = static_cast<double>(x) * scale_factor;
+        vertices[i].points[1] = static_cast<double>(y) * scale_factor;
+        vertices[i].points[2] = static_cast<double>(z) * scale_factor;
+    }
+    
+    // Read face data with subdivision distance filter
+    int in_index = 0;
+    for (unsigned i = 0; i < face_number; i++) {
+        uint8_t num_vertices;
+        in.read(reinterpret_cast<char*>(&num_vertices), sizeof(uint8_t));
+        
+        if (num_vertices != 3) {
+            std::cout << "Non-triangle face detected. Only triangular faces are supported." << std::endl;
+            in.close();
+            assert(0);
+            return;
+        }
+        
+        uint32_t v1, v2, v3;
+        in.read(reinterpret_cast<char*>(&v1), sizeof(uint32_t));
+        in.read(reinterpret_cast<char*>(&v2), sizeof(uint32_t));
+        in.read(reinterpret_cast<char*>(&v3), sizeof(uint32_t));
+        
+        faces[in_index].indexes[0] = v1;
+        faces[in_index].indexes[1] = v2;
+        faces[in_index].indexes[2] = v3;
+        faces[in_index].vertices = vertices;
+        faces[in_index].saveNormalAndAuxInfo();
+        
+        if (centers.size() > 0) {
+            bool include_face = false;
+            for (auto c : centers) {
+                double distance = faces[in_index].minDistance(c);
+                if (distance < max_distance) {
+                    include_face = true;
+                    break;
+                }
+            }
+            if (include_face) {
+                in_index++;
+            }
+        }
+        else {
+            in_index++;
+        }
+    }
+    
+    face_number = in_index;
+    in.close();
 }
 
 

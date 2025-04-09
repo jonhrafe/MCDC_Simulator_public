@@ -228,8 +228,8 @@ bool DynamicsSimulation::finalPositionCheck()
     bool isIntra = isInIntra(this->walker.pos_v,cyl_id,ply_id,sph_id,0);
     walker.location = isIntra ? Walker::intra : Walker::extra;
     if( ((*plyObstacles_list).size()>0) && sentinela.deport_illegals && (walker.perm_crossed_flag == false)){
-        //cout << endl << endl << isIntra << " " << this->walker.location << "  " << walker.initial_location << endl;
         if((isIntra and this->walker.initial_location == Walker::extra) or ((!isIntra and this->walker.initial_location == Walker::intra))){
+            //cout << isIntra << " " << this->walker.location << "  " << walker.initial_location << endl;
             return true;
         }
     }
@@ -697,7 +697,7 @@ bool DynamicsSimulation::isInsidePLY(Vector3d &position, int &ply_id,double dist
 
     //1) If we failed we find the closest triangle to the position
     if(min_i_index < 0){
-        //cout << "FAILED " << endl;
+        cout << "FAILED " << endl;
         for (unsigned i=0; i < (*plyObstacles_list).size(); i++){
             for (unsigned j=0; j < (*plyObstacles_list)[i].face_number; j++){
                 t = (position - (*plyObstacles_list)[i].faces[j].center).squaredNorm();
@@ -846,8 +846,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             updateT2DecayLog(t);
             walker.steps_count++;
             walker.rejection_count = 0;
-            
-            
+    
         }// end for t
 
         // cout << "T2 log ";
@@ -1336,11 +1335,12 @@ void DynamicsSimulation::updateStepLength(){
         if(isIntra){
             double diff = (walker.in_cyl_index>=0)?(*cylinders_list)[walker.in_cyl_index].d_intra:(walker.in_ply_index>=0)?(*plyObstacles_list)[walker.in_ply_index].d_intra:(walker.in_sph_index>=0)?(*spheres_list)[walker.in_sph_index].d_intra:params.diff_intra;
             walker.step_lenght = sqrt(6.0*(params.diff_intra*params.sim_duration)/double(params.num_steps));
-
+            walker.location = Walker::RelativeLocation::intra;
             //cout << cyl_id << " " << ply_id << " " << sph_id << " " << endl;
         }
         else{
             walker.step_lenght = sqrt(6.0*(params.diff_extra*params.sim_duration)/double(params.num_steps));
+            walker.location = Walker::RelativeLocation::extra;
         }
 }
 

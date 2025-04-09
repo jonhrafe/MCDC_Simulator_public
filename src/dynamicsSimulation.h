@@ -306,6 +306,8 @@ private:
 
     inline void computeICVF();
 
+    inline void updateWalkerLocation();
+
     inline bool finalPositionCheck();
 
     inline void updateStepLength();

@@ -40,6 +40,8 @@ public:
     void readPLY_ASCII_triangleFan(std::string ply_file);
     void readPLY_ASCII_triangles(std::string ply_file);
     void readPLY_ASCII_trianglesSubdivitionDistance(std::string ply_file, std::vector<Eigen::Vector3d> &centers, double max_distance);
+    void readPLY_Binary(std::string ply_file);
+    void readPLY_Binary_trianglesSubdivitionDistance(std::string ply_file, std::vector<Eigen::Vector3d> &centers, double max_distance);
 
     void createAABBs();
 
@@ -63,6 +65,8 @@ private:
     //Given the collision, handles the next walker status and the bouncing, if needed.
     bool updateWalkerStatusAndHandleBouncing(Walker &walker, Eigen::Vector3d &ray_origin, Eigen::Vector3d &step, Collision &colision);
 
+    // Helper function to determine if a PLY file is binary format
+    bool isPLYBinary(std::string ply_file);
 };
 
 #endif // PLYOBSTACLE_H

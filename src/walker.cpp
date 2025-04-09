@@ -20,6 +20,7 @@ Walker::Walker()
     in_cyl_index =-1;
     in_sph_index =-1;
     perm_crossed_flag = false;
+    boundary_mirror = Eigen::Vector3d(1,1,1);
 
 }
 
@@ -119,10 +120,9 @@ void Walker::setVoxelPosition(const double &x_, const double &y_, const double &
 void Walker::setRealPosition(const double &x_, const double &y_, const double &z_)
 {
     last_pos_r = pos_r;
-
-    pos_r[0] = x_;
-    pos_r[1] = y_;
-    pos_r[2] = z_;
+    // Mirror the step by multiplying with boundary_mirror
+    Eigen::Vector3d step(x_ - pos_r[0], y_ - pos_r[1], z_ - pos_r[2]);
+    pos_r = pos_r + step.cwiseProduct(boundary_mirror);
 }
 
 void Walker::setInitialPosition(const double &x_,const double &y_,const double &z_)

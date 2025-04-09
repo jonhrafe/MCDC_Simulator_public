@@ -193,7 +193,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
     }
 
     if(params.subdivision_flag){
-        if(params.subdivisions.size() > 1000 ){
+        if(params.subdivisions.size() > 50 ){
             warning("Huge number of sudivision voxels. A considerable amount of RAM will be needed for the ouput computation.",cout);
         }
 
@@ -1017,6 +1017,9 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
 
     if(params.bounding_box)
         infoMenu(" Bounding box:          ------", " true",out, color,35);
+
+    answer = (params.periodic_boundaries)?" Periodic":" Symmetric";
+    infoMenu(" Boundary conditions:   ------", answer, out, color,35);
 
     if(params.custom_sampling_area)
         infoMenu(" Custom spawning area:  ------"," true" ,out, color,35);

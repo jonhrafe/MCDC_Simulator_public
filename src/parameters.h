@@ -36,6 +36,7 @@ public:
     bool save_phase_shift;                          /*!< flag, saves the phase shift distribution for all particles                 */
     long seed;                                      /*!< Initial seed for the random generator                                      */
     bool verbatim;                                  /*!< False to omit displaying state and warnings                                */
+    bool periodic_boundaries;                       /*!< flag, true for periodic boundarises (default), false for symmetric/mirror   */
     std::string traj_file;                          /*!< Trajectory file path                                                       */
     std::string output_base_name;                   /*!< output files base name (path + sufix)                                      */
     std::string ini_walkers_file;                   /*!< initial walker position file (if any)                                      */

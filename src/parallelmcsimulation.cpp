@@ -818,10 +818,9 @@ void ParallelMCSimulation::specialInitializations()
             SimErrno::info("Min limits: (" + to_string(min_limits[0]) + ", " + to_string(min_limits[1]) + ", " + to_string(min_limits[2]) + ")", cout);
             SimErrno::info("Max limits: (" + to_string(max_limits[0]) + ", " + to_string(max_limits[1]) + ", " + to_string(max_limits[2]) + ")", cout);
         }
-
-        if(params.number_subdivisions>1){
-            params.addSubdivisions();
-        }
+    }
+    if(params.number_subdivisions>1){
+        params.addSubdivisions();
     }
 }
         

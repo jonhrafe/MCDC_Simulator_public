@@ -90,6 +90,8 @@ public:
 
     bool perm_crossed_flag;                                         /*!< Flag to check if the particle crossed a permeable barrier        */
 
+    Eigen::Vector3d boundary_mirror;                                /*!< Tracks boundary mirroring state*/
+
     //! Default constructor.
     /*! Set all variables to cero.*/
     Walker();

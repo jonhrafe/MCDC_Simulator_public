@@ -426,6 +426,7 @@ void DynamicsSimulation::iniWalkerPosition()
     walker.intra_extra_consensus = walker.intra_coll_count = walker.extra_coll_count=walker.rejection_count=0;
     walker.perm_crossed_flag = false;
     walker.t2_log[0] =1.0;
+    walker.boundary_mirror = Vector3d(1.0,1.0,1.0);
 
     if(iniPos.is_open()){
         double x,y,z;
@@ -1045,7 +1046,11 @@ bool DynamicsSimulation::updateWalkerPosition(Eigen::Vector3d& step) {
 
         // Update the walker position after the bouncing (or not)
         walker.getRealPosition(real_pos);
-        walker.setRealPosition(real_pos  + tmax*bounced_step);
+        if (!params.periodic_boundaries) {
+            walker.setRealPosition(real_pos + tmax*bounced_step.cwiseProduct(walker.boundary_mirror));
+        } else {
+            walker.setRealPosition(real_pos + tmax*bounced_step);
+        }
 
         walker.getVoxelPosition(voxel_pos);
         walker.setVoxelPosition(voxel_pos+ tmax*bounced_step);
@@ -1162,24 +1167,35 @@ void DynamicsSimulation::mapWalkerIntoVoxel(Eigen::Vector3d& bounced_step, Colli
 
     Eigen::Vector3d voxel_pos = walker.pos_v + (colision.t)*bounced_step;
 
-    bool mapped = false;
-    for(int i = 0 ; i < 3; i++)
+    if(params.periodic_boundaries)
     {
-        if ( fabs(voxel_pos[i] -  voxels_list[0].min_limits[i]) <= EPS_VAL){
-            voxel_pos[i] = voxels_list[0].max_limits[i];
-            mapped = true;
+        for(int i = 0 ; i < 3; i++)
+        {
+            if ( fabs(voxel_pos[i] -  voxels_list[0].min_limits[i]) <= EPS_VAL){
+                voxel_pos[i] = voxels_list[0].max_limits[i];
+            }
+            else if ( fabs(voxel_pos[i] - voxels_list[0].max_limits[i]) <= EPS_VAL){
+                voxel_pos[i] = voxels_list[0].min_limits[i];
+            }
         }
-        else if ( fabs(voxel_pos[i] - voxels_list[0].max_limits[i]) <= EPS_VAL){
-            voxel_pos[i] = voxels_list[0].min_limits[i];
-            mapped = true;
-        }
+        walker.setVoxelPosition(voxel_pos);
     }
-    walker.setVoxelPosition(voxel_pos);
-
-    if (mapped){
-        initWalkerObstacleIndexes();
+    else
+    {
+        for(int i = 0 ; i < 3; i++)
+        {
+            if (( fabs(voxel_pos[i] -  voxels_list[0].min_limits[i]) <= EPS_VAL) || ( fabs(voxel_pos[i] - voxels_list[0].max_limits[i]) <= EPS_VAL))
+            {
+                colision.bounced_direction[i] *= -1.0;
+                walker.boundary_mirror[i]  *= -1.0;   
+            }
+        }
+        walker.setVoxelPosition(voxel_pos);
     }
 }
+    
+
+
 
 void DynamicsSimulation::getTimeDt(double &last_time_dt, double &time_dt, double &l, SimulableSequence* dataSynth, unsigned t, double time_step)
 {
@@ -1236,12 +1252,14 @@ bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced
         // Labels the walker w/r it's orientation.
         if(colision.col_location == Collision::inside){
             walker.intra_extra_consensus--;
+            walker.intra_coll_count++;
             walker.location = Walker::intra;
             walker.col_obj_id = colision.obstacle_id;
         }
         if(colision.col_location == Collision::outside){
             walker.intra_extra_consensus++;
             walker.location = Walker::extra;
+            walker.extra_coll_count++;
             walker.col_obj_id = colision.obstacle_id;
         }
         if(walker.initial_location == Walker::unknown){
@@ -1249,7 +1267,12 @@ bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced
         }
 
         //We update the position.
-        walker.setRealPosition (real_pos   + displ*bounced_step);
+        if (!params.periodic_boundaries) {
+            walker.setRealPosition(real_pos + displ*bounced_step.cwiseProduct(walker.boundary_mirror));
+        } else {
+            walker.setRealPosition(real_pos + displ*bounced_step);
+        }
+        
         walker.setVoxelPosition(voxel_pos  + displ*bounced_step);
 
         bounced_step = colision.bounced_direction;
@@ -1302,8 +1325,13 @@ void DynamicsSimulation::setStepsNum(const unsigned &T)
 
 void DynamicsSimulation::updateStepLength(){
         //todo: use the object's diffusion coefficient.
+        //todo: save the diffusion coefficient in the walker object. 
 
         bool isIntra = isInIntra(this->walker.pos_v,walker.in_cyl_index,walker.in_ply_index,walker.in_sph_index,0);
+
+        if(walker.initial_location == Walker::unknown){
+            walker.initial_location = (isIntra)?Walker::intra:Walker::extra;
+        }
 
         if(isIntra){
             double diff = (walker.in_cyl_index>=0)?(*cylinders_list)[walker.in_cyl_index].d_intra:(walker.in_ply_index>=0)?(*plyObstacles_list)[walker.in_ply_index].d_intra:(walker.in_sph_index>=0)?(*spheres_list)[walker.in_sph_index].d_intra:params.diff_intra;

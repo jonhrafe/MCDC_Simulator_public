@@ -35,6 +35,7 @@ Parameters::Parameters()
     record_phase_times.clear();
     record_pos_times.clear();
     subdivisions_file = "";
+    subdivision_flag = false;
 
     computeVolume = false;
     custom_sampling_area = false;
@@ -49,6 +50,8 @@ Parameters::Parameters()
     t2_extra = t2_intra = 1.0e10;
     regular_sampling = false;
     ini_walker_flag = "";
+    periodic_boundaries = true;
+    bounding_box = false;
 }
 
 void Parameters::readSchemeFile(std::string conf_file_path)
@@ -164,7 +167,7 @@ void Parameters::readSchemeFile(std::string conf_file_path)
                 assert(0);
             }
         }
-        else if(str_dist(tmp,"subdivisions_number") <= 2)
+        else if(str_dist(tmp,"subdivisions_number") <= 1)
         {
             in >> number_subdivisions;
             subdivision_flag = (number_subdivisions>1)?true:false;
@@ -225,6 +228,21 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         else if( str_dist(tmp,"discard_stucks") <= 2 )
         {
             in >> discard_stucks;
+        }
+        else if(str_dist(tmp,"boundary_conditions") <= 2) {
+            string boundary_type;
+            in >> boundary_type;
+            std::transform(boundary_type.begin(), boundary_type.end(), boundary_type.begin(), ::tolower);
+            
+            if(str_dist(boundary_type,"periodic") <= 1) {
+                periodic_boundaries = true;
+            }
+            else if(str_dist(boundary_type,"symmetric") <= 1 || str_dist(boundary_type,"mirror") <= 1) {
+                periodic_boundaries = false;
+            }
+            else {
+                SimErrno::warning("Unknown boundary condition type: " + boundary_type + ". Using periodic boundaries.", cout);
+            }
         }
         else{
             if( str_dist(tmp.substr(0,2),"</") > 0 )

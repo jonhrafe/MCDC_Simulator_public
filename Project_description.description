@@ -1,0 +1,91 @@
+MC-DC (Monte Carlo Diffusion and Collision) Simulator
+Overview
+The MC-DC Simulator is an advanced Diffusion MRI (dMRI) simulation tool that models the diffusion of particles in complex microstructures. It's designed to simulate and analyze diffusion-weighted MRI signals in biological tissues, particularly useful for studying brain microstructure.
+Key Features
+Particle Dynamics Simulation
+Simulates the random walk of particles (spins) in complex microstructures
+Supports both free diffusion and restricted diffusion scenarios
+Handles collisions with various types of obstacles (spheres, cylinders, PLY meshes)
+Multiple Obstacle Types
+Spheres
+Cylinders
+PLY mesh models
+Voxel-based boundaries
+Support for gamma-distributed obstacles
+Signal Synthesis
+Supports PGSE (Pulsed Gradient Spin Echo) sequences
+Can compute both real and imaginary parts of the DWI signal
+Handles separate intra- and extra-axonal signals
+Parallel Processing
+Multi-threaded simulation capabilities
+Efficient distribution of particles across available processors
+AABB (Axis-Aligned Bounding Box) grid optimization for collision detection
+Recent Changes and Improvements
+Performance Optimizations
+Implementation of AABB grids for faster collision detection
+Improved parallel processing capabilities
+Enhanced memory management for large-scale simulations
+New Features
+Support for gradient waveforms
+Enhanced PLY mesh obstacle handling
+Improved signal synthesis capabilities
+Better handling of intra- and extra-axonal compartments
+Code Structure Improvements
+Better organization of simulation components
+Enhanced error handling and parameter validation
+Improved configuration file handling
+Important Files
+Core Simulation Files
+dynamicsSimulation.cpp/h: Main implementation of particle dynamics and collision handling
+mcsimulation.cpp/h: Core simulation class managing the overall simulation process
+parallelmcsimulation.cpp/h: Handles parallel processing and multi-threading
+Signal Processing
+simulablesequence.h: Base class for MRI sequence simulation
+pgsesequence.cpp/h: Implementation of PGSE sequence simulation
+gradientwaveform.cpp/h: Support for custom gradient waveforms
+Obstacle Handling
+sphere.cpp/h: Sphere obstacle implementation
+cylinder.cpp/h: Cylinder obstacle implementation
+plyobstacle.cpp/h: PLY mesh obstacle handling
+Utility and Configuration
+simerrno.cpp/h: Error handling and parameter validation
+parameters.cpp/h: Configuration parameter management
+constants.h: Global constants and definitions
+
+
+Now, what we are doing now is to implement several changes to the core funtionality.
+
+We have succesfully implemented several new features like t2 relaxation, permeable models, bounding box based voxels, and better initializaton and volume computation.
+
+
+
+Missing features and tasks (Roadmap): 
+
+1) 
+Our next task is to implement symmetric boundary conditions by including in the walker's class a vector that saves when the particle real position needs to be 
+mirrored because it touched the bounderies. 
+
+Then we will handle the colision of the particle to the voxel as a normal elastic bounsing when it's symetic boundaries, or we will jsut map it back to the other side when it's 
+periodic boundaries. 
+
+
+2) Secodn task is to verify that all the inputs from the .conf file are now standarized to standard units SU, and then proper ly scaled to the simualtor scale mT, mm, ms.
+
+
+3) We will improve the PLY class to read fiels that contains also faces colors (we will use it as a label if it's intra, extra, or other) and 
+also the funtion to read binary ply format. 
+
+5) Python wrapper with funtions to create and call simulations more easily, visualize outputs, parameters and even the protocol. 
+
+
+Current status: 
+
+1) Initial development of the symmetric boundaries is done, seems to be handled well but we have somme issues to detect ilegal crossings
+for some reason. 
+
+    To investgate: is likely that in very sparse substrates the check IsIntra is not finding any obstacle inside the checked lattice. 
+    Something we can do is check if the lattice is empty, if it is, check collision againts the first traingle we find, if is visible from 
+    any positin we can check for intra or extra.
+
+    
+     

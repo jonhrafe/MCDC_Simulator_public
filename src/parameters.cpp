@@ -76,7 +76,7 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         else if(str_dist(tmp,"diffusivity") <= 1){
             in >> diffusivity;
         }
-        else if( (str_dist(tmp,"out_traj_file_index") <= 2) or (str_dist(tmp,"exp_prefix") <= 2)) {
+        else if( (str_dist(tmp,"out_traj_file_index") <= 2) || (str_dist(tmp,"exp_prefix") <= 2)) {
             in >> traj_file;
             output_base_name = traj_file;
         }
@@ -101,7 +101,7 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         else if(str_dist(tmp,"<obstacle>") == 0){
             readObstacles(in);
         }
-        else if ((str_dist(tmp,"<voxels>") == 0) or (str_dist(tmp,"<voxel>") == 0)){
+        else if ((str_dist(tmp,"<voxels>") == 0) || (str_dist(tmp,"<voxel>") == 0)){
             readVoxels(in);
         }
         else if(str_dist(tmp,"num_process") <= 1 || str_dist(tmp,"processors") <= 1){
@@ -598,10 +598,10 @@ void Parameters::readGammaParams(ifstream &in)
             in >> tst;
             in >> gamma_output_conf;
         }
-        else if(str_dist(tmp,"alpha") <= 1 or str_dist(tmp,"shape") <= 1){
+        else if(str_dist(tmp,"alpha") <= 1 || str_dist(tmp,"shape") <= 1){
             in >> gamma_packing_alpha;
         }
-        else if(str_dist(tmp,"beta") <= 1 or str_dist(tmp,"scale") <= 1){
+        else if(str_dist(tmp,"beta") <= 1 || str_dist(tmp,"scale") <= 1){
             in >> gamma_packing_beta;
         }
         else if(str_dist(tmp,"num_cylinders") <= 1){

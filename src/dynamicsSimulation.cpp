@@ -224,13 +224,13 @@ bool DynamicsSimulation::finalPositionCheck()
 {
     int cyl_id,ply_id,sph_id;
 
-    if( ((*plyObstacles_list).size()>0) and sentinela.deport_illegals and params.obstacle_permeability <=0){
+    if( ((*plyObstacles_list).size()>0) && sentinela.deport_illegals && params.obstacle_permeability <= 0){
 
         bool isIntra = isInIntra(this->walker.pos_v,cyl_id,ply_id,sph_id,0);
 
         //cout << endl << endl << isIntra << " " << this->walker.location << "  " << walker.initial_location << endl;
 
-        if((isIntra and this->walker.initial_location == Walker::extra) or ((!isIntra and this->walker.initial_location == Walker::intra))){
+        if((isIntra && this->walker.initial_location == Walker::extra) || ((!isIntra && this->walker.initial_location == Walker::intra))){
 //            cout << "Im working" << endl;
 
 //            cout << (this->walker.initial_location == Walker::intra) <<  "Intra"  << endl;
@@ -342,8 +342,8 @@ void DynamicsSimulation::initSimulation()
     }
 
 
-    if(params.custom_sampling_area == false and voxels_list.size()>0){
-        for(auto i = 0; i<3;i++){
+    if(params.custom_sampling_area == false && voxels_list.size()>0){
+        for(auto i = 0; i<3; i++){
            params.min_sampling_area[i]=voxels_list[0].min_limits[i];
            params.max_sampling_area[i]=voxels_list[0].max_limits[i];
         }
@@ -471,7 +471,7 @@ void DynamicsSimulation::iniWalkerPosition()
         walker.intra_extra_consensus++;
     }
     //Todo: poner esto bien sin el caso de hexapacking
-    else if(voxels_list.size() > 0 or params.custom_sampling_area){
+    else if(voxels_list.size() > 0 || params.custom_sampling_area){
         walker.setRandomInitialPosition(params.min_sampling_area,params.max_sampling_area);
         if(params.computeVolume){
             bool intra_flag =isInIntra(walker.ini_pos, walker.in_obj_index,walker.in_ply_index, walker.in_sph_index, 0.0);
@@ -590,7 +590,7 @@ void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos,int &cyl
     std::uniform_real_distribution<double> udist(0,1);
 
 
-    if(cylinders_list->size() <=0 and plyObstacles_list->size() <= 0 and spheres_list->size() <=0){
+    if(cylinders_list->size() <=0 && plyObstacles_list->size() <= 0 && spheres_list->size() <=0){
         SimErrno::error("Cannot initialize intra-axonal walkers within the given substrate.",cout);
         SimErrno::error("There's no defined intra-axonal compartment (missing obstacles?)",cout);
         assert(0);
@@ -851,7 +851,7 @@ bool DynamicsSimulation::isInsidePLY(Vector3d &position, int &ply_id,double dist
         for (unsigned j=0; j < (*plyObstacles_list)[i].face_number; j++){
             (*plyObstacles_list)[i].faces[j].stepIntersects_MT(tmp,ray,1e8,colision_temp);
 
-            if(colision_temp.type == Collision::hit and new_min_t > colision_temp.t){
+            if(colision_temp.type == Collision::hit && new_min_t > colision_temp.t){
                 new_min_t = colision_temp.t;
                 min_i_index = i;
                 min_j_index = j;

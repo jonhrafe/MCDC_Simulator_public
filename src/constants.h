@@ -39,7 +39,7 @@ const unsigned max_rejections =25;              /*!< Max number of tries to unst
 const double INFINITY_VALUE = std::numeric_limits<double>::infinity();  /*!< numerical infinity value           */
 
 #ifdef _WIN64
-typedef unsigned int ulong;
+typedef unsigned long ulong; /* Not sure if it's what you meant */
 typedef unsigned int uint;
 #ifndef M_PI
     #define M_PI 3.14159265358979323846

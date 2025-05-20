@@ -229,7 +229,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
         }
     }
 
-    if(params.computeVolume && params.voxels_list.size() <=0 && params.gamma_cyl_packing==false and params.hex_cyl_packing ==false and params.hex_sphere_packing ==false and params.gamma_sph_packing ==false){
+    if(params.computeVolume && params.voxels_list.size() <=0 && params.gamma_cyl_packing == false && params.hex_cyl_packing == false && params.hex_sphere_packing ==false && params.gamma_sph_packing == false){
         warning(" Flag: 'compute_volume' ignored, no voxel."  ,cout);
     }
 
@@ -456,7 +456,7 @@ bool SimErrno::checkPLYFiles(Parameters &params)
             for(int ii = 0 ; ii < 3; ii++)
                 for (unsigned jj=ii; jj < 3; jj++)
                     if(edge_lengths[jj]>0)
-                        if(edge_lengths[ii]/edge_lengths[jj] > 1000 or edge_lengths[ii]/edge_lengths[jj] < 1e-3 ){
+                        if(edge_lengths[ii]/edge_lengths[jj] > 1000 || edge_lengths[ii]/edge_lengths[jj] < 1e-3 ){
                             degenerated=true;
                             degenerated_triangles++;
                         }

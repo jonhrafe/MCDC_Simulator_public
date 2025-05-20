@@ -32,6 +32,8 @@ int main(int argn, char* argv[])
 
     if(argn == 2){
         conf = argv[1];
+        ParallelMCSimulation simulation(conf);
+        simulation.startSimulation();
     }
     else if(argn == 3){
         string secondParam = argv[1];

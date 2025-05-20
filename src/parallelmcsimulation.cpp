@@ -134,7 +134,7 @@ void ParallelMCSimulation::startSimulation()
     }
 
 
-    if((params.custom_sampling_area or params.voxels_list.size()>0) and (params.computeVolume)){
+    if((params.custom_sampling_area || params.voxels_list.size()>0) && (params.computeVolume)){
         string message="Estimated Intra-axonal volume from sampling (mm^3):";
         out << std::scientific;
         SimErrno::info(message,out,false);
@@ -385,8 +385,8 @@ void ParallelMCSimulation::jointResults()
 
     icvf/= float(this->total_sim_particles);
 
-    if(params.custom_sampling_area == false and params.voxels_list.size()>0){
-        for(auto i = 0; i<3;i++){
+    if(params.custom_sampling_area == false && params.voxels_list.size()>0){
+        for(auto i = 0; i<3; i++){
            params.min_sampling_area[i]= params.voxels_list[0].first[i];
            params.max_sampling_area[i]= params.voxels_list[0].second[i];
         }

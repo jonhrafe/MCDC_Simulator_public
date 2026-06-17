@@ -74,6 +74,10 @@ public:
     unsigned aux_walker_index;
     /****** END Auxiliar variables ********/
 
+    // Particle position tracking for permeability analysis
+    std::vector<int> global_particle_positions;     /*!< Global counter for particle positions (1=intra, 0=extra) over time */
+    std::vector<int> walker_particle_positions;     /*!< Temporary array for current walker's positions */
+    void writeParticlePositionsDebugFile();         /*!< Writes particle positions to debug file */
 
     /*! \fn  DynamicsSimulation
      *  \brief Default constructor. Initialize everything with 0's and NULL states, object indexes are set to -1.

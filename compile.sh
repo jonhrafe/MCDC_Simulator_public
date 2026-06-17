@@ -7,7 +7,7 @@ cd src
 COMMON_FILES="simulablesequence.cpp vertex.cpp obstacle.cpp collision.cpp scheme.cpp voxel.cpp cylinder.cpp walker.cpp \
 mcsimulation.cpp parallelmcsimulation.cpp trajectory.cpp triangle.cpp parameters.cpp plyobstacle.cpp pgsesequence.cpp \
 dynamicsSimulation.cpp simerrno.cpp collisionsphere.cpp cylindergammadistribution.cpp sentinel.cpp subdivision.cpp \
-gradientwaveform.cpp propagator.cpp sphere.cpp sphere.h spheregammadistribution.cpp benchmark.cpp"
+gradientwaveform.cpp propagator.cpp sphere.cpp sphere.h spheregammadistribution.cpp benchmark.cpp FixedGrid.cpp AABBFixedGrid.cpp"
 
 # Build MC-DC_Simulator
 echo "Compiling MC-DC_Simulator..."

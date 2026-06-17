@@ -990,11 +990,23 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
     answer = (params.scale_from_stu)?" true":" false";
     infoMenu(" Standard units:        ------",  answer, out, color,35);
 
-    answer = (params.obstacle_permeability > 0)?" true":" false";
+    // A substrate is permeable if the global obstacle_permeability is set OR any
+    // PLY mesh has a per-file percolation > 0 (PLY meshes take their permeability
+    // from PLY_percolation, not obstacle_permeability), so report both.
+    double max_ply_perm = 0.0;
+    for(double p : params.PLY_percolation){
+        if(p > max_ply_perm) max_ply_perm = p;
+    }
+    bool is_permeable = (params.obstacle_permeability > 0) || (max_ply_perm > 0);
+
+    answer = is_permeable?" true":" false";
     infoMenu(" Permeability:          ------",  answer, out, color,35);
 
     if(params.obstacle_permeability > 0){
         infoMenu(" Permeability coeff:    ------", " " + std::to_string(params.obstacle_permeability), out, color,35);
+    }
+    if(max_ply_perm > 0){
+        infoMenu(" PLY percolation (max): ------", " " + std::to_string(max_ply_perm), out, color,35);
     }
 
     answer = (params.seed != -1)?" true":" false";

@@ -85,20 +85,21 @@ RNG you'll want on the GPU anyway. Kill every `rand()` and every per-call
 - [ ] GitHub Actions workflow building with CMake and running the tests.
 
 ### P0.3 — Permeability correctness (research line 1 foundations)
-- [ ] **Fix the `perm_crossed_flag` one-way latch** — set false only at init
-  (`dynamicsSimulation.cpp:440`); intended per-step reset is commented out at
-  `:830-831`. The numerical-leak sentinel is permanently disabled after a
-  walker's first legitimate crossing → biases exchange estimates. Highest-impact
-  physics fix.
+- [x] **Fix the `perm_crossed_flag` one-way latch** — was set false only at init
+  and never reset (per-step reset was commented out), permanently disabling the
+  numerical-leak sentinel after a walker's first legitimate crossing. Now cleared
+  each step with `initial_location` rebaselined to the current compartment
+  (`dynamicsSimulation.cpp` step loop). No-op for impermeable runs. (commit fc39fb7)
+- [x] Use the per-obstacle `d_intra` in `updateStepLength` (was computed then
+  discarded in favour of global `params.diff_intra`); now used when set (>0),
+  else falls back to the global. (commit fc39fb7)
 - [ ] Apply `sqrt(D_new/D_old)` rescaling to the remaining sub-step at a crossing
   event and update compartment membership immediately (not next step).
-- [ ] Use the per-obstacle `d_intra` in `updateStepLength`
-  (`dynamicsSimulation.cpp:1364-1365` currently reads it then discards it,
-  always using global `params.diff_intra`).
+  **Changes permeable physics — needs a permeable baseline first.**
 - [ ] Scale `obstacle_permeability` in `scale_from_stu` and document its units
-  (`parameters.cpp`).
+  (`parameters.cpp`). **Changes permeable magnitude/units.**
 - [ ] Implement permeability at mesh edges/vertices
-  (`plyobstacle.cpp:362-364` currently forces reflection there).
+  (`plyobstacle.cpp` currently forces reflection there). **Changes permeable physics.**
 
 ### P0.4 — Release-build correctness landmines
 - [ ] Move real work out of `assert()`: `assert(fread(...))`

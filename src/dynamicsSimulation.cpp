@@ -817,9 +817,14 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             getTimeDt(last_time_dt,time_dt,l,dataSynth,t,time_step);
 
             if(walker.perm_crossed_flag){
-                //walker.perm_crossed_flag = false;
-                //walker.initial_location = walker.location;
+                // A legitimate permeable crossing happened on the previous step.
+                // Clear the flag (it was a one-way latch that, once set, permanently
+                // disabled the numerical-leak sentinel for the rest of the walker's
+                // trajectory) and rebaseline the expected compartment to where the
+                // walker now is, so subsequent steps are checked normally. P0.3.
+                walker.perm_crossed_flag = false;
                 updateStepLength();
+                walker.initial_location = walker.location;
             }
 
             // for debugging purposes, todo: remove this or add it to a aux class
@@ -1351,10 +1356,16 @@ void DynamicsSimulation::updateStepLength(){
         }
 
         if(isIntra){
-            double diff = (walker.in_cyl_index>=0)?(*cylinders_list)[walker.in_cyl_index].d_intra:(walker.in_ply_index>=0)?(*plyObstacles_list)[walker.in_ply_index].d_intra:(walker.in_sph_index>=0)?(*spheres_list)[walker.in_sph_index].d_intra:params.diff_intra;
-            walker.step_lenght = sqrt(6.0*(params.diff_intra*params.sim_duration)/double(params.num_steps));
+            // Use the per-obstacle intra diffusivity when set; fall back to the
+            // global params.diff_intra otherwise (d_intra defaults to -1). The
+            // previous code computed this value then ignored it. P0.3.
+            double d_obs = (walker.in_cyl_index>=0)?(*cylinders_list)[walker.in_cyl_index].d_intra
+                          :(walker.in_ply_index>=0)?(*plyObstacles_list)[walker.in_ply_index].d_intra
+                          :(walker.in_sph_index>=0)?(*spheres_list)[walker.in_sph_index].d_intra
+                          :params.diff_intra;
+            double diff = (d_obs > 0.0) ? d_obs : params.diff_intra;
+            walker.step_lenght = sqrt(6.0*(diff*params.sim_duration)/double(params.num_steps));
             walker.location = Walker::RelativeLocation::intra;
-            //cout << cyl_id << " " << ply_id << " " << sph_id << " " << endl;
         }
         else{
             walker.step_lenght = sqrt(6.0*(params.diff_extra*params.sim_duration)/double(params.num_steps));

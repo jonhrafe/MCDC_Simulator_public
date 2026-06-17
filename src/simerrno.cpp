@@ -88,6 +88,14 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
          warning( "The number of processors to be used (" + to_string(params.num_proc) + ") is higher than the physical available processors (" + to_string(nthreads) + ").",cout);
     }
 
+    // A fixed seed reproduces a run only for the same number of processes: each
+    // worker uses its own seeded RNG stream (seed + worker_index) and the walkers
+    // are partitioned across them, so changing num_process repartitions the draws
+    // and yields a different (still deterministic) result. See P0.1.
+    if (params.seed > 0 && params.num_proc > 1){
+        warning( "Custom seed is thread-count specific: identical results are guaranteed only for the same num_process (" + to_string(params.num_proc) + "). Changing it will alter the output.",cout);
+    }
+
     if(params.scheme_file.size() >1){
         assert(checkSchemeFile(params));
     }

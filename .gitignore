@@ -1,49 +1,12 @@
-# Prerequisites
-*.d
+# CMake build tree
+build/
 
-# Compiled Object files
-*.slo
-*.lo
+# clangd compile DB symlink (generated)
+/compile_commands.json
+.cache/
+
+# Compiled binaries / objects
 *.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-
-*.json
-
-.vscode
-
-dev/*
-
-MC-DC_Simulator
-MC-DC_Simulator_debug
-dataSynth
-*.ply
-CUDAInt
-*.txt
-*.debug_o
-.cursorignore
-
-Project_description.description
+/MC-DC_Simulator
+/dataSynth
+/debug

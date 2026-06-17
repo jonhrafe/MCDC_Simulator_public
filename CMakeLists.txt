@@ -100,6 +100,24 @@ if(Python3_Interpreter_FOUND)
                 --workdir "${CMAKE_SOURCE_DIR}")
     set_tests_properties(rng_reproducibility PROPERTIES
         LABELS "reproducibility" TIMEOUT 300)
+
+    # Accuracy golden-master: a fixed impermeable sphere-mesh experiment whose
+    # diffusion signal (DWI real/intra/extra) must stay within tolerance of the
+    # committed baseline. Guards core physics against regressions from refactors,
+    # parallelization and the upcoming permeability work; also the reference a
+    # GPU port is checked against (loosen --rtol there). Regenerate the baseline
+    # only for an intentional, reviewed change:
+    #   python3 tests/test_accuracy_golden.py --update
+    add_test(
+        NAME accuracy_golden
+        COMMAND ${Python3_EXECUTABLE}
+                "${CMAKE_SOURCE_DIR}/tests/test_accuracy_golden.py"
+                --bin $<TARGET_FILE:MC-DC_Simulator>
+                --conf "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_impermeable.conf"
+                --golden-dir "${CMAKE_SOURCE_DIR}/tests/accuracy/golden"
+                --workdir "${CMAKE_SOURCE_DIR}")
+    set_tests_properties(accuracy_golden PROPERTIES
+        LABELS "accuracy" TIMEOUT 600)
 else()
-    message(WARNING "Python3 not found: skipping the rng_reproducibility test.")
+    message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

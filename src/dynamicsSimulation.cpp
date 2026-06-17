@@ -67,6 +67,10 @@ DynamicsSimulation::DynamicsSimulation() {
     intra_particles=0;
     total_tries=0;
     aux_walker_index = 0;
+
+    // Initialize particle position tracking arrays
+    global_particle_positions.resize(params.num_steps, 0);
+    walker_particle_positions.resize(params.num_steps, 0);
 }
 
 /**
@@ -97,6 +101,10 @@ DynamicsSimulation::DynamicsSimulation(std::string conf_file) {
     intra_particles=0;
     total_tries=0;
     aux_walker_index = 0;
+
+    // Initialize particle position tracking arrays
+    global_particle_positions.resize(params.num_steps, 0);
+    walker_particle_positions.resize(params.num_steps, 0);
 }
 
 /**
@@ -127,10 +135,15 @@ DynamicsSimulation::DynamicsSimulation(Parameters& params_) {
     intra_particles=0;
     total_tries=0;
     aux_walker_index = 0;
+
+    // Initialize particle position tracking arrays
+    global_particle_positions.resize(params.num_steps, 0);
+    walker_particle_positions.resize(params.num_steps, 0);
 }
 
 void DynamicsSimulation::initObstacleInformation(){
 
+    //deprecated
     if(params.collision_sphere_distance<= 0){
         params.collision_sphere_distance = inner_col_dist_factor;
     }
@@ -819,6 +832,14 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
                 updateStepLength();
             }
 
+            // for debugging purposes, todo: remove this or add it to a aux class
+            if (walker.location == Walker::intra){
+                walker_particle_positions[t] = 1;
+            }
+            else{
+                walker_particle_positions[t] = 0;
+            }
+
             //Generates a random oriented step of size l
             generateStep(step,l);
 
@@ -883,13 +904,17 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             updatePropagator(walker.pos_r_log);
         }
 
+        // After successful simulation of walker (no back_tracking), update global counter
+        for (unsigned t = 0; t < params.num_steps; t++) {
+            global_particle_positions[t] += walker_particle_positions[t];
+        }
+
         //Displays the remained expected time and check for the time limit.
         if(expectedTimeAndMaxTimeCheck(w)){
             cout << "\n" << SH_BG_LIGHT_YELLOW <<  "[Warning]" << SH_DEFAULT << "  Sim: " << id << " "
                  << "Max time limit reached: Simulation halted after "<< ++w << " spins" << endl;
             break;
         }
-
     }// for w
 
 
@@ -926,6 +951,9 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
     // Writes the final DWI signal, and the phase shift.
     if(params.log_opp)
         writeDWSignal(dataSynth);
+
+    // Write debug file at the end of simulation
+    writeParticlePositionsDebugFile();
 
     return;
 }
@@ -1364,4 +1392,19 @@ void DynamicsSimulation::updateT2DecayLog(int t){
     walker.t2_log[t] = walker.t2_log[t-1]*exp(-time_step/T2_eff);
 
     //cout << " " << t << " " << time_step << " " << T2_eff << " " << walker.t2_log[t] << endl;
+}
+
+void DynamicsSimulation::writeParticlePositionsDebugFile() {
+    std::string debug_file_path = params.output_base_name + "_particle_positions.txt";
+    std::ofstream debug_file(debug_file_path);
+    if (!debug_file.is_open()) {
+        std::cerr << "Error: Could not open debug file for writing: " << debug_file_path << std::endl;
+        return;
+    }
+
+    debug_file << "# Time step, Number of intra-cellular particles" << std::endl;
+    for (unsigned t = 0; t < params.num_steps; t++) {
+        debug_file << t << " " << global_particle_positions[t] << std::endl;
+    }
+    debug_file.close();
 }

@@ -180,6 +180,10 @@ void ParallelMCSimulation::initializeUnitSimulations()
         Parameters params_temp       = params;
         params_temp.num_walkers      = N_per_sim;
         params_temp.output_base_name+= "_"+std::to_string(i);
+        // Offset the seed per worker so parallel fixed-seed runs draw
+        // independent ensembles instead of duplicating one. P0.1.
+        if(params.seed > 0)
+            params_temp.seed = params.seed + long(i);
 
 
         MCSimulation* simulation_ = new MCSimulation(params_temp);
@@ -201,6 +205,9 @@ void ParallelMCSimulation::initializeUnitSimulations()
     Parameters params_temp = params;
     params_temp.num_walkers = params.num_walkers - N_per_sim *(params.num_proc-1);
     params_temp.output_base_name+= "_"+std::to_string(params.num_proc-1);
+    // Offset the seed for the last worker too (see loop above). P0.1.
+    if(params.seed > 0)
+        params_temp.seed = params.seed + long(params.num_proc-1);
 
 
     MCSimulation* simulation_ = new MCSimulation(params_temp);
@@ -987,6 +994,7 @@ void ParallelMCSimulation::addObstacleConfigurations()
 
         CylinderGammaDistribution gamma_dist(params.gamma_num_obstacles,params.gamma_packing_alpha, params.gamma_packing_beta,params.gamma_icvf
                                              ,params.min_limits, params.max_limits,params.min_obstacle_radii);
+        gamma_dist.seed = params.seed;   // reproducible substrate from the user seed (P0.1)
 
         gamma_dist.displayGammaDistribution();
 
@@ -1028,6 +1036,7 @@ void ParallelMCSimulation::addObstacleConfigurations()
 
         SphereGammaDistribution gamma_dist(params.gamma_num_obstacles,params.gamma_packing_alpha, params.gamma_packing_beta,params.gamma_icvf
                                              ,params.min_limits, params.max_limits,params.min_obstacle_radii);
+        gamma_dist.seed = params.seed;   // reproducible substrate from the user seed (P0.1)
 
         gamma_dist.displayGammaDistribution();
 

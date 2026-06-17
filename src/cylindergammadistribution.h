@@ -30,6 +30,7 @@ public:
     Eigen::Vector3d min_limits;                     /*!< voxel min limits (if any) (bottom left corner)                             */
     Eigen::Vector3d max_limits;                     /*!< voxel max limits (if any)                                                  */
     std::vector<Cylinder> cylinders;                /*!< Cylinder vector                                                            */
+    long seed = -1;                                 /*!< Seed for reproducible substrate generation (<=0 => random). P0.1           */
 
 
     /*!

@@ -380,7 +380,8 @@ bool PLYObstacle::updateWalkerStatusAndHandleBouncing(Walker &walker, Eigen::Vec
             //WARNING: Cuidar este patch
             // Implementa Percolacion
             if(this->percolation>0.0){
-                double _percolation_ ((double)rand()/RAND_MAX);
+                // Seeded, thread-safe per-walker draw (was C rand()/RAND_MAX). P0.1.
+                double _percolation_ (walker.rng.uniform());
                 double dynamic_percolation = (colision.col_location == Collision::inside)?this->prob_cross_i_e:this->prob_cross_e_i;
                 
                 if( dynamic_percolation - _percolation_ > EPS_VAL ){            

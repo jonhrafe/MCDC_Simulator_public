@@ -55,18 +55,27 @@ RNG you'll want on the GPU anyway. Kill every `rand()` and every per-call
 - [ ] `.gitignore` for `build/` and the `compile_commands.json` symlink.
 
 ### P0.1 — RNG unification (the keystone task)
-- [ ] Introduce a single seeded RNG abstraction (start with a seeded `mt19937`
-  per `(thread, purpose)`; design the interface so it can become counter-based).
-- [ ] Route per-thread engine seeding via `seed + worker_index`
-  (`parallelmcsimulation.cpp:180`).
-- [ ] Route walker placement RNG through the seeded engine
-  (`walker.cpp:197-199`, `dynamicsSimulation.cpp:503-505,550-552`).
-- [ ] Route gamma substrate RNG through the seed
-  (`cylindergammadistribution.cpp`, `spheregammadistribution.cpp`).
-- [ ] Replace `rand()` in the percolation draws with the seeded, thread-local
-  engine (`cylinder.cpp`, `sphere.cpp`, `plyobstacle.cpp`).
-- [ ] Acceptance test: same seed → bit-identical signal/trajectory across 1, 2,
-  and N threads.
+- [x] Introduce a single seeded RNG abstraction (`src/rng.h`, `RandomEngine`):
+  `std::mt19937_64` + splitmix64 key-mixing `seedFrom(base, keys...)`, ready to
+  become counter-based (Philox/Threefry) keyed on `(walker, step, purpose)`.
+- [x] Route per-thread engine seeding via `seed + worker_index`
+  (`parallelmcsimulation.cpp`, both sub-sim loops). Workers now draw
+  independent ensembles instead of duplicating one.
+- [x] Route walker placement RNG through the seeded engine
+  (`walker.cpp` `setRandomInitialPosition`, `dynamicsSimulation.cpp`
+  `getAnIntra/ExtraCellularPosition`). Per-sim seed resolved once in
+  `initBaseSeed()`.
+- [x] Route gamma substrate RNG through the seed (`cylindergammadistribution.cpp`,
+  `spheregammadistribution.cpp`; `seed` member set from `params.seed`).
+- [x] Replace `rand()` in the percolation draws with a seeded, per-walker engine
+  (`Walker::rng`, used in `cylinder.cpp`, `sphere.cpp`, `plyobstacle.cpp`).
+- [x] Acceptance test passes: same seed → bit-identical trajectory (1 and 2
+  procs verified; different seed differs). `ctest -R rng_reproducibility`.
+- [ ] **Remaining:** bit-identical results *across different thread counts*
+  (1 vs 2 vs N). Today placement/steps draw from a per-worker engine, so the
+  output is reproducible for a *fixed* `num_process` but not invariant to it.
+  True invariance needs placement+steps keyed on a *global* walker id (the
+  per-walker `Walker::rng` already is, for the crossing draw). Deferrable.
 
 ### P0.2 — Validation suite + CI
 - [ ] CMake `add_test` targets asserting analytic limits:

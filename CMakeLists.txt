@@ -90,7 +90,7 @@ enable_testing()
 find_package(Python3 COMPONENTS Interpreter)
 if(Python3_Interpreter_FOUND)
     # RNG reproducibility: same seed -> identical trajectories (P0.1/P0.2).
-    # EXPECTED TO FAIL until the RNG unification lands; turns green after.
+    # Green since the RNG unification (P0.1) landed.
     add_test(
         NAME rng_reproducibility
         COMMAND ${Python3_EXECUTABLE}

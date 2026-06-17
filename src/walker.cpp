@@ -194,15 +194,13 @@ void Walker::setRandomInitialPosition(const Eigen::Vector3d &_min, const Eigen::
 {
     steps_count = 0;
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<double> udist(0,1);
-
-    double t = udist(gen);
+    // Use the walker's own seeded RNG so fixed-seed runs are reproducible
+    // (was a fresh random_device-seeded mt19937 per call). See rng.h / P0.1.
+    double t = rng.uniform();
     pos_r[0]  = (1-t)*_min(0)+ t*_max(0);
-    t = udist(gen);
+    t = rng.uniform();
     pos_r[1]  = (1-t)*_min(1)+ t*_max(1);
-    t = udist(gen);
+    t = rng.uniform();
     pos_r[2]  =  (1-t)*_min(2)+ t*_max(2);
 
     last_pos_r = last_pos_v = pos_v = ini_pos = pos_r;

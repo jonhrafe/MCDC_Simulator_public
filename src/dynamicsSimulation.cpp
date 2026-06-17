@@ -27,6 +27,22 @@ using namespace std;
 using namespace sentinels;
 
 /**
+ * Resolve the base seed once and seed the placement/step RNG. When the user
+ * supplies a positive seed the run is fully reproducible; otherwise we fall
+ * back to a non-deterministic random_device draw (P0.1).
+ */
+void DynamicsSimulation::initBaseSeed() {
+    if(params.seed > 0){
+        base_seed = uint64_t(params.seed);
+    }
+    else{
+        std::random_device rd;
+        base_seed = (uint64_t(rd()) << 32) ^ uint64_t(rd());
+    }
+    rng.seed(base_seed);
+}
+
+/**
  * DynamicsSimulation implementation
  */
 DynamicsSimulation::DynamicsSimulation() {
@@ -50,17 +66,7 @@ DynamicsSimulation::DynamicsSimulation() {
     params.write_traj = trajectory.write_traj = false;
     params.write_txt = trajectory.write_txt   = false;
 
-    if(params.seed > 0){
-        mt.seed(ulong(params.seed));
-    }
-    else{
-        //Random seed
-        std::random_device rd;
-        mt.seed(rd());
-    }
-
-    // Pre-allocate the distribution for better performance
-    dist = std::uniform_real_distribution<double>(0,1);
+    initBaseSeed();
 
     print_expected_time = 1;
     icvf=0;
@@ -86,14 +92,7 @@ DynamicsSimulation::DynamicsSimulation(std::string conf_file) {
 
     trajectory.initTrajectory(params);
 
-    if(params.seed > 0){
-        mt.seed(ulong(params.seed));
-    }
-    else{
-        //Random seed
-        std::random_device rd;
-        mt.seed(rd());
-    }
+    initBaseSeed();
     print_expected_time = 1;
 
     this->step(1)=0;
@@ -120,14 +119,7 @@ DynamicsSimulation::DynamicsSimulation(Parameters& params_) {
     completed = 0;
     trajectory.initTrajectory(params);
 
-    if(params.seed > 0){
-        mt.seed(ulong(params.seed));
-    }
-    else{
-        //Random seed
-        std::random_device rd;
-        mt.seed(rd());
-    }
+    initBaseSeed();
 
     print_expected_time  = 1;
     this->step(1)=0;
@@ -432,6 +424,11 @@ void DynamicsSimulation::writeDWSignal(SimulableSequence* dataSynth)
 
 void DynamicsSimulation::iniWalkerPosition()
 {
+    // Seed this walker's own RNG deterministically from (base_seed, sim id,
+    // walker id). Used by the percolation draw and random placement so a fixed
+    // user seed gives bit-reproducible runs, independent of obstacle state. P0.1.
+    walker.rng.seedFrom(base_seed, uint64_t(uint32_t(id)), uint64_t(walker.index), RandomEngine::CROSSING);
+
     walker.initial_location = Walker::unknown;
     walker.location         = Walker::unknown;
     walker.col_obj_id = -1;
@@ -499,11 +496,7 @@ void DynamicsSimulation::initWalkerObstacleIndexes()
 
 void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos,int &cyl_ind, int& ply_ind, int& sph_ind)
 {
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<double> udist(0,1);
-
+    // Draw placement samples from the seeded engine (was random_device). P0.1.
 
     if(cylinders_list->size() <=0 and plyObstacles_list->size() <= 0 and spheres_list->size() <=0){
         SimErrno::error("Cannot initialize intra-axonal walkers within the given substrate.",cout);
@@ -524,9 +517,9 @@ void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos,int &cyl
             assert(0);
         }
 
-        double x = double(udist(gen));
-        double y = double(udist(gen));
-        double z = double(udist(gen));
+        double x = rng.uniform();
+        double y = rng.uniform();
+        double z = rng.uniform();
 
         x = x*(params.min_sampling_area[0]) + ( 1.0-x)*params.max_sampling_area[0];
         y = y*(params.min_sampling_area[1]) + ( 1.0-y)*params.max_sampling_area[1];
@@ -546,10 +539,7 @@ void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos,int &cyl
 
 void DynamicsSimulation::getAnExtraCellularPosition(Vector3d &extra_pos)
 {
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<double> udist(0,1);
+    // Draw placement samples from the seeded engine (was random_device). P0.1.
     int dummy_a,dummy_b,dummy_c;
     if(voxels_list.size()<=0){
         SimErrno::error("Cannot initialize extra-cellular walkers within the given substrate, no voxel.",cout);
@@ -566,9 +556,9 @@ void DynamicsSimulation::getAnExtraCellularPosition(Vector3d &extra_pos)
             assert(0);
         }
 
-        double x = double(udist(gen));
-        double y = double(udist(gen));
-        double z = double(udist(gen));
+        double x = rng.uniform();
+        double y = rng.uniform();
+        double z = rng.uniform();
 
         x = x*(params.min_sampling_area[0]) + ( 1.0-x)*params.max_sampling_area[0];
         y = y*(params.min_sampling_area[1]) + ( 1.0-y)*params.max_sampling_area[1];
@@ -981,8 +971,8 @@ void DynamicsSimulation::generateStep(Vector3d & step, double l) {
     }
 
     /* Unbiased random direction*/
-    double theta  = 2.0*M_PI*dist(mt);
-    double cosPhi = 2.0*dist(mt)-1.0;
+    double theta  = 2.0*M_PI*rng.uniform();
+    double cosPhi = 2.0*rng.uniform()-1.0;
     double cosTh  = cos(theta);
     double sinTh  = sin(theta);
     double sinPhi = sqrt(1.0-cosPhi*cosPhi);
@@ -996,8 +986,8 @@ void DynamicsSimulation::generateStep(Vector3d & step, double l) {
 
 void DynamicsSimulation::generateDirectedStep(Vector3d &new_step, Vector3d &direction){
     /* Unbiased random direction*/
-    double theta  = 2.0*M_PI*dist(mt);
-    double cosPhi = 2.0*dist(mt)-1.0;
+    double theta  = 2.0*M_PI*rng.uniform();
+    double cosPhi = 2.0*rng.uniform()-1.0;
     double cosTh  = cos(theta);
     double sinTh  = sin(theta);
     double sinPhi = sqrt(1.0-cosPhi*cosPhi);

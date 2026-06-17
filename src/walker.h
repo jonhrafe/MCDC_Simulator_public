@@ -14,6 +14,7 @@
 #include <vector>
 #include <deque>
 #include "collisionsphere.h"
+#include "rng.h"
 #include <iostream>
 
 /*! \class Walker
@@ -91,6 +92,8 @@ public:
     bool perm_crossed_flag;                                         /*!< Flag to check if the particle crossed a permeable barrier        */
 
     Eigen::Vector3d boundary_mirror;                                /*!< Tracks boundary mirroring state*/
+
+    RandomEngine rng;                                               /*!< Per-walker seeded RNG (membrane percolation draw, P0.1)          */
 
     //! Default constructor.
     /*! Set all variables to cero.*/

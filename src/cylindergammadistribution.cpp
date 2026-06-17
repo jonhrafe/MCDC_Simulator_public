@@ -1,6 +1,7 @@
 #include "cylindergammadistribution.h"
 #include <algorithm>    // std::sort
 #include <random>
+#include "rng.h"
 #include  "simerrno.h"
 
 using namespace std;
@@ -67,9 +68,15 @@ void CylinderGammaDistribution::displayGammaDistribution()
 
 void CylinderGammaDistribution::createGammaSubstrate()
 {
-    // generate the gamma distribution
-    std::random_device rd;
-    std::default_random_engine generator(rd());
+    // Seeded RNG so a fixed user seed reproduces the substrate (was a pair of
+    // random_device-seeded engines that ignored the seed). P0.1.
+    RandomEngine rng;
+    if(seed > 0)
+        rng.seedFrom(uint64_t(seed), RandomEngine::SUBSTRATE);
+    else{
+        std::random_device rd;
+        rng.seed((uint64_t(rd()) << 32) ^ uint64_t(rd()));
+    }
     std::gamma_distribution<double> distribution(alpha,beta);
     uint repetition = 40;
     uint max_adjustments = 5;
@@ -77,9 +84,6 @@ void CylinderGammaDistribution::createGammaSubstrate()
     vector<Cylinder> best_cylinders;
     Eigen::Vector3d best_max_limits;
     min_limits = {0.,0.,0.};
-
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<double> udist(0,1);
     std::vector<double> radiis(num_obstacles,0);
 
     bool achieved = false;
@@ -93,7 +97,7 @@ void CylinderGammaDistribution::createGammaSubstrate()
             SimErrno::error(message,cout);
             assert(0);
         }
-        double jkr =  distribution(generator);
+        double jkr =  distribution(rng.generator());
 
         if(jkr< this->min_radius){
             i--;
@@ -129,9 +133,9 @@ void CylinderGammaDistribution::createGammaSubstrate()
 
                 while(++stuck <= 1000){
 
-                    double t = udist(gen);
+                    double t = rng.uniform();
                     double x = (t*max_limits[0]) + (1-t)*min_limits[0];
-                    t = udist(gen);
+                    t = rng.uniform();
                     double y = (t*max_limits[1] + (1-t)*min_limits[1]);
                     double z = 0;
 

@@ -35,8 +35,8 @@ public:
     Parameters   params;                            /*!< Parameters handler instance                                                */
     Walker       walker;                            /*!< Single walker to diffuse                                                   */
     Trajectory   trajectory;                        /*!< Trajectory instance. Handles i/o operations                                */
-    std::mt19937 mt;                                /*!< rnd, random generator instance                                             */
-    std::uniform_real_distribution<double> dist;       /*!< uniform distribution for random numbers                                    */
+    RandomEngine rng;                               /*!< Seeded random generator for placement/steps (P0.1)                         */
+    uint64_t base_seed;                             /*!< Resolved base seed (user seed, or random_device when seed<=0)              */
     //double step_lenght;                             /*!< l, step length                                                             */
     double second_passed;                           /*!< Simulation total time in seconds                                           */
     double max_simulation_time;                     /*!< Maximum simulation time if not passed we carry all the particles           */
@@ -156,7 +156,13 @@ public:
     bool isInsideSpheres(Eigen::Vector3d &position, int& sph_id,double distance_to_be_inside);
 
 
-private:    
+private:
+    /*! \fn     initBaseSeed
+     *  \brief  Resolves base_seed from params.seed (or random_device when
+     *          seed<=0) and seeds the placement/step RNG. P0.1.
+     */
+    void initBaseSeed();
+
     /*! \fn     generateStep
      *  \param  step stores the computed step.
      *  \param  l step size. Can be used to change diffusivity in the medium.

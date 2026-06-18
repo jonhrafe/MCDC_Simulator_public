@@ -32,7 +32,8 @@ public:
     bool write_traj;                                /*!< flag, write a traj file or not, binary format only                         */
     bool write_txt;                                 /*!< flag, writes DWI output signals in .txt if True                            */
     bool write_bin;                                 /*!< flag, writes the output signal in binary format (True by default)          */
-    bool scale_from_stu;                            /*!< flag, true if the scheme file is in standar units m,s                      */
+    bool use_mm_ms;                                 /*!< flag, if true the .conf is already in internal units (mm, ms); default false = standard units (m, s, T) scaled silently */
+    bool deprecated_scale_from_stu = false;         /*!< set true if the deprecated 'scale_from_stu' keyword was used; checked in SimErrno for a deprecation notice */
     bool save_phase_shift;                          /*!< flag, saves the phase shift distribution for all particles                 */
     long seed;                                      /*!< Initial seed for the random generator                                      */
     bool verbatim;                                  /*!< False to omit displaying state and warnings                                */
@@ -123,8 +124,8 @@ public:
      *         number of walkers (N), number of steps (T), duration (duration), PGSE scheme file (scheme_file),
      *         min voxles limits (min limits), max voxel limits (max_limits), diffusivity (diffusivity),
      *         index name for the trajectory and output values (out_traj_file_index), initial walker position file (ini_walkers_file),
-     *         write a txt traj flag and header (write_text), write binary traj file and header, write_bin, flag to scale the values
-     *         from estandar unit (scale_from_stu), random seed (seed).
+     *         write a txt traj flag and header (write_text), write binary traj file and header, write_bin, flag indicating the
+     *         .conf is already in internal units mm/ms (use_mm_ms; default false = standard units m,s,T scaled silently), random seed (seed).
      */
     void readSchemeFile(std::string conf_file);
 

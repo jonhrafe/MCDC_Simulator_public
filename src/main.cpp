@@ -101,7 +101,9 @@ void printUsage() {
 
    Obstacle and Protocol:
      scheme_file <string>    Path to the simulation protocol file.
-     scale_from_stu <int>    Set to 1 if protocol uses scaled units, 0 otherwise.
+     use_mm_ms <int>         The .conf is in standard units (m, s, T) by DEFAULT and scaled
+                             silently to mm/ms. Set to 1 only if the .conf is already in
+                             internal units (mm, ms). (Replaces the deprecated scale_from_stu.)
      <obstacle>              Define obstacle configurations (e.g., sphere, cylinder).
      <cylinder_gamma_packing> Specify gamma cylinder obstacle settings.
      <ply_obstacle>          Define PLY mesh model obstacles.

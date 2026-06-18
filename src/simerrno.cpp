@@ -1,6 +1,7 @@
 #include "simerrno.h"
 #include "iostream"
 #include "constants.h"
+#include <limits>
 #include <thread>
 #include <iostream>
 #include <sstream>
@@ -776,6 +777,13 @@ bool SimErrno::checkConfigurationFile(const char* configuration_file)
     bool fixed_configuration = false;
 
     while(in >> tmp ){
+
+        // '#' starts a comment: ignore the rest of the line so comment text
+        // (which may legitimately mention tag names like <delta>) is not counted.
+        if(!tmp.empty() && tmp[0] == '#'){
+            in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            continue;
+        }
 
         std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
 

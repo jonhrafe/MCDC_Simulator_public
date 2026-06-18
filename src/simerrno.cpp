@@ -18,6 +18,12 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 {
     cout << "\033[1;35m/***************   MC/DC Simulation parameters check out:  ***************/" << SH_DEFAULT << "\n";
 
+    if(params.deprecated_scale_from_stu){
+        warning("'scale_from_stu' is DEPRECATED. Standard units (m, s, T) are now the DEFAULT for the .conf; "
+                "use the new flag 'use_mm_ms 1' only if your .conf is already in internal units (mm, ms). "
+                "Note: unlike the old flag, lengths (voxel, sampling area, radii, ...) are now scaled too.", cout);
+    }
+
     if(params.num_walkers > 1e9){
         error( " Maximum number of particles is fixed to 1e9.",cout);
         assert(0);
@@ -42,12 +48,10 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
         return true;
     }
 
-    if(params.sim_duration > 200.0 && params.scale_from_stu == 1){
-        warning("Simulation duration might be unsuitable.", cout);
-    }
-
-    if(params.sim_duration > 1 && params.scale_from_stu == 0){
-        warning("Simulation duration might be unsuitable.",cout);
+    // sim_duration is in internal units (ms) by this point. Soft sanity check.
+    if(params.sim_duration > 200.0){
+        warning("Simulation duration (" + to_string(params.sim_duration) + " ms) is unusually long. "
+                "If the .conf is in standard units, duration must be in seconds; if it is already in ms, set use_mm_ms 1.", cout);
     }
 
     if(params.sim_duration <= 0.0){
@@ -295,7 +299,7 @@ bool SimErrno::checkSchemeFile(Parameters &params)
             counter++;
         }
 
-        if(params.scale_from_stu == 1){
+        if(!params.use_mm_ms){
             if(sample_vector[6] > 1.0 || sample_vector[3] > 1.0){
                 warning("Scheme file might not be in standard units (meters, seconds, Tesla). Units Warning.", cout);
             }
@@ -322,7 +326,7 @@ bool SimErrno::checkSchemeFile(Parameters &params)
             counter++;
         }
 
-        if(params.scale_from_stu == 1){
+        if(!params.use_mm_ms){
             if(sample_vector[8] > 1.0 || sample_vector[3] > 1.0){
                 warning("Scheme file might not be in standard units (meters, seconds, Tesla). Units Warning.", cout);
             }
@@ -350,7 +354,7 @@ bool SimErrno::checkSchemeFile(Parameters &params)
         in >> holder;
         num_rep = uint(holder);
 
-        if(params.scale_from_stu == 1){
+        if(!params.use_mm_ms){
             if(wave_duration > 1){
                 warning("Scheme file might not be in standard units (meters, seconds, Tesla). Units Warning.", cout);
             }
@@ -361,7 +365,7 @@ bool SimErrno::checkSchemeFile(Parameters &params)
             }
         }
 
-        if(params.scale_from_stu == 1)
+        if(!params.use_mm_ms)
             wave_duration *= s_to_ms;
 
         if(params.sim_duration > double(wave_duration)+EPS_VAL){
@@ -987,8 +991,8 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
     answer = (params.separate_signals)?" true":" false";
     infoMenu(" Separated signals      ------",  answer, out, color,35);
 
-    answer = (params.scale_from_stu)?" true":" false";
-    infoMenu(" Standard units:        ------",  answer, out, color,35);
+    answer = (!params.use_mm_ms)?" true":" false";
+    infoMenu(" Standard units (m,s,T):------",  answer, out, color,35);
 
     // A substrate is permeable if the global obstacle_permeability is set OR any
     // PLY mesh has a per-file percolation > 0 (PLY meshes take their permeability

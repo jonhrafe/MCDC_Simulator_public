@@ -82,7 +82,7 @@ void Benchmark::start()
     params_h1.diffusivity = 2.0e-6;
     params_h1.write_bin      = false;
     params_h1.write_txt      = true;
-    params_h1.scale_from_stu = true;
+    params_h1.use_mm_ms = false;   // values are programmatic; SI scheme scaling preserved
     params_h1.hex_cyl_packing = true;
     params_h1.hex_packing_radius = 1e-3;
     //params_h1.ini_walker_flag = "extra";
@@ -128,7 +128,7 @@ void Benchmark::start()
     params_h4.diffusivity = 2.0e-6;
     params_h4.write_txt      = true;
     params_h4.write_bin      = false;
-    params_h4.scale_from_stu = true;
+    params_h4.use_mm_ms = false;   // values are programmatic; SI scheme scaling preserved
     params_h4.write_traj    = false;
     params_h4.gamma_sph_packing = true;
     params_h4.gamma_packing_alpha = 5.0;
@@ -165,7 +165,7 @@ void Benchmark::start()
     params_h5.diff_extra   = 0.600e-6;
     params_h5.write_bin      = false;
     params_h5.write_txt      = true;
-    params_h5.scale_from_stu = true;
+    params_h5.use_mm_ms = false;   // values are programmatic; SI scheme scaling preserved
     params_h5.write_traj     = true;
     params_h5.PLY_files.push_back("instructions/meshes/hexagonal_packed_spheres_INT.ply");
     params_h5.PLY_scales.push_back(1e-3);

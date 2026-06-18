@@ -35,7 +35,7 @@ MCSimulation::MCSimulation(std::string config_file)
     dynamicsEngine = new DynamicsSimulation(params);
 
     if(params.scheme_file.length() > 2){
-        scheme.readSchemeFile(params.scheme_file,params.scale_from_stu);
+        scheme.readSchemeFile(params.scheme_file, !params.use_mm_ms);
     }
 
 
@@ -71,7 +71,7 @@ MCSimulation::MCSimulation(Parameters& params_)
     dynamicsEngine = new DynamicsSimulation(params);
 
     if(params.scheme_file.length() > 2){
-        scheme.readSchemeFile(params.scheme_file,params.scale_from_stu);
+        scheme.readSchemeFile(params.scheme_file, !params.use_mm_ms);
     }
 
     if(scheme.type == "PGSE"){

@@ -8,7 +8,7 @@ using namespace std;
 Parameters::Parameters()
 {
     //Dummy initial values;
-    scale_from_stu      = false;
+    use_mm_ms           = false;   // default: .conf is in standard units (m, s, T); scale silently to mm/ms internally
     seed                = -1;
     save_phase_shift    = false;
     write_traj          = false;
@@ -113,8 +113,17 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         else if(str_dist(tmp,"write_traj_file") <= 2){
             in >> write_traj;
         }
+        else if(str_dist(tmp,"use_mm_ms") <= 1){
+            in >> use_mm_ms;
+        }
         else if(str_dist(tmp,"scale_from_stu") <= 2){
-            in >> scale_from_stu;
+            // Deprecated. Old semantics: scale_from_stu 1 == input in standard units.
+            // New default IS standard units, with use_mm_ms as the (inverse) opt-out.
+            // Auto-map for backward behaviour; the deprecation notice is emitted by
+            // SimErrno::checkSimulationParameters (see deprecated_scale_from_stu).
+            bool old_flag; in >> old_flag;
+            use_mm_ms = !old_flag;
+            deprecated_scale_from_stu = true;
         }
         else if(str_dist(tmp,"seed") <= 1){
             in >> seed;
@@ -250,17 +259,41 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         }
     }
 
-    if(scale_from_stu){
-        //m^2/s to mm^2/ms
-        diffusivity*=m2_to_mm2/s_to_ms;
-        
-        diff_intra*=m2_to_mm2/s_to_ms;
-        diff_extra*=m2_to_mm2/s_to_ms;
-        //seconds to ms
-        sim_duration*=s_to_ms;
+    // By default the .conf is in standard units (m, s, T); scale silently to the
+    // simulator's internal units (mm, ms). use_mm_ms == true means the .conf is
+    // already in internal units, so no scaling is applied.
+    if(!use_mm_ms){
+        // diffusivity: m^2/s -> mm^2/ms
+        diffusivity *= m2_to_mm2/s_to_ms;
+        diff_intra  *= m2_to_mm2/s_to_ms;
+        diff_extra  *= m2_to_mm2/s_to_ms;
 
-        t2_intra*=s_to_ms;
-        t2_extra*=s_to_ms;
+        // times: s -> ms
+        sim_duration *= s_to_ms;
+        t2_intra     *= s_to_ms;
+        t2_extra     *= s_to_ms;
+
+        // lengths: m -> mm
+        min_limits *= m_to_mm;
+        max_limits *= m_to_mm;
+        for(auto& vox : voxels_list){
+            vox.first  *= m_to_mm;
+            vox.second *= m_to_mm;
+        }
+        min_sampling_area *= m_to_mm;
+        max_sampling_area *= m_to_mm;
+        for(auto& d : ini_delta_pos)
+            d *= m_to_mm;
+        collision_sphere_distance *= m_to_mm;
+        hex_packing_radius        *= m_to_mm;
+        hex_packing_separation    *= m_to_mm;
+
+        // permeability kappa is a velocity (m/s); m/s == mm/ms numerically, so it
+        // is invariant under this scaling and intentionally left unchanged.
+        //
+        // NOTE: gamma-packing parameters (alpha, beta, min_radius) are NOT scaled
+        // here: that pipeline carries its own micrometre convention (radii drawn in
+        // um then converted via *1e-3 in createGammaSubstrate). Pending separate cleanup.
     }
 
 

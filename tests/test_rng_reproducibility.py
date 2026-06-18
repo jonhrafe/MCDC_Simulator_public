@@ -75,9 +75,14 @@ def run_sim(binary: str, conf_path: str, workdir: str) -> None:
         stderr=subprocess.STDOUT,
         text=True,
     )
-    if res.returncode != 0:
-        sys.stderr.write(res.stdout)
-        raise RuntimeError(f"simulator exited with code {res.returncode}")
+    # Also fail on a printed "[ERROR]"/assert: config validation uses assert(),
+    # which is disabled under -DNDEBUG, so a bad config can print an error and
+    # still exit 0. An exit-code-only check would miss it.
+    out = res.stdout or ""
+    bad = ("[ERROR]" in out) or ("Assertion" in out)
+    if res.returncode != 0 or bad:
+        sys.stderr.write(out)
+        raise RuntimeError(f"simulator failed (exit {res.returncode}; error in output={bad})")
 
 
 def load_trajectory(prefix: str):

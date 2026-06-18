@@ -72,9 +72,18 @@ def run_sim(binary: str, conf_path: str, workdir: str) -> None:
         [binary, "--conf", conf_path],
         cwd=workdir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
     )
-    if res.returncode != 0:
-        sys.stderr.write(res.stdout)
-        raise RuntimeError(f"simulator exited with code {res.returncode}")
+    # Fail on a non-zero exit OR on any reported error in the output. The latter
+    # matters because the simulator's config validation signals failure via
+    # assert(), which is a no-op under -DNDEBUG (release builds) and whose return
+    # value the caller ignores -- so a broken config can otherwise print "[ERROR]"
+    # yet exit 0 and slip past an exit-code-only check.
+    out = res.stdout or ""
+    bad = ("[ERROR]" in out) or ("Assertion" in out) or ("error:" in out.lower()
+                                                          and "no error" not in out.lower())
+    if res.returncode != 0 or bad:
+        sys.stderr.write(out)
+        raise RuntimeError(f"simulator failed (exit {res.returncode}; "
+                           f"error in output={bad})")
 
 
 def load_signal(path: str) -> np.ndarray:

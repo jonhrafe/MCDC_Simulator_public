@@ -1,9 +1,20 @@
 #include "parameters.h"
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include "constants.h"
 #include "simerrno.h"
 using namespace std;
+
+// Skip the rest of the current line on a stream (used for '#' comments).
+static inline void skip_rest_of_line(std::istream& in){
+    in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+// True if the token is the start of a '#' line comment.
+static inline bool is_comment_token(const std::string& tok){
+    return !tok.empty() && tok[0] == '#';
+}
 
 Parameters::Parameters()
 {
@@ -66,6 +77,13 @@ void Parameters::readSchemeFile(std::string conf_file_path)
 
     string tmp="";
     while((in >> tmp) && (str_dist(tmp,"<END>") >= 2) ){
+
+        // '#' starts a comment: ignore the rest of the line (works for whole-line
+        // comments and for trailing comments after a directive).
+        if(is_comment_token(tmp)){
+            skip_rest_of_line(in);
+            continue;
+        }
 
         std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
 
@@ -432,6 +450,10 @@ void Parameters::readObstacles(ifstream& in)
 
     while( !(str_dist(tmp,"</obstacle>") <= 2)){
         in >> tmp;
+        if(is_comment_token(tmp)){
+            skip_rest_of_line(in);
+            continue;
+        }
         std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
 
         if(str_dist(tmp,"cylinders_list") <= 2){
@@ -568,6 +590,10 @@ void Parameters::readInfoGatheringParams(ifstream& in)
     while(str_dist(tmp,"</log>"))
     {
         in >> tmp;
+        if(is_comment_token(tmp)){
+            skip_rest_of_line(in);
+            continue;
+        }
         std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
 
         if(str_dist(tmp,"<positions>") <= 3)
@@ -672,6 +698,10 @@ void Parameters::readGammaParams(ifstream &in)
     while(str_dist(tmp,"</cylinder_gamma_packing>") > 0 || str_dist(tmp,"</sphere_gamma_packing") > 0 )
     {
         in >> tmp;
+        if(is_comment_token(tmp)){
+            skip_rest_of_line(in);
+            continue;
+        }
         std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
         if(str_dist(tmp,"output_conf") <= 1){
             string tst;

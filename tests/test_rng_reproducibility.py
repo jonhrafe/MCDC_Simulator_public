@@ -139,7 +139,7 @@ def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--bin", default=os.path.join(repo_root, "MC-DC_Simulator"),
                    help="path to the MC-DC_Simulator binary")
-    p.add_argument("--conf", default=os.path.join(repo_root, "debug", "debug.conf"),
+    p.add_argument("--conf", default=os.path.join(here, "accuracy", "repro.conf"),
                    help="base config to derive test runs from")
     p.add_argument("--workdir", default=repo_root,
                    help="CWD for the simulator (relative paths in conf resolve here)")

@@ -1,19 +1,38 @@
-# Accuracy golden-master regression test
+# Accuracy golden-master regression tests
 
-A single fixed experiment whose diffusion signal is frozen as a baseline, so any
-change elsewhere in the code can be checked for *"does it still produce the same
-physics?"*. This is also the reference a future GPU / re-implementation is
+Fixed experiments whose diffusion signals are frozen as baselines, so any change
+elsewhere in the code can be checked for *"does it still produce the same
+physics?"*. These are also the reference a future GPU / re-implementation is
 validated against.
 
-## The experiment — `sphere_impermeable.conf`
+All fixtures are **self-contained and tracked** under `tests/accuracy/` (meshes
+in `meshes/`, the PGSE scheme, the configs and list) — nothing depends on the
+gitignored `debug/` directory, so the suite works on a clean checkout.
 
-- **Substrate:** a simple sphere mesh (`debug/unitMesh.ply`) inside a voxel.
+## Experiment 1 — `sphere_impermeable.conf`
+
+- **Substrate:** a simple sphere mesh (`meshes/unitMesh.ply`) inside a voxel.
 - **Walkers:** `N=2000`, `T=1000`, seeded **uniformly** in the voxel (no
   `ini_walkers_pos`), so the ensemble is a natural **intra + extra** mix.
-- **Impermeable:** no `permeability` key. This is the deliberate invariant — the
+- **Impermeable:** no `permeability` key. The deliberate invariant — the
   permeability work (and anything else not meant to change the signal) must
   leave this run untouched.
 - **Deterministic:** fixed `seed 12345` and `num_process 2`.
+
+## Experiment 2 — `two_meshes_impermeable.conf`
+
+- **Substrate:** TWO impermeable meshes in one simulation (`meshes/unitMesh.ply`
+  + a displaced deformed sphere `meshes/Mesh_O200.ply`), loaded via a
+  `ply_file_list_scale_permeability` list (`two_meshes.list`, columns
+  `file scale percolation`) so a permeability can be set per mesh later.
+- **Walkers:** `N=2000`, `T=1000`, **initialised intra** (inside the meshes) in a
+  larger voxel — exercises multi-mesh restricted diffusion. With impermeable
+  membranes the **extra signal must stay ~0** (a built-in leak detector).
+- **Impermeable:** percolation `0` for both meshes; a finite `T2` (0.080 s) set
+  globally. `seed 12345`, `num_process 2`.
+
+> Per-mesh `d_intra` / `T2` are **not** settable from the list yet (only `file
+> scale percolation`); each mesh inherits the global `diffusivity` / `t2_intra`.
 
 Captured outputs (the actual scientific signal, 270 PGSE measurements each):
 `*_DWI.txt` (real), `*_DWI_intra.txt`, `*_DWI_extra.txt`, stored in `golden/`.
@@ -21,14 +40,20 @@ Captured outputs (the actual scientific signal, 270 PGSE measurements each):
 ## Running
 
 ```bash
-# check the current build against the committed golden (also: ctest -R accuracy_golden)
+# all accuracy + reproducibility tests
+ctest --test-dir build
+
+# experiment 1 (default conf) against the committed golden
 python3 tests/test_accuracy_golden.py
+
+# experiment 2 (two meshes)
+python3 tests/test_accuracy_golden.py --conf tests/accuracy/two_meshes_impermeable.conf
 
 # loosen tolerance, e.g. when comparing a GPU port or a different compiler
 python3 tests/test_accuracy_golden.py --rtol 1e-4
 
-# regenerate the baseline after an INTENTIONAL, reviewed behaviour change
-python3 tests/test_accuracy_golden.py --update
+# regenerate a baseline after an INTENTIONAL, reviewed behaviour change
+python3 tests/test_accuracy_golden.py [--conf <conf>] --update
 ```
 
 Comparison is `|run - golden| <= atol + rtol*|golden|` per value (defaults

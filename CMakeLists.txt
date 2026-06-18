@@ -96,7 +96,7 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE}
                 "${CMAKE_SOURCE_DIR}/tests/test_rng_reproducibility.py"
                 --bin $<TARGET_FILE:MC-DC_Simulator>
-                --conf "${CMAKE_SOURCE_DIR}/debug/debug.conf"
+                --conf "${CMAKE_SOURCE_DIR}/tests/accuracy/repro.conf"
                 --workdir "${CMAKE_SOURCE_DIR}")
     set_tests_properties(rng_reproducibility PROPERTIES
         LABELS "reproducibility" TIMEOUT 300)
@@ -117,6 +117,22 @@ if(Python3_Interpreter_FOUND)
                 --golden-dir "${CMAKE_SOURCE_DIR}/tests/accuracy/golden"
                 --workdir "${CMAKE_SOURCE_DIR}")
     set_tests_properties(accuracy_golden PROPERTIES
+        LABELS "accuracy" TIMEOUT 600)
+
+    # Second golden: two impermeable meshes (original sphere + a displaced
+    # deformed sphere) loaded via a ply_file_list_scale_permeability list, walkers
+    # initialised intra, finite T2. Exercises multi-mesh restricted diffusion; the
+    # extra signal must stay ~0 (impermeable leak detector). Same harness/baseline
+    # workflow as accuracy_golden.
+    add_test(
+        NAME accuracy_golden_two_meshes
+        COMMAND ${Python3_EXECUTABLE}
+                "${CMAKE_SOURCE_DIR}/tests/test_accuracy_golden.py"
+                --bin $<TARGET_FILE:MC-DC_Simulator>
+                --conf "${CMAKE_SOURCE_DIR}/tests/accuracy/two_meshes_impermeable.conf"
+                --golden-dir "${CMAKE_SOURCE_DIR}/tests/accuracy/golden"
+                --workdir "${CMAKE_SOURCE_DIR}")
+    set_tests_properties(accuracy_golden_two_meshes PROPERTIES
         LABELS "accuracy" TIMEOUT 600)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")

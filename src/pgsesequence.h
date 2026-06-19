@@ -34,6 +34,14 @@ public:
 
     std::vector< std::vector<double> > scheme;  /*!< Scheme file values         */
 
+    /*!< perf B4: list of timesteps where the gradient impulse is non-zero for some
+     *   direction. The PGSE gradient is on only during the two short delta-pulses,
+     *   so for most timesteps Gdt==0 and the phase update is a no-op (phase is
+     *   already range-reduced). These steps can be skipped -> bit-exact. The list is
+     *   walker-independent: built ONCE and shared read-only across threads. When
+     *   null, every timestep is processed (original behaviour).                    */
+    const std::vector<unsigned>* grad_active_t = nullptr;
+
     Trajectory trajectory;    /*!< If the signal is computed from a .trajfile   */
 
     //constructors
@@ -118,6 +126,17 @@ public:
      * @brief Updates the phase shift using the full stored trajectory
      */
     virtual void update_phase_shift(double time_step, Eigen::Matrix3Xd trajectory);
+
+    /**
+     * @brief perf B4: precompute (walker-independent) the list of timesteps that
+     *        carry a non-zero gradient impulse for at least one direction. Other
+     *        timesteps contribute exactly zero to the phase and are skipped, which
+     *        is bit-exact (the phase is already range-reduced).
+     */
+    void buildActiveTimesteps(double time_step, std::vector<unsigned>& out) const;
+
+    /** @brief Point this sequence at a shared, read-only active-timestep list. */
+    void setActiveTimesteps(const std::vector<unsigned>* t){ grad_active_t = t; }
 
     /**
      * @brief Updates the DWI signal using the cumulated phase shift

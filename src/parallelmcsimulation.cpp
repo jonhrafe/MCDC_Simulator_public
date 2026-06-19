@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <vector>
 #include "constants.h"
+#include "pgsesequence.h"
 #include "simerrno.h"
 #include "cylindergammadistribution.h"
 #include "spheregammadistribution.h"
@@ -69,6 +70,22 @@ void ParallelMCSimulation::startSimulation()
 {
     cout<<setfill('-');
     cout << SH_FG_PURPLE << "/********************   MC/DC Simulation START:  *************************/" << SH_DEFAULT << "\n";
+
+    // perf B4: precompute the walker-independent list of active timesteps ONCE and
+    // share it read-only with every per-thread sequence, so the per-walker phase
+    // loop skips the (majority) timesteps where the gradient is off (the dominant
+    // cost). One shared list => negligible memory.
+    if(!simulations.empty()){
+        PGSESequence* pgse0 = dynamic_cast<PGSESequence*>(simulations[0]->dataSynth);
+        if(pgse0){
+            double ts = params.sim_duration/double(params.num_steps);
+            pgse0->buildActiveTimesteps(ts, grad_active_timesteps);
+            for(unsigned i = 0; i < simulations.size(); i++){
+                PGSESequence* p = dynamic_cast<PGSESequence*>(simulations[i]->dataSynth);
+                if(p) p->setActiveTimesteps(&grad_active_timesteps);
+            }
+        }
+    }
 
     for(unsigned int i =0; i < simulations.size(); i++){
         sim_threads.push_back(std::thread(&MCSimulation::startSimulation,(simulations[i])));

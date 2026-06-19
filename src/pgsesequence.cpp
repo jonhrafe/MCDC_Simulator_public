@@ -246,19 +246,64 @@ void PGSESequence::update_phase_shift(double dt, double dt_last, Walker walker)
     }
 }
 
+void PGSESequence::buildActiveTimesteps(double time_step, std::vector<unsigned>& out) const
+{
+    // Walker-independent: a timestep is "active" if getGradImpulse is non-zero for
+    // any direction. Inactive timesteps contribute exactly 0 to every phase and are
+    // skipped at runtime (bit-exact). Probed once here (T*num_rep calls) vs. the
+    // N*T*num_rep recomputation it saves in the per-walker loop.
+    out.clear();
+    Eigen::Vector3d Gdt;
+    double dt, dt_last;
+    for (uint t = 1; t < this->T; t++) {
+        if (this->dynamic) { dt_last = this->time_steps[t-1]; dt = this->time_steps[t]; }
+        else               { dt_last = time_step*(t-1);       dt = time_step*(t);       }
+        bool active = false;
+        for (int s = 0; s < num_rep && !active; s++) {
+            const_cast<PGSESequence*>(this)->getGradImpulse(s, dt, dt_last, Gdt);
+            if (Gdt[0] != 0.0 || Gdt[1] != 0.0 || Gdt[2] != 0.0) active = true;
+        }
+        if (active) out.push_back(t);
+    }
+}
+
 void PGSESequence::update_phase_shift(double time_step, Eigen::Matrix3Xd trajectory)
 {
     Eigen::Vector3d xt;
     Eigen::Vector3d Gdt;
     double dt,dt_last;
+    const double dos_pi = 2.0*M_PI;
 
-    for (uint t=1; t < this->T ;t++){ 
+    // perf B4: when the active-timestep list is available, iterate only the
+    // timesteps that carry a non-zero gradient impulse. The skipped timesteps would
+    // add exactly 0 to every phase (Gdt==0 => val==0 => fmod is a no-op on the
+    // already range-reduced phase), so the result is bit-exact identical.
+    if(grad_active_t != nullptr){
+        const std::vector<unsigned>& active = *grad_active_t;
+        for (size_t ai = 0; ai < active.size(); ai++){
+            const uint t = active[ai];
+            xt[0] = trajectory(0,t) - trajectory(0,0);
+            xt[1] = trajectory(1,t) - trajectory(1,0);
+            xt[2] = trajectory(2,t) - trajectory(2,0);
+
+            if(this->dynamic){ dt_last = this->time_steps[t-1]; dt = this->time_steps[t]; }
+            else             { dt_last = time_step*(t-1);       dt = time_step*(t);       }
+
+            for(int s=0; s < num_rep ;s++){
+                getGradImpulse(s,dt,dt_last,Gdt);
+                double val = giro*(Gdt[0]*xt[0]+Gdt[1]*xt[1]+Gdt[2]*xt[2]);
+                val = fmod(val,dos_pi);
+                phase_shift[s] = fmod(phase_shift[s] + val,dos_pi);
+            }
+        }
+        return;
+    }
+
+    for (uint t=1; t < this->T ;t++){
         //Displacement
         xt[0] = trajectory(0,t) - trajectory(0,0);
         xt[1] = trajectory(1,t) - trajectory(1,0);
         xt[2] = trajectory(2,t) - trajectory(2,0);
-
-        double dos_pi = 2.0*M_PI;
 
         if(this->dynamic){
             dt_last = this->time_steps[t-1];

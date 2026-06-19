@@ -48,6 +48,13 @@ public:
 
     std::vector<uint> getAABBsInCells(const AABB& query_aabb) const;
 
+    // Allocation-free variant: fills a caller-owned, reused buffer instead of
+    // building an unordered_set + returning a fresh vector on every call (perf B1).
+    // No de-duplication: an obstacle spanning several queried cells may appear
+    // more than once, which is harmless because the collision handler keeps the
+    // nearest hit (idempotent to repeats). 'out' is cleared on entry.
+    void getAABBsInCells(const AABB& query_aabb, std::vector<uint>& out) const;
+
     double computeOptimalCellSize(std::vector<AABB> &aabbs, double memory_limit_mb, double min_cell_size_um) const;
 
     // Accessors

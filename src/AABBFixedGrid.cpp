@@ -89,23 +89,30 @@ std::vector<int> AABBFixedGrid::getAABBsInCell(const Eigen::Vector3d& point) con
     return grid[index];
 }
 
-std::vector<uint> AABBFixedGrid::getAABBsInCells(const AABB& query_aabb) const {
+void AABBFixedGrid::getAABBsInCells(const AABB& query_aabb, std::vector<uint>& out) const {
+    out.clear();
     std::array<int, 3> min_cell = getCellIndex(Eigen::Vector3d(query_aabb.min_b[0], query_aabb.min_b[1], query_aabb.min_b[2]));
     std::array<int, 3> max_cell = getCellIndex(Eigen::Vector3d(query_aabb.max_b[0], query_aabb.max_b[1], query_aabb.max_b[2]));
-
-    std::unordered_set<uint> unique_indices;
 
     for (int x = min_cell[0]; x <= max_cell[0]; ++x) {
         for (int y = min_cell[1]; y <= max_cell[1]; ++y) {
             for (int z = min_cell[2]; z <= max_cell[2]; ++z) {
                 int index = x + grid_dims[0] * (y + grid_dims[1] * z);
                 if (index >= 0 && index < static_cast<int>(grid.size())) {
-                    unique_indices.insert(grid[index].begin(), grid[index].end());
+                    const std::vector<int>& cell = grid[index];
+                    out.insert(out.end(), cell.begin(), cell.end());
                 }
             }
         }
     }
+}
 
+std::vector<uint> AABBFixedGrid::getAABBsInCells(const AABB& query_aabb) const {
+    // Back-compat wrapper (de-duplicated). The per-step hot path uses the buffer
+    // overload above; this is kept for any non-hot caller.
+    std::vector<uint> tmp;
+    getAABBsInCells(query_aabb, tmp);
+    std::unordered_set<uint> unique_indices(tmp.begin(), tmp.end());
     return std::vector<uint>(unique_indices.begin(), unique_indices.end());
 }
 

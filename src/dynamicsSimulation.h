@@ -56,6 +56,7 @@ public:
     double icvf;                                    /*!< Stores the ICVF (1 - Intra-Extra) if needed                                */
     AABBFixedGrid* spheresAABBGrid;                 /*!< Pointer to the AABB grid for the spheres                                   */
     AABBFixedGrid* cylindersAABBGrid;               /*!< Pointer to the AABB grid for the cylinders                                 */
+    std::vector<uint> aabb_query_buf;               /*!< Reused scratch buffer for grid queries (perf B1; one per sim => per thread) */
     unsigned intra_particles, total_tries;              /*!< Helper variables to compute the estimated ICVF                             */
 
     /******   Auxiliar variables   ********/

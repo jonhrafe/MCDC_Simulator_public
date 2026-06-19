@@ -1127,8 +1127,8 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
         Eigen::Vector3d z_end_point = z_ray_origin + tmax * bounced_step;
         AABB ray_aabb(z_ray_origin.cwiseMin(z_end_point), z_ray_origin.cwiseMax(z_end_point));
         //For each Cylinder Obstacles
-        std::vector<uint> cylinders_indexes_in_cell = this->cylindersAABBGrid->getAABBsInCells(ray_aabb);
-        for (auto index: cylinders_indexes_in_cell) {
+        this->cylindersAABBGrid->getAABBsInCells(ray_aabb, aabb_query_buf);   // perf B1: reused buffer
+        for (auto index: aabb_query_buf) {
         //for (auto index = 0; index < cylinders_list->size(); index++){
             (*cylinders_list)[index].checkCollision(walker, bounced_step, tmax, colision_tmp);
             handleCollisions(colision, colision_tmp, max_collision_distance, (*cylinders_list)[index].id);
@@ -1137,18 +1137,17 @@ bool DynamicsSimulation::checkObstacleCollision(Vector3d &bounced_step,double &t
 
     if(spheres_list->size() > 0){
         //For each Sphere Obstacles
-         std::vector<uint> spheres_indexes_in_cell = this->spheresAABBGrid->getAABBsInCells(ray_aabb);
-         //cout << spheres_indexes_in_cell.size() << endl;
-        for (auto index: spheres_indexes_in_cell) {
+        this->spheresAABBGrid->getAABBsInCells(ray_aabb, aabb_query_buf);     // perf B1: reused buffer
+        for (auto index: aabb_query_buf) {
             (*spheres_list)[index].checkCollision(walker, bounced_step, tmax, colision_tmp);
             handleCollisions(colision, colision_tmp, max_collision_distance, (*spheres_list)[index].id);
         }
     }
 
     for (unsigned int i = 0; i < plyObstacles_list->size(); i++) {
-        std::vector<uint> vector_with_triangles_in_cell = (*plyObstacles_list)[i].AABBgrid.getAABBsInCells(ray_aabb); 
+        (*plyObstacles_list)[i].AABBgrid.getAABBsInCells(ray_aabb, aabb_query_buf);   // perf B1: reused buffer
         // Check for collisions and populate collision vector
-        (*plyObstacles_list)[i].checkCollision(walker, bounced_step, tmax, colision_tmp,vector_with_triangles_in_cell,vector_with_triangles_in_cell.size());
+        (*plyObstacles_list)[i].checkCollision(walker, bounced_step, tmax, colision_tmp,aabb_query_buf,aabb_query_buf.size());
         // Handle collisions using the extracted triangles
         handleCollisions(colision,colision_tmp,max_collision_distance,(*plyObstacles_list)[i].id);
     }

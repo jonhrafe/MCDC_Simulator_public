@@ -32,12 +32,14 @@ gitignored `debug/` directory, so the suite works on a clean checkout.
   compartment it starts in.
 - **Impermeable:** permeability `0` for both meshes. `seed 12345`, `num_process 2`.
 
-To validate the per-compartment assignment directly, run with the **`debug 1`**
-flag: the simulator writes a per-process `*_debug_trace.txt` logging, for every
-walker and step, `walker step x y z location compartment Di T2` (position in mm,
-Di in mm²/ms, T2 in ms; the model has no T1). Each row's `Di`/`T2` should match
-the compartment in the `compartment` column (e.g. `ply0`, `ply1`, `extra`).
-The file is large, so it is only written when `debug 1` is set.
+To validate the per-compartment assignment directly, add the **`debug`** flag
+(presence-only — just the word `debug` on its own line; there is no `debug 1`,
+and `debug 0` would NOT turn it off — remove the line to disable). The simulator
+then writes a per-process `*_debug_trace.txt` logging, for every walker and step,
+`walker step x y z location compartment Di T2` (position in mm, Di in mm²/ms, T2
+in ms; the model has no T1). Each row's `Di`/`T2` should match the compartment in
+the `compartment` column (e.g. `ply0`, `ply1`, `extra`). The file is large, so it
+is only written when `debug` is present.
 
 ### PLY list options
 

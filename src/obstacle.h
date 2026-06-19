@@ -17,6 +17,16 @@ public:
 
     int id;                         /*!< Unique id of the simulation                                                */
     int count_perc_crossings;       /*!< Auxiliar value to count the number of percolatin crossings in a simulation */
+    // Directional permeability counters (validation of the Powles model). A "hit"
+    // is counted whenever the membrane is reached and a crossing draw is made
+    // (covers both step and bouncing collisions); a "cross" when that draw succeeds.
+    // Empirical p_hat = count_cross_* / count_hits_* should match prob_cross_*.
+    // NOTE: obstacles are shared across processes, so these are exact only for
+    // num_process 1 (like count_perc_crossings, they race under multithreading).
+    unsigned long count_hits_i_e;   /*!< membrane reached from the intra side (draw made)                            */
+    unsigned long count_hits_e_i;   /*!< membrane reached from the extra side (draw made)                            */
+    unsigned long count_cross_i_e;  /*!< successful intra->extra crossings                                          */
+    unsigned long count_cross_e_i;  /*!< successful extra->intra crossings                                          */
     double percolation;             /*!< Percolation value between 0 and 1.                                         */
     double permeability;            /*!< Membrane permeability kappa (velocity; m/s in the .conf, mm/ms internal). Physical input; per-encounter statistics derived from it. */
     double T2;                      /*!< T2 decay, not used by default                                              */

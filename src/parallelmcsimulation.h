@@ -82,6 +82,14 @@ private:
     void jointResults();
 
     /*!
+     *  \brief Writes per-obstacle permeability counters (hits/crossings per
+     *         direction) and the empirical vs prescribed crossing probabilities to
+     *         <prefix>_perm_counters.txt. Only when permeable obstacles exist.
+     *         Exact only for num_process 1 (counters are shared across processes).
+     */
+    void writePermeabilityCounters();
+
+    /*!
      *  \brief Initialize anythin that needs to be sync between simulations.
     */
     void specialInitializations();

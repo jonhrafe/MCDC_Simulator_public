@@ -133,13 +133,19 @@ inline bool Cylinder::handleCollition(Walker& walker, Collision &colision, Vecto
     //WARNING: Cuidar este patch
     // Implementa Percolacion
     if(this->percolation>0.0){
+        bool from_intra = (colision.col_location == Collision::inside);
+        // Count the hit (membrane reached, a crossing draw is made). Counts both
+        // step and bouncing hits, since checkCollision runs for each. P0.3 validation.
+        if(from_intra) count_hits_i_e++; else count_hits_e_i++;
+
         // Seeded, thread-safe per-walker draw (was C rand()/RAND_MAX). P0.1.
         double _percolation_ (walker.rng.uniform());
 
-        double dynamic_percolation = (colision.col_location == Collision::inside)?this->prob_cross_i_e:this->prob_cross_e_i;
-        
-        if( dynamic_percolation - _percolation_ > EPS_VAL ){            
+        double dynamic_percolation = from_intra?this->prob_cross_i_e:this->prob_cross_e_i;
+
+        if( dynamic_percolation - _percolation_ > EPS_VAL ){
             count_perc_crossings++;
+            if(from_intra) count_cross_i_e++; else count_cross_e_i++;
             walker.perm_crossed_flag = true;
             return false;
         }

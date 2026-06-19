@@ -94,6 +94,8 @@ void ParallelMCSimulation::startSimulation()
 
     SimErrno::info( " Done.",cout  );
 
+    writePermeabilityCounters();
+
     ofstream out(params.output_base_name+"_simulation_info.txt", std::ofstream::app);
     SimErrno::info("All " + to_string(params.num_proc) +  " simulations ended after: " + DynamicsSimulation::secondsToMinutes(mean_second_passed)
                    + " in average",out,false);
@@ -221,6 +223,39 @@ void ParallelMCSimulation::initializeUnitSimulations()
 
     if(params.verbatim)
         SimErrno::info( " Sim: " + to_string(simulation_->dynamicsEngine->id) + " Initialized",cout);
+}
+
+void ParallelMCSimulation::writePermeabilityCounters()
+{
+    bool any = false;
+    for(auto& o : cylinders_list)    if(o.percolation > 0) any = true;
+    for(auto& o : spheres_list)      if(o.percolation > 0) any = true;
+    for(auto& o : plyObstacles_list) if(o.percolation > 0) any = true;
+    if(!any) return;
+
+    std::string path = params.output_base_name + "_perm_counters.txt";
+    std::ofstream out(path);
+    if(!out){ SimErrno::warning("Could not write permeability counters: " + path, cout); return; }
+
+    out << "# Powles-model permeability counters. Empirical p_hat = cross/hits should match prob_*.\n";
+    out << "# Exact only for num_process 1 (counters are shared across processes).\n";
+    out << "# type id kappa hits_i_e hits_e_i cross_i_e cross_e_i phat_i_e phat_e_i prob_i_e prob_e_i\n";
+
+    auto write_obs = [&](const char* type, Obstacle& o){
+        if(o.percolation <= 0) return;
+        double phat_ie = (o.count_hits_i_e > 0) ? double(o.count_cross_i_e)/double(o.count_hits_i_e) : 0.0;
+        double phat_ei = (o.count_hits_e_i > 0) ? double(o.count_cross_e_i)/double(o.count_hits_e_i) : 0.0;
+        out << type << ' ' << o.id << ' ' << o.percolation << ' '
+            << o.count_hits_i_e << ' ' << o.count_hits_e_i << ' '
+            << o.count_cross_i_e << ' ' << o.count_cross_e_i << ' '
+            << phat_ie << ' ' << phat_ei << ' '
+            << o.prob_cross_i_e << ' ' << o.prob_cross_e_i << '\n';
+    };
+    for(auto& o : cylinders_list)    write_obs("cyl", o);
+    for(auto& o : spheres_list)      write_obs("sph", o);
+    for(auto& o : plyObstacles_list) write_obs("ply", o);
+    out.close();
+    SimErrno::info(" Permeability counters written to " + path, cout);
 }
 
 void ParallelMCSimulation::jointResults()

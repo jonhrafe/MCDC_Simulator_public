@@ -25,9 +25,11 @@ gitignored `debug/` directory, so the suite works on a clean checkout.
   + a displaced deformed sphere `meshes/Mesh_O200.ply`), loaded via
   `ply_extended_file_list` (`two_meshes.list`) with **distinct `d_intra` and `T2`
   per mesh**, plus **distinct extra-cellular `d_extra` / `t2_extra`**.
-- **Walkers:** `N=2000`, `T=1000`, seeded **uniformly** so all three compartments
-  (sphere1, sphere2, extra) are populated — this stresses that each particle
-  picks up the Di/T2 of the compartment it starts in.
+- **Walkers:** `N=2000`, `T=1000`, seeded **uniformly** in a voxel that tightly
+  bounds the two meshes (combined PLY bbox + ~0.1 µm), so the intra compartment is
+  heavily sampled (~28%: ~440 in sphere1, ~120 in sphere2) while extra is still
+  populated — this stresses that each particle picks up the Di/T2 of the
+  compartment it starts in.
 - **Impermeable:** permeability `0` for both meshes. `seed 12345`, `num_process 2`.
 
 To validate the per-compartment assignment directly, run with the **`debug 1`**

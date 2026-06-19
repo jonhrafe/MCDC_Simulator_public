@@ -197,7 +197,9 @@ void Trajectory::reWriteHeaderFile(unsigned num_walkers)
 
 void Trajectory::writePositionText(Eigen::Vector3d &pos)
 {
-    tout << std::setprecision(6) << pos[0] << std::endl << pos[1] << std::endl << pos[2] << std::endl;
+    // '\n' not std::endl: avoid a stream flush (syscall) per coordinate in this
+    // per-walker hot path. Same file content; flushed on close. (perf B2)
+    tout << std::setprecision(6) << pos[0] << '\n' << pos[1] << '\n' << pos[2] << '\n';
 }
 
 void Trajectory::writePositionBinary(Eigen::Vector3d &pos)
@@ -228,7 +230,7 @@ void Trajectory::writePositionText(Eigen::Matrix3Xd &pos)
         unsigned index = 0;
         for(unsigned i = 0; i < T+1; i++ )
             if(i == pos_times[index]){
-                tout << std::setprecision(6) << pos(0,i) << std::endl << pos(1,i) << std::endl << pos(2,i) << std::endl;
+                tout << std::setprecision(6) << pos(0,i) << '\n' << pos(1,i) << '\n' << pos(2,i) << '\n';
                 index++;                        // Update the index
 
                 if(index >= pos_times.size()){

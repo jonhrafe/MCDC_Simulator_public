@@ -175,6 +175,15 @@ if(Python3_Interpreter_FOUND)
                 --workdir "${CMAKE_SOURCE_DIR}")
     set_tests_properties(accuracy_permeability PROPERTIES
         LABELS "permeability" TIMEOUT 600)
+    # Per-obstacle property tracking: distinct Di/T2/kappa per mesh, permeable, with
+    # `debug` on. Asserts each compartment maps to a single correct (Di,T2) across
+    # all steps (no cross-contamination), crossings occur, and per-obstacle kappa is
+    # correct. Guards the per-obstacle property machinery.
+    add_test(
+        NAME obstacle_properties
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_obstacle_properties.py")
+    set_tests_properties(obstacle_properties PROPERTIES LABELS "permeability" TIMEOUT 600)
+
     # Negative tests: malformed configs must be REJECTED (clean non-zero exit +
     # error), valid/benign ones accepted. Guards the input validators and the P0.4
     # enforcement fix (validation must fail in release builds, not just debug).

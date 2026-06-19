@@ -134,6 +134,21 @@ if(Python3_Interpreter_FOUND)
                 --workdir "${CMAKE_SOURCE_DIR}")
     set_tests_properties(accuracy_golden_two_meshes PROPERTIES
         LABELS "accuracy" TIMEOUT 600)
+
+    # Powles permeability model: a single permeable sphere with distinct Di/De so
+    # the prescribed prob_i_e != prob_e_i (directional). Asserts the empirical
+    # per-encounter crossing probability (crossings/hits) matches the prescribed
+    # value within tolerance -- i.e. the Powles probabilities are applied
+    # correctly. num_process 1 (exact counters).
+    add_test(
+        NAME accuracy_permeability
+        COMMAND ${Python3_EXECUTABLE}
+                "${CMAKE_SOURCE_DIR}/tests/test_permeability_powles.py"
+                --bin $<TARGET_FILE:MC-DC_Simulator>
+                --conf "${CMAKE_SOURCE_DIR}/tests/accuracy/permeable_sphere.conf"
+                --workdir "${CMAKE_SOURCE_DIR}")
+    set_tests_properties(accuracy_permeability PROPERTIES
+        LABELS "permeability" TIMEOUT 600)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

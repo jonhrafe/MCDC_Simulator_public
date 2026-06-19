@@ -57,6 +57,22 @@ The geometry `scale` is mandatory in every form (it has no global default).
 Captured outputs (the actual scientific signal, 270 PGSE measurements each):
 `*_DWI.txt` (real), `*_DWI_intra.txt`, `*_DWI_extra.txt`, stored in `golden/`.
 
+## Experiment 3 — `permeable_sphere.conf` (Powles permeability)
+
+A single **permeable** sphere with DISTINCT intra/extra diffusivities (Di=0.5e-9,
+De=2.0e-9 m²/s) and κ=1e-4 m/s, seeded uniformly in a tight voxel (`num_process 1`
+for exact, race-free counters). The directional crossing counters
+(`<prefix>_perm_counters.txt`) give the empirical per-encounter probability
+`p̂ = crossings / hits`, which `tests/test_permeability_powles.py` checks against
+the prescribed `prob_cross_{i→e,e→i}` within **6σ**, and confirms the two
+prescribed probabilities are distinct (directional, since Di≠De).
+
+This validates that the **Powles probabilities are *applied* correctly** — an
+implementation sanity check on easy (smooth-sphere) geometry, not a physical
+benchmark of the model on complex meshes (that's the future S/V-adjusted model).
+Run it with `python3 tests/test_permeability_powles.py` (or `ctest -R
+accuracy_permeability`).
+
 ## Running
 
 ```bash

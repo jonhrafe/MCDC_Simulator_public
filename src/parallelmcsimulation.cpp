@@ -245,7 +245,7 @@ void ParallelMCSimulation::writePermeabilityCounters()
         if(o.percolation <= 0) return;
         double phat_ie = (o.count_hits_i_e > 0) ? double(o.count_cross_i_e)/double(o.count_hits_i_e) : 0.0;
         double phat_ei = (o.count_hits_e_i > 0) ? double(o.count_cross_e_i)/double(o.count_hits_e_i) : 0.0;
-        out << type << ' ' << o.id << ' ' << o.percolation << ' '
+        out << type << ' ' << o.id << ' ' << o.permeability << ' '
             << o.count_hits_i_e << ' ' << o.count_hits_e_i << ' '
             << o.count_cross_i_e << ' ' << o.count_cross_e_i << ' '
             << phat_ie << ' ' << phat_ei << ' '
@@ -701,15 +701,16 @@ void ParallelMCSimulation::specialInitializations()
 
         if(cyl.percolation <= 0 && params.obstacle_permeability > 0)
             cyl.percolation = params.obstacle_permeability;
+        // kappa (velocity). Single source of truth; per-encounter prob derived below.
+        cyl.permeability = cyl.percolation;
 
         if (cyl.percolation > 0){
 
-            cyl.percolation = params.obstacle_permeability;
             double dse = sqrt(6*time_step*params.diff_extra);
             double dsi = sqrt(6*time_step*cyl.d_intra);
 
-            double prob_cross_i_e = cyl.percolation * dsi * 2.0 / 3.0 / cyl.d_intra;
-            double prob_cross_e_i = cyl.percolation * dse * 2.0 / 3.0 / params.diff_extra; 
+            double prob_cross_i_e = cyl.permeability * dsi * 2.0 / 3.0 / cyl.d_intra;
+            double prob_cross_e_i = cyl.permeability * dse * 2.0 / 3.0 / params.diff_extra;
 
             cyl.prob_cross_e_i = prob_cross_e_i / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
             cyl.prob_cross_i_e = prob_cross_i_e / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
@@ -729,14 +730,16 @@ void ParallelMCSimulation::specialInitializations()
             sph.d_intra = params.diff_intra;
 
         if(sph.percolation <= 0 && params.obstacle_permeability > 0)
-        sph.percolation = params.obstacle_permeability;
+            sph.percolation = params.obstacle_permeability;
+        // kappa (velocity). Single source of truth; per-encounter prob derived below.
+        sph.permeability = sph.percolation;
 
         if (sph.percolation > 0){
             double dse = sqrt(6*time_step*params.diff_extra);
             double dsi = sqrt(6*time_step*sph.d_intra);
 
-            double prob_cross_i_e = sph.percolation * dsi * 2.0 / 3.0 / sph.d_intra;
-            double prob_cross_e_i = sph.percolation * dse * 2.0 / 3.0 / params.diff_extra; 
+            double prob_cross_i_e = sph.permeability * dsi * 2.0 / 3.0 / sph.d_intra;
+            double prob_cross_e_i = sph.permeability * dse * 2.0 / 3.0 / params.diff_extra;
 
             sph.prob_cross_e_i = prob_cross_e_i / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
             sph.prob_cross_i_e = prob_cross_i_e / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));

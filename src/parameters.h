@@ -53,7 +53,9 @@ public:
     std::vector<std::string> PLY_files;             /*!< file paths with PLY obstacle files                                         */
     std::vector<std::string> spheres_files;         /*!< file paths with spheres obstacle files                                     */
     std::vector<double> PLY_scales;                 /*!< Auxiliary vector to save PLY file scales                                   */
-    std::vector<double> PLY_percolation;            /*!< Auxiliary vector to save PLY percolation                                   */
+    std::vector<double> PLY_percolation;            /*!< Per-PLY permeability kappa (m/s; m/s==mm/ms). 0 => use global obstacle_permeability */
+    std::vector<double> PLY_d_intra;                /*!< Per-PLY intra diffusivity (m^2/s). <0 => use global diff_intra              */
+    std::vector<double> PLY_T2;                     /*!< Per-PLY T2 (s). <0 => use global t2_intra                                   */
 
     std::vector<float> ini_delta_pos;               /*!< Delta position for the walkers                                             */
 
@@ -312,7 +314,8 @@ private:
     void readPropagatorDirections(std::string dir_path);
 
     /*! \fn
-     *  \brief read a file with one ply scale value and then a list of ply files .
+     *  \brief read a PLY list where each line is "<ply_file> <scale>". Permeability,
+     *         T2 and d_intra are taken from the global parameters.
     */
     void readPLYFileList(std::string path);
 
@@ -321,6 +324,12 @@ private:
      *
     */
     void readPLYFileListScalePercolation(std::string path);
+
+    /*! \fn
+     *  \brief read an extended PLY list where each line defines all properties:
+     *         "<ply_file> <scale> <d_intra> <t2> <permeability>" (standard units).
+    */
+    void readPLYExtendedFileList(std::string path);
 
 
 };

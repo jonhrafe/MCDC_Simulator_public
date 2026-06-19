@@ -717,26 +717,32 @@ void ParallelMCSimulation::specialInitializations()
         //std::cout << i << std::endl;
         //plyObstacles_list.push_back(PLYObstacle(params.PLY_files[i],centers,max_distance,params.PLY_scales[i]));
         plyObstacles_list.push_back(PLYObstacle(params.PLY_files[i],params.PLY_scales[i]));
-        plyObstacles_list.back().id=unique_index++;
-        plyObstacles_list.back().percolation = params.PLY_percolation[i];
+        Obstacle& ply = plyObstacles_list.back();
+        ply.id = unique_index++;
 
-        if(plyObstacles_list.back().T2 > 1e5){
-            plyObstacles_list.back().T2= params.t2_intra;
-        }
-        if(plyObstacles_list.back().d_intra<0)
-            plyObstacles_list.back().d_intra = params.diff_intra;
+        // Per-PLY diffusivity / T2 / permeability, falling back to the global
+        // parameters when not specified (sentinels: d_intra/T2 < 0; percolation 0).
+        ply.d_intra = (params.PLY_d_intra[i] > 0) ? params.PLY_d_intra[i] : params.diff_intra;
+        ply.T2      = (params.PLY_T2[i]      > 0) ? params.PLY_T2[i]      : params.t2_intra;
 
-        if (plyObstacles_list.back().percolation > 0){
+        ply.percolation = params.PLY_percolation[i];
+        if(ply.percolation <= 0 && params.obstacle_permeability > 0)
+            ply.percolation = params.obstacle_permeability;
+        // kappa (velocity). The per-encounter crossing statistics below are derived
+        // from it; kept in a dedicated member for the upcoming improved model.
+        ply.permeability = ply.percolation;
+
+        if (ply.percolation > 0){
             double dse = sqrt(6.0*time_step*params.diff_extra);
-            double dsi = sqrt(6.0*time_step*plyObstacles_list.back().d_intra);
+            double dsi = sqrt(6.0*time_step*ply.d_intra);
 
-            double prob_cross_i_e = plyObstacles_list.back().percolation * dsi * 2.0 / 3.0 / plyObstacles_list.back().d_intra;
-            double prob_cross_e_i = plyObstacles_list.back().percolation * dse * 2.0 / 3.0 / params.diff_extra; 
+            double prob_cross_i_e = ply.permeability * dsi * 2.0 / 3.0 / ply.d_intra;
+            double prob_cross_e_i = ply.permeability * dse * 2.0 / 3.0 / params.diff_extra;
 
-            plyObstacles_list.back().prob_cross_e_i = prob_cross_e_i / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
-            plyObstacles_list.back().prob_cross_i_e = prob_cross_i_e / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
+            ply.prob_cross_e_i = prob_cross_e_i / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
+            ply.prob_cross_i_e = prob_cross_i_e / (1.+ 0.5 * (prob_cross_e_i + prob_cross_i_e));
 
-            cout << plyObstacles_list.back().prob_cross_i_e << " " << plyObstacles_list.back().prob_cross_e_i  << endl;
+            cout << ply.prob_cross_i_e << " " << ply.prob_cross_e_i  << endl;
         }
 
         

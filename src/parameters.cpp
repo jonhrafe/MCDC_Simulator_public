@@ -224,6 +224,10 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         {
            this->verbatim = true;
         }
+        else if( str_dist(tmp,"debug") <= 1 )
+        {
+           this->debug = true;
+        }
         else if( str_dist(tmp,"log_opp") <= 1 )
         {
            this->log_opp = true;

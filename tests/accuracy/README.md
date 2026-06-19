@@ -19,17 +19,23 @@ gitignored `debug/` directory, so the suite works on a clean checkout.
   leave this run untouched.
 - **Deterministic:** fixed `seed 12345` and `num_process 2`.
 
-## Experiment 2 — `two_meshes_impermeable.conf`
+## Experiment 2 — `two_meshes_impermeable.conf` (stress)
 
 - **Substrate:** TWO impermeable meshes in one simulation (`meshes/unitMesh.ply`
-  + a displaced deformed sphere `meshes/Mesh_O200.ply`), loaded via a simple
-  `ply_file_list` (`two_meshes.list`, each line `<ply_file> <scale>`); permeability,
-  T2 and d_intra come from the global params.
-- **Walkers:** `N=2000`, `T=1000`, **initialised intra** (inside the meshes) in a
-  larger voxel — exercises multi-mesh restricted diffusion. With impermeable
-  membranes the **extra signal must stay ~0** (a built-in leak detector).
-- **Impermeable:** no global permeability; a finite `T2` (0.080 s) set globally.
-  `seed 12345`, `num_process 2`.
+  + a displaced deformed sphere `meshes/Mesh_O200.ply`), loaded via
+  `ply_extended_file_list` (`two_meshes.list`) with **distinct `d_intra` and `T2`
+  per mesh**, plus **distinct extra-cellular `d_extra` / `t2_extra`**.
+- **Walkers:** `N=2000`, `T=1000`, seeded **uniformly** so all three compartments
+  (sphere1, sphere2, extra) are populated — this stresses that each particle
+  picks up the Di/T2 of the compartment it starts in.
+- **Impermeable:** permeability `0` for both meshes. `seed 12345`, `num_process 2`.
+
+To validate the per-compartment assignment directly, run with the **`debug 1`**
+flag: the simulator writes a per-process `*_debug_trace.txt` logging, for every
+walker and step, `walker step x y z location compartment Di T2` (position in mm,
+Di in mm²/ms, T2 in ms; the model has no T1). Each row's `Di`/`T2` should match
+the compartment in the `compartment` column (e.g. `ply0`, `ply1`, `extra`).
+The file is large, so it is only written when `debug 1` is set.
 
 ### PLY list options
 

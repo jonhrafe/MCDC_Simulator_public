@@ -135,6 +135,32 @@ if(Python3_Interpreter_FOUND)
     set_tests_properties(accuracy_golden_two_meshes PROPERTIES
         LABELS "accuracy" TIMEOUT 600)
 
+    # Native analytic obstacles (NOT meshes): impermeable hexagonal packings of
+    # the simulator's own Sphere / Cylinder objects, walkers init intra. These
+    # exercise Sphere::checkCollision / Cylinder::checkCollision -- a code path
+    # entirely separate from the PLY mesh goldens above.
+    add_test(
+        NAME accuracy_golden_sphere_hex
+        COMMAND ${Python3_EXECUTABLE}
+                "${CMAKE_SOURCE_DIR}/tests/test_accuracy_golden.py"
+                --bin $<TARGET_FILE:MC-DC_Simulator>
+                --conf "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_hex_impermeable.conf"
+                --golden-dir "${CMAKE_SOURCE_DIR}/tests/accuracy/golden"
+                --workdir "${CMAKE_SOURCE_DIR}")
+    set_tests_properties(accuracy_golden_sphere_hex PROPERTIES
+        LABELS "accuracy" TIMEOUT 600)
+
+    add_test(
+        NAME accuracy_golden_cylinder_hex
+        COMMAND ${Python3_EXECUTABLE}
+                "${CMAKE_SOURCE_DIR}/tests/test_accuracy_golden.py"
+                --bin $<TARGET_FILE:MC-DC_Simulator>
+                --conf "${CMAKE_SOURCE_DIR}/tests/accuracy/cylinder_hex_impermeable.conf"
+                --golden-dir "${CMAKE_SOURCE_DIR}/tests/accuracy/golden"
+                --workdir "${CMAKE_SOURCE_DIR}")
+    set_tests_properties(accuracy_golden_cylinder_hex PROPERTIES
+        LABELS "accuracy" TIMEOUT 600)
+
     # Powles permeability model: a single permeable sphere with distinct Di/De so
     # the prescribed prob_i_e != prob_e_i (directional). Asserts the empirical
     # per-encounter crossing probability (crossings/hits) matches the prescribed

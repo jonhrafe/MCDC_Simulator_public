@@ -73,6 +73,21 @@ benchmark of the model on complex meshes (that's the future S/V-adjusted model).
 Run it with `python3 tests/test_permeability_powles.py` (or `ctest -R
 accuracy_permeability`).
 
+## Experiments 4 & 5 — native Sphere / Cylinder (`*_hex_impermeable.conf`)
+
+The mesh goldens above validate the PLY collision path. These two validate the
+simulator's **native analytic obstacles**, which have entirely separate collision
+code (`sphere.cpp`, `cylinder.cpp`):
+
+- `sphere_hex_impermeable.conf` — a hexagonal packing of native `Sphere` objects.
+- `cylinder_hex_impermeable.conf` — a hexagonal packing of native `Cylinder` objects.
+
+Both: `radius 5e-6`, `icvf 0.5` (the hex packing builds the arrangement and sets
+the voxel automatically — no `<voxels>` block), impermeable, walkers init intra
+→ restricted diffusion, extra signal ~0 (leak detector). Same golden harness:
+`python3 tests/test_accuracy_golden.py --conf tests/accuracy/sphere_hex_impermeable.conf`
+(or `ctest -R accuracy_golden_sphere_hex` / `accuracy_golden_cylinder_hex`).
+
 ## Running
 
 ```bash

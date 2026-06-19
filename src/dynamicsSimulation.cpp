@@ -818,10 +818,6 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         // Log the initial assignment (validates Di/T2 picked up at initialization).
         if(params.debug) writeDebugTrace(w, 0);
 
-        int T2_obstacle_log[params.num_steps];
-        for (auto i :T2_obstacle_log)
-            i = -1;
-
         for(unsigned t = 1 ; t <= params.num_steps; t++) //T+1 steps in total (avoid errors)
         {
             //Get the time step in milliseconds

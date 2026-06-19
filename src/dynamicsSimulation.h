@@ -79,6 +79,11 @@ public:
     std::vector<int> walker_particle_positions;     /*!< Temporary array for current walker's positions */
     void writeParticlePositionsDebugFile();         /*!< Writes particle positions to debug file */
 
+    // Optional per-step per-walker debug trace (enabled by params.debug). Large output.
+    std::ofstream debug_trace_file;                 /*!< Per-process debug trace stream (position, compartment, Di, T2) */
+    void getEffectiveDiT2(double& Di, double& T2eff); /*!< Di and T2 the walker currently uses, from its compartment */
+    void writeDebugTrace(unsigned w, unsigned t);   /*!< Append one (walker,step) line to the debug trace */
+
     /*! \fn  DynamicsSimulation
      *  \brief Default constructor. Initialize everything with 0's and NULL states, object indexes are set to -1.
      */

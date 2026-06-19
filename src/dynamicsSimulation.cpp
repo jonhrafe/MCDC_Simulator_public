@@ -778,6 +778,14 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
     //Initialize values, arrays and files.
     initSimulation();
 
+    // Optional per-step per-walker debug trace (large file). One per process.
+    if(params.debug){
+        debug_trace_file.open(params.output_base_name + "_debug_trace.txt");
+        debug_trace_file << "# per-step particle trace. Units: position mm, Di mm^2/ms, T2 ms. "
+                            "(No T1 relaxation is modelled.)\n";
+        debug_trace_file << "# walker step x y z location compartment Di T2\n";
+    }
+
     //Alias of the step length, may vary when the time step is dynamic.
     double l = walker.step_lenght;
 
@@ -806,6 +814,9 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         walker.setVoxPosLog (walker.pos_v,0);
 
         updateStepLength();
+
+        // Log the initial assignment (validates Di/T2 picked up at initialization).
+        if(params.debug) writeDebugTrace(w, 0);
 
         int T2_obstacle_log[params.num_steps];
         for (auto i :T2_obstacle_log)
@@ -862,7 +873,9 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             updateT2DecayLog(t);
             walker.steps_count++;
             walker.rejection_count = 0;
-    
+
+            if(params.debug) writeDebugTrace(w, t);
+
         }// end for t
 
         // cout << "T2 log ";
@@ -911,6 +924,9 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             break;
         }
     }// for w
+
+    if(debug_trace_file.is_open())
+        debug_trace_file.close();
 
 
     /*********************   WARNING  **********************/
@@ -1408,4 +1424,45 @@ void DynamicsSimulation::writeParticlePositionsDebugFile() {
         debug_file << t << " " << global_particle_positions[t] << std::endl;
     }
     debug_file.close();
+}
+
+void DynamicsSimulation::getEffectiveDiT2(double& Di, double& T2eff){
+    // The diffusivity and T2 the walker currently experiences, taken from the
+    // obstacle it is inside, or the extra-cellular globals if it is outside.
+    if(walker.in_cyl_index >= 0 && cylinders_list && walker.in_cyl_index < int(cylinders_list->size())){
+        Di    = (*cylinders_list)[walker.in_cyl_index].d_intra;
+        T2eff = (*cylinders_list)[walker.in_cyl_index].T2;
+    }
+    else if(walker.in_ply_index >= 0 && plyObstacles_list && walker.in_ply_index < int(plyObstacles_list->size())){
+        Di    = (*plyObstacles_list)[walker.in_ply_index].d_intra;
+        T2eff = (*plyObstacles_list)[walker.in_ply_index].T2;
+    }
+    else if(walker.in_sph_index >= 0 && spheres_list && walker.in_sph_index < int(spheres_list->size())){
+        Di    = (*spheres_list)[walker.in_sph_index].d_intra;
+        T2eff = (*spheres_list)[walker.in_sph_index].T2;
+    }
+    else{
+        Di    = params.diff_extra;
+        T2eff = params.t2_extra;
+    }
+}
+
+void DynamicsSimulation::writeDebugTrace(unsigned w, unsigned t){
+    if(!debug_trace_file.is_open()) return;
+
+    double Di, T2eff;
+    getEffectiveDiT2(Di, T2eff);
+
+    const char* loc = (walker.location == Walker::intra) ? "intra"
+                    : (walker.location == Walker::extra) ? "extra" : "unknown";
+
+    std::string comp;
+    if(walker.in_ply_index >= 0)      comp = "ply" + std::to_string(walker.in_ply_index);
+    else if(walker.in_cyl_index >= 0) comp = "cyl" + std::to_string(walker.in_cyl_index);
+    else if(walker.in_sph_index >= 0) comp = "sph" + std::to_string(walker.in_sph_index);
+    else                              comp = "extra";
+
+    debug_trace_file << w << ' ' << t << ' '
+                     << walker.pos_r[0] << ' ' << walker.pos_r[1] << ' ' << walker.pos_r[2] << ' '
+                     << loc << ' ' << comp << ' ' << Di << ' ' << T2eff << '\n';
 }

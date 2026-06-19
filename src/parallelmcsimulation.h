@@ -36,6 +36,8 @@ public:
     
     std::vector<AABB> cylinders_aabbs;           /*!< vector with the AABBs of the cylinders                              */
     std::vector<AABB> spheres_aabbs;             /*!< vector with the AABBs of the spheres                                */
+
+    std::vector<unsigned> grad_active_timesteps; /*!< perf B4: active-timestep list, built once, shared read-only by all sims */
     AABBFixedGrid spheresAABBGrid;               /*!< AABB grid for the spheres                                           */
     AABBFixedGrid cylindersAABBGrid;             /*!< AABB grid for the cylinders                                         */
 

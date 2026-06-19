@@ -175,6 +175,13 @@ if(Python3_Interpreter_FOUND)
                 --workdir "${CMAKE_SOURCE_DIR}")
     set_tests_properties(accuracy_permeability PROPERTIES
         LABELS "permeability" TIMEOUT 600)
+    # Negative tests: malformed configs must be REJECTED (clean non-zero exit +
+    # error), valid/benign ones accepted. Guards the input validators and the P0.4
+    # enforcement fix (validation must fail in release builds, not just debug).
+    add_test(
+        NAME format_checks
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_format_checks.py")
+    set_tests_properties(format_checks PROPERTIES LABELS "validation" TIMEOUT 300)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

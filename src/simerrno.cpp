@@ -2,6 +2,7 @@
 #include "iostream"
 #include "constants.h"
 #include <limits>
+#include <cstdlib>
 #include <thread>
 #include <iostream>
 #include <sstream>
@@ -27,25 +28,25 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 
     if(params.num_walkers > 1e9){
         error( " Maximum number of particles is fixed to 1e9.",cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
 
     if(params.num_walkers < 1){
         error( " Minimum number of particles is fixed to 1." ,cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
 
     if(params.num_steps > 1e8){
         error( " Maximum number of steps is fixed to 1e8.",cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
 
     if(params.num_steps < 1){
         error( " Minimum number of steps is fixed to 1.",cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
 
@@ -57,14 +58,14 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 
     if(params.sim_duration <= 0.0){
         error( " Simulation duration wrongly initialized.",cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
 
     if(params.diffusivity <= 0.0){
         if((params.diff_intra <= 0.0) || (params.diff_extra <= 0.0)){
             error( " Intra and extra diffusivities wrongly initialized.",cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
             return true;
         }
         params.diffusivity = (params.diff_intra + params.diff_extra)/2.0;
@@ -75,7 +76,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
     if(params.diff_extra <=0 || params.diff_extra <=0){
         if(params.diffusivity <= 0.0){
             error( " Intra and extra diffusivities wrongly initialized.",cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
             return true;
         }
         params.diff_intra = params.diffusivity;
@@ -102,12 +103,12 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
     }
 
     if(params.scheme_file.size() >1){
-        assert(checkSchemeFile(params));
+        if(!checkSchemeFile(params)) std::exit(EXIT_FAILURE);
     }
 
     if(params.PLY_files.size() > 0){
         info("Checking PLY format...",cout);
-        assert(checkPLYFiles(params));
+        if(!checkPLYFiles(params)) std::exit(EXIT_FAILURE);
         info("Done...",cout);
     }
 
@@ -135,19 +136,19 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
     if(params.hex_cyl_packing == true){
         if(params.hex_packing_radius<= 0){
             error( "Cylinder radius incoherent: " + to_string(params.hex_packing_radius) ,cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
             return true;
         }
 
         if(params.hex_packing_icvf > 0.90){
             error( "Max achievable ICVF is 0.9 ",cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
             return true;
         }
 
         if(params.hex_packing_icvf <= 0.0){
             error( "ICVF must be greater than 0.0 ",cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
             return true;
         }else{
             params.hex_packing_separation = sqrt( (2*M_PI*params.hex_packing_radius*params.hex_packing_radius)/(sqrt(3)*params.hex_packing_icvf));
@@ -156,7 +157,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 
         if(params.hex_packing_separation - 2.0*params.hex_packing_radius < 0.0){
             error( "Cylinder separation can't be less that twice the radius (or epsilon close): " + to_string(params.hex_packing_separation) ,cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
             return true;
         }
 
@@ -170,19 +171,19 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 
         if(params.hex_packing_radius<= 0){
             error( "Spheres' radius incoherent: " + to_string(params.hex_packing_radius) ,cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
             return true;
         }
 
         if(params.hex_packing_icvf > 0.69){
             error( "Max achievable ICVF is 0.69 ",cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
             return true;
         }
 
         if(params.hex_packing_icvf <= 0.0){
             error( "ICVF must be greater than 0.0 ",cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
             return true;
         }else{
             params.hex_packing_separation = pow((4.*4./3.*M_PI*params.hex_packing_radius*params.hex_packing_radius*params.hex_packing_radius)/(3*params.hex_packing_icvf),1./3.);
@@ -191,7 +192,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 
         if(params.hex_packing_separation - 2.0*params.hex_packing_radius < 0.0){
             error( "Cylinder separation can't be less that twice the radius (or epsilon close): " + to_string(params.hex_packing_separation) ,cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
             return true;
         }
 
@@ -212,13 +213,13 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 
         if(params.number_subdivisions > 100){
             error("Unrealistic number of resulting subdivision voxels : " + std::to_string(params.number_subdivisions) + "^3",cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
             return true;
         }
 
         if( (params.number_subdivisions > 0) && (params.voxels_list.size() <=0) && params.gamma_cyl_packing ==false && params.hex_cyl_packing == false &&  params.gamma_sph_packing == false && params.bounding_box == false){
             error("subdivisions_number parameter passed without a defined voxel.",cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
             return true;
         }
 
@@ -230,13 +231,13 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 
     if(params.obstacle_permeability < 0.0 || params.obstacle_permeability > 1){
         error(" Permeability coefficient must be set in the range [0,1].",cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
 
     if(!(params.write_bin || params.write_txt)){
         error(" No output will be written; write_bin and write_txt flags are deactivated.",cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
 
     }
@@ -248,12 +249,12 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
                 if((params.voxels_list[i].first[j]  - params.min_sampling_area[j])>1e-8 || (params.max_sampling_area[j]-params.voxels_list[i].second[j])>1e-8)
                 {
                     SimErrno::error("Custom sampling area cannot be outside the defined voxel\n",cout);
-                    assert(0);
+                    std::exit(EXIT_FAILURE);
                 }
 
             if(params.max_sampling_area[j]-params.min_sampling_area[j] <=  0 ){
                 SimErrno::error("Custom sampling area wrongly defined (bad limits)\n",cout);
-                assert(0);
+                std::exit(EXIT_FAILURE);
             }
         }
     }
@@ -264,7 +265,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 
     if(params.regular_sampling == true and params.ini_walker_flag.compare("") != 0){
         error(" Regular sampling and custom initial walker position cannot be used at the same time.",cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
     }
 
     return false;
@@ -313,7 +314,7 @@ bool SimErrno::checkSchemeFile(Parameters &params)
 
         if(counter%7 != 0){
             error("Scheme file has inconsistent format. PGSE Format ERROR.",cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
         }
     }
     else if(found_APGSE!=std::string::npos){
@@ -341,7 +342,7 @@ bool SimErrno::checkSchemeFile(Parameters &params)
 
         if(counter%9 != 0){
             error("Scheme file has inconsistent format. APGSE Format ERROR.",cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
         }
 
     }
@@ -384,7 +385,7 @@ bool SimErrno::checkSchemeFile(Parameters &params)
 
         if(counter != uint(wave_bins*num_rep*3)){
             error("Waveform Scheme file has inconsistent size. WAVEFORM Format ERROR.",cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
         }
     }
     else{
@@ -411,7 +412,7 @@ bool SimErrno::checkPLYFiles(Parameters &params)
               "). Every inline 'ply' needs a matching 'ply_scale'; list files must be "
               "well-formed (ply_file_list: '<ply> <scale>'; ply_extended_file_list: "
               "'<ply> <scale> <d_intra> <t2> <permeability>').", cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return false;
     }
 
@@ -571,7 +572,7 @@ bool SimErrno::checkCylindersListFile(Parameters &params)
 
         if(!in){
             error( "Cylinder list file cannot be open." ,cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
             in.close();
             return true;
         }
@@ -584,7 +585,7 @@ bool SimErrno::checkCylindersListFile(Parameters &params)
                 if (jkr.size()!= 1){
                     error( "First line must be only the overall scale factor: ",cout);
                     in.close();
-                    assert(0);
+                    std::exit(EXIT_FAILURE);
                     return true;
                 }
                 first-=1;continue;
@@ -595,7 +596,7 @@ bool SimErrno::checkCylindersListFile(Parameters &params)
             if(jkr.size() != 6 && jkr.size() != 4){
                 error( "Cylinder list file is not in the correct format." ,cout);
                 in.close();
-                assert(0);
+                std::exit(EXIT_FAILURE);
                 return true;
             }
 
@@ -618,13 +619,13 @@ bool SimErrno::checkCylindersListFile(Parameters &params)
                 if ((t2) < 0.0){
                     error( "T2 value incorrectly assigned ",cout);
                     in.close();
-                    assert(0);
+                    std::exit(EXIT_FAILURE);
                     return true;
                 }
                 if ((p) < 0.0 || (p) > 1.0){
                     error( "Permeability value incorrectly assigned ",cout);
                     in.close();
-                    assert(0);
+                    std::exit(EXIT_FAILURE);
                     return true;
                 }
             }
@@ -643,7 +644,7 @@ bool SimErrno::checkSphereListFile(Parameters &params)
 
         if(!in){
             error( "Spheres list file cannot be open." ,cout);
-            assert(0);
+            std::exit(EXIT_FAILURE);
             in.close();
             return true;
         }
@@ -656,7 +657,7 @@ bool SimErrno::checkSphereListFile(Parameters &params)
                 if (jkr.size()!= 1){
                     error( "First line must be only the overall scale factor: ",cout);
                     in.close();
-                    assert(0);
+                    std::exit(EXIT_FAILURE);
                     return true;
                 }
                 first-=1;continue;
@@ -667,7 +668,7 @@ bool SimErrno::checkSphereListFile(Parameters &params)
             if(jkr.size() != 6){
                 error( "Sphere list file is not in the correct format (x,y,z,r,p,t2)." ,cout);
                 in.close();
-                assert(0);
+                std::exit(EXIT_FAILURE);
                 return true;
             }
         }
@@ -682,13 +683,13 @@ bool SimErrno::checkSphereListFile(Parameters &params)
             if ((t2) < 0.0){
                 error( "T2 value incorrectly assigned ",cout);
                 in.close();
-                assert(0);
+                std::exit(EXIT_FAILURE);
                 return true;
             }
             if ((p) < 0.0 || (p) > 1.0){
                 error( "Permeability value incorrectly assigned ",cout);
                 in.close();
-                assert(0);
+                std::exit(EXIT_FAILURE);
                 return true;
             }
         }
@@ -708,7 +709,7 @@ bool SimErrno::checkInitWalkerFile(Parameters &params)
     if(!in){
         error( "Walkers initial positions file cannot be open.",cout);
         in.close();
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
 
@@ -721,7 +722,7 @@ bool SimErrno::checkInitWalkerFile(Parameters &params)
         if(params.voxels_list.size()>0){
             if(temp <= params.voxels_list[0].first[limit_index] || temp >= params.voxels_list[0].second[limit_index]){
                 error( "At least one walker initial position is not inside the defined voxel. "+ to_string(temp) ,cout);
-                assert(0);
+                std::exit(EXIT_FAILURE);
             }
         }
         limit_index = (limit_index<2)?limit_index+1:0;
@@ -731,13 +732,13 @@ bool SimErrno::checkInitWalkerFile(Parameters &params)
 
     if( (count/3.0) < 1.0 ){
         error( "No initial positions found in the walkers positions file." ,cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
 
     if(count %3 != 0){
         error( "List of initial position should include x,y,z position for all walkers, check positions format: " ,cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
 
@@ -757,7 +758,7 @@ bool SimErrno::checkVoxelLimits(Parameters &params)
 {
     if(params.voxels_list.size()>1){
         error( "Only single voxel simulations are supported.",cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
 
@@ -782,7 +783,7 @@ bool SimErrno::checkConfigurationFile(const char* configuration_file)
 
     if(!in){
         error( "Cannot open the configuration file: " + string(configuration_file) ,cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
 
@@ -870,44 +871,44 @@ bool SimErrno::checkConfigurationFile(const char* configuration_file)
 
     if(count_tag_delta!= 0 ){
         error( "<delta> tag is not properly set in: " + string(configuration_file),cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
 
     if(count_tag_voxels!= 0 ){
         error( "<voxels> tag is not properly set in: " + string(configuration_file),cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
 
     if(count_tag_log!= 0 ){
         error( "<log> tag is not properly set in: " + string(configuration_file),cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
     if(count_tag_obstacle!= 0 ){
         error( "<obstacle> tag is not properly set in: " + string(configuration_file),cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
     if(count_tag_phase!= 0 ){
         error( "<phase> tag is not properly set in: " + string(configuration_file),cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
     if(count_tag_positions!= 0 ){
         error( "<positions> tag is not properly set in: " + string(configuration_file),cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
     if(count_hexa_obstacle_tag!= 0 ){
         error( "<obstacle_hex_packing> tag is not properly set in: " + string(configuration_file),cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
     if(count_tag_sampling_area!= 0 ){
         error( "<spawning_area> tag is not properly set in: " + string(configuration_file),cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return true;
     }
 
@@ -1170,7 +1171,7 @@ void SimErrno::checkOuputPrefixAndWriteInfo(Parameters &params)
 
     if(!out){
         error( "Cannot open write output files with the output <prefix> and location: "+ params.output_base_name,cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return;
     }
 
@@ -1184,7 +1185,7 @@ bool SimErrno::checkGammaDistributionParamaters(Parameters &params)
 {
     if( params.gamma_packing_alpha <= 0 || params.gamma_packing_beta <=0){
         error("Gamma distribution parameters are not on the supported range",cout,true);
-        assert(0);
+        std::exit(EXIT_FAILURE);
     }
 
     if( params.gamma_packing_alpha >= 20 ){
@@ -1197,7 +1198,7 @@ bool SimErrno::checkGammaDistributionParamaters(Parameters &params)
 
     if(params.gamma_icvf <= 0 || params.gamma_icvf  > 1){
         error("ICVF should be in the range: (0,1] ",cout,true);
-        assert(0);
+        std::exit(EXIT_FAILURE);
     }
 
     if(params.voxels_list.size() > 0 ){
@@ -1278,7 +1279,7 @@ bool SimErrno::checkSubdivisionsFile(Parameters &params)
 
     if(!checkFileExist(params.subdivisions_file)){
         error( "Subdivision file cannot be open." ,cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return false;
     }
 
@@ -1297,7 +1298,7 @@ bool SimErrno::checkSubdivisionsFile(Parameters &params)
         if(jkr.size() != 3){
             error("Incorrect format in subdivision file: 3 positions expected per line in: " + params.subdivisions_file,cout);
                         in.close();
-            assert(0);
+            std::exit(EXIT_FAILURE);
         }
     }
     in.close();
@@ -1305,7 +1306,7 @@ bool SimErrno::checkSubdivisionsFile(Parameters &params)
     if( (count_lines%2) != 0){
         error("Incorrect format in subdivision file: An even number of 3d positions are expected in: " + params.subdivisions_file,cout);
                     in.close();
-        assert(0);
+        std::exit(EXIT_FAILURE);
     }
 
     in.open(params.subdivisions_file);
@@ -1315,7 +1316,7 @@ bool SimErrno::checkSubdivisionsFile(Parameters &params)
         if ((min_pos[0] > max_pos[0]) || (min_pos[1] > max_pos[1]) || (min_pos[2] > max_pos[2])){
             error( "Incorrect format in subdivision file: Negative voxel size:",cout);
             in.close();
-            assert(0);
+            std::exit(EXIT_FAILURE);
             return false;
         }
         if( ((max_pos[0] - min_pos[0]) > 1) || ((max_pos[1] - min_pos[1]) > 1) || ((max_pos[2] - min_pos[2]) > 1)){

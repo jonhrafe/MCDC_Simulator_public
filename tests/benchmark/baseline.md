@@ -23,6 +23,22 @@ A demanding run used to measure the effect of the planned performance work
 | DWI `sha256[0:16]` | **`bd4f150c49f4ca98`** |
 | DWI b0 (total / intra / extra) | 19829.4 / 19829.4 / 0 |
 
+## After Tier 0 + B4 — v2.1.1.beta (commit `277519a`), same host
+
+| metric | baseline 2.1.0 | + Tier 0 (B1/B2/B3) | + B4 (active-skip) |
+|---|---|---|---|
+| wall clock | 53.1 s | 49.9 s | **21.2 s** (2.5× vs baseline) |
+| peak RSS | 122.9 MB | 132.9 MB | 133.0 MB |
+| DWI `sha256[0:16]` | `bd4f150c49f4ca98` | `bd4f150c49f4ca98` | **`bd4f150c49f4ca98`** (bit-exact) |
+
+Notes: B4 (skipping timesteps where the PGSE gradient is off) is the dominant win —
+phase/DWI synthesis was ~78% of runtime (measured by A/B: N=12000 30.1 s → 6.7 s
+with synthesis disabled). All optimizations are **bit-exact** (identical DWI hash).
+RSS is +10 MB from baseline (B1's reused query buffer holds duplicates); the active
+list is shared read-only across threads (negligible). Larger peak-RSS reductions
+remain Tier-2 work (CSR grid, B5). B2's I/O win is not exercised here (trajectory
+output off); it matters when `write_txt`/`write_traj` is on.
+
 ## How to interpret before/after
 - **Wall time / peak RSS are machine-specific** — a relative reference on the same
   host, not a portable gate.

@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <limits>
+#include <cstdlib>
 #include <sstream>
 #include "constants.h"
 #include "simerrno.h"
@@ -192,7 +193,7 @@ void Parameters::readSchemeFile(std::string conf_file_path)
             if(str_dist(ini_walker_flag,"intra") > 1 && str_dist(ini_walker_flag,"extra") > 1 && str_dist(ini_walker_flag,"delta") > 1){
                 SimErrno::error("Wrong walker's initialization position (Did you mean: 'walker_ini_file'?) ",cout);
 
-                assert(0);
+                std::exit(EXIT_FAILURE);
             }
         }
         else if(str_dist(tmp,"subdivisions_number") <= 1)
@@ -203,7 +204,7 @@ void Parameters::readSchemeFile(std::string conf_file_path)
             if(number_subdivisions > 500 || number_subdivisions <=0 ){
                 SimErrno::error("Unrealistic number of resulting subdivision voxels : " + std::to_string(number_subdivisions) + "^3",cout);
 
-                assert(0);
+                std::exit(EXIT_FAILURE);
             }
         }
         else if(str_dist(tmp,"subdivisions_file") <= 1)
@@ -250,7 +251,7 @@ void Parameters::readSchemeFile(std::string conf_file_path)
 
             if(max_simulation_time<=0){
                 SimErrno::error("Max simulation time must be greater than 1 second. ",cout);
-                assert(0);
+                std::exit(EXIT_FAILURE);
             }
         }
         else if( str_dist(tmp,"deportation") <= 2 )
@@ -461,6 +462,7 @@ void Parameters::readObstacles(ifstream& in)
 
     while( !(str_dist(tmp,"</obstacle>") <= 2)){
         in >> tmp;
+        if(!in) break;   // EOF without a closing tag: stop instead of looping forever
         if(is_comment_token(tmp)){
             skip_rest_of_line(in);
             continue;
@@ -609,6 +611,7 @@ void Parameters::readInfoGatheringParams(ifstream& in)
     while(str_dist(tmp,"</log>"))
     {
         in >> tmp;
+        if(!in) break;   // EOF without a closing tag: stop instead of looping forever
         if(is_comment_token(tmp)){
             skip_rest_of_line(in);
             continue;
@@ -690,6 +693,7 @@ void Parameters::readHexagonalParams(ifstream &in)
     while(true)
     {
         in >> tmp;
+        if(!in) break;   // EOF without a closing tag: stop instead of looping forever
         std::transform(tmp.begin(), tmp.end(), tmp.begin(), ::tolower);
 
         if(str_dist(tmp,"radius") <= 1){
@@ -717,6 +721,7 @@ void Parameters::readGammaParams(ifstream &in)
     while(str_dist(tmp,"</cylinder_gamma_packing>") > 0 || str_dist(tmp,"</sphere_gamma_packing") > 0 )
     {
         in >> tmp;
+        if(!in) break;   // EOF without a closing tag: stop instead of looping forever
         if(is_comment_token(tmp)){
             skip_rest_of_line(in);
             continue;
@@ -780,7 +785,7 @@ void Parameters::addSubdivisions()
 
     if( (number_subdivisions > 0) && (voxels_list.size() <=0) ){
         SimErrno::error("subdivisions_number parameter passed without a defined voxel.",cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
     }
     float gap[3];
     for(uint i = 0; i < 3; i++){
@@ -848,7 +853,7 @@ void Parameters::readPLYFileList(string path){
     ifstream in(path);
     if(in.fail()){
         SimErrno::error("PLY file list not found in: " + path,cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return;
     }
 
@@ -863,11 +868,11 @@ void Parameters::readPLYFileList(string path){
         if(!(ss >> scale)){
             SimErrno::error("ply_file_list line " + std::to_string(lineno) +
                             " must be '<ply_file> <scale>': " + line, cout);
-            assert(0); return;
+            std::exit(EXIT_FAILURE); return;
         }
         if(scale <= 0.0){
             SimErrno::error("PLY scale must be positive (ply_file_list line " + std::to_string(lineno) + ")", cout);
-            assert(0); return;
+            std::exit(EXIT_FAILURE); return;
         }
         PLY_files.push_back(ply_file);
         PLY_scales.push_back(scale);
@@ -885,7 +890,7 @@ void Parameters::readPLYFileListScalePercolation(string path)
     ifstream in(path);
     if(in.fail()){
         SimErrno::error("PLY file list not found in: " + path,cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return;
     }
 
@@ -900,15 +905,15 @@ void Parameters::readPLYFileListScalePercolation(string path)
         if(!(ss >> scale >> permeability)){
             SimErrno::error("ply_file_list_scale_permeability line " + std::to_string(lineno) +
                             " must be '<ply_file> <scale> <permeability>': " + line, cout);
-            assert(0); return;
+            std::exit(EXIT_FAILURE); return;
         }
         if(scale <= 0.0){
             SimErrno::error("PLY scale must be positive (line " + std::to_string(lineno) + ")", cout);
-            assert(0); return;
+            std::exit(EXIT_FAILURE); return;
         }
         if(permeability < 0.0){
             SimErrno::error("PLY permeability must be >= 0 (line " + std::to_string(lineno) + ")", cout);
-            assert(0); return;
+            std::exit(EXIT_FAILURE); return;
         }
         PLY_files.push_back(ply_file);
         PLY_scales.push_back(scale);
@@ -928,7 +933,7 @@ void Parameters::readPLYExtendedFileList(string path)
     ifstream in(path);
     if(in.fail()){
         SimErrno::error("PLY extended file list not found in: " + path,cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
         return;
     }
 
@@ -943,23 +948,23 @@ void Parameters::readPLYExtendedFileList(string path)
         if(!(ss >> scale >> d_intra >> t2 >> permeability)){
             SimErrno::error("ply_extended_file_list line " + std::to_string(lineno) +
                             " must be '<ply_file> <scale> <d_intra> <t2> <permeability>': " + line, cout);
-            assert(0); return;
+            std::exit(EXIT_FAILURE); return;
         }
         if(scale <= 0.0){
             SimErrno::error("PLY scale must be positive (ply_extended_file_list line " + std::to_string(lineno) + ")", cout);
-            assert(0); return;
+            std::exit(EXIT_FAILURE); return;
         }
         if(d_intra <= 0.0){
             SimErrno::error("PLY d_intra must be positive (ply_extended_file_list line " + std::to_string(lineno) + ")", cout);
-            assert(0); return;
+            std::exit(EXIT_FAILURE); return;
         }
         if(t2 <= 0.0){
             SimErrno::error("PLY t2 must be positive (ply_extended_file_list line " + std::to_string(lineno) + ")", cout);
-            assert(0); return;
+            std::exit(EXIT_FAILURE); return;
         }
         if(permeability < 0.0){
             SimErrno::error("PLY permeability must be >= 0 (ply_extended_file_list line " + std::to_string(lineno) + ")", cout);
-            assert(0); return;
+            std::exit(EXIT_FAILURE); return;
         }
         PLY_files.push_back(ply_file);
         PLY_scales.push_back(scale);

@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <limits>
+#include <sstream>
 #include "constants.h"
 #include "simerrno.h"
 using namespace std;
@@ -306,8 +307,14 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         hex_packing_radius        *= m_to_mm;
         hex_packing_separation    *= m_to_mm;
 
+        // Per-PLY physical properties from the extended list (sentinels <0 mean
+        // "use global" and are left untouched). d_intra: m^2/s -> mm^2/ms; T2: s -> ms.
+        for(auto& d : PLY_d_intra) if(d > 0) d *= m2_to_mm2/s_to_ms;
+        for(auto& t : PLY_T2)      if(t > 0) t *= s_to_ms;
+
         // permeability kappa is a velocity (m/s); m/s == mm/ms numerically, so it
-        // is invariant under this scaling and intentionally left unchanged.
+        // is invariant under this scaling and intentionally left unchanged. This
+        // covers obstacle_permeability and the per-PLY PLY_percolation (kappa).
         //
         // NOTE: gamma-packing parameters (alpha, beta, min_radius) are NOT scaled
         // here: that pipeline carries its own micrometre convention (radii drawn in
@@ -478,7 +485,9 @@ void Parameters::readObstacles(ifstream& in)
             string path;
             in >> path;
             PLY_files.push_back(path);
-            PLY_percolation.push_back(0);
+            PLY_percolation.push_back(0);   // 0 => global obstacle_permeability
+            PLY_d_intra.push_back(-1.0);    // <0 => global diff_intra
+            PLY_T2.push_back(-1.0);         // <0 => global t2_intra
             num_obstacles++;
         }
         if(str_dist(tmp,"ply_scale") <= 1){
@@ -496,6 +505,12 @@ void Parameters::readObstacles(ifstream& in)
             string path;
             in >> path;
             readPLYFileListScalePercolation(path);
+            num_obstacles++;
+        }
+        if(str_dist(tmp,"ply_extended_file_list") <= 3){
+            string path;
+            in >> path;
+            readPLYExtendedFileList(path);
             num_obstacles++;
         }
         if(str_dist(tmp,"<cylinder_hex_packing>") <=1){
@@ -823,55 +838,130 @@ void Parameters::readPropagatorDirections(string dir_path)
 }
 
 void Parameters::readPLYFileList(string path){
-
+    // Simple list: each non-comment line is "<ply_file> <scale>".
+    // Permeability, T2 and d_intra are taken from the global parameters
+    // (sentinels: percolation 0 -> global obstacle_permeability; d_intra/T2 <0 -> global).
     ifstream in(path);
-
     if(in.fail()){
-        SimErrno::error("PLY file list not found in:",cout);
-        cout << path << endl;
+        SimErrno::error("PLY file list not found in: " + path,cout);
         assert(0);
+        return;
     }
 
-    float scale;
-    in >> scale;
-
-    if(scale <=0.0){
-        SimErrno::error("PLY scale must be a positive number",cout);
-        assert(0);
-    }
-
-    if(scale >=1e6 || scale <= 1e-6){
-        SimErrno::warning("PLY may be unsuitable for simulation.",cout);
-        assert(0);
-    }
-
-    string ply_file;
-    while( in >> ply_file){
+    string line;
+    unsigned lineno = 0;
+    while(getline(in, line)){
+        lineno++;
+        istringstream ss(line);
+        string ply_file; double scale;
+        if(!(ss >> ply_file)) continue;                         // blank line
+        if(!ply_file.empty() && ply_file[0] == '#') continue;   // comment line
+        if(!(ss >> scale)){
+            SimErrno::error("ply_file_list line " + std::to_string(lineno) +
+                            " must be '<ply_file> <scale>': " + line, cout);
+            assert(0); return;
+        }
+        if(scale <= 0.0){
+            SimErrno::error("PLY scale must be positive (ply_file_list line " + std::to_string(lineno) + ")", cout);
+            assert(0); return;
+        }
         PLY_files.push_back(ply_file);
         PLY_scales.push_back(scale);
         PLY_percolation.push_back(0.0);
+        PLY_d_intra.push_back(-1.0);
+        PLY_T2.push_back(-1.0);
     }
     in.close();
 }
 
 void Parameters::readPLYFileListScalePercolation(string path)
 {
+    // Each non-comment line: "<ply_file> <scale> <permeability>". T2 and d_intra
+    // come from the global parameters.
     ifstream in(path);
-
     if(in.fail()){
-        SimErrno::error("PLY file list not found in:",cout);
-        cout << path << endl;
+        SimErrno::error("PLY file list not found in: " + path,cout);
         assert(0);
+        return;
     }
 
-    float scale,percolation;
-    string ply_file;
-    while( in >> ply_file){
-        in >> scale;
-        in >> percolation;
+    string line;
+    unsigned lineno = 0;
+    while(getline(in, line)){
+        lineno++;
+        istringstream ss(line);
+        string ply_file; double scale, permeability;
+        if(!(ss >> ply_file)) continue;
+        if(!ply_file.empty() && ply_file[0] == '#') continue;
+        if(!(ss >> scale >> permeability)){
+            SimErrno::error("ply_file_list_scale_permeability line " + std::to_string(lineno) +
+                            " must be '<ply_file> <scale> <permeability>': " + line, cout);
+            assert(0); return;
+        }
+        if(scale <= 0.0){
+            SimErrno::error("PLY scale must be positive (line " + std::to_string(lineno) + ")", cout);
+            assert(0); return;
+        }
+        if(permeability < 0.0){
+            SimErrno::error("PLY permeability must be >= 0 (line " + std::to_string(lineno) + ")", cout);
+            assert(0); return;
+        }
         PLY_files.push_back(ply_file);
         PLY_scales.push_back(scale);
-        PLY_percolation.push_back(percolation);
+        PLY_percolation.push_back(permeability);
+        PLY_d_intra.push_back(-1.0);
+        PLY_T2.push_back(-1.0);
+    }
+    in.close();
+}
+
+void Parameters::readPLYExtendedFileList(string path)
+{
+    // Extended list: each non-comment line defines ALL properties:
+    //   "<ply_file> <scale> <d_intra> <t2> <permeability>"
+    // in standard units (d_intra m^2/s, t2 s, permeability m/s); the physical
+    // values are unit-scaled later alongside the global params (scale is geometry).
+    ifstream in(path);
+    if(in.fail()){
+        SimErrno::error("PLY extended file list not found in: " + path,cout);
+        assert(0);
+        return;
+    }
+
+    string line;
+    unsigned lineno = 0;
+    while(getline(in, line)){
+        lineno++;
+        istringstream ss(line);
+        string ply_file; double scale, d_intra, t2, permeability;
+        if(!(ss >> ply_file)) continue;
+        if(!ply_file.empty() && ply_file[0] == '#') continue;
+        if(!(ss >> scale >> d_intra >> t2 >> permeability)){
+            SimErrno::error("ply_extended_file_list line " + std::to_string(lineno) +
+                            " must be '<ply_file> <scale> <d_intra> <t2> <permeability>': " + line, cout);
+            assert(0); return;
+        }
+        if(scale <= 0.0){
+            SimErrno::error("PLY scale must be positive (ply_extended_file_list line " + std::to_string(lineno) + ")", cout);
+            assert(0); return;
+        }
+        if(d_intra <= 0.0){
+            SimErrno::error("PLY d_intra must be positive (ply_extended_file_list line " + std::to_string(lineno) + ")", cout);
+            assert(0); return;
+        }
+        if(t2 <= 0.0){
+            SimErrno::error("PLY t2 must be positive (ply_extended_file_list line " + std::to_string(lineno) + ")", cout);
+            assert(0); return;
+        }
+        if(permeability < 0.0){
+            SimErrno::error("PLY permeability must be >= 0 (ply_extended_file_list line " + std::to_string(lineno) + ")", cout);
+            assert(0); return;
+        }
+        PLY_files.push_back(ply_file);
+        PLY_scales.push_back(scale);
+        PLY_percolation.push_back(permeability);
+        PLY_d_intra.push_back(d_intra);
+        PLY_T2.push_back(t2);
     }
     in.close();
 }

@@ -398,6 +398,23 @@ bool SimErrno::checkSchemeFile(Parameters &params)
 
 bool SimErrno::checkPLYFiles(Parameters &params)
 {
+    // Per-PLY property vectors must be aligned 1:1 with PLY_files. This catches a
+    // malformed list, or an inline 'ply' directive without a matching 'ply_scale'.
+    const size_t n = params.PLY_files.size();
+    if(params.PLY_scales.size()      != n || params.PLY_percolation.size() != n ||
+       params.PLY_d_intra.size()     != n || params.PLY_T2.size()          != n){
+        error("PLY property lists are misaligned (files=" + std::to_string(n) +
+              ", scales=" + std::to_string(params.PLY_scales.size()) +
+              ", permeability=" + std::to_string(params.PLY_percolation.size()) +
+              ", d_intra=" + std::to_string(params.PLY_d_intra.size()) +
+              ", t2=" + std::to_string(params.PLY_T2.size()) +
+              "). Every inline 'ply' needs a matching 'ply_scale'; list files must be "
+              "well-formed (ply_file_list: '<ply> <scale>'; ply_extended_file_list: "
+              "'<ply> <scale> <d_intra> <t2> <permeability>').", cout);
+        assert(0);
+        return false;
+    }
+
     bool degenerated = false;
     unsigned int degenerated_triangles = 0;
     for (unsigned i = 0 ;i < params.PLY_files.size(); i++)

@@ -22,17 +22,27 @@ gitignored `debug/` directory, so the suite works on a clean checkout.
 ## Experiment 2 — `two_meshes_impermeable.conf`
 
 - **Substrate:** TWO impermeable meshes in one simulation (`meshes/unitMesh.ply`
-  + a displaced deformed sphere `meshes/Mesh_O200.ply`), loaded via a
-  `ply_file_list_scale_permeability` list (`two_meshes.list`, columns
-  `file scale percolation`) so a permeability can be set per mesh later.
+  + a displaced deformed sphere `meshes/Mesh_O200.ply`), loaded via a simple
+  `ply_file_list` (`two_meshes.list`, each line `<ply_file> <scale>`); permeability,
+  T2 and d_intra come from the global params.
 - **Walkers:** `N=2000`, `T=1000`, **initialised intra** (inside the meshes) in a
   larger voxel — exercises multi-mesh restricted diffusion. With impermeable
   membranes the **extra signal must stay ~0** (a built-in leak detector).
-- **Impermeable:** percolation `0` for both meshes; a finite `T2` (0.080 s) set
-  globally. `seed 12345`, `num_process 2`.
+- **Impermeable:** no global permeability; a finite `T2` (0.080 s) set globally.
+  `seed 12345`, `num_process 2`.
 
-> Per-mesh `d_intra` / `T2` are **not** settable from the list yet (only `file
-> scale percolation`); each mesh inherits the global `diffusivity` / `t2_intra`.
+### PLY list options
+
+- `ply_file_list <file>` — each line `<ply_file> <scale>`; permeability, T2 and
+  d_intra inherited from the global params.
+- `ply_extended_file_list <file>` — each line `<ply_file> <scale> <d_intra> <t2>
+  <permeability>`, **per mesh**, in standard units (d_intra m²/s, t2 s,
+  permeability m/s; scaled internally like the rest of the .conf; `scale` is the
+  geometry file→mm factor and is never unit-scaled).
+- `ply_file_list_scale_permeability <file>` — legacy `<ply_file> <scale>
+  <permeability>` (T2/d_intra global). Kept for back-compatibility.
+
+The geometry `scale` is mandatory in every form (it has no global default).
 
 Captured outputs (the actual scientific signal, 270 PGSE measurements each):
 `*_DWI.txt` (real), `*_DWI_intra.txt`, `*_DWI_extra.txt`, stored in `golden/`.

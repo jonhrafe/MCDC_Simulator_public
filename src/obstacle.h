@@ -18,6 +18,7 @@ public:
     int id;                         /*!< Unique id of the simulation                                                */
     int count_perc_crossings;       /*!< Auxiliar value to count the number of percolatin crossings in a simulation */
     double percolation;             /*!< Percolation value between 0 and 1.                                         */
+    double permeability;            /*!< Membrane permeability kappa (velocity; m/s in the .conf, mm/ms internal). Physical input; per-encounter statistics derived from it. */
     double T2;                      /*!< T2 decay, not used by default                                              */
     double d_intra;                 /*!< Internal Diffusion coefficient                                             */
     double prob_cross_e_i;         /*!< Probability of crossing from the the exterior                               */

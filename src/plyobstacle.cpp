@@ -41,6 +41,9 @@ PLYObstacle::PLYObstacle(string path, double scale_factor_)
 
     double optimal_cell_size = this->AABBgrid.computeOptimalCellSize(this->aabbs,AABB_memory_limit_mb, min_cell_size_um);
     AABBgrid.InitializeGrid(this->aabbs,optimal_cell_size);
+    // The per-triangle AABBs are only needed to build the grid; free them now
+    // (~9.3 GB for a 193M-triangle mesh). Collisions use 'faces', not 'aabbs'.
+    std::vector<AABB>().swap(this->aabbs);
 }
 
 PLYObstacle::PLYObstacle(string path, std::vector<Eigen::Vector3d> &centers, double max_distance, double scale_factor_)
@@ -71,6 +74,8 @@ PLYObstacle::PLYObstacle(string path, std::vector<Eigen::Vector3d> &centers, dou
     }
 
     AABBgrid.InitializeGrid(this->aabbs,optimal_cell_size);
+    // Free the per-triangle AABBs (only needed to build the grid).
+    std::vector<AABB>().swap(this->aabbs);
 }
 
 

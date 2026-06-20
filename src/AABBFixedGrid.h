@@ -35,7 +35,7 @@ public:
     void InitializeGrid(const std::vector<AABB>& aabbs, double cell_size);
 
     // Method to compute global bounding box for all AABBs
-    void computeBoundingBox();
+    void computeBoundingBox(const std::vector<AABB>& aabbs);
 
     // Map a point to a grid cell index
     std::array<int, 3> getCellIndex(const Eigen::Vector3d& point) const;
@@ -68,7 +68,9 @@ public:
     Eigen::Vector3d max_bounds;
 
     std::vector<std::vector<int>> grid; // Grid storing AABB indices
-    std::vector<AABB> aabbs;            // List of AABBs
+    // NOTE: the AABB list is only needed transiently to build the grid; it is NOT
+    // stored here (it would be a full second copy -- ~9.3 GB for a 193M-triangle
+    // mesh). Queries use 'grid' only.
 };
 
 #endif // AABB_FIXED_GRID_H

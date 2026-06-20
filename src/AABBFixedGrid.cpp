@@ -13,14 +13,15 @@ AABBFixedGrid::AABBFixedGrid() {
 
 
 void AABBFixedGrid::InitializeGrid(const std::vector<AABB>& aabbs, double cell_size){
-    this->aabbs = aabbs;
+    // Do NOT copy 'aabbs' into a member: it is only needed to build the grid here,
+    // and a second resident copy is ~9.3 GB for a 193M-triangle mesh.
     this->cell_size = cell_size;
 
     if (cell_size <= 0) {
         throw std::invalid_argument("Cell size must be positive.");
     }
 
-    computeBoundingBox();
+    computeBoundingBox(aabbs);
 
     // Compute grid dimensions
     for (int i = 0; i < 3; ++i) {
@@ -40,7 +41,7 @@ void AABBFixedGrid::InitializeGrid(const std::vector<AABB>& aabbs, double cell_s
     }
 }
 
-void AABBFixedGrid::computeBoundingBox() {
+void AABBFixedGrid::computeBoundingBox(const std::vector<AABB>& aabbs) {
     min_bounds = Eigen::Vector3d::Constant(std::numeric_limits<double>::max());
     max_bounds = Eigen::Vector3d::Constant(std::numeric_limits<double>::lowest());
 

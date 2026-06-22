@@ -59,12 +59,20 @@ int runGpuCylinders(const GpuSimParams& p, const float* cyls, const float* obs_T
                     const float* prob_ie, const float* prob_ei,
                     unsigned n_cyl, const float* scheme, double* out_DWI);
 
-//! \brief Phase 2d: restricted diffusion inside ONE triangle mesh (brute-force
-//! Moller-Trumbore over all triangles; no acceleration grid). Walkers start
-//! uniformly in [vmin,vmax] (assumed inside the closed mesh) and reflect off the
-//! nearest triangle. \param verts 3*n_verts floats; \param tris 3*n_tris vertex indices.
+//! \brief Phase 2d/2f/3b: restricted diffusion inside one OR many triangle meshes
+//! (merged), accelerated by a uniform AABB grid. Walkers start uniformly in the
+//! sampling area and reflect off the nearest triangle. Each walker is classified
+//! at placement into the mesh-obstacle it sits inside (in_obs, -1 = extra) so the
+//! intra/extra signal split, per-obstacle T2 and per-obstacle diffusivity apply.
+//! \param verts   3*n_verts floats; \param tris 3*n_tris vertex indices.
+//! \param tri_obs n_tris ints: per-triangle owning-obstacle id (0..n_obs-1).
+//! \param n_obs   number of mesh obstacles (PLYs).
+//! \param obs_T2  n_obs floats: per-obstacle T2 (internal ms) for intra walkers.
+//! \param obs_step n_obs floats: per-obstacle intra step length sqrt(6*d_intra*dt).
 int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
                const int* tris, unsigned n_tris,
+               const int* tri_obs, unsigned n_obs,
+               const float* obs_T2, const float* obs_step,
                const float vmin[3], const float vmax[3],
                const float* scheme, double* out_DWI);
 

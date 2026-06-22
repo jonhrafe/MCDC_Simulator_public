@@ -8,7 +8,7 @@ CPU does: it compares (a) the intra signal FRACTION intra/(intra+extra) -- stabl
 vs independent-RNG placement noise -- and (b) the total signal. This guards the
 per-walker `in_obs` classification the dynamics kernels write at placement.
 
-Usage: test_gpu_compartments.py [config.conf]
+Usage: test_gpu_compartments.py [config.conf] [tol_total] [tol_frac]
 Skips (exit 0) if built without CUDA / no GPU.
 """
 import glob, os, shutil, subprocess, sys, tempfile
@@ -51,6 +51,13 @@ def main():
     # Optional 2nd arg overrides TOL_TOTAL (e.g. permeability+T2 sits ~1% off the CPU due
     # to float32 collision precision shifting the permeable intra/extra equilibrium).
     tol_total = float(sys.argv[2]) if len(sys.argv) > 2 else TOL_TOTAL
+    # Optional 3rd arg overrides TOL_FRAC. The intra/extra SPLIT under PERMEABILITY is
+    # codegen/precision-fragile on BOTH sides: in a permeable walk the per-step collision
+    # iteration count (hence the RNG draw alignment) depends on float rounding, so the
+    # equilibrium population shifts ~4-6% from harmless recompiles -- on the CPU (double)
+    # too, not just the GPU (float32). The physical observable, the TOTAL signal, stays
+    # robust (~0.1%). Impermeable splits have no crossings -> no fragility -> keep 0.02.
+    tol_frac = float(sys.argv[3]) if len(sys.argv) > 3 else TOL_FRAC
     if not os.path.isabs(conf): conf = os.path.join(REPO, conf)
     text = open(conf).read()
     N = int(next(l.split()[1] for l in text.splitlines() if l.strip().startswith("N ")))
@@ -65,8 +72,8 @@ def main():
         fg, fc = gi/(gi+ge), ci/(ci+ce)
         tg, tc = (gi+ge)/N, (ci+ce)/N    # total signal scaled (num_rep cancels in the diff ratio below)
         print(f"[{os.path.basename(conf)}] intra-frac GPU={fg:.4f} CPU={fc:.4f} |d|={abs(fg-fc):.4f} "
-              f"(tol {TOL_FRAC}); total GPU={tg:.1f} CPU={tc:.1f} (tol {tol_total})")
-        ok = abs(fg - fc) <= TOL_FRAC and abs(tg - tc)/tc <= tol_total
+              f"(tol {tol_frac}); total GPU={tg:.1f} CPU={tc:.1f} (tol {tol_total})")
+        ok = abs(fg - fc) <= tol_frac and abs(tg - tc)/tc <= tol_total
         print("PASS: GPU compartment split matches CPU." if ok else "FAIL: compartment split disagrees.")
         return 0 if ok else 1
     finally:

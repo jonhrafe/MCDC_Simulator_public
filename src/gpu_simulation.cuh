@@ -54,7 +54,9 @@ int runGpuSpheres(const GpuSimParams& p, const float* spheres, const float* obs_
 //! Radially confined, free along each axis; reflects off the nearest radial normal.
 //! \param cyls     n_cyl * 7 floats: (px,py,pz, dx,dy,dz, r) per cylinder (mm; D unit).
 //! \param obs_T2   n_cyl floats: per-cylinder T2 (internal ms) for compartment weighting.
+//! \param prob_ie,prob_ei  n_cyl floats each: per-cylinder membrane cross probabilities.
 int runGpuCylinders(const GpuSimParams& p, const float* cyls, const float* obs_T2,
+                    const float* prob_ie, const float* prob_ei,
                     unsigned n_cyl, const float* scheme, double* out_DWI);
 
 //! \brief Phase 2d: restricted diffusion inside ONE triangle mesh (brute-force

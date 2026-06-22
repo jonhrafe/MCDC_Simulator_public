@@ -9,4 +9,4 @@ build/
 *.o
 /MC-DC_Simulator
 /dataSynth
-/debug
+/debugtests/benchmark/strands*.list

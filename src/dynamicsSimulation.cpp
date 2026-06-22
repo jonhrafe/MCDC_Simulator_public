@@ -813,6 +813,16 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
                 gp.vmax[i] = float(params.max_limits[i]);
             }
         }
+        // Placement region: the custom spawning/sampling area if set, else the voxel.
+        for(int i = 0; i < 3; ++i){
+            if(params.custom_sampling_area){
+                gp.smin[i] = float(params.min_sampling_area[i]);
+                gp.smax[i] = float(params.max_sampling_area[i]);
+            } else {
+                gp.smin[i] = gp.vmin[i];
+                gp.smax[i] = gp.vmax[i];
+            }
+        }
         gp.periodic = params.periodic_boundaries ? 1 : 0;   // voxel BC (default periodic)
         gp.placement = 0;                                    // uniform in voxel
         if(params.ini_walker_flag.find("intra") != std::string::npos)      gp.placement = 1;
@@ -858,30 +868,42 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             SimErrno::info("GPU path: " + std::to_string(n_cyl) + " cylinder(s)", std::cout);
             rc = runGpuCylinders(gp, cyl.data(), unsigned(n_cyl), scheme.data(), dwi.data());
         }
-        else if(n_sph == 0 && n_cyl == 0 && n_ply == 1){
-            // Phase 2d: restricted diffusion in a single triangle mesh (brute-force).
-            const PLYObstacle& ply = (*plyObstacles_list)[0];
-            const unsigned nv = ply.vert_number, nt = ply.face_number;
-            std::vector<float> verts(size_t(nv) * 3);
-            for(unsigned i = 0; i < nv; ++i){
-                verts[3*i+0] = float(ply.vertices[i].points[0]);
-                verts[3*i+1] = float(ply.vertices[i].points[1]);
-                verts[3*i+2] = float(ply.vertices[i].points[2]);
+        else if(n_sph == 0 && n_cyl == 0 && n_ply >= 1){
+            // Phase 2d/2f: one OR many triangle meshes, merged into a single combined
+            // mesh (vertices concatenated, face indices offset). The GPU AABB grid is
+            // then built over all triangles at once.
+            size_t tot_v = 0, tot_f = 0;
+            for(size_t m = 0; m < n_ply; ++m){
+                tot_v += (*plyObstacles_list)[m].vert_number;
+                tot_f += (*plyObstacles_list)[m].face_number;
             }
-            std::vector<int> tris(size_t(nt) * 3);
-            for(unsigned i = 0; i < nt; ++i){
-                tris[3*i+0] = ply.faces[i].indexes[0];
-                tris[3*i+1] = ply.faces[i].indexes[1];
-                tris[3*i+2] = ply.faces[i].indexes[2];
+            std::vector<float> verts(tot_v * 3);
+            std::vector<int>   tris (tot_f * 3);
+            size_t voff = 0, foff = 0, vbase = 0;
+            for(size_t m = 0; m < n_ply; ++m){
+                const PLYObstacle& ply = (*plyObstacles_list)[m];
+                for(unsigned i = 0; i < ply.vert_number; ++i){
+                    verts[voff++] = float(ply.vertices[i].points[0]);
+                    verts[voff++] = float(ply.vertices[i].points[1]);
+                    verts[voff++] = float(ply.vertices[i].points[2]);
+                }
+                for(unsigned i = 0; i < ply.face_number; ++i){
+                    tris[foff++] = int(vbase) + ply.faces[i].indexes[0];
+                    tris[foff++] = int(vbase) + ply.faces[i].indexes[1];
+                    tris[foff++] = int(vbase) + ply.faces[i].indexes[2];
+                }
+                vbase += ply.vert_number;
             }
             const float vmin[3] = { gp.vmin[0], gp.vmin[1], gp.vmin[2] };   // authoritative voxel (see above)
             const float vmax[3] = { gp.vmax[0], gp.vmax[1], gp.vmax[2] };
-            SimErrno::info("GPU path: mesh (" + std::to_string(nt) + " triangles, AABB grid)", std::cout);
-            rc = runGpuMesh(gp, verts.data(), nv, tris.data(), nt, vmin, vmax, scheme.data(), dwi.data());
+            SimErrno::info("GPU path: " + std::to_string(n_ply) + " mesh(es), " +
+                           std::to_string(tot_f) + " triangles (AABB grid)", std::cout);
+            rc = runGpuMesh(gp, verts.data(), unsigned(tot_v), tris.data(), unsigned(tot_f),
+                            vmin, vmax, scheme.data(), dwi.data());
         }
         else {
-            SimErrno::error("GPU path supports free diffusion, spheres, cylinders, or a single "
-                            "mesh so far (Phase 2a-2d). Mixed substrates: use the CPU path.", std::cout);
+            SimErrno::error("GPU path supports free diffusion, spheres, cylinders, or "
+                            "meshes so far. Mixed substrates: use the CPU path.", std::cout);
             return;
         }
         if(rc != 0){

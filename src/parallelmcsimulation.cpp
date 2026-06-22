@@ -768,6 +768,9 @@ void ParallelMCSimulation::specialInitializations()
     }
 
    //std::cout << params.img_signal << std::endl;
+    // GPU runs build their own device AABB grid, so skip the (per-PLY, memory-heavy)
+    // CPU collision grid -- essential for many-mesh substrates like 10k strands.
+    PLYObstacle::build_collision_grid = !params.gpu;
     for(unsigned i = 0; i < params.PLY_files.size(); i++){
         //std::cout << i << std::endl;
         //plyObstacles_list.push_back(PLYObstacle(params.PLY_files[i],centers,max_distance,params.PLY_scales[i]));

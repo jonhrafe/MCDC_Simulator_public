@@ -20,8 +20,10 @@ struct GpuSimParams
     float          duration;     //!< total dynamics duration (internal ms)
     float          step_length;  //!< sqrt(6*D*duration/T) (internal mm)
     unsigned long long seed;     //!< RNG seed
-    float          vmin[3];      //!< voxel min corner (internal mm)
+    float          vmin[3];      //!< voxel min corner (internal mm) -- boundary conditions
     float          vmax[3];      //!< voxel max corner (internal mm)
+    float          smin[3];      //!< spawning/sampling-area min (internal mm) -- placement
+    float          smax[3];      //!< spawning/sampling-area max (internal mm)
     int            periodic;     //!< voxel boundary: 1 = periodic, 0 = mirror
     int            placement;    //!< walker start: 0 = uniform in voxel, 1 = intra, 2 = extra
 };

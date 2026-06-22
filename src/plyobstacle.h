@@ -32,6 +32,10 @@ public:
     std::vector<AABB> aabbs;
     AABBFixedGrid AABBgrid;
 
+    //! When false, the constructor skips building the CPU collision AABB grid (the
+    //! GPU path builds its own device grid). Default true (CPU path unchanged).
+    static bool build_collision_grid;
+
     PLYObstacle();
     PLYObstacle(std::string path,double scale_factor_ = 1);
     PLYObstacle(std::string path, std::vector<Eigen::Vector3d> &centers, double max_distance=INFINITY,double scale_factor_ = 1);

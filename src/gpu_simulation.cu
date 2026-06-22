@@ -101,6 +101,8 @@ __device__ void getGradImpulse(float t, float tLast, const float g[3], float G,
 __global__ void freeDiffusionKernel(float* traj, unsigned N, unsigned T, float step_length,
                                     float vminx, float vminy, float vminz,
                                     float vmaxx, float vmaxy, float vmaxz,
+                                    float sminx, float sminy, float sminz,
+                                    float smaxx, float smaxy, float smaxz,
                                     int periodic, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
@@ -110,10 +112,11 @@ __global__ void freeDiffusionKernel(float* traj, unsigned N, unsigned T, float s
     curand_init(seed, w, 0, &st);
 
     float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
-    // start uniformly in the voxel; pr and pv coincide at t=0
-    float pv[3] = { vmin[0] + curand_uniform(&st)*(vmax[0]-vmin[0]),
-                    vmin[1] + curand_uniform(&st)*(vmax[1]-vmin[1]),
-                    vmin[2] + curand_uniform(&st)*(vmax[2]-vmin[2]) };
+    float smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
+    // start uniformly in the sampling area; pr and pv coincide at t=0
+    float pv[3] = { smin[0] + curand_uniform(&st)*(smax[0]-smin[0]),
+                    smin[1] + curand_uniform(&st)*(smax[1]-smin[1]),
+                    smin[2] + curand_uniform(&st)*(smax[2]-smin[2]) };
     float pr[3] = { pv[0], pv[1], pv[2] };
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
@@ -186,6 +189,8 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_le
                               const float* spheres, unsigned n_sph,
                               float vminx, float vminy, float vminz,
                               float vmaxx, float vmaxy, float vmaxz,
+                              float sminx, float sminy, float sminz,
+                              float smaxx, float smaxy, float smaxz,
                               int periodic, int placement, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
@@ -195,6 +200,7 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_le
     curand_init(seed, w, 0, &st);
 
     float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
+    float smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
     float pv[3];
     if (placement == 1) {                          // intra: uniform in a random sphere
         unsigned si = curand(&st) % n_sph;
@@ -203,11 +209,11 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_le
         do { ox = (2.0f*curand_uniform(&st)-1.0f)*r0; oy = (2.0f*curand_uniform(&st)-1.0f)*r0; oz = (2.0f*curand_uniform(&st)-1.0f)*r0; }
         while (ox*ox + oy*oy + oz*oz > r0*r0);
         pv[0] = cx + ox; pv[1] = cy + oy; pv[2] = cz + oz;
-    } else {                                       // uniform (0) or extra (2): in the voxel
+    } else {                                       // uniform (0) or extra (2): in the sampling area
         for (int tries = 0; tries < 10000; ++tries) {
-            pv[0] = vmin[0] + curand_uniform(&st)*(vmax[0]-vmin[0]);
-            pv[1] = vmin[1] + curand_uniform(&st)*(vmax[1]-vmin[1]);
-            pv[2] = vmin[2] + curand_uniform(&st)*(vmax[2]-vmin[2]);
+            pv[0] = smin[0] + curand_uniform(&st)*(smax[0]-smin[0]);
+            pv[1] = smin[1] + curand_uniform(&st)*(smax[1]-smin[1]);
+            pv[2] = smin[2] + curand_uniform(&st)*(smax[2]-smin[2]);
             if (placement != 2 || !insideAnySphere(pv[0], pv[1], pv[2], spheres, n_sph)) break;
         }
     }
@@ -293,6 +299,8 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
                                 const float* cyls, unsigned n_cyl,
                                 float vminx, float vminy, float vminz,
                                 float vmaxx, float vmaxy, float vmaxz,
+                                float sminx, float sminy, float sminz,
+                                float smaxx, float smaxy, float smaxz,
                                 int periodic, int placement, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
@@ -302,6 +310,7 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
     curand_init(seed, w, 0, &st);
 
     float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
+    float smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
     float pv[3];
     if (placement == 1) {                          // intra: random cylinder's perpendicular disk
         unsigned ci = curand(&st) % n_cyl;
@@ -316,11 +325,11 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
         float rr = r0 * sqrtf(curand_uniform(&st)), th = 6.2831853f * curand_uniform(&st);
         float cs = cosf(th)*rr, sn = sinf(th)*rr;
         pv[0] = p0x + cs*e1[0] + sn*e2[0]; pv[1] = p0y + cs*e1[1] + sn*e2[1]; pv[2] = p0z + cs*e1[2] + sn*e2[2];
-    } else {                                       // uniform (0) or extra (2)
+    } else {                                       // uniform (0) or extra (2): in the sampling area
         for (int tries = 0; tries < 10000; ++tries) {
-            pv[0] = vmin[0] + curand_uniform(&st)*(vmax[0]-vmin[0]);
-            pv[1] = vmin[1] + curand_uniform(&st)*(vmax[1]-vmin[1]);
-            pv[2] = vmin[2] + curand_uniform(&st)*(vmax[2]-vmin[2]);
+            pv[0] = smin[0] + curand_uniform(&st)*(smax[0]-smin[0]);
+            pv[1] = smin[1] + curand_uniform(&st)*(smax[1]-smin[1]);
+            pv[2] = smin[2] + curand_uniform(&st)*(smax[2]-smin[2]);
             if (placement != 2 || !insideAnyCylinder(pv[0], pv[1], pv[2], cyls, n_cyl)) break;
         }
     }
@@ -423,6 +432,8 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_lengt
                            const float* verts, const int* tris, unsigned n_tris,
                            float vminx, float vminy, float vminz,
                            float vmaxx, float vmaxy, float vmaxz, int periodic,
+                           float sminx, float sminy, float sminz,
+                           float smaxx, float smaxy, float smaxz,
                            float gminx, float gminy, float gminz,
                            float icsx, float icsy, float icsz,
                            int dimx, int dimy, int dimz,
@@ -436,11 +447,12 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_lengt
     curand_init(seed, w, 0, &st);
 
     float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
+    float smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
     float gmin[3] = { gminx, gminy, gminz }, ics[3] = { icsx, icsy, icsz };
     int   dim[3]  = { dimx, dimy, dimz };
-    float pv[3] = { vmin[0] + curand_uniform(&st)*(vmax[0]-vmin[0]),
-                    vmin[1] + curand_uniform(&st)*(vmax[1]-vmin[1]),
-                    vmin[2] + curand_uniform(&st)*(vmax[2]-vmin[2]) };
+    float pv[3] = { smin[0] + curand_uniform(&st)*(smax[0]-smin[0]),     // placement in the sampling area
+                    smin[1] + curand_uniform(&st)*(smax[1]-smin[1]),
+                    smin[2] + curand_uniform(&st)*(smax[2]-smin[2]) };
     float pr[3] = { pv[0], pv[1], pv[2] };
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
@@ -570,6 +582,8 @@ int runGpuFreeDiffusion(const GpuSimParams& p, const float* scheme, double* out_
     freeDiffusionKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length,
                                     p.vmin[0], p.vmin[1], p.vmin[2],
                                     p.vmax[0], p.vmax[1], p.vmax[2],
+                                    p.smin[0], p.smin[1], p.smin[2],
+                                    p.smax[0], p.smax[1], p.smax[2],
                                     p.periodic, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
@@ -625,6 +639,7 @@ int runGpuSpheres(const GpuSimParams& p, const float* spheres, unsigned n_sph,
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
     spheresKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_sph, n_sph,
                               p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2],
+                              p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
                               p.periodic, p.placement, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
@@ -645,6 +660,7 @@ int runGpuCylinders(const GpuSimParams& p, const float* cyls, unsigned n_cyl,
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
     cylindersKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_cyl, n_cyl,
                                 p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2],
+                                p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
                                 p.periodic, p.placement, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
@@ -731,6 +747,7 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
     meshKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_verts, d_tris, n_tris,
                            vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.periodic,
+                           p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
                            gmin[0], gmin[1], gmin[2], ics[0], ics[1], ics[2],
                            dim[0], dim[1], dim[2], d_cstart, d_ctri, p.seed);
     CUDA_CHECK(cudaGetLastError());

@@ -6,6 +6,8 @@
 
 using namespace std;
 
+bool PLYObstacle::build_collision_grid = true;
+
 PLYObstacle::PLYObstacle()
 {
     file_path    = "";
@@ -36,14 +38,18 @@ PLYObstacle::PLYObstacle(string path, double scale_factor_)
         readPLY_ASCII_triangles(path);
     }
     
-    createAABBs();
-    //Todo make a dynamic size for the grid
-
-    double optimal_cell_size = this->AABBgrid.computeOptimalCellSize(this->aabbs,AABB_memory_limit_mb, min_cell_size_um);
-    AABBgrid.InitializeGrid(this->aabbs,optimal_cell_size);
-    // The per-triangle AABBs are only needed to build the grid; free them now
-    // (~9.3 GB for a 193M-triangle mesh). Collisions use 'faces', not 'aabbs'.
-    std::vector<AABB>().swap(this->aabbs);
+    // The CPU collision AABB grid is only used by the CPU dynamics path. The GPU
+    // builds its own device grid from the raw vertices/faces, so skip this entirely
+    // for GPU runs -- one grid per PLY (up to AABB_memory_limit_mb each) is otherwise
+    // fatal for many-mesh substrates (e.g. 10k strands).
+    if (build_collision_grid) {
+        createAABBs();
+        double optimal_cell_size = this->AABBgrid.computeOptimalCellSize(this->aabbs,AABB_memory_limit_mb, min_cell_size_um);
+        AABBgrid.InitializeGrid(this->aabbs,optimal_cell_size);
+        // The per-triangle AABBs are only needed to build the grid; free them now
+        // (~9.3 GB for a 193M-triangle mesh). Collisions use 'faces', not 'aabbs'.
+        std::vector<AABB>().swap(this->aabbs);
+    }
 }
 
 PLYObstacle::PLYObstacle(string path, std::vector<Eigen::Vector3d> &centers, double max_distance, double scale_factor_)

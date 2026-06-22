@@ -316,6 +316,14 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
                 "${CMAKE_SOURCE_DIR}/tests/accuracy/cylinder_hex_extra.conf")
     set_tests_properties(gpu_cylinder_hex_extra PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    # GPU Phase 3: per-walker compartment tracking. Sphere + uniform placement +
+    # separate_signals -- the GPU must split intra/extra the way the CPU does.
+    add_test(
+        NAME gpu_compartments
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_compartments.conf")
+    set_tests_properties(gpu_compartments PROPERTIES LABELS "gpu" TIMEOUT 300)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

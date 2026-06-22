@@ -837,7 +837,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         SimErrno::info("GPU path: free diffusion + signal on device (N=" + std::to_string(gp.N) +
                        ", T=" + std::to_string(gp.T) + ", num_rep=" + std::to_string(gp.num_rep) + ")", std::cout);
 
-        std::vector<double> dwi(gp.num_rep, 0.0);
+        std::vector<double> dwi(size_t(gp.num_rep) * 2, 0.0);   // [intra half | extra half]
         const size_t n_cyl = cylinders_list   ? cylinders_list->size()   : 0;
         const size_t n_sph = spheres_list      ? spheres_list->size()      : 0;
         const size_t n_ply = plyObstacles_list ? plyObstacles_list->size() : 0;
@@ -910,7 +910,18 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             SimErrno::error("GPU run failed (CUDA error " + std::to_string(rc) + ").", std::cout);
             return;
         }
-        for(unsigned i = 0; i < gp.num_rep; ++i) dataSynth->DWI[i] = dwi[i];
+        // dwi = [intra half | extra half]; total signal is their sum. Per-walker
+        // compartment was classified at placement (in_obs) by the dynamics kernels.
+        for(unsigned i = 0; i < gp.num_rep; ++i)
+            dataSynth->DWI[i] = dwi[i] + dwi[gp.num_rep + i];
+        if(params.separate_signals){
+            dataSynth->DWI_intra.resize(gp.num_rep);
+            dataSynth->DWI_extra.resize(gp.num_rep);
+            for(unsigned i = 0; i < gp.num_rep; ++i){
+                dataSynth->DWI_intra[i] = dwi[i];
+                dataSynth->DWI_extra[i] = dwi[gp.num_rep + i];
+            }
+        }
         return;
 #endif // MCDC_HAVE_CUDA
     }

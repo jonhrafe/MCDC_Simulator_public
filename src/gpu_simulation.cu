@@ -103,13 +103,14 @@ __global__ void freeDiffusionKernel(float* traj, unsigned N, unsigned T, float s
                                     float vmaxx, float vmaxy, float vmaxz,
                                     float sminx, float sminy, float sminz,
                                     float smaxx, float smaxy, float smaxz,
-                                    int periodic, unsigned long long seed)
+                                    int periodic, int* out_inobs, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
 
     curandStatePhilox4_32_10_t st;
     curand_init(seed, w, 0, &st);
+    out_inobs[w] = -1;                              // free diffusion: every walker is extra
 
     float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
     float smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
@@ -170,14 +171,19 @@ __device__ inline void reflectDir(float d[3], const float n[3])
 //! spheres (spheres[i*4+0..3] = cx,cy,cz,r). Walker starts uniformly inside a
 //! random sphere; each step takes the NEAREST surface crossing over all spheres
 //! and reflects (multi-bounce). Brute-force over all spheres (no grid yet).
-__device__ inline bool insideAnySphere(float x, float y, float z, const float* spheres, unsigned n)
+// Index of the sphere containing (x,y,z), or -1 if outside all of them (= extra).
+__device__ inline int whichSphere(float x, float y, float z, const float* spheres, unsigned n)
 {
     for (unsigned i = 0; i < n; ++i) {
         float dx = x - spheres[i*4+0], dy = y - spheres[i*4+1], dz = z - spheres[i*4+2];
         float r = spheres[i*4+3];
-        if (dx*dx + dy*dy + dz*dz < r*r) return true;
+        if (dx*dx + dy*dy + dz*dz < r*r) return int(i);
     }
-    return false;
+    return -1;
+}
+__device__ inline bool insideAnySphere(float x, float y, float z, const float* spheres, unsigned n)
+{
+    return whichSphere(x, y, z, spheres, n) >= 0;
 }
 
 //! Phase 2a/2c/2e: restricted diffusion among impermeable spheres inside a voxel.
@@ -191,7 +197,7 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_le
                               float vmaxx, float vmaxy, float vmaxz,
                               float sminx, float sminy, float sminz,
                               float smaxx, float smaxy, float smaxz,
-                              int periodic, int placement, unsigned long long seed)
+                              int periodic, int placement, int* out_inobs, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
@@ -201,14 +207,14 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_le
 
     float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
     float smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
-    float pv[3];
+    float pv[3]; int in_obs;
     if (placement == 1) {                          // intra: uniform in a random sphere
         unsigned si = curand(&st) % n_sph;
         float cx = spheres[si*4+0], cy = spheres[si*4+1], cz = spheres[si*4+2], r0 = spheres[si*4+3];
         float ox, oy, oz;
         do { ox = (2.0f*curand_uniform(&st)-1.0f)*r0; oy = (2.0f*curand_uniform(&st)-1.0f)*r0; oz = (2.0f*curand_uniform(&st)-1.0f)*r0; }
         while (ox*ox + oy*oy + oz*oz > r0*r0);
-        pv[0] = cx + ox; pv[1] = cy + oy; pv[2] = cz + oz;
+        pv[0] = cx + ox; pv[1] = cy + oy; pv[2] = cz + oz; in_obs = int(si);
     } else {                                       // uniform (0) or extra (2): in the sampling area
         for (int tries = 0; tries < 10000; ++tries) {
             pv[0] = smin[0] + curand_uniform(&st)*(smax[0]-smin[0]);
@@ -216,7 +222,9 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_le
             pv[2] = smin[2] + curand_uniform(&st)*(smax[2]-smin[2]);
             if (placement != 2 || !insideAnySphere(pv[0], pv[1], pv[2], spheres, n_sph)) break;
         }
+        in_obs = whichSphere(pv[0], pv[1], pv[2], spheres, n_sph);   // compartment at placement
     }
+    out_inobs[w] = in_obs;
     float pr[3] = { pv[0], pv[1], pv[2] };
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
@@ -279,16 +287,21 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_le
 //! infinite cylinders (cyls[i*7+0..6] = px,py,pz, dx,dy,dz(unit), r). Walker starts
 //! in a random cylinder's disk; each step takes the NEAREST radial crossing over
 //! all cylinders and reflects off that radial normal (axial motion is free).
-__device__ inline bool insideAnyCylinder(float x, float y, float z, const float* cyls, unsigned n)
+// Index of the cylinder containing (x,y,z) (radially), or -1 if outside all (= extra).
+__device__ inline int whichCylinder(float x, float y, float z, const float* cyls, unsigned n)
 {
     for (unsigned i = 0; i < n; ++i) {
         float ex = x-cyls[i*7+0], ey = y-cyls[i*7+1], ez = z-cyls[i*7+2];
         float Dx = cyls[i*7+3], Dy = cyls[i*7+4], Dz = cyls[i*7+5], r = cyls[i*7+6];
         float md = ex*Dx + ey*Dy + ez*Dz;
         float rad2 = ex*ex + ey*ey + ez*ez - md*md;
-        if (rad2 < r*r) return true;
+        if (rad2 < r*r) return int(i);
     }
-    return false;
+    return -1;
+}
+__device__ inline bool insideAnyCylinder(float x, float y, float z, const float* cyls, unsigned n)
+{
+    return whichCylinder(x, y, z, cyls, n) >= 0;
 }
 
 //! Phase 2b/2c/2e: restricted diffusion among impermeable infinite cylinders inside
@@ -301,7 +314,7 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
                                 float vmaxx, float vmaxy, float vmaxz,
                                 float sminx, float sminy, float sminz,
                                 float smaxx, float smaxy, float smaxz,
-                                int periodic, int placement, unsigned long long seed)
+                                int periodic, int placement, int* out_inobs, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
@@ -311,7 +324,7 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
 
     float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
     float smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
-    float pv[3];
+    float pv[3]; int in_obs;
     if (placement == 1) {                          // intra: random cylinder's perpendicular disk
         unsigned ci = curand(&st) % n_cyl;
         float p0x = cyls[ci*7+0], p0y = cyls[ci*7+1], p0z = cyls[ci*7+2];
@@ -325,6 +338,7 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
         float rr = r0 * sqrtf(curand_uniform(&st)), th = 6.2831853f * curand_uniform(&st);
         float cs = cosf(th)*rr, sn = sinf(th)*rr;
         pv[0] = p0x + cs*e1[0] + sn*e2[0]; pv[1] = p0y + cs*e1[1] + sn*e2[1]; pv[2] = p0z + cs*e1[2] + sn*e2[2];
+        in_obs = int(ci);
     } else {                                       // uniform (0) or extra (2): in the sampling area
         for (int tries = 0; tries < 10000; ++tries) {
             pv[0] = smin[0] + curand_uniform(&st)*(smax[0]-smin[0]);
@@ -332,7 +346,9 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
             pv[2] = smin[2] + curand_uniform(&st)*(smax[2]-smin[2]);
             if (placement != 2 || !insideAnyCylinder(pv[0], pv[1], pv[2], cyls, n_cyl)) break;
         }
+        in_obs = whichCylinder(pv[0], pv[1], pv[2], cyls, n_cyl);
     }
+    out_inobs[w] = in_obs;
     float pr[3] = { pv[0], pv[1], pv[2] };
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
@@ -438,13 +454,14 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_lengt
                            float icsx, float icsy, float icsz,
                            int dimx, int dimy, int dimz,
                            const int* cell_start, const int* cell_tri,
-                           unsigned long long seed)
+                           int* out_inobs, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
 
     curandStatePhilox4_32_10_t st;
     curand_init(seed, w, 0, &st);
+    out_inobs[w] = -1;     // mesh intra/extra classification deferred (Phase 3b) -> extra
 
     float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
     float smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
@@ -527,12 +544,17 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_lengt
 //! One block per walker, num_rep measurements strided across threads. Reads the
 //! on-device trajectory and accumulates the (T2=inf) signal sum_w cos(phase).
 //! Mirrors CUDASynth::deviceDataSynth but uses the scheme values directly (MCDC).
+// out_DWI has 2*num_rep entries: [0,num_rep) accumulate INTRA walkers (in_obs>=0),
+// [num_rep,2*num_rep) accumulate EXTRA walkers (in_obs<0). The total signal is the
+// elementwise sum of the two halves. inobs[w] is the walker's compartment at placement.
 __global__ void signalKernel(const float* traj, unsigned T, float duration,
-                             const float* scheme, unsigned num_rep, float* out_DWI)
+                             const float* scheme, unsigned num_rep,
+                             const int* inobs, float* out_DWI)
 {
     unsigned w = blockIdx.x;
     float time_step = duration / float(T);
     float dos_pi = 2.0f * float(M_PI);
+    unsigned base = (inobs[w] >= 0) ? 0u : num_rep;   // intra -> first half, extra -> second
 
     const float* tr = traj + (size_t)w * (T + 1) * 3;
     float x_ini[3] = { tr[0], tr[1], tr[2] };
@@ -559,23 +581,18 @@ __global__ void signalKernel(const float* traj, unsigned T, float duration,
             val   = fmodf(val, dos_pi);
             phase = fmodf(phase + val, dos_pi);
         }
-        atomicAdd(&out_DWI[s], cosf(phase));
+        atomicAdd(&out_DWI[base + s], cosf(phase));
     }
 }
 
+static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const int* d_inobs,
+                           const float* scheme, double* out_DWI);   // defined below
+
 int runGpuFreeDiffusion(const GpuSimParams& p, const float* scheme, double* out_DWI)
 {
-    const size_t traj_floats = (size_t)p.N * (p.T + 1) * 3;
-    const size_t traj_bytes  = traj_floats * sizeof(float);
-    const size_t scheme_bytes = (size_t)p.num_rep * 7 * sizeof(float);
-    const size_t dwi_bytes    = (size_t)p.num_rep * sizeof(float);
-
-    float *d_traj = nullptr, *d_scheme = nullptr, *d_dwi = nullptr;
-    CUDA_CHECK(cudaMalloc(&d_traj,   traj_bytes));
-    CUDA_CHECK(cudaMalloc(&d_scheme, scheme_bytes));
-    CUDA_CHECK(cudaMalloc(&d_dwi,    dwi_bytes));
-    CUDA_CHECK(cudaMemcpy(d_scheme, scheme, scheme_bytes, cudaMemcpyHostToDevice));
-    CUDA_CHECK(cudaMemset(d_dwi, 0, dwi_bytes));
+    float *d_traj = nullptr; int *d_inobs = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_traj,  (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_inobs, (size_t)p.N * sizeof(int)));
 
     const int bs = 256;
     const int gs = int((p.N + bs - 1) / bs);
@@ -584,30 +601,23 @@ int runGpuFreeDiffusion(const GpuSimParams& p, const float* scheme, double* out_
                                     p.vmax[0], p.vmax[1], p.vmax[2],
                                     p.smin[0], p.smin[1], p.smin[2],
                                     p.smax[0], p.smax[1], p.smax[2],
-                                    p.periodic, p.seed);
+                                    p.periodic, d_inobs, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
-    const int threads = p.num_rep < 1024u ? int(p.num_rep) : 1024;
-    signalKernel<<<p.N, threads>>>(d_traj, p.T, p.duration, d_scheme, p.num_rep, d_dwi);
-    CUDA_CHECK(cudaGetLastError());
-    CUDA_CHECK(cudaDeviceSynchronize());
-
-    std::vector<float> h_dwi(p.num_rep);
-    CUDA_CHECK(cudaMemcpy(h_dwi.data(), d_dwi, dwi_bytes, cudaMemcpyDeviceToHost));
-    for (unsigned i = 0; i < p.num_rep; ++i) out_DWI[i] = double(h_dwi[i]);
-
+    int rc = gpuSynthAndFree(p, d_traj, d_inobs, scheme, out_DWI);
     cudaFree(d_traj);
-    cudaFree(d_scheme);
-    cudaFree(d_dwi);
-    return 0;
+    cudaFree(d_inobs);
+    return rc;
 }
 
 // Shared tail: upload scheme, run the signal kernel on the (already-filled) device
-// trajectory, copy back the DWI, free. Returns 0 / CUDA error code.
-static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const float* scheme, double* out_DWI)
+// trajectory + per-walker compartment array, copy back the 2*num_rep DWI (intra half
+// then extra half), free. out_DWI must hold 2*num_rep entries.
+static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const int* d_inobs,
+                           const float* scheme, double* out_DWI)
 {
     const size_t scheme_bytes = (size_t)p.num_rep * 7 * sizeof(float);
-    const size_t dwi_bytes    = (size_t)p.num_rep * sizeof(float);
+    const size_t dwi_bytes    = (size_t)p.num_rep * 2 * sizeof(float);   // intra + extra halves
     float *d_scheme = nullptr, *d_dwi = nullptr;
     CUDA_CHECK(cudaMalloc(&d_scheme, scheme_bytes));
     CUDA_CHECK(cudaMalloc(&d_dwi,    dwi_bytes));
@@ -615,13 +625,13 @@ static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const float* sc
     CUDA_CHECK(cudaMemset(d_dwi, 0, dwi_bytes));
 
     const int threads = p.num_rep < 1024u ? int(p.num_rep) : 1024;
-    signalKernel<<<p.N, threads>>>(d_traj, p.T, p.duration, d_scheme, p.num_rep, d_dwi);
+    signalKernel<<<p.N, threads>>>(d_traj, p.T, p.duration, d_scheme, p.num_rep, d_inobs, d_dwi);
     CUDA_CHECK(cudaGetLastError());
     CUDA_CHECK(cudaDeviceSynchronize());
 
-    std::vector<float> h_dwi(p.num_rep);
+    std::vector<float> h_dwi(p.num_rep * 2);
     CUDA_CHECK(cudaMemcpy(h_dwi.data(), d_dwi, dwi_bytes, cudaMemcpyDeviceToHost));
-    for (unsigned i = 0; i < p.num_rep; ++i) out_DWI[i] = double(h_dwi[i]);
+    for (unsigned i = 0; i < p.num_rep * 2; ++i) out_DWI[i] = double(h_dwi[i]);
 
     cudaFree(d_scheme);
     cudaFree(d_dwi);
@@ -631,42 +641,46 @@ static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const float* sc
 int runGpuSpheres(const GpuSimParams& p, const float* spheres, unsigned n_sph,
                   const float* scheme, double* out_DWI)
 {
-    float *d_traj = nullptr, *d_sph = nullptr;
+    float *d_traj = nullptr, *d_sph = nullptr; int *d_inobs = nullptr;
     CUDA_CHECK(cudaMalloc(&d_traj, (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_sph,  (size_t)n_sph * 4 * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_inobs,(size_t)p.N * sizeof(int)));
     CUDA_CHECK(cudaMemcpy(d_sph, spheres, (size_t)n_sph * 4 * sizeof(float), cudaMemcpyHostToDevice));
 
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
     spheresKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_sph, n_sph,
                               p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2],
                               p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
-                              p.periodic, p.placement, p.seed);
+                              p.periodic, p.placement, d_inobs, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
-    int rc = gpuSynthAndFree(p, d_traj, scheme, out_DWI);
+    int rc = gpuSynthAndFree(p, d_traj, d_inobs, scheme, out_DWI);
     cudaFree(d_traj);
     cudaFree(d_sph);
+    cudaFree(d_inobs);
     return rc;
 }
 
 int runGpuCylinders(const GpuSimParams& p, const float* cyls, unsigned n_cyl,
                     const float* scheme, double* out_DWI)
 {
-    float *d_traj = nullptr, *d_cyl = nullptr;
+    float *d_traj = nullptr, *d_cyl = nullptr; int *d_inobs = nullptr;
     CUDA_CHECK(cudaMalloc(&d_traj, (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_cyl,  (size_t)n_cyl * 7 * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_inobs,(size_t)p.N * sizeof(int)));
     CUDA_CHECK(cudaMemcpy(d_cyl, cyls, (size_t)n_cyl * 7 * sizeof(float), cudaMemcpyHostToDevice));
 
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
     cylindersKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_cyl, n_cyl,
                                 p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2],
                                 p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
-                                p.periodic, p.placement, p.seed);
+                                p.periodic, p.placement, d_inobs, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
-    int rc = gpuSynthAndFree(p, d_traj, scheme, out_DWI);
+    int rc = gpuSynthAndFree(p, d_traj, d_inobs, scheme, out_DWI);
     cudaFree(d_traj);
     cudaFree(d_cyl);
+    cudaFree(d_inobs);
     return rc;
 }
 
@@ -732,12 +746,13 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
     }
 
     float *d_traj = nullptr, *d_verts = nullptr;
-    int   *d_tris = nullptr, *d_cstart = nullptr, *d_ctri = nullptr;
+    int   *d_tris = nullptr, *d_cstart = nullptr, *d_ctri = nullptr, *d_inobs = nullptr;
     CUDA_CHECK(cudaMalloc(&d_traj,   (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_verts,  (size_t)n_verts * 3 * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_tris,   (size_t)n_tris  * 3 * sizeof(int)));
     CUDA_CHECK(cudaMalloc(&d_cstart, (ncells + 1) * sizeof(int)));
     CUDA_CHECK(cudaMalloc(&d_ctri,   (cell_tri.empty() ? 1 : cell_tri.size()) * sizeof(int)));
+    CUDA_CHECK(cudaMalloc(&d_inobs,  (size_t)p.N * sizeof(int)));
     CUDA_CHECK(cudaMemcpy(d_verts,  verts, (size_t)n_verts * 3 * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_tris,   tris,  (size_t)n_tris  * 3 * sizeof(int),   cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_cstart, cell_start.data(), (ncells + 1) * sizeof(int), cudaMemcpyHostToDevice));
@@ -749,10 +764,11 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
                            vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.periodic,
                            p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
                            gmin[0], gmin[1], gmin[2], ics[0], ics[1], ics[2],
-                           dim[0], dim[1], dim[2], d_cstart, d_ctri, p.seed);
+                           dim[0], dim[1], dim[2], d_cstart, d_ctri, d_inobs, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
-    int rc = gpuSynthAndFree(p, d_traj, scheme, out_DWI);
+    int rc = gpuSynthAndFree(p, d_traj, d_inobs, scheme, out_DWI);
+    cudaFree(d_inobs);
     cudaFree(d_traj);
     cudaFree(d_verts);
     cudaFree(d_tris);

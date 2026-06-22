@@ -876,7 +876,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             }
             const float vmin[3] = { gp.vmin[0], gp.vmin[1], gp.vmin[2] };   // authoritative voxel (see above)
             const float vmax[3] = { gp.vmax[0], gp.vmax[1], gp.vmax[2] };
-            SimErrno::info("GPU path: mesh (" + std::to_string(nt) + " triangles, brute-force)", std::cout);
+            SimErrno::info("GPU path: mesh (" + std::to_string(nt) + " triangles, AABB grid)", std::cout);
             rc = runGpuMesh(gp, verts.data(), nv, tris.data(), nt, vmin, vmax, scheme.data(), dwi.data());
         }
         else {

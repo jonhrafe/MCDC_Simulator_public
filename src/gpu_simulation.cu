@@ -411,16 +411,23 @@ __device__ inline bool mtHit(const float O[3], const float d[3],
     return true;
 }
 
-//! Phase 2d/2e: one thread per walker, restricted diffusion inside ONE triangle mesh
-//! within a voxel. Two positions (pv wrapped / pr unwrapped); each step takes the
-//! NEAREST of {triangle crossing, voxel face}. Triangles reflect; voxel faces wrap pv
-//! (periodic) or reflect (mirror). Walkers start uniformly in the voxel box (placement
-//! intra/extra in a mesh would need a point-in-mesh test -- not done yet). No grid.
+//! Phase 2d/2e/2f: one thread per walker, restricted diffusion inside ONE triangle
+//! mesh within a voxel, accelerated by a uniform grid (CSR cell->triangle lists).
+//! Two positions (pv wrapped / pr unwrapped); each step takes the NEAREST of {triangle
+//! crossing, voxel face}. Triangles reflect; voxel faces wrap pv (periodic) or reflect
+//! (mirror). Instead of all triangles, only those in the grid cells the step segment
+//! overlaps are tested (the hit cell is in the segment AABB, so this is exact).
+//! Grid: origin gmin, inverse cell size ics, dims dim; cell c=(cx,cy,cz) holds the
+//! triangle indices cell_tri[cell_start[c] .. cell_start[c+1]).
 __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_length,
                            const float* verts, const int* tris, unsigned n_tris,
                            float vminx, float vminy, float vminz,
-                           float vmaxx, float vmaxy, float vmaxz,
-                           int periodic, unsigned long long seed)
+                           float vmaxx, float vmaxy, float vmaxz, int periodic,
+                           float gminx, float gminy, float gminz,
+                           float icsx, float icsy, float icsz,
+                           int dimx, int dimy, int dimz,
+                           const int* cell_start, const int* cell_tri,
+                           unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
@@ -429,6 +436,8 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_lengt
     curand_init(seed, w, 0, &st);
 
     float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
+    float gmin[3] = { gminx, gminy, gminz }, ics[3] = { icsx, icsy, icsz };
+    int   dim[3]  = { dimx, dimy, dimz };
     float pv[3] = { vmin[0] + curand_uniform(&st)*(vmax[0]-vmin[0]),
                     vmin[1] + curand_uniform(&st)*(vmax[1]-vmin[1]),
                     vmin[2] + curand_uniform(&st)*(vmax[2]-vmin[2]) };
@@ -446,14 +455,29 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_lengt
 
         for (int b = 0; b < 24 && remaining > 0.0f; ++b) {
             float O[3] = { pv[0], pv[1], pv[2] };
+            float E[3] = { pv[0]+remaining*dir[0], pv[1]+remaining*dir[1], pv[2]+remaining*dir[2] };
+            // grid cell range overlapping the step segment's AABB (clamped to the grid)
+            int cmn[3], cmx[3];
+            for (int a = 0; a < 3; ++a) {
+                float lo = fminf(O[a], E[a]) - gmin[a], hi = fmaxf(O[a], E[a]) - gmin[a];
+                int clo = int(floorf(lo*ics[a])), chi = int(floorf(hi*ics[a]));
+                cmn[a] = clo < 0 ? 0 : (clo > dim[a]-1 ? dim[a]-1 : clo);
+                cmx[a] = chi < 0 ? 0 : (chi > dim[a]-1 ? dim[a]-1 : chi);
+            }
             float best_t = remaining; int best_tri = -1, best_axis = -1;
-            for (unsigned i = 0; i < n_tris; ++i) {     // triangles (in pv)
-                int i0 = tris[3*i+0], i1 = tris[3*i+1], i2 = tris[3*i+2];
-                float a[3] = { verts[3*i0+0], verts[3*i0+1], verts[3*i0+2] };
-                float bb[3]= { verts[3*i1+0], verts[3*i1+1], verts[3*i1+2] };
-                float cc[3]= { verts[3*i2+0], verts[3*i2+1], verts[3*i2+2] };
-                float tc;
-                if (mtHit(O, dir, a, bb, cc, tc) && tc > EPS && tc < best_t) { best_t = tc; best_tri = int(i); best_axis = -1; }
+            for (int cz = cmn[2]; cz <= cmx[2]; ++cz)
+            for (int cy = cmn[1]; cy <= cmx[1]; ++cy)
+            for (int cx = cmn[0]; cx <= cmx[0]; ++cx) {
+                int cell = cx + dim[0]*(cy + dim[1]*cz);
+                for (int k = cell_start[cell]; k < cell_start[cell+1]; ++k) {
+                    int i = cell_tri[k];
+                    int i0 = tris[3*i+0], i1 = tris[3*i+1], i2 = tris[3*i+2];
+                    float a[3] = { verts[3*i0+0], verts[3*i0+1], verts[3*i0+2] };
+                    float bb[3]= { verts[3*i1+0], verts[3*i1+1], verts[3*i1+2] };
+                    float cc[3]= { verts[3*i2+0], verts[3*i2+1], verts[3*i2+2] };
+                    float tc;
+                    if (mtHit(O, dir, a, bb, cc, tc) && tc > EPS && tc < best_t) { best_t = tc; best_tri = i; best_axis = -1; }
+                }
             }
             for (int i = 0; i < 3; ++i) {               // voxel faces (in pv)
                 float tw = -1.0f;
@@ -630,27 +654,92 @@ int runGpuCylinders(const GpuSimParams& p, const float* cyls, unsigned n_cyl,
     return rc;
 }
 
+// Host: cell range (inclusive, clamped) overlapping triangle i's vertex AABB.
+static inline void triCellRange(const float* verts, const int* tris, unsigned i,
+                                const float gmin[3], const float ics[3], const int dim[3],
+                                int cmin[3], int cmax[3])
+{
+    int i0 = tris[3*i+0], i1 = tris[3*i+1], i2 = tris[3*i+2];
+    for (int a = 0; a < 3; ++a) {
+        float v0 = verts[3*i0+a], v1 = verts[3*i1+a], v2 = verts[3*i2+a];
+        float lo = fminf(v0, fminf(v1, v2)) - gmin[a];
+        float hi = fmaxf(v0, fmaxf(v1, v2)) - gmin[a];
+        int clo = int(floorf(lo*ics[a])), chi = int(floorf(hi*ics[a]));
+        cmin[a] = clo < 0 ? 0 : (clo > dim[a]-1 ? dim[a]-1 : clo);
+        cmax[a] = chi < 0 ? 0 : (chi > dim[a]-1 ? dim[a]-1 : chi);
+    }
+}
+
 int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
                const int* tris, unsigned n_tris,
                const float vmin[3], const float vmax[3],
                const float* scheme, double* out_DWI)
 {
+    // --- build a uniform AABB grid (CSR cell->triangle lists) over the mesh bbox ---
+    float gmin[3] = { 1e30f, 1e30f, 1e30f }, gmax[3] = { -1e30f, -1e30f, -1e30f };
+    for (unsigned v = 0; v < n_verts; ++v)
+        for (int a = 0; a < 3; ++a) {
+            float c = verts[3*v+a];
+            if (c < gmin[a]) gmin[a] = c;
+            if (c > gmax[a]) gmax[a] = c;
+        }
+    int per = int(cbrtf(float(n_tris)));               // ~cubic-root cells per axis
+    if (per < 1) per = 1; if (per > 256) per = 256;
+    int dim[3]; float ics[3];
+    for (int a = 0; a < 3; ++a) {
+        float ext = gmax[a] - gmin[a];
+        float pad = 1e-4f*ext + 1e-9f;                 // keep max-face points strictly inside
+        gmin[a] -= pad; gmax[a] += pad; ext = gmax[a] - gmin[a];
+        dim[a] = per;
+        ics[a] = float(dim[a]) / ext;
+    }
+    const size_t ncells = size_t(dim[0]) * dim[1] * dim[2];
+
+    std::vector<int> cell_start(ncells + 1, 0);
+    int cmin[3], cmax[3];
+    for (unsigned i = 0; i < n_tris; ++i) {            // pass 1: counts
+        triCellRange(verts, tris, i, gmin, ics, dim, cmin, cmax);
+        for (int cz = cmin[2]; cz <= cmax[2]; ++cz)
+        for (int cy = cmin[1]; cy <= cmax[1]; ++cy)
+        for (int cx = cmin[0]; cx <= cmax[0]; ++cx)
+            cell_start[size_t(cx + dim[0]*(cy + dim[1]*cz)) + 1]++;
+    }
+    for (size_t c = 0; c < ncells; ++c) cell_start[c+1] += cell_start[c];
+    std::vector<int> cell_tri(cell_start[ncells]);
+    std::vector<int> cursor(cell_start.begin(), cell_start.end() - 1);
+    for (unsigned i = 0; i < n_tris; ++i) {            // pass 2: fill
+        triCellRange(verts, tris, i, gmin, ics, dim, cmin, cmax);
+        for (int cz = cmin[2]; cz <= cmax[2]; ++cz)
+        for (int cy = cmin[1]; cy <= cmax[1]; ++cy)
+        for (int cx = cmin[0]; cx <= cmax[0]; ++cx)
+            cell_tri[cursor[size_t(cx + dim[0]*(cy + dim[1]*cz))]++] = int(i);
+    }
+
     float *d_traj = nullptr, *d_verts = nullptr;
-    int   *d_tris = nullptr;
-    CUDA_CHECK(cudaMalloc(&d_traj,  (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
-    CUDA_CHECK(cudaMalloc(&d_verts, (size_t)n_verts * 3 * sizeof(float)));
-    CUDA_CHECK(cudaMalloc(&d_tris,  (size_t)n_tris  * 3 * sizeof(int)));
-    CUDA_CHECK(cudaMemcpy(d_verts, verts, (size_t)n_verts * 3 * sizeof(float), cudaMemcpyHostToDevice));
-    CUDA_CHECK(cudaMemcpy(d_tris,  tris,  (size_t)n_tris  * 3 * sizeof(int),   cudaMemcpyHostToDevice));
+    int   *d_tris = nullptr, *d_cstart = nullptr, *d_ctri = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_traj,   (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_verts,  (size_t)n_verts * 3 * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_tris,   (size_t)n_tris  * 3 * sizeof(int)));
+    CUDA_CHECK(cudaMalloc(&d_cstart, (ncells + 1) * sizeof(int)));
+    CUDA_CHECK(cudaMalloc(&d_ctri,   (cell_tri.empty() ? 1 : cell_tri.size()) * sizeof(int)));
+    CUDA_CHECK(cudaMemcpy(d_verts,  verts, (size_t)n_verts * 3 * sizeof(float), cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(d_tris,   tris,  (size_t)n_tris  * 3 * sizeof(int),   cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(d_cstart, cell_start.data(), (ncells + 1) * sizeof(int), cudaMemcpyHostToDevice));
+    if (!cell_tri.empty())
+        CUDA_CHECK(cudaMemcpy(d_ctri, cell_tri.data(), cell_tri.size() * sizeof(int), cudaMemcpyHostToDevice));
 
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
     meshKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_verts, d_tris, n_tris,
-                           vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.periodic, p.seed);
+                           vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.periodic,
+                           gmin[0], gmin[1], gmin[2], ics[0], ics[1], ics[2],
+                           dim[0], dim[1], dim[2], d_cstart, d_ctri, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
     int rc = gpuSynthAndFree(p, d_traj, scheme, out_DWI);
     cudaFree(d_traj);
     cudaFree(d_verts);
     cudaFree(d_tris);
+    cudaFree(d_cstart);
+    cudaFree(d_ctri);
     return rc;
 }

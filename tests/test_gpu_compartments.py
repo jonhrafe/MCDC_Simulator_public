@@ -45,18 +45,31 @@ def run(binp, conf_text, gpu, work, tag):
     return (sum(intra), sum(extra)), "ok"
 
 
+def sentinel_counts(prefix):
+    """CPU sentinel counts from <prefix>_simulation_info.txt: (stuck, illegal).
+    stuck   = particles dropped for getting stuck (should be ~0 in a healthy run).
+    illegal = membrane-crossing-correction EVENTS (a surface walker numerically leaks
+              and the sentinel back-tracks + retries it); this counts events, not lost
+              particles, so it can exceed N and is reported for visibility, not gated."""
+    cands = glob.glob(prefix + "*_simulation_info.txt")
+    if not cands: return None
+    txt = open(max(cands, key=os.path.getmtime)).read()
+    stuck = illegal = 0
+    for line in txt.splitlines():
+        if "labeled as stuck" in line:            stuck   = int(line.split(":")[-1])
+        elif "eliminated due crossings" in line:  illegal = int(line.split(":")[-1])
+    return (stuck, illegal)
+
+
 def main():
     binp = os.path.join(REPO, "MC-DC_Simulator")
     conf = sys.argv[1] if len(sys.argv) > 1 else os.path.join(REPO, "tests/accuracy/sphere_compartments.conf")
-    # Optional 2nd arg overrides TOL_TOTAL (e.g. permeability+T2 sits ~1% off the CPU due
-    # to float32 collision precision shifting the permeable intra/extra equilibrium).
+    # Optional 2nd arg overrides TOL_TOTAL (e.g. perm+T2 needs a touch more headroom).
     tol_total = float(sys.argv[2]) if len(sys.argv) > 2 else TOL_TOTAL
-    # Optional 3rd arg overrides TOL_FRAC. The intra/extra SPLIT under PERMEABILITY is
-    # codegen/precision-fragile on BOTH sides: in a permeable walk the per-step collision
-    # iteration count (hence the RNG draw alignment) depends on float rounding, so the
-    # equilibrium population shifts ~4-6% from harmless recompiles -- on the CPU (double)
-    # too, not just the GPU (float32). The physical observable, the TOTAL signal, stays
-    # robust (~0.1%). Impermeable splits have no crossings -> no fragility -> keep 0.02.
+    # Optional 3rd arg overrides TOL_FRAC. Analytic permeability splits match tightly
+    # (<=0.013) now that the CPU crossing UB is fixed; the mesh split is ~0.024 off (the
+    # GPU nearest-triangle classification vs the CPU ray-cast isInsidePLY -- a modeling
+    # approximation, not noise), so the mesh perm tests pass a relaxed 0.04.
     tol_frac = float(sys.argv[3]) if len(sys.argv) > 3 else TOL_FRAC
     if not os.path.isabs(conf): conf = os.path.join(REPO, conf)
     text = open(conf).read()
@@ -71,9 +84,18 @@ def main():
         gi, ge = g; ci, ce = c
         fg, fc = gi/(gi+ge), ci/(ci+ce)
         tg, tc = (gi+ge)/N, (ci+ce)/N    # total signal scaled (num_rep cancels in the diff ratio below)
+        # Sentinel health (CPU run), reported for visibility: stuck particles should be ~0;
+        # crossing-correction events are informational (events, not lost particles). The
+        # signal-tolerance comparison is what gates correctness. stuck > 1% of N is a real
+        # red flag (particles genuinely dropped), so that one IS gated.
+        sc = sentinel_counts(os.path.join(work, "cpu"))
+        sc_str = f"stuck={sc[0]} cross-corr-events={sc[1]}" if sc else "n/a"
         print(f"[{os.path.basename(conf)}] intra-frac GPU={fg:.4f} CPU={fc:.4f} |d|={abs(fg-fc):.4f} "
-              f"(tol {tol_frac}); total GPU={tg:.1f} CPU={tc:.1f} (tol {tol_total})")
+              f"(tol {tol_frac}); total GPU={tg:.1f} CPU={tc:.1f} (tol {tol_total}); CPU {sc_str}")
         ok = abs(fg - fc) <= tol_frac and abs(tg - tc)/tc <= tol_total
+        if sc is not None and sc[0] > 0.01 * N:
+            print(f"FAIL: CPU dropped {sc[0]} stuck particles (>1% of N={N}); run is unhealthy.")
+            ok = False
         print("PASS: GPU compartment split matches CPU." if ok else "FAIL: compartment split disagrees.")
         return 0 if ok else 1
     finally:

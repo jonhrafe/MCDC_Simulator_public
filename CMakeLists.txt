@@ -343,31 +343,30 @@ if(Python3_Interpreter_FOUND)
 
     # GPU Phase 6: membrane PERMEABILITY (analytic sphere, global kappa). Walkers cross
     # intra<->extra via the Powles draw; the GPU must reproduce the CPU's crossed split.
-    # tol_total 0.006, but a relaxed intra-FRACTION tol (0.07): under permeability the
-    # intra/extra equilibrium is codegen/precision-fragile ~4-6% on BOTH the GPU (float32)
-    # and CPU (double) -- the per-step collision-iteration count shifts the RNG alignment.
-    # The robust observable is the total signal; the split tolerance reflects that noise.
+    # Strict tolerances (total 0.006, intra-fraction 0.02): once the CPU uninitialized-
+    # read in the permeable crossing was fixed (cylinder.cpp / sphere.cpp set
+    # bounced_direction to the incoming direction so a crossing passes straight through
+    # instead of bouncing in stack garbage), GPU and CPU agree tightly and build-
+    # independently -- sphere |d|~0.007, cylinder |d|~0.012, totals <0.1%.
     add_test(
         NAME gpu_permeability
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
-                "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_perm.conf" 0.006 0.07)
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_perm.conf")
     set_tests_properties(gpu_permeability PROPERTIES LABELS "gpu" TIMEOUT 300)
 
     add_test(
         NAME gpu_permeability_cylinder
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
-                "${CMAKE_SOURCE_DIR}/tests/accuracy/cylinder_perm.conf" 0.006 0.07)
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/cylinder_perm.conf")
     set_tests_properties(gpu_permeability_cylinder PROPERTIES LABELS "gpu" TIMEOUT 300)
 
-    # GPU Phase 6b: permeability + finite T2 (per-step t2 accumulation). The intra/extra
-    # T2 differ (40 vs 80 ms), so the fragile permeable equilibrium (see above) couples
-    # into the TOTAL too: a ~4-6% shift in the intra population moves the differentially-
-    # T2-weighted total ~2-3%. Hence both tolerances are relaxed (total 0.03, frac 0.07);
-    # the GPU total itself is stable across builds -- it is the CPU equilibrium that drifts.
+    # GPU Phase 6b: permeability + finite T2 (per-step t2 accumulation). Intra/extra T2
+    # differ (40 vs 80 ms). With the crossing UB fixed this is tight too (|d|~0.007,
+    # total ~0.3%); total tol 0.01 leaves a little headroom for the differential-T2 case.
     add_test(
         NAME gpu_permeability_t2
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
-                "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_perm_t2.conf" 0.03 0.07)
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_perm_t2.conf" 0.01)
     set_tests_properties(gpu_permeability_t2 PROPERTIES LABELS "gpu" TIMEOUT 300)
 
     # GPU Phase 3b: MESH compartment classification (point-in-mesh: nearest-triangle
@@ -394,21 +393,51 @@ if(Python3_Interpreter_FOUND)
                 "${CMAKE_SOURCE_DIR}/tests/accuracy/mesh_multiD.conf")
     set_tests_properties(gpu_mesh_multi_d PROPERTIES LABELS "gpu" TIMEOUT 300)
 
+    # GPU Phase 3b: TWO separated meshes (a sphere + a displaced deformed sphere) with a
+    # gap between them. Stresses the ray-cast point-in-mesh classifier: which-obstacle
+    # assignment, the extra region in the gap, and per-mesh D/T2 -- the cases where a
+    # nearest-triangle test (a large far triangle vs a small near one) would misclassify.
+    add_test(
+        NAME gpu_mesh_two_compartments
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/two_meshes_compartments.conf")
+    set_tests_properties(gpu_mesh_two_compartments PROPERTIES LABELS "gpu" TIMEOUT 300)
+
     # GPU Phase 6 (mesh): membrane PERMEABILITY for a triangle mesh. Powles crossing at
     # a triangle (transparent membrane, re-classified at landing); the hit triangle's
-    # owning obstacle gives prob_i_e / prob_e_i. Relaxed split tol (fragile equilibrium).
+    # owning obstacle gives prob_i_e / prob_e_i. The intra-fraction split tol is relaxed
+    # (0.04): the GPU's nearest-triangle point-in-mesh classification differs ~2% from the
+    # CPU's ray-cast isInsidePLY (a modeling approximation, not noise) -- |d|~0.024. The
+    # total is tight (~0.3%) and build-independent.
     add_test(
         NAME gpu_mesh_permeability
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
-                "${CMAKE_SOURCE_DIR}/tests/accuracy/mesh_perm.conf" 0.006 0.07)
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/mesh_perm.conf" 0.006 0.04)
     set_tests_properties(gpu_mesh_permeability PROPERTIES LABELS "gpu" TIMEOUT 300)
 
     # GPU Phase 6 (mesh): permeability + finite differential T2 (intra 40 / extra 80 ms).
+    # Total tol 0.015 for the differential-T2 coupling; split tol 0.04 (classification, above).
     add_test(
         NAME gpu_mesh_permeability_t2
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
-                "${CMAKE_SOURCE_DIR}/tests/accuracy/mesh_perm_t2.conf" 0.03 0.07)
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/mesh_perm_t2.conf" 0.015 0.04)
     set_tests_properties(gpu_mesh_permeability_t2 PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    # GPU volumetric DWI: voxel subdivisions. Each walker is binned by its final wrapped
+    # position into the box that contains it -> a (n_sub, num_rep) volume. Checks the
+    # partition invariant (boxes sum to the global signal) and GPU-vs-CPU per-box population.
+    add_test(
+        NAME gpu_subdivisions_free
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_subdivisions.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/subdivisions_free.conf")
+    set_tests_properties(gpu_subdivisions_free PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    # Same, with a restricted substrate (centered sphere) to exercise binning + collisions.
+    add_test(
+        NAME gpu_subdivisions_sphere
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_subdivisions.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/subdivisions_sphere.conf")
+    set_tests_properties(gpu_subdivisions_sphere PROPERTIES LABELS "gpu" TIMEOUT 300)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

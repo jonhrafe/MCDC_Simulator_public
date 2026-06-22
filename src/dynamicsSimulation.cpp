@@ -833,6 +833,21 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         else if(params.ini_walker_flag.find("extra") != std::string::npos) gp.placement = 2;
         gp.t2_extra = float(params.t2_extra);                // extra-compartment T2 (internal ms)
 
+        // Voxel subdivisions (volumetric DWI): flatten each box to (min[3],max[3]). The
+        // signal kernel bins every walker by its final wrapped position into the box that
+        // contains it -- a (n_sub, num_rep) volume on top of the global signal.
+        std::vector<float> subdiv;
+        if(pgse->subdivision_flag && pgse->subdivisions.size() > 0){
+            subdiv.resize(pgse->subdivisions.size() * 6);
+            for(size_t k = 0; k < pgse->subdivisions.size(); ++k){
+                const Subdivision& sd = pgse->subdivisions[k];
+                subdiv[k*6+0] = sd.min_limits[0]; subdiv[k*6+1] = sd.min_limits[1]; subdiv[k*6+2] = sd.min_limits[2];
+                subdiv[k*6+3] = sd.max_limits[0]; subdiv[k*6+4] = sd.max_limits[1]; subdiv[k*6+5] = sd.max_limits[2];
+            }
+        }
+        gp.n_sub       = unsigned(subdiv.size() / 6);
+        gp.subdiv_boxes = subdiv.empty() ? nullptr : subdiv.data();
+
         // Interface: flatten the (as-stored) scheme to num_rep*7 floats.
         std::vector<float> scheme(size_t(gp.num_rep) * 7);
         for(unsigned i = 0; i < gp.num_rep; ++i)
@@ -840,9 +855,11 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
                 scheme[i*7 + j] = float(pgse->scheme[i][j]);
 
         SimErrno::info("GPU path: free diffusion + signal on device (N=" + std::to_string(gp.N) +
-                       ", T=" + std::to_string(gp.T) + ", num_rep=" + std::to_string(gp.num_rep) + ")", std::cout);
+                       ", T=" + std::to_string(gp.T) + ", num_rep=" + std::to_string(gp.num_rep) +
+                       (gp.n_sub ? ", subdivisions=" + std::to_string(gp.n_sub) : std::string()) + ")", std::cout);
 
-        std::vector<double> dwi(size_t(gp.num_rep) * 2, 0.0);   // [intra half | extra half]
+        // DWI buffer: global [intra|extra] then one [intra|extra] block per subdivision.
+        std::vector<double> dwi(size_t(gp.num_rep) * 2 * (1 + gp.n_sub), 0.0);
         const size_t n_cyl = cylinders_list   ? cylinders_list->size()   : 0;
         const size_t n_sph = spheres_list      ? spheres_list->size()      : 0;
         const size_t n_ply = plyObstacles_list ? plyObstacles_list->size() : 0;
@@ -944,6 +961,19 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             for(unsigned i = 0; i < gp.num_rep; ++i){
                 dataSynth->DWI_intra[i] = dwi[i];
                 dataSynth->DWI_extra[i] = dwi[gp.num_rep + i];
+            }
+        }
+        // Volumetric output: subdivision k lives in dwi block (1+k), [intra half | extra half].
+        if(gp.n_sub > 0){
+            for(unsigned k = 0; k < gp.n_sub; ++k){
+                const size_t off = size_t(1 + k) * 2 * gp.num_rep;   // start of this subdivision's block
+                for(unsigned i = 0; i < gp.num_rep; ++i){
+                    dataSynth->sub_DWI[k][i] = dwi[off + i] + dwi[off + gp.num_rep + i];
+                    if(params.separate_signals){
+                        dataSynth->sub_DWI_intra[k][i] = dwi[off + i];
+                        dataSynth->sub_DWI_extra[k][i] = dwi[off + gp.num_rep + i];
+                    }
+                }
             }
         }
         return;

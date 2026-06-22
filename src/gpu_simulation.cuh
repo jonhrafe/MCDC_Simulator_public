@@ -29,6 +29,13 @@ struct GpuSimParams
     int            periodic;     //!< voxel boundary: 1 = periodic, 0 = mirror
     int            placement;    //!< walker start: 0 = uniform in voxel, 1 = intra, 2 = extra
     float          t2_extra;     //!< extra-compartment T2 (internal ms); per-obstacle T2 passed separately
+    //! Voxel subdivisions (volumetric DWI). Each walker is binned by its FINAL wrapped
+    //! position into the subdivision that contains it (mutually exclusive, first match),
+    //! and its per-acquisition signal accumulates there -- a (n_sub, num_rep) volume.
+    //! subdiv_boxes is a HOST pointer to n_sub*6 floats: (minx,miny,minz, maxx,maxy,maxz)
+    //! per subdivision, in voxel order. n_sub = 0 disables subdivisions.
+    const float*   subdiv_boxes; //!< host ptr, n_sub*6 floats (min[3],max[3]) per subdivision
+    unsigned       n_sub;        //!< number of subdivisions (0 = off)
 };
 
 //! \brief Free-diffusion dynamics + PGSE signal, fully on the GPU.

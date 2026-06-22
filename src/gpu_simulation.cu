@@ -473,59 +473,94 @@ __device__ inline bool mtHit(const float O[3], const float d[3],
 }
 
 //! Phase 3b: classify a point against the merged mesh -> the owning obstacle id, or
-//! -1 (extra). Mirrors the CPU's isInsidePLY: find the NEAREST triangle (by centroid
-//! distance, accelerated by expanding Chebyshev shells of grid cells), then test the
-//! sign of (P - centroid)*normal. normal = (b-a)x(c-a) matches the CPU's getNormal
-//! (= (a-b)x(a-c)); dot < 0 means P is on the inward side -> intra. Scans one extra
-//! shell after the first hit so a closer triangle in the next ring isn't missed.
+//! -1 (extra), by RAY CASTING (parity), the robust point-in-mesh test. A nearest-triangle
+//! test is WRONG: a large triangle whose centroid is far can still be the containing
+//! surface while a small nearby triangle's normal is unrepresentative.
+//!
+//! We shoot a +x ray from P. Because it keeps y,z fixed, every crossing lies in the same
+//! grid cell-row (cy,cz)=P's cell, so we only march that row (cheap and exact). Each
+//! triangle is registered in every cell its AABB overlaps; to count a crossing once we
+//! accept it only in the cell that contains the crossing's x (standard grid dedup).
+//!  - No forward crossing  -> P is outside everything -> extra (correct for sparse meshes
+//!    / points beyond the mesh; degrades gracefully instead of guessing a far triangle).
+//!  - Otherwise P is inside obstacle m == owner of the NEAREST crossing IFF the ray crosses
+//!    m's surface an ODD number of times (parity handles concave shells). Obstacles do not
+//!    overlap, so at most one has odd parity, and it is the nearest crossing's owner.
+//! Two short marches of the row (find nearest; count that owner's parity) keep it
+//! register-only (no per-obstacle scratch), so it scales to many obstacles.
 __device__ inline int classifyMesh(const float P[3], const float* verts, const int* tris,
                                    const int* tri_obs,
                                    const float gmin[3], const float ics[3], const int dim[3],
                                    const int* cell_start, const int* cell_tri)
 {
-    int pc[3];
-    for (int a = 0; a < 3; ++a) {
-        int c = int(floorf((P[a]-gmin[a])*ics[a]));
-        pc[a] = c < 0 ? 0 : (c > dim[a]-1 ? dim[a]-1 : c);
-    }
-    int maxr = dim[0]; if (dim[1] > maxr) maxr = dim[1]; if (dim[2] > maxr) maxr = dim[2];
-    int best_tri = -1; float best_d2 = 1e30f; int found_r = -1;
-    for (int r = 0; r <= maxr; ++r) {
-        for (int cz = pc[2]-r; cz <= pc[2]+r; ++cz) {
-            if (cz < 0 || cz >= dim[2]) continue;
-            for (int cy = pc[1]-r; cy <= pc[1]+r; ++cy) {
-                if (cy < 0 || cy >= dim[1]) continue;
-                for (int cx = pc[0]-r; cx <= pc[0]+r; ++cx) {
-                    if (cx < 0 || cx >= dim[0]) continue;
-                    int dx = cx-pc[0], dy = cy-pc[1], dz = cz-pc[2];
-                    int adx = dx<0?-dx:dx, ady = dy<0?-dy:dy, adz = dz<0?-dz:dz;
-                    if (adx != r && ady != r && adz != r) continue;     // shell only
-                    int cell = cx + dim[0]*(cy + dim[1]*cz);
-                    for (int k = cell_start[cell]; k < cell_start[cell+1]; ++k) {
-                        int i = cell_tri[k];
-                        int i0 = tris[3*i+0], i1 = tris[3*i+1], i2 = tris[3*i+2];
-                        float ce[3] = { (verts[3*i0+0]+verts[3*i1+0]+verts[3*i2+0])*(1.0f/3.0f),
-                                        (verts[3*i0+1]+verts[3*i1+1]+verts[3*i2+1])*(1.0f/3.0f),
-                                        (verts[3*i0+2]+verts[3*i1+2]+verts[3*i2+2])*(1.0f/3.0f) };
-                        float d2 = (P[0]-ce[0])*(P[0]-ce[0]) + (P[1]-ce[1])*(P[1]-ce[1]) + (P[2]-ce[2])*(P[2]-ce[2]);
-                        if (d2 < best_d2) { best_d2 = d2; best_tri = i; }
-                    }
-                }
-            }
+    int pcx = int(floorf((P[0]-gmin[0])*ics[0]));   // start cell x (clamped); ray goes +x
+    if (pcx < 0) pcx = 0; else if (pcx > dim[0]-1) pcx = dim[0]-1;
+    int cy = int(floorf((P[1]-gmin[1])*ics[1]));
+    int cz = int(floorf((P[2]-gmin[2])*ics[2]));
+    if (cy < 0 || cy >= dim[1] || cz < 0 || cz >= dim[2]) return -1;   // ray row outside grid
+    const float EPS = 1e-7f;
+    const int   rowoff = dim[0]*(cy + dim[1]*cz);
+
+    // March 1: nearest forward +x crossing (dedup: count only in the cell holding its x).
+    float best_t = 1e30f; int best_obs = -1;
+    for (int cx = pcx; cx < dim[0]; ++cx) {
+        int cell = cx + rowoff;
+        for (int k = cell_start[cell]; k < cell_start[cell+1]; ++k) {
+            int i = cell_tri[k];
+            int i0 = tris[3*i+0], i1 = tris[3*i+1], i2 = tris[3*i+2];
+            float a[3]  = { verts[3*i0+0], verts[3*i0+1], verts[3*i0+2] };
+            float e1[3] = { verts[3*i1+0]-a[0], verts[3*i1+1]-a[1], verts[3*i1+2]-a[2] };
+            float e2[3] = { verts[3*i2+0]-a[0], verts[3*i2+1]-a[1], verts[3*i2+2]-a[2] };
+            // ray-triangle for d=(1,0,0): t = signed x-distance to the triangle plane/bary.
+            float pvx = -e2[2], pvy = e2[1];                 // d x e2 = (0, -e2z, e2y)
+            float det = e1[1]*pvx + e1[2]*pvy;               // e1 . (d x e2)
+            if (det > -1e-20f && det < 1e-20f) continue;     // ray parallel to triangle
+            float inv = 1.0f/det;
+            float tv[3] = { P[0]-a[0], P[1]-a[1], P[2]-a[2] };
+            float u = (tv[1]*pvx + tv[2]*pvy) * inv;
+            if (u < -1e-5f || u > 1.0f+1e-5f) continue;
+            float qx = tv[1]*e1[2]-tv[2]*e1[1], qy = tv[2]*e1[0]-tv[0]*e1[2], qz = tv[0]*e1[1]-tv[1]*e1[0];
+            float v = qx * inv;                              // d . q = qx
+            if (v < -1e-5f || u+v > 1.0f+1e-5f) continue;
+            float t = (e2[0]*qx + e2[1]*qy + e2[2]*qz) * inv;
+            if (t <= EPS) continue;                          // backward / on the point
+            int hitcx = int(floorf((P[0]+t-gmin[0])*ics[0]));
+            if (hitcx != cx) continue;                       // dedup: count in its own cell only
+            if (t < best_t) { best_t = t; best_obs = tri_obs[i]; }
         }
-        if (best_tri >= 0) { if (found_r < 0) found_r = r; if (r >= found_r+1) break; }
+        if (best_obs >= 0) break;   // nearest is in the lowest cx that has any crossing
     }
-    if (best_tri < 0) return -1;
-    int i0 = tris[3*best_tri+0], i1 = tris[3*best_tri+1], i2 = tris[3*best_tri+2];
-    float a[3]  = { verts[3*i0+0], verts[3*i0+1], verts[3*i0+2] };
-    float e1[3] = { verts[3*i1+0]-a[0], verts[3*i1+1]-a[1], verts[3*i1+2]-a[2] };
-    float e2[3] = { verts[3*i2+0]-a[0], verts[3*i2+1]-a[1], verts[3*i2+2]-a[2] };
-    float n[3]  = { e1[1]*e2[2]-e1[2]*e2[1], e1[2]*e2[0]-e1[0]*e2[2], e1[0]*e2[1]-e1[1]*e2[0] };
-    float ce[3] = { (verts[3*i0+0]+verts[3*i1+0]+verts[3*i2+0])*(1.0f/3.0f),
-                    (verts[3*i0+1]+verts[3*i1+1]+verts[3*i2+1])*(1.0f/3.0f),
-                    (verts[3*i0+2]+verts[3*i1+2]+verts[3*i2+2])*(1.0f/3.0f) };
-    float dot = (P[0]-ce[0])*n[0] + (P[1]-ce[1])*n[1] + (P[2]-ce[2])*n[2];
-    return (dot < 0.0f) ? tri_obs[best_tri] : -1;
+    if (best_obs < 0) return -1;    // no surface ahead -> extra
+
+    // March 2: parity of best_obs's crossings along the whole +x row.
+    int crossings = 0;
+    for (int cx = pcx; cx < dim[0]; ++cx) {
+        int cell = cx + rowoff;
+        for (int k = cell_start[cell]; k < cell_start[cell+1]; ++k) {
+            int i = cell_tri[k];
+            if (tri_obs[i] != best_obs) continue;
+            int i0 = tris[3*i+0], i1 = tris[3*i+1], i2 = tris[3*i+2];
+            float a[3]  = { verts[3*i0+0], verts[3*i0+1], verts[3*i0+2] };
+            float e1[3] = { verts[3*i1+0]-a[0], verts[3*i1+1]-a[1], verts[3*i1+2]-a[2] };
+            float e2[3] = { verts[3*i2+0]-a[0], verts[3*i2+1]-a[1], verts[3*i2+2]-a[2] };
+            float pvx = -e2[2], pvy = e2[1];
+            float det = e1[1]*pvx + e1[2]*pvy;
+            if (det > -1e-20f && det < 1e-20f) continue;
+            float inv = 1.0f/det;
+            float tv[3] = { P[0]-a[0], P[1]-a[1], P[2]-a[2] };
+            float u = (tv[1]*pvx + tv[2]*pvy) * inv;
+            if (u < -1e-5f || u > 1.0f+1e-5f) continue;
+            float qx = tv[1]*e1[2]-tv[2]*e1[1], qy = tv[2]*e1[0]-tv[0]*e1[2], qz = tv[0]*e1[1]-tv[1]*e1[0];
+            float v = qx * inv;
+            if (v < -1e-5f || u+v > 1.0f+1e-5f) continue;
+            float t = (e2[0]*qx + e2[1]*qy + e2[2]*qz) * inv;
+            if (t <= EPS) continue;
+            int hitcx = int(floorf((P[0]+t-gmin[0])*ics[0]));
+            if (hitcx != cx) continue;
+            crossings++;
+        }
+    }
+    return (crossings & 1) ? best_obs : -1;
 }
 
 //! Phase 2d/2e/2f: one thread per walker, restricted diffusion inside ONE triangle
@@ -657,16 +692,33 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
     out_inobs[w] = in_obs;                                  // final compartment (after any crossings)
 }
 
+//! Wrap a coordinate into [lo,hi) for periodic BC: pv = lo + mod(x-lo, L). For periodic
+//! voxel BC this reproduces MCDC's incremental pv exactly (each face crossing sets pv to
+//! the opposite face). For mirror BC pr is already bounded, so the caller passes it through.
+__device__ inline float wrapCoord(float x, float lo, float hi)
+{
+    float L = hi - lo;
+    if (L <= 0.0f) return x;
+    float t = x - lo;
+    t = t - L * floorf(t / L);
+    return lo + t;
+}
+
 //! One block per walker, num_rep measurements strided across threads. Reads the
 //! on-device trajectory and accumulates the (T2=inf) signal sum_w cos(phase).
 //! Mirrors CUDASynth::deviceDataSynth but uses the scheme values directly (MCDC).
-// out_DWI has 2*num_rep entries: [0,num_rep) accumulate INTRA walkers (in_obs>=0),
-// [num_rep,2*num_rep) accumulate EXTRA walkers (in_obs<0). The total signal is the
-// elementwise sum of the two halves. inobs[w] is the walker's compartment at placement.
+// out_DWI layout: [0, 2*num_rep) is the GLOBAL signal -- [0,num_rep) intra (in_obs>=0),
+// [num_rep,2*num_rep) extra. When n_sub>0, [2*num_rep ...) holds the per-subdivision
+// VOLUME: subdivision k occupies [ (1+k)*2*num_rep, (2+k)*2*num_rep ) with the same
+// intra|extra halves. A walker is binned by its FINAL wrapped position into the first
+// subdivision box that contains it (mutually exclusive, matching the CPU's break-on-first),
+// exactly as PGSESequence::update_DWI_signal does with walker.pos_v at echo time.
 __global__ void signalKernel(const float* traj, unsigned T, float duration,
                              const float* scheme, unsigned num_rep,
                              const int* inobs, const float* t2sum,
-                             float* out_DWI)
+                             float vminx, float vminy, float vminz,
+                             float vmaxx, float vmaxy, float vmaxz, int periodic,
+                             const float* subdiv, unsigned n_sub, float* out_DWI)
 {
     unsigned w = blockIdx.x;
     float time_step = duration / float(T);
@@ -676,6 +728,27 @@ __global__ void signalKernel(const float* traj, unsigned T, float duration,
 
     const float* tr = traj + (size_t)w * (T + 1) * 3;
     float x_ini[3] = { tr[0], tr[1], tr[2] };
+
+    // Subdivision membership: bin the FINAL position (wrapped into the voxel for periodic
+    // BC) into the first containing box. Computed once per block in thread 0 -> shared.
+    __shared__ int sub_idx;
+    if (n_sub > 0 && threadIdx.x == 0) {
+        const float* fp = tr + (size_t)T * 3;
+        float pv[3] = { fp[0], fp[1], fp[2] };
+        if (periodic) {
+            pv[0] = wrapCoord(pv[0], vminx, vmaxx);
+            pv[1] = wrapCoord(pv[1], vminy, vmaxy);
+            pv[2] = wrapCoord(pv[2], vminz, vmaxz);
+        }
+        int found = -1;
+        for (unsigned k = 0; k < n_sub; ++k) {
+            const float* b = subdiv + (size_t)k * 6;
+            if (pv[0] >= b[0] && pv[1] >= b[1] && pv[2] >= b[2] &&
+                pv[0] <= b[3] && pv[1] <= b[4] && pv[2] <= b[5]) { found = int(k); break; }
+        }
+        sub_idx = found;
+    }
+    if (n_sub > 0) __syncthreads();
 
     for (unsigned s = threadIdx.x; s < num_rep; s += blockDim.x) {
         unsigned k = s * 7;
@@ -704,7 +777,10 @@ __global__ void signalKernel(const float* traj, unsigned T, float duration,
         // permeable crossings); = pos*dt/T2 for a fixed compartment. pos=min(int(TE/dt),T-1).
         int pos = int(te / time_step); if (pos >= int(T)) pos = int(T) - 1;
         float t2w = __expf(-t2w_acc[pos]);
-        atomicAdd(&out_DWI[base + s], t2w * cosf(phase));
+        float contrib = t2w * cosf(phase);
+        atomicAdd(&out_DWI[base + s], contrib);                       // global signal
+        if (n_sub > 0 && sub_idx >= 0)                                // volumetric: this walker's box
+            atomicAdd(&out_DWI[(size_t)(1 + sub_idx) * 2u * num_rep + base + s], contrib);
     }
 }
 
@@ -743,25 +819,37 @@ static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const int* d_in
                            const float* d_t2sum, const float* scheme, double* out_DWI)
 {
     const size_t scheme_bytes = (size_t)p.num_rep * 7 * sizeof(float);
-    const size_t dwi_bytes    = (size_t)p.num_rep * 2 * sizeof(float);   // intra + extra halves
-    float *d_scheme = nullptr, *d_dwi = nullptr;
+    // DWI buffer: global (2*num_rep) + one 2*num_rep block per subdivision (volumetric).
+    const size_t n_blocks  = (size_t)1 + p.n_sub;
+    const size_t dwi_count = n_blocks * p.num_rep * 2;
+    const size_t dwi_bytes = dwi_count * sizeof(float);
+    float *d_scheme = nullptr, *d_dwi = nullptr, *d_subdiv = nullptr;
     CUDA_CHECK(cudaMalloc(&d_scheme, scheme_bytes));
     CUDA_CHECK(cudaMalloc(&d_dwi,    dwi_bytes));
     CUDA_CHECK(cudaMemcpy(d_scheme, scheme, scheme_bytes, cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemset(d_dwi, 0, dwi_bytes));
+    if (p.n_sub > 0) {
+        CUDA_CHECK(cudaMalloc(&d_subdiv, (size_t)p.n_sub * 6 * sizeof(float)));
+        CUDA_CHECK(cudaMemcpy(d_subdiv, p.subdiv_boxes, (size_t)p.n_sub * 6 * sizeof(float),
+                              cudaMemcpyHostToDevice));
+    }
 
     const int threads = p.num_rep < 1024u ? int(p.num_rep) : 1024;
     signalKernel<<<p.N, threads>>>(d_traj, p.T, p.duration, d_scheme, p.num_rep,
-                                   d_inobs, d_t2sum, d_dwi);
+                                   d_inobs, d_t2sum,
+                                   p.vmin[0], p.vmin[1], p.vmin[2],
+                                   p.vmax[0], p.vmax[1], p.vmax[2], p.periodic,
+                                   d_subdiv, p.n_sub, d_dwi);
     CUDA_CHECK(cudaGetLastError());
     CUDA_CHECK(cudaDeviceSynchronize());
 
-    std::vector<float> h_dwi(p.num_rep * 2);
+    std::vector<float> h_dwi(dwi_count);
     CUDA_CHECK(cudaMemcpy(h_dwi.data(), d_dwi, dwi_bytes, cudaMemcpyDeviceToHost));
-    for (unsigned i = 0; i < p.num_rep * 2; ++i) out_DWI[i] = double(h_dwi[i]);
+    for (size_t i = 0; i < dwi_count; ++i) out_DWI[i] = double(h_dwi[i]);
 
     cudaFree(d_scheme);
     cudaFree(d_dwi);
+    if (d_subdiv) cudaFree(d_subdiv);
     return 0;
 }
 

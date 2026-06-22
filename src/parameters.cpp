@@ -306,6 +306,15 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         }
         min_sampling_area *= m_to_mm;
         max_sampling_area *= m_to_mm;
+
+        // Voxel subdivisions loaded from `subdivisions_file` are in the same (standard)
+        // units as the <voxels> block, so scale them too. Only file-loaded subdivisions
+        // exist at this point; the `subdivisions_number` grid is built later (addSubdivisions)
+        // from the already-scaled voxel, so it must NOT be scaled here.
+        for(auto& sd : subdivisions){
+            sd.min_limits *= float(m_to_mm);
+            sd.max_limits *= float(m_to_mm);
+        }
         for(auto& d : ini_delta_pos)
             d *= m_to_mm;
         collision_sphere_distance *= m_to_mm;

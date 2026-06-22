@@ -22,13 +22,6 @@ struct GpuSimParams
     unsigned long long seed;     //!< RNG seed
 };
 
-//! A single analytic sphere obstacle (internal units, mm).
-struct GpuSphere
-{
-    float cx, cy, cz;   //!< centre
-    float r;            //!< radius
-};
-
 //! \brief Free-diffusion dynamics + PGSE signal, fully on the GPU.
 //! \param p        simulation parameters (internal units).
 //! \param scheme   flattened scheme, num_rep*7 floats per row
@@ -37,21 +30,17 @@ struct GpuSphere
 //! \return 0 on success, non-zero CUDA error code otherwise.
 int runGpuFreeDiffusion(const GpuSimParams& p, const float* scheme, double* out_DWI);
 
-//! \brief Phase 2a: restricted diffusion inside ONE impermeable sphere + signal.
-//! Walkers start uniformly inside the sphere and elastically reflect off the inner
-//! surface (brute-force, no acceleration grid). Same signal synthesis as above.
-int runGpuSphere(const GpuSimParams& p, const GpuSphere& s, const float* scheme, double* out_DWI);
+//! \brief Phase 2a/2c: restricted diffusion inside impermeable spheres + signal.
+//! Walkers start uniformly inside a (random) sphere and reflect off the nearest
+//! surface each step (brute-force over all spheres; no acceleration grid).
+//! \param spheres  n_sph * 4 floats: (cx, cy, cz, r) per sphere (internal mm).
+int runGpuSpheres(const GpuSimParams& p, const float* spheres, unsigned n_sph,
+                  const float* scheme, double* out_DWI);
 
-//! A single analytic (infinite) cylinder obstacle (internal units, mm).
-struct GpuCylinder
-{
-    float px, py, pz;   //!< a point on the axis
-    float dx, dy, dz;   //!< unit axis direction
-    float r;            //!< radius
-};
-
-//! \brief Phase 2b: restricted diffusion inside ONE impermeable infinite cylinder.
-//! Radially confined, free along the axis; reflects off the radial normal.
-int runGpuCylinder(const GpuSimParams& p, const GpuCylinder& c, const float* scheme, double* out_DWI);
+//! \brief Phase 2b/2c: restricted diffusion inside impermeable infinite cylinders.
+//! Radially confined, free along each axis; reflects off the nearest radial normal.
+//! \param cyls     n_cyl * 7 floats: (px,py,pz, dx,dy,dz, r) per cylinder (mm; D unit).
+int runGpuCylinders(const GpuSimParams& p, const float* cyls, unsigned n_cyl,
+                    const float* scheme, double* out_DWI);
 
 #endif // GPU_SIMULATION_CUH

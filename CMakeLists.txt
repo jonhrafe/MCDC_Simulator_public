@@ -251,6 +251,21 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
                 "${CMAKE_SOURCE_DIR}/tests/accuracy/cylinder_restricted.conf")
     set_tests_properties(gpu_restricted_cylinder PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    # GPU Phase 2c: multiple analytic obstacles (per-step nearest-collision over an
+    # array). Sphere hex packing, and several cylinders with a large axial voxel so
+    # the (un-implemented) periodic BC is negligible. GPU vs CPU within MC noise.
+    add_test(
+        NAME gpu_hex_spheres
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_hex_gpu.conf")
+    set_tests_properties(gpu_hex_spheres PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    add_test(
+        NAME gpu_multi_cylinder
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/multi_cylinder.conf")
+    set_tests_properties(gpu_multi_cylinder PROPERTIES LABELS "gpu" TIMEOUT 300)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

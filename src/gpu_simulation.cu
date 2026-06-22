@@ -125,11 +125,12 @@ __device__ inline void reflectDir(float d[3], const float n[3])
     d[2] -= 2.0f*dn*n[2];
 }
 
-//! Phase 2a: one thread per walker, restricted diffusion inside ONE impermeable
-//! sphere. Walkers start uniformly inside; each step elastically reflects off the
-//! inner surface (multi-bounce), brute-force (single obstacle, no grid).
-__global__ void sphereKernel(float* traj, unsigned N, unsigned T, float step_length,
-                             float cx, float cy, float cz, float r, unsigned long long seed)
+//! Phase 2a/2c: one thread per walker, restricted diffusion among impermeable
+//! spheres (spheres[i*4+0..3] = cx,cy,cz,r). Walker starts uniformly inside a
+//! random sphere; each step takes the NEAREST surface crossing over all spheres
+//! and reflects (multi-bounce). Brute-force over all spheres (no grid yet).
+__global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_length,
+                              const float* spheres, unsigned n_sph, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
@@ -137,19 +138,22 @@ __global__ void sphereKernel(float* traj, unsigned N, unsigned T, float step_len
     curandStatePhilox4_32_10_t st;
     curand_init(seed, w, 0, &st);
 
-    // Uniform start inside the sphere (rejection in the bounding cube).
-    float px, py, pz;
+    // Start uniformly inside a randomly chosen sphere (equal-radius packings ->
+    // uniform over the intra volume).
+    unsigned si = curand(&st) % n_sph;
+    float cx = spheres[si*4+0], cy = spheres[si*4+1], cz = spheres[si*4+2], r0 = spheres[si*4+3];
+    float ox, oy, oz;
     do {
-        px = (2.0f*curand_uniform(&st) - 1.0f) * r;
-        py = (2.0f*curand_uniform(&st) - 1.0f) * r;
-        pz = (2.0f*curand_uniform(&st) - 1.0f) * r;
-    } while (px*px + py*py + pz*pz > r*r);
-    px += cx; py += cy; pz += cz;
+        ox = (2.0f*curand_uniform(&st) - 1.0f) * r0;
+        oy = (2.0f*curand_uniform(&st) - 1.0f) * r0;
+        oz = (2.0f*curand_uniform(&st) - 1.0f) * r0;
+    } while (ox*ox + oy*oy + oz*oz > r0*r0);
+    float px = cx + ox, py = cy + oy, pz = cz + oz;
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = px; tr[1] = py; tr[2] = pz;
 
-    const float EPS = 1e-6f * r;   // nudge to stay inside after a bounce
+    const float EPS = 1e-6f * r0;
     for (unsigned t = 1; t <= T; ++t) {
         float dx = curand_normal(&st), dy = curand_normal(&st), dz = curand_normal(&st);
         float inv = rsqrtf(dx*dx + dy*dy + dz*dz + 1e-30f);
@@ -157,25 +161,33 @@ __global__ void sphereKernel(float* traj, unsigned N, unsigned T, float step_len
         float remaining = step_length;
 
         for (int b = 0; b < 16 && remaining > 0.0f; ++b) {
-            float mx = px - cx, my = py - cy, mz = pz - cz;
-            float bq = mx*dir[0] + my*dir[1] + mz*dir[2];
-            float cq = mx*mx + my*my + mz*mz - r*r;
-            float discr = bq*bq - cq;
-            float thit = -1.0f;
-            if (discr > 0.0f) {
-                float t2 = -bq + sqrtf(discr);     // exit root (inside => cq<0 => t2>0)
-                if (t2 > EPS && t2 < remaining) thit = t2;
+            float best_t = remaining; int best = -1;
+            for (unsigned i = 0; i < n_sph; ++i) {
+                float ux = px - spheres[i*4+0], uy = py - spheres[i*4+1], uz = pz - spheres[i*4+2];
+                float ri = spheres[i*4+3];
+                float bq = ux*dir[0] + uy*dir[1] + uz*dir[2];
+                float cq = ux*ux + uy*uy + uz*uz - ri*ri;
+                float discr = bq*bq - cq;
+                if (discr > 0.0f) {
+                    float sq = sqrtf(discr);
+                    float t1 = -bq - sq, t2 = -bq + sq;       // first crossing > EPS
+                    float tc = (t1 > EPS) ? t1 : ((t2 > EPS) ? t2 : -1.0f);
+                    if (tc > EPS && tc < best_t) { best_t = tc; best = int(i); }
+                }
             }
-            if (thit < 0.0f) {                     // no surface hit within the step
+            if (best < 0) {
                 px += remaining*dir[0]; py += remaining*dir[1]; pz += remaining*dir[2];
                 remaining = 0.0f;
-            } else {                               // move to surface, reflect, continue
-                px += thit*dir[0]; py += thit*dir[1]; pz += thit*dir[2];
-                float nn = rsqrtf((px-cx)*(px-cx) + (py-cy)*(py-cy) + (pz-cz)*(pz-cz) + 1e-30f);
-                float n[3] = { (px-cx)*nn, (py-cy)*nn, (pz-cz)*nn };
+            } else {
+                px += best_t*dir[0]; py += best_t*dir[1]; pz += best_t*dir[2];
+                float nx = px - spheres[best*4+0], ny = py - spheres[best*4+1], nz = pz - spheres[best*4+2];
+                float nn = rsqrtf(nx*nx + ny*ny + nz*nz + 1e-30f);
+                float n[3] = { nx*nn, ny*nn, nz*nn };
                 reflectDir(dir, n);
-                px -= EPS*n[0]; py -= EPS*n[1]; pz -= EPS*n[2];   // nudge inside
-                remaining -= thit;
+                // nudge along the reflected direction (into the valid region;
+                // works whether we left our own sphere or bounced off a neighbour)
+                px += EPS*dir[0]; py += EPS*dir[1]; pz += EPS*dir[2];
+                remaining -= best_t;
             }
         }
         float* o = tr + (size_t)t * 3;
@@ -183,13 +195,12 @@ __global__ void sphereKernel(float* traj, unsigned N, unsigned T, float step_len
     }
 }
 
-//! Phase 2b: one thread per walker, restricted diffusion inside ONE impermeable
-//! infinite cylinder (axis p0 + s*D, unit D). Radially confined, free along the
-//! axis: reflection is about the radial normal (the axial dir component is kept).
-__global__ void cylinderKernel(float* traj, unsigned N, unsigned T, float step_length,
-                               float p0x, float p0y, float p0z,
-                               float dx, float dy, float dz, float r,
-                               unsigned long long seed)
+//! Phase 2b/2c: one thread per walker, restricted diffusion among impermeable
+//! infinite cylinders (cyls[i*7+0..6] = px,py,pz, dx,dy,dz(unit), r). Walker starts
+//! in a random cylinder's disk; each step takes the NEAREST radial crossing over
+//! all cylinders and reflects off that radial normal (axial motion is free).
+__global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_length,
+                                const float* cyls, unsigned n_cyl, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
@@ -197,17 +208,18 @@ __global__ void cylinderKernel(float* traj, unsigned N, unsigned T, float step_l
     curandStatePhilox4_32_10_t st;
     curand_init(seed, w, 0, &st);
 
-    // Orthonormal basis (e1,e2) perpendicular to the axis D.
+    // Start in a random cylinder's perpendicular disk.
+    unsigned ci = curand(&st) % n_cyl;
+    float p0x = cyls[ci*7+0], p0y = cyls[ci*7+1], p0z = cyls[ci*7+2];
+    float dx = cyls[ci*7+3], dy = cyls[ci*7+4], dz = cyls[ci*7+5], r0 = cyls[ci*7+6];
     float ax = (fabsf(dx) < 0.9f) ? 1.0f : 0.0f;
     float ay = (fabsf(dx) < 0.9f) ? 0.0f : 1.0f;
-    float adb = ax*dx + ay*dy;                       // a.D (az=0)
+    float adb = ax*dx + ay*dy;
     float e1[3] = { ax - adb*dx, ay - adb*dy, -adb*dz };
     float i1 = rsqrtf(e1[0]*e1[0] + e1[1]*e1[1] + e1[2]*e1[2] + 1e-30f);
     e1[0]*=i1; e1[1]*=i1; e1[2]*=i1;
-    float e2[3] = { dy*e1[2]-dz*e1[1], dz*e1[0]-dx*e1[2], dx*e1[1]-dy*e1[0] };  // D x e1
-
-    // Uniform start in the disk (radius r) perpendicular to the axis, axial 0.
-    float rr = r * sqrtf(curand_uniform(&st));
+    float e2[3] = { dy*e1[2]-dz*e1[1], dz*e1[0]-dx*e1[2], dx*e1[1]-dy*e1[0] };
+    float rr = r0 * sqrtf(curand_uniform(&st));
     float th = 6.2831853f * curand_uniform(&st);
     float cs = cosf(th)*rr, sn = sinf(th)*rr;
     float px = p0x + cs*e1[0] + sn*e2[0];
@@ -217,7 +229,7 @@ __global__ void cylinderKernel(float* traj, unsigned N, unsigned T, float step_l
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = px; tr[1] = py; tr[2] = pz;
 
-    const float EPS = 1e-6f * r;
+    const float EPS = 1e-6f * r0;
     for (unsigned t = 1; t <= T; ++t) {
         float gx = curand_normal(&st), gy = curand_normal(&st), gz = curand_normal(&st);
         float inv = rsqrtf(gx*gx + gy*gy + gz*gz + 1e-30f);
@@ -225,34 +237,38 @@ __global__ void cylinderKernel(float* traj, unsigned N, unsigned T, float step_l
         float remaining = step_length;
 
         for (int b = 0; b < 16 && remaining > 0.0f; ++b) {
-            float mx = px - p0x, my = py - p0y, mz = pz - p0z;
-            float md = mx*dx + my*dy + mz*dz;
-            float nd = dir[0]*dx + dir[1]*dy + dir[2]*dz;
-            float a  = 1.0f - nd*nd;
-            float cq = (mx*mx + my*my + mz*mz - r*r) - md*md;
-            float bq = (mx*dir[0] + my*dir[1] + mz*dir[2]) - nd*md;
-            float thit = -1.0f;
-            if (a > 1e-8f) {                          // not parallel to the axis
+            float best_t = remaining; int best = -1;
+            for (unsigned i = 0; i < n_cyl; ++i) {
+                float ex = px - cyls[i*7+0], ey = py - cyls[i*7+1], ez = pz - cyls[i*7+2];
+                float Dx = cyls[i*7+3], Dy = cyls[i*7+4], Dz = cyls[i*7+5], ri = cyls[i*7+6];
+                float md = ex*Dx + ey*Dy + ez*Dz;
+                float nd = dir[0]*Dx + dir[1]*Dy + dir[2]*Dz;
+                float a  = 1.0f - nd*nd;
+                if (a <= 1e-8f) continue;                 // parallel to this axis
+                float cq = (ex*ex + ey*ey + ez*ez - ri*ri) - md*md;
+                float bq = (ex*dir[0] + ey*dir[1] + ez*dir[2]) - nd*md;
                 float discr = bq*bq - a*cq;
                 if (discr > 0.0f) {
-                    float t2 = (-bq + sqrtf(discr)) / a;   // exit root (inside)
-                    if (t2 > EPS && t2 < remaining) thit = t2;
+                    float sq = sqrtf(discr);
+                    float t1 = (-bq - sq) / a, t2 = (-bq + sq) / a;
+                    float tc = (t1 > EPS) ? t1 : ((t2 > EPS) ? t2 : -1.0f);
+                    if (tc > EPS && tc < best_t) { best_t = tc; best = int(i); }
                 }
             }
-            if (thit < 0.0f) {
+            if (best < 0) {
                 px += remaining*dir[0]; py += remaining*dir[1]; pz += remaining*dir[2];
                 remaining = 0.0f;
             } else {
-                px += thit*dir[0]; py += thit*dir[1]; pz += thit*dir[2];
-                // radial normal = (hit-p0) minus its axial component
-                float rx = px - p0x, ry = py - p0y, rz = pz - p0z;
-                float rad = rx*dx + ry*dy + rz*dz;
-                float n[3] = { rx - rad*dx, ry - rad*dy, rz - rad*dz };
+                px += best_t*dir[0]; py += best_t*dir[1]; pz += best_t*dir[2];
+                float Dx = cyls[best*7+3], Dy = cyls[best*7+4], Dz = cyls[best*7+5];
+                float rx = px - cyls[best*7+0], ry = py - cyls[best*7+1], rz = pz - cyls[best*7+2];
+                float rad = rx*Dx + ry*Dy + rz*Dz;
+                float n[3] = { rx - rad*Dx, ry - rad*Dy, rz - rad*Dz };
                 float nn = rsqrtf(n[0]*n[0] + n[1]*n[1] + n[2]*n[2] + 1e-30f);
                 n[0]*=nn; n[1]*=nn; n[2]*=nn;
                 reflectDir(dir, n);
-                px -= EPS*n[0]; py -= EPS*n[1]; pz -= EPS*n[2];
-                remaining -= thit;
+                px += EPS*dir[0]; py += EPS*dir[1]; pz += EPS*dir[2];
+                remaining -= best_t;
             }
         }
         float* o = tr + (size_t)t * 3;
@@ -333,23 +349,17 @@ int runGpuFreeDiffusion(const GpuSimParams& p, const float* scheme, double* out_
     return 0;
 }
 
-int runGpuSphere(const GpuSimParams& p, const GpuSphere& s, const float* scheme, double* out_DWI)
+// Shared tail: upload scheme, run the signal kernel on the (already-filled) device
+// trajectory, copy back the DWI, free. Returns 0 / CUDA error code.
+static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const float* scheme, double* out_DWI)
 {
-    const size_t traj_bytes   = (size_t)p.N * (p.T + 1) * 3 * sizeof(float);
     const size_t scheme_bytes = (size_t)p.num_rep * 7 * sizeof(float);
     const size_t dwi_bytes    = (size_t)p.num_rep * sizeof(float);
-
-    float *d_traj = nullptr, *d_scheme = nullptr, *d_dwi = nullptr;
-    CUDA_CHECK(cudaMalloc(&d_traj,   traj_bytes));
+    float *d_scheme = nullptr, *d_dwi = nullptr;
     CUDA_CHECK(cudaMalloc(&d_scheme, scheme_bytes));
     CUDA_CHECK(cudaMalloc(&d_dwi,    dwi_bytes));
     CUDA_CHECK(cudaMemcpy(d_scheme, scheme, scheme_bytes, cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemset(d_dwi, 0, dwi_bytes));
-
-    const int bs = 256;
-    const int gs = int((p.N + bs - 1) / bs);
-    sphereKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, s.cx, s.cy, s.cz, s.r, p.seed);
-    CUDA_CHECK(cudaGetLastError());
 
     const int threads = p.num_rep < 1024u ? int(p.num_rep) : 1024;
     signalKernel<<<p.N, threads>>>(d_traj, p.T, p.duration, d_scheme, p.num_rep, d_dwi);
@@ -360,42 +370,43 @@ int runGpuSphere(const GpuSimParams& p, const GpuSphere& s, const float* scheme,
     CUDA_CHECK(cudaMemcpy(h_dwi.data(), d_dwi, dwi_bytes, cudaMemcpyDeviceToHost));
     for (unsigned i = 0; i < p.num_rep; ++i) out_DWI[i] = double(h_dwi[i]);
 
-    cudaFree(d_traj);
     cudaFree(d_scheme);
     cudaFree(d_dwi);
     return 0;
 }
 
-int runGpuCylinder(const GpuSimParams& p, const GpuCylinder& c, const float* scheme, double* out_DWI)
+int runGpuSpheres(const GpuSimParams& p, const float* spheres, unsigned n_sph,
+                  const float* scheme, double* out_DWI)
 {
-    const size_t traj_bytes   = (size_t)p.N * (p.T + 1) * 3 * sizeof(float);
-    const size_t scheme_bytes = (size_t)p.num_rep * 7 * sizeof(float);
-    const size_t dwi_bytes    = (size_t)p.num_rep * sizeof(float);
+    float *d_traj = nullptr, *d_sph = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_traj, (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_sph,  (size_t)n_sph * 4 * sizeof(float)));
+    CUDA_CHECK(cudaMemcpy(d_sph, spheres, (size_t)n_sph * 4 * sizeof(float), cudaMemcpyHostToDevice));
 
-    float *d_traj = nullptr, *d_scheme = nullptr, *d_dwi = nullptr;
-    CUDA_CHECK(cudaMalloc(&d_traj,   traj_bytes));
-    CUDA_CHECK(cudaMalloc(&d_scheme, scheme_bytes));
-    CUDA_CHECK(cudaMalloc(&d_dwi,    dwi_bytes));
-    CUDA_CHECK(cudaMemcpy(d_scheme, scheme, scheme_bytes, cudaMemcpyHostToDevice));
-    CUDA_CHECK(cudaMemset(d_dwi, 0, dwi_bytes));
-
-    const int bs = 256;
-    const int gs = int((p.N + bs - 1) / bs);
-    cylinderKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length,
-                               c.px, c.py, c.pz, c.dx, c.dy, c.dz, c.r, p.seed);
+    const int bs = 256, gs = int((p.N + bs - 1) / bs);
+    spheresKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_sph, n_sph, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
-    const int threads = p.num_rep < 1024u ? int(p.num_rep) : 1024;
-    signalKernel<<<p.N, threads>>>(d_traj, p.T, p.duration, d_scheme, p.num_rep, d_dwi);
-    CUDA_CHECK(cudaGetLastError());
-    CUDA_CHECK(cudaDeviceSynchronize());
-
-    std::vector<float> h_dwi(p.num_rep);
-    CUDA_CHECK(cudaMemcpy(h_dwi.data(), d_dwi, dwi_bytes, cudaMemcpyDeviceToHost));
-    for (unsigned i = 0; i < p.num_rep; ++i) out_DWI[i] = double(h_dwi[i]);
-
+    int rc = gpuSynthAndFree(p, d_traj, scheme, out_DWI);
     cudaFree(d_traj);
-    cudaFree(d_scheme);
-    cudaFree(d_dwi);
-    return 0;
+    cudaFree(d_sph);
+    return rc;
+}
+
+int runGpuCylinders(const GpuSimParams& p, const float* cyls, unsigned n_cyl,
+                    const float* scheme, double* out_DWI)
+{
+    float *d_traj = nullptr, *d_cyl = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_traj, (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_cyl,  (size_t)n_cyl * 7 * sizeof(float)));
+    CUDA_CHECK(cudaMemcpy(d_cyl, cyls, (size_t)n_cyl * 7 * sizeof(float), cudaMemcpyHostToDevice));
+
+    const int bs = 256, gs = int((p.N + bs - 1) / bs);
+    cylindersKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_cyl, n_cyl, p.seed);
+    CUDA_CHECK(cudaGetLastError());
+
+    int rc = gpuSynthAndFree(p, d_traj, scheme, out_DWI);
+    cudaFree(d_traj);
+    cudaFree(d_cyl);
+    return rc;
 }

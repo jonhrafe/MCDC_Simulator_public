@@ -820,28 +820,32 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         if(n_cyl == 0 && n_sph == 0 && n_ply == 0){
             rc = runGpuFreeDiffusion(gp, scheme.data(), dwi.data());
         }
-        else if(n_cyl == 0 && n_ply == 0 && n_sph == 1){
-            // Phase 2a: restricted diffusion in a single analytic sphere.
-            const Sphere& s = (*spheres_list)[0];
-            GpuSphere gs;
-            gs.cx = float(s.center[0]); gs.cy = float(s.center[1]); gs.cz = float(s.center[2]);
-            gs.r  = float(s.radius);
-            SimErrno::info("GPU path: 1 sphere (r=" + std::to_string(gs.r) + " mm)", std::cout);
-            rc = runGpuSphere(gp, gs, scheme.data(), dwi.data());
+        else if(n_cyl == 0 && n_ply == 0 && n_sph >= 1){
+            // Phase 2a/2c: restricted diffusion among analytic spheres.
+            std::vector<float> sph(n_sph * 4);
+            for(size_t i = 0; i < n_sph; ++i){
+                const Sphere& s = (*spheres_list)[i];
+                sph[i*4+0] = float(s.center[0]); sph[i*4+1] = float(s.center[1]);
+                sph[i*4+2] = float(s.center[2]); sph[i*4+3] = float(s.radius);
+            }
+            SimErrno::info("GPU path: " + std::to_string(n_sph) + " sphere(s)", std::cout);
+            rc = runGpuSpheres(gp, sph.data(), unsigned(n_sph), scheme.data(), dwi.data());
         }
-        else if(n_sph == 0 && n_ply == 0 && n_cyl == 1){
-            // Phase 2b: restricted diffusion in a single analytic infinite cylinder.
-            const Cylinder& c = (*cylinders_list)[0];
-            GpuCylinder gc;
-            gc.px = float(c.P[0]); gc.py = float(c.P[1]); gc.pz = float(c.P[2]);
-            gc.dx = float(c.D[0]); gc.dy = float(c.D[1]); gc.dz = float(c.D[2]);
-            gc.r  = float(c.radius);
-            SimErrno::info("GPU path: 1 cylinder (r=" + std::to_string(gc.r) + " mm)", std::cout);
-            rc = runGpuCylinder(gp, gc, scheme.data(), dwi.data());
+        else if(n_sph == 0 && n_ply == 0 && n_cyl >= 1){
+            // Phase 2b/2c: restricted diffusion among analytic infinite cylinders.
+            std::vector<float> cyl(n_cyl * 7);
+            for(size_t i = 0; i < n_cyl; ++i){
+                const Cylinder& c = (*cylinders_list)[i];
+                cyl[i*7+0] = float(c.P[0]); cyl[i*7+1] = float(c.P[1]); cyl[i*7+2] = float(c.P[2]);
+                cyl[i*7+3] = float(c.D[0]); cyl[i*7+4] = float(c.D[1]); cyl[i*7+5] = float(c.D[2]);
+                cyl[i*7+6] = float(c.radius);
+            }
+            SimErrno::info("GPU path: " + std::to_string(n_cyl) + " cylinder(s)", std::cout);
+            rc = runGpuCylinders(gp, cyl.data(), unsigned(n_cyl), scheme.data(), dwi.data());
         }
         else {
-            SimErrno::error("GPU path supports only free diffusion, a single sphere, or a single "
-                            "cylinder so far (Phase 2a/2b). Use the CPU path for this substrate.", std::cout);
+            SimErrno::error("GPU path supports free diffusion, spheres, or cylinders so far "
+                            "(Phase 2a/2b/2c). Meshes/mixed substrates: use the CPU path.", std::cout);
             return;
         }
         if(rc != 0){

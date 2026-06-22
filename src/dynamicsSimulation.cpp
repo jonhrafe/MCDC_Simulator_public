@@ -22,6 +22,8 @@
 #include "collisionsphere.h"
 #include "simerrno.h"
 #include "simulablesequence.h"
+#include "pgsesequence.h"
+#include "gpu_simulation.cuh"
 using namespace Eigen;
 using namespace std;
 using namespace sentinels;
@@ -777,6 +779,50 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
 
     //Initialize values, arrays and files.
     initSimulation();
+
+    // ---- GPU path (Phase 1: free diffusion + signal on device) --------------
+    // Routed by the `gpu` config flag. Takes over from the per-walker loop:
+    // diffuse N walkers on the device and synthesize the signal there, copying
+    // back only the DWI. No obstacles yet (free diffusion). T2 assumed infinite.
+    if(params.gpu){
+#ifndef MCDC_HAVE_CUDA
+        SimErrno::error("This binary was built WITHOUT CUDA; the 'gpu' flag is unavailable. "
+                        "Rebuild with CUDA, or remove 'gpu 1' to use the CPU path.", std::cout);
+        return;
+#else
+        PGSESequence* pgse = dynamic_cast<PGSESequence*>(dataSynth);
+        if(pgse == nullptr){
+            SimErrno::error("GPU path currently supports a PGSE sequence only.", std::cout);
+            return;
+        }
+        GpuSimParams gp;
+        gp.N           = params.num_walkers;
+        gp.T           = params.num_steps;
+        gp.num_rep     = unsigned(pgse->num_rep);
+        gp.duration    = float(params.sim_duration);   // internal ms
+        gp.step_length = float(walker.step_lenght);     // sqrt(6*D*dur/T), internal mm
+        gp.seed        = (unsigned long long) params.seed;  // perf-only; not bit-exact vs CPU
+
+        // Interface: flatten the (as-stored) scheme to num_rep*7 floats.
+        std::vector<float> scheme(size_t(gp.num_rep) * 7);
+        for(unsigned i = 0; i < gp.num_rep; ++i)
+            for(int j = 0; j < 7; ++j)
+                scheme[i*7 + j] = float(pgse->scheme[i][j]);
+
+        SimErrno::info("GPU path: free diffusion + signal on device (N=" + std::to_string(gp.N) +
+                       ", T=" + std::to_string(gp.T) + ", num_rep=" + std::to_string(gp.num_rep) + ")", std::cout);
+
+        std::vector<double> dwi(gp.num_rep, 0.0);
+        int rc = runGpuFreeDiffusion(gp, scheme.data(), dwi.data());
+        if(rc != 0){
+            SimErrno::error("GPU run failed (CUDA error " + std::to_string(rc) + ").", std::cout);
+            return;
+        }
+        for(unsigned i = 0; i < gp.num_rep; ++i) dataSynth->DWI[i] = dwi[i];
+        return;
+#endif // MCDC_HAVE_CUDA
+    }
+    // -------------------------------------------------------------------------
 
     // Optional per-step per-walker debug trace (large file). One per process.
     if(params.debug){

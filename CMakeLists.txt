@@ -21,6 +21,26 @@ endif()
 # Always export compile_commands.json (consumed by clangd / clangd-lsp plugin).
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# --- Optional CUDA (GPU path) ----------------------------------------------
+# Detected, not required: CPU-only machines still build the full simulator.
+# When present, src/*.cu is compiled into a separate mcdc_gpu library and the
+# MCDC_HAVE_CUDA macro enables the `gpu` config flag.
+include(CheckLanguage)
+check_language(CUDA)
+set(MCDC_HAVE_CUDA OFF)
+if(CMAKE_CUDA_COMPILER)
+    enable_language(CUDA)
+    set(MCDC_HAVE_CUDA ON)
+    if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES)
+        set(CMAKE_CUDA_ARCHITECTURES 86)   # RTX 3080 (Ampere); override with -DCMAKE_CUDA_ARCHITECTURES=...
+    endif()
+    set(CMAKE_CUDA_STANDARD 17)
+    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+    message(STATUS "CUDA found (${CMAKE_CUDA_COMPILER}); GPU path ENABLED, arch ${CMAKE_CUDA_ARCHITECTURES}.")
+else()
+    message(STATUS "CUDA not found; GPU path DISABLED (CPU-only build).")
+endif()
+
 # --- Options ----------------------------------------------------------------
 # -march=native: great for local runs, but breaks portable/cluster binaries.
 # Kept ON by default to match compile.sh; turn OFF for portable builds.
@@ -64,6 +84,23 @@ if(MCDC_IPO_OK)
     set_property(TARGET mcdc_core PROPERTY INTERPROCEDURAL_OPTIMIZATION_RELEASE ON)
 else()
     message(STATUS "IPO/LTO not supported: ${MCDC_IPO_MSG}")
+endif()
+
+# --- GPU library (CUDA .cu sources) -----------------------------------------
+# Kept separate from mcdc_core so host LTO and nvcc don't interfere. mcdc_core
+# links it and gains MCDC_HAVE_CUDA so the `gpu` path compiles in.
+if(MCDC_HAVE_CUDA)
+    file(GLOB MCDC_CUDA_SOURCES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/src/*.cu")
+    add_library(mcdc_gpu STATIC ${MCDC_CUDA_SOURCES})
+    target_include_directories(mcdc_gpu PUBLIC "${CMAKE_SOURCE_DIR}/src")
+    set_target_properties(mcdc_gpu PROPERTIES
+        CUDA_ARCHITECTURES ${CMAKE_CUDA_ARCHITECTURES}
+        CUDA_STANDARD 17
+        POSITION_INDEPENDENT_CODE ON)
+    find_package(CUDAToolkit REQUIRED)
+    target_link_libraries(mcdc_gpu PUBLIC CUDA::cudart)
+    target_link_libraries(mcdc_core PUBLIC mcdc_gpu)
+    target_compile_definitions(mcdc_core PUBLIC MCDC_HAVE_CUDA)
 endif()
 
 # --- Executables ------------------------------------------------------------
@@ -191,6 +228,14 @@ if(Python3_Interpreter_FOUND)
         NAME format_checks
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_format_checks.py")
     set_tests_properties(format_checks PROPERTIES LABELS "validation" TIMEOUT 300)
+
+    # GPU free-diffusion (Phase-1 PoC): the on-device dynamics+synthesis must
+    # reproduce S/S0 = exp(-b*D). Self-skips (pass) if the binary was built
+    # without CUDA / no GPU, so CPU-only machines still pass the suite.
+    add_test(
+        NAME gpu_free_diffusion
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_free_diffusion.py")
+    set_tests_properties(gpu_free_diffusion PROPERTIES LABELS "gpu" TIMEOUT 300)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

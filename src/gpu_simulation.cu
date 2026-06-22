@@ -276,6 +276,91 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
     }
 }
 
+//! Moller-Trumbore ray-triangle intersection (port of Triangle::rayIntersects_MT).
+//! Returns true and the signed distance t along (unit) dir to triangle (a,b,c).
+__device__ inline bool mtHit(const float O[3], const float d[3],
+                             const float a[3], const float b[3], const float c[3], float& t)
+{
+    const float DET_EPS = 1e-12f;
+    const float TE = 1e-5f;            // barycentric tolerance (float32; generous to avoid edge leaks)
+    float e1[3] = { b[0]-a[0], b[1]-a[1], b[2]-a[2] };
+    float e2[3] = { c[0]-a[0], c[1]-a[1], c[2]-a[2] };
+    float pv[3] = { d[1]*e2[2]-d[2]*e2[1], d[2]*e2[0]-d[0]*e2[2], d[0]*e2[1]-d[1]*e2[0] };
+    float det = e1[0]*pv[0] + e1[1]*pv[1] + e1[2]*pv[2];
+    if (det > -DET_EPS && det < DET_EPS) return false;
+    float inv = 1.0f/det;
+    float tv[3] = { O[0]-a[0], O[1]-a[1], O[2]-a[2] };
+    float u = (tv[0]*pv[0] + tv[1]*pv[1] + tv[2]*pv[2]) * inv;
+    if (u < -TE || u > 1.0f+TE) return false;
+    float qv[3] = { tv[1]*e1[2]-tv[2]*e1[1], tv[2]*e1[0]-tv[0]*e1[2], tv[0]*e1[1]-tv[1]*e1[0] };
+    float v = (d[0]*qv[0] + d[1]*qv[1] + d[2]*qv[2]) * inv;
+    if (v < -TE || u+v > 1.0f+TE) return false;
+    t = (e2[0]*qv[0] + e2[1]*qv[1] + e2[2]*qv[2]) * inv;
+    return true;
+}
+
+//! Phase 2d: one thread per walker, restricted diffusion inside ONE triangle mesh.
+//! Walker starts uniformly in the voxel box [vmin,vmax] (assumed inside the closed
+//! mesh); each step takes the NEAREST triangle crossing (brute-force over all
+//! triangles) and reflects off that triangle's normal. No grid yet.
+__global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_length,
+                           const float* verts, const int* tris, unsigned n_tris,
+                           float vminx, float vminy, float vminz,
+                           float vmaxx, float vmaxy, float vmaxz,
+                           unsigned long long seed)
+{
+    unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
+    if (w >= N) return;
+
+    curandStatePhilox4_32_10_t st;
+    curand_init(seed, w, 0, &st);
+
+    float px = vminx + curand_uniform(&st)*(vmaxx - vminx);
+    float py = vminy + curand_uniform(&st)*(vmaxy - vminy);
+    float pz = vminz + curand_uniform(&st)*(vmaxz - vminz);
+
+    float* tr = traj + (size_t)w * (T + 1) * 3;
+    tr[0] = px; tr[1] = py; tr[2] = pz;
+
+    const float EPS = 1e-5f * step_length;   // re-hit guard / nudge (relative to step)
+    for (unsigned t = 1; t <= T; ++t) {
+        float gx = curand_normal(&st), gy = curand_normal(&st), gz = curand_normal(&st);
+        float inv = rsqrtf(gx*gx + gy*gy + gz*gz + 1e-30f);
+        float dir[3] = { gx*inv, gy*inv, gz*inv };
+        float remaining = step_length;
+
+        for (int b = 0; b < 16 && remaining > 0.0f; ++b) {
+            float O[3] = { px, py, pz };
+            float best_t = remaining; int best = -1;
+            for (unsigned i = 0; i < n_tris; ++i) {
+                int i0 = tris[3*i+0], i1 = tris[3*i+1], i2 = tris[3*i+2];
+                float a[3] = { verts[3*i0+0], verts[3*i0+1], verts[3*i0+2] };
+                float bb[3]= { verts[3*i1+0], verts[3*i1+1], verts[3*i1+2] };
+                float cc[3]= { verts[3*i2+0], verts[3*i2+1], verts[3*i2+2] };
+                float tc;
+                if (mtHit(O, dir, a, bb, cc, tc) && tc > EPS && tc < best_t) { best_t = tc; best = int(i); }
+            }
+            if (best < 0) {
+                px += remaining*dir[0]; py += remaining*dir[1]; pz += remaining*dir[2];
+                remaining = 0.0f;
+            } else {
+                px += best_t*dir[0]; py += best_t*dir[1]; pz += best_t*dir[2];
+                int i0 = tris[3*best+0], i1 = tris[3*best+1], i2 = tris[3*best+2];
+                float e1[3] = { verts[3*i1+0]-verts[3*i0+0], verts[3*i1+1]-verts[3*i0+1], verts[3*i1+2]-verts[3*i0+2] };
+                float e2[3] = { verts[3*i2+0]-verts[3*i0+0], verts[3*i2+1]-verts[3*i0+1], verts[3*i2+2]-verts[3*i0+2] };
+                float n[3] = { e1[1]*e2[2]-e1[2]*e2[1], e1[2]*e2[0]-e1[0]*e2[2], e1[0]*e2[1]-e1[1]*e2[0] };
+                float nn = rsqrtf(n[0]*n[0] + n[1]*n[1] + n[2]*n[2] + 1e-30f);
+                n[0]*=nn; n[1]*=nn; n[2]*=nn;
+                reflectDir(dir, n);
+                px += EPS*dir[0]; py += EPS*dir[1]; pz += EPS*dir[2];   // nudge into valid side
+                remaining -= best_t;
+            }
+        }
+        float* o = tr + (size_t)t * 3;
+        o[0] = px; o[1] = py; o[2] = pz;
+    }
+}
+
 //! One block per walker, num_rep measurements strided across threads. Reads the
 //! on-device trajectory and accumulates the (T2=inf) signal sum_w cos(phase).
 //! Mirrors CUDASynth::deviceDataSynth but uses the scheme values directly (MCDC).
@@ -408,5 +493,30 @@ int runGpuCylinders(const GpuSimParams& p, const float* cyls, unsigned n_cyl,
     int rc = gpuSynthAndFree(p, d_traj, scheme, out_DWI);
     cudaFree(d_traj);
     cudaFree(d_cyl);
+    return rc;
+}
+
+int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
+               const int* tris, unsigned n_tris,
+               const float vmin[3], const float vmax[3],
+               const float* scheme, double* out_DWI)
+{
+    float *d_traj = nullptr, *d_verts = nullptr;
+    int   *d_tris = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_traj,  (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_verts, (size_t)n_verts * 3 * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_tris,  (size_t)n_tris  * 3 * sizeof(int)));
+    CUDA_CHECK(cudaMemcpy(d_verts, verts, (size_t)n_verts * 3 * sizeof(float), cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(d_tris,  tris,  (size_t)n_tris  * 3 * sizeof(int),   cudaMemcpyHostToDevice));
+
+    const int bs = 256, gs = int((p.N + bs - 1) / bs);
+    meshKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_verts, d_tris, n_tris,
+                           vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.seed);
+    CUDA_CHECK(cudaGetLastError());
+
+    int rc = gpuSynthAndFree(p, d_traj, scheme, out_DWI);
+    cudaFree(d_traj);
+    cudaFree(d_verts);
+    cudaFree(d_tris);
     return rc;
 }

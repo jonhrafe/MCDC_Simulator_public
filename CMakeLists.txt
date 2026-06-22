@@ -266,6 +266,14 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
                 "${CMAKE_SOURCE_DIR}/tests/accuracy/multi_cylinder.conf")
     set_tests_properties(gpu_multi_cylinder PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    # GPU Phase 2d: restricted diffusion inside a triangle MESH (unitMesh sphere,
+    # brute-force Moller-Trumbore over all triangles). GPU vs CPU within noise.
+    add_test(
+        NAME gpu_mesh_sphere
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/mesh_restricted.conf")
+    set_tests_properties(gpu_mesh_sphere PROPERTIES LABELS "gpu" TIMEOUT 300)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

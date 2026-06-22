@@ -43,4 +43,13 @@ int runGpuSpheres(const GpuSimParams& p, const float* spheres, unsigned n_sph,
 int runGpuCylinders(const GpuSimParams& p, const float* cyls, unsigned n_cyl,
                     const float* scheme, double* out_DWI);
 
+//! \brief Phase 2d: restricted diffusion inside ONE triangle mesh (brute-force
+//! Moller-Trumbore over all triangles; no acceleration grid). Walkers start
+//! uniformly in [vmin,vmax] (assumed inside the closed mesh) and reflect off the
+//! nearest triangle. \param verts 3*n_verts floats; \param tris 3*n_tris vertex indices.
+int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
+               const int* tris, unsigned n_tris,
+               const float vmin[3], const float vmax[3],
+               const float* scheme, double* out_DWI);
+
 #endif // GPU_SIMULATION_CUH

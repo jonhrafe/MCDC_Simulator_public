@@ -843,9 +843,30 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             SimErrno::info("GPU path: " + std::to_string(n_cyl) + " cylinder(s)", std::cout);
             rc = runGpuCylinders(gp, cyl.data(), unsigned(n_cyl), scheme.data(), dwi.data());
         }
+        else if(n_sph == 0 && n_cyl == 0 && n_ply == 1){
+            // Phase 2d: restricted diffusion in a single triangle mesh (brute-force).
+            const PLYObstacle& ply = (*plyObstacles_list)[0];
+            const unsigned nv = ply.vert_number, nt = ply.face_number;
+            std::vector<float> verts(size_t(nv) * 3);
+            for(unsigned i = 0; i < nv; ++i){
+                verts[3*i+0] = float(ply.vertices[i].points[0]);
+                verts[3*i+1] = float(ply.vertices[i].points[1]);
+                verts[3*i+2] = float(ply.vertices[i].points[2]);
+            }
+            std::vector<int> tris(size_t(nt) * 3);
+            for(unsigned i = 0; i < nt; ++i){
+                tris[3*i+0] = ply.faces[i].indexes[0];
+                tris[3*i+1] = ply.faces[i].indexes[1];
+                tris[3*i+2] = ply.faces[i].indexes[2];
+            }
+            const float vmin[3] = { float(params.min_limits[0]), float(params.min_limits[1]), float(params.min_limits[2]) };
+            const float vmax[3] = { float(params.max_limits[0]), float(params.max_limits[1]), float(params.max_limits[2]) };
+            SimErrno::info("GPU path: mesh (" + std::to_string(nt) + " triangles, brute-force)", std::cout);
+            rc = runGpuMesh(gp, verts.data(), nv, tris.data(), nt, vmin, vmax, scheme.data(), dwi.data());
+        }
         else {
-            SimErrno::error("GPU path supports free diffusion, spheres, or cylinders so far "
-                            "(Phase 2a/2b/2c). Meshes/mixed substrates: use the CPU path.", std::cout);
+            SimErrno::error("GPU path supports free diffusion, spheres, cylinders, or a single "
+                            "mesh so far (Phase 2a-2d). Mixed substrates: use the CPU path.", std::cout);
             return;
         }
         if(rc != 0){

@@ -827,6 +827,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         gp.placement = 0;                                    // uniform in voxel
         if(params.ini_walker_flag.find("intra") != std::string::npos)      gp.placement = 1;
         else if(params.ini_walker_flag.find("extra") != std::string::npos) gp.placement = 2;
+        gp.t2_extra = float(params.t2_extra);                // extra-compartment T2 (internal ms)
 
         // Interface: flatten the (as-stored) scheme to num_rep*7 floats.
         std::vector<float> scheme(size_t(gp.num_rep) * 7);
@@ -847,26 +848,28 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         }
         else if(n_cyl == 0 && n_ply == 0 && n_sph >= 1){
             // Phase 2a/2c: restricted diffusion among analytic spheres.
-            std::vector<float> sph(n_sph * 4);
+            std::vector<float> sph(n_sph * 4), sphT2(n_sph);
             for(size_t i = 0; i < n_sph; ++i){
                 const Sphere& s = (*spheres_list)[i];
                 sph[i*4+0] = float(s.center[0]); sph[i*4+1] = float(s.center[1]);
                 sph[i*4+2] = float(s.center[2]); sph[i*4+3] = float(s.radius);
+                sphT2[i]   = float(s.T2);
             }
             SimErrno::info("GPU path: " + std::to_string(n_sph) + " sphere(s)", std::cout);
-            rc = runGpuSpheres(gp, sph.data(), unsigned(n_sph), scheme.data(), dwi.data());
+            rc = runGpuSpheres(gp, sph.data(), sphT2.data(), unsigned(n_sph), scheme.data(), dwi.data());
         }
         else if(n_sph == 0 && n_ply == 0 && n_cyl >= 1){
             // Phase 2b/2c: restricted diffusion among analytic infinite cylinders.
-            std::vector<float> cyl(n_cyl * 7);
+            std::vector<float> cyl(n_cyl * 7), cylT2(n_cyl);
             for(size_t i = 0; i < n_cyl; ++i){
                 const Cylinder& c = (*cylinders_list)[i];
                 cyl[i*7+0] = float(c.P[0]); cyl[i*7+1] = float(c.P[1]); cyl[i*7+2] = float(c.P[2]);
                 cyl[i*7+3] = float(c.D[0]); cyl[i*7+4] = float(c.D[1]); cyl[i*7+5] = float(c.D[2]);
                 cyl[i*7+6] = float(c.radius);
+                cylT2[i]   = float(c.T2);
             }
             SimErrno::info("GPU path: " + std::to_string(n_cyl) + " cylinder(s)", std::cout);
-            rc = runGpuCylinders(gp, cyl.data(), unsigned(n_cyl), scheme.data(), dwi.data());
+            rc = runGpuCylinders(gp, cyl.data(), cylT2.data(), unsigned(n_cyl), scheme.data(), dwi.data());
         }
         else if(n_sph == 0 && n_cyl == 0 && n_ply >= 1){
             // Phase 2d/2f: one OR many triangle meshes, merged into a single combined

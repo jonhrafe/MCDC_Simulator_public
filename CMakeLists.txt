@@ -324,6 +324,14 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
                 "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_compartments.conf")
     set_tests_properties(gpu_compartments PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    # GPU Phase 4: per-compartment T2 weighting. Sphere intra T2=40ms vs extra 80ms;
+    # the GPU must reproduce the CPU's T2-attenuated intra/extra split.
+    add_test(
+        NAME gpu_multi_t2
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_multiT2.conf")
+    set_tests_properties(gpu_multi_t2 PROPERTIES LABELS "gpu" TIMEOUT 300)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

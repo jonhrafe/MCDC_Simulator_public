@@ -26,6 +26,7 @@ struct GpuSimParams
     float          smax[3];      //!< spawning/sampling-area max (internal mm)
     int            periodic;     //!< voxel boundary: 1 = periodic, 0 = mirror
     int            placement;    //!< walker start: 0 = uniform in voxel, 1 = intra, 2 = extra
+    float          t2_extra;     //!< extra-compartment T2 (internal ms); per-obstacle T2 passed separately
 };
 
 //! \brief Free-diffusion dynamics + PGSE signal, fully on the GPU.
@@ -40,14 +41,16 @@ int runGpuFreeDiffusion(const GpuSimParams& p, const float* scheme, double* out_
 //! Walkers start uniformly inside a (random) sphere and reflect off the nearest
 //! surface each step (brute-force over all spheres; no acceleration grid).
 //! \param spheres  n_sph * 4 floats: (cx, cy, cz, r) per sphere (internal mm).
-int runGpuSpheres(const GpuSimParams& p, const float* spheres, unsigned n_sph,
-                  const float* scheme, double* out_DWI);
+//! \param obs_T2   n_sph floats: per-sphere T2 (internal ms) for compartment weighting.
+int runGpuSpheres(const GpuSimParams& p, const float* spheres, const float* obs_T2,
+                  unsigned n_sph, const float* scheme, double* out_DWI);
 
 //! \brief Phase 2b/2c: restricted diffusion inside impermeable infinite cylinders.
 //! Radially confined, free along each axis; reflects off the nearest radial normal.
 //! \param cyls     n_cyl * 7 floats: (px,py,pz, dx,dy,dz, r) per cylinder (mm; D unit).
-int runGpuCylinders(const GpuSimParams& p, const float* cyls, unsigned n_cyl,
-                    const float* scheme, double* out_DWI);
+//! \param obs_T2   n_cyl floats: per-cylinder T2 (internal ms) for compartment weighting.
+int runGpuCylinders(const GpuSimParams& p, const float* cyls, const float* obs_T2,
+                    unsigned n_cyl, const float* scheme, double* out_DWI);
 
 //! \brief Phase 2d: restricted diffusion inside ONE triangle mesh (brute-force
 //! Moller-Trumbore over all triangles; no acceleration grid). Walkers start

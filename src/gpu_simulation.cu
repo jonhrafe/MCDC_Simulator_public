@@ -273,8 +273,27 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_le
 //! infinite cylinders (cyls[i*7+0..6] = px,py,pz, dx,dy,dz(unit), r). Walker starts
 //! in a random cylinder's disk; each step takes the NEAREST radial crossing over
 //! all cylinders and reflects off that radial normal (axial motion is free).
+__device__ inline bool insideAnyCylinder(float x, float y, float z, const float* cyls, unsigned n)
+{
+    for (unsigned i = 0; i < n; ++i) {
+        float ex = x-cyls[i*7+0], ey = y-cyls[i*7+1], ez = z-cyls[i*7+2];
+        float Dx = cyls[i*7+3], Dy = cyls[i*7+4], Dz = cyls[i*7+5], r = cyls[i*7+6];
+        float md = ex*Dx + ey*Dy + ez*Dz;
+        float rad2 = ex*ex + ey*ey + ez*ez - md*md;
+        if (rad2 < r*r) return true;
+    }
+    return false;
+}
+
+//! Phase 2b/2c/2e: restricted diffusion among impermeable infinite cylinders inside
+//! a voxel. Two positions (pv wrapped / pr unwrapped); each step takes the nearest of
+//! {cylinder surfaces, voxel faces}. placement: 0=uniform, 1=intra (random cylinder
+//! disk), 2=extra (in the voxel, outside all cylinders).
 __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_length,
-                                const float* cyls, unsigned n_cyl, unsigned long long seed)
+                                const float* cyls, unsigned n_cyl,
+                                float vminx, float vminy, float vminz,
+                                float vmaxx, float vmaxy, float vmaxz,
+                                int periodic, int placement, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
@@ -282,43 +301,50 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
     curandStatePhilox4_32_10_t st;
     curand_init(seed, w, 0, &st);
 
-    // Start in a random cylinder's perpendicular disk.
-    unsigned ci = curand(&st) % n_cyl;
-    float p0x = cyls[ci*7+0], p0y = cyls[ci*7+1], p0z = cyls[ci*7+2];
-    float dx = cyls[ci*7+3], dy = cyls[ci*7+4], dz = cyls[ci*7+5], r0 = cyls[ci*7+6];
-    float ax = (fabsf(dx) < 0.9f) ? 1.0f : 0.0f;
-    float ay = (fabsf(dx) < 0.9f) ? 0.0f : 1.0f;
-    float adb = ax*dx + ay*dy;
-    float e1[3] = { ax - adb*dx, ay - adb*dy, -adb*dz };
-    float i1 = rsqrtf(e1[0]*e1[0] + e1[1]*e1[1] + e1[2]*e1[2] + 1e-30f);
-    e1[0]*=i1; e1[1]*=i1; e1[2]*=i1;
-    float e2[3] = { dy*e1[2]-dz*e1[1], dz*e1[0]-dx*e1[2], dx*e1[1]-dy*e1[0] };
-    float rr = r0 * sqrtf(curand_uniform(&st));
-    float th = 6.2831853f * curand_uniform(&st);
-    float cs = cosf(th)*rr, sn = sinf(th)*rr;
-    float px = p0x + cs*e1[0] + sn*e2[0];
-    float py = p0y + cs*e1[1] + sn*e2[1];
-    float pz = p0z + cs*e1[2] + sn*e2[2];
+    float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
+    float pv[3];
+    if (placement == 1) {                          // intra: random cylinder's perpendicular disk
+        unsigned ci = curand(&st) % n_cyl;
+        float p0x = cyls[ci*7+0], p0y = cyls[ci*7+1], p0z = cyls[ci*7+2];
+        float dx = cyls[ci*7+3], dy = cyls[ci*7+4], dz = cyls[ci*7+5], r0 = cyls[ci*7+6];
+        float ax = (fabsf(dx) < 0.9f) ? 1.0f : 0.0f, ay = (fabsf(dx) < 0.9f) ? 0.0f : 1.0f;
+        float adb = ax*dx + ay*dy;
+        float e1[3] = { ax - adb*dx, ay - adb*dy, -adb*dz };
+        float i1 = rsqrtf(e1[0]*e1[0] + e1[1]*e1[1] + e1[2]*e1[2] + 1e-30f);
+        e1[0]*=i1; e1[1]*=i1; e1[2]*=i1;
+        float e2[3] = { dy*e1[2]-dz*e1[1], dz*e1[0]-dx*e1[2], dx*e1[1]-dy*e1[0] };
+        float rr = r0 * sqrtf(curand_uniform(&st)), th = 6.2831853f * curand_uniform(&st);
+        float cs = cosf(th)*rr, sn = sinf(th)*rr;
+        pv[0] = p0x + cs*e1[0] + sn*e2[0]; pv[1] = p0y + cs*e1[1] + sn*e2[1]; pv[2] = p0z + cs*e1[2] + sn*e2[2];
+    } else {                                       // uniform (0) or extra (2)
+        for (int tries = 0; tries < 10000; ++tries) {
+            pv[0] = vmin[0] + curand_uniform(&st)*(vmax[0]-vmin[0]);
+            pv[1] = vmin[1] + curand_uniform(&st)*(vmax[1]-vmin[1]);
+            pv[2] = vmin[2] + curand_uniform(&st)*(vmax[2]-vmin[2]);
+            if (placement != 2 || !insideAnyCylinder(pv[0], pv[1], pv[2], cyls, n_cyl)) break;
+        }
+    }
+    float pr[3] = { pv[0], pv[1], pv[2] };
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
-    tr[0] = px; tr[1] = py; tr[2] = pz;
+    tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
 
-    const float EPS = 1e-6f * r0;
+    const float EPS = 1e-5f * step_length;
     for (unsigned t = 1; t <= T; ++t) {
         float gx = curand_normal(&st), gy = curand_normal(&st), gz = curand_normal(&st);
         float inv = rsqrtf(gx*gx + gy*gy + gz*gz + 1e-30f);
         float dir[3] = { gx*inv, gy*inv, gz*inv };
         float remaining = step_length;
 
-        for (int b = 0; b < 16 && remaining > 0.0f; ++b) {
-            float best_t = remaining; int best = -1;
-            for (unsigned i = 0; i < n_cyl; ++i) {
-                float ex = px - cyls[i*7+0], ey = py - cyls[i*7+1], ez = pz - cyls[i*7+2];
+        for (int b = 0; b < 24 && remaining > 0.0f; ++b) {
+            float best_t = remaining; int best_cyl = -1, best_axis = -1;
+            for (unsigned i = 0; i < n_cyl; ++i) {     // cylinder surfaces (in pv)
+                float ex = pv[0]-cyls[i*7+0], ey = pv[1]-cyls[i*7+1], ez = pv[2]-cyls[i*7+2];
                 float Dx = cyls[i*7+3], Dy = cyls[i*7+4], Dz = cyls[i*7+5], ri = cyls[i*7+6];
                 float md = ex*Dx + ey*Dy + ez*Dz;
                 float nd = dir[0]*Dx + dir[1]*Dy + dir[2]*Dz;
                 float a  = 1.0f - nd*nd;
-                if (a <= 1e-8f) continue;                 // parallel to this axis
+                if (a <= 1e-8f) continue;
                 float cq = (ex*ex + ey*ey + ez*ez - ri*ri) - md*md;
                 float bq = (ex*dir[0] + ey*dir[1] + ez*dir[2]) - nd*md;
                 float discr = bq*bq - a*cq;
@@ -326,27 +352,39 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
                     float sq = sqrtf(discr);
                     float t1 = (-bq - sq) / a, t2 = (-bq + sq) / a;
                     float tc = (t1 > EPS) ? t1 : ((t2 > EPS) ? t2 : -1.0f);
-                    if (tc > EPS && tc < best_t) { best_t = tc; best = int(i); }
+                    if (tc > EPS && tc < best_t) { best_t = tc; best_cyl = int(i); best_axis = -1; }
                 }
             }
-            if (best < 0) {
-                px += remaining*dir[0]; py += remaining*dir[1]; pz += remaining*dir[2];
-                remaining = 0.0f;
-            } else {
-                px += best_t*dir[0]; py += best_t*dir[1]; pz += best_t*dir[2];
-                float Dx = cyls[best*7+3], Dy = cyls[best*7+4], Dz = cyls[best*7+5];
-                float rx = px - cyls[best*7+0], ry = py - cyls[best*7+1], rz = pz - cyls[best*7+2];
+            for (int i = 0; i < 3; ++i) {               // voxel faces (in pv)
+                float tw = -1.0f;
+                if (dir[i] >  1e-20f) tw = (vmax[i]-pv[i])/dir[i];
+                else if (dir[i] < -1e-20f) tw = (vmin[i]-pv[i])/dir[i];
+                if (tw > EPS && tw < best_t) { best_t = tw; best_axis = i; best_cyl = -1; }
+            }
+            for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]; pv[i] += best_t*dir[i]; }
+            remaining -= best_t;
+            if (best_cyl >= 0) {                         // reflect off the cylinder
+                float Dx = cyls[best_cyl*7+3], Dy = cyls[best_cyl*7+4], Dz = cyls[best_cyl*7+5];
+                float rx = pv[0]-cyls[best_cyl*7+0], ry = pv[1]-cyls[best_cyl*7+1], rz = pv[2]-cyls[best_cyl*7+2];
                 float rad = rx*Dx + ry*Dy + rz*Dz;
                 float n[3] = { rx - rad*Dx, ry - rad*Dy, rz - rad*Dz };
                 float nn = rsqrtf(n[0]*n[0] + n[1]*n[1] + n[2]*n[2] + 1e-30f);
                 n[0]*=nn; n[1]*=nn; n[2]*=nn;
                 reflectDir(dir, n);
-                px += EPS*dir[0]; py += EPS*dir[1]; pz += EPS*dir[2];
-                remaining -= best_t;
+                for (int i = 0; i < 3; ++i) { pr[i] += EPS*dir[i]; pv[i] += EPS*dir[i]; }
+            } else if (best_axis >= 0) {                 // voxel face
+                if (periodic) {
+                    pv[best_axis] = (dir[best_axis] > 0.0f) ? vmin[best_axis] : vmax[best_axis];
+                } else {
+                    dir[best_axis] = -dir[best_axis];
+                    pr[best_axis] += EPS*dir[best_axis]; pv[best_axis] += EPS*dir[best_axis];
+                }
+            } else {
+                remaining = 0.0f;
             }
         }
         float* o = tr + (size_t)t * 3;
-        o[0] = px; o[1] = py; o[2] = pz;
+        o[0] = pr[0]; o[1] = pr[1]; o[2] = pr[2];
     }
 }
 
@@ -373,15 +411,16 @@ __device__ inline bool mtHit(const float O[3], const float d[3],
     return true;
 }
 
-//! Phase 2d: one thread per walker, restricted diffusion inside ONE triangle mesh.
-//! Walker starts uniformly in the voxel box [vmin,vmax] (assumed inside the closed
-//! mesh); each step takes the NEAREST triangle crossing (brute-force over all
-//! triangles) and reflects off that triangle's normal. No grid yet.
+//! Phase 2d/2e: one thread per walker, restricted diffusion inside ONE triangle mesh
+//! within a voxel. Two positions (pv wrapped / pr unwrapped); each step takes the
+//! NEAREST of {triangle crossing, voxel face}. Triangles reflect; voxel faces wrap pv
+//! (periodic) or reflect (mirror). Walkers start uniformly in the voxel box (placement
+//! intra/extra in a mesh would need a point-in-mesh test -- not done yet). No grid.
 __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_length,
                            const float* verts, const int* tris, unsigned n_tris,
                            float vminx, float vminy, float vminz,
                            float vmaxx, float vmaxy, float vmaxz,
-                           unsigned long long seed)
+                           int periodic, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
@@ -389,12 +428,14 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_lengt
     curandStatePhilox4_32_10_t st;
     curand_init(seed, w, 0, &st);
 
-    float px = vminx + curand_uniform(&st)*(vmaxx - vminx);
-    float py = vminy + curand_uniform(&st)*(vmaxy - vminy);
-    float pz = vminz + curand_uniform(&st)*(vmaxz - vminz);
+    float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
+    float pv[3] = { vmin[0] + curand_uniform(&st)*(vmax[0]-vmin[0]),
+                    vmin[1] + curand_uniform(&st)*(vmax[1]-vmin[1]),
+                    vmin[2] + curand_uniform(&st)*(vmax[2]-vmin[2]) };
+    float pr[3] = { pv[0], pv[1], pv[2] };
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
-    tr[0] = px; tr[1] = py; tr[2] = pz;
+    tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
 
     const float EPS = 1e-5f * step_length;   // re-hit guard / nudge (relative to step)
     for (unsigned t = 1; t <= T; ++t) {
@@ -403,35 +444,47 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_lengt
         float dir[3] = { gx*inv, gy*inv, gz*inv };
         float remaining = step_length;
 
-        for (int b = 0; b < 16 && remaining > 0.0f; ++b) {
-            float O[3] = { px, py, pz };
-            float best_t = remaining; int best = -1;
-            for (unsigned i = 0; i < n_tris; ++i) {
+        for (int b = 0; b < 24 && remaining > 0.0f; ++b) {
+            float O[3] = { pv[0], pv[1], pv[2] };
+            float best_t = remaining; int best_tri = -1, best_axis = -1;
+            for (unsigned i = 0; i < n_tris; ++i) {     // triangles (in pv)
                 int i0 = tris[3*i+0], i1 = tris[3*i+1], i2 = tris[3*i+2];
                 float a[3] = { verts[3*i0+0], verts[3*i0+1], verts[3*i0+2] };
                 float bb[3]= { verts[3*i1+0], verts[3*i1+1], verts[3*i1+2] };
                 float cc[3]= { verts[3*i2+0], verts[3*i2+1], verts[3*i2+2] };
                 float tc;
-                if (mtHit(O, dir, a, bb, cc, tc) && tc > EPS && tc < best_t) { best_t = tc; best = int(i); }
+                if (mtHit(O, dir, a, bb, cc, tc) && tc > EPS && tc < best_t) { best_t = tc; best_tri = int(i); best_axis = -1; }
             }
-            if (best < 0) {
-                px += remaining*dir[0]; py += remaining*dir[1]; pz += remaining*dir[2];
-                remaining = 0.0f;
-            } else {
-                px += best_t*dir[0]; py += best_t*dir[1]; pz += best_t*dir[2];
-                int i0 = tris[3*best+0], i1 = tris[3*best+1], i2 = tris[3*best+2];
+            for (int i = 0; i < 3; ++i) {               // voxel faces (in pv)
+                float tw = -1.0f;
+                if (dir[i] >  1e-20f) tw = (vmax[i]-pv[i])/dir[i];
+                else if (dir[i] < -1e-20f) tw = (vmin[i]-pv[i])/dir[i];
+                if (tw > EPS && tw < best_t) { best_t = tw; best_axis = i; best_tri = -1; }
+            }
+            for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]; pv[i] += best_t*dir[i]; }
+            remaining -= best_t;
+            if (best_tri >= 0) {                         // reflect off the triangle
+                int i0 = tris[3*best_tri+0], i1 = tris[3*best_tri+1], i2 = tris[3*best_tri+2];
                 float e1[3] = { verts[3*i1+0]-verts[3*i0+0], verts[3*i1+1]-verts[3*i0+1], verts[3*i1+2]-verts[3*i0+2] };
                 float e2[3] = { verts[3*i2+0]-verts[3*i0+0], verts[3*i2+1]-verts[3*i0+1], verts[3*i2+2]-verts[3*i0+2] };
                 float n[3] = { e1[1]*e2[2]-e1[2]*e2[1], e1[2]*e2[0]-e1[0]*e2[2], e1[0]*e2[1]-e1[1]*e2[0] };
                 float nn = rsqrtf(n[0]*n[0] + n[1]*n[1] + n[2]*n[2] + 1e-30f);
                 n[0]*=nn; n[1]*=nn; n[2]*=nn;
                 reflectDir(dir, n);
-                px += EPS*dir[0]; py += EPS*dir[1]; pz += EPS*dir[2];   // nudge into valid side
-                remaining -= best_t;
+                for (int i = 0; i < 3; ++i) { pr[i] += EPS*dir[i]; pv[i] += EPS*dir[i]; }
+            } else if (best_axis >= 0) {                 // voxel face
+                if (periodic) {
+                    pv[best_axis] = (dir[best_axis] > 0.0f) ? vmin[best_axis] : vmax[best_axis];
+                } else {
+                    dir[best_axis] = -dir[best_axis];
+                    pr[best_axis] += EPS*dir[best_axis]; pv[best_axis] += EPS*dir[best_axis];
+                }
+            } else {
+                remaining = 0.0f;
             }
         }
         float* o = tr + (size_t)t * 3;
-        o[0] = px; o[1] = py; o[2] = pz;
+        o[0] = pr[0]; o[1] = pr[1]; o[2] = pr[2];
     }
 }
 
@@ -566,7 +619,9 @@ int runGpuCylinders(const GpuSimParams& p, const float* cyls, unsigned n_cyl,
     CUDA_CHECK(cudaMemcpy(d_cyl, cyls, (size_t)n_cyl * 7 * sizeof(float), cudaMemcpyHostToDevice));
 
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
-    cylindersKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_cyl, n_cyl, p.seed);
+    cylindersKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_cyl, n_cyl,
+                                p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2],
+                                p.periodic, p.placement, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
     int rc = gpuSynthAndFree(p, d_traj, scheme, out_DWI);
@@ -590,7 +645,7 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
 
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
     meshKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_verts, d_tris, n_tris,
-                           vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.seed);
+                           vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.periodic, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
     int rc = gpuSynthAndFree(p, d_traj, scheme, out_DWI);

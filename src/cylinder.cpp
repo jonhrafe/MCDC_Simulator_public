@@ -147,6 +147,14 @@ inline bool Cylinder::handleCollition(Walker& walker, Collision &colision, Vecto
             count_perc_crossings++;
             if(from_intra) count_cross_i_e++; else count_cross_e_i++;
             walker.perm_crossed_flag = true;
+            // PERMEABLE CROSSING: the membrane is transparent, so the walker continues
+            // STRAIGHT through. colision.type was already set to hit (above), and the
+            // bouncing handler reads colision.bounced_direction -- which the reflection
+            // branch below never reaches on a crossing. Leaving it unset read uninitialized
+            // (Collision's Eigen members are not default-initialized), making the whole
+            // permeable result depend on stack garbage. Continue along the incoming
+            // direction so the pass-through is correct and build-independent.
+            colision.bounced_direction = step;
             return false;
         }
     }

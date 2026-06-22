@@ -103,7 +103,8 @@ __global__ void freeDiffusionKernel(float* traj, unsigned N, unsigned T, float s
                                     float vmaxx, float vmaxy, float vmaxz,
                                     float sminx, float sminy, float sminz,
                                     float smaxx, float smaxy, float smaxz,
-                                    int periodic, int* out_inobs, unsigned long long seed)
+                                    int periodic, float dt, float t2_extra,
+                                    int* out_inobs, float* t2sum, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
@@ -122,6 +123,7 @@ __global__ void freeDiffusionKernel(float* traj, unsigned N, unsigned T, float s
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
+    size_t tb = (size_t)w * (T + 1); t2sum[tb] = 0.0f; float t2acc = 0.0f;  // Phase 6b (free: all extra)
 
     const float EPS = 1e-5f * step_length;
     for (unsigned t = 1; t <= T; ++t) {
@@ -153,6 +155,7 @@ __global__ void freeDiffusionKernel(float* traj, unsigned N, unsigned T, float s
                 }
             }
         }
+        t2acc += dt / t2_extra; t2sum[tb + t] = t2acc;     // Phase 6b: free walker is always extra
         float* o = tr + (size_t)t * 3;
         o[0] = pr[0]; o[1] = pr[1]; o[2] = pr[2];
     }
@@ -198,7 +201,8 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
                               float vmaxx, float vmaxy, float vmaxz,
                               float sminx, float sminy, float sminz,
                               float smaxx, float smaxy, float smaxz,
-                              int periodic, int placement, int* out_inobs, unsigned long long seed)
+                              int periodic, int placement, float dt, float t2_extra,
+                              const float* obs_T2, int* out_inobs, float* t2sum, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
@@ -229,6 +233,7 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
+    size_t tb = (size_t)w * (T + 1); t2sum[tb] = 0.0f; float t2acc = 0.0f;  // Phase 6b
 
     for (unsigned t = 1; t <= T; ++t) {
         // per-timestep step length from the CURRENT compartment (permeable crossings may
@@ -267,10 +272,12 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
             if (best_sph >= 0) {                         // sphere membrane: cross or reflect
                 bool from_intra = (in_obs == best_sph);
                 float prob = from_intra ? prob_ie[best_sph] : prob_ei[best_sph];
-                if (prob > 0.0f && (prob - curand_uniform(&st)) > 1e-6f) {
-                    // PERMEATE: pass straight through, toggle compartment, nudge past the wall.
-                    in_obs = from_intra ? -1 : best_sph;
-                    for (int i = 0; i < 3; ++i) { pr[i] += EPS*dir[i]; pv[i] += EPS*dir[i]; }
+                if (prob > 0.0f && prob > curand_uniform(&st)) {
+                    // PERMEATE (CPU model): the membrane is transparent -- finish the step
+                    // straight through (ignore further membranes) and re-classify at landing.
+                    for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]; pv[i] += remaining*dir[i]; }
+                    remaining = 0.0f;
+                    in_obs = whichSphere(pv[0], pv[1], pv[2], spheres, n_sph);
                 } else {                                  // reflect off the sphere
                     float nx = pv[0]-spheres[best_sph*4+0], ny = pv[1]-spheres[best_sph*4+1], nz = pv[2]-spheres[best_sph*4+2];
                     float nn = rsqrtf(nx*nx + ny*ny + nz*nz + 1e-30f);
@@ -289,6 +296,8 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
                 remaining = 0.0f;                        // no event: full step already taken above
             }
         }
+        float T2c = (in_obs >= 0) ? obs_T2[in_obs] : t2_extra;   // T2 of the END-of-step compartment
+        t2acc += dt / T2c; t2sum[tb + t] = t2acc;                // Phase 6b: per-step T2 accumulation
         float* o = tr + (size_t)t * 3;
         o[0] = pr[0]; o[1] = pr[1]; o[2] = pr[2];
     }
@@ -327,7 +336,8 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
                                 float vmaxx, float vmaxy, float vmaxz,
                                 float sminx, float sminy, float sminz,
                                 float smaxx, float smaxy, float smaxz,
-                                int periodic, int placement, int* out_inobs, unsigned long long seed)
+                                int periodic, int placement, float dt, float t2_extra,
+                                const float* obs_T2, int* out_inobs, float* t2sum, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
@@ -365,6 +375,7 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
+    size_t tb = (size_t)w * (T + 1); t2sum[tb] = 0.0f; float t2acc = 0.0f;  // Phase 6b
 
     for (unsigned t = 1; t <= T; ++t) {
         float step_length = (in_obs >= 0) ? step_intra : step_extra;  // current compartment (permeability)
@@ -404,9 +415,11 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
             if (best_cyl >= 0) {                         // cylinder membrane: cross or reflect
                 bool from_intra = (in_obs == best_cyl);
                 float prob = from_intra ? prob_ie[best_cyl] : prob_ei[best_cyl];
-                if (prob > 0.0f && (prob - curand_uniform(&st)) > 1e-6f) {
-                    in_obs = from_intra ? -1 : best_cyl;  // PERMEATE: pass through, toggle compartment
-                    for (int i = 0; i < 3; ++i) { pr[i] += EPS*dir[i]; pv[i] += EPS*dir[i]; }
+                if (prob > 0.0f && prob > curand_uniform(&st)) {
+                    // PERMEATE (CPU model): finish the step straight through, re-classify at landing.
+                    for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]; pv[i] += remaining*dir[i]; }
+                    remaining = 0.0f;
+                    in_obs = whichCylinder(pv[0], pv[1], pv[2], cyls, n_cyl);
                 } else {                                  // reflect off the radial normal
                     float Dx = cyls[best_cyl*7+3], Dy = cyls[best_cyl*7+4], Dz = cyls[best_cyl*7+5];
                     float rx = pv[0]-cyls[best_cyl*7+0], ry = pv[1]-cyls[best_cyl*7+1], rz = pv[2]-cyls[best_cyl*7+2];
@@ -428,6 +441,8 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
                 remaining = 0.0f;
             }
         }
+        float T2c = (in_obs >= 0) ? obs_T2[in_obs] : t2_extra;   // T2 of the END-of-step compartment
+        t2acc += dt / T2c; t2sum[tb + t] = t2acc;                // Phase 6b: per-step T2 accumulation
         float* o = tr + (size_t)t * 3;
         o[0] = pr[0]; o[1] = pr[1]; o[2] = pr[2];
     }
@@ -475,7 +490,7 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_lengt
                            float icsx, float icsy, float icsz,
                            int dimx, int dimy, int dimz,
                            const int* cell_start, const int* cell_tri,
-                           int* out_inobs, unsigned long long seed)
+                           float dt, float t2_extra, int* out_inobs, float* t2sum, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
@@ -495,6 +510,7 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_lengt
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
+    size_t tb = (size_t)w * (T + 1); t2sum[tb] = 0.0f; float t2acc = 0.0f;  // Phase 6b (mesh: extra)
 
     const float EPS = 1e-5f * step_length;   // re-hit guard / nudge (relative to step)
     for (unsigned t = 1; t <= T; ++t) {
@@ -557,6 +573,7 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_lengt
                 remaining = 0.0f;
             }
         }
+        t2acc += dt / t2_extra; t2sum[tb + t] = t2acc;     // Phase 6b: mesh walker is always extra
         float* o = tr + (size_t)t * 3;
         o[0] = pr[0]; o[1] = pr[1]; o[2] = pr[2];
     }
@@ -570,15 +587,14 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_lengt
 // elementwise sum of the two halves. inobs[w] is the walker's compartment at placement.
 __global__ void signalKernel(const float* traj, unsigned T, float duration,
                              const float* scheme, unsigned num_rep,
-                             const int* inobs, const float* obs_T2, float t2_extra,
+                             const int* inobs, const float* t2sum,
                              float* out_DWI)
 {
     unsigned w = blockIdx.x;
     float time_step = duration / float(T);
     float dos_pi = 2.0f * float(M_PI);
-    int   io  = inobs[w];
-    unsigned base = (io >= 0) ? 0u : num_rep;         // intra -> first half, extra -> second
-    float T2w = (io >= 0) ? obs_T2[io] : t2_extra;    // walker's compartment T2 (internal ms)
+    unsigned base = (inobs[w] >= 0) ? 0u : num_rep;   // intra -> first half, extra -> second
+    const float* t2w_acc = t2sum + (size_t)w * (T + 1);  // per-step cumulative dt/T2 (Phase 6b)
 
     const float* tr = traj + (size_t)w * (T + 1) * 3;
     float x_ini[3] = { tr[0], tr[1], tr[2] };
@@ -605,22 +621,25 @@ __global__ void signalKernel(const float* traj, unsigned T, float duration,
             val   = fmodf(val, dos_pi);
             phase = fmodf(phase + val, dos_pi);
         }
-        // T2 relaxation weight at this measurement's echo time (matches the CPU:
-        // t2_log[pos] = exp(-pos*dt/T2), pos = min(int(TE/dt), T-1); fixed compartment).
+        // T2 relaxation weight at this measurement's echo time. t2sum[pos] is the
+        // per-step accumulated dt/T2 over the walker's ACTUAL compartment path (handles
+        // permeable crossings); = pos*dt/T2 for a fixed compartment. pos=min(int(TE/dt),T-1).
         int pos = int(te / time_step); if (pos >= int(T)) pos = int(T) - 1;
-        float t2w = __expf(-(float(pos) * time_step) / T2w);
+        float t2w = __expf(-t2w_acc[pos]);
         atomicAdd(&out_DWI[base + s], t2w * cosf(phase));
     }
 }
 
 static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const int* d_inobs,
-                           const float* d_T2, const float* scheme, double* out_DWI);   // defined below
+                           const float* d_t2sum, const float* scheme, double* out_DWI);   // defined below
 
 int runGpuFreeDiffusion(const GpuSimParams& p, const float* scheme, double* out_DWI)
 {
-    float *d_traj = nullptr; int *d_inobs = nullptr;
+    float *d_traj = nullptr, *d_t2sum = nullptr; int *d_inobs = nullptr;
     CUDA_CHECK(cudaMalloc(&d_traj,  (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_inobs, (size_t)p.N * sizeof(int)));
+    CUDA_CHECK(cudaMalloc(&d_t2sum, (size_t)p.N * (p.T + 1) * sizeof(float)));
+    const float dt = p.duration / float(p.T);
 
     const int bs = 256;
     const int gs = int((p.N + bs - 1) / bs);
@@ -629,12 +648,13 @@ int runGpuFreeDiffusion(const GpuSimParams& p, const float* scheme, double* out_
                                     p.vmax[0], p.vmax[1], p.vmax[2],
                                     p.smin[0], p.smin[1], p.smin[2],
                                     p.smax[0], p.smax[1], p.smax[2],
-                                    p.periodic, d_inobs, p.seed);
+                                    p.periodic, dt, p.t2_extra, d_inobs, d_t2sum, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
-    int rc = gpuSynthAndFree(p, d_traj, d_inobs, nullptr, scheme, out_DWI);  // free: all extra (t2_extra)
+    int rc = gpuSynthAndFree(p, d_traj, d_inobs, d_t2sum, scheme, out_DWI);
     cudaFree(d_traj);
     cudaFree(d_inobs);
+    cudaFree(d_t2sum);
     return rc;
 }
 
@@ -642,7 +662,7 @@ int runGpuFreeDiffusion(const GpuSimParams& p, const float* scheme, double* out_
 // trajectory + per-walker compartment array, copy back the 2*num_rep DWI (intra half
 // then extra half), free. out_DWI must hold 2*num_rep entries.
 static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const int* d_inobs,
-                           const float* d_T2, const float* scheme, double* out_DWI)
+                           const float* d_t2sum, const float* scheme, double* out_DWI)
 {
     const size_t scheme_bytes = (size_t)p.num_rep * 7 * sizeof(float);
     const size_t dwi_bytes    = (size_t)p.num_rep * 2 * sizeof(float);   // intra + extra halves
@@ -654,7 +674,7 @@ static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const int* d_in
 
     const int threads = p.num_rep < 1024u ? int(p.num_rep) : 1024;
     signalKernel<<<p.N, threads>>>(d_traj, p.T, p.duration, d_scheme, p.num_rep,
-                                   d_inobs, d_T2, p.t2_extra, d_dwi);
+                                   d_inobs, d_t2sum, d_dwi);
     CUDA_CHECK(cudaGetLastError());
     CUDA_CHECK(cudaDeviceSynchronize());
 
@@ -671,7 +691,7 @@ int runGpuSpheres(const GpuSimParams& p, const float* spheres, const float* obs_
                   const float* prob_ie, const float* prob_ei,
                   unsigned n_sph, const float* scheme, double* out_DWI)
 {
-    float *d_traj = nullptr, *d_sph = nullptr, *d_T2 = nullptr, *d_pie = nullptr, *d_pei = nullptr;
+    float *d_traj = nullptr, *d_sph = nullptr, *d_T2 = nullptr, *d_pie = nullptr, *d_pei = nullptr, *d_t2sum = nullptr;
     int *d_inobs = nullptr;
     CUDA_CHECK(cudaMalloc(&d_traj, (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_sph,  (size_t)n_sph * 4 * sizeof(float)));
@@ -679,22 +699,24 @@ int runGpuSpheres(const GpuSimParams& p, const float* spheres, const float* obs_
     CUDA_CHECK(cudaMalloc(&d_pie,  (size_t)n_sph * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_pei,  (size_t)n_sph * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_inobs,(size_t)p.N * sizeof(int)));
+    CUDA_CHECK(cudaMalloc(&d_t2sum,(size_t)p.N * (p.T + 1) * sizeof(float)));
     CUDA_CHECK(cudaMemcpy(d_sph, spheres, (size_t)n_sph * 4 * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_T2,  obs_T2,  (size_t)n_sph * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_pie, prob_ie, (size_t)n_sph * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_pei, prob_ei, (size_t)n_sph * sizeof(float), cudaMemcpyHostToDevice));
+    const float dt = p.duration / float(p.T);
 
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
     spheresKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_intra, p.step_extra, d_sph, n_sph,
                               d_pie, d_pei,
                               p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2],
                               p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
-                              p.periodic, p.placement, d_inobs, p.seed);
+                              p.periodic, p.placement, dt, p.t2_extra, d_T2, d_inobs, d_t2sum, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
-    int rc = gpuSynthAndFree(p, d_traj, d_inobs, d_T2, scheme, out_DWI);
+    int rc = gpuSynthAndFree(p, d_traj, d_inobs, d_t2sum, scheme, out_DWI);
     cudaFree(d_traj); cudaFree(d_sph); cudaFree(d_T2);
-    cudaFree(d_pie);  cudaFree(d_pei); cudaFree(d_inobs);
+    cudaFree(d_pie);  cudaFree(d_pei); cudaFree(d_inobs); cudaFree(d_t2sum);
     return rc;
 }
 
@@ -702,7 +724,7 @@ int runGpuCylinders(const GpuSimParams& p, const float* cyls, const float* obs_T
                     const float* prob_ie, const float* prob_ei,
                     unsigned n_cyl, const float* scheme, double* out_DWI)
 {
-    float *d_traj = nullptr, *d_cyl = nullptr, *d_T2 = nullptr, *d_pie = nullptr, *d_pei = nullptr;
+    float *d_traj = nullptr, *d_cyl = nullptr, *d_T2 = nullptr, *d_pie = nullptr, *d_pei = nullptr, *d_t2sum = nullptr;
     int *d_inobs = nullptr;
     CUDA_CHECK(cudaMalloc(&d_traj, (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_cyl,  (size_t)n_cyl * 7 * sizeof(float)));
@@ -710,22 +732,24 @@ int runGpuCylinders(const GpuSimParams& p, const float* cyls, const float* obs_T
     CUDA_CHECK(cudaMalloc(&d_pie,  (size_t)n_cyl * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_pei,  (size_t)n_cyl * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_inobs,(size_t)p.N * sizeof(int)));
+    CUDA_CHECK(cudaMalloc(&d_t2sum,(size_t)p.N * (p.T + 1) * sizeof(float)));
     CUDA_CHECK(cudaMemcpy(d_cyl, cyls, (size_t)n_cyl * 7 * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_T2,  obs_T2,  (size_t)n_cyl * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_pie, prob_ie, (size_t)n_cyl * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_pei, prob_ei, (size_t)n_cyl * sizeof(float), cudaMemcpyHostToDevice));
+    const float dt = p.duration / float(p.T);
 
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
     cylindersKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_intra, p.step_extra, d_cyl, n_cyl,
                                 d_pie, d_pei,
                                 p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2],
                                 p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
-                                p.periodic, p.placement, d_inobs, p.seed);
+                                p.periodic, p.placement, dt, p.t2_extra, d_T2, d_inobs, d_t2sum, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
-    int rc = gpuSynthAndFree(p, d_traj, d_inobs, d_T2, scheme, out_DWI);
+    int rc = gpuSynthAndFree(p, d_traj, d_inobs, d_t2sum, scheme, out_DWI);
     cudaFree(d_traj); cudaFree(d_cyl); cudaFree(d_T2);
-    cudaFree(d_pie);  cudaFree(d_pei); cudaFree(d_inobs);
+    cudaFree(d_pie);  cudaFree(d_pei); cudaFree(d_inobs); cudaFree(d_t2sum);
     return rc;
 }
 
@@ -790,7 +814,7 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
             cell_tri[cursor[size_t(cx + dim[0]*(cy + dim[1]*cz))]++] = int(i);
     }
 
-    float *d_traj = nullptr, *d_verts = nullptr;
+    float *d_traj = nullptr, *d_verts = nullptr, *d_t2sum = nullptr;
     int   *d_tris = nullptr, *d_cstart = nullptr, *d_ctri = nullptr, *d_inobs = nullptr;
     CUDA_CHECK(cudaMalloc(&d_traj,   (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_verts,  (size_t)n_verts * 3 * sizeof(float)));
@@ -798,22 +822,25 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
     CUDA_CHECK(cudaMalloc(&d_cstart, (ncells + 1) * sizeof(int)));
     CUDA_CHECK(cudaMalloc(&d_ctri,   (cell_tri.empty() ? 1 : cell_tri.size()) * sizeof(int)));
     CUDA_CHECK(cudaMalloc(&d_inobs,  (size_t)p.N * sizeof(int)));
+    CUDA_CHECK(cudaMalloc(&d_t2sum,  (size_t)p.N * (p.T + 1) * sizeof(float)));
     CUDA_CHECK(cudaMemcpy(d_verts,  verts, (size_t)n_verts * 3 * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_tris,   tris,  (size_t)n_tris  * 3 * sizeof(int),   cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_cstart, cell_start.data(), (ncells + 1) * sizeof(int), cudaMemcpyHostToDevice));
     if (!cell_tri.empty())
         CUDA_CHECK(cudaMemcpy(d_ctri, cell_tri.data(), cell_tri.size() * sizeof(int), cudaMemcpyHostToDevice));
+    const float dt = p.duration / float(p.T);
 
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
     meshKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_verts, d_tris, n_tris,
                            vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.periodic,
                            p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
                            gmin[0], gmin[1], gmin[2], ics[0], ics[1], ics[2],
-                           dim[0], dim[1], dim[2], d_cstart, d_ctri, d_inobs, p.seed);
+                           dim[0], dim[1], dim[2], d_cstart, d_ctri,
+                           dt, p.t2_extra, d_inobs, d_t2sum, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
-    int rc = gpuSynthAndFree(p, d_traj, d_inobs, nullptr, scheme, out_DWI);  // mesh: t2_extra (3b pending)
-    cudaFree(d_inobs);
+    int rc = gpuSynthAndFree(p, d_traj, d_inobs, d_t2sum, scheme, out_DWI);
+    cudaFree(d_inobs); cudaFree(d_t2sum);
     cudaFree(d_traj);
     cudaFree(d_verts);
     cudaFree(d_tris);

@@ -354,6 +354,15 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
                 "${CMAKE_SOURCE_DIR}/tests/accuracy/cylinder_perm.conf")
     set_tests_properties(gpu_permeability_cylinder PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    # GPU Phase 6b: permeability + finite T2 (per-step t2 accumulation). The intra/extra
+    # T2 differ, so the crossing path matters. Total tolerance is looser (1.5%): float32
+    # collision precision shifts the permeable equilibrium ~4% in the intra population.
+    add_test(
+        NAME gpu_permeability_t2
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_perm_t2.conf" 0.015)
+    set_tests_properties(gpu_permeability_t2 PROPERTIES LABELS "gpu" TIMEOUT 300)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

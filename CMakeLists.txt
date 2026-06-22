@@ -301,6 +301,21 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
                 "${CMAKE_SOURCE_DIR}/tests/accuracy/cylinder_voxel.conf")
     set_tests_properties(gpu_cylinder_voxel PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    # GPU Phase 2e(2): STRADDLING periodic images. Hex packings (images auto-replicated
+    # into the obstacle list) with EXTRA placement + periodic voxel -- walkers wrap and
+    # collide with obstacles AND their periodic images across the voxel faces. GPU vs CPU.
+    add_test(
+        NAME gpu_sphere_hex_extra
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_hex_extra.conf")
+    set_tests_properties(gpu_sphere_hex_extra PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    add_test(
+        NAME gpu_cylinder_hex_extra
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/cylinder_hex_extra.conf")
+    set_tests_properties(gpu_cylinder_hex_extra PROPERTIES LABELS "gpu" TIMEOUT 300)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

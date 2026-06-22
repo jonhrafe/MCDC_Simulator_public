@@ -80,9 +80,12 @@ def main():
 
         sn_gpu = sum(gpu_vals) / len(gpu_vals) / N
         sn_cpu = sum(cpu_vals) / len(cpu_vals) / N
+        import math
         diff = abs(sn_gpu - sn_cpu)
         print(f"[{os.path.basename(conf)}] GPU S/N={sn_gpu:.5f} CPU S/N={sn_cpu:.5f} "
               f"|diff|={diff:.5f} (tol {TOL})")
+        if math.isnan(sn_gpu) or math.isnan(sn_cpu):
+            print("FAIL: NaN signal (GPU or CPU produced NaN)."); return 1
         if diff > TOL:
             print("FAIL: GPU restricted signal disagrees with CPU beyond MC noise."); return 1
         print("PASS: GPU collision matches CPU within MC noise.")

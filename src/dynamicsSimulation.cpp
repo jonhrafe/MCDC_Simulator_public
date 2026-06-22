@@ -802,9 +802,16 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         gp.duration    = float(params.sim_duration);   // internal ms
         gp.step_length = float(walker.step_lenght);     // sqrt(6*D*dur/T), internal mm
         gp.seed        = (unsigned long long) params.seed;  // perf-only; not bit-exact vs CPU
+        // Authoritative voxel = voxels_list[0] (what the CPU boundary code uses); it is
+        // populated for auto-voxel packings, unlike params.min/max_limits.
         for(int i = 0; i < 3; ++i){
-            gp.vmin[i] = float(params.min_limits[i]);
-            gp.vmax[i] = float(params.max_limits[i]);
+            if(!voxels_list.empty()){
+                gp.vmin[i] = float(voxels_list[0].min_limits[i]);
+                gp.vmax[i] = float(voxels_list[0].max_limits[i]);
+            } else {
+                gp.vmin[i] = float(params.min_limits[i]);
+                gp.vmax[i] = float(params.max_limits[i]);
+            }
         }
         gp.periodic = params.periodic_boundaries ? 1 : 0;   // voxel BC (default periodic)
         gp.placement = 0;                                    // uniform in voxel
@@ -867,8 +874,8 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
                 tris[3*i+1] = ply.faces[i].indexes[1];
                 tris[3*i+2] = ply.faces[i].indexes[2];
             }
-            const float vmin[3] = { float(params.min_limits[0]), float(params.min_limits[1]), float(params.min_limits[2]) };
-            const float vmax[3] = { float(params.max_limits[0]), float(params.max_limits[1]), float(params.max_limits[2]) };
+            const float vmin[3] = { gp.vmin[0], gp.vmin[1], gp.vmin[2] };   // authoritative voxel (see above)
+            const float vmax[3] = { gp.vmax[0], gp.vmax[1], gp.vmax[2] };
             SimErrno::info("GPU path: mesh (" + std::to_string(nt) + " triangles, brute-force)", std::cout);
             rc = runGpuMesh(gp, verts.data(), nv, tris.data(), nt, vmin, vmax, scheme.data(), dwi.data());
         }

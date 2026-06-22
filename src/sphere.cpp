@@ -123,6 +123,12 @@ inline bool Sphere::handleCollition(Walker& walker, Collision &colision, Vector3
             count_perc_crossings++;
             if(from_intra) count_cross_i_e++; else count_cross_e_i++;
             walker.perm_crossed_flag = true;
+            // PERMEABLE CROSSING: continue STRAIGHT through the transparent membrane.
+            // colision.type is already hit; the bouncing handler reads bounced_direction,
+            // which the reflection branch below never sets on a crossing -> it would read
+            // uninitialized memory (Collision's Eigen members are not default-initialized),
+            // making the permeable result depend on build-dependent stack garbage.
+            colision.bounced_direction = step;
             return false;
         }
     }

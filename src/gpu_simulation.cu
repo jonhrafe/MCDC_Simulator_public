@@ -193,6 +193,7 @@ __device__ inline bool insideAnySphere(float x, float y, float z, const float* s
 //! in voxel, 1=intra (random sphere), 2=extra (voxel, outside all spheres).
 __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_intra, float step_extra,
                               const float* spheres, unsigned n_sph,
+                              const float* prob_ie, const float* prob_ei,
                               float vminx, float vminy, float vminz,
                               float vmaxx, float vmaxy, float vmaxz,
                               float sminx, float sminy, float sminz,
@@ -224,15 +225,16 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
         }
         in_obs = whichSphere(pv[0], pv[1], pv[2], spheres, n_sph);   // compartment at placement
     }
-    out_inobs[w] = in_obs;
-    float step_length = (in_obs >= 0) ? step_intra : step_extra;     // per-compartment step (multi-D)
     float pr[3] = { pv[0], pv[1], pv[2] };
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
 
-    const float EPS = 1e-5f * step_length;
     for (unsigned t = 1; t <= T; ++t) {
+        // per-timestep step length from the CURRENT compartment (permeable crossings may
+        // have changed in_obs); EPS scales with it.
+        float step_length = (in_obs >= 0) ? step_intra : step_extra;
+        float EPS = 1e-5f * step_length;
         float dx = curand_normal(&st), dy = curand_normal(&st), dz = curand_normal(&st);
         float inv = rsqrtf(dx*dx + dy*dy + dz*dz + 1e-30f);
         float dir[3] = { dx*inv, dy*inv, dz*inv };
@@ -262,12 +264,20 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
             // advance both positions to the event
             for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]; pv[i] += best_t*dir[i]; }
             remaining -= best_t;
-            if (best_sph >= 0) {                         // reflect off the sphere
-                float nx = pv[0]-spheres[best_sph*4+0], ny = pv[1]-spheres[best_sph*4+1], nz = pv[2]-spheres[best_sph*4+2];
-                float nn = rsqrtf(nx*nx + ny*ny + nz*nz + 1e-30f);
-                float n[3] = { nx*nn, ny*nn, nz*nn };
-                reflectDir(dir, n);
-                for (int i = 0; i < 3; ++i) { pr[i] += EPS*dir[i]; pv[i] += EPS*dir[i]; }
+            if (best_sph >= 0) {                         // sphere membrane: cross or reflect
+                bool from_intra = (in_obs == best_sph);
+                float prob = from_intra ? prob_ie[best_sph] : prob_ei[best_sph];
+                if (prob > 0.0f && (prob - curand_uniform(&st)) > 1e-6f) {
+                    // PERMEATE: pass straight through, toggle compartment, nudge past the wall.
+                    in_obs = from_intra ? -1 : best_sph;
+                    for (int i = 0; i < 3; ++i) { pr[i] += EPS*dir[i]; pv[i] += EPS*dir[i]; }
+                } else {                                  // reflect off the sphere
+                    float nx = pv[0]-spheres[best_sph*4+0], ny = pv[1]-spheres[best_sph*4+1], nz = pv[2]-spheres[best_sph*4+2];
+                    float nn = rsqrtf(nx*nx + ny*ny + nz*nz + 1e-30f);
+                    float n[3] = { nx*nn, ny*nn, nz*nn };
+                    reflectDir(dir, n);
+                    for (int i = 0; i < 3; ++i) { pr[i] += EPS*dir[i]; pv[i] += EPS*dir[i]; }
+                }
             } else if (best_axis >= 0) {                 // voxel face
                 if (periodic) {
                     pv[best_axis] = (dir[best_axis] > 0.0f) ? vmin[best_axis] : vmax[best_axis];
@@ -282,6 +292,7 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
         float* o = tr + (size_t)t * 3;
         o[0] = pr[0]; o[1] = pr[1]; o[2] = pr[2];
     }
+    out_inobs[w] = in_obs;                                // final compartment (after any crossings)
 }
 
 //! Phase 2b/2c: one thread per walker, restricted diffusion among impermeable
@@ -649,28 +660,33 @@ static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const int* d_in
 }
 
 int runGpuSpheres(const GpuSimParams& p, const float* spheres, const float* obs_T2,
+                  const float* prob_ie, const float* prob_ei,
                   unsigned n_sph, const float* scheme, double* out_DWI)
 {
-    float *d_traj = nullptr, *d_sph = nullptr, *d_T2 = nullptr; int *d_inobs = nullptr;
+    float *d_traj = nullptr, *d_sph = nullptr, *d_T2 = nullptr, *d_pie = nullptr, *d_pei = nullptr;
+    int *d_inobs = nullptr;
     CUDA_CHECK(cudaMalloc(&d_traj, (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_sph,  (size_t)n_sph * 4 * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_T2,   (size_t)n_sph * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_pie,  (size_t)n_sph * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_pei,  (size_t)n_sph * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_inobs,(size_t)p.N * sizeof(int)));
     CUDA_CHECK(cudaMemcpy(d_sph, spheres, (size_t)n_sph * 4 * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_T2,  obs_T2,  (size_t)n_sph * sizeof(float), cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(d_pie, prob_ie, (size_t)n_sph * sizeof(float), cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(d_pei, prob_ei, (size_t)n_sph * sizeof(float), cudaMemcpyHostToDevice));
 
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
     spheresKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_intra, p.step_extra, d_sph, n_sph,
+                              d_pie, d_pei,
                               p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2],
                               p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
                               p.periodic, p.placement, d_inobs, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
     int rc = gpuSynthAndFree(p, d_traj, d_inobs, d_T2, scheme, out_DWI);
-    cudaFree(d_traj);
-    cudaFree(d_sph);
-    cudaFree(d_T2);
-    cudaFree(d_inobs);
+    cudaFree(d_traj); cudaFree(d_sph); cudaFree(d_T2);
+    cudaFree(d_pie);  cudaFree(d_pei); cudaFree(d_inobs);
     return rc;
 }
 

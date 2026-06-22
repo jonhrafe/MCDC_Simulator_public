@@ -44,7 +44,10 @@ int runGpuFreeDiffusion(const GpuSimParams& p, const float* scheme, double* out_
 //! surface each step (brute-force over all spheres; no acceleration grid).
 //! \param spheres  n_sph * 4 floats: (cx, cy, cz, r) per sphere (internal mm).
 //! \param obs_T2   n_sph floats: per-sphere T2 (internal ms) for compartment weighting.
+//! \param prob_ie,prob_ei  n_sph floats each: per-sphere membrane cross probabilities
+//!        (intra->extra, extra->intra); 0 = impermeable.
 int runGpuSpheres(const GpuSimParams& p, const float* spheres, const float* obs_T2,
+                  const float* prob_ie, const float* prob_ei,
                   unsigned n_sph, const float* scheme, double* out_DWI);
 
 //! \brief Phase 2b/2c: restricted diffusion inside impermeable infinite cylinders.

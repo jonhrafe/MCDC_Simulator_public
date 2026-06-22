@@ -852,15 +852,18 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         }
         else if(n_cyl == 0 && n_ply == 0 && n_sph >= 1){
             // Phase 2a/2c: restricted diffusion among analytic spheres.
-            std::vector<float> sph(n_sph * 4), sphT2(n_sph);
+            std::vector<float> sph(n_sph * 4), sphT2(n_sph), sphIE(n_sph), sphEI(n_sph);
             for(size_t i = 0; i < n_sph; ++i){
                 const Sphere& s = (*spheres_list)[i];
                 sph[i*4+0] = float(s.center[0]); sph[i*4+1] = float(s.center[1]);
                 sph[i*4+2] = float(s.center[2]); sph[i*4+3] = float(s.radius);
                 sphT2[i]   = float(s.T2);
+                sphIE[i]   = float(s.prob_cross_i_e);   // 0 when impermeable
+                sphEI[i]   = float(s.prob_cross_e_i);
             }
             SimErrno::info("GPU path: " + std::to_string(n_sph) + " sphere(s)", std::cout);
-            rc = runGpuSpheres(gp, sph.data(), sphT2.data(), unsigned(n_sph), scheme.data(), dwi.data());
+            rc = runGpuSpheres(gp, sph.data(), sphT2.data(), sphIE.data(), sphEI.data(),
+                               unsigned(n_sph), scheme.data(), dwi.data());
         }
         else if(n_sph == 0 && n_ply == 0 && n_cyl >= 1){
             // Phase 2b/2c: restricted diffusion among analytic infinite cylinders.

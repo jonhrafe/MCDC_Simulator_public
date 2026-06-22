@@ -340,6 +340,14 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
                 "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_multiD.conf")
     set_tests_properties(gpu_multi_d PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    # GPU Phase 6: membrane PERMEABILITY (analytic sphere, global kappa). Walkers cross
+    # intra<->extra via the Powles draw; the GPU must reproduce the CPU's crossed split.
+    add_test(
+        NAME gpu_permeability
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_perm.conf")
+    set_tests_properties(gpu_permeability PROPERTIES LABELS "gpu" TIMEOUT 300)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

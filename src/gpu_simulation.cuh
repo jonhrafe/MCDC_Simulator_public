@@ -18,7 +18,9 @@ struct GpuSimParams
     unsigned       T;            //!< number of timesteps
     unsigned       num_rep;      //!< number of measurements (scheme rows)
     float          duration;     //!< total dynamics duration (internal ms)
-    float          step_length;  //!< sqrt(6*D*duration/T) (internal mm)
+    float          step_length;  //!< sqrt(6*diffusivity*dt) (internal mm) -- free/mesh path
+    float          step_intra;   //!< sqrt(6*diff_intra*dt) -- intra walkers (analytic obstacles)
+    float          step_extra;   //!< sqrt(6*diff_extra*dt) -- extra walkers
     unsigned long long seed;     //!< RNG seed
     float          vmin[3];      //!< voxel min corner (internal mm) -- boundary conditions
     float          vmax[3];      //!< voxel max corner (internal mm)

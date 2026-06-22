@@ -800,7 +800,11 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         gp.T           = params.num_steps;
         gp.num_rep     = unsigned(pgse->num_rep);
         gp.duration    = float(params.sim_duration);   // internal ms
-        gp.step_length = float(walker.step_lenght);     // sqrt(6*D*dur/T), internal mm
+        gp.step_length = float(walker.step_lenght);     // sqrt(6*diffusivity*dt), internal mm
+        // per-compartment step lengths (multi-D); equal to step_length when diff_intra =
+        // diff_extra = diffusivity (the default).
+        gp.step_intra = float(std::sqrt(6.0*params.diff_intra*params.sim_duration/params.num_steps));
+        gp.step_extra = float(std::sqrt(6.0*params.diff_extra*params.sim_duration/params.num_steps));
         gp.seed        = (unsigned long long) params.seed;  // perf-only; not bit-exact vs CPU
         // Authoritative voxel = voxels_list[0] (what the CPU boundary code uses); it is
         // populated for auto-voxel packings, unlike params.min/max_limits.

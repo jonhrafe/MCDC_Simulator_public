@@ -191,7 +191,7 @@ __device__ inline bool insideAnySphere(float x, float y, float z, const float* s
 //! Each step takes the nearest of {sphere surfaces, voxel faces}; spheres reflect,
 //! voxel faces wrap pv (periodic) or reflect (mirror, folded). placement: 0=uniform
 //! in voxel, 1=intra (random sphere), 2=extra (voxel, outside all spheres).
-__global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_length,
+__global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_intra, float step_extra,
                               const float* spheres, unsigned n_sph,
                               float vminx, float vminy, float vminz,
                               float vmaxx, float vmaxy, float vmaxz,
@@ -225,6 +225,7 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_le
         in_obs = whichSphere(pv[0], pv[1], pv[2], spheres, n_sph);   // compartment at placement
     }
     out_inobs[w] = in_obs;
+    float step_length = (in_obs >= 0) ? step_intra : step_extra;     // per-compartment step (multi-D)
     float pr[3] = { pv[0], pv[1], pv[2] };
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
@@ -308,7 +309,7 @@ __device__ inline bool insideAnyCylinder(float x, float y, float z, const float*
 //! a voxel. Two positions (pv wrapped / pr unwrapped); each step takes the nearest of
 //! {cylinder surfaces, voxel faces}. placement: 0=uniform, 1=intra (random cylinder
 //! disk), 2=extra (in the voxel, outside all cylinders).
-__global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_length,
+__global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_intra, float step_extra,
                                 const float* cyls, unsigned n_cyl,
                                 float vminx, float vminy, float vminz,
                                 float vmaxx, float vmaxy, float vmaxz,
@@ -349,6 +350,7 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
         in_obs = whichCylinder(pv[0], pv[1], pv[2], cyls, n_cyl);
     }
     out_inobs[w] = in_obs;
+    float step_length = (in_obs >= 0) ? step_intra : step_extra;     // per-compartment step (multi-D)
     float pr[3] = { pv[0], pv[1], pv[2] };
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
@@ -658,7 +660,7 @@ int runGpuSpheres(const GpuSimParams& p, const float* spheres, const float* obs_
     CUDA_CHECK(cudaMemcpy(d_T2,  obs_T2,  (size_t)n_sph * sizeof(float), cudaMemcpyHostToDevice));
 
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
-    spheresKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_sph, n_sph,
+    spheresKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_intra, p.step_extra, d_sph, n_sph,
                               p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2],
                               p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
                               p.periodic, p.placement, d_inobs, p.seed);
@@ -684,7 +686,7 @@ int runGpuCylinders(const GpuSimParams& p, const float* cyls, const float* obs_T
     CUDA_CHECK(cudaMemcpy(d_T2,  obs_T2,  (size_t)n_cyl * sizeof(float), cudaMemcpyHostToDevice));
 
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
-    cylindersKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_cyl, n_cyl,
+    cylindersKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_intra, p.step_extra, d_cyl, n_cyl,
                                 p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2],
                                 p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
                                 p.periodic, p.placement, d_inobs, p.seed);

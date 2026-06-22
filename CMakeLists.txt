@@ -332,6 +332,14 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
                 "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_multiT2.conf")
     set_tests_properties(gpu_multi_t2 PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    # GPU Phase 5: per-compartment diffusivity (step length). Sphere intra D=0.2e-9 vs
+    # extra 1.0e-9; the GPU must reproduce the CPU's per-D intra/extra split.
+    add_test(
+        NAME gpu_multi_d
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_multiD.conf")
+    set_tests_properties(gpu_multi_d PROPERTIES LABELS "gpu" TIMEOUT 300)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

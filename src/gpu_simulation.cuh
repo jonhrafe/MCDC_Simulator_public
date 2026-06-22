@@ -42,4 +42,16 @@ int runGpuFreeDiffusion(const GpuSimParams& p, const float* scheme, double* out_
 //! surface (brute-force, no acceleration grid). Same signal synthesis as above.
 int runGpuSphere(const GpuSimParams& p, const GpuSphere& s, const float* scheme, double* out_DWI);
 
+//! A single analytic (infinite) cylinder obstacle (internal units, mm).
+struct GpuCylinder
+{
+    float px, py, pz;   //!< a point on the axis
+    float dx, dy, dz;   //!< unit axis direction
+    float r;            //!< radius
+};
+
+//! \brief Phase 2b: restricted diffusion inside ONE impermeable infinite cylinder.
+//! Radially confined, free along the axis; reflects off the radial normal.
+int runGpuCylinder(const GpuSimParams& p, const GpuCylinder& c, const float* scheme, double* out_DWI);
+
 #endif // GPU_SIMULATION_CUH

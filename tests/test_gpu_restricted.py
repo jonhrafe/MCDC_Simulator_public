@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-GPU Phase-2a validation: restricted diffusion in a single impermeable sphere.
+GPU restricted-diffusion validation (Phase 2a/2b).
 
-Runs the SAME single-sphere config on the GPU (`gpu 1`) and the CPU (`gpu 0`) and
-asserts the diffusion signals agree within MC noise (mean S/N over all
-measurements). This guards the on-device collision + elastic-reflection (bounce)
-kernel against the validated CPU path. N is kept modest so the CPU side stays fast.
+Runs a single-obstacle config (sphere or cylinder) on the GPU (`gpu 1`) and the
+CPU (`gpu 0`) and asserts the diffusion signals agree within MC noise (mean S/N
+over all measurements). Guards the on-device collision + elastic-reflection
+kernels against the validated CPU path. N is kept modest so the CPU side is fast.
 
+Usage: test_gpu_restricted.py [config.conf]   (default: sphere_restricted.conf)
 Skips (exit 0) if the binary was built without CUDA / no GPU is present.
 """
 import glob
@@ -23,9 +24,8 @@ TOL = 0.006   # |S/N_gpu - S/N_cpu|; covers independent-RNG MC noise at this N
 def run(binp, conf_text, gpu, work, tag):
     conf = os.path.join(work, f"{tag}.conf")
     prefix = os.path.join(work, tag)
-    lines = []
-    for l in conf_text.splitlines():
-        lines.append(f"exp_prefix {prefix}" if l.strip().startswith("exp_prefix") else l)
+    lines = [(f"exp_prefix {prefix}" if l.strip().startswith("exp_prefix") else l)
+             for l in conf_text.splitlines()]
     lines.append(f"gpu {gpu}")
     open(conf, "w").write("\n".join(lines) + "\n")
     res = subprocess.run([binp, "--conf", conf], cwd=REPO,
@@ -36,31 +36,26 @@ def run(binp, conf_text, gpu, work, tag):
     if res.returncode != 0 or "[ERROR]" in log:
         sys.stderr.write(log)
         return None, f"fail (exit {res.returncode})"
-    # newest matching DWI file (handles <prefix>_DWI.txt and <prefix>_rep_00_DWI.txt)
     cands = [f for f in glob.glob(prefix + "*_DWI.txt") if not f.endswith(("_intra.txt", "_extra.txt"))]
     if not cands:
         return None, "no DWI output"
     f = max(cands, key=os.path.getmtime)
-    vals = [float(x) for x in open(f) if x.strip()]
-    return vals, "ok"
-
-
-def mean_sn(vals, N):
-    return (sum(vals) / len(vals)) / N
+    return [float(x) for x in open(f) if x.strip()], "ok"
 
 
 def main():
     binp = os.path.join(REPO, "MC-DC_Simulator")
-    conf = os.path.join(REPO, "tests", "accuracy", "sphere_restricted.conf")
+    conf = sys.argv[1] if len(sys.argv) > 1 else os.path.join(REPO, "tests", "accuracy", "sphere_restricted.conf")
+    if not os.path.isabs(conf):
+        conf = os.path.join(REPO, conf)
     text = open(conf).read()
     N = int(next(l.split()[1] for l in text.splitlines() if l.strip().startswith("N ")))
 
-    work = tempfile.mkdtemp(prefix="mcdc_gpusph_")
+    work = tempfile.mkdtemp(prefix="mcdc_gpures_")
     try:
         gpu_vals, st = run(binp, text, 1, work, "gpu")
         if st == "skip":
-            print("SKIP: binary built without CUDA / no GPU available.")
-            return 0
+            print("SKIP: binary built without CUDA / no GPU available."); return 0
         if st != "ok":
             print(f"FAIL (GPU): {st}"); return 1
         cpu_vals, st = run(binp, text, 0, work, "cpu")
@@ -69,17 +64,14 @@ def main():
         if len(gpu_vals) != len(cpu_vals):
             print(f"FAIL: measurement count mismatch ({len(gpu_vals)} vs {len(cpu_vals)})"); return 1
 
-        sn_gpu = mean_sn(gpu_vals, N)
-        sn_cpu = mean_sn(cpu_vals, N)
+        sn_gpu = sum(gpu_vals) / len(gpu_vals) / N
+        sn_cpu = sum(cpu_vals) / len(cpu_vals) / N
         diff = abs(sn_gpu - sn_cpu)
-        restricted = sn_cpu  # sanity: should differ from free exp(-bD)=~0.979
-        ok = diff <= TOL
-        print(f"GPU mean S/N = {sn_gpu:.5f} | CPU mean S/N = {sn_cpu:.5f} | "
-              f"|diff| = {diff:.5f} (tol {TOL}) | restricted (cpu)={restricted:.4f}")
-        if not ok:
-            print("FAIL: GPU restricted-sphere signal disagrees with CPU beyond MC noise.")
-            return 1
-        print("PASS: GPU single-sphere collision matches CPU within MC noise.")
+        print(f"[{os.path.basename(conf)}] GPU S/N={sn_gpu:.5f} CPU S/N={sn_cpu:.5f} "
+              f"|diff|={diff:.5f} (tol {TOL})")
+        if diff > TOL:
+            print("FAIL: GPU restricted signal disagrees with CPU beyond MC noise."); return 1
+        print("PASS: GPU collision matches CPU within MC noise.")
         return 0
     finally:
         shutil.rmtree(work, ignore_errors=True)

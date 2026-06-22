@@ -237,13 +237,20 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_free_diffusion.py")
     set_tests_properties(gpu_free_diffusion PROPERTIES LABELS "gpu" TIMEOUT 300)
 
-    # GPU Phase 2a: restricted diffusion in a single analytic sphere; GPU vs CPU
-    # signal must agree within MC noise (guards the device collision/reflection
-    # kernel). Self-skips on non-CUDA builds.
+    # GPU Phase 2a/2b: restricted diffusion in a single analytic obstacle; GPU vs
+    # CPU signal must agree within MC noise (guards the device collision/reflection
+    # kernels). Self-skips on non-CUDA builds.
     add_test(
         NAME gpu_restricted_sphere
-        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted_sphere.py")
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_restricted.conf")
     set_tests_properties(gpu_restricted_sphere PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    add_test(
+        NAME gpu_restricted_cylinder
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/cylinder_restricted.conf")
+    set_tests_properties(gpu_restricted_cylinder PROPERTIES LABELS "gpu" TIMEOUT 300)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

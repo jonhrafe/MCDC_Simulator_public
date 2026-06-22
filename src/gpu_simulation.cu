@@ -116,6 +116,73 @@ __global__ void freeDiffusionKernel(float* traj, unsigned N, unsigned T,
     }
 }
 
+//! Elastic reflection of a unit direction about a unit surface normal: d -= 2(d.n)n.
+__device__ inline void reflectDir(float d[3], const float n[3])
+{
+    float dn = d[0]*n[0] + d[1]*n[1] + d[2]*n[2];
+    d[0] -= 2.0f*dn*n[0];
+    d[1] -= 2.0f*dn*n[1];
+    d[2] -= 2.0f*dn*n[2];
+}
+
+//! Phase 2a: one thread per walker, restricted diffusion inside ONE impermeable
+//! sphere. Walkers start uniformly inside; each step elastically reflects off the
+//! inner surface (multi-bounce), brute-force (single obstacle, no grid).
+__global__ void sphereKernel(float* traj, unsigned N, unsigned T, float step_length,
+                             float cx, float cy, float cz, float r, unsigned long long seed)
+{
+    unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
+    if (w >= N) return;
+
+    curandStatePhilox4_32_10_t st;
+    curand_init(seed, w, 0, &st);
+
+    // Uniform start inside the sphere (rejection in the bounding cube).
+    float px, py, pz;
+    do {
+        px = (2.0f*curand_uniform(&st) - 1.0f) * r;
+        py = (2.0f*curand_uniform(&st) - 1.0f) * r;
+        pz = (2.0f*curand_uniform(&st) - 1.0f) * r;
+    } while (px*px + py*py + pz*pz > r*r);
+    px += cx; py += cy; pz += cz;
+
+    float* tr = traj + (size_t)w * (T + 1) * 3;
+    tr[0] = px; tr[1] = py; tr[2] = pz;
+
+    const float EPS = 1e-6f * r;   // nudge to stay inside after a bounce
+    for (unsigned t = 1; t <= T; ++t) {
+        float dx = curand_normal(&st), dy = curand_normal(&st), dz = curand_normal(&st);
+        float inv = rsqrtf(dx*dx + dy*dy + dz*dz + 1e-30f);
+        float dir[3] = { dx*inv, dy*inv, dz*inv };
+        float remaining = step_length;
+
+        for (int b = 0; b < 16 && remaining > 0.0f; ++b) {
+            float mx = px - cx, my = py - cy, mz = pz - cz;
+            float bq = mx*dir[0] + my*dir[1] + mz*dir[2];
+            float cq = mx*mx + my*my + mz*mz - r*r;
+            float discr = bq*bq - cq;
+            float thit = -1.0f;
+            if (discr > 0.0f) {
+                float t2 = -bq + sqrtf(discr);     // exit root (inside => cq<0 => t2>0)
+                if (t2 > EPS && t2 < remaining) thit = t2;
+            }
+            if (thit < 0.0f) {                     // no surface hit within the step
+                px += remaining*dir[0]; py += remaining*dir[1]; pz += remaining*dir[2];
+                remaining = 0.0f;
+            } else {                               // move to surface, reflect, continue
+                px += thit*dir[0]; py += thit*dir[1]; pz += thit*dir[2];
+                float nn = rsqrtf((px-cx)*(px-cx) + (py-cy)*(py-cy) + (pz-cz)*(pz-cz) + 1e-30f);
+                float n[3] = { (px-cx)*nn, (py-cy)*nn, (pz-cz)*nn };
+                reflectDir(dir, n);
+                px -= EPS*n[0]; py -= EPS*n[1]; pz -= EPS*n[2];   // nudge inside
+                remaining -= thit;
+            }
+        }
+        float* o = tr + (size_t)t * 3;
+        o[0] = px; o[1] = py; o[2] = pz;
+    }
+}
+
 //! One block per walker, num_rep measurements strided across threads. Reads the
 //! on-device trajectory and accumulates the (T2=inf) signal sum_w cos(phase).
 //! Mirrors CUDASynth::deviceDataSynth but uses the scheme values directly (MCDC).
@@ -172,6 +239,39 @@ int runGpuFreeDiffusion(const GpuSimParams& p, const float* scheme, double* out_
     const int bs = 256;
     const int gs = int((p.N + bs - 1) / bs);
     freeDiffusionKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, p.seed);
+    CUDA_CHECK(cudaGetLastError());
+
+    const int threads = p.num_rep < 1024u ? int(p.num_rep) : 1024;
+    signalKernel<<<p.N, threads>>>(d_traj, p.T, p.duration, d_scheme, p.num_rep, d_dwi);
+    CUDA_CHECK(cudaGetLastError());
+    CUDA_CHECK(cudaDeviceSynchronize());
+
+    std::vector<float> h_dwi(p.num_rep);
+    CUDA_CHECK(cudaMemcpy(h_dwi.data(), d_dwi, dwi_bytes, cudaMemcpyDeviceToHost));
+    for (unsigned i = 0; i < p.num_rep; ++i) out_DWI[i] = double(h_dwi[i]);
+
+    cudaFree(d_traj);
+    cudaFree(d_scheme);
+    cudaFree(d_dwi);
+    return 0;
+}
+
+int runGpuSphere(const GpuSimParams& p, const GpuSphere& s, const float* scheme, double* out_DWI)
+{
+    const size_t traj_bytes   = (size_t)p.N * (p.T + 1) * 3 * sizeof(float);
+    const size_t scheme_bytes = (size_t)p.num_rep * 7 * sizeof(float);
+    const size_t dwi_bytes    = (size_t)p.num_rep * sizeof(float);
+
+    float *d_traj = nullptr, *d_scheme = nullptr, *d_dwi = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_traj,   traj_bytes));
+    CUDA_CHECK(cudaMalloc(&d_scheme, scheme_bytes));
+    CUDA_CHECK(cudaMalloc(&d_dwi,    dwi_bytes));
+    CUDA_CHECK(cudaMemcpy(d_scheme, scheme, scheme_bytes, cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemset(d_dwi, 0, dwi_bytes));
+
+    const int bs = 256;
+    const int gs = int((p.N + bs - 1) / bs);
+    sphereKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, s.cx, s.cy, s.cz, s.r, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
     const int threads = p.num_rep < 1024u ? int(p.num_rep) : 1024;

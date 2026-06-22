@@ -22,6 +22,13 @@ struct GpuSimParams
     unsigned long long seed;     //!< RNG seed
 };
 
+//! A single analytic sphere obstacle (internal units, mm).
+struct GpuSphere
+{
+    float cx, cy, cz;   //!< centre
+    float r;            //!< radius
+};
+
 //! \brief Free-diffusion dynamics + PGSE signal, fully on the GPU.
 //! \param p        simulation parameters (internal units).
 //! \param scheme   flattened scheme, num_rep*7 floats per row
@@ -29,5 +36,10 @@ struct GpuSimParams
 //! \param out_DWI  host array (size num_rep); filled with sum_w cos(phase) per row.
 //! \return 0 on success, non-zero CUDA error code otherwise.
 int runGpuFreeDiffusion(const GpuSimParams& p, const float* scheme, double* out_DWI);
+
+//! \brief Phase 2a: restricted diffusion inside ONE impermeable sphere + signal.
+//! Walkers start uniformly inside the sphere and elastically reflect off the inner
+//! surface (brute-force, no acceleration grid). Same signal synthesis as above.
+int runGpuSphere(const GpuSimParams& p, const GpuSphere& s, const float* scheme, double* out_DWI);
 
 #endif // GPU_SIMULATION_CUH

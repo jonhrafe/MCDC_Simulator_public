@@ -813,7 +813,27 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
                        ", T=" + std::to_string(gp.T) + ", num_rep=" + std::to_string(gp.num_rep) + ")", std::cout);
 
         std::vector<double> dwi(gp.num_rep, 0.0);
-        int rc = runGpuFreeDiffusion(gp, scheme.data(), dwi.data());
+        const size_t n_cyl = cylinders_list   ? cylinders_list->size()   : 0;
+        const size_t n_sph = spheres_list      ? spheres_list->size()      : 0;
+        const size_t n_ply = plyObstacles_list ? plyObstacles_list->size() : 0;
+        int rc = 0;
+        if(n_cyl == 0 && n_sph == 0 && n_ply == 0){
+            rc = runGpuFreeDiffusion(gp, scheme.data(), dwi.data());
+        }
+        else if(n_cyl == 0 && n_ply == 0 && n_sph == 1){
+            // Phase 2a: restricted diffusion in a single analytic sphere.
+            const Sphere& s = (*spheres_list)[0];
+            GpuSphere gs;
+            gs.cx = float(s.center[0]); gs.cy = float(s.center[1]); gs.cz = float(s.center[2]);
+            gs.r  = float(s.radius);
+            SimErrno::info("GPU path: 1 sphere (r=" + std::to_string(gs.r) + " mm)", std::cout);
+            rc = runGpuSphere(gp, gs, scheme.data(), dwi.data());
+        }
+        else {
+            SimErrno::error("GPU path supports only free diffusion or a single sphere so far "
+                            "(Phase 2a). Use the CPU path for this substrate.", std::cout);
+            return;
+        }
         if(rc != 0){
             SimErrno::error("GPU run failed (CUDA error " + std::to_string(rc) + ").", std::cout);
             return;

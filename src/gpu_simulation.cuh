@@ -23,6 +23,7 @@ struct GpuSimParams
     float          vmin[3];      //!< voxel min corner (internal mm)
     float          vmax[3];      //!< voxel max corner (internal mm)
     int            periodic;     //!< voxel boundary: 1 = periodic, 0 = mirror
+    int            placement;    //!< walker start: 0 = uniform in voxel, 1 = intra, 2 = extra
 };
 
 //! \brief Free-diffusion dynamics + PGSE signal, fully on the GPU.

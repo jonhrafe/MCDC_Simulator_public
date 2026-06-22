@@ -807,6 +807,9 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             gp.vmax[i] = float(params.max_limits[i]);
         }
         gp.periodic = params.periodic_boundaries ? 1 : 0;   // voxel BC (default periodic)
+        gp.placement = 0;                                    // uniform in voxel
+        if(params.ini_walker_flag.find("intra") != std::string::npos)      gp.placement = 1;
+        else if(params.ini_walker_flag.find("extra") != std::string::npos) gp.placement = 2;
 
         // Interface: flatten the (as-stored) scheme to num_rep*7 floats.
         std::vector<float> scheme(size_t(gp.num_rep) * 7);

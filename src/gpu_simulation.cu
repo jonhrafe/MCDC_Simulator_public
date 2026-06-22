@@ -167,8 +167,26 @@ __device__ inline void reflectDir(float d[3], const float n[3])
 //! spheres (spheres[i*4+0..3] = cx,cy,cz,r). Walker starts uniformly inside a
 //! random sphere; each step takes the NEAREST surface crossing over all spheres
 //! and reflects (multi-bounce). Brute-force over all spheres (no grid yet).
+__device__ inline bool insideAnySphere(float x, float y, float z, const float* spheres, unsigned n)
+{
+    for (unsigned i = 0; i < n; ++i) {
+        float dx = x - spheres[i*4+0], dy = y - spheres[i*4+1], dz = z - spheres[i*4+2];
+        float r = spheres[i*4+3];
+        if (dx*dx + dy*dy + dz*dz < r*r) return true;
+    }
+    return false;
+}
+
+//! Phase 2a/2c/2e: restricted diffusion among impermeable spheres inside a voxel.
+//! Two positions: pv (wrapped, for collision) and pr (unwrapped, for the signal).
+//! Each step takes the nearest of {sphere surfaces, voxel faces}; spheres reflect,
+//! voxel faces wrap pv (periodic) or reflect (mirror, folded). placement: 0=uniform
+//! in voxel, 1=intra (random sphere), 2=extra (voxel, outside all spheres).
 __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_length,
-                              const float* spheres, unsigned n_sph, unsigned long long seed)
+                              const float* spheres, unsigned n_sph,
+                              float vminx, float vminy, float vminz,
+                              float vmaxx, float vmaxy, float vmaxz,
+                              int periodic, int placement, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
@@ -176,60 +194,78 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_le
     curandStatePhilox4_32_10_t st;
     curand_init(seed, w, 0, &st);
 
-    // Start uniformly inside a randomly chosen sphere (equal-radius packings ->
-    // uniform over the intra volume).
-    unsigned si = curand(&st) % n_sph;
-    float cx = spheres[si*4+0], cy = spheres[si*4+1], cz = spheres[si*4+2], r0 = spheres[si*4+3];
-    float ox, oy, oz;
-    do {
-        ox = (2.0f*curand_uniform(&st) - 1.0f) * r0;
-        oy = (2.0f*curand_uniform(&st) - 1.0f) * r0;
-        oz = (2.0f*curand_uniform(&st) - 1.0f) * r0;
-    } while (ox*ox + oy*oy + oz*oz > r0*r0);
-    float px = cx + ox, py = cy + oy, pz = cz + oz;
+    float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
+    float pv[3];
+    if (placement == 1) {                          // intra: uniform in a random sphere
+        unsigned si = curand(&st) % n_sph;
+        float cx = spheres[si*4+0], cy = spheres[si*4+1], cz = spheres[si*4+2], r0 = spheres[si*4+3];
+        float ox, oy, oz;
+        do { ox = (2.0f*curand_uniform(&st)-1.0f)*r0; oy = (2.0f*curand_uniform(&st)-1.0f)*r0; oz = (2.0f*curand_uniform(&st)-1.0f)*r0; }
+        while (ox*ox + oy*oy + oz*oz > r0*r0);
+        pv[0] = cx + ox; pv[1] = cy + oy; pv[2] = cz + oz;
+    } else {                                       // uniform (0) or extra (2): in the voxel
+        for (int tries = 0; tries < 10000; ++tries) {
+            pv[0] = vmin[0] + curand_uniform(&st)*(vmax[0]-vmin[0]);
+            pv[1] = vmin[1] + curand_uniform(&st)*(vmax[1]-vmin[1]);
+            pv[2] = vmin[2] + curand_uniform(&st)*(vmax[2]-vmin[2]);
+            if (placement != 2 || !insideAnySphere(pv[0], pv[1], pv[2], spheres, n_sph)) break;
+        }
+    }
+    float pr[3] = { pv[0], pv[1], pv[2] };
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
-    tr[0] = px; tr[1] = py; tr[2] = pz;
+    tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
 
-    const float EPS = 1e-6f * r0;
+    const float EPS = 1e-5f * step_length;
     for (unsigned t = 1; t <= T; ++t) {
         float dx = curand_normal(&st), dy = curand_normal(&st), dz = curand_normal(&st);
         float inv = rsqrtf(dx*dx + dy*dy + dz*dz + 1e-30f);
         float dir[3] = { dx*inv, dy*inv, dz*inv };
         float remaining = step_length;
 
-        for (int b = 0; b < 16 && remaining > 0.0f; ++b) {
-            float best_t = remaining; int best = -1;
-            for (unsigned i = 0; i < n_sph; ++i) {
-                float ux = px - spheres[i*4+0], uy = py - spheres[i*4+1], uz = pz - spheres[i*4+2];
+        for (int b = 0; b < 24 && remaining > 0.0f; ++b) {
+            float best_t = remaining; int best_sph = -1, best_axis = -1;
+            for (unsigned i = 0; i < n_sph; ++i) {     // sphere surfaces (collide in pv)
+                float ux = pv[0]-spheres[i*4+0], uy = pv[1]-spheres[i*4+1], uz = pv[2]-spheres[i*4+2];
                 float ri = spheres[i*4+3];
                 float bq = ux*dir[0] + uy*dir[1] + uz*dir[2];
                 float cq = ux*ux + uy*uy + uz*uz - ri*ri;
                 float discr = bq*bq - cq;
                 if (discr > 0.0f) {
                     float sq = sqrtf(discr);
-                    float t1 = -bq - sq, t2 = -bq + sq;       // first crossing > EPS
+                    float t1 = -bq - sq, t2 = -bq + sq;
                     float tc = (t1 > EPS) ? t1 : ((t2 > EPS) ? t2 : -1.0f);
-                    if (tc > EPS && tc < best_t) { best_t = tc; best = int(i); }
+                    if (tc > EPS && tc < best_t) { best_t = tc; best_sph = int(i); best_axis = -1; }
                 }
             }
-            if (best < 0) {
-                px += remaining*dir[0]; py += remaining*dir[1]; pz += remaining*dir[2];
-                remaining = 0.0f;
-            } else {
-                px += best_t*dir[0]; py += best_t*dir[1]; pz += best_t*dir[2];
-                float nx = px - spheres[best*4+0], ny = py - spheres[best*4+1], nz = pz - spheres[best*4+2];
+            for (int i = 0; i < 3; ++i) {               // voxel faces (in pv)
+                float tw = -1.0f;
+                if (dir[i] >  1e-20f) tw = (vmax[i]-pv[i])/dir[i];
+                else if (dir[i] < -1e-20f) tw = (vmin[i]-pv[i])/dir[i];
+                if (tw > EPS && tw < best_t) { best_t = tw; best_axis = i; best_sph = -1; }
+            }
+            // advance both positions to the event
+            for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]; pv[i] += best_t*dir[i]; }
+            remaining -= best_t;
+            if (best_sph >= 0) {                         // reflect off the sphere
+                float nx = pv[0]-spheres[best_sph*4+0], ny = pv[1]-spheres[best_sph*4+1], nz = pv[2]-spheres[best_sph*4+2];
                 float nn = rsqrtf(nx*nx + ny*ny + nz*nz + 1e-30f);
                 float n[3] = { nx*nn, ny*nn, nz*nn };
                 reflectDir(dir, n);
-                // nudge along the reflected direction (into the valid region;
-                // works whether we left our own sphere or bounced off a neighbour)
-                px += EPS*dir[0]; py += EPS*dir[1]; pz += EPS*dir[2];
-                remaining -= best_t;
+                for (int i = 0; i < 3; ++i) { pr[i] += EPS*dir[i]; pv[i] += EPS*dir[i]; }
+            } else if (best_axis >= 0) {                 // voxel face
+                if (periodic) {
+                    pv[best_axis] = (dir[best_axis] > 0.0f) ? vmin[best_axis] : vmax[best_axis];
+                } else {
+                    dir[best_axis] = -dir[best_axis];
+                    pr[best_axis] += EPS*dir[best_axis]; pv[best_axis] += EPS*dir[best_axis];
+                }
+            } else {
+                remaining = 0.0f;                        // no event: full step already taken above
             }
         }
         float* o = tr + (size_t)t * 3;
-        o[0] = px; o[1] = py; o[2] = pz;
+        o[0] = pr[0]; o[1] = pr[1]; o[2] = pr[2];
     }
 }
 
@@ -510,7 +546,9 @@ int runGpuSpheres(const GpuSimParams& p, const float* spheres, unsigned n_sph,
     CUDA_CHECK(cudaMemcpy(d_sph, spheres, (size_t)n_sph * 4 * sizeof(float), cudaMemcpyHostToDevice));
 
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
-    spheresKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_sph, n_sph, p.seed);
+    spheresKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, d_sph, n_sph,
+                              p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2],
+                              p.periodic, p.placement, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
     int rc = gpuSynthAndFree(p, d_traj, scheme, out_DWI);

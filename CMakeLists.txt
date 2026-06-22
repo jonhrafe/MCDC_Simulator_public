@@ -284,6 +284,15 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
                 "${CMAKE_SOURCE_DIR}/tests/accuracy/free_periodic.conf")
     set_tests_properties(gpu_periodic_box PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    # GPU Phase 2e(a): voxel BC + obstacle together -- a centered sphere with EXTRA
+    # placement in a periodic voxel (walkers traverse the pore, wrap, and reflect off
+    # the sphere). GPU vs CPU within noise.
+    add_test(
+        NAME gpu_sphere_voxel
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_voxel.conf")
+    set_tests_properties(gpu_sphere_voxel PROPERTIES LABELS "gpu" TIMEOUT 300)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

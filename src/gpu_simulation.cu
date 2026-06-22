@@ -539,6 +539,7 @@ __device__ inline int classifyMesh(const float P[3], const float* verts, const i
 __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra,
                            const float* verts, const int* tris, unsigned n_tris,
                            const int* tri_obs, const float* obs_T2, const float* obs_step,
+                           const float* prob_ie, const float* prob_ei,
                            float vminx, float vminy, float vminz,
                            float vmaxx, float vmaxy, float vmaxz, int periodic,
                            float sminx, float sminy, float sminz,
@@ -565,18 +566,19 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
     float pr[3] = { pv[0], pv[1], pv[2] };
 
     // Phase 3b: classify the start position into the owning mesh obstacle (-1 = extra).
-    // The mesh is impermeable here, so in_obs is fixed for the whole walk; it selects
-    // the per-compartment step length (multi-D) and T2 (multi-T2).
+    // in_obs selects the per-compartment step length (multi-D) and T2 (multi-T2); under
+    // permeability (Phase 6) it changes mid-walk when the walker crosses a membrane.
     int in_obs = classifyMesh(pv, verts, tris, tri_obs, gmin, ics, dim, cell_start, cell_tri);
-    float step_length = (in_obs >= 0) ? obs_step[in_obs] : step_extra;
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
     size_t tb = (size_t)w * (T + 1); t2sum[tb] = 0.0f; float t2acc = 0.0f;  // Phase 6b
-    float T2c = (in_obs >= 0) ? obs_T2[in_obs] : t2_extra;
 
-    const float EPS = 1e-5f * step_length;   // re-hit guard / nudge (relative to step)
     for (unsigned t = 1; t <= T; ++t) {
+        // per-timestep step length from the CURRENT compartment (permeable crossings may
+        // have changed in_obs); EPS scales with it.
+        float step_length = (in_obs >= 0) ? obs_step[in_obs] : step_extra;
+        float EPS = 1e-5f * step_length;     // re-hit guard / nudge (relative to step)
         float gx = curand_normal(&st), gy = curand_normal(&st), gz = curand_normal(&st);
         float inv = rsqrtf(gx*gx + gy*gy + gz*gz + 1e-30f);
         float dir[3] = { gx*inv, gy*inv, gz*inv };
@@ -616,15 +618,26 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
             }
             for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]; pv[i] += best_t*dir[i]; }
             remaining -= best_t;
-            if (best_tri >= 0) {                         // reflect off the triangle
-                int i0 = tris[3*best_tri+0], i1 = tris[3*best_tri+1], i2 = tris[3*best_tri+2];
-                float e1[3] = { verts[3*i1+0]-verts[3*i0+0], verts[3*i1+1]-verts[3*i0+1], verts[3*i1+2]-verts[3*i0+2] };
-                float e2[3] = { verts[3*i2+0]-verts[3*i0+0], verts[3*i2+1]-verts[3*i0+1], verts[3*i2+2]-verts[3*i0+2] };
-                float n[3] = { e1[1]*e2[2]-e1[2]*e2[1], e1[2]*e2[0]-e1[0]*e2[2], e1[0]*e2[1]-e1[1]*e2[0] };
-                float nn = rsqrtf(n[0]*n[0] + n[1]*n[1] + n[2]*n[2] + 1e-30f);
-                n[0]*=nn; n[1]*=nn; n[2]*=nn;
-                reflectDir(dir, n);
-                for (int i = 0; i < 3; ++i) { pr[i] += EPS*dir[i]; pv[i] += EPS*dir[i]; }
+            if (best_tri >= 0) {                         // triangle membrane: cross or reflect
+                int obs = tri_obs[best_tri];             // obstacle owning this surface
+                bool from_intra = (in_obs == obs);       // inside obs -> i->e; else entering -> e->i
+                float prob = from_intra ? prob_ie[obs] : prob_ei[obs];
+                if (prob > 0.0f && prob > curand_uniform(&st)) {
+                    // PERMEATE (CPU model): the membrane is transparent -- finish the step
+                    // straight through (ignore further membranes) and re-classify at landing.
+                    for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]; pv[i] += remaining*dir[i]; }
+                    remaining = 0.0f;
+                    in_obs = classifyMesh(pv, verts, tris, tri_obs, gmin, ics, dim, cell_start, cell_tri);
+                } else {                                  // reflect off the triangle
+                    int i0 = tris[3*best_tri+0], i1 = tris[3*best_tri+1], i2 = tris[3*best_tri+2];
+                    float e1[3] = { verts[3*i1+0]-verts[3*i0+0], verts[3*i1+1]-verts[3*i0+1], verts[3*i1+2]-verts[3*i0+2] };
+                    float e2[3] = { verts[3*i2+0]-verts[3*i0+0], verts[3*i2+1]-verts[3*i0+1], verts[3*i2+2]-verts[3*i0+2] };
+                    float n[3] = { e1[1]*e2[2]-e1[2]*e2[1], e1[2]*e2[0]-e1[0]*e2[2], e1[0]*e2[1]-e1[1]*e2[0] };
+                    float nn = rsqrtf(n[0]*n[0] + n[1]*n[1] + n[2]*n[2] + 1e-30f);
+                    n[0]*=nn; n[1]*=nn; n[2]*=nn;
+                    reflectDir(dir, n);
+                    for (int i = 0; i < 3; ++i) { pr[i] += EPS*dir[i]; pv[i] += EPS*dir[i]; }
+                }
             } else if (best_axis >= 0) {                 // voxel face
                 if (periodic) {
                     pv[best_axis] = (dir[best_axis] > 0.0f) ? vmin[best_axis] : vmax[best_axis];
@@ -636,11 +649,12 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
                 remaining = 0.0f;
             }
         }
-        t2acc += dt / T2c; t2sum[tb + t] = t2acc;          // Phase 3b/6b: T2 of the fixed compartment
+        float T2c = (in_obs >= 0) ? obs_T2[in_obs] : t2_extra;  // T2 of the END-of-step compartment
+        t2acc += dt / T2c; t2sum[tb + t] = t2acc;               // Phase 3b/6b: per-step T2 accumulation
         float* o = tr + (size_t)t * 3;
         o[0] = pr[0]; o[1] = pr[1]; o[2] = pr[2];
     }
-    out_inobs[w] = in_obs;                                  // compartment for the intra/extra signal split
+    out_inobs[w] = in_obs;                                  // final compartment (after any crossings)
 }
 
 //! One block per walker, num_rep measurements strided across threads. Reads the
@@ -837,6 +851,7 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
                const int* tris, unsigned n_tris,
                const int* tri_obs, unsigned n_obs,
                const float* obs_T2, const float* obs_step,
+               const float* prob_ie, const float* prob_ei,
                const float vmin[3], const float vmax[3],
                const float* scheme, double* out_DWI)
 {
@@ -881,6 +896,7 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
     }
 
     float *d_traj = nullptr, *d_verts = nullptr, *d_t2sum = nullptr, *d_oT2 = nullptr, *d_ostep = nullptr;
+    float *d_pie = nullptr, *d_pei = nullptr;
     int   *d_tris = nullptr, *d_cstart = nullptr, *d_ctri = nullptr, *d_inobs = nullptr, *d_tobs = nullptr;
     CUDA_CHECK(cudaMalloc(&d_traj,   (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_verts,  (size_t)n_verts * 3 * sizeof(float)));
@@ -888,6 +904,8 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
     CUDA_CHECK(cudaMalloc(&d_tobs,   (size_t)n_tris      * sizeof(int)));
     CUDA_CHECK(cudaMalloc(&d_oT2,    (size_t)n_obs       * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_ostep,  (size_t)n_obs       * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_pie,    (size_t)n_obs       * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_pei,    (size_t)n_obs       * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_cstart, (ncells + 1) * sizeof(int)));
     CUDA_CHECK(cudaMalloc(&d_ctri,   (cell_tri.empty() ? 1 : cell_tri.size()) * sizeof(int)));
     CUDA_CHECK(cudaMalloc(&d_inobs,  (size_t)p.N * sizeof(int)));
@@ -897,6 +915,8 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
     CUDA_CHECK(cudaMemcpy(d_tobs,   tri_obs, (size_t)n_tris    * sizeof(int),   cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_oT2,    obs_T2,  (size_t)n_obs     * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_ostep,  obs_step,(size_t)n_obs     * sizeof(float), cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(d_pie,    prob_ie, (size_t)n_obs     * sizeof(float), cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(d_pei,    prob_ei, (size_t)n_obs     * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_cstart, cell_start.data(), (ncells + 1) * sizeof(int), cudaMemcpyHostToDevice));
     if (!cell_tri.empty())
         CUDA_CHECK(cudaMemcpy(d_ctri, cell_tri.data(), cell_tri.size() * sizeof(int), cudaMemcpyHostToDevice));
@@ -904,7 +924,7 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
 
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
     meshKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_extra, d_verts, d_tris, n_tris,
-                           d_tobs, d_oT2, d_ostep,
+                           d_tobs, d_oT2, d_ostep, d_pie, d_pei,
                            vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.periodic,
                            p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
                            gmin[0], gmin[1], gmin[2], ics[0], ics[1], ics[2],
@@ -918,6 +938,7 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
     cudaFree(d_verts);
     cudaFree(d_tris);
     cudaFree(d_tobs); cudaFree(d_oT2); cudaFree(d_ostep);
+    cudaFree(d_pie); cudaFree(d_pei);
     cudaFree(d_cstart);
     cudaFree(d_ctri);
     return rc;

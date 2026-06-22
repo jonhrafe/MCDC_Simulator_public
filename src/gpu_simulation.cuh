@@ -69,10 +69,14 @@ int runGpuCylinders(const GpuSimParams& p, const float* cyls, const float* obs_T
 //! \param n_obs   number of mesh obstacles (PLYs).
 //! \param obs_T2  n_obs floats: per-obstacle T2 (internal ms) for intra walkers.
 //! \param obs_step n_obs floats: per-obstacle intra step length sqrt(6*d_intra*dt).
+//! \param prob_ie,prob_ei n_obs floats each: per-obstacle membrane cross probabilities
+//!        (intra->extra, extra->intra); 0 = impermeable. On a crossing the membrane is
+//!        transparent and the walker is re-classified at landing (Powles model).
 int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
                const int* tris, unsigned n_tris,
                const int* tri_obs, unsigned n_obs,
                const float* obs_T2, const float* obs_step,
+               const float* prob_ie, const float* prob_ei,
                const float vmin[3], const float vmax[3],
                const float* scheme, double* out_DWI);
 

@@ -393,6 +393,22 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
                 "${CMAKE_SOURCE_DIR}/tests/accuracy/mesh_multiD.conf")
     set_tests_properties(gpu_mesh_multi_d PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    # GPU Phase 6 (mesh): membrane PERMEABILITY for a triangle mesh. Powles crossing at
+    # a triangle (transparent membrane, re-classified at landing); the hit triangle's
+    # owning obstacle gives prob_i_e / prob_e_i. Relaxed split tol (fragile equilibrium).
+    add_test(
+        NAME gpu_mesh_permeability
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/mesh_perm.conf" 0.006 0.07)
+    set_tests_properties(gpu_mesh_permeability PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    # GPU Phase 6 (mesh): permeability + finite differential T2 (intra 40 / extra 80 ms).
+    add_test(
+        NAME gpu_mesh_permeability_t2
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/mesh_perm_t2.conf" 0.03 0.07)
+    set_tests_properties(gpu_mesh_permeability_t2 PROPERTIES LABELS "gpu" TIMEOUT 300)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

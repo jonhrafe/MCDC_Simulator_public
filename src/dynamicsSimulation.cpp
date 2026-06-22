@@ -894,6 +894,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
             std::vector<int>   tris (tot_f * 3);
             std::vector<int>   tri_obs(tot_f);                  // per-triangle owning obstacle (Phase 3b)
             std::vector<float> obsT2(n_ply), obsStep(n_ply);    // per-obstacle T2 / intra step length
+            std::vector<float> obsIE(n_ply), obsEI(n_ply);      // per-obstacle membrane cross probs (Phase 6)
             const double dt_ms = params.sim_duration / double(params.num_steps);
             size_t voff = 0, foff = 0, foff_tri = 0, vbase = 0;
             for(size_t m = 0; m < n_ply; ++m){
@@ -911,6 +912,8 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
                 }
                 obsT2[m]   = float(ply.T2);
                 obsStep[m] = float(std::sqrt(6.0 * ply.d_intra * dt_ms));   // intra step (per-obstacle D)
+                obsIE[m]   = float(ply.prob_cross_i_e);                     // 0 when impermeable
+                obsEI[m]   = float(ply.prob_cross_e_i);
                 vbase += ply.vert_number;
             }
             const float vmin[3] = { gp.vmin[0], gp.vmin[1], gp.vmin[2] };   // authoritative voxel (see above)
@@ -919,6 +922,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
                            std::to_string(tot_f) + " triangles (AABB grid)", std::cout);
             rc = runGpuMesh(gp, verts.data(), unsigned(tot_v), tris.data(), unsigned(tot_f),
                             tri_obs.data(), unsigned(n_ply), obsT2.data(), obsStep.data(),
+                            obsIE.data(), obsEI.data(),
                             vmin, vmax, scheme.data(), dwi.data());
         }
         else {

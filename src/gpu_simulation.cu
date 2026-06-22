@@ -89,30 +89,68 @@ __device__ void getGradImpulse(float t, float tLast, const float g[3], float G,
 
 //! One thread per walker: free random walk (fixed step length, random direction),
 //! writing the trajectory [walker][step][xyz] = (T+1)*3 floats.
-__global__ void freeDiffusionKernel(float* traj, unsigned N, unsigned T,
-                                    float step_length, unsigned long long seed)
+// Free diffusion inside the voxel with boundary conditions. Two positions:
+//   pr = real/unwrapped position (the trajectory used for the signal)
+//   pv = voxel/wrapped position  (kept inside [vmin,vmax], used for the geometry)
+// periodic: pv wraps to the opposite face, pr continues unwrapped (-> free signal,
+//           and the mechanism that tiles obstacles in later phases).
+// mirror  : the step reflects off the face, so pr is bounded to the box. NOTE this
+//           is a folded (physically bounded) convention; the CPU uses an unfolded
+//           boundary_mirror scheme, so GPU mirror does NOT yet match CPU mirror.
+//           Only periodic BC is validated against the CPU so far.
+__global__ void freeDiffusionKernel(float* traj, unsigned N, unsigned T, float step_length,
+                                    float vminx, float vminy, float vminz,
+                                    float vmaxx, float vmaxy, float vmaxz,
+                                    int periodic, unsigned long long seed)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
 
     curandStatePhilox4_32_10_t st;
-    curand_init(seed, w, 0, &st);              // counter-based, per-walker subsequence
+    curand_init(seed, w, 0, &st);
 
-    float px = 0.0f, py = 0.0f, pz = 0.0f;
+    float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
+    // start uniformly in the voxel; pr and pv coincide at t=0
+    float pv[3] = { vmin[0] + curand_uniform(&st)*(vmax[0]-vmin[0]),
+                    vmin[1] + curand_uniform(&st)*(vmax[1]-vmin[1]),
+                    vmin[2] + curand_uniform(&st)*(vmax[2]-vmin[2]) };
+    float pr[3] = { pv[0], pv[1], pv[2] };
+
     float* tr = traj + (size_t)w * (T + 1) * 3;
-    tr[0] = tr[1] = tr[2] = 0.0f;
+    tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
 
+    const float EPS = 1e-5f * step_length;
     for (unsigned t = 1; t <= T; ++t) {
-        // isotropic direction: 3 normals normalized to the unit sphere
-        float dx = curand_normal(&st);
-        float dy = curand_normal(&st);
-        float dz = curand_normal(&st);
-        float inv = rsqrtf(dx*dx + dy*dy + dz*dz + 1e-30f);
-        px += step_length * dx * inv;
-        py += step_length * dy * inv;
-        pz += step_length * dz * inv;
+        float gx = curand_normal(&st), gy = curand_normal(&st), gz = curand_normal(&st);
+        float inv = rsqrtf(gx*gx + gy*gy + gz*gz + 1e-30f);
+        float dir[3] = { gx*inv, gy*inv, gz*inv };
+        float remaining = step_length;
+
+        for (int b = 0; b < 16 && remaining > 0.0f; ++b) {
+            // nearest voxel face along dir, from the wrapped position pv
+            float best_t = remaining; int axis = -1;
+            for (int i = 0; i < 3; ++i) {
+                float tw = -1.0f;
+                if (dir[i] >  1e-20f) tw = (vmax[i] - pv[i]) / dir[i];
+                else if (dir[i] < -1e-20f) tw = (vmin[i] - pv[i]) / dir[i];
+                if (tw > EPS && tw < best_t) { best_t = tw; axis = i; }
+            }
+            if (axis < 0) {
+                for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]; pv[i] += remaining*dir[i]; }
+                remaining = 0.0f;
+            } else {
+                for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]; pv[i] += best_t*dir[i]; }
+                remaining -= best_t;
+                if (periodic) {
+                    pv[axis] = (dir[axis] > 0.0f) ? vmin[axis] : vmax[axis];   // wrap pv only
+                } else {
+                    dir[axis] = -dir[axis];                                    // mirror: reflect pr & pv
+                    pr[axis] += EPS*dir[axis]; pv[axis] += EPS*dir[axis];      // nudge off the wall
+                }
+            }
+        }
         float* o = tr + (size_t)t * 3;
-        o[0] = px; o[1] = py; o[2] = pz;
+        o[0] = pr[0]; o[1] = pr[1]; o[2] = pr[2];
     }
 }
 
@@ -416,7 +454,10 @@ int runGpuFreeDiffusion(const GpuSimParams& p, const float* scheme, double* out_
 
     const int bs = 256;
     const int gs = int((p.N + bs - 1) / bs);
-    freeDiffusionKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length, p.seed);
+    freeDiffusionKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_length,
+                                    p.vmin[0], p.vmin[1], p.vmin[2],
+                                    p.vmax[0], p.vmax[1], p.vmax[2],
+                                    p.periodic, p.seed);
     CUDA_CHECK(cudaGetLastError());
 
     const int threads = p.num_rep < 1024u ? int(p.num_rep) : 1024;

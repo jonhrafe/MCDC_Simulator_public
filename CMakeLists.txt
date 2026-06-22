@@ -274,6 +274,16 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
                 "${CMAKE_SOURCE_DIR}/tests/accuracy/mesh_restricted.conf")
     set_tests_properties(gpu_mesh_sphere PROPERTIES LABELS "gpu" TIMEOUT 300)
+
+    # GPU Phase 2e: voxel PERIODIC boundary conditions (free diffusion, tight box).
+    # The walker wraps (pos_v) while the real position (pos_r) stays unwrapped; GPU
+    # must reproduce the CPU periodic-medium signal. (Mirror BC is not yet matched
+    # to the CPU's unfolding convention.)
+    add_test(
+        NAME gpu_periodic_box
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/free_periodic.conf")
+    set_tests_properties(gpu_periodic_box PROPERTIES LABELS "gpu" TIMEOUT 300)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

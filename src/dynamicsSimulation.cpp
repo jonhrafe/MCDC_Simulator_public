@@ -802,6 +802,11 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         gp.duration    = float(params.sim_duration);   // internal ms
         gp.step_length = float(walker.step_lenght);     // sqrt(6*D*dur/T), internal mm
         gp.seed        = (unsigned long long) params.seed;  // perf-only; not bit-exact vs CPU
+        for(int i = 0; i < 3; ++i){
+            gp.vmin[i] = float(params.min_limits[i]);
+            gp.vmax[i] = float(params.max_limits[i]);
+        }
+        gp.periodic = params.periodic_boundaries ? 1 : 0;   // voxel BC (default periodic)
 
         // Interface: flatten the (as-stored) scheme to num_rep*7 floats.
         std::vector<float> scheme(size_t(gp.num_rep) * 7);

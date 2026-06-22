@@ -20,6 +20,9 @@ struct GpuSimParams
     float          duration;     //!< total dynamics duration (internal ms)
     float          step_length;  //!< sqrt(6*D*duration/T) (internal mm)
     unsigned long long seed;     //!< RNG seed
+    float          vmin[3];      //!< voxel min corner (internal mm)
+    float          vmax[3];      //!< voxel max corner (internal mm)
+    int            periodic;     //!< voxel boundary: 1 = periodic, 0 = mirror
 };
 
 //! \brief Free-diffusion dynamics + PGSE signal, fully on the GPU.

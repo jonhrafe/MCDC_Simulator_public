@@ -12,6 +12,7 @@
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
+#include <chrono>
 #include <vector>
 
 #ifndef M_PI
@@ -722,7 +723,7 @@ __global__ void signalKernel(const float* traj, unsigned T, float duration,
                              const int* inobs, const float* t2sum,
                              float vminx, float vminy, float vminz,
                              float vmaxx, float vmaxy, float vmaxz, int periodic,
-                             const float* subdiv, unsigned n_sub, double* out_DWI)
+                             const float* subdiv, unsigned n_sub, int sub_n, double* out_DWI)
 {
     unsigned w = blockIdx.x;
     float time_step = duration / float(T);
@@ -733,8 +734,9 @@ __global__ void signalKernel(const float* traj, unsigned T, float duration,
     const float* tr = traj + (size_t)w * (T + 1) * 3;
     float x_ini[3] = { tr[0], tr[1], tr[2] };
 
-    // Subdivision membership: bin the FINAL position (wrapped into the voxel for periodic
-    // BC) into the first containing box. Computed once per block in thread 0 -> shared.
+    // Subdivision membership: bin the FINAL position (wrapped into the voxel for periodic BC)
+    // into the containing box. Computed once per block in thread 0 -> shared. For a regular
+    // grid (sub_n > 0) the box is O(1) index arithmetic; otherwise an O(n_sub) box scan.
     __shared__ int sub_idx;
     if (n_sub > 0 && threadIdx.x == 0) {
         const float* fp = tr + (size_t)T * 3;
@@ -745,10 +747,26 @@ __global__ void signalKernel(const float* traj, unsigned T, float duration,
             pv[2] = wrapCoord(pv[2], vminz, vmaxz);
         }
         int found = -1;
-        for (unsigned k = 0; k < n_sub; ++k) {
-            const float* b = subdiv + (size_t)k * 6;
-            if (pv[0] >= b[0] && pv[1] >= b[1] && pv[2] >= b[2] &&
-                pv[0] <= b[3] && pv[1] <= b[4] && pv[2] <= b[5]) { found = int(k); break; }
+        if (sub_n > 0) {
+            // Regular grid: box index = floor((pv - vmin)/gap) per axis (clamped), ordered
+            // x-outer, y-mid, z-inner to match Parameters::addSubdivisions. Only points
+            // inside the voxel map to a box (outside -> extra), matching the box-scan result.
+            float lo[3] = { vminx, vminy, vminz }, hi[3] = { vmaxx, vmaxy, vmaxz };
+            int ijk[3]; bool inside = true;
+            for (int a = 0; a < 3; ++a) {
+                float gap = (hi[a] - lo[a]) / float(sub_n);
+                int i = int(floorf((pv[a] - lo[a]) / gap));
+                if (pv[a] < lo[a] || pv[a] > hi[a]) inside = false;
+                if (i < 0) i = 0; else if (i > sub_n - 1) i = sub_n - 1;
+                ijk[a] = i;
+            }
+            if (inside) found = (ijk[0] * sub_n + ijk[1]) * sub_n + ijk[2];
+        } else {
+            for (unsigned k = 0; k < n_sub; ++k) {
+                const float* b = subdiv + (size_t)k * 6;
+                if (pv[0] >= b[0] && pv[1] >= b[1] && pv[2] >= b[2] &&
+                    pv[0] <= b[3] && pv[1] <= b[4] && pv[2] <= b[5]) { found = int(k); break; }
+            }
         }
         sub_idx = found;
     }
@@ -835,7 +853,7 @@ static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const int* d_in
     CUDA_CHECK(cudaMalloc(&d_dwi,    dwi_bytes));
     CUDA_CHECK(cudaMemcpy(d_scheme, scheme, scheme_bytes, cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemset(d_dwi, 0, dwi_bytes));
-    if (p.n_sub > 0) {
+    if (p.n_sub > 0 && p.sub_n <= 0) {   // arbitrary boxes (file): upload them for the scan
         CUDA_CHECK(cudaMalloc(&d_subdiv, (size_t)p.n_sub * 6 * sizeof(float)));
         CUDA_CHECK(cudaMemcpy(d_subdiv, p.subdiv_boxes, (size_t)p.n_sub * 6 * sizeof(float),
                               cudaMemcpyHostToDevice));
@@ -846,7 +864,7 @@ static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const int* d_in
                                    d_inobs, d_t2sum,
                                    p.vmin[0], p.vmin[1], p.vmin[2],
                                    p.vmax[0], p.vmax[1], p.vmax[2], p.periodic,
-                                   d_subdiv, p.n_sub, d_dwi);
+                                   d_subdiv, p.n_sub, p.sub_n, d_dwi);
     CUDA_CHECK(cudaGetLastError());
     CUDA_CHECK(cudaDeviceSynchronize());
 
@@ -1022,10 +1040,10 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
     CUDA_CHECK(cudaMalloc(&d_dwi,    dwi_count * sizeof(double)));
     CUDA_CHECK(cudaMemcpy(d_scheme, scheme, (size_t)p.num_rep * 7 * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemset(d_dwi, 0, dwi_count * sizeof(double)));
-    if (p.n_sub > 0) {
-        CUDA_CHECK(cudaMalloc(&d_subdiv, (size_t)p.n_sub * 6 * sizeof(float)));
+    if (p.n_sub > 0 && p.sub_n <= 0) {   // arbitrary boxes (file): upload for the scan. A regular
+        CUDA_CHECK(cudaMalloc(&d_subdiv, (size_t)p.n_sub * 6 * sizeof(float)));  // grid (sub_n>0) needs
         CUDA_CHECK(cudaMemcpy(d_subdiv, p.subdiv_boxes, (size_t)p.n_sub * 6 * sizeof(float), cudaMemcpyHostToDevice));
-    }
+    }                                    // no boxes (O(1) arithmetic) -> saves n_sub*6 floats of VRAM
 
     // ---- size the walker CHUNK from the actually-free VRAM (after the resident data),
     // not "as much as possible": a safe fraction of free memory, rounded DOWN to whole
@@ -1066,7 +1084,10 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
     const int sig_threads = p.num_rep < 1024u ? int(p.num_rep) : 1024;
 
     int rc = 0;
+    auto t_start = std::chrono::steady_clock::now();
+    int last_pct = -1;
     for (unsigned c0 = 0; c0 < p.N; c0 += unsigned(chunk)) {
+        unsigned ci = unsigned(c0 / chunk);                                // 0-based chunk index
         unsigned cn = (p.N - c0 < chunk) ? (p.N - c0) : unsigned(chunk);   // last chunk may be smaller
         int gs = int((cn + bs - 1) / bs);
         meshKernel<<<gs, bs>>>(d_traj, cn, p.T, p.step_extra, d_verts, d_tris, n_tris,
@@ -1080,9 +1101,22 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
         signalKernel<<<cn, sig_threads>>>(d_traj, p.T, p.duration, d_scheme, p.num_rep,
                                           d_inobs, d_t2sum,
                                           vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.periodic,
-                                          d_subdiv, p.n_sub, d_dwi);
+                                          d_subdiv, p.n_sub, p.sub_n, d_dwi);
         if ((rc = int(cudaGetLastError()))) break;
         if ((rc = int(cudaDeviceSynchronize()))) break;   // finish chunk before its buffers are reused
+
+        // GPU progress + ETA, extrapolated from completed chunks (like the CPU progress bar).
+        // Printed when the integer percentage advances, plus the very first chunk (immediate ETA).
+        unsigned done_w = (c0 + cn);
+        int pct = int(100.0 * double(done_w) / double(p.N));
+        if (pct != last_pct || ci == 0) {
+            last_pct = pct;
+            double el = std::chrono::duration<double>(std::chrono::steady_clock::now() - t_start).count();
+            double rate = double(done_w) / (el > 0 ? el : 1e-9);          // walkers/s so far
+            double eta = (rate > 0) ? double(p.N - done_w) / rate : 0.0;  // seconds remaining
+            std::fprintf(stderr, "[GPU][mesh] %3d%% | chunk %u/%u | %.0fs elapsed | ETA %.0fs (%.0fm) | %.0f walkers/s\n",
+                         pct, ci + 1, n_chunks, el, eta, eta/60.0, rate);
+        }
     }
 
     if (rc == 0) {

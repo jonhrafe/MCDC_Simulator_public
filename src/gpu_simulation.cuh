@@ -36,6 +36,11 @@ struct GpuSimParams
     //! per subdivision, in voxel order. n_sub = 0 disables subdivisions.
     const float*   subdiv_boxes; //!< host ptr, n_sub*6 floats (min[3],max[3]) per subdivision
     unsigned       n_sub;        //!< number of subdivisions (0 = off)
+    //! Regular-grid fast path: when subdivisions come from `subdivisions_number`, they tile the
+    //! voxel as sub_n^3 equal boxes, so the containing box is O(1) index arithmetic instead of an
+    //! O(n_sub) scan (essential at sub_n=100 -> 1e6 boxes). sub_n = 0 -> arbitrary boxes (file),
+    //! use the linear scan over subdiv_boxes. When sub_n > 0, subdiv_boxes is not uploaded/needed.
+    int            sub_n;        //!< subdivisions per axis (regular grid); 0 = arbitrary boxes
 };
 
 //! \brief Free-diffusion dynamics + PGSE signal, fully on the GPU.

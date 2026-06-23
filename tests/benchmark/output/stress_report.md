@@ -73,3 +73,41 @@ python3 tests/benchmark/voxels_to_nifti.py \
 ```
 Open in fsleyes / mrview / ITK-SNAP. `volFractions.txt` can be turned into a density/fraction NIfTI
 with `src/volumeVolume.py` (n=10).
+
+---
+
+## Addendum — GPU scaling stress (mirror BC, full voxel, 1,000,000 subdivisions)
+
+Pure-GPU runs on the same merged 48.9M-triangle mesh, **reflective (mirror) BC**, **full-voxel**
+seeding, **`subdivisions_number 100` → 100³ = 1,000,000 sub-signals** (volume 100×100×100×270).
+
+| | 10M particles | **500M particles** |
+|---|---|---|
+| GPU compute | 79 s | **4,048 s (67 min)** |
+| Total wall | 9:14 | **1:15:17** |
+| Throughput | 126k walkers/s | **123.5k walkers/s** |
+| **Peak VRAM** | **9.19 GB** | **9.19 GB** (flat in N) |
+| Peak host RSS | 15.9 GB | 15.9 GB |
+| Chunks | 178,688 × 56 | 178,688 × **2,799** |
+| Output `_voxels_DWI.txt` | 2.0 GB | 2.0 GB (N-independent) |
+| Correctness | global==sub-sum, 100% populated, no NaN | **global b0 = 4.798e8 == sub-sum (4.798e8)** |
+
+**Key results**
+- **VRAM is flat in N**: 500M particles use the *same* 9.19 GB as 10M — chunking bounds the
+  trajectory, and the 4.3 GB DWI accumulator + ~2 GB grid are N-independent. The chunker sized
+  178,688 walkers/chunk (2,799 chunks) to fit alongside the 1M-subdivision accumulator.
+- **O(1) subdivision binning** (regular grid) makes 1,000,000 sub-voxels practical — a per-walker
+  index computation instead of an O(n_sub) scan (which would be ~1e6 iters × 5e8 walkers).
+- **Double accumulator is exact at 5e8**: global b0 = 4.798e8 matches the sum over 1M subdivisions
+  to the digit (float32 would have saturated at ~1.7e7).
+- **Live GPU ETA** (extrapolated from completed chunks) printed throughout, e.g.
+  `[GPU][mesh] 1% | chunk 28/2799 | ETA 3920s (65m) | 126285 walkers/s`.
+- Full-voxel seeding over the sparse strand mesh runs ~7× faster per walker than the earlier
+  dense-middle seeding (fewer triangle collisions), so 500M finished in ~75 min, not hours.
+
+**I/O note:** GPU compute was 67 min but writing the 2 GB text `_voxels_DWI.txt` (270M values,
+single-threaded) adds ~8 min and is N-independent — the main remaining wall-time tax at 1M
+subdivisions. A binary output path would largely remove it.
+
+Caveat: mirror BC on the GPU is not validated against the CPU (only periodic is), so these are a
+*systems* stress (memory/throughput/stability), not a signal-accuracy reference.

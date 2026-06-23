@@ -847,6 +847,10 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         }
         gp.n_sub       = unsigned(subdiv.size() / 6);
         gp.subdiv_boxes = subdiv.empty() ? nullptr : subdiv.data();
+        // Regular grid from `subdivisions_number` -> O(1) index binning on the GPU (vs an
+        // O(n_sub) box scan, essential at 100^3 = 1e6 boxes). subdivisions_file leaves
+        // number_subdivisions = 0 -> sub_n = 0 -> the kernel falls back to the box scan.
+        gp.sub_n       = (params.number_subdivisions > 1) ? int(params.number_subdivisions) : 0;
 
         // Interface: flatten the (as-stored) scheme to num_rep*7 floats.
         std::vector<float> scheme(size_t(gp.num_rep) * 7);

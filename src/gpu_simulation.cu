@@ -11,6 +11,7 @@
 #include <curand_kernel.h>
 #include <cmath>
 #include <cstdio>
+#include <cstdlib>
 #include <vector>
 
 #ifndef M_PI
@@ -583,13 +584,16 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
                            float icsx, float icsy, float icsz,
                            int dimx, int dimy, int dimz,
                            const int* cell_start, const int* cell_tri,
-                           float dt, float t2_extra, int* out_inobs, float* t2sum, unsigned long long seed)
+                           float dt, float t2_extra, int* out_inobs, float* t2sum,
+                           unsigned long long seed, unsigned w_offset)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
-    if (w >= N) return;
+    if (w >= N) return;       // N is the CHUNK size; traj/t2sum/out_inobs are chunk-local (index w)
 
     curandStatePhilox4_32_10_t st;
-    curand_init(seed, w, 0, &st);
+    // Seed by the GLOBAL walker id (w_offset + w) so results are identical regardless of
+    // how the N walkers are split into chunks (reproducible, chunk-size-independent).
+    curand_init(seed, w_offset + w, 0, &st);
 
     float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
     float smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
@@ -718,7 +722,7 @@ __global__ void signalKernel(const float* traj, unsigned T, float duration,
                              const int* inobs, const float* t2sum,
                              float vminx, float vminy, float vminz,
                              float vmaxx, float vmaxy, float vmaxz, int periodic,
-                             const float* subdiv, unsigned n_sub, float* out_DWI)
+                             const float* subdiv, unsigned n_sub, double* out_DWI)
 {
     unsigned w = blockIdx.x;
     float time_step = duration / float(T);
@@ -777,7 +781,10 @@ __global__ void signalKernel(const float* traj, unsigned T, float duration,
         // permeable crossings); = pos*dt/T2 for a fixed compartment. pos=min(int(TE/dt),T-1).
         int pos = int(te / time_step); if (pos >= int(T)) pos = int(T) - 1;
         float t2w = __expf(-t2w_acc[pos]);
-        float contrib = t2w * cosf(phase);
+        // Accumulate in DOUBLE: the global bin sums ~1 per walker over up to 1e8+ walkers
+        // (~1e8), which a float32 accumulator cannot hold (24-bit mantissa saturates near
+        // 2^24 ~ 1.7e7, so adds of ~1 are lost). double atomicAdd keeps it exact at scale.
+        double contrib = double(t2w) * double(cosf(phase));
         atomicAdd(&out_DWI[base + s], contrib);                       // global signal
         if (n_sub > 0 && sub_idx >= 0)                                // volumetric: this walker's box
             atomicAdd(&out_DWI[(size_t)(1 + sub_idx) * 2u * num_rep + base + s], contrib);
@@ -822,8 +829,8 @@ static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const int* d_in
     // DWI buffer: global (2*num_rep) + one 2*num_rep block per subdivision (volumetric).
     const size_t n_blocks  = (size_t)1 + p.n_sub;
     const size_t dwi_count = n_blocks * p.num_rep * 2;
-    const size_t dwi_bytes = dwi_count * sizeof(float);
-    float *d_scheme = nullptr, *d_dwi = nullptr, *d_subdiv = nullptr;
+    const size_t dwi_bytes = dwi_count * sizeof(double);          // double accumulator (see signalKernel)
+    float *d_scheme = nullptr, *d_subdiv = nullptr; double *d_dwi = nullptr;
     CUDA_CHECK(cudaMalloc(&d_scheme, scheme_bytes));
     CUDA_CHECK(cudaMalloc(&d_dwi,    dwi_bytes));
     CUDA_CHECK(cudaMemcpy(d_scheme, scheme, scheme_bytes, cudaMemcpyHostToDevice));
@@ -843,9 +850,7 @@ static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const int* d_in
     CUDA_CHECK(cudaGetLastError());
     CUDA_CHECK(cudaDeviceSynchronize());
 
-    std::vector<float> h_dwi(dwi_count);
-    CUDA_CHECK(cudaMemcpy(h_dwi.data(), d_dwi, dwi_bytes, cudaMemcpyDeviceToHost));
-    for (size_t i = 0; i < dwi_count; ++i) out_DWI[i] = double(h_dwi[i]);
+    CUDA_CHECK(cudaMemcpy(out_DWI, d_dwi, dwi_bytes, cudaMemcpyDeviceToHost));   // double -> double
 
     cudaFree(d_scheme);
     cudaFree(d_dwi);
@@ -983,10 +988,11 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
             cell_tri[cursor[size_t(cx + dim[0]*(cy + dim[1]*cz))]++] = int(i);
     }
 
-    float *d_traj = nullptr, *d_verts = nullptr, *d_t2sum = nullptr, *d_oT2 = nullptr, *d_ostep = nullptr;
-    float *d_pie = nullptr, *d_pei = nullptr;
-    int   *d_tris = nullptr, *d_cstart = nullptr, *d_ctri = nullptr, *d_inobs = nullptr, *d_tobs = nullptr;
-    CUDA_CHECK(cudaMalloc(&d_traj,   (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
+    // ---- resident device data: mesh + grid + per-obstacle arrays (built ONCE, reused
+    // across every walker chunk). The trajectory is what blows up with N, so it is NOT
+    // allocated here -- only per-chunk below. ----
+    float *d_verts = nullptr, *d_oT2 = nullptr, *d_ostep = nullptr, *d_pie = nullptr, *d_pei = nullptr;
+    int   *d_tris = nullptr, *d_cstart = nullptr, *d_ctri = nullptr, *d_tobs = nullptr;
     CUDA_CHECK(cudaMalloc(&d_verts,  (size_t)n_verts * 3 * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_tris,   (size_t)n_tris  * 3 * sizeof(int)));
     CUDA_CHECK(cudaMalloc(&d_tobs,   (size_t)n_tris      * sizeof(int)));
@@ -996,8 +1002,6 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
     CUDA_CHECK(cudaMalloc(&d_pei,    (size_t)n_obs       * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_cstart, (ncells + 1) * sizeof(int)));
     CUDA_CHECK(cudaMalloc(&d_ctri,   (cell_tri.empty() ? 1 : cell_tri.size()) * sizeof(int)));
-    CUDA_CHECK(cudaMalloc(&d_inobs,  (size_t)p.N * sizeof(int)));
-    CUDA_CHECK(cudaMalloc(&d_t2sum,  (size_t)p.N * (p.T + 1) * sizeof(float)));
     CUDA_CHECK(cudaMemcpy(d_verts,  verts, (size_t)n_verts * 3 * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_tris,   tris,  (size_t)n_tris  * 3 * sizeof(int),   cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_tobs,   tri_obs, (size_t)n_tris    * sizeof(int),   cudaMemcpyHostToDevice));
@@ -1010,24 +1014,85 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
         CUDA_CHECK(cudaMemcpy(d_ctri, cell_tri.data(), cell_tri.size() * sizeof(int), cudaMemcpyHostToDevice));
     const float dt = p.duration / float(p.T);
 
-    const int bs = 256, gs = int((p.N + bs - 1) / bs);
-    meshKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_extra, d_verts, d_tris, n_tris,
-                           d_tobs, d_oT2, d_ostep, d_pie, d_pei,
-                           vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.periodic,
-                           p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
-                           gmin[0], gmin[1], gmin[2], ics[0], ics[1], ics[2],
-                           dim[0], dim[1], dim[2], d_cstart, d_ctri,
-                           dt, p.t2_extra, d_inobs, d_t2sum, p.seed);
-    CUDA_CHECK(cudaGetLastError());
+    // ---- persistent signal accumulator (spans all chunks): scheme + subdivisions + DWI.
+    // DWI layout [global | per-subdivision blocks]; signalKernel atomicAdds into it. ----
+    const size_t dwi_count = ((size_t)1 + p.n_sub) * p.num_rep * 2;
+    float *d_scheme = nullptr, *d_subdiv = nullptr; double *d_dwi = nullptr;   // double accumulator
+    CUDA_CHECK(cudaMalloc(&d_scheme, (size_t)p.num_rep * 7 * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_dwi,    dwi_count * sizeof(double)));
+    CUDA_CHECK(cudaMemcpy(d_scheme, scheme, (size_t)p.num_rep * 7 * sizeof(float), cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemset(d_dwi, 0, dwi_count * sizeof(double)));
+    if (p.n_sub > 0) {
+        CUDA_CHECK(cudaMalloc(&d_subdiv, (size_t)p.n_sub * 6 * sizeof(float)));
+        CUDA_CHECK(cudaMemcpy(d_subdiv, p.subdiv_boxes, (size_t)p.n_sub * 6 * sizeof(float), cudaMemcpyHostToDevice));
+    }
 
-    int rc = gpuSynthAndFree(p, d_traj, d_inobs, d_t2sum, scheme, out_DWI);
-    cudaFree(d_inobs); cudaFree(d_t2sum);
-    cudaFree(d_traj);
-    cudaFree(d_verts);
-    cudaFree(d_tris);
-    cudaFree(d_tobs); cudaFree(d_oT2); cudaFree(d_ostep);
-    cudaFree(d_pie); cudaFree(d_pei);
-    cudaFree(d_cstart);
-    cudaFree(d_ctri);
+    // ---- size the walker CHUNK from the actually-free VRAM (after the resident data),
+    // not "as much as possible": a safe fraction of free memory, rounded DOWN to whole
+    // blocks so every launch is full thread-blocks (good occupancy, no ragged grids). ----
+    const int bs = 256;
+    const size_t per_walker = (size_t)(p.T + 1) * 3 * sizeof(float)   // trajectory (dominant)
+                            + (size_t)(p.T + 1) * sizeof(float)       // t2sum
+                            + sizeof(int);                            // in_obs
+    size_t freeB = 0, totalB = 0;
+    CUDA_CHECK(cudaMemGetInfo(&freeB, &totalB));
+    size_t chunk = size_t(double(freeB) * 0.80) / per_walker;         // 20% VRAM headroom
+    if (chunk >= (size_t)p.N) {
+        chunk = p.N;                                                  // all fits -> single chunk (no rounding)
+    } else {
+        chunk = (chunk / bs) * bs;                                    // whole blocks per chunk
+        if (chunk < (size_t)bs) {
+            std::fprintf(stderr, "[GPU][mesh][ERROR] not enough VRAM: free=%.2f GB, need >=%zu B/walker.\n",
+                         freeB/1e9, per_walker);
+            return int(cudaErrorMemoryAllocation);
+        }
+    }
+    // Optional override (testing / debugging): MCDC_GPU_CHUNK forces a smaller chunk so the
+    // multi-chunk path can be exercised on small meshes. Results must be identical to the
+    // single-chunk run (seeding is by global walker id), only the memory footprint changes.
+    if (const char* e = std::getenv("MCDC_GPU_CHUNK")) {
+        long long c = std::atoll(e);
+        if (c > 0 && (size_t)c < chunk) chunk = (size_t)c;
+    }
+    const unsigned n_chunks = unsigned((p.N + chunk - 1) / chunk);
+    std::fprintf(stderr, "[GPU][mesh] N=%u, T=%u: free=%.2f/%.2f GB, %zu B/walker -> chunk=%zu walkers x %u chunk(s), block=%d.\n",
+                 p.N, p.T, freeB/1e9, totalB/1e9, per_walker, chunk, n_chunks, bs);
+
+    // ---- per-chunk buffers allocated ONCE at the chunk size, reused every iteration ----
+    float *d_traj = nullptr, *d_t2sum = nullptr; int *d_inobs = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_traj,  chunk * (size_t)(p.T + 1) * 3 * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_t2sum, chunk * (size_t)(p.T + 1) * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_inobs, chunk * sizeof(int)));
+    const int sig_threads = p.num_rep < 1024u ? int(p.num_rep) : 1024;
+
+    int rc = 0;
+    for (unsigned c0 = 0; c0 < p.N; c0 += unsigned(chunk)) {
+        unsigned cn = (p.N - c0 < chunk) ? (p.N - c0) : unsigned(chunk);   // last chunk may be smaller
+        int gs = int((cn + bs - 1) / bs);
+        meshKernel<<<gs, bs>>>(d_traj, cn, p.T, p.step_extra, d_verts, d_tris, n_tris,
+                               d_tobs, d_oT2, d_ostep, d_pie, d_pei,
+                               vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.periodic,
+                               p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
+                               gmin[0], gmin[1], gmin[2], ics[0], ics[1], ics[2],
+                               dim[0], dim[1], dim[2], d_cstart, d_ctri,
+                               dt, p.t2_extra, d_inobs, d_t2sum, p.seed, c0);
+        if ((rc = int(cudaGetLastError()))) break;
+        signalKernel<<<cn, sig_threads>>>(d_traj, p.T, p.duration, d_scheme, p.num_rep,
+                                          d_inobs, d_t2sum,
+                                          vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.periodic,
+                                          d_subdiv, p.n_sub, d_dwi);
+        if ((rc = int(cudaGetLastError()))) break;
+        if ((rc = int(cudaDeviceSynchronize()))) break;   // finish chunk before its buffers are reused
+    }
+
+    if (rc == 0) {
+        CUDA_CHECK(cudaMemcpy(out_DWI, d_dwi, dwi_count * sizeof(double), cudaMemcpyDeviceToHost));
+    }
+
+    cudaFree(d_traj); cudaFree(d_t2sum); cudaFree(d_inobs);
+    cudaFree(d_scheme); cudaFree(d_dwi); if (d_subdiv) cudaFree(d_subdiv);
+    cudaFree(d_verts); cudaFree(d_tris); cudaFree(d_tobs);
+    cudaFree(d_oT2); cudaFree(d_ostep); cudaFree(d_pie); cudaFree(d_pei);
+    cudaFree(d_cstart); cudaFree(d_ctri);
     return rc;
 }

@@ -10,6 +10,7 @@
 #define SIMULABLESEQUENCE_H
 #include <string>
 #include <vector>
+#include <cmath>
 #include "walker.h"
 #include "subdivision.h"
 
@@ -55,6 +56,30 @@ public:
     bool img_signal                 = false;    /*!< flag to check if the img part will be computed or not (false default       */
 
     std::vector<Subdivision> subdivisions;      /*!< saves the actual positions of the subdivision to compute the signal        */
+
+    int sub_ndiv = 0;                           /*!< >0: subdivisions are a REGULAR grid (subdivisions_number) of sub_ndiv^3
+                                                     boxes -> O(1) index lookup. 0: irregular (subdivisions_file) -> linear scan.*/
+    Eigen::Vector3f sub_vmin = Eigen::Vector3f::Zero();  /*!< voxel min corner (regular grid)                               */
+    Eigen::Vector3f sub_gap  = Eigen::Vector3f::Ones();  /*!< per-axis box size (regular grid)                              */
+
+    //! \brief Index of the subdivision containing pos, or -1 if none. O(1) for a regular
+    //! grid built from `subdivisions_number` (the box order is x-outer,z-inner, matching
+    //! Parameters::readSubdivisions); falls back to the O(n) linear scan for an irregular
+    //! `subdivisions_file` grid (sub_ndiv==0). Replaces the per-walker (and per-acquisition)
+    //! scan that made 1e6 subdivisions infeasible on the CPU.
+    inline int subdivisionIndex(Eigen::Vector3d &pos){
+        if(sub_ndiv > 0){
+            const int N = sub_ndiv;
+            const int xi = int(std::floor((float(pos[0]) - sub_vmin[0]) / sub_gap[0]));
+            const int yi = int(std::floor((float(pos[1]) - sub_vmin[1]) / sub_gap[1]));
+            const int zi = int(std::floor((float(pos[2]) - sub_vmin[2]) / sub_gap[2]));
+            if(xi < 0 || xi >= N || yi < 0 || yi >= N || zi < 0 || zi >= N) return -1;
+            return (xi * N + yi) * N + zi;
+        }
+        for(std::size_t i = 0; i < subdivisions.size(); ++i)
+            if(subdivisions[i].isInside(pos)) return int(i);
+        return -1;
+    }
 
     SimulableSequence(){}
 

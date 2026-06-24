@@ -101,6 +101,11 @@ private:
 
     void addVoxels();
 
+    //! \brief If the subdivisions form a regular grid (subdivisions_number), hand the
+    //! sequence the voxel min corner + per-axis box size so it can index the containing
+    //! box in O(1) instead of scanning all sub_ndiv^3 boxes per walker.
+    void configureSubdivisionGrid();
+
    // void addCylindersConfigurations();
 
     //void addExtraObstacles();

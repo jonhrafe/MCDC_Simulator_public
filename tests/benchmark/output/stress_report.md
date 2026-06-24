@@ -117,3 +117,34 @@ python3 tests/benchmark/voxels_to_nifti.py <prefix>_voxels_DWI.bfloat 0.01 <pref
 
 Caveat: mirror BC on the GPU is not validated against the CPU (only periodic is), so these are a
 *systems* stress (memory/throughput/stability), not a signal-accuracy reference.
+
+---
+
+## Final stress — 500M particles, 48.9M-tri mesh, 1e6 subdivisions, MODERNIZED protocol
+
+Same merged strands mesh, mirror BC, full-voxel seeding, `subdivisions_number 100` (100^3
+sub-voxels), now with the **modernized scheme** (123 acq: 3 b0 + 4 shells b=500..2000 s/mm^2,
+TE=45ms <= 50ms duration so both PGSE lobes fire). VERSION 2.1.3.beta.
+
+| Metric | value |
+|---|---|
+| Wall-clock | **1:00:09** (compute 3592 s) |
+| Throughput | **139,200 walkers/s** |
+| Peak VRAM | **8.66 GB** (was 9.2 GB at 270 acq: the 123-acq accumulator is ~2 GB, so chunks are bigger: 309,760 x 1615) |
+| Peak host RSS | 11.3 GB (peak host RAM 23.4 GB) |
+| Output `_voxels_DWI.bfloat` | 470 MB (binary; was 2 GB text at 270 acq) |
+| Dropped (stuck) | 0 |
+
+**Now there IS diffusion structure** (the whole point — the old low-b/half-applied scheme was flat):
+- Per-sub-voxel ADC map: mean **0.564**, median 0.585, std **0.071**, p5 **0.407**, p95 0.638 (units 1e-9 m^2/s).
+  Most sub-voxels ~0.6 = the free-water input D (correct); a low-ADC tail marks strand-restricted regions.
+- ADC NIfTI range **0.19 .. 0.76** -- the strand network is visible as low-ADC tissue against free water.
+
+Visualize:
+- `stress_gpu_big_rep_00_ADC.nii.gz` (100^3) -- restricted regions dark. Clearest view of the structure.
+- `stress_gpu_big_rep_00_volume.nii.gz` (100^3 x 123) -- full b-sweep; scroll the shells.
+
+Note: the GPU path does not fill the CPU-side per-subdivision *density* counters
+(`*_volFractions.txt` intra/extra are 0 on GPU runs) -- the restriction is captured in the
+signal/ADC, not that file. (Earlier 270-acq outputs `stress_gpu_big_voxels_DWI.txt` (2 GB) are
+superseded by the `_rep_00_*.bfloat` from this run.)

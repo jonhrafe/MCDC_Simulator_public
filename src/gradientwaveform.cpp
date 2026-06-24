@@ -261,6 +261,9 @@ void GradientWaveform::getDWISignal()
 
 void GradientWaveform::update_DWI_signal(Walker& walker,double dt)
 {
+    // O(1) subdivision lookup (regular grid) computed once; see SimulableSequence::subdivisionIndex.
+    const int sub_idx = subdivision_flag ? subdivisionIndex(walker.pos_v) : -1;
+
     for(uint s=0; s< uint(num_rep); s++){
 
         double cos_phase_shift = cos(phase_shift[s]);
@@ -300,24 +303,17 @@ void GradientWaveform::update_DWI_signal(Walker& walker,double dt)
             phase_shift_distribution(s,index)+=1;
         }
 
-        if(subdivision_flag){
-            for(uint i = 0 ; i < subdivisions.size(); i++){
+        if(sub_idx >= 0){
+            sub_DWI[sub_idx][s] += cos_phase_shift_T2; // Real part
+            if(this->img_signal == true)
+                sub_DWIi[sub_idx][s]+= sin_phase_shift; // Img part
 
-                if( subdivisions[i].isInside(walker.pos_v)){
-                    sub_DWI[i][s] += cos_phase_shift_T2; // Real part
-                    if(this->img_signal == true)
-                        sub_DWIi[i][s]+= sin_phase_shift; // Img part
-
-                    if(separate_signal){
-                        if(walker.location == Walker::RelativeLocation::intra){
-                            sub_DWI_intra[i][s]+=cos_phase_shift_T2;
-                        }
-                        else if(walker.location == Walker::RelativeLocation::extra){
-                            sub_DWI_extra[i][s]+=cos_phase_shift_T2;
-                        }
-                    }
-
-                    break;  //WARNING this break means that the subdivision are mutally exclusive
+            if(separate_signal){
+                if(walker.location == Walker::RelativeLocation::intra){
+                    sub_DWI_intra[sub_idx][s]+=cos_phase_shift_T2;
+                }
+                else if(walker.location == Walker::RelativeLocation::extra){
+                    sub_DWI_extra[sub_idx][s]+=cos_phase_shift_T2;
                 }
             }
         }
@@ -325,21 +321,15 @@ void GradientWaveform::update_DWI_signal(Walker& walker,double dt)
     } //s
 
 
-    //The for bellow is outside so it's not computed for each adquisition.
-    if(subdivision_flag){
-        for(uint i = 0 ; i < subdivisions.size(); i++){
-            if( subdivisions[i].isInside(walker.pos_v)){
+    // Density tally (outside the acquisition loop): same containing box, O(1).
+    if(sub_idx >= 0){
+        subdivisions[sub_idx].density++;
 
-                subdivisions[i].density++;
-
-                if(walker.location == Walker::intra){
-                    subdivisions[i].density_intra++;
-                }
-                else if(walker.location == Walker::extra){
-                    subdivisions[i].density_extra++;
-                }
-                break;  //WARNING this break means that the subdivision are mutally exclusive
-            }
+        if(walker.location == Walker::intra){
+            subdivisions[sub_idx].density_intra++;
+        }
+        else if(walker.location == Walker::extra){
+            subdivisions[sub_idx].density_extra++;
         }
     }
 }

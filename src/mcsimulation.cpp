@@ -47,6 +47,7 @@ MCSimulation::MCSimulation(std::string config_file)
             dataSynth->subdivision_flag = true;
             dataSynth->subdivisions = params.subdivisions;
             dataSynth->initializeSubdivisionSignals();
+            configureSubdivisionGrid();
         }
     }
 
@@ -88,6 +89,7 @@ MCSimulation::MCSimulation(Parameters& params_)
         dataSynth->subdivision_flag = true;
         dataSynth->subdivisions = params.subdivisions;
         dataSynth->initializeSubdivisionSignals();
+        configureSubdivisionGrid();
     }
 
     if(params.separate_signals)
@@ -96,6 +98,23 @@ MCSimulation::MCSimulation(Parameters& params_)
     dynamicsEngine->id = count;
     id = count;
     count++;
+}
+
+
+void MCSimulation::configureSubdivisionGrid()
+{
+    // Only a REGULAR grid (subdivisions_number > 1, with a defined voxel) supports O(1)
+    // indexing; an irregular subdivisions_file grid leaves number_subdivisions == 0, so
+    // sub_ndiv stays 0 and the sequence falls back to the linear scan. The gap must match
+    // Parameters::readSubdivisions exactly: (vmax - vmin)/number_subdivisions per axis.
+    if(params.number_subdivisions > 1 && params.voxels_list.size() > 0){
+        dataSynth->sub_ndiv = int(params.number_subdivisions);
+        for(int k = 0; k < 3; ++k){
+            dataSynth->sub_vmin[k] = float(params.voxels_list[0].first[k]);
+            dataSynth->sub_gap[k]  = float(params.voxels_list[0].second[k] - params.voxels_list[0].first[k])
+                                     / float(params.number_subdivisions);
+        }
+    }
 }
 
 

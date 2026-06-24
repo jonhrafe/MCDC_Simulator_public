@@ -204,13 +204,14 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
                               float sminx, float sminy, float sminz,
                               float smaxx, float smaxy, float smaxz,
                               int periodic, int placement, float dt, float t2_extra,
-                              const float* obs_T2, int* out_inobs, float* t2sum, unsigned long long seed)
+                              const float* obs_T2, int* out_inobs, float* t2sum,
+                              unsigned long long seed, unsigned w_offset)
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
-    if (w >= N) return;
+    if (w >= N) return;       // N is the CHUNK size; traj/t2sum/out_inobs are chunk-local
 
     curandStatePhilox4_32_10_t st;
-    curand_init(seed, w, 0, &st);
+    curand_init(seed, w_offset + w, 0, &st);   // global walker id -> chunk-size-independent
 
     float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
     float smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
@@ -880,32 +881,80 @@ int runGpuSpheres(const GpuSimParams& p, const float* spheres, const float* obs_
                   const float* prob_ie, const float* prob_ei,
                   unsigned n_sph, const float* scheme, double* out_DWI)
 {
-    float *d_traj = nullptr, *d_sph = nullptr, *d_T2 = nullptr, *d_pie = nullptr, *d_pei = nullptr, *d_t2sum = nullptr;
-    int *d_inobs = nullptr;
-    CUDA_CHECK(cudaMalloc(&d_traj, (size_t)p.N * (p.T + 1) * 3 * sizeof(float)));
+    // Walker-chunked (same scheme as runGpuMesh): resident sphere data + persistent DWI
+    // accumulator built once; only the per-chunk trajectory scales with N. Lets analytic
+    // sphere runs reach large N (e.g. with a 1e6-subdivision accumulator) on a fixed GPU.
+    float *d_sph = nullptr, *d_T2 = nullptr, *d_pie = nullptr, *d_pei = nullptr;
     CUDA_CHECK(cudaMalloc(&d_sph,  (size_t)n_sph * 4 * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_T2,   (size_t)n_sph * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_pie,  (size_t)n_sph * sizeof(float)));
     CUDA_CHECK(cudaMalloc(&d_pei,  (size_t)n_sph * sizeof(float)));
-    CUDA_CHECK(cudaMalloc(&d_inobs,(size_t)p.N * sizeof(int)));
-    CUDA_CHECK(cudaMalloc(&d_t2sum,(size_t)p.N * (p.T + 1) * sizeof(float)));
     CUDA_CHECK(cudaMemcpy(d_sph, spheres, (size_t)n_sph * 4 * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_T2,  obs_T2,  (size_t)n_sph * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_pie, prob_ie, (size_t)n_sph * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_pei, prob_ei, (size_t)n_sph * sizeof(float), cudaMemcpyHostToDevice));
     const float dt = p.duration / float(p.T);
 
-    const int bs = 256, gs = int((p.N + bs - 1) / bs);
-    spheresKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_intra, p.step_extra, d_sph, n_sph,
-                              d_pie, d_pei,
-                              p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2],
-                              p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
-                              p.periodic, p.placement, dt, p.t2_extra, d_T2, d_inobs, d_t2sum, p.seed);
-    CUDA_CHECK(cudaGetLastError());
+    const size_t dwi_count = ((size_t)1 + p.n_sub) * p.num_rep * 2;
+    float *d_scheme = nullptr, *d_subdiv = nullptr; double *d_dwi = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_scheme, (size_t)p.num_rep * 7 * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_dwi,    dwi_count * sizeof(double)));
+    CUDA_CHECK(cudaMemcpy(d_scheme, scheme, (size_t)p.num_rep * 7 * sizeof(float), cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemset(d_dwi, 0, dwi_count * sizeof(double)));
+    if (p.n_sub > 0 && p.sub_n <= 0) {
+        CUDA_CHECK(cudaMalloc(&d_subdiv, (size_t)p.n_sub * 6 * sizeof(float)));
+        CUDA_CHECK(cudaMemcpy(d_subdiv, p.subdiv_boxes, (size_t)p.n_sub * 6 * sizeof(float), cudaMemcpyHostToDevice));
+    }
 
-    int rc = gpuSynthAndFree(p, d_traj, d_inobs, d_t2sum, scheme, out_DWI);
-    cudaFree(d_traj); cudaFree(d_sph); cudaFree(d_T2);
-    cudaFree(d_pie);  cudaFree(d_pei); cudaFree(d_inobs); cudaFree(d_t2sum);
+    const int bs = 256;
+    const size_t per_walker = (size_t)(p.T + 1) * 3 * sizeof(float) + (size_t)(p.T + 1) * sizeof(float) + sizeof(int);
+    size_t freeB = 0, totalB = 0;
+    CUDA_CHECK(cudaMemGetInfo(&freeB, &totalB));
+    size_t chunk = size_t(double(freeB) * 0.80) / per_walker;
+    if (chunk >= (size_t)p.N) chunk = p.N;
+    else { chunk = (chunk / bs) * bs; if (chunk < (size_t)bs) { std::fprintf(stderr, "[GPU][sph][ERROR] not enough VRAM.\n"); return int(cudaErrorMemoryAllocation); } }
+    if (const char* e = std::getenv("MCDC_GPU_CHUNK")) { long long c = std::atoll(e); if (c > 0 && (size_t)c < chunk) chunk = (size_t)c; }
+    const unsigned n_chunks = unsigned((p.N + chunk - 1) / chunk);
+    std::fprintf(stderr, "[GPU][sph] N=%u, T=%u: free=%.2f/%.2f GB -> chunk=%zu walkers x %u chunk(s).\n",
+                 p.N, p.T, freeB/1e9, totalB/1e9, chunk, n_chunks);
+
+    float *d_traj = nullptr, *d_t2sum = nullptr; int *d_inobs = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_traj,  chunk * (size_t)(p.T + 1) * 3 * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_t2sum, chunk * (size_t)(p.T + 1) * sizeof(float)));
+    CUDA_CHECK(cudaMalloc(&d_inobs, chunk * sizeof(int)));
+    const int sig_threads = p.num_rep < 1024u ? int(p.num_rep) : 1024;
+
+    int rc = 0;
+    auto t_start = std::chrono::steady_clock::now(); int last_pct = -1;
+    for (unsigned c0 = 0; c0 < p.N; c0 += unsigned(chunk)) {
+        unsigned cn = (p.N - c0 < chunk) ? (p.N - c0) : unsigned(chunk);
+        int gs = int((cn + bs - 1) / bs);
+        spheresKernel<<<gs, bs>>>(d_traj, cn, p.T, p.step_intra, p.step_extra, d_sph, n_sph,
+                                  d_pie, d_pei,
+                                  p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2],
+                                  p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
+                                  p.periodic, p.placement, dt, p.t2_extra, d_T2, d_inobs, d_t2sum, p.seed, c0);
+        if ((rc = int(cudaGetLastError()))) break;
+        signalKernel<<<cn, sig_threads>>>(d_traj, p.T, p.duration, d_scheme, p.num_rep,
+                                          d_inobs, d_t2sum,
+                                          p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2], p.periodic,
+                                          d_subdiv, p.n_sub, p.sub_n, d_dwi);
+        if ((rc = int(cudaGetLastError()))) break;
+        if ((rc = int(cudaDeviceSynchronize()))) break;
+        unsigned done_w = c0 + cn; int pct = int(100.0 * double(done_w) / double(p.N));
+        if (pct != last_pct || c0 == 0) {
+            last_pct = pct;
+            double el = std::chrono::duration<double>(std::chrono::steady_clock::now() - t_start).count();
+            double rate = double(done_w) / (el > 0 ? el : 1e-9);
+            std::fprintf(stderr, "[GPU][sph] %3d%% | %.0fs | ETA %.0fs | %.0f walkers/s\n",
+                         pct, el, (rate > 0 ? double(p.N - done_w)/rate : 0.0), rate);
+        }
+    }
+    if (rc == 0) CUDA_CHECK(cudaMemcpy(out_DWI, d_dwi, dwi_count * sizeof(double), cudaMemcpyDeviceToHost));
+
+    cudaFree(d_traj); cudaFree(d_t2sum); cudaFree(d_inobs);
+    cudaFree(d_scheme); cudaFree(d_dwi); if (d_subdiv) cudaFree(d_subdiv);
+    cudaFree(d_sph); cudaFree(d_T2); cudaFree(d_pie); cudaFree(d_pei);
     return rc;
 }
 

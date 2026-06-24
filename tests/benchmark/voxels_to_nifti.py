@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 """
-Convert an MC-DC `*_voxels_DWI.txt` (volumetric DWI from subdivisions_number) into a
-4-D NIfTI you can open in fsleyes / mrview / ITK-SNAP.
-
-The text file is: line1 = n_sub, line2 = num_rep, then n_sub*num_rep signal values in
-subdivision order (x outer, y middle, z inner -- matching Parameters::addSubdivisions),
-so it reshapes to (n, n, n, num_rep) where n = round(n_sub**(1/3)).
+Convert an MC-DC volumetric DWI (from subdivisions_number) into a 4-D NIfTI you can
+open in fsleyes / mrview / ITK-SNAP. Accepts either output format:
+  *_voxels_DWI.txt    -- text: line1 = n_sub, line2 = num_rep, then n_sub*num_rep values.
+  *_voxels_DWI.bfloat -- binary float32: [n_sub, num_rep, then n_sub*num_rep values]
+                         (the fast `write_bin 1` output; ~20x quicker to write/read).
+Values are in subdivision order (x outer, y middle, z inner -- matching
+Parameters::addSubdivisions), so they reshape to (n, n, n, num_rep), n = round(n_sub**(1/3)).
 
 Output:
   <prefix>_volume.nii.gz   -- the full (n,n,n,num_rep) signal (num_rep "DWI volumes")
   <prefix>_b0.nii.gz       -- just the first acquisition (n,n,n), handy as a density-ish map
 
 Usage:
-  python3 voxels_to_nifti.py <voxels_DWI.txt> [voxel_size_mm] [out_prefix]
+  python3 voxels_to_nifti.py <voxels_DWI.txt|.bfloat> [voxel_size_mm] [out_prefix]
     voxel_size_mm : physical size of ONE subdivision along each axis (default 1.0; only
                     affects the NIfTI header spacing, not the values).
 """
@@ -22,6 +23,18 @@ try:
 except ImportError:
     sys.exit("nibabel not installed:  pip install nibabel")
 
+def load_voxels(path):
+    """Return (n_sub, num_rep, body float32 array). Handles big text files without
+    building a giant Python list (np.fromstring parses the C way), and .bfloat directly."""
+    if path.endswith(".bfloat"):
+        raw = np.fromfile(path, dtype=np.float32)
+        n_sub, num_rep = int(raw[0]), int(raw[1])
+        return n_sub, num_rep, raw[2:]
+    with open(path) as f:
+        n_sub = int(f.readline()); num_rep = int(f.readline())
+        body = np.fromstring(f.read(), sep="\n", dtype=np.float32)   # C-fast text parse
+    return n_sub, num_rep, body
+
 def main():
     if len(sys.argv) < 2:
         sys.exit(__doc__)
@@ -29,9 +42,7 @@ def main():
     vox  = float(sys.argv[2]) if len(sys.argv) > 2 else 1.0
     out  = sys.argv[3] if len(sys.argv) > 3 else path.rsplit(".", 1)[0]
 
-    vals = [float(x) for x in open(path) if x.strip()]
-    n_sub, num_rep = int(vals[0]), int(vals[1])
-    body = np.asarray(vals[2:], dtype=np.float32)
+    n_sub, num_rep, body = load_voxels(path)
     assert body.size == n_sub * num_rep, f"expected {n_sub*num_rep} values, got {body.size}"
     n = round(n_sub ** (1/3))
     assert n*n*n == n_sub, f"n_sub={n_sub} is not a perfect cube"

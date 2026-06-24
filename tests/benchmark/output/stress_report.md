@@ -105,9 +105,15 @@ seeding, **`subdivisions_number 100` → 100³ = 1,000,000 sub-signals** (volume
 - Full-voxel seeding over the sparse strand mesh runs ~7× faster per walker than the earlier
   dense-middle seeding (fewer triangle collisions), so 500M finished in ~75 min, not hours.
 
-**I/O note:** GPU compute was 67 min but writing the 2 GB text `_voxels_DWI.txt` (270M values,
-single-threaded) adds ~8 min and is N-independent — the main remaining wall-time tax at 1M
-subdivisions. A binary output path would largely remove it.
+**I/O note (resolved):** writing the 2 GB *text* `_voxels_DWI.txt` (270M values, single-threaded)
+added ~8 min and is N-independent. Switching to the **binary** output (`write_bin 1`, `write_txt 0`)
+writes `_voxels_DWI.bfloat` (float32: `[n_sub, num_rep, then n_sub*num_rep values]`) in **~22 s**
+(1.1 GB) — about **20× faster** and half the size, with no value change (max|Δ| 0.000 vs text on the
+10M run). The stress configs now use binary. `voxels_to_nifti.py` reads either format, so the NIfTI
+workflow is unchanged:
+```
+python3 tests/benchmark/voxels_to_nifti.py <prefix>_voxels_DWI.bfloat 0.01 <prefix>
+```
 
 Caveat: mirror BC on the GPU is not validated against the CPU (only periodic is), so these are a
 *systems* stress (memory/throughput/stability), not a signal-accuracy reference.

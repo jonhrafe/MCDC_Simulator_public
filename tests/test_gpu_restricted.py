@@ -19,10 +19,12 @@ import tempfile
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # |S/N_gpu - S/N_cpu| tolerance. Covers independent-RNG MC noise at this N PLUS the
-# systematic float32(GPU)-vs-double(CPU) precision offset in restricted diffusion
-# (~0.1% spheres, ~0.3-0.4% cylinders, where the perp-plane 1/a division is more
-# float32-sensitive). Catches gross collision errors while allowing that offset.
-TOL = 0.008
+# systematic float32(GPU)-vs-double(CPU) precision offset in restricted diffusion. That
+# offset scales with diffusion weighting: under the modernized multi-shell protocol
+# (b up to 2000 s/mm^2) the smaller signals make the fixed float32 gap a larger fraction
+# of S/N, so the worst case grew to ~1.5% (multi-cylinder). Catches gross collision errors
+# while allowing that float32 offset. (Was 0.008 under the old low-b scheme.)
+TOL = 0.02
 
 
 def run(binp, conf_text, gpu, work, tag):

@@ -343,11 +343,11 @@ if(Python3_Interpreter_FOUND)
 
     # GPU Phase 6: membrane PERMEABILITY (analytic sphere, global kappa). Walkers cross
     # intra<->extra via the Powles draw; the GPU must reproduce the CPU's crossed split.
-    # Strict tolerances (total 0.006, intra-fraction 0.02): once the CPU uninitialized-
-    # read in the permeable crossing was fixed (cylinder.cpp / sphere.cpp set
-    # bounced_direction to the incoming direction so a crossing passes straight through
-    # instead of bouncing in stack garbage), GPU and CPU agree tightly and build-
-    # independently -- sphere |d|~0.007, cylinder |d|~0.012, totals <0.1%.
+    # Uses the default tolerances (total 0.015, intra-fraction 0.02). The CPU crossing UB
+    # fix (cylinder.cpp / sphere.cpp set bounced_direction to pass straight through, not
+    # bounce in stack garbage) keeps GPU and CPU agreeing build-independently; the total
+    # tol is 0.015 because the modernized high-b protocol shrinks the signal (float32 gap
+    # is a larger fraction). sphere |d|~0.003, cylinder |d|~0.016 split; totals <1%.
     add_test(
         NAME gpu_permeability
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
@@ -406,13 +406,14 @@ if(Python3_Interpreter_FOUND)
     # GPU Phase 6 (mesh): membrane PERMEABILITY for a triangle mesh. Powles crossing at
     # a triangle (transparent membrane, re-classified at landing); the hit triangle's
     # owning obstacle gives prob_i_e / prob_e_i. The intra-fraction split tol is relaxed
-    # (0.04): the GPU's nearest-triangle point-in-mesh classification differs ~2% from the
-    # CPU's ray-cast isInsidePLY (a modeling approximation, not noise) -- |d|~0.024. The
-    # total is tight (~0.3%) and build-independent.
+    # (0.04): the GPU's ray-cast point-in-mesh classification differs ~2-3% from the CPU's
+    # ray-to-nearest-triangle isInsidePLY (a modeling approximation, not noise). total tol
+    # 0.025: under the high-b protocol the classification difference + smaller signal push
+    # the total diff to ~2%.
     add_test(
         NAME gpu_mesh_permeability
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
-                "${CMAKE_SOURCE_DIR}/tests/accuracy/mesh_perm.conf" 0.006 0.04)
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/mesh_perm.conf" 0.025 0.04)
     set_tests_properties(gpu_mesh_permeability PROPERTIES LABELS "gpu" TIMEOUT 300)
 
     # GPU Phase 6 (mesh): permeability + finite differential T2 (intra 40 / extra 80 ms).

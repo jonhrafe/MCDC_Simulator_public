@@ -15,7 +15,11 @@ import glob, os, shutil, subprocess, sys, tempfile
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOL_FRAC  = 0.02     # |intra-fraction_gpu - intra-fraction_cpu| (covers count-RNG at this N)
-TOL_TOTAL = 0.006    # |mean S/N total| (float32 + noise)
+TOL_TOTAL = 0.015    # relative |total S/N| diff (float32 + noise). Raised from 0.006: under the
+                     # modernized multi-shell protocol (b up to 2000) the total signal is ~4x
+                     # smaller (more attenuation), so the fixed float32(GPU)-vs-double(CPU) gap is
+                     # a larger fraction -- ~0.8-1.1% on the analytic cases. (Mesh perm overrides
+                     # higher via CMake, since point-in-mesh classification adds ~1%.)
 
 
 def run(binp, conf_text, gpu, work, tag):

@@ -24,7 +24,10 @@ import tempfile
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GAMMA = 2.6751525e8   # rad/(s*T) -- matches giro=267.51525e3 rad/(ms*T)
-RTOL = 0.01           # MC noise + finite-step bias
+RTOL = 0.025          # MC noise + finite-step bias. Fixed-length MC steps approximate
+                      # Gaussian diffusion only to O(step), so S deviates from the continuum
+                      # exp(-bD) by ~1/T, growing with b: ~1.7% at b=2000 (T=1000) on the
+                      # modernized multi-shell scheme. Tightens to <0.3% at the old low b.
 
 
 def read_conf_value(text, key):

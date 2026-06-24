@@ -424,6 +424,16 @@ if(Python3_Interpreter_FOUND)
                 "${CMAKE_SOURCE_DIR}/tests/accuracy/mesh_perm_t2.conf" 0.015 0.04)
     set_tests_properties(gpu_mesh_permeability_t2 PROPERTIES LABELS "gpu" TIMEOUT 300)
 
+    # GPU: 3 separate PLY spheres with DISTINCT per-sphere Di, T2 AND permeability at once
+    # (via ply_extended_file_list). Stresses that the mesh path carries per-obstacle Di
+    # (obs_step), T2 (obs_T2) and kappa (prob_i_e/e_i) for several obstacles simultaneously,
+    # and that the GPU reproduces the CPU's intra/extra split. N=500k -> CPU ~2-3 min.
+    add_test(
+        NAME gpu_three_perm_spheres
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_compartments.py"
+                "${CMAKE_SOURCE_DIR}/tests/benchmark/three_perm_spheres.conf" 0.03 0.07)
+    set_tests_properties(gpu_three_perm_spheres PROPERTIES LABELS "gpu" TIMEOUT 600)
+
     # GPU volumetric DWI: voxel subdivisions. Each walker is binned by its final wrapped
     # position into the box that contains it -> a (n_sub, num_rep) volume. Checks the
     # partition invariant (boxes sum to the global signal) and GPU-vs-CPU per-box population.

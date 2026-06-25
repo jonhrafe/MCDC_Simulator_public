@@ -122,12 +122,17 @@ __global__ void freeDiffusionKernel(float* traj, unsigned N, unsigned T, float s
                     smin[1] + curand_uniform(&st)*(smax[1]-smin[1]),
                     smin[2] + curand_uniform(&st)*(smax[2]-smin[2]) };
     float pr[3] = { pv[0], pv[1], pv[2] };
+    // Per-axis mirror sign: pos_v moves by dir, pos_r by dir*bmir. Mirror face flips both ->
+    // pos_r continues straight (free, correct MSD); pos_v reflects in. Periodic keeps bmir=+1.
+    float bmir[3] = { 1.0f, 1.0f, 1.0f };
+    float voxext  = fmaxf(fmaxf(vmax[0]-vmin[0], vmax[1]-vmin[1]), vmax[2]-vmin[2]);
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
     size_t tb = (size_t)w * (T + 1); t2sum[tb] = 0.0f; float t2acc = 0.0f;  // Phase 6b (free: all extra)
 
-    const float EPS = 1e-5f * step_length;
+    const float NUDGE = fmaxf(1e-5f * step_length, 1e-5f * voxext);   // float32-safe wall nudge
+    const float EPS   = 0.25f * NUDGE;
     for (unsigned t = 1; t <= T; ++t) {
         float gx = curand_normal(&st), gy = curand_normal(&st), gz = curand_normal(&st);
         float inv = rsqrtf(gx*gx + gy*gy + gz*gz + 1e-30f);
@@ -144,16 +149,19 @@ __global__ void freeDiffusionKernel(float* traj, unsigned N, unsigned T, float s
                 if (tw > EPS && tw < best_t) { best_t = tw; axis = i; }
             }
             if (axis < 0) {
-                for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]; pv[i] += remaining*dir[i]; }
+                for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]*bmir[i]; pv[i] += remaining*dir[i]; }
                 remaining = 0.0f;
             } else {
-                for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]; pv[i] += best_t*dir[i]; }
+                for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]*bmir[i]; pv[i] += best_t*dir[i]; }
                 remaining -= best_t;
                 if (periodic) {
-                    pv[axis] = (dir[axis] > 0.0f) ? vmin[axis] : vmax[axis];   // wrap pv only
+                    pv[axis] = (dir[axis] > 0.0f) ? vmin[axis] : vmax[axis];   // wrap pv only; pr continuous
                 } else {
-                    dir[axis] = -dir[axis];                                    // mirror: reflect pr & pv
-                    pr[axis] += EPS*dir[axis]; pv[axis] += EPS*dir[axis];      // nudge off the wall
+                    // MIRROR: flip dir AND bmir -> pv reflects in, pr keeps its real direction (free).
+                    dir[axis]  = -dir[axis];
+                    bmir[axis] = -bmir[axis];
+                    pv[axis] += NUDGE*dir[axis];
+                    pr[axis] += NUDGE*dir[axis]*bmir[axis];
                 }
             }
         }
@@ -233,6 +241,10 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
         in_obs = whichSphere(pv[0], pv[1], pv[2], spheres, n_sph);   // compartment at placement
     }
     float pr[3] = { pv[0], pv[1], pv[2] };
+    // Per-axis mirror sign (CPU boundary_mirror): pos_v moves by dir, pos_r by dir*bmir.
+    // Mirror face flips both -> pos_r continuous (free MSD); pos_v reflects in. Periodic: bmir=+1.
+    float bmir[3] = { 1.0f, 1.0f, 1.0f };
+    float voxext  = fmaxf(fmaxf(vmax[0]-vmin[0], vmax[1]-vmin[1]), vmax[2]-vmin[2]);
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
@@ -242,7 +254,8 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
         // per-timestep step length from the CURRENT compartment (permeable crossings may
         // have changed in_obs); EPS scales with it.
         float step_length = (in_obs >= 0) ? step_intra : step_extra;
-        float EPS = 1e-5f * step_length;
+        float NUDGE = fmaxf(1e-5f * step_length, 1e-5f * voxext);   // float32-safe push; EPS < NUDGE
+        float EPS   = 0.25f * NUDGE;
         float dx = curand_normal(&st), dy = curand_normal(&st), dz = curand_normal(&st);
         float inv = rsqrtf(dx*dx + dy*dy + dz*dz + 1e-30f);
         float dir[3] = { dx*inv, dy*inv, dz*inv };
@@ -269,8 +282,8 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
                 else if (dir[i] < -1e-20f) tw = (vmin[i]-pv[i])/dir[i];
                 if (tw > EPS && tw < best_t) { best_t = tw; best_axis = i; best_sph = -1; }
             }
-            // advance both positions to the event
-            for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]; pv[i] += best_t*dir[i]; }
+            // advance both positions to the event (pos_r in the real frame via bmir)
+            for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]*bmir[i]; pv[i] += best_t*dir[i]; }
             remaining -= best_t;
             if (best_sph >= 0) {                         // sphere membrane: cross or reflect
                 bool from_intra = (in_obs == best_sph);
@@ -278,7 +291,7 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
                 if (prob > 0.0f && prob > curand_uniform(&st)) {
                     // PERMEATE (CPU model): the membrane is transparent -- finish the step
                     // straight through (ignore further membranes) and re-classify at landing.
-                    for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]; pv[i] += remaining*dir[i]; }
+                    for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]*bmir[i]; pv[i] += remaining*dir[i]; }
                     remaining = 0.0f;
                     in_obs = whichSphere(pv[0], pv[1], pv[2], spheres, n_sph);
                 } else {                                  // reflect off the sphere
@@ -286,14 +299,17 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
                     float nn = rsqrtf(nx*nx + ny*ny + nz*nz + 1e-30f);
                     float n[3] = { nx*nn, ny*nn, nz*nn };
                     reflectDir(dir, n);
-                    for (int i = 0; i < 3; ++i) { pr[i] += EPS*dir[i]; pv[i] += EPS*dir[i]; }
+                    for (int i = 0; i < 3; ++i) { pr[i] += NUDGE*dir[i]*bmir[i]; pv[i] += NUDGE*dir[i]; }
                 }
             } else if (best_axis >= 0) {                 // voxel face
                 if (periodic) {
-                    pv[best_axis] = (dir[best_axis] > 0.0f) ? vmin[best_axis] : vmax[best_axis];
+                    pv[best_axis] = (dir[best_axis] > 0.0f) ? vmin[best_axis] : vmax[best_axis];   // pr continuous
                 } else {
-                    dir[best_axis] = -dir[best_axis];
-                    pr[best_axis] += EPS*dir[best_axis]; pv[best_axis] += EPS*dir[best_axis];
+                    // MIRROR: flip dir AND bmir -> pv reflects in, pr keeps real direction (free).
+                    dir[best_axis]  = -dir[best_axis];
+                    bmir[best_axis] = -bmir[best_axis];
+                    pv[best_axis] += NUDGE*dir[best_axis];
+                    pr[best_axis] += NUDGE*dir[best_axis]*bmir[best_axis];
                 }
             } else {
                 remaining = 0.0f;                        // no event: full step already taken above
@@ -304,7 +320,11 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
         float* o = tr + (size_t)t * 3;
         o[0] = pr[0]; o[1] = pr[1]; o[2] = pr[2];
     }
-    out_inobs[w] = in_obs;                                // final compartment (after any crossings)
+    // Re-classify the landing position (matches CPU finalPositionCheck, which relabels by
+    // walker.location = isInIntra(pos_v)). Analytic obstacles are NOT deported on the CPU (its
+    // deport guard requires plyObstacles_list), so we relabel but do NOT discard (-2), keeping
+    // GPU and CPU consistent. Relabel leaves the total signal unchanged, only the intra/extra split.
+    out_inobs[w] = whichSphere(pv[0], pv[1], pv[2], spheres, n_sph);
 }
 
 //! Phase 2b/2c: one thread per walker, restricted diffusion among impermeable
@@ -375,6 +395,10 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
         in_obs = whichCylinder(pv[0], pv[1], pv[2], cyls, n_cyl);
     }
     float pr[3] = { pv[0], pv[1], pv[2] };
+    // Per-axis mirror sign (CPU boundary_mirror): pos_v by dir, pos_r by dir*bmir. Mirror face
+    // flips both -> pos_r continuous (free MSD); pos_v reflects in. Periodic keeps bmir=+1.
+    float bmir[3] = { 1.0f, 1.0f, 1.0f };
+    float voxext  = fmaxf(fmaxf(vmax[0]-vmin[0], vmax[1]-vmin[1]), vmax[2]-vmin[2]);
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
@@ -382,7 +406,8 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
 
     for (unsigned t = 1; t <= T; ++t) {
         float step_length = (in_obs >= 0) ? step_intra : step_extra;  // current compartment (permeability)
-        float EPS = 1e-5f * step_length;
+        float NUDGE = fmaxf(1e-5f * step_length, 1e-5f * voxext);   // float32-safe push; EPS < NUDGE
+        float EPS   = 0.25f * NUDGE;
         float gx = curand_normal(&st), gy = curand_normal(&st), gz = curand_normal(&st);
         float inv = rsqrtf(gx*gx + gy*gy + gz*gz + 1e-30f);
         float dir[3] = { gx*inv, gy*inv, gz*inv };
@@ -413,14 +438,14 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
                 else if (dir[i] < -1e-20f) tw = (vmin[i]-pv[i])/dir[i];
                 if (tw > EPS && tw < best_t) { best_t = tw; best_axis = i; best_cyl = -1; }
             }
-            for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]; pv[i] += best_t*dir[i]; }
+            for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]*bmir[i]; pv[i] += best_t*dir[i]; }
             remaining -= best_t;
             if (best_cyl >= 0) {                         // cylinder membrane: cross or reflect
                 bool from_intra = (in_obs == best_cyl);
                 float prob = from_intra ? prob_ie[best_cyl] : prob_ei[best_cyl];
                 if (prob > 0.0f && prob > curand_uniform(&st)) {
                     // PERMEATE (CPU model): finish the step straight through, re-classify at landing.
-                    for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]; pv[i] += remaining*dir[i]; }
+                    for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]*bmir[i]; pv[i] += remaining*dir[i]; }
                     remaining = 0.0f;
                     in_obs = whichCylinder(pv[0], pv[1], pv[2], cyls, n_cyl);
                 } else {                                  // reflect off the radial normal
@@ -431,14 +456,17 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
                     float nn = rsqrtf(n[0]*n[0] + n[1]*n[1] + n[2]*n[2] + 1e-30f);
                     n[0]*=nn; n[1]*=nn; n[2]*=nn;
                     reflectDir(dir, n);
-                    for (int i = 0; i < 3; ++i) { pr[i] += EPS*dir[i]; pv[i] += EPS*dir[i]; }
+                    for (int i = 0; i < 3; ++i) { pr[i] += NUDGE*dir[i]*bmir[i]; pv[i] += NUDGE*dir[i]; }
                 }
             } else if (best_axis >= 0) {                 // voxel face
                 if (periodic) {
-                    pv[best_axis] = (dir[best_axis] > 0.0f) ? vmin[best_axis] : vmax[best_axis];
+                    pv[best_axis] = (dir[best_axis] > 0.0f) ? vmin[best_axis] : vmax[best_axis];   // pr continuous
                 } else {
-                    dir[best_axis] = -dir[best_axis];
-                    pr[best_axis] += EPS*dir[best_axis]; pv[best_axis] += EPS*dir[best_axis];
+                    // MIRROR: flip dir AND bmir -> pv reflects in, pr keeps real direction (free).
+                    dir[best_axis]  = -dir[best_axis];
+                    bmir[best_axis] = -bmir[best_axis];
+                    pv[best_axis] += NUDGE*dir[best_axis];
+                    pr[best_axis] += NUDGE*dir[best_axis]*bmir[best_axis];
                 }
             } else {
                 remaining = 0.0f;
@@ -449,7 +477,9 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
         float* o = tr + (size_t)t * 3;
         o[0] = pr[0]; o[1] = pr[1]; o[2] = pr[2];
     }
-    out_inobs[w] = in_obs;                                // final compartment (after any crossings)
+    // Re-classify the landing position (matches CPU finalPositionCheck). Analytic obstacles are
+    // NOT deported on the CPU, so relabel but do NOT discard -- keeps GPU/CPU consistent.
+    out_inobs[w] = whichCylinder(pv[0], pv[1], pv[2], cyls, n_cyl);
 }
 
 //! Moller-Trumbore ray-triangle intersection (port of Triangle::rayIntersects_MT).
@@ -612,13 +642,16 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
                     smin[1] + curand_uniform(&st)*(smax[1]-smin[1]),
                     smin[2] + curand_uniform(&st)*(smax[2]-smin[2]) };
     float pr[3] = { pv[0], pv[1], pv[2] };
+    // Per-axis mirror sign (CPU walker.boundary_mirror). pos_v moves by dir (voxel frame,
+    // reflects/wraps at faces); pos_r moves by dir*bmir (real frame). A mirror face flips
+    // BOTH dir[a] and bmir[a] -> their product is unchanged, so pos_r continues straight
+    // (free, unbounded -> correct MSD) while pos_v reflects back in. Periodic keeps bmir=+1.
+    float bmir[3] = { 1.0f, 1.0f, 1.0f };
 
     // Phase 3b: classify the start position into the owning mesh obstacle (-1 = extra).
     // in_obs selects the per-compartment step length (multi-D) and T2 (multi-T2); under
     // permeability (Phase 6) it changes mid-walk when the walker crosses a membrane.
     int in_obs = classifyMesh(pv, verts, tris, tri_obs, gmin, ics, dim, cell_start, cell_tri);
-    int in_obs0 = in_obs;                 // initial compartment (for the illegal-crossing check)
-    int perm_crossed = 0;                 // any legitimate permeation happened?
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
@@ -671,7 +704,7 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
                 else if (dir[i] < -1e-20f) tw = (vmin[i]-pv[i])/dir[i];
                 if (tw > EPS && tw < best_t) { best_t = tw; best_axis = i; best_tri = -1; }
             }
-            for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]; pv[i] += best_t*dir[i]; }
+            for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]*bmir[i]; pv[i] += best_t*dir[i]; }
             remaining -= best_t;
             if (best_tri >= 0) {                         // triangle membrane: cross or reflect
                 int obs = tri_obs[best_tri];             // obstacle owning this surface
@@ -680,10 +713,9 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
                 if (prob > 0.0f && prob > curand_uniform(&st)) {
                     // PERMEATE (CPU model): the membrane is transparent -- finish the step
                     // straight through (ignore further membranes) and re-classify at landing.
-                    for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]; pv[i] += remaining*dir[i]; }
+                    for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]*bmir[i]; pv[i] += remaining*dir[i]; }
                     remaining = 0.0f;
                     in_obs = classifyMesh(pv, verts, tris, tri_obs, gmin, ics, dim, cell_start, cell_tri);
-                    perm_crossed = 1;
                 } else {                                  // reflect off the triangle
                     int i0 = tris[3*best_tri+0], i1 = tris[3*best_tri+1], i2 = tris[3*best_tri+2];
                     float e1[3] = { verts[3*i1+0]-verts[3*i0+0], verts[3*i1+1]-verts[3*i0+1], verts[3*i1+2]-verts[3*i0+2] };
@@ -692,14 +724,19 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
                     float nn = rsqrtf(n[0]*n[0] + n[1]*n[1] + n[2]*n[2] + 1e-30f);
                     n[0]*=nn; n[1]*=nn; n[2]*=nn;
                     reflectDir(dir, n);
-                    for (int i = 0; i < 3; ++i) { pr[i] += NUDGE*dir[i]; pv[i] += NUDGE*dir[i]; }
+                    for (int i = 0; i < 3; ++i) { pr[i] += NUDGE*dir[i]*bmir[i]; pv[i] += NUDGE*dir[i]; }
                 }
             } else if (best_axis >= 0) {                 // voxel face
                 if (periodic) {
                     pv[best_axis] = (dir[best_axis] > 0.0f) ? vmin[best_axis] : vmax[best_axis];
+                    // pr is NOT wrapped (continuous); bmir stays +1 -> pr already advanced straight.
                 } else {
-                    dir[best_axis] = -dir[best_axis];
-                    pr[best_axis] += NUDGE*dir[best_axis]; pv[best_axis] += NUDGE*dir[best_axis];
+                    // MIRROR: flip dir AND bmir on this axis. pv reflects back into the voxel;
+                    // pr's per-axis product dir*bmir is unchanged -> it keeps going straight (free).
+                    dir[best_axis]  = -dir[best_axis];
+                    bmir[best_axis] = -bmir[best_axis];
+                    pv[best_axis] += NUDGE*dir[best_axis];
+                    pr[best_axis] += NUDGE*dir[best_axis]*bmir[best_axis];
                 }
             } else {
                 remaining = 0.0f;
@@ -710,19 +747,19 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
         float* o = tr + (size_t)t * 3;
         o[0] = pr[0]; o[1] = pr[1]; o[2] = pr[2];
     }
-    // Final illegal-crossing check (mirrors CPU DynamicsSimulation::finalPositionCheck):
-    // re-classify the landing position; if intra/extra membership flipped vs the start with
-    // NO legitimate permeation, the walker tunnelled through an impermeable membrane (a
-    // numerical leak) -> flag -2 so signalKernel drops it. Otherwise the re-classified label
-    // also corrects any stale in_obs (e.g. after permeation it reflects the true final cell).
+    // Final illegal-crossing check (periodic/mirror-aware; mirrors CPU finalPositionCheck).
+    // Re-classify the landing pos_v and compare its intra/extra MEMBERSHIP to the TRACKED
+    // in_obs (which already follows every legitimate permeation). For a tiled periodic/mirror
+    // substrate a wrap/fold preserves membership, so this fires ONLY on a real leak (the walker
+    // tunnelled an impermeable membrane without in_obs being updated) -> flag -2 (signalKernel
+    // drops it). Comparing MEMBERSHIP (not the obstacle index) is what makes it wrap/fold-safe.
     int final_obs = classifyMesh(pv, verts, tris, tri_obs, gmin, ics, dim, cell_start, cell_tri);
-    bool illegal = (!perm_crossed) && ((final_obs >= 0) != (in_obs0 >= 0));
-    out_inobs[w] = illegal ? -2 : final_obs;                // -2 = discard; else final compartment
+    out_inobs[w] = ((final_obs >= 0) != (in_obs >= 0)) ? -2 : final_obs;
 }
 
-//! Wrap a coordinate into [lo,hi) for periodic BC: pv = lo + mod(x-lo, L). For periodic
-//! voxel BC this reproduces MCDC's incremental pv exactly (each face crossing sets pv to
-//! the opposite face). For mirror BC pr is already bounded, so the caller passes it through.
+//! Wrap a coordinate into [lo,hi) for PERIODIC BC: pv = lo + mod(x-lo, L) (sawtooth). For
+//! periodic voxel BC this reproduces MCDC's incremental pv exactly (each face crossing sets
+//! pv to the opposite face).
 __device__ inline float wrapCoord(float x, float lo, float hi)
 {
     float L = hi - lo;
@@ -730,6 +767,18 @@ __device__ inline float wrapCoord(float x, float lo, float hi)
     float t = x - lo;
     t = t - L * floorf(t / L);
     return lo + t;
+}
+
+//! Fold a coordinate into [lo,hi] for MIRROR BC: triangle wave (period 2L, reflect in the
+//! upper half). pos_r runs free, so the in-voxel image pos_v = fold(pos_r) -- this reproduces
+//! MCDC's incremental boundary_mirror pv exactly (each face crossing reflects pv back in).
+__device__ inline float mirrorFold(float x, float lo, float hi)
+{
+    float L = hi - lo;
+    if (L <= 0.0f) return x;
+    float t = x - lo;
+    float p = t - 2.0f*L * floorf(t / (2.0f*L));   // p in [0, 2L)
+    return lo + (p <= L ? p : 2.0f*L - p);
 }
 
 //! One block per walker, num_rep measurements strided across threads. Reads the
@@ -766,12 +815,18 @@ __global__ void signalKernel(const float* traj, unsigned T, float duration,
     // grid (sub_n > 0) the box is O(1) index arithmetic; otherwise an O(n_sub) box scan.
     __shared__ int sub_idx;
     if (n_sub > 0 && threadIdx.x == 0) {
-        const float* fp = tr + (size_t)T * 3;
+        const float* fp = tr + (size_t)T * 3;       // final pos_r (free / unwrapped)
         float pv[3] = { fp[0], fp[1], fp[2] };
+        // Fold the free pos_r into the voxel to get pos_v for binning: sawtooth (periodic)
+        // or triangle-wave (mirror) -- matches the kernel's incremental pv.
         if (periodic) {
             pv[0] = wrapCoord(pv[0], vminx, vmaxx);
             pv[1] = wrapCoord(pv[1], vminy, vmaxy);
             pv[2] = wrapCoord(pv[2], vminz, vmaxz);
+        } else {
+            pv[0] = mirrorFold(pv[0], vminx, vmaxx);
+            pv[1] = mirrorFold(pv[1], vminy, vmaxy);
+            pv[2] = mirrorFold(pv[2], vminz, vmaxz);
         }
         int found = -1;
         if (sub_n > 0) {

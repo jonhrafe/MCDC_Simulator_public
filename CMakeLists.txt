@@ -229,6 +229,14 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_format_checks.py")
     set_tests_properties(format_checks PROPERTIES LABELS "validation" TIMEOUT 300)
 
+    # General WAVEFORM protocol (CPU): a PGSE encoded as an arbitrary gradient waveform
+    # (bipolar two-lobe) must reproduce both the native PGSE signal and the analytic
+    # exp(-bD) on free diffusion. Guards scheme.type==WAVEFORM -> GradientWaveform synthesis.
+    add_test(
+        NAME waveform_protocol
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_waveform.py")
+    set_tests_properties(waveform_protocol PROPERTIES LABELS "waveform" TIMEOUT 300)
+
     # GPU free-diffusion (Phase-1 PoC): the on-device dynamics+synthesis must
     # reproduce S/S0 = exp(-b*D). Self-skips (pass) if the binary was built
     # without CUDA / no GPU, so CPU-only machines still pass the suite.

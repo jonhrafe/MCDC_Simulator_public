@@ -180,7 +180,6 @@ void CylinderGammaDistribution::createGammaSubstrate()
         }
         cylinders.clear();
         adjustments++;
-        cout << best_icvf << endl;
         if(adjustments > max_adjustments){
             break;
         }

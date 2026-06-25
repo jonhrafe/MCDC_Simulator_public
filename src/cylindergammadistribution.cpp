@@ -1,4 +1,5 @@
 #include "cylindergammadistribution.h"
+#include <cstdlib>
 #include <algorithm>    // std::sort
 #include <random>
 #include "rng.h"
@@ -76,6 +77,13 @@ void CylinderGammaDistribution::createGammaSubstrate()
     else{
         std::random_device rd;
         rng.seed((uint64_t(rd()) << 32) ^ uint64_t(rd()));
+    }
+    // Guard: 0 obstacles (e.g. num_cylinders unset / mistyped keyword) -> empty radiis ->
+    // radiis[radiis.size()-1] underflow in computeMinimalSize. Fail clearly instead of crashing.
+    if(num_obstacles == 0){
+        SimErrno::error("Cylinder gamma packing: num_cylinders is 0 or unset (recognised keyword is "
+                        "'num_cylinders').", cout);
+        std::exit(EXIT_FAILURE);
     }
     std::gamma_distribution<double> distribution(alpha,beta);
     uint repetition = 40;
@@ -226,7 +234,7 @@ bool CylinderGammaDistribution::checkForCollition(  Cylinder cyl, Vector3d min_l
 
     // we need to check that the cylinders to add don't interse4ct each other (very small voxel sizes)
 
-    for(unsigned i = 0 ; i < cylinders_to_add.size()-1; i++){
+    for(unsigned i = 0 ; i + 1 < cylinders_to_add.size(); i++){  // i+1<size: avoid unsigned underflow when empty
         for(unsigned j = i+1 ; j < cylinders_to_add.size(); j++){
 
             double distance = (cylinders_to_add[i].P - cylinders_to_add[j].P).norm();

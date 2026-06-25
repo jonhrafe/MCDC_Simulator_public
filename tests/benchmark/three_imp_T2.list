@@ -1,0 +1,4 @@
+# impermeable, distinct T2 (no exchange) -- isolates the T2 accumulation
+tests/benchmark/three_spheres_ply/sphere_a.ply 0.005 0.2e-9 0.140 0
+tests/benchmark/three_spheres_ply/sphere_b.ply 0.005 0.5e-9 0.160 0
+tests/benchmark/three_spheres_ply/sphere_c.ply 0.005 1.0e-9 0.180 0

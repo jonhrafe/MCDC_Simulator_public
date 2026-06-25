@@ -434,6 +434,16 @@ if(Python3_Interpreter_FOUND)
                 "${CMAKE_SOURCE_DIR}/tests/benchmark/three_perm_spheres.conf" 0.03 0.07)
     set_tests_properties(gpu_three_perm_spheres PROPERTIES LABELS "gpu" TIMEOUT 600)
 
+    # GPU multi-TE T2: a b0 series (G=0) at 20 echo times (10..50 ms) is a diffusion-free probe
+    # of the per-step T2 accumulation and the compartment/position log. 3 impermeable spheres
+    # with distinct T2 (140/160/180 ms); the intra b0-vs-TE decay must match the CPU gold
+    # standard (full per-step tracking) -- both the curve and the fitted effective intra T2.
+    add_test(
+        NAME gpu_multi_te_t2
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_multiTE_t2.py"
+                "${CMAKE_SOURCE_DIR}/tests/benchmark/three_imp_mte_test.conf")
+    set_tests_properties(gpu_multi_te_t2 PROPERTIES LABELS "gpu" TIMEOUT 600)
+
     # GPU volumetric DWI: voxel subdivisions. Each walker is binned by its final wrapped
     # position into the box that contains it -> a (n_sub, num_rep) volume. Checks the
     # partition invariant (boxes sum to the global signal) and GPU-vs-CPU per-box population.

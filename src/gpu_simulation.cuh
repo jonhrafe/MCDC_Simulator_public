@@ -41,6 +41,8 @@ struct GpuSimParams
     //! O(n_sub) scan (essential at sub_n=100 -> 1e6 boxes). sub_n = 0 -> arbitrary boxes (file),
     //! use the linear scan over subdiv_boxes. When sub_n > 0, subdiv_boxes is not uploaded/needed.
     int            sub_n;        //!< subdivisions per axis (regular grid); 0 = arbitrary boxes
+    int            at_te;        //!< 1: bin each acquisition by the position AT its echo time
+                                 //!< (density-vs-TE movie); 0: bin once by the final position.
 };
 
 //! \brief Free-diffusion dynamics + PGSE signal, fully on the GPU.

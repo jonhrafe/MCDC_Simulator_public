@@ -851,6 +851,7 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
         // O(n_sub) box scan, essential at 100^3 = 1e6 boxes). subdivisions_file leaves
         // number_subdivisions = 0 -> sub_n = 0 -> the kernel falls back to the box scan.
         gp.sub_n       = (params.number_subdivisions > 1) ? int(params.number_subdivisions) : 0;
+        gp.at_te       = params.subdivision_at_te ? 1 : 0;   // per-echo-time binning (density-vs-TE)
 
         // Interface: flatten the (as-stored) scheme to num_rep*7 floats.
         std::vector<float> scheme(size_t(gp.num_rep) * 7);

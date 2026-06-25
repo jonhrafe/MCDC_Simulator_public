@@ -781,6 +781,40 @@ __device__ inline float mirrorFold(float x, float lo, float hi)
     return lo + (p <= L ? p : 2.0f*L - p);
 }
 
+//! Fold a real position into the voxel (sawtooth periodic / triangle-wave mirror) and return
+//! the containing subdivision box index (-1 = outside). Regular grid (sub_n>0) -> O(1) index;
+//! else an O(n_sub) scan over subdiv. Used for both final-position and per-echo-time binning.
+__device__ inline int subBoxIndex(float px, float py, float pz,
+                                  float vminx, float vminy, float vminz,
+                                  float vmaxx, float vmaxy, float vmaxz, int periodic,
+                                  const float* subdiv, unsigned n_sub, int sub_n)
+{
+    float pv[3] = { px, py, pz };
+    if (periodic) {
+        pv[0] = wrapCoord(pv[0], vminx, vmaxx); pv[1] = wrapCoord(pv[1], vminy, vmaxy); pv[2] = wrapCoord(pv[2], vminz, vmaxz);
+    } else {
+        pv[0] = mirrorFold(pv[0], vminx, vmaxx); pv[1] = mirrorFold(pv[1], vminy, vmaxy); pv[2] = mirrorFold(pv[2], vminz, vmaxz);
+    }
+    if (sub_n > 0) {
+        float lo[3] = { vminx, vminy, vminz }, hi[3] = { vmaxx, vmaxy, vmaxz };
+        int ijk[3]; bool inside = true;
+        for (int a = 0; a < 3; ++a) {
+            float gap = (hi[a] - lo[a]) / float(sub_n);
+            int i = int(floorf((pv[a] - lo[a]) / gap));
+            if (pv[a] < lo[a] || pv[a] > hi[a]) inside = false;
+            if (i < 0) i = 0; else if (i > sub_n - 1) i = sub_n - 1;
+            ijk[a] = i;
+        }
+        return inside ? (ijk[0] * sub_n + ijk[1]) * sub_n + ijk[2] : -1;
+    }
+    for (unsigned k = 0; k < n_sub; ++k) {
+        const float* b = subdiv + (size_t)k * 6;
+        if (pv[0] >= b[0] && pv[1] >= b[1] && pv[2] >= b[2] &&
+            pv[0] <= b[3] && pv[1] <= b[4] && pv[2] <= b[5]) return int(k);
+    }
+    return -1;
+}
+
 //! One block per walker, num_rep measurements strided across threads. Reads the
 //! on-device trajectory and accumulates the (T2=inf) signal sum_w cos(phase).
 //! Mirrors CUDASynth::deviceDataSynth but uses the scheme values directly (MCDC).
@@ -795,7 +829,7 @@ __global__ void signalKernel(const float* traj, unsigned T, float duration,
                              const int* inobs, const float* t2sum,
                              float vminx, float vminy, float vminz,
                              float vmaxx, float vmaxy, float vmaxz, int periodic,
-                             const float* subdiv, unsigned n_sub, int sub_n, double* out_DWI)
+                             const float* subdiv, unsigned n_sub, int sub_n, int at_te, double* out_DWI)
 {
     unsigned w = blockIdx.x;
     if (inobs[w] == -2) return;   // walker flagged as an illegal crossing (numerical membrane
@@ -810,49 +844,16 @@ __global__ void signalKernel(const float* traj, unsigned T, float duration,
     const float* tr = traj + (size_t)w * (T + 1) * 3;
     float x_ini[3] = { tr[0], tr[1], tr[2] };
 
-    // Subdivision membership: bin the FINAL position (wrapped into the voxel for periodic BC)
-    // into the containing box. Computed once per block in thread 0 -> shared. For a regular
-    // grid (sub_n > 0) the box is O(1) index arithmetic; otherwise an O(n_sub) box scan.
+    // Subdivision membership. Default (at_te==0): bin every acquisition by the FINAL position --
+    // computed once per block in thread 0 and shared. With at_te==1 each acquisition is binned by
+    // the walker's position AT ITS echo time (computed per-acquisition in the loop) -> density-vs-TE.
     __shared__ int sub_idx;
-    if (n_sub > 0 && threadIdx.x == 0) {
+    if (n_sub > 0 && !at_te && threadIdx.x == 0) {
         const float* fp = tr + (size_t)T * 3;       // final pos_r (free / unwrapped)
-        float pv[3] = { fp[0], fp[1], fp[2] };
-        // Fold the free pos_r into the voxel to get pos_v for binning: sawtooth (periodic)
-        // or triangle-wave (mirror) -- matches the kernel's incremental pv.
-        if (periodic) {
-            pv[0] = wrapCoord(pv[0], vminx, vmaxx);
-            pv[1] = wrapCoord(pv[1], vminy, vmaxy);
-            pv[2] = wrapCoord(pv[2], vminz, vmaxz);
-        } else {
-            pv[0] = mirrorFold(pv[0], vminx, vmaxx);
-            pv[1] = mirrorFold(pv[1], vminy, vmaxy);
-            pv[2] = mirrorFold(pv[2], vminz, vmaxz);
-        }
-        int found = -1;
-        if (sub_n > 0) {
-            // Regular grid: box index = floor((pv - vmin)/gap) per axis (clamped), ordered
-            // x-outer, y-mid, z-inner to match Parameters::addSubdivisions. Only points
-            // inside the voxel map to a box (outside -> extra), matching the box-scan result.
-            float lo[3] = { vminx, vminy, vminz }, hi[3] = { vmaxx, vmaxy, vmaxz };
-            int ijk[3]; bool inside = true;
-            for (int a = 0; a < 3; ++a) {
-                float gap = (hi[a] - lo[a]) / float(sub_n);
-                int i = int(floorf((pv[a] - lo[a]) / gap));
-                if (pv[a] < lo[a] || pv[a] > hi[a]) inside = false;
-                if (i < 0) i = 0; else if (i > sub_n - 1) i = sub_n - 1;
-                ijk[a] = i;
-            }
-            if (inside) found = (ijk[0] * sub_n + ijk[1]) * sub_n + ijk[2];
-        } else {
-            for (unsigned k = 0; k < n_sub; ++k) {
-                const float* b = subdiv + (size_t)k * 6;
-                if (pv[0] >= b[0] && pv[1] >= b[1] && pv[2] >= b[2] &&
-                    pv[0] <= b[3] && pv[1] <= b[4] && pv[2] <= b[5]) { found = int(k); break; }
-            }
-        }
-        sub_idx = found;
+        sub_idx = subBoxIndex(fp[0], fp[1], fp[2], vminx, vminy, vminz,
+                              vmaxx, vmaxy, vmaxz, periodic, subdiv, n_sub, sub_n);
     }
-    if (n_sub > 0) __syncthreads();
+    if (n_sub > 0 && !at_te) __syncthreads();
 
     for (unsigned s = threadIdx.x; s < num_rep; s += blockDim.x) {
         unsigned k = s * 7;
@@ -886,8 +887,16 @@ __global__ void signalKernel(const float* traj, unsigned T, float duration,
         // 2^24 ~ 1.7e7, so adds of ~1 are lost). double atomicAdd keeps it exact at scale.
         double contrib = double(t2w) * double(cosf(phase));
         atomicAdd(&out_DWI[base + s], contrib);                       // global signal
-        if (n_sub > 0 && sub_idx >= 0)                                // volumetric: this walker's box
-            atomicAdd(&out_DWI[(size_t)(1 + sub_idx) * 2u * num_rep + base + s], contrib);
+        if (n_sub > 0) {                                              // volumetric: this walker's box
+            int sidx = sub_idx;                                       // final-position box (at_te==0)
+            if (at_te) {                                             // per-echo-time: box at TE(s)
+                const float* fp = tr + (size_t)pos * 3;             // pos_r at this acquisition's TE
+                sidx = subBoxIndex(fp[0], fp[1], fp[2], vminx, vminy, vminz,
+                                   vmaxx, vmaxy, vmaxz, periodic, subdiv, n_sub, sub_n);
+            }
+            if (sidx >= 0)
+                atomicAdd(&out_DWI[(size_t)(1 + sidx) * 2u * num_rep + base + s], contrib);
+        }
     }
 }
 
@@ -946,7 +955,7 @@ static int gpuSynthAndFree(const GpuSimParams& p, float* d_traj, const int* d_in
                                    d_inobs, d_t2sum,
                                    p.vmin[0], p.vmin[1], p.vmin[2],
                                    p.vmax[0], p.vmax[1], p.vmax[2], p.periodic,
-                                   d_subdiv, p.n_sub, p.sub_n, d_dwi);
+                                   d_subdiv, p.n_sub, p.sub_n, p.at_te, d_dwi);
     CUDA_CHECK(cudaGetLastError());
     CUDA_CHECK(cudaDeviceSynchronize());
 
@@ -1019,7 +1028,7 @@ int runGpuSpheres(const GpuSimParams& p, const float* spheres, const float* obs_
         signalKernel<<<cn, sig_threads>>>(d_traj, p.T, p.duration, d_scheme, p.num_rep,
                                           d_inobs, d_t2sum,
                                           p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2], p.periodic,
-                                          d_subdiv, p.n_sub, p.sub_n, d_dwi);
+                                          d_subdiv, p.n_sub, p.sub_n, p.at_te, d_dwi);
         if ((rc = int(cudaGetLastError()))) break;
         if ((rc = int(cudaDeviceSynchronize()))) break;
         unsigned done_w = c0 + cn; int pct = int(100.0 * double(done_w) / double(p.N));
@@ -1231,7 +1240,7 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
         signalKernel<<<cn, sig_threads>>>(d_traj, p.T, p.duration, d_scheme, p.num_rep,
                                           d_inobs, d_t2sum,
                                           vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.periodic,
-                                          d_subdiv, p.n_sub, p.sub_n, d_dwi);
+                                          d_subdiv, p.n_sub, p.sub_n, p.at_te, d_dwi);
         if ((rc = int(cudaGetLastError()))) break;
         if ((rc = int(cudaDeviceSynchronize()))) break;   // finish chunk before its buffers are reused
 

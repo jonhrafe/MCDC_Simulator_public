@@ -51,6 +51,8 @@ public:
 
     bool subdivision_flag           = false;    /*!< flag to check if we have several voxel subdivision to compute the signal   */
 
+    bool subdivision_at_te          = false;    /*!< bin each acquisition at the walker position AT its echo time (density-vs-TE) */
+
     bool separate_signal            = false;    /*!< flag to check if we will separate the signal in intra and extra            */
 
     bool img_signal                 = false;    /*!< flag to check if the img part will be computed or not (false default       */

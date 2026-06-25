@@ -216,6 +216,11 @@ void Parameters::readSchemeFile(std::string conf_file_path)
             readSubdivisionFile();
             subdivision_flag |= (subdivisions.size()>0);
         }
+        else if(str_dist(tmp,"subdivisions_at_te") <= 1)
+        {
+            // bin each acquisition at the walker's position AT ITS echo time -> density-vs-TE movie
+            in >> subdivision_at_te;
+        }
         else if((str_dist(tmp,"permeability") <= 1) || (str_dist(tmp,"obstacle_permeability") <= 2))
         {
             in >> obstacle_permeability;

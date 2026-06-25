@@ -88,6 +88,8 @@ public:
     float       min_obstacle_radii;                 /*!< Minimum radii (in um) to be sampled                                        */
 
     bool subdivision_flag           = false;        /*!< flag to check if we have several voxel subdivision to compute the signal   */
+    bool subdivision_at_te          = false;        /*!< if true, bin each acquisition by the walker position AT ITS echo time (TE)
+                                                         instead of the final position -> a density-vs-TE movie. Default false        */
     unsigned number_subdivisions    = 0;            /*!< saves the number of subdivisions for an initialzied voxel (needed)         */
     std::string subdivisions_file   = "";           /*!< file with the list of subdivisions coordinates to compute the signal       */
     std::vector<Subdivision> subdivisions;          /*!< saves actual positions of the subdivision to compute the signal            */

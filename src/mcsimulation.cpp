@@ -45,6 +45,7 @@ MCSimulation::MCSimulation(std::string config_file)
 
         if(params.subdivision_flag){
             dataSynth->subdivision_flag = true;
+            dataSynth->subdivision_at_te = params.subdivision_at_te;
             dataSynth->subdivisions = params.subdivisions;
             dataSynth->initializeSubdivisionSignals();
             configureSubdivisionGrid();

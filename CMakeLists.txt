@@ -444,6 +444,17 @@ if(Python3_Interpreter_FOUND)
                 "${CMAKE_SOURCE_DIR}/tests/benchmark/three_imp_mte_test.conf")
     set_tests_properties(gpu_multi_te_t2 PROPERTIES LABELS "gpu" TIMEOUT 600)
 
+    # GPU GAMMA-distributed spheres: the host generates a gamma sphere packing (SI units:
+    # beta/min_radius in metres) and both engines walk it -- guards the gamma generator, the SI
+    # unit homogenization, and the GPU sphere path on a generated substrate. (gamma_cylinder.conf
+    # exists too but is NOT yet a passing ctest: the GPU cylinder path disagrees ~3-7% with the CPU
+    # on gamma cylinder packings -- a real pre-existing finding under investigation, see memory.)
+    add_test(
+        NAME gpu_gamma_sphere
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/gamma_sphere.conf")
+    set_tests_properties(gpu_gamma_sphere PROPERTIES LABELS "gpu" TIMEOUT 300)
+
     # GPU volumetric DWI: voxel subdivisions. Each walker is binned by its final wrapped
     # position into the box that contains it -> a (n_sub, num_rep) volume. Checks the
     # partition invariant (boxes sum to the global signal) and GPU-vs-CPU per-box population.

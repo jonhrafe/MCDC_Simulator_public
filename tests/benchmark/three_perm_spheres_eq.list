@@ -1,5 +1,5 @@
 # Equilibrium-density variant: T2=inf for ALL spheres (b0 = raw count -> readable density),
 # distinct Di + distinct permeability kept. <ply> <scale> <d_intra> <t2> <permeability>
-tests/benchmark/three_spheres_ply/sphere_a.ply 0.005 0.2e-9 1e9 1.0e-4
-tests/benchmark/three_spheres_ply/sphere_b.ply 0.005 0.5e-9 1e9 2.0e-4
-tests/benchmark/three_spheres_ply/sphere_c.ply 0.005 1.0e-9 1e9 5.0e-5
+tests/benchmark/three_spheres_ply/sphere_a.ply 5e-06 0.2e-9 1e9 1.0e-4
+tests/benchmark/three_spheres_ply/sphere_b.ply 5e-06 0.5e-9 1e9 2.0e-4
+tests/benchmark/three_spheres_ply/sphere_c.ply 5e-06 1.0e-9 1e9 5.0e-5

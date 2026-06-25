@@ -106,7 +106,7 @@ void CylinderGammaDistribution::createGammaSubstrate()
         }
         tried=0;
 
-        radiis[i] = jkr*1e-3; //WE CONVERT FROM UM TO MM HERE
+        radiis[i] = jkr; // beta (gamma scale) + min_radius are already internal mm (SI-homogenized in Parameters)
     }
 
     // using a lambda function:

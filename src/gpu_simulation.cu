@@ -601,6 +601,13 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
     float smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
     float gmin[3] = { gminx, gminy, gminz }, ics[3] = { icsx, icsy, icsz };
     int   dim[3]  = { dimx, dimy, dimz };
+    // Float32 nudge floor. The off-surface push must be representable in float32 at the
+    // voxel scale, else the walker stays on the membrane and tunnels through (the CPU is
+    // double, so 1e-5*step is fine there; in float32, 1e-5*step can be < 1 ULP at positions
+    // ~1e-5..1e-3 m). Floor at ~1e-5 of the voxel extent (~100+ ULP, physically negligible
+    // vs the step). Constant for the whole walk.
+    float voxext = fmaxf(fmaxf(vmaxx-vminx, vmaxy-vminy), vmaxz-vminz);
+    float vox_eps = 1e-5f * voxext;
     float pv[3] = { smin[0] + curand_uniform(&st)*(smax[0]-smin[0]),     // placement in the sampling area
                     smin[1] + curand_uniform(&st)*(smax[1]-smin[1]),
                     smin[2] + curand_uniform(&st)*(smax[2]-smin[2]) };
@@ -610,6 +617,8 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
     // in_obs selects the per-compartment step length (multi-D) and T2 (multi-T2); under
     // permeability (Phase 6) it changes mid-walk when the walker crosses a membrane.
     int in_obs = classifyMesh(pv, verts, tris, tri_obs, gmin, ics, dim, cell_start, cell_tri);
+    int in_obs0 = in_obs;                 // initial compartment (for the illegal-crossing check)
+    int perm_crossed = 0;                 // any legitimate permeation happened?
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
@@ -617,9 +626,14 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
 
     for (unsigned t = 1; t <= T; ++t) {
         // per-timestep step length from the CURRENT compartment (permeable crossings may
-        // have changed in_obs); EPS scales with it.
+        // have changed in_obs).
         float step_length = (in_obs >= 0) ? obs_step[in_obs] : step_extra;
-        float EPS = 1e-5f * step_length;     // re-hit guard / nudge (relative to step)
+        // NUDGE = float32-safe off-surface push (>= vox_eps so it never rounds to 0);
+        // EPS = re-hit / intersection threshold, kept BELOW the nudge so that a step heading
+        // back toward a surface the walker sits NUDGE off of is still detected (tc ~ NUDGE > EPS),
+        // never skipped -> no tunnelling.
+        float NUDGE = fmaxf(1e-5f * step_length, vox_eps);
+        float EPS   = 0.25f * NUDGE;
         float gx = curand_normal(&st), gy = curand_normal(&st), gz = curand_normal(&st);
         float inv = rsqrtf(gx*gx + gy*gy + gz*gz + 1e-30f);
         float dir[3] = { gx*inv, gy*inv, gz*inv };
@@ -669,6 +683,7 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
                     for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]; pv[i] += remaining*dir[i]; }
                     remaining = 0.0f;
                     in_obs = classifyMesh(pv, verts, tris, tri_obs, gmin, ics, dim, cell_start, cell_tri);
+                    perm_crossed = 1;
                 } else {                                  // reflect off the triangle
                     int i0 = tris[3*best_tri+0], i1 = tris[3*best_tri+1], i2 = tris[3*best_tri+2];
                     float e1[3] = { verts[3*i1+0]-verts[3*i0+0], verts[3*i1+1]-verts[3*i0+1], verts[3*i1+2]-verts[3*i0+2] };
@@ -677,14 +692,14 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
                     float nn = rsqrtf(n[0]*n[0] + n[1]*n[1] + n[2]*n[2] + 1e-30f);
                     n[0]*=nn; n[1]*=nn; n[2]*=nn;
                     reflectDir(dir, n);
-                    for (int i = 0; i < 3; ++i) { pr[i] += EPS*dir[i]; pv[i] += EPS*dir[i]; }
+                    for (int i = 0; i < 3; ++i) { pr[i] += NUDGE*dir[i]; pv[i] += NUDGE*dir[i]; }
                 }
             } else if (best_axis >= 0) {                 // voxel face
                 if (periodic) {
                     pv[best_axis] = (dir[best_axis] > 0.0f) ? vmin[best_axis] : vmax[best_axis];
                 } else {
                     dir[best_axis] = -dir[best_axis];
-                    pr[best_axis] += EPS*dir[best_axis]; pv[best_axis] += EPS*dir[best_axis];
+                    pr[best_axis] += NUDGE*dir[best_axis]; pv[best_axis] += NUDGE*dir[best_axis];
                 }
             } else {
                 remaining = 0.0f;
@@ -695,7 +710,14 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
         float* o = tr + (size_t)t * 3;
         o[0] = pr[0]; o[1] = pr[1]; o[2] = pr[2];
     }
-    out_inobs[w] = in_obs;                                  // final compartment (after any crossings)
+    // Final illegal-crossing check (mirrors CPU DynamicsSimulation::finalPositionCheck):
+    // re-classify the landing position; if intra/extra membership flipped vs the start with
+    // NO legitimate permeation, the walker tunnelled through an impermeable membrane (a
+    // numerical leak) -> flag -2 so signalKernel drops it. Otherwise the re-classified label
+    // also corrects any stale in_obs (e.g. after permeation it reflects the true final cell).
+    int final_obs = classifyMesh(pv, verts, tris, tri_obs, gmin, ics, dim, cell_start, cell_tri);
+    bool illegal = (!perm_crossed) && ((final_obs >= 0) != (in_obs0 >= 0));
+    out_inobs[w] = illegal ? -2 : final_obs;                // -2 = discard; else final compartment
 }
 
 //! Wrap a coordinate into [lo,hi) for periodic BC: pv = lo + mod(x-lo, L). For periodic
@@ -727,6 +749,10 @@ __global__ void signalKernel(const float* traj, unsigned T, float duration,
                              const float* subdiv, unsigned n_sub, int sub_n, double* out_DWI)
 {
     unsigned w = blockIdx.x;
+    if (inobs[w] == -2) return;   // walker flagged as an illegal crossing (numerical membrane
+                                  // leak) by the kernel's final re-classification -> excluded
+                                  // from the signal, mirroring the CPU deportation. One block
+                                  // per walker, so all threads return together (no __syncthreads).
     float time_step = duration / float(T);
     float dos_pi = 2.0f * float(M_PI);
     unsigned base = (inobs[w] >= 0) ? 0u : num_rep;   // intra -> first half, extra -> second

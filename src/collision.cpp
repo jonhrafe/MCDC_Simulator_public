@@ -1,6 +1,6 @@
 #include "collision.h"
 #include <cmath>
-const double EPS_VAL = 1e-15;
+const double COLLISION_EPS_VAL = 1e-15;
 
 Collision::~Collision()
 {
@@ -26,9 +26,9 @@ void Collision::computeCollisionLocation()
 
     col_location = unknown;
 
-    bool on_edge_flag = ( std::abs(u) < EPS_VAL );  // u=0;
-    on_edge_flag     |= ( std::abs(v) < EPS_VAL);  //  v=0;
-    on_edge_flag     |= ( std::abs(1.0-u-v) < EPS_VAL);  // u+v = 1 => w=0;
+    bool on_edge_flag = ( std::abs(u) < COLLISION_EPS_VAL );  // u=0;
+    on_edge_flag     |= ( std::abs(v) < COLLISION_EPS_VAL);  //  v=0;
+    on_edge_flag     |= ( std::abs(1.0-u-v) < COLLISION_EPS_VAL);  // u+v = 1 => w=0;
 
     if(on_edge_flag){
         col_location = on_edge;

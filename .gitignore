@@ -22,3 +22,11 @@ instructions/demos/output/*
 __pycache__/
 mcdc/_bin/*
 !mcdc/_bin/.gitkeep
+
+# Dev-only (kept locally, excluded from the release): test suite + the legacy Makefile.
+# A clean clone has no tests/, so the CMake ctest block is guarded by if(EXISTS tests/).
+/tests/
+/src/Makefile
+# Generated API docs (regenerate from Doxyfile)
+/docs/html/
+/docs/latex/

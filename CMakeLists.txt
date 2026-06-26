@@ -83,8 +83,11 @@ endif()
 set_target_properties(MC-DC_Simulator dataSynth PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")
 
-# --- Tests ------------------------------------------------------------------
-# Run with:  ctest --test-dir build --output-on-failure
+# --- Tests (development tree only) ------------------------------------------
+# The test suite under tests/ ships with the development sources and is excluded
+# from release clones. When it is present it is wired up for CTest:
+#   ctest --test-dir build --output-on-failure
+if(EXISTS "${CMAKE_SOURCE_DIR}/tests")
 enable_testing()
 
 find_package(Python3 COMPONENTS Interpreter)
@@ -223,3 +226,4 @@ if(Python3_Interpreter_FOUND)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()
+endif()  # tests/ present (development tree)

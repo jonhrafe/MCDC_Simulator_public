@@ -1,4 +1,0 @@
-# Extended PLY list: <ply_file> <scale> <d_intra[m^2/s]> <t2[s]> <permeability[m/s]>
-# Distinct Di and T2 per mesh; both impermeable (permeability 0).
-tests/accuracy/meshes/unitMesh.ply 0.001 0.5e-9 0.040 0
-tests/accuracy/meshes/Mesh_O200.ply 0.001 1.0e-9 0.060 0

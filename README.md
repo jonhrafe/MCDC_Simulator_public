@@ -58,6 +58,7 @@ Several quick start options are available:
  - [Tutorial: Simulation in free diffusion](instructions/tutorial_free_diffusion.md)
  - [Tutorial: Simulation in gamma distributed cylinders](instructions/tutorial_gamma_cylinders.md)
  - [Tutorial: Simulation in PLY models](instructions/tutorial_ply_meshes.md)
+ - [Tutorial: Multi-compartment substrate (multi-D, multi-T2, multi-PLY)](instructions/tutorial_multi_compartment.md)
 
 > **Note on units.** A `.conf` file (and its scheme) is in **standard SI units** by default — metres,
 > seconds, Tesla — scaled internally to mm/ms on load. This applies to all lengths, including the

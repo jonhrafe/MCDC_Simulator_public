@@ -1,0 +1,6 @@
+# Three PLY spheres (r=5um, centred at z = 0, 21, 42 um), each with a DISTINCT
+# intra diffusivity and T2, all impermeable (permeability 0).
+# <ply>  <scale [m/file-unit]>  <d_intra [m^2/s]>  <T2 [s]>  <permeability [m/s]>
+instructions/meshes/three_spheres/sphere_a.ply 5e-06 0.2e-9 0.140 0
+instructions/meshes/three_spheres/sphere_b.ply 5e-06 0.5e-9 0.160 0
+instructions/meshes/three_spheres/sphere_c.ply 5e-06 1.0e-9 0.180 0

@@ -16,3 +16,9 @@ build*/
 # Generated simulation outputs (keep the directory, ignore its contents)
 instructions/demos/output/*
 !instructions/demos/output/.gitkeep
+
+# Python packaging (pip install .)
+*.egg-info/
+__pycache__/
+mcdc/_bin/*
+!mcdc/_bin/.gitkeep

@@ -19,7 +19,33 @@ Supported platforms: Linux and macOS. On Windows, use the
 [Windows Subsystem for Linux (WSL)](https://docs.microsoft.com/en-us/windows/wsl/install) and follow
 the Linux instructions.
 
-## Recommended: build with CMake
+## Easiest: install with pip
+
+If you have Python ≥ 3.8, a single command builds the C++ simulator (pip pulls in CMake for the
+build — only a C++17 compiler is needed on the system) and installs it as the `mcdc` command:
+
+```bash
+pip install .
+```
+
+Then run simulations from anywhere:
+
+```bash
+mcdc docs/conf_file_examples/freeDiffusion.conf      # = the MC-DC_Simulator binary
+mcdc-datasynth ...                                   # = the dataSynth helper
+```
+
+To also install the Python packages used by the tutorials' visualization snippets
+(`numpy`, `matplotlib`, `nibabel`):
+
+```bash
+pip install ".[viz]"
+```
+
+The pip build is portable by default; set `MCDC_NATIVE=1 pip install .` to optimize for the local
+CPU (`-march=native`). Prefer a plain CMake build instead? See below.
+
+## Recommended (developers): build with CMake
 
 From the repository root:
 

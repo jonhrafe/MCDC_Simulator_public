@@ -1,0 +1,35 @@
+[build-system]
+# pip installs CMake into the build environment, so a system CMake is not required
+# (a C++17 compiler is the only system prerequisite). setup.py drives the CMake build.
+requires = ["setuptools>=68", "wheel", "cmake>=3.16"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcdc-simulator"
+version = "2.2.0"
+description = "MC/DC: a Monte-Carlo Diffusion and Collision simulator for diffusion-weighted MRI"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "LGPL-2.1" }
+authors = [{ name = "Jonathan Rafael-Patino" }]
+keywords = ["diffusion MRI", "Monte Carlo", "DW-MRI", "simulation", "microstructure"]
+
+[project.optional-dependencies]
+# Everything the tutorials' visualization snippets use.
+viz = ["numpy", "matplotlib", "nibabel"]
+
+[project.urls]
+Homepage = "https://github.com/jonhrafe/MCDC_Simulator_public"
+Issues = "https://github.com/jonhrafe/MCDC_Simulator_public/issues"
+
+# The compiled C++ binaries are wrapped by these console commands.
+[project.scripts]
+mcdc = "mcdc.cli:main"
+mcdc-datasynth = "mcdc.cli:datasynth"
+
+[tool.setuptools]
+packages = ["mcdc"]
+
+[tool.setuptools.package-data]
+# The binaries are produced by setup.py during the build and bundled here.
+mcdc = ["_bin/*"]

@@ -53,7 +53,8 @@ The <strong>M</strong>onte <strong>C</strong>arlo<strong> D</strong>iffusion and
 Several quick start options are available:
 
  - [Download a pre-compiled version if available](https://github.com/jonhrafe/MCDC_Simulator_public/releases)
- - [Compile the sources](instructions/compilation.md)
+ - **Install with pip** — `pip install .` builds the simulator and adds the `mcdc` command ([details](instructions/compilation.md#easiest-install-with-pip))
+ - [Compile the sources](instructions/compilation.md) with CMake
  - Read the [Getting started page](instructions/GettingStarted.md) for information on the basic parameters needed.
  - [Tutorial: Simulation in free diffusion](instructions/tutorial_free_diffusion.md)
  - [Tutorial: Simulation in gamma distributed cylinders](instructions/tutorial_gamma_cylinders.md)

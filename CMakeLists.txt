@@ -191,6 +191,35 @@ if(Python3_Interpreter_FOUND)
         NAME format_checks
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_format_checks.py")
     set_tests_properties(format_checks PROPERTIES LABELS "validation" TIMEOUT 300)
+
+    # General WAVEFORM protocol: a PGSE encoded as an arbitrary gradient waveform (bipolar two-lobe)
+    # must reproduce both the native PGSE signal and the analytic exp(-bD) on free diffusion. Guards
+    # scheme.type==WAVEFORM -> GradientWaveform synthesis.
+    add_test(
+        NAME waveform_protocol
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_waveform.py")
+    set_tests_properties(waveform_protocol PROPERTIES LABELS "waveform" TIMEOUT 300)
+
+    # GAMMA-distributed packings (seeded -> reproducible substrate): golden DWI for a gamma sphere
+    # and a gamma cylinder packing. Guards the gamma generator + the SI unit homogenization
+    # (beta/min_radius in metres).
+    add_test(
+        NAME accuracy_golden_gamma_sphere
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_accuracy_golden.py"
+                --bin $<TARGET_FILE:MC-DC_Simulator>
+                --conf "${CMAKE_SOURCE_DIR}/tests/accuracy/gamma_sphere.conf"
+                --golden-dir "${CMAKE_SOURCE_DIR}/tests/accuracy/golden"
+                --workdir "${CMAKE_SOURCE_DIR}")
+    set_tests_properties(accuracy_golden_gamma_sphere PROPERTIES LABELS "accuracy" TIMEOUT 600)
+
+    add_test(
+        NAME accuracy_golden_gamma_cylinder
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_accuracy_golden.py"
+                --bin $<TARGET_FILE:MC-DC_Simulator>
+                --conf "${CMAKE_SOURCE_DIR}/tests/accuracy/gamma_cylinder.conf"
+                --golden-dir "${CMAKE_SOURCE_DIR}/tests/accuracy/golden"
+                --workdir "${CMAKE_SOURCE_DIR}")
+    set_tests_properties(accuracy_golden_gamma_cylinder PROPERTIES LABELS "accuracy" TIMEOUT 600)
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

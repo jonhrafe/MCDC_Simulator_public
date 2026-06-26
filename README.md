@@ -55,9 +55,9 @@ Several quick start options are available:
  - [Download a pre-compiled version if available](https://github.com/jonhrafe/MCDC_Simulator_public/releases)
  - [Compile the sources](instructions/compilation.md)
  - Read the [Getting started page](instructions/GettingStarted.md) for information on the basic parameters needed.
- - [Tutorial: Simulation in free diffusion](instructions/GettingStarted.md)
- - [Tutorial: Simulation in gamma distributed cylinders](instructions/example_intra-axonal_initialization.md#gamma-distributed-cylinders)
- - [Tutorial: Simulation in PLY models](instructions/example_intra-axonal_initialization.md#ply-meshes)
+ - [Tutorial: Simulation in free diffusion](instructions/tutorial_free_diffusion.md)
+ - [Tutorial: Simulation in gamma distributed cylinders](instructions/tutorial_gamma_cylinders.md)
+ - [Tutorial: Simulation in PLY models](instructions/tutorial_ply_meshes.md)
 
 > **Note on units.** A `.conf` file (and its scheme) is in **standard SI units** by default — metres,
 > seconds, Tesla — scaled internally to mm/ms on load. This applies to all lengths, including the

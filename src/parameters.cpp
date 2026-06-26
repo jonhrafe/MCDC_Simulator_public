@@ -213,6 +213,10 @@ void Parameters::readSchemeFile(std::string conf_file_path)
             readSubdivisionFile();
             subdivision_flag |= (subdivisions.size()>0);
         }
+        else if(str_dist(tmp,"subdivisions_at_te") <= 1)
+        {
+            in >> subdivision_at_te;
+        }
         else if((str_dist(tmp,"permeability") <= 1) || (str_dist(tmp,"obstacle_permeability") <= 2))
         {
             in >> obstacle_permeability;
@@ -321,6 +325,19 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         hex_packing_radius        *= m_to_mm;
         hex_packing_separation    *= m_to_mm;
 
+        // SUBSTRATE-GENERATION SCALE FACTORS homogenized to SI: a mesh scale factor is now
+        // "metres per file unit" (like every other length), so x m_to_mm to reach internal mm.
+        // Covers ply_scale + ply_file_list + ply_file_list_scale_permeability + ply_extended_file_list
+        // (all populate PLY_scales). Sphere/cylinder LIST scales are scaled at read time in
+        // ParallelMCSimulation (those lists are parsed there), also gated on use_mm_ms.
+        for(auto& s : PLY_scales) s *= m_to_mm;
+
+        // Gamma-packing radii are SI too now: beta (the gamma scale) and min_obstacle_radii are
+        // lengths in metres -> mm here, and the *1e-3 (um->mm) inside the distribution classes is
+        // removed so the drawn radius is already in internal mm.
+        gamma_packing_beta *= m_to_mm;
+        min_obstacle_radii *= float(m_to_mm);
+
         // Per-PLY physical properties from the extended list (sentinels <0 mean
         // "use global" and are left untouched). d_intra: m^2/s -> mm^2/ms; T2: s -> ms.
         for(auto& d : PLY_d_intra) if(d > 0) d *= m2_to_mm2/s_to_ms;
@@ -329,10 +346,6 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         // permeability kappa is a velocity (m/s); m/s == mm/ms numerically, so it
         // is invariant under this scaling and intentionally left unchanged. This
         // covers obstacle_permeability and the per-PLY PLY_percolation (kappa).
-        //
-        // NOTE: gamma-packing parameters (alpha, beta, min_radius) are NOT scaled
-        // here: that pipeline carries its own micrometre convention (radii drawn in
-        // um then converted via *1e-3 in createGammaSubstrate). Pending separate cleanup.
     }
 
 

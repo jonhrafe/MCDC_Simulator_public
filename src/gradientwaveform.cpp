@@ -261,8 +261,8 @@ void GradientWaveform::getDWISignal()
 
 void GradientWaveform::update_DWI_signal(Walker& walker,double dt)
 {
-    // O(1) subdivision lookup (regular grid) computed once; see SimulableSequence::subdivisionIndex.
-    const int sub_idx = subdivision_flag ? subdivisionIndex(walker.pos_v) : -1;
+    // FINAL-position box (density tally always; DWI binning unless subdivisions_at_te). O(1).
+    const int sub_idx_final = subdivision_flag ? subdivisionIndex(walker.pos_v) : -1;
 
     for(uint s=0; s< uint(num_rep); s++){
 
@@ -274,6 +274,13 @@ void GradientWaveform::update_DWI_signal(Walker& walker,double dt)
         unsigned pos = int(te/dt);
         pos = (pos >= T)?T-1:pos;
         double T2 = walker.t2_log[pos];
+
+        // subdivisions_at_te: bin THIS acquisition by the position at its echo time (density-vs-TE).
+        int sub_idx = sub_idx_final;
+        if(subdivision_flag && subdivision_at_te){
+            Eigen::Vector3d pte = walker.pos_v_log.col(pos);
+            sub_idx = subdivisionIndex(pte);
+        }
 
         double cos_phase_shift_T2 = cos_phase_shift*T2;
         double sin_phase_shift_T2 = sin_phase_shift*T2;
@@ -321,15 +328,15 @@ void GradientWaveform::update_DWI_signal(Walker& walker,double dt)
     } //s
 
 
-    // Density tally (outside the acquisition loop): same containing box, O(1).
-    if(sub_idx >= 0){
-        subdivisions[sub_idx].density++;
+    // Density tally (outside the acquisition loop): the FINAL-position box, O(1).
+    if(sub_idx_final >= 0){
+        subdivisions[sub_idx_final].density++;
 
         if(walker.location == Walker::intra){
-            subdivisions[sub_idx].density_intra++;
+            subdivisions[sub_idx_final].density_intra++;
         }
         else if(walker.location == Walker::extra){
-            subdivisions[sub_idx].density_extra++;
+            subdivisions[sub_idx_final].density_extra++;
         }
     }
 }

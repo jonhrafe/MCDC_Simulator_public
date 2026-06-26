@@ -1,4 +1,5 @@
 #include "spheregammadistribution.h"
+#include <cstdlib>
 #include <algorithm>    // std::sort
 #include <random>
 #include "rng.h"
@@ -49,6 +50,13 @@ void SphereGammaDistribution::createGammaSubstrate()
         std::random_device rd;
         rng.seed((uint64_t(rd()) << 32) ^ uint64_t(rd()));
     }
+    // Guard: 0 obstacles (e.g. num_spheres unset / mistyped keyword) -> empty radiis ->
+    // radiis[radiis.size()-1] underflow in computeMinimalSize. Fail clearly instead of crashing.
+    if(num_obstacles == 0){
+        SimErrno::error("Sphere gamma packing: num_spheres is 0 or unset (recognised keyword is "
+                        "'num_spheres').", cout);
+        std::exit(EXIT_FAILURE);
+    }
     std::gamma_distribution<double> distribution(alpha,beta);
     uint repetition = 40;
     uint max_adjustments = 5;
@@ -80,7 +88,7 @@ void SphereGammaDistribution::createGammaSubstrate()
         }
         tried=0;
 
-        radiis[i] = jkr*1e-3; //WE CONVERT FROM UM TO MM HERE
+        radiis[i] = jkr; // beta (gamma scale) + min_radius are already internal mm (SI-homogenized in Parameters)
     }
 
     // using a lambda function:
@@ -192,7 +200,7 @@ bool SphereGammaDistribution::checkForCollition(Sphere sph, Eigen::Vector3d min_
 
     // we need to check that the spheres to add don't interse4ct each other (very small voxel sizes)
 
-    for(unsigned i = 0 ; i < spheres_to_add.size()-1; i++){
+    for(unsigned i = 0 ; i + 1 < spheres_to_add.size(); i++){  // i+1<size: avoid unsigned underflow when empty
         for(unsigned j = i+1 ; j < spheres_to_add.size(); j++){
 
             double distance = (spheres_to_add[i].center - spheres_to_add[j].center).norm();

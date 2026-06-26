@@ -326,10 +326,10 @@ void PGSESequence::update_phase_shift(double time_step, Eigen::Matrix3Xd traject
 
 void PGSESequence::update_DWI_signal(Walker& walker, double dt)
 {
-    // Locate the containing subdivision ONCE per walker (O(1) for a regular subdivisions_number
-    // grid; linear scan only for an irregular subdivisions_file grid). pos_v is constant across
-    // acquisitions, so this replaces the old per-acquisition + per-density box rescans.
-    const int sub_idx = subdivision_flag ? subdivisionIndex(walker.pos_v) : -1;
+    // Containing subdivision at the FINAL position (O(1) for a regular subdivisions_number grid;
+    // linear scan for an irregular subdivisions_file grid). Used for the density tally always, and
+    // for the DWI binning unless subdivisions_at_te asks for per-echo-time binning.
+    const int sub_idx_final = subdivision_flag ? subdivisionIndex(walker.pos_v) : -1;
 
     for(uint s=0; s< uint(num_rep); s++){
 
@@ -341,6 +341,14 @@ void PGSESequence::update_DWI_signal(Walker& walker, double dt)
         unsigned pos = int(te/dt);
         pos = (pos >= T)?T-1:pos;
         double T2 = walker.t2_log[pos];
+
+        // subdivisions_at_te: bin THIS acquisition by the walker's voxel position AT its echo time
+        // (pos_v_log[pos]) -> a density-vs-TE movie. Otherwise use the final-position box.
+        int sub_idx = sub_idx_final;
+        if(subdivision_flag && subdivision_at_te){
+            Eigen::Vector3d pte = walker.pos_v_log.col(pos);
+            sub_idx = subdivisionIndex(pte);
+        }
 
         double cos_phase_shift_T2 = cos_phase_shift*T2;
         double sin_phase_shift_T2 = sin_phase_shift*T2;
@@ -389,15 +397,15 @@ void PGSESequence::update_DWI_signal(Walker& walker, double dt)
     } //s
 
 
-    // Density tally (outside the acquisition loop): same containing box, O(1).
-    if(sub_idx >= 0){
-        subdivisions[sub_idx].density++;
+    // Density tally (outside the acquisition loop): the FINAL-position box, O(1).
+    if(sub_idx_final >= 0){
+        subdivisions[sub_idx_final].density++;
 
         if(walker.location == Walker::intra){
-            subdivisions[sub_idx].density_intra++;
+            subdivisions[sub_idx_final].density_intra++;
         }
         else if(walker.location == Walker::extra){
-            subdivisions[sub_idx].density_extra++;
+            subdivisions[sub_idx_final].density_extra++;
         }
     }
 }

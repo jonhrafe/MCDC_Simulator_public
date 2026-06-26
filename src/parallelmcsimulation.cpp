@@ -928,6 +928,7 @@ void ParallelMCSimulation::addObstaclesFromFiles()
             double x,y,z,r;
             double scale;
             in >> scale;
+            if(!params.use_mm_ms) scale *= 1000.0;   // SI: list scale is "m per file unit" -> internal mm
             while (in >> x >> y >> z >> r)
             {
                 cylinders_list.push_back(Cylinder(Eigen::Vector3d(x,y,z),Eigen::Vector3d(x,y,z+0.01),r,scale));
@@ -938,6 +939,7 @@ void ParallelMCSimulation::addObstaclesFromFiles()
             double x,y,z,r,p,t2;
             double scale;
             in >> scale;
+            if(!params.use_mm_ms) scale *= 1000.0;   // SI: list scale is "m per file unit" -> internal mm
             while (in >> x >> y >> z  >> r >> p >> t2)
             {
                 Cylinder cylinder(Eigen::Vector3d(x,y,z),Eigen::Vector3d(x,y,z+0.01),r,scale);
@@ -967,6 +969,7 @@ void ParallelMCSimulation::addObstaclesFromFiles()
         double x,y,z,r,p,t2;
         double scale;
         in >> scale;
+        if(!params.use_mm_ms) scale *= 1000.0;   // SI: list scale is "m per file unit" -> internal mm
 
         while (in >> x >> y >> z >> r >> p >> t2)
         {

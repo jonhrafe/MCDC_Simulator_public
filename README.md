@@ -1,7 +1,9 @@
+[![Build](https://github.com/jonhrafe/MCDC_Simulator_public/actions/workflows/build.yml/badge.svg?branch=mcdc2_dev)](https://github.com/jonhrafe/MCDC_Simulator_public/actions/workflows/build.yml)
+[![Latest release](https://img.shields.io/github/v/release/jonhrafe/MCDC_Simulator_public)](https://github.com/jonhrafe/MCDC_Simulator_public/releases/latest)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/jonhrafe/MCDC_Simulator_public)
 ![GitHub issues](https://img.shields.io/github/issues/jonhrafe/MCDC_Simulator_public)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/jonhrafe/MCDC_Simulator_public/graphs/commit-activity)
-![GitHub last commit](https://img.shields.io/github/last-commit/jonhrafe/MCDC_Simulator_public)
+![GitHub last commit](https://img.shields.io/github/last-commit/jonhrafe/MCDC_Simulator_public/mcdc2_dev)
 ![GitHub top language](https://img.shields.io/github/languages/top/jonhrafe/MCDC_Simulator_public)
 ![GitHub](https://img.shields.io/github/license/jonhrafe/MCDC_Simulator_public)
 
@@ -13,7 +15,7 @@
 <p align="center">
   User Friendly, Fast and Robust <strong>M</strong>onte <strong>C</strong>arlo<strong> D</strong>iffusion and <strong>C</strong>ollision Simulator
   <br>
-  <a href="https://github.com/jonhrafe/MCDC_Simulator_public/tree/master/instructions"><strong>Explore MC/DC docs and examples »</strong></a>
+  <a href="https://github.com/jonhrafe/MCDC_Simulator_public/tree/mcdc2_dev/instructions"><strong>Explore MC/DC docs and examples »</strong></a>
   <br>
   <br>
   <a href="https://github.com/jonhrafe/MCDC_Simulator_public/issues">Report bug</a>
@@ -21,6 +23,9 @@
   <a href="https://github.com/jonhrafe/MCDC_Simulator_public/issues">Request feature</a>
 </p>
 
+> [!IMPORTANT]
+> **This is MC/DC `v2.2.0` — the current stable release**, now on the default branch (`mcdc2_dev`): SI units, the modernized PGSE protocol, multi-compartment substrates, four tutorials, `pip install`, and cross-platform binaries on the [Releases page](https://github.com/jonhrafe/MCDC_Simulator_public/releases/latest).
+> **Looking for the previous stable version?** It remains available on the [**`master`**](https://github.com/jonhrafe/MCDC_Simulator_public/tree/master) branch.
 
 ## Table of contents
 - [Introduction](#introduction)

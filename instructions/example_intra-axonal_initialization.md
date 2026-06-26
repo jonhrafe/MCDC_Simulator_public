@@ -19,7 +19,7 @@ file is in [`docs/conf_file_examples/`](../docs/conf_file_examples/).
 ```
 N 1000
 T 1000
-duration 0.0359000000
+duration 0.050
 diffusivity 0.6e-9
 
 exp_prefix instructions/demos/output/cylinder_gamma_packing_test
@@ -48,7 +48,7 @@ num_process 1
 
 - `N 1000` — number of spins.
 - `T 1000` — number of time steps.
-- `duration 0.036` — total diffusion time, in **seconds**.
+- `duration 0.050` — total diffusion time, in **seconds** (≥ the scheme's TE of 45 ms).
 - `diffusivity 0.6e-9` — diffusion coefficient of the medium, in **m²/s** (near ex-vivo diffusion).
 - `exp_prefix [string]` — output path and prefix.
 - `scheme_file [string]` — the PGSE scheme file provided in the repository.
@@ -105,13 +105,13 @@ of arbitrary shape (e.g. the intra-axonal space).
 
 ![simulation](https://user-images.githubusercontent.com/4105920/88836514-18a71b80-d1d7-11ea-9e2a-a43df479a889.gif)
 
-__The setup:__ 100 steps over 0.02 s with a low diffusivity of 0.6e-10 m²/s. The example mesh
+__The setup:__ 100 steps over 0.05 s with a low diffusivity of 0.6e-10 m²/s. The example mesh
 (`instructions/meshes/PorusMedia.ply`) is stored in **micrometres**.
 
 ```
 N 1000
 T 100
-duration 0.020
+duration 0.050
 diffusivity 0.6e-10
 exp_prefix instructions/demos/output/mesh_initialization_test
 

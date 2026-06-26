@@ -48,12 +48,22 @@ target_include_directories(mcdc_core PUBLIC "${CMAKE_SOURCE_DIR}/src")
 find_package(Threads REQUIRED)
 target_link_libraries(mcdc_core PUBLIC Threads::Threads)
 
-if(MCDC_NATIVE_ARCH)
-    target_compile_options(mcdc_core PUBLIC $<$<CONFIG:Release>:-march=native>)
-endif()
-
-if(MCDC_ENABLE_WARNINGS)
-    target_compile_options(mcdc_core PRIVATE -Wall -Wextra)
+# Compiler-specific flags. The GCC/Clang flags below (-march=native, -Wall) are not valid for MSVC.
+if(MSVC)
+    # M_PI is non-standard and must be enabled before <cmath>; /permissive- makes MSVC accept the
+    # standard alternative operator tokens (and / or / not) used in the sources.
+    target_compile_definitions(mcdc_core PUBLIC _USE_MATH_DEFINES)
+    target_compile_options(mcdc_core PRIVATE /permissive-)
+    if(MCDC_ENABLE_WARNINGS)
+        target_compile_options(mcdc_core PRIVATE /W3)
+    endif()
+else()
+    if(MCDC_NATIVE_ARCH)
+        target_compile_options(mcdc_core PUBLIC $<$<CONFIG:Release>:-march=native>)
+    endif()
+    if(MCDC_ENABLE_WARNINGS)
+        target_compile_options(mcdc_core PRIVATE -Wall -Wextra)
+    endif()
 endif()
 
 # Link-time optimization (the -flto from compile.sh), only if the toolchain

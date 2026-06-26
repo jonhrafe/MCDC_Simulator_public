@@ -38,21 +38,28 @@ class CMakeBuild(build_ext):
         ]
         try:
             subprocess.run(cfg, check=True)
-            subprocess.run(["cmake", "--build", str(build_dir), "-j"], check=True)
+            # --config Release covers multi-config generators (MSVC); --parallel is portable.
+            subprocess.run(["cmake", "--build", str(build_dir), "--config", "Release", "--parallel"],
+                           check=True)
         except (subprocess.CalledProcessError, FileNotFoundError) as e:
             sys.exit(f"[mcdc] CMake build failed: {e}\n"
                      f"Ensure a C++17 compiler is installed (see instructions/compilation.md).")
 
-        # The CMakeLists places the binaries at the project root (RUNTIME_OUTPUT_DIRECTORY).
+        # The CMakeLists places the binaries at the project root (RUNTIME_OUTPUT_DIRECTORY);
+        # multi-config generators add a per-config subdir, and Windows adds .exe.
         dst = Path(self.build_lib) / "mcdc" / "_bin"
         dst.mkdir(parents=True, exist_ok=True)
         for name in BINARIES:
-            src = HERE / name
-            if src.exists():
-                shutil.copy2(src, dst / name)
-                os.chmod(dst / name, 0o755)
+            cands = [HERE / name, HERE / f"{name}.exe",
+                     HERE / "Release" / name, HERE / "Release" / f"{name}.exe",
+                     build_dir / "Release" / f"{name}.exe", build_dir / name]
+            src = next((c for c in cands if c.exists()), None)
+            if src is not None:
+                out = dst / src.name
+                shutil.copy2(src, out)
+                os.chmod(out, 0o755)
             elif name == "MC-DC_Simulator":
-                sys.exit(f"[mcdc] expected binary not produced: {src}")
+                sys.exit(f"[mcdc] expected binary not produced (looked in {[str(c) for c in cands]})")
 
 
 setup(

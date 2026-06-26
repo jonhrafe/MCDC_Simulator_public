@@ -1,0 +1,44 @@
+name: build
+
+# Verifies that MC/DC compiles on Linux, macOS and Windows. Runs on every push and on demand.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # Core compilation test: configure + build the CMake project on each platform.
+  cmake:
+    name: cmake build (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure (portable, no -march=native)
+        run: cmake -B build -DMCDC_NATIVE_ARCH=OFF
+      - name: Build
+        run: cmake --build build --config Release --parallel
+      - name: Show the built binary
+        shell: bash
+        run: ls -la MC-DC_Simulator* Release/MC-DC_Simulator* build/Release/MC-DC_Simulator* 2>/dev/null || true
+
+  # Installer test: `pip install .` (drives CMake) and run the simulator via the `mcdc` command.
+  pip:
+    name: pip install (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: pip install .
+        run: pip install .
+      - name: Smoke test (run the free-diffusion example)
+        run: mcdc docs/conf_file_examples/freeDiffusion.conf

@@ -51,7 +51,6 @@ GradientWaveform::GradientWaveform(Scheme &scheme_)
 
 }
 
-//TODO correjir esto
 GradientWaveform::GradientWaveform(Scheme& scheme_, const char *traj_file_name)
 {
     dynamic = false;

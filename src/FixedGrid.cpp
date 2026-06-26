@@ -110,7 +110,7 @@ std::vector<int> FixedGrid::getTrianglesForTriangle(const Eigen::Vector3d& A, co
 }
 
 
-// Convert grid to CSR format for CUDA
+// Convert the grid to CSR (compressed sparse row) format
 void FixedGrid::convertGridToCSR() {
     gridOffsets.resize(grid.size() + 1); // One extra for the end offset
     gridTriangles.clear();
@@ -124,7 +124,7 @@ void FixedGrid::convertGridToCSR() {
     gridOffsets[grid.size()] = current_offset;
 }
 
-// CUDA-related functions
+// CSR (compressed sparse row) grid accessors
 size_t FixedGrid::getCellOffsetsSize() const {
     return gridOffsets.size();
 }

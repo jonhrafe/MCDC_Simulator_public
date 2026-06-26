@@ -97,7 +97,7 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
     // A fixed seed reproduces a run only for the same number of processes: each
     // worker uses its own seeded RNG stream (seed + worker_index) and the walkers
     // are partitioned across them, so changing num_process repartitions the draws
-    // and yields a different (still deterministic) result. See P0.1.
+    // and yields a different (still deterministic) result. See.
     if (params.seed > 0 && params.num_proc > 1){
         warning( "Custom seed is thread-count specific: identical results are guaranteed only for the same num_process (" + to_string(params.num_proc) + "). Changing it will alter the output.",cout);
     }

@@ -195,7 +195,7 @@ void Walker::setRandomInitialPosition(const Eigen::Vector3d &_min, const Eigen::
     steps_count = 0;
 
     // Use the walker's own seeded RNG so fixed-seed runs are reproducible
-    // (was a fresh random_device-seeded mt19937 per call). See rng.h / P0.1.
+    // (was a fresh random_device-seeded mt19937 per call). See rng.h.
     double t = rng.uniform();
     pos_r[0]  = (1-t)*_min(0)+ t*_max(0);
     t = rng.uniform();

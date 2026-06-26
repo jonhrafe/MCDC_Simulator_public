@@ -35,7 +35,7 @@ public:
     Parameters   params;                            /*!< Parameters handler instance                                                */
     Walker       walker;                            /*!< Single walker to diffuse                                                   */
     Trajectory   trajectory;                        /*!< Trajectory instance. Handles i/o operations                                */
-    RandomEngine rng;                               /*!< Seeded random generator for placement/steps (P0.1)                         */
+    RandomEngine rng;                               /*!< Seeded random generator for placement/steps                         */
     uint64_t base_seed;                             /*!< Resolved base seed (user seed, or random_device when seed<=0)              */
     //double step_lenght;                             /*!< l, step length                                                             */
     double second_passed;                           /*!< Simulation total time in seconds                                           */
@@ -165,7 +165,7 @@ public:
 private:
     /*! \fn     initBaseSeed
      *  \brief  Resolves base_seed from params.seed (or random_device when
-     *          seed<=0) and seeds the placement/step RNG. P0.1.
+     *          seed<=0) and seeds the placement/step RNG.
      */
     void initBaseSeed();
 

@@ -29,7 +29,7 @@ using namespace sentinels;
 /**
  * Resolve the base seed once and seed the placement/step RNG. When the user
  * supplies a positive seed the run is fully reproducible; otherwise we fall
- * back to a non-deterministic random_device draw (P0.1).
+ * back to a non-deterministic random_device draw.
  */
 void DynamicsSimulation::initBaseSeed() {
     if(params.seed > 0){
@@ -426,7 +426,7 @@ void DynamicsSimulation::iniWalkerPosition()
 {
     // Seed this walker's own RNG deterministically from (base_seed, sim id,
     // walker id). Used by the percolation draw and random placement so a fixed
-    // user seed gives bit-reproducible runs, independent of obstacle state. P0.1.
+    // user seed gives bit-reproducible runs, independent of obstacle state.
     walker.rng.seedFrom(base_seed, uint64_t(uint32_t(id)), uint64_t(walker.index), RandomEngine::CROSSING);
 
     walker.initial_location = Walker::unknown;
@@ -496,7 +496,7 @@ void DynamicsSimulation::initWalkerObstacleIndexes()
 
 void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos,int &cyl_ind, int& ply_ind, int& sph_ind)
 {
-    // Draw placement samples from the seeded engine (was random_device). P0.1.
+    // Draw placement samples from the seeded engine (was random_device).
 
     if(cylinders_list->size() <=0 and plyObstacles_list->size() <= 0 and spheres_list->size() <=0){
         SimErrno::error("Cannot initialize intra-axonal walkers within the given substrate.",cout);
@@ -539,7 +539,7 @@ void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos,int &cyl
 
 void DynamicsSimulation::getAnExtraCellularPosition(Vector3d &extra_pos)
 {
-    // Draw placement samples from the seeded engine (was random_device). P0.1.
+    // Draw placement samples from the seeded engine (was random_device).
     int dummy_a,dummy_b,dummy_c;
     if(voxels_list.size()<=0){
         SimErrno::error("Cannot initialize extra-cellular walkers within the given substrate, no voxel.",cout);
@@ -828,13 +828,13 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
                 // Clear the flag (it was a one-way latch that, once set, permanently
                 // disabled the numerical-leak sentinel for the rest of the walker's
                 // trajectory) and rebaseline the expected compartment to where the
-                // walker now is, so subsequent steps are checked normally. P0.3.
+                // walker now is, so subsequent steps are checked normally.
                 walker.perm_crossed_flag = false;
                 updateStepLength();
                 walker.initial_location = walker.location;
             }
 
-            // for debugging purposes, todo: remove this or add it to a aux class
+            // Record the per-step compartment (intra = 1, extra = 0) for the particle-position log.
             if (walker.location == Walker::intra){
                 walker_particle_positions[t] = 1;
             }
@@ -1234,7 +1234,7 @@ void DynamicsSimulation::getTimeDt(double &last_time_dt, double &time_dt, double
 {
     last_time_dt = time_step*(t-1);
     time_dt = time_step*(t);
-    //Todo: remove this. Deprecated
+    // Dynamic (variable time-step) sequences override the uniform dt with their own time grid.
     if(dataSynth){
         if(dataSynth->dynamic){
             last_time_dt = dataSynth->time_steps[t-1];
@@ -1369,7 +1369,7 @@ void DynamicsSimulation::updateStepLength(){
         if(isIntra){
             // Use the per-obstacle intra diffusivity when set; fall back to the
             // global params.diff_intra otherwise (d_intra defaults to -1). The
-            // previous code computed this value then ignored it. P0.3.
+            // previous code computed this value then ignored it.
             double d_obs = (walker.in_cyl_index>=0)?(*cylinders_list)[walker.in_cyl_index].d_intra
                           :(walker.in_ply_index>=0)?(*plyObstacles_list)[walker.in_ply_index].d_intra
                           :(walker.in_sph_index>=0)?(*spheres_list)[walker.in_sph_index].d_intra

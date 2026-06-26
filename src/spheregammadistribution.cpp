@@ -42,7 +42,7 @@ void SphereGammaDistribution::computeMinimalSize(std::vector<double> radiis, dou
 void SphereGammaDistribution::createGammaSubstrate()
 {
     // Seeded RNG so a fixed user seed reproduces the substrate (was a pair of
-    // random_device-seeded engines that ignored the seed). P0.1.
+    // random_device-seeded engines that ignored the seed).
     RandomEngine rng;
     if(seed > 0)
         rng.seedFrom(uint64_t(seed), RandomEngine::SUBSTRATE);

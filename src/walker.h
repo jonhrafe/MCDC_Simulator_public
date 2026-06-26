@@ -93,7 +93,7 @@ public:
 
     Eigen::Vector3d boundary_mirror;                                /*!< Tracks boundary mirroring state*/
 
-    RandomEngine rng;                                               /*!< Per-walker seeded RNG (membrane percolation draw, P0.1)          */
+    RandomEngine rng;                                               /*!< Per-walker seeded RNG (membrane percolation draw)          */
 
     //! Default constructor.
     /*! Set all variables to cero.*/

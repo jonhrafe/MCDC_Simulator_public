@@ -35,7 +35,7 @@ public:
 
     std::vector<int> getTrianglesForTriangle(const Eigen::Vector3d& A, const Eigen::Vector3d& B, const Eigen::Vector3d& C) const;
 
-    // CUDA-related functions
+    // Flat CSR (compressed sparse row) grid accessors
     size_t getCellOffsetsSize() const;                   // Returns size of gridOffsets
     size_t getCellTrianglesSize() const;                 // Returns size of gridTriangles
     const std::vector<int>& getCellOffsets() const;      // Returns the gridOffsets array
@@ -45,10 +45,6 @@ public:
     Eigen::Vector3d getCellSize() const;                 // Returns cell size
 
     void convertGridToCSR();
-
-
-    // Optional: Utility to cast Eigen::Vector3d to CUDA-compatible double3
-    //static double3 toDouble3(const Eigen::Vector3d& v);
 };
 
 #endif // FIXEDGRID_H

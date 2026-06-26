@@ -1,6 +1,6 @@
 //!  RandomEngine Class =========================================================================/
 /*!
-*   \details   Single seeded RNG abstraction for the MC-DC simulator (Phase 0, P0.1).
+*   \details   Single seeded RNG abstraction for the MC-DC simulator.
 *
 *   Every stochastic draw in the simulator (walker placement, step direction,
 *   substrate generation and the membrane percolation draw) must go through one
@@ -13,7 +13,7 @@
 *   this interface ready for a future counter-based RNG (Philox/Threefry) keyed
 *   on (walker, step, purpose) without having to touch any call site.
 *
-*   \author    Phase 0 RNG unification
+*   \author    RNG unification
 *   \version   0.1
 *==============================================================================================*/
 

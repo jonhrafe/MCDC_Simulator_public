@@ -70,7 +70,7 @@ void CylinderGammaDistribution::displayGammaDistribution()
 void CylinderGammaDistribution::createGammaSubstrate()
 {
     // Seeded RNG so a fixed user seed reproduces the substrate (was a pair of
-    // random_device-seeded engines that ignored the seed). P0.1.
+    // random_device-seeded engines that ignored the seed).
     RandomEngine rng;
     if(seed > 0)
         rng.seedFrom(uint64_t(seed), RandomEngine::SUBSTRATE);

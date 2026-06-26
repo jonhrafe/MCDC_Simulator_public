@@ -54,6 +54,10 @@ if(MSVC)
     # standard alternative operator tokens (and / or / not) used in the sources.
     target_compile_definitions(mcdc_core PUBLIC _USE_MATH_DEFINES)
     target_compile_options(mcdc_core PRIVATE /permissive-)
+    # Force-include constants.h into every TU so the fixed-name uint/ulong aliases (which MSVC,
+    # unlike Linux/macOS, does not provide via system headers) are always in scope. PUBLIC so the
+    # executables get it too; constants.h is on the include path (src/) and is include-guarded.
+    target_compile_options(mcdc_core PUBLIC /FIconstants.h)
     if(MCDC_ENABLE_WARNINGS)
         target_compile_options(mcdc_core PRIVATE /W3)
     endif()

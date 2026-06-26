@@ -17,7 +17,7 @@
 #include "Eigen/Core"
 #include "simulablesequence.h"
 #include "scheme.h"
-typedef unsigned long ulong;
+#include "constants.h"   // uint / ulong
 
 
 /*! \class  ParallelMCSimulation

@@ -12,6 +12,7 @@
 #include "walker.h"
 #include <string>
 #include "Eigen/Core"
+#include "constants.h"   // uint / ulong
 #include <iostream>
 #include <random>
 #include "trajectory.h"

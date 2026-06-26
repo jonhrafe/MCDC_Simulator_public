@@ -38,14 +38,15 @@ const double triangle_eps = 1e-10;              /*!< Extra area for the PLY tria
 const unsigned max_rejections =25;              /*!< Max number of tries to unstuck a particle in a single step */
 const double INFINITY_VALUE = std::numeric_limits<double>::infinity();  /*!< numerical infinity value           */
 
-#ifdef _WIN64
-typedef unsigned int ulong;
-typedef unsigned int uint;
+// Portable fixed-name unsigned aliases used throughout the code. On Linux/macOS these match the
+// <sys/types.h> definitions (re-declaring a typedef to the SAME type is legal, so this is harmless);
+// on Windows/MSVC, where uint/ulong do not exist, it supplies them. A single consistent definition
+// here avoids the "typedef redefinition with different types" errors that occur when headers disagree
+// (e.g. uint vs unsigned long).
+typedef unsigned int  uint;
+typedef unsigned long ulong;
 #ifndef M_PI
     #define M_PI 3.14159265358979323846
-#endif
-#elif __APPLE__
-typedef unsigned int ulong;
 #endif
 
 /*!< Colision optimization parameters                                                                           */

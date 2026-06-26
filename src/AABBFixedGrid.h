@@ -8,6 +8,7 @@
 #include <limits>
 #include <cmath>
 #include "simerrno.h"
+#include "constants.h"   // uint / ulong
 #include <iostream>
 struct AABB {
     double min_b[3]; // Minimum bounds

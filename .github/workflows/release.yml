@@ -1,25 +1,40 @@
 name: release
 
-# Builds the MC/DC binaries on every platform and publishes them as assets on the
-# GitHub Release for the pushed version tag (e.g. v2.2.0).
+# Publishes the MC/DC binaries as assets on the GitHub Release for the pushed
+# version tag (e.g. v2.2.0). The release is created first, then each platform
+# uploads its own binary independently -- so a slow/unavailable runner (notably
+# the scarce Intel-Mac `macos-13` pool) never blocks publishing the others.
 on:
   push:
     tags:
       - 'v*'
 
 permissions:
-  contents: write   # required to create/update the Release and upload assets
+  contents: write   # required to create the Release and upload assets
 
 jobs:
-  # 1) Build a portable Release binary on each target and upload it as a CI artifact.
+  # 1) Create the Release up front (with auto-generated notes) so the build jobs
+  #    only ever ADD assets -- no create-race, nothing to wait on.
+  create-release:
+    name: create release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+
+  # 2) Build each platform and upload its own binary directly to the Release.
+  #    fail-fast: false + per-job upload => Intel-Mac lagging or failing does not
+  #    affect or delay the other three.
   build:
     name: build ${{ matrix.target }}
+    needs: create-release
     strategy:
       fail-fast: false
       matrix:
         include:
           - { os: ubuntu-latest,  target: linux-x64 }
-          - { os: macos-13,       target: macos-x64 }    # Intel
+          - { os: macos-13,       target: macos-x64 }    # Intel (scarce runners -- may lag)
           - { os: macos-latest,   target: macos-arm64 }  # Apple Silicon
           - { os: windows-latest, target: windows-x64 }
     runs-on: ${{ matrix.os }}
@@ -54,29 +69,10 @@ jobs:
             tar -czf "${stage}.tar.gz" "$stage"
           fi
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload this binary to the Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: ${{ matrix.target }}
-          path: |
+          files: |
             mcdc-*.tar.gz
             mcdc-*.zip
-          if-no-files-found: error
-
-  # 2) Collect all artifacts and publish them on the tag's Release in a single step
-  #    (one release-creation -> no race between the parallel build jobs).
-  release:
-    name: publish release
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          path: dist
-          merge-multiple: true
-      - name: List assets
-        run: ls -R dist
-      - uses: softprops/action-gh-release@v2
-        with:
-          files: dist/**
-          generate_release_notes: true
-          fail_on_unmatched_files: true
+          fail_on_unmatched_files: false

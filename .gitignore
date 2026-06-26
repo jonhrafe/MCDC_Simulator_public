@@ -1,5 +1,6 @@
-# CMake build tree
+# CMake build tree(s)
 build/
+build*/
 
 # clangd compile DB symlink (generated)
 /compile_commands.json
@@ -7,6 +8,11 @@ build/
 
 # Compiled binaries / objects
 *.o
+*.debug_o
 /MC-DC_Simulator
 /dataSynth
 /debug
+
+# Generated simulation outputs (keep the directory, ignore its contents)
+instructions/demos/output/*
+!instructions/demos/output/.gitkeep

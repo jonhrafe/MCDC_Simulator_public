@@ -106,8 +106,8 @@ enable_testing()
 
 find_package(Python3 COMPONENTS Interpreter)
 if(Python3_Interpreter_FOUND)
-    # RNG reproducibility: same seed -> identical trajectories (P0.1/P0.2).
-    # Green since the RNG unification (P0.1) landed.
+    # RNG reproducibility: same seed -> identical trajectories.
+    # Green since the RNG unification landed.
     add_test(
         NAME rng_reproducibility
         COMMAND ${Python3_EXECUTABLE}
@@ -202,8 +202,8 @@ if(Python3_Interpreter_FOUND)
     set_tests_properties(obstacle_properties PROPERTIES LABELS "permeability" TIMEOUT 600)
 
     # Negative tests: malformed configs must be REJECTED (clean non-zero exit +
-    # error), valid/benign ones accepted. Guards the input validators and the P0.4
-    # enforcement fix (validation must fail in release builds, not just debug).
+    # error), valid/benign ones accepted. Guards the input validators
+    # (validation must fail in release builds, not just debug).
     add_test(
         NAME format_checks
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_format_checks.py")

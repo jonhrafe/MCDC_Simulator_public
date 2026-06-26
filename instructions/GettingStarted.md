@@ -1,82 +1,93 @@
 # Getting Started
 
-## Basic usage 
+## Basic usage
 
-    MC-DC_Simulator configuration_file.conf
+```bash
+./MC-DC_Simulator configuration_file.conf
+```
 
- - *MCDC_Simulator* :  Application name
- - *configuration_file.conf:* file with ALL the simulation parameters listed following the simulator syntaxis. 
+- `MC-DC_Simulator`: the application (see [building](compilation.md)).
+- `configuration_file.conf`: a text file with **all** the simulation parameters, listed one per line.
 
-## Test you installation: 
+## Test your installation
 
-Inside the folder *docs\conf_file_examples* there's several examples discussed in the tutorials.
+The folder `docs/conf_file_examples/` contains the commented examples used in the tutorials. From
+the repository root, run:
 
-To test your installation, run the following line placed in the simulator root folder: 
+```bash
+./MC-DC_Simulator docs/conf_file_examples/freeDiffusion.conf
+```
 
-  ./MC-DC_Simulator docs/conf_file_examples/freeDiffusion.conf 
+If everything is set up correctly, the output is written next to the configured `exp_prefix`
+(`instructions/demos/output/` for this example).
 
-If everything goes well, simulation output will be saved inside: *MCDC_Simulator_public\instructions\demos*.
+## A first free-diffusion simulation
 
-![enter image description here](https://user-images.githubusercontent.com/4105920/80267704-b2c06a80-86a2-11ea-9706-daf9ab7eae6e.gif)
+Below is the body of `docs/conf_file_examples/freeDiffusion.conf` (the file itself carries a
+detailed units header as comments):
 
-Below we review the basic format and parameters included inside *docs/conf_file_examples/freeDiffusion.conf* 
+```
+N 1000
+T 1000
+duration 0.100
+diffusivity 0.6e-9
 
-## Free diffusion simulation:  
+exp_prefix instructions/demos/output/free_diffusion_test
 
-**Input:** 
- - *freeDiffusion.conf*
- 
-**Outputs:** 
-All the outputs are stored ins separated files with the indicated "exp_prefix" name and the output appended name. 
+scheme_file docs/scheme_files/PGSE_sample_scheme.scheme
 
-**Output files:** 
- - real part of the DW-MRI signal (*"_DWI"*).
- - imaginary part of the DW_MRI signal (*"_DWI_img"*)
- - info file ("*_info*")
- 
-Below, the content of the configuration file, freeDiffusion.conf, is shown. 
+write_txt 1
+write_bin 1
+write_traj_file 1
 
-    N 10000
-    T 1000
-    duration 0.100
-    diffusivity 0.6e-9
-    scale_from_stu 1
+<voxel>
+0 0 0
+0.5e-3 0.5e-3 0.5e-3
+</voxel>
 
-    exp_prefix instructions/demos/output/free_diffusion_test
-    
-    scheme_file docs/scheme_files/PGSE_sample_scheme.scheme
-    
-    write_txt 1
-    write_bin 0
-    write_traj_file 0
-    
-    <voxel>
-    0.0 0.0 0.0
-    0.5 0.5 0.5
-    </voxel>
-    
-    num_process 5
-    
-    <END>
+num_process 1
 
-The configuration files will **read all the listed parameters until finding  the 
-< END> tag**. all the parameters should be listed in one line with the name of the parameters followed by a space and the indicated value. Any path should be either a **full system path**, or **relative to the consoles execution path.**
+<END>
+```
 
-Below the description of the parameters in the confile.
+Parameters are read **until the `<END>` tag**. Each parameter is one line: the name, a space, then
+the value. Any path must be either an absolute system path or relative to the directory the
+simulator is launched from.
 
- - **`N`** [int]: total number of spin particles to diffuse.
- - **`T`** [int]: total number of steps to perform during the duration of the experiment. 
- - **`duration`** [float]: total diffusion duration in seconds, this duration should be at least as long as the longest echo time (TE) in the acquisition protocol  acquisition.
- - **`diffusivity`** [float] diffusion coefficient of the medium in m^2/s for standard units, mm^2/ms otherwise.
- - **`scale_from_stu`** [0,1] flag to indicate if the protocol's scheme_file, and the experiment's duration and diffusivity, are in standard units (SI units; m,s,etc.)   
- - **`exp_prefix`** [string] output path and prefix for the experiment 
- - scheme_file docs/scheme_files/PGSE_sample_scheme.scheme
- - **`write_txt`** [0,1]  flag to indicate if the output files should be written in txt format with reduced numerical precision.
- - **`write_bin`** [0,1] flag to indicate if the output files should be written in binary format with full floating (float32)  precision **(recommended)**.
- - **`write_traj_file`** [0,1] flag to indicate if the particles trajectories should be written to disk (**warning, very big files**). The trajectory file will be written in txt, or binary format depending on the **write_txt** and **write_bin** flags.
- - **`<voxel> <\voxel>`** Voxel tags to define the simulation voxel in MILLIMETRES. The first 3 numbers defines the **minimum voxel limit (x_min,y_min,z_min)** followed by 3 numbers defining the **maximum voxel limit (x_max, y_max, z_min)**.
- - **`num_process`** [unsigned int] short for number of processors, defines the number of processors/cores to use for  the simulation. 
+> **Units.** By default the `.conf` (and its scheme file) is in **SI units** — metres, seconds,
+> Tesla — scaled internally to mm/ms. Add `use_mm_ms 1` to declare a file already in the internal
+> units instead. The legacy `scale_from_stu 1` flag is still accepted but deprecated. See the
+> [Units section of the README](../README.md#units).
 
-**Experiment description:** 
-In our free diffusion example, we have defined a simulations with 10,000 spins that will diffuse during 100 milliseconds, doing 1,000 steps (one step every 0.1 milliseconds), the output files will be stored in the folder "instructions/demos/output/free_diffusion_test" with the prefix "free_diffusion_test". The diffusion signal will be computed using the PGSE scheme file "PGSE_sample_scheme.scheme", which contains 270 acquisition with a maximum TE of 100 milliseconds.  Te results will be written in txt format, and no trajfile will be saved. We defined an arbitrary voxel from      0.0mm 0.0mm 0.0mm to 0.5mm, 0.5mm, 0.5mm. Finally we have assigned 5 processors/cores to the simulation. 
+### Parameters
 
+- **`N`** [int]: number of spin particles to diffuse.
+- **`T`** [int]: number of time steps over the experiment duration.
+- **`duration`** [float]: total diffusion time in **seconds** (SI) — at least as long as the longest
+  echo time (TE) in the scheme.
+- **`diffusivity`** [float]: diffusion coefficient of the medium in **m²/s** (SI).
+- **`exp_prefix`** [string]: output path and filename prefix for the experiment.
+- **`scheme_file`** [path]: the acquisition protocol (PGSE or general waveform).
+- **`write_txt`** [0,1]: write text output (reduced numerical precision).
+- **`write_bin`** [0,1]: write binary output (full float32 precision, **recommended**).
+- **`write_traj_file`** [0,1]: write the per-particle trajectories (**warning: very large files**),
+  in text or binary depending on the flags above.
+- **`<voxel> … </voxel>`**: the simulation voxel, in **metres** (SI). Three numbers for the minimum
+  corner (x_min, y_min, z_min), then three for the maximum corner (x_max, y_max, z_max).
+- **`num_process`** [int]: number of CPU threads to use.
+
+### Output files
+
+Outputs share the `exp_prefix` name with an appended suffix:
+
+- real part of the DW-MRI signal (`_DWI`),
+- imaginary part of the DW-MRI signal (`_DWI_img`),
+- a simulation info file (`_simulation_info`),
+- and, if enabled, the trajectory file.
+
+### What this run does
+
+This example diffuses 1,000 spins for 100 ms in 1,000 steps (one step every 0.1 ms). The signal is
+computed with the PGSE scheme `PGSE_sample_scheme.scheme`. Walkers are seeded in an arbitrary cubic
+voxel from (0, 0, 0) to (0.5, 0.5, 0.5) mm (written as `0.5e-3` m in SI), and the run uses a single
+CPU thread.

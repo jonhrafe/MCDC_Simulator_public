@@ -24,11 +24,11 @@
 
 ## Table of contents
 - [Introduction](#introduction)
-- [Features](#features)
 - [Quick start](#quick-start)
-- [Units](#units)
-- [Documentation](#documentation)
+- [Status](#status)
+- [Simulations](#whats-included)
 - [Bugs and feature requests](#bugs-and-feature-requests)
+- [Documentation](#documentation)
 - [Versioning](#versioning)
 - [Developers](#developers)
 - [Copyright and license](#copyright-and-license)
@@ -49,12 +49,37 @@ The <strong>M</strong>onte <strong>C</strong>arlo<strong> D</strong>iffusion and
 > URL=https://www.frontiersin.org/article/10.3389/fninf.2020.00008
 > DOI=10.3389/fninf.2020.00008     ISSN=1662-5196
 
-## Features
+## Quick start
+Several quick start options are available:
 
-MC/DC diffuses spin packets through a user-defined substrate and synthesizes the resulting
-DW-MRI signal. The only external dependency is the C++ **Eigen** template library for linear
-algebra, which is bundled in the repository (`src/Eigen`); everything else — from the geometry
-and collision handling to the signal synthesis — is built from scratch.
+ - [Download a pre-compiled version if available](https://github.com/jonhrafe/MCDC_Simulator_public/releases)
+ - [Compile the sources](instructions/compilation.md)
+ - Read the [Getting started page](instructions/GettingStarted.md) for information on the basic parameters needed.
+ - [Tutorial: Simulation in free diffusion](instructions/GettingStarted.md)
+ - [Tutorial: Simulation in gamma distributed cylinders](instructions/example_intra-axonal_initialization.md#gamma-distributed-cylinders)
+ - [Tutorial: Simulation in PLY models](instructions/example_intra-axonal_initialization.md#ply-meshes)
+
+> **Note on units.** A `.conf` file (and its scheme) is in **standard SI units** by default — metres,
+> seconds, Tesla — scaled internally to mm/ms on load. This applies to all lengths, including the
+> substrate-generation scales (`ply_scale` and the sphere/cylinder list scale are "metres per file
+> unit", and gamma `beta`/`min_radius` are in metres). Set `use_mm_ms 1` to declare a file already in
+> the internal units; the legacy `scale_from_stu` flag is still accepted but deprecated.
+
+## Status
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/jonhrafe/MCDC_Simulator_public/graphs/commit-activity)
+![GitHub last commit](https://img.shields.io/github/last-commit/jonhrafe/MCDC_Simulator_public)
+![GitHub issues](https://img.shields.io/github/issues/jonhrafe/MCDC_Simulator_public)
+[![ForTheBadge built-with-science](http://ForTheBadge.com/images/badges/built-with-science.svg)](https://www.frontiersin.org/articles/10.3389/fninf.2020.00008/full)
+
+## What's included
+
+The MC/DC Simulator uses the C++ **Eigen** template library for linear algebra as its only external
+dependency, which is bundled in the repository (`src/Eigen`); all other components — from the
+3D-mesh handling to the MRI signal synthesis — are built from scratch as class-oriented modules with
+abstract base prototypes that can be inherited and re-implemented to extend the simulator.
+
+MC/DC diffuses spin packets through a user-defined substrate and synthesizes the resulting DW-MRI
+signal. It supports:
 
 - **Substrates:** free diffusion; analytic **spheres** and **cylinders**; triangulated **PLY meshes**
   (single or multiple); **hexagonal packings**; and **gamma-distributed** spheres and cylinders.
@@ -71,33 +96,9 @@ and collision handling to the signal synthesis — is built from scratch.
 - **Reproducible & tested:** a single seeded RNG makes runs reproducible, and a CTest suite guards
   the physics against golden references.
 
-All components are organized as class-oriented modules with abstract base prototypes, so the
-substrates, sequences and outputs can be extended by inheritance.
+## Bugs and feature requests
 
-## Quick start
-
- - **[Build the simulator](instructions/compilation.md)** — CMake (recommended) or a single-command build.
- - **[Getting started](instructions/GettingStarted.md)** — run your first (free-diffusion) simulation and learn the `.conf` parameters.
- - **[Tutorial: gamma-distributed cylinders](instructions/example_intra-axonal_initialization.md)** — intra-axonal initialization on a generated substrate.
-
-Once built, a simulation is launched with a single configuration file:
-
-```bash
-./MC-DC_Simulator docs/conf_file_examples/freeDiffusion.conf
-```
-
-## Units
-
-By default a `.conf` file (and its scheme file) is written in **standard SI units**: metres,
-seconds and Tesla. Values are scaled silently to the internal working units (mm, ms) on load.
-This applies to **all** lengths, including substrate-generation parameters (voxel, sampling area,
-sphere/cylinder/hex radii, gamma `beta`/`min_radius`, and geometry-file scale factors, which are
-"metres per file unit"). The only exception is permeability (a velocity: m/s equals mm/ms
-numerically, so it is scale-invariant).
-
-Set `use_mm_ms 1` to declare that a file is already in the internal units (mm, ms) and skip the
-scaling. The legacy `scale_from_stu` flag is still accepted (it maps to the inverse of `use_mm_ms`)
-but is deprecated.
+Have a bug or a feature request? Please search the [existing and closed issues](https://github.com/jonhrafe/MCDC_Simulator_public/issues) first. If your problem or idea is not addressed yet, [open a new issue](https://github.com/jonhrafe/MCDC_Simulator_public/issues).
 
 ## Documentation
 
@@ -106,18 +107,15 @@ page and in the commented example configurations under
 [`docs/conf_file_examples/`](docs/conf_file_examples/). Source-level API documentation can be
 generated with **doxygen** from the in-source comments.
 
-## Bugs and feature requests
-
-Have a bug or a feature request? Please search the [existing and closed issues](https://github.com/jonhrafe/MCDC_Simulator_public/issues) first. If your problem or idea is not addressed yet, [open a new issue](https://github.com/jonhrafe/MCDC_Simulator_public/issues).
-
 ## Versioning
 
 The first version, **1.42**, is the one released with the paper and is preserved for full
 reproducibility of the published results at
 [https://github.com/jonhrafe/Robust-Monte-Carlo-Simulations](https://github.com/jonhrafe/Robust-Monte-Carlo-Simulations).
 Subsequent **2.x** releases add features and changed the configuration conventions — most notably,
-**`.conf` files are now in SI units by default** (see [Units](#units)). Configuration files written
-for 1.42 may need updating; the bundled examples reflect the current conventions.
+**`.conf` files are now in SI units by default** (see the note under [Quick start](#quick-start)).
+Configuration files written for 1.42 may need updating; the bundled examples reflect the current
+conventions.
 
 ## Developer(s)
 

@@ -221,30 +221,34 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
     curandStatePhilox4_32_10_t st;
     curand_init(seed, w_offset + w, 0, &st);   // global walker id -> chunk-size-independent
 
-    float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
-    float smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
-    float pv[3]; int in_obs;
+    // Geometry in DOUBLE: float32 cannot place a walker exactly on a curved membrane, so a
+    // float reflect lands a hair off-surface and the next step tunnels through -> a per-bounce
+    // leak that accumulates over many bounces (tight packings / long times). Double matches the
+    // CPU exactly, so the reflect is clean and NO nudge / containment hack is needed.
+    double vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
+    double smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
+    double pv[3]; int in_obs;
     if (placement == 1) {                          // intra: uniform in a random sphere
         unsigned si = curand(&st) % n_sph;
-        float cx = spheres[si*4+0], cy = spheres[si*4+1], cz = spheres[si*4+2], r0 = spheres[si*4+3];
-        float ox, oy, oz;
-        do { ox = (2.0f*curand_uniform(&st)-1.0f)*r0; oy = (2.0f*curand_uniform(&st)-1.0f)*r0; oz = (2.0f*curand_uniform(&st)-1.0f)*r0; }
+        double cx = spheres[si*4+0], cy = spheres[si*4+1], cz = spheres[si*4+2], r0 = spheres[si*4+3];
+        double ox, oy, oz;
+        do { ox = (2.0*curand_uniform(&st)-1.0)*r0; oy = (2.0*curand_uniform(&st)-1.0)*r0; oz = (2.0*curand_uniform(&st)-1.0)*r0; }
         while (ox*ox + oy*oy + oz*oz > r0*r0);
         pv[0] = cx + ox; pv[1] = cy + oy; pv[2] = cz + oz; in_obs = int(si);
     } else {                                       // uniform (0) or extra (2): in the sampling area
         for (int tries = 0; tries < 10000; ++tries) {
-            pv[0] = smin[0] + curand_uniform(&st)*(smax[0]-smin[0]);
-            pv[1] = smin[1] + curand_uniform(&st)*(smax[1]-smin[1]);
-            pv[2] = smin[2] + curand_uniform(&st)*(smax[2]-smin[2]);
+            pv[0] = smin[0] + (double)curand_uniform(&st)*(smax[0]-smin[0]);
+            pv[1] = smin[1] + (double)curand_uniform(&st)*(smax[1]-smin[1]);
+            pv[2] = smin[2] + (double)curand_uniform(&st)*(smax[2]-smin[2]);
             if (placement != 2 || !insideAnySphere(pv[0], pv[1], pv[2], spheres, n_sph)) break;
         }
         in_obs = whichSphere(pv[0], pv[1], pv[2], spheres, n_sph);   // compartment at placement
     }
-    float pr[3] = { pv[0], pv[1], pv[2] };
+    double pr[3] = { pv[0], pv[1], pv[2] };
     // Per-axis mirror sign (CPU boundary_mirror): pos_v moves by dir, pos_r by dir*bmir.
     // Mirror face flips both -> pos_r continuous (free MSD); pos_v reflects in. Periodic: bmir=+1.
-    float bmir[3] = { 1.0f, 1.0f, 1.0f };
-    float voxext  = fmaxf(fmaxf(vmax[0]-vmin[0], vmax[1]-vmin[1]), vmax[2]-vmin[2]);
+    double bmir[3] = { 1.0, 1.0, 1.0 };
+    double voxext  = fmax(fmax(vmax[0]-vmin[0], vmax[1]-vmin[1]), vmax[2]-vmin[2]);
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
@@ -252,71 +256,74 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
 
     for (unsigned t = 1; t <= T; ++t) {
         // per-timestep step length from the CURRENT compartment (permeable crossings may
-        // have changed in_obs); EPS scales with it.
-        float step_length = (in_obs >= 0) ? step_intra : step_extra;
-        float NUDGE = fmaxf(1e-5f * step_length, 1e-5f * voxext);   // float32-safe push; EPS < NUDGE
-        float EPS   = 0.25f * NUDGE;
-        float dx = curand_normal(&st), dy = curand_normal(&st), dz = curand_normal(&st);
-        float inv = rsqrtf(dx*dx + dy*dy + dz*dz + 1e-30f);
-        float dir[3] = { dx*inv, dy*inv, dz*inv };
-        float remaining = step_length;
+        // have changed in_obs). EPS just skips the ~0 root of the surface we rest on.
+        double step_length = (in_obs >= 0) ? step_intra : step_extra;
+        double EPS = 1e-9 * voxext;                      // << any real gap; double-clean
 
-        for (int b = 0; b < 24 && remaining > 0.0f; ++b) {
-            float best_t = remaining; int best_sph = -1, best_axis = -1;
-            for (unsigned i = 0; i < n_sph; ++i) {     // sphere surfaces (collide in pv)
-                float ux = pv[0]-spheres[i*4+0], uy = pv[1]-spheres[i*4+1], uz = pv[2]-spheres[i*4+2];
-                float ri = spheres[i*4+3];
-                float bq = ux*dir[0] + uy*dir[1] + uz*dir[2];
-                float cq = ux*ux + uy*uy + uz*uz - ri*ri;
-                float discr = bq*bq - cq;
-                if (discr > 0.0f) {
-                    float sq = sqrtf(discr);
-                    float t1 = -bq - sq, t2 = -bq + sq;
-                    float tc = (t1 > EPS) ? t1 : ((t2 > EPS) ? t2 : -1.0f);
-                    if (tc > EPS && tc < best_t) { best_t = tc; best_sph = int(i); best_axis = -1; }
+        double dx = curand_normal(&st), dy = curand_normal(&st), dz = curand_normal(&st);
+        double inv = 1.0 / sqrt(dx*dx + dy*dy + dz*dz + 1e-300);
+        double dir[3] = { dx*inv, dy*inv, dz*inv };
+        double remaining = step_length;
+        int rest_sph = -1;                               // sphere we are currently resting on
+
+        for (int b = 0; b < 24 && remaining > EPS; ++b) {
+            double best_t = remaining; int best_sph = -1, best_axis = -1;
+            for (unsigned i = 0; i < n_sph; ++i) {       // sphere surfaces (collide in pv)
+                double ux = pv[0]-(double)spheres[i*4+0], uy = pv[1]-(double)spheres[i*4+1], uz = pv[2]-(double)spheres[i*4+2];
+                double ri = spheres[i*4+3];
+                double bq = ux*dir[0] + uy*dir[1] + uz*dir[2];
+                double cq = ux*ux + uy*uy + uz*uz - ri*ri;
+                double discr = bq*bq - cq;
+                if (discr > 0.0) {
+                    double sq = sqrt(discr);
+                    double t1 = -bq - sq, t2 = -bq + sq;
+                    // Honor the nearest FORWARD root for every sphere we are NOT resting on (never
+                    // skip a real approaching entry -- a blanket tc>EPS skip tunnels to the far root
+                    // and leaks). For the surface we rest on, skip its ~0 root so we don't re-hit it.
+                    double lo = (int(i) == rest_sph) ? EPS : 0.0;
+                    double tc = (t1 > lo) ? t1 : ((t2 > lo) ? t2 : -1.0);
+                    if (tc > lo && tc < best_t) { best_t = tc; best_sph = int(i); best_axis = -1; }
                 }
             }
-            for (int i = 0; i < 3; ++i) {               // voxel faces (in pv)
-                float tw = -1.0f;
-                if (dir[i] >  1e-20f) tw = (vmax[i]-pv[i])/dir[i];
-                else if (dir[i] < -1e-20f) tw = (vmin[i]-pv[i])/dir[i];
+            for (int i = 0; i < 3; ++i) {                // voxel faces (in pv)
+                double tw = -1.0;
+                if (dir[i] >  1e-30) tw = (vmax[i]-pv[i])/dir[i];
+                else if (dir[i] < -1e-30) tw = (vmin[i]-pv[i])/dir[i];
                 if (tw > EPS && tw < best_t) { best_t = tw; best_axis = i; best_sph = -1; }
             }
-            // advance both positions to the event (pos_r in the real frame via bmir)
             for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]*bmir[i]; pv[i] += best_t*dir[i]; }
             remaining -= best_t;
-            if (best_sph >= 0) {                         // sphere membrane: cross or reflect
+            if (best_sph >= 0) {                          // sphere membrane: cross or reflect
                 bool from_intra = (in_obs == best_sph);
                 float prob = from_intra ? prob_ie[best_sph] : prob_ei[best_sph];
                 if (prob > 0.0f && prob > curand_uniform(&st)) {
-                    // PERMEATE (CPU model): the membrane is transparent -- finish the step
-                    // straight through (ignore further membranes) and re-classify at landing.
+                    // PERMEATE: transparent membrane -- finish straight through, re-classify.
                     for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]*bmir[i]; pv[i] += remaining*dir[i]; }
-                    remaining = 0.0f;
+                    remaining = 0.0;
                     in_obs = whichSphere(pv[0], pv[1], pv[2], spheres, n_sph);
-                } else {                                  // reflect off the sphere
-                    float nx = pv[0]-spheres[best_sph*4+0], ny = pv[1]-spheres[best_sph*4+1], nz = pv[2]-spheres[best_sph*4+2];
-                    float nn = rsqrtf(nx*nx + ny*ny + nz*nz + 1e-30f);
-                    float n[3] = { nx*nn, ny*nn, nz*nn };
-                    reflectDir(dir, n);
-                    for (int i = 0; i < 3; ++i) { pr[i] += NUDGE*dir[i]*bmir[i]; pv[i] += NUDGE*dir[i]; }
+                } else {                                  // reflect off the sphere (double => lands exactly on the surface; no nudge)
+                    double nx = pv[0]-(double)spheres[best_sph*4+0], ny = pv[1]-(double)spheres[best_sph*4+1], nz = pv[2]-(double)spheres[best_sph*4+2];
+                    double nn = 1.0 / sqrt(nx*nx + ny*ny + nz*nz + 1e-300);
+                    double n[3] = { nx*nn, ny*nn, nz*nn };
+                    double dn = dir[0]*n[0] + dir[1]*n[1] + dir[2]*n[2];
+                    dir[0] -= 2.0*dn*n[0]; dir[1] -= 2.0*dn*n[1]; dir[2] -= 2.0*dn*n[2];
+                    rest_sph = best_sph;                  // now resting on this surface (its ~0 root is skipped)
                 }
             } else if (best_axis >= 0) {                 // voxel face
                 if (periodic) {
-                    pv[best_axis] = (dir[best_axis] > 0.0f) ? vmin[best_axis] : vmax[best_axis];   // pr continuous
+                    pv[best_axis] = (dir[best_axis] > 0.0) ? vmin[best_axis] : vmax[best_axis];
                 } else {
-                    // MIRROR: flip dir AND bmir -> pv reflects in, pr keeps real direction (free).
                     dir[best_axis]  = -dir[best_axis];
                     bmir[best_axis] = -bmir[best_axis];
-                    pv[best_axis] += NUDGE*dir[best_axis];
-                    pr[best_axis] += NUDGE*dir[best_axis]*bmir[best_axis];
                 }
+                rest_sph = -1;                            // crossed a wall: no resting sphere
             } else {
-                remaining = 0.0f;                        // no event: full step already taken above
+                remaining = 0.0;                          // no event: full step taken
             }
         }
-        float T2c = (in_obs >= 0) ? obs_T2[in_obs] : t2_extra;   // T2 of the END-of-step compartment
-        t2acc += dt / T2c; t2sum[tb + t] = t2acc;                // Phase 6b: per-step T2 accumulation
+        in_obs = whichSphere(pv[0], pv[1], pv[2], spheres, n_sph);  // compartment for next step
+        float T2c = (in_obs >= 0) ? obs_T2[in_obs] : t2_extra;
+        t2acc += dt / T2c; t2sum[tb + t] = t2acc;
         float* o = tr + (size_t)t * 3;
         o[0] = pr[0]; o[1] = pr[1]; o[2] = pr[2];
     }
@@ -368,9 +375,11 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
     curandStatePhilox4_32_10_t st;
     curand_init(seed, w, 0, &st);
 
-    float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
-    float smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
-    float pv[3]; int in_obs;
+    // Geometry in DOUBLE (see spheresKernel): float32 cannot place a walker exactly on a curved
+    // membrane -> per-bounce micro-leak that accumulates over many bounces. Double matches the CPU.
+    double vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
+    double smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
+    double pv[3]; int in_obs;
     if (placement == 1) {                          // intra: random cylinder's perpendicular disk
         unsigned ci = curand(&st) % n_cyl;
         float p0x = cyls[ci*7+0], p0y = cyls[ci*7+1], p0z = cyls[ci*7+2];
@@ -394,48 +403,51 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
         }
         in_obs = whichCylinder(pv[0], pv[1], pv[2], cyls, n_cyl);
     }
-    float pr[3] = { pv[0], pv[1], pv[2] };
+    double pr[3] = { pv[0], pv[1], pv[2] };
     // Per-axis mirror sign (CPU boundary_mirror): pos_v by dir, pos_r by dir*bmir. Mirror face
     // flips both -> pos_r continuous (free MSD); pos_v reflects in. Periodic keeps bmir=+1.
-    float bmir[3] = { 1.0f, 1.0f, 1.0f };
-    float voxext  = fmaxf(fmaxf(vmax[0]-vmin[0], vmax[1]-vmin[1]), vmax[2]-vmin[2]);
+    double bmir[3] = { 1.0, 1.0, 1.0 };
+    double voxext  = fmax(fmax(vmax[0]-vmin[0], vmax[1]-vmin[1]), vmax[2]-vmin[2]);
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
     size_t tb = (size_t)w * (T + 1); t2sum[tb] = 0.0f; float t2acc = 0.0f;  // Phase 6b
 
     for (unsigned t = 1; t <= T; ++t) {
-        float step_length = (in_obs >= 0) ? step_intra : step_extra;  // current compartment (permeability)
-        float NUDGE = fmaxf(1e-5f * step_length, 1e-5f * voxext);   // float32-safe push; EPS < NUDGE
-        float EPS   = 0.25f * NUDGE;
-        float gx = curand_normal(&st), gy = curand_normal(&st), gz = curand_normal(&st);
-        float inv = rsqrtf(gx*gx + gy*gy + gz*gz + 1e-30f);
-        float dir[3] = { gx*inv, gy*inv, gz*inv };
-        float remaining = step_length;
+        double step_length = (in_obs >= 0) ? step_intra : step_extra;  // current compartment (permeability)
+        double EPS = 1e-9 * voxext;                       // skips the ~0 root of the surface we rest on
+        double gx = curand_normal(&st), gy = curand_normal(&st), gz = curand_normal(&st);
+        double inv = 1.0 / sqrt(gx*gx + gy*gy + gz*gz + 1e-300);
+        double dir[3] = { gx*inv, gy*inv, gz*inv };
+        double remaining = step_length;
+        int rest_cyl = -1;                                // cylinder we are currently resting on
 
-        for (int b = 0; b < 24 && remaining > 0.0f; ++b) {
-            float best_t = remaining; int best_cyl = -1, best_axis = -1;
+        for (int b = 0; b < 24 && remaining > EPS; ++b) {
+            double best_t = remaining; int best_cyl = -1, best_axis = -1;
             for (unsigned i = 0; i < n_cyl; ++i) {     // cylinder surfaces (in pv)
-                float ex = pv[0]-cyls[i*7+0], ey = pv[1]-cyls[i*7+1], ez = pv[2]-cyls[i*7+2];
-                float Dx = cyls[i*7+3], Dy = cyls[i*7+4], Dz = cyls[i*7+5], ri = cyls[i*7+6];
-                float md = ex*Dx + ey*Dy + ez*Dz;
-                float nd = dir[0]*Dx + dir[1]*Dy + dir[2]*Dz;
-                float a  = 1.0f - nd*nd;
-                if (a <= 1e-8f) continue;
-                float cq = (ex*ex + ey*ey + ez*ez - ri*ri) - md*md;
-                float bq = (ex*dir[0] + ey*dir[1] + ez*dir[2]) - nd*md;
-                float discr = bq*bq - a*cq;
-                if (discr > 0.0f) {
-                    float sq = sqrtf(discr);
-                    float t1 = (-bq - sq) / a, t2 = (-bq + sq) / a;
-                    float tc = (t1 > EPS) ? t1 : ((t2 > EPS) ? t2 : -1.0f);
-                    if (tc > EPS && tc < best_t) { best_t = tc; best_cyl = int(i); best_axis = -1; }
+                double ex = pv[0]-(double)cyls[i*7+0], ey = pv[1]-(double)cyls[i*7+1], ez = pv[2]-(double)cyls[i*7+2];
+                double Dx = cyls[i*7+3], Dy = cyls[i*7+4], Dz = cyls[i*7+5], ri = cyls[i*7+6];
+                double md = ex*Dx + ey*Dy + ez*Dz;
+                double nd = dir[0]*Dx + dir[1]*Dy + dir[2]*Dz;
+                double a  = 1.0 - nd*nd;
+                if (a <= 1e-12) continue;
+                double cq = (ex*ex + ey*ey + ez*ez - ri*ri) - md*md;
+                double bq = (ex*dir[0] + ey*dir[1] + ez*dir[2]) - nd*md;
+                double discr = bq*bq - a*cq;
+                if (discr > 0.0) {
+                    double sq = sqrt(discr);
+                    double t1 = (-bq - sq) / a, t2 = (-bq + sq) / a;
+                    // Honor the nearest forward root for cylinders we are NOT resting on; skip the
+                    // ~0 root only for the one we rest on (no blanket EPS skip -> no tunnel).
+                    double lo = (int(i) == rest_cyl) ? EPS : 0.0;
+                    double tc = (t1 > lo) ? t1 : ((t2 > lo) ? t2 : -1.0);
+                    if (tc > lo && tc < best_t) { best_t = tc; best_cyl = int(i); best_axis = -1; }
                 }
             }
             for (int i = 0; i < 3; ++i) {               // voxel faces (in pv)
-                float tw = -1.0f;
-                if (dir[i] >  1e-20f) tw = (vmax[i]-pv[i])/dir[i];
-                else if (dir[i] < -1e-20f) tw = (vmin[i]-pv[i])/dir[i];
+                double tw = -1.0;
+                if (dir[i] >  1e-30) tw = (vmax[i]-pv[i])/dir[i];
+                else if (dir[i] < -1e-30) tw = (vmin[i]-pv[i])/dir[i];
                 if (tw > EPS && tw < best_t) { best_t = tw; best_axis = i; best_cyl = -1; }
             }
             for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]*bmir[i]; pv[i] += best_t*dir[i]; }
@@ -446,30 +458,30 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
                 if (prob > 0.0f && prob > curand_uniform(&st)) {
                     // PERMEATE (CPU model): finish the step straight through, re-classify at landing.
                     for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]*bmir[i]; pv[i] += remaining*dir[i]; }
-                    remaining = 0.0f;
+                    remaining = 0.0;
                     in_obs = whichCylinder(pv[0], pv[1], pv[2], cyls, n_cyl);
-                } else {                                  // reflect off the radial normal
-                    float Dx = cyls[best_cyl*7+3], Dy = cyls[best_cyl*7+4], Dz = cyls[best_cyl*7+5];
-                    float rx = pv[0]-cyls[best_cyl*7+0], ry = pv[1]-cyls[best_cyl*7+1], rz = pv[2]-cyls[best_cyl*7+2];
-                    float rad = rx*Dx + ry*Dy + rz*Dz;
-                    float n[3] = { rx - rad*Dx, ry - rad*Dy, rz - rad*Dz };
-                    float nn = rsqrtf(n[0]*n[0] + n[1]*n[1] + n[2]*n[2] + 1e-30f);
+                } else {                                  // reflect off the radial normal (double => exact; no nudge)
+                    double Dx = cyls[best_cyl*7+3], Dy = cyls[best_cyl*7+4], Dz = cyls[best_cyl*7+5];
+                    double rx = pv[0]-(double)cyls[best_cyl*7+0], ry = pv[1]-(double)cyls[best_cyl*7+1], rz = pv[2]-(double)cyls[best_cyl*7+2];
+                    double rad = rx*Dx + ry*Dy + rz*Dz;
+                    double n[3] = { rx - rad*Dx, ry - rad*Dy, rz - rad*Dz };
+                    double nn = 1.0 / sqrt(n[0]*n[0] + n[1]*n[1] + n[2]*n[2] + 1e-300);
                     n[0]*=nn; n[1]*=nn; n[2]*=nn;
-                    reflectDir(dir, n);
-                    for (int i = 0; i < 3; ++i) { pr[i] += NUDGE*dir[i]*bmir[i]; pv[i] += NUDGE*dir[i]; }
+                    double dn = dir[0]*n[0] + dir[1]*n[1] + dir[2]*n[2];
+                    dir[0] -= 2.0*dn*n[0]; dir[1] -= 2.0*dn*n[1]; dir[2] -= 2.0*dn*n[2];
+                    rest_cyl = best_cyl;
                 }
             } else if (best_axis >= 0) {                 // voxel face
                 if (periodic) {
-                    pv[best_axis] = (dir[best_axis] > 0.0f) ? vmin[best_axis] : vmax[best_axis];   // pr continuous
+                    pv[best_axis] = (dir[best_axis] > 0.0) ? vmin[best_axis] : vmax[best_axis];   // pr continuous
                 } else {
                     // MIRROR: flip dir AND bmir -> pv reflects in, pr keeps real direction (free).
                     dir[best_axis]  = -dir[best_axis];
                     bmir[best_axis] = -bmir[best_axis];
-                    pv[best_axis] += NUDGE*dir[best_axis];
-                    pr[best_axis] += NUDGE*dir[best_axis]*bmir[best_axis];
                 }
+                rest_cyl = -1;                            // crossed a wall: no resting cylinder
             } else {
-                remaining = 0.0f;
+                remaining = 0.0;
             }
         }
         float T2c = (in_obs >= 0) ? obs_T2[in_obs] : t2_extra;   // T2 of the END-of-step compartment

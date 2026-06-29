@@ -269,6 +269,17 @@ if(Python3_Interpreter_FOUND)
                 "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_hex_gpu.conf")
     set_tests_properties(gpu_hex_spheres PROPERTIES LABELS "gpu" TIMEOUT 300)
 
+    # MANY-BOUNCE regression guard. Every other gpu test runs T=1000 (~1 membrane
+    # reflection per walker), where the old float32 bounce shortcut's per-bounce leak
+    # was invisible. This runs T=60000 (thousands of reflections) so the leak, if it
+    # ever returns, accumulates (the pre-fix kernel diverged ~8% here) and trips the
+    # CPU-vs-GPU comparison. Guards the double-precision bounce handler.
+    add_test(
+        NAME gpu_hex_manybounce
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"
+                "${CMAKE_SOURCE_DIR}/tests/accuracy/sphere_hex_manybounce.conf")
+    set_tests_properties(gpu_hex_manybounce PROPERTIES LABELS "gpu" TIMEOUT 300)
+
     add_test(
         NAME gpu_multi_cylinder
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_restricted.py"

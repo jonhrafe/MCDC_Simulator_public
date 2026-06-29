@@ -427,7 +427,13 @@ void DynamicsSimulation::iniWalkerPosition()
     // Seed this walker's own RNG deterministically from (base_seed, sim id,
     // walker id). Used by the percolation draw and random placement so a fixed
     // user seed gives bit-reproducible runs, independent of obstacle state.
-    walker.rng.seedFrom(base_seed, uint64_t(uint32_t(id)), uint64_t(walker.index), RandomEngine::CROSSING);
+    // Fold the restart counter into the purpose key so a DEPORTED walker redraws a
+    // DIFFERENT start position on each restart. placement_attempt==0 (the normal,
+    // no-restart path) leaves the key == CROSSING, so clean runs stay bit-identical;
+    // only restarts diverge. Without this, the deterministic per-index seed makes a
+    // walker whose start lands on a pathological spot re-cross forever (infinite loop).
+    walker.rng.seedFrom(base_seed, uint64_t(uint32_t(id)), uint64_t(walker.index),
+                        uint64_t(RandomEngine::CROSSING) + (placement_attempt << 16));
 
     walker.initial_location = Walker::unknown;
     walker.location         = Walker::unknown;
@@ -797,10 +803,18 @@ void DynamicsSimulation::startSimulation(SimulableSequence *dataSynth) {
     /*                                                     */
     /*********************   WARNING  **********************/
     unsigned w=0;
+    long prev_walker_index = -1;   // detect deportation restarts: w-- re-runs the same index
+    placement_attempt = 0;
     for (w = 0 ; w < params.num_walkers; w++)
     {
         //flag in case there was any error with the particle.
         back_tracking = false;
+
+        // Same index as the previous iteration => this is a deportation restart
+        // (w was decremented). Bump placement_attempt so iniWalkerPosition() redraws
+        // a different start position instead of looping on the same pathological seed.
+        if ((long)w == prev_walker_index) placement_attempt++;
+        else { placement_attempt = 0; prev_walker_index = (long)w; }
 
         walker.setIndex(w);
         // Initialize the walker initial position

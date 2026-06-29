@@ -38,6 +38,7 @@ public:
     Trajectory   trajectory;                        /*!< Trajectory instance. Handles i/o operations                                */
     RandomEngine rng;                               /*!< Seeded random generator for placement/steps                         */
     uint64_t base_seed;                             /*!< Resolved base seed (user seed, or random_device when seed<=0)              */
+    uint64_t placement_attempt;                     /*!< Restart counter for the current walker; re-randomizes placement on deportation so a deported walker does NOT redraw the same start position (the P0.1 deterministic placement could infinite-loop on a pathological seed). attempt==0 reproduces the original seed. */
     //double step_lenght;                             /*!< l, step length                                                             */
     double second_passed;                           /*!< Simulation total time in seconds                                           */
     double max_simulation_time;                     /*!< Maximum simulation time if not passed we carry all the particles           */

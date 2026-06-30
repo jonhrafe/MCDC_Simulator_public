@@ -7,11 +7,11 @@ using namespace Eigen;
 
 int Sphere::count = 0;
 
-Sphere::Sphere(const Sphere &sph)
-{
-    center = sph.center;
-    radius = sph.radius;
-    count++;
+Sphere::Sphere(const Sphere &sph) : Obstacle(sph)   // copy the Obstacle base (percolation/kappa,
+{                                                    // T2, d_intra, permeability, prob_cross, id);
+    center = sph.center;                             // without this delegation the base was DEFAULT-
+    radius = sph.radius;                             // constructed, silently dropping per-sphere list
+    count++;                                         // properties on push_back. P0-bugfix.
 }
 
 bool Sphere::checkCollision(Walker &walker, Eigen::Vector3d &step, double &step_lenght, Collision &colision)

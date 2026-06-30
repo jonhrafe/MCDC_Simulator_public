@@ -16,11 +16,11 @@ Cylinder::~Cylinder()
     count--;
 }
 
-Cylinder::Cylinder(const Cylinder &cyl)
-{
-
-    D = cyl.D;
-    Q = cyl.Q;
+Cylinder::Cylinder(const Cylinder &cyl) : Obstacle(cyl)   // copy the Obstacle base (percolation/kappa,
+{                                                          // T2, d_intra, permeability, prob_cross, id) --
+                                                           // without this the base was default-constructed,
+    D = cyl.D;                                             // dropping per-cylinder list properties on
+    Q = cyl.Q;                                             // push_back. P0-bugfix (same as Sphere).
     P = cyl.P;
     radius = cyl.radius;
     count++;

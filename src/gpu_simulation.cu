@@ -207,6 +207,10 @@ __device__ inline bool insideAnySphere(float x, float y, float z, const float* s
 __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_intra, float step_extra,
                               const float* spheres, unsigned n_sph,
                               const float* prob_ie, const float* prob_ei,
+                              const int* cell_start, const int* cell_sph,   // CSR spatial grid (per-cell sphere lists)
+                              double gminx, double gminy, double gminz,     // grid origin
+                              double icsx, double icsy, double icsz,        // inverse cell size (cells per unit)
+                              int gdimx, int gdimy, int gdimz,              // grid dims
                               float vminx, float vminy, float vminz,
                               float vmaxx, float vmaxy, float vmaxz,
                               float sminx, float sminy, float sminz,
@@ -215,6 +219,8 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
                               const float* obs_T2, int* out_inobs, float* t2sum,
                               unsigned long long seed, unsigned w_offset)
 {
+    const double gmin[3] = { gminx, gminy, gminz }, ics[3] = { icsx, icsy, icsz };
+    const int    gdim[3] = { gdimx, gdimy, gdimz };
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;       // N is the CHUNK size; traj/t2sum/out_inobs are chunk-local
 
@@ -268,21 +274,39 @@ __global__ void spheresKernel(float* traj, unsigned N, unsigned T, float step_in
 
         for (int b = 0; b < 24 && remaining > EPS; ++b) {
             double best_t = remaining; int best_sph = -1, best_axis = -1;
-            for (unsigned i = 0; i < n_sph; ++i) {       // sphere surfaces (collide in pv)
-                double ux = pv[0]-(double)spheres[i*4+0], uy = pv[1]-(double)spheres[i*4+1], uz = pv[2]-(double)spheres[i*4+2];
-                double ri = spheres[i*4+3];
-                double bq = ux*dir[0] + uy*dir[1] + uz*dir[2];
-                double cq = ux*ux + uy*uy + uz*uz - ri*ri;
-                double discr = bq*bq - cq;
-                if (discr > 0.0) {
-                    double sq = sqrt(discr);
-                    double t1 = -bq - sq, t2 = -bq + sq;
-                    // Honor the nearest FORWARD root for every sphere we are NOT resting on (never
-                    // skip a real approaching entry -- a blanket tc>EPS skip tunnels to the far root
-                    // and leaks). For the surface we rest on, skip its ~0 root so we don't re-hit it.
-                    double lo = (int(i) == rest_sph) ? EPS : 0.0;
-                    double tc = (t1 > lo) ? t1 : ((t2 > lo) ? t2 : -1.0);
-                    if (tc > lo && tc < best_t) { best_t = tc; best_sph = int(i); best_axis = -1; }
+            // Only test spheres in the grid cells the step segment [pv, pv+remaining*dir] overlaps
+            // (clamped). A real hit's contact point lies in BOTH the segment box and the sphere's
+            // AABB, so it shares a queried cell -> no missed collision (same guarantee as the mesh
+            // grid). O(nearby) instead of O(n_sph); for tiny lists the grid is ~1 cell = brute.
+            double segE[3] = { pv[0]+remaining*dir[0], pv[1]+remaining*dir[1], pv[2]+remaining*dir[2] };
+            int cmn[3], cmx[3];
+            for (int a = 0; a < 3; ++a) {
+                double lo3 = fmin(pv[a], segE[a]) - gmin[a], hi3 = fmax(pv[a], segE[a]) - gmin[a];
+                int clo = int(floor(lo3*ics[a])), chi = int(floor(hi3*ics[a]));
+                cmn[a] = clo < 0 ? 0 : (clo > gdim[a]-1 ? gdim[a]-1 : clo);
+                cmx[a] = chi < 0 ? 0 : (chi > gdim[a]-1 ? gdim[a]-1 : chi);
+            }
+            for (int cz = cmn[2]; cz <= cmx[2]; ++cz)
+            for (int cy = cmn[1]; cy <= cmx[1]; ++cy)
+            for (int cx = cmn[0]; cx <= cmx[0]; ++cx) {
+                int cell = cx + gdim[0]*(cy + gdim[1]*cz);
+                for (int kk = cell_start[cell]; kk < cell_start[cell+1]; ++kk) {
+                    unsigned i = (unsigned)cell_sph[kk];     // sphere surfaces (collide in pv)
+                    double ux = pv[0]-(double)spheres[i*4+0], uy = pv[1]-(double)spheres[i*4+1], uz = pv[2]-(double)spheres[i*4+2];
+                    double ri = spheres[i*4+3];
+                    double bq = ux*dir[0] + uy*dir[1] + uz*dir[2];
+                    double cq = ux*ux + uy*uy + uz*uz - ri*ri;
+                    double discr = bq*bq - cq;
+                    if (discr > 0.0) {
+                        double sq = sqrt(discr);
+                        double t1 = -bq - sq, t2 = -bq + sq;
+                        // Honor the nearest FORWARD root for every sphere we are NOT resting on (never
+                        // skip a real approaching entry -- a blanket tc>EPS skip tunnels to the far root
+                        // and leaks). For the surface we rest on, skip its ~0 root so we don't re-hit it.
+                        double lo = (int(i) == rest_sph) ? EPS : 0.0;
+                        double tc = (t1 > lo) ? t1 : ((t2 > lo) ? t2 : -1.0);
+                        if (tc > lo && tc < best_t) { best_t = tc; best_sph = int(i); best_axis = -1; }
+                    }
                 }
             }
             for (int i = 0; i < 3; ++i) {                // voxel faces (in pv)
@@ -362,6 +386,10 @@ __device__ inline bool insideAnyCylinder(float x, float y, float z, const float*
 __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_intra, float step_extra,
                                 const float* cyls, unsigned n_cyl,
                                 const float* prob_ie, const float* prob_ei,
+                                const int* cell_start, const int* cell_cyl,   // CSR spatial grid
+                                double gminx, double gminy, double gminz,
+                                double icsx, double icsy, double icsz,
+                                int gdimx, int gdimy, int gdimz,
                                 float vminx, float vminy, float vminz,
                                 float vmaxx, float vmaxy, float vmaxz,
                                 float sminx, float sminy, float sminz,
@@ -371,6 +399,8 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
 {
     unsigned w = blockIdx.x * blockDim.x + threadIdx.x;
     if (w >= N) return;
+    const double gmin[3] = { gminx, gminy, gminz }, ics[3] = { icsx, icsy, icsz };
+    const int    gdim[3] = { gdimx, gdimy, gdimz };
 
     curandStatePhilox4_32_10_t st;
     curand_init(seed, w, 0, &st);
@@ -424,24 +454,41 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
 
         for (int b = 0; b < 24 && remaining > EPS; ++b) {
             double best_t = remaining; int best_cyl = -1, best_axis = -1;
-            for (unsigned i = 0; i < n_cyl; ++i) {     // cylinder surfaces (in pv)
-                double ex = pv[0]-(double)cyls[i*7+0], ey = pv[1]-(double)cyls[i*7+1], ez = pv[2]-(double)cyls[i*7+2];
-                double Dx = cyls[i*7+3], Dy = cyls[i*7+4], Dz = cyls[i*7+5], ri = cyls[i*7+6];
-                double md = ex*Dx + ey*Dy + ez*Dz;
-                double nd = dir[0]*Dx + dir[1]*Dy + dir[2]*Dz;
-                double a  = 1.0 - nd*nd;
-                if (a <= 1e-12) continue;
-                double cq = (ex*ex + ey*ey + ez*ez - ri*ri) - md*md;
-                double bq = (ex*dir[0] + ey*dir[1] + ez*dir[2]) - nd*md;
-                double discr = bq*bq - a*cq;
-                if (discr > 0.0) {
-                    double sq = sqrt(discr);
-                    double t1 = (-bq - sq) / a, t2 = (-bq + sq) / a;
-                    // Honor the nearest forward root for cylinders we are NOT resting on; skip the
-                    // ~0 root only for the one we rest on (no blanket EPS skip -> no tunnel).
-                    double lo = (int(i) == rest_cyl) ? EPS : 0.0;
-                    double tc = (t1 > lo) ? t1 : ((t2 > lo) ? t2 : -1.0);
-                    if (tc > lo && tc < best_t) { best_t = tc; best_cyl = int(i); best_axis = -1; }
+            // Only test cylinders in the grid cells the step segment overlaps (clamped) -- same
+            // O(nearby) query + no-missed-collision guarantee as the sphere grid. Axis-aligned
+            // (z-parallel) packings prune well; tilted cylinders span the grid (=> ~brute, correct).
+            double segE[3] = { pv[0]+remaining*dir[0], pv[1]+remaining*dir[1], pv[2]+remaining*dir[2] };
+            int cmn[3], cmx[3];
+            for (int aa = 0; aa < 3; ++aa) {
+                double lo3 = fmin(pv[aa], segE[aa]) - gmin[aa], hi3 = fmax(pv[aa], segE[aa]) - gmin[aa];
+                int clo = int(floor(lo3*ics[aa])), chi = int(floor(hi3*ics[aa]));
+                cmn[aa] = clo < 0 ? 0 : (clo > gdim[aa]-1 ? gdim[aa]-1 : clo);
+                cmx[aa] = chi < 0 ? 0 : (chi > gdim[aa]-1 ? gdim[aa]-1 : chi);
+            }
+            for (int cz = cmn[2]; cz <= cmx[2]; ++cz)
+            for (int cy = cmn[1]; cy <= cmx[1]; ++cy)
+            for (int cx = cmn[0]; cx <= cmx[0]; ++cx) {
+                int cell = cx + gdim[0]*(cy + gdim[1]*cz);
+                for (int kk = cell_start[cell]; kk < cell_start[cell+1]; ++kk) {
+                    unsigned i = (unsigned)cell_cyl[kk];   // cylinder surfaces (in pv)
+                    double ex = pv[0]-(double)cyls[i*7+0], ey = pv[1]-(double)cyls[i*7+1], ez = pv[2]-(double)cyls[i*7+2];
+                    double Dx = cyls[i*7+3], Dy = cyls[i*7+4], Dz = cyls[i*7+5], ri = cyls[i*7+6];
+                    double md = ex*Dx + ey*Dy + ez*Dz;
+                    double nd = dir[0]*Dx + dir[1]*Dy + dir[2]*Dz;
+                    double a  = 1.0 - nd*nd;
+                    if (a <= 1e-12) continue;
+                    double cq = (ex*ex + ey*ey + ez*ez - ri*ri) - md*md;
+                    double bq = (ex*dir[0] + ey*dir[1] + ez*dir[2]) - nd*md;
+                    double discr = bq*bq - a*cq;
+                    if (discr > 0.0) {
+                        double sq = sqrt(discr);
+                        double t1 = (-bq - sq) / a, t2 = (-bq + sq) / a;
+                        // Honor the nearest forward root for cylinders we are NOT resting on; skip the
+                        // ~0 root only for the one we rest on (no blanket EPS skip -> no tunnel).
+                        double lo = (int(i) == rest_cyl) ? EPS : 0.0;
+                        double tc = (t1 > lo) ? t1 : ((t2 > lo) ? t2 : -1.0);
+                        if (tc > lo && tc < best_t) { best_t = tc; best_cyl = int(i); best_axis = -1; }
+                    }
                 }
             }
             for (int i = 0; i < 3; ++i) {               // voxel faces (in pv)
@@ -995,6 +1042,49 @@ int runGpuSpheres(const GpuSimParams& p, const float* spheres, const float* obs_
     CUDA_CHECK(cudaMemcpy(d_T2,  obs_T2,  (size_t)n_sph * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_pie, prob_ie, (size_t)n_sph * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_pei, prob_ei, (size_t)n_sph * sizeof(float), cudaMemcpyHostToDevice));
+
+    // --- uniform spatial grid over the voxel: CSR cell -> sphere-index lists, so each bounce
+    // tests only spheres in the cells its step segment overlaps (O(nearby) vs O(n_sph)). Each
+    // sphere is inserted into every cell its AABB (center +/- radius) touches; ~cbrt(n_sph) cells
+    // per axis (=> ~1 cell for tiny lists, i.e. brute-force, and real pruning for dense gamma). ---
+    double gmin[3], gmax[3];
+    for (int a = 0; a < 3; ++a) { gmin[a] = p.vmin[a]; gmax[a] = p.vmax[a]; }
+    int gper = int(cbrt(double(n_sph > 0 ? n_sph : 1))); if (gper < 1) gper = 1; if (gper > 128) gper = 128;
+    int gdim[3]; double gics[3];
+    for (int a = 0; a < 3; ++a) {
+        double ext = gmax[a] - gmin[a]; double pad = 1e-4*ext + 1e-9;
+        gmin[a] -= pad; gmax[a] += pad; ext = gmax[a] - gmin[a];
+        gdim[a] = gper; gics[a] = double(gdim[a]) / ext;
+    }
+    const size_t g_ncells = size_t(gdim[0]) * gdim[1] * gdim[2];
+    auto sphCellRange = [&](unsigned i, int cmn[3], int cmx[3]) {
+        double r = spheres[i*4+3];
+        for (int a = 0; a < 3; ++a) {
+            double lo = (spheres[i*4+a] - r) - gmin[a], hi = (spheres[i*4+a] + r) - gmin[a];
+            int clo = int(floor(lo*gics[a])), chi = int(floor(hi*gics[a]));
+            cmn[a] = clo < 0 ? 0 : (clo > gdim[a]-1 ? gdim[a]-1 : clo);
+            cmx[a] = chi < 0 ? 0 : (chi > gdim[a]-1 ? gdim[a]-1 : chi);
+        }
+    };
+    std::vector<int> g_cstart(g_ncells + 1, 0); int cmn[3], cmx[3];
+    for (unsigned i = 0; i < n_sph; ++i) { sphCellRange(i, cmn, cmx);
+        for (int cz = cmn[2]; cz <= cmx[2]; ++cz) for (int cy = cmn[1]; cy <= cmx[1]; ++cy) for (int cx = cmn[0]; cx <= cmx[0]; ++cx)
+            g_cstart[size_t(cx + gdim[0]*(cy + gdim[1]*cz)) + 1]++;
+    }
+    for (size_t c = 0; c < g_ncells; ++c) g_cstart[c+1] += g_cstart[c];
+    std::vector<int> g_csph(g_cstart[g_ncells]);
+    std::vector<int> g_cursor(g_cstart.begin(), g_cstart.end() - 1);
+    for (unsigned i = 0; i < n_sph; ++i) { sphCellRange(i, cmn, cmx);
+        for (int cz = cmn[2]; cz <= cmx[2]; ++cz) for (int cy = cmn[1]; cy <= cmx[1]; ++cy) for (int cx = cmn[0]; cx <= cmx[0]; ++cx)
+            g_csph[g_cursor[size_t(cx + gdim[0]*(cy + gdim[1]*cz))]++] = int(i);
+    }
+    int *d_cstart = nullptr, *d_csph = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_cstart, (g_ncells + 1) * sizeof(int)));
+    CUDA_CHECK(cudaMalloc(&d_csph,   (g_csph.empty() ? 1 : g_csph.size()) * sizeof(int)));
+    CUDA_CHECK(cudaMemcpy(d_cstart, g_cstart.data(), (g_ncells + 1) * sizeof(int), cudaMemcpyHostToDevice));
+    if (!g_csph.empty())
+        CUDA_CHECK(cudaMemcpy(d_csph, g_csph.data(), g_csph.size() * sizeof(int), cudaMemcpyHostToDevice));
+
     const float dt = p.duration / float(p.T);
 
     const size_t dwi_count = ((size_t)1 + p.n_sub) * p.num_rep * 2;
@@ -1033,6 +1123,9 @@ int runGpuSpheres(const GpuSimParams& p, const float* spheres, const float* obs_
         int gs = int((cn + bs - 1) / bs);
         spheresKernel<<<gs, bs>>>(d_traj, cn, p.T, p.step_intra, p.step_extra, d_sph, n_sph,
                                   d_pie, d_pei,
+                                  d_cstart, d_csph,
+                                  gmin[0], gmin[1], gmin[2], gics[0], gics[1], gics[2],
+                                  gdim[0], gdim[1], gdim[2],
                                   p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2],
                                   p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
                                   p.periodic, p.placement, dt, p.t2_extra, d_T2, d_inobs, d_t2sum, p.seed, c0);
@@ -1057,6 +1150,7 @@ int runGpuSpheres(const GpuSimParams& p, const float* spheres, const float* obs_
     cudaFree(d_traj); cudaFree(d_t2sum); cudaFree(d_inobs);
     cudaFree(d_scheme); cudaFree(d_dwi); if (d_subdiv) cudaFree(d_subdiv);
     cudaFree(d_sph); cudaFree(d_T2); cudaFree(d_pie); cudaFree(d_pei);
+    cudaFree(d_cstart); cudaFree(d_csph);
     return rc;
 }
 
@@ -1077,11 +1171,60 @@ int runGpuCylinders(const GpuSimParams& p, const float* cyls, const float* obs_T
     CUDA_CHECK(cudaMemcpy(d_T2,  obs_T2,  (size_t)n_cyl * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_pie, prob_ie, (size_t)n_cyl * sizeof(float), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_pei, prob_ei, (size_t)n_cyl * sizeof(float), cudaMemcpyHostToDevice));
+
+    // --- spatial grid over the voxel: CSR cell -> cylinder-index lists (O(nearby) collision).
+    // A cylinder is FINITE along a world axis only where its direction component is ~0; along a
+    // direction it is parallel to, it spans the whole grid. So axis-aligned (z-parallel) packings
+    // prune in the perpendicular plane; tilted cylinders span more cells (=> ~brute, still correct). ---
+    double gmin[3], gmax[3];
+    for (int a = 0; a < 3; ++a) { gmin[a] = p.vmin[a]; gmax[a] = p.vmax[a]; }
+    int gper = int(cbrt(double(n_cyl > 0 ? n_cyl : 1))); if (gper < 1) gper = 1; if (gper > 128) gper = 128;
+    int gdim[3]; double gics[3];
+    for (int a = 0; a < 3; ++a) {
+        double ext = gmax[a] - gmin[a]; double pad = 1e-4*ext + 1e-9;
+        gmin[a] -= pad; gmax[a] += pad; ext = gmax[a] - gmin[a];
+        gdim[a] = gper; gics[a] = double(gdim[a]) / ext;
+    }
+    const size_t g_ncells = size_t(gdim[0]) * gdim[1] * gdim[2];
+    auto cylCellRange = [&](unsigned i, int cmn[3], int cmx[3]) {
+        double r = cyls[i*7+6];
+        for (int a = 0; a < 3; ++a) {
+            double Da = cyls[i*7+3+a];
+            double loW, hiW;
+            if (fabs(Da) < 1e-6) { loW = cyls[i*7+a] - r; hiW = cyls[i*7+a] + r; }  // finite along a
+            else                 { loW = gmin[a];         hiW = gmax[a];         }  // parallel -> span grid
+            int clo = int(floor((loW - gmin[a])*gics[a])), chi = int(floor((hiW - gmin[a])*gics[a]));
+            cmn[a] = clo < 0 ? 0 : (clo > gdim[a]-1 ? gdim[a]-1 : clo);
+            cmx[a] = chi < 0 ? 0 : (chi > gdim[a]-1 ? gdim[a]-1 : chi);
+        }
+    };
+    std::vector<int> g_cstart(g_ncells + 1, 0); int cmn[3], cmx[3];
+    for (unsigned i = 0; i < n_cyl; ++i) { cylCellRange(i, cmn, cmx);
+        for (int cz = cmn[2]; cz <= cmx[2]; ++cz) for (int cy = cmn[1]; cy <= cmx[1]; ++cy) for (int cx = cmn[0]; cx <= cmx[0]; ++cx)
+            g_cstart[size_t(cx + gdim[0]*(cy + gdim[1]*cz)) + 1]++;
+    }
+    for (size_t c = 0; c < g_ncells; ++c) g_cstart[c+1] += g_cstart[c];
+    std::vector<int> g_ccyl(g_cstart[g_ncells]);
+    std::vector<int> g_cursor(g_cstart.begin(), g_cstart.end() - 1);
+    for (unsigned i = 0; i < n_cyl; ++i) { cylCellRange(i, cmn, cmx);
+        for (int cz = cmn[2]; cz <= cmx[2]; ++cz) for (int cy = cmn[1]; cy <= cmx[1]; ++cy) for (int cx = cmn[0]; cx <= cmx[0]; ++cx)
+            g_ccyl[g_cursor[size_t(cx + gdim[0]*(cy + gdim[1]*cz))]++] = int(i);
+    }
+    int *d_cstart = nullptr, *d_ccyl = nullptr;
+    CUDA_CHECK(cudaMalloc(&d_cstart, (g_ncells + 1) * sizeof(int)));
+    CUDA_CHECK(cudaMalloc(&d_ccyl,   (g_ccyl.empty() ? 1 : g_ccyl.size()) * sizeof(int)));
+    CUDA_CHECK(cudaMemcpy(d_cstart, g_cstart.data(), (g_ncells + 1) * sizeof(int), cudaMemcpyHostToDevice));
+    if (!g_ccyl.empty())
+        CUDA_CHECK(cudaMemcpy(d_ccyl, g_ccyl.data(), g_ccyl.size() * sizeof(int), cudaMemcpyHostToDevice));
+
     const float dt = p.duration / float(p.T);
 
     const int bs = 256, gs = int((p.N + bs - 1) / bs);
     cylindersKernel<<<gs, bs>>>(d_traj, p.N, p.T, p.step_intra, p.step_extra, d_cyl, n_cyl,
                                 d_pie, d_pei,
+                                d_cstart, d_ccyl,
+                                gmin[0], gmin[1], gmin[2], gics[0], gics[1], gics[2],
+                                gdim[0], gdim[1], gdim[2],
                                 p.vmin[0], p.vmin[1], p.vmin[2], p.vmax[0], p.vmax[1], p.vmax[2],
                                 p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
                                 p.periodic, p.placement, dt, p.t2_extra, d_T2, d_inobs, d_t2sum, p.seed);
@@ -1090,6 +1233,7 @@ int runGpuCylinders(const GpuSimParams& p, const float* cyls, const float* obs_T
     int rc = gpuSynthAndFree(p, d_traj, d_inobs, d_t2sum, scheme, out_DWI);
     cudaFree(d_traj); cudaFree(d_cyl); cudaFree(d_T2);
     cudaFree(d_pie);  cudaFree(d_pei); cudaFree(d_inobs); cudaFree(d_t2sum);
+    cudaFree(d_cstart); cudaFree(d_ccyl);
     return rc;
 }
 

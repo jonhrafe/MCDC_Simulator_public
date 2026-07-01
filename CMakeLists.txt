@@ -192,6 +192,16 @@ if(Python3_Interpreter_FOUND)
                 --workdir "${CMAKE_SOURCE_DIR}")
     set_tests_properties(accuracy_permeability PROPERTIES
         LABELS "permeability" TIMEOUT 600)
+
+    # Per-obstacle (list-column) permeability: a spheres_list line "x y z r kappa T2" must
+    # drive exchange via its per-sphere kappa column (not only the global `permeability`).
+    # Regressed silently when the Sphere/Cylinder copy ctors dropped the Obstacle base on
+    # push_back. Self-contained (writes its own configs/lists); asserts per-sphere kappa
+    # both produces exchange AND matches the same global kappa.
+    add_test(
+        NAME permeability_list
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_permeability_list.py")
+    set_tests_properties(permeability_list PROPERTIES LABELS "permeability" TIMEOUT 300)
     # Per-obstacle property tracking: distinct Di/T2/kappa per mesh, permeable, with
     # `debug` on. Asserts each compartment maps to a single correct (Di,T2) across
     # all steps (no cross-contamination), crossings occur, and per-obstacle kappa is

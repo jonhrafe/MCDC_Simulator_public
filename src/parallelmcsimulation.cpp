@@ -244,6 +244,10 @@ void ParallelMCSimulation::initializeUnitSimulations()
 
 void ParallelMCSimulation::writePermeabilityCounters()
 {
+    // The _perm_counters.txt file is a diagnostic (Powles empirical p_hat vs prob_* check),
+    // not a standard output -- only write it when the user opts in with the `verbatim` flag.
+    if(!params.verbatim) return;
+
     bool any = false;
     for(auto& o : cylinders_list)    if(o.percolation > 0) any = true;
     for(auto& o : spheres_list)      if(o.percolation > 0) any = true;

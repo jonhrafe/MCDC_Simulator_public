@@ -152,8 +152,8 @@ def main():
 
         # 1) Generate the packing (host-side, seed-deterministic) -> sphere list + voxel.
         gen_prefix = os.path.join(work, "gen")
-        # N/T kept small but not degenerate (very tiny N*T aborts the substrate build);
-        # this run only exists to emit the seed-deterministic packing list + voxel.
+        # This run only exists to emit the seed-deterministic packing list + voxel, so
+        # N/T are kept small (not the results-run N/T).
         gen = ("N 100\nT 100\nduration %s\ndiffusivity %s\ngpu 0\nexp_prefix %s\n"
                "scheme_file %s\nwrite_txt 1\nwrite_bin 0\nt2_extra 1e9\n"
                "<obstacle>\n%s\n</obstacle>\nini_walkers_pos intra\nnum_process 1\nseed %d\n<END>\n"

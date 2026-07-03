@@ -543,23 +543,27 @@ __global__ void cylindersKernel(float* traj, unsigned N, unsigned T, float step_
 
 //! Moller-Trumbore ray-triangle intersection (port of Triangle::rayIntersects_MT).
 //! Returns true and the signed distance t along (unit) dir to triangle (a,b,c).
-__device__ inline bool mtHit(const float O[3], const float d[3],
-                             const float a[3], const float b[3], const float c[3], float& t)
+// Möller–Trumbore in DOUBLE: float32 cannot place a walker exactly on a triangle membrane,
+// so a float reflect lands a hair off-surface and the next step tunnels through -> a per-bounce
+// leak that accumulates on thin / small-triangle meshes (e.g. a 1um-radius tube). Double matches
+// the CPU exactly, so the reflect is clean and NO nudge / containment hack is needed.
+__device__ inline bool mtHit(const double O[3], const double d[3],
+                             const double a[3], const double b[3], const double c[3], double& t)
 {
-    const float DET_EPS = 1e-12f;
-    const float TE = 1e-5f;            // barycentric tolerance (float32; generous to avoid edge leaks)
-    float e1[3] = { b[0]-a[0], b[1]-a[1], b[2]-a[2] };
-    float e2[3] = { c[0]-a[0], c[1]-a[1], c[2]-a[2] };
-    float pv[3] = { d[1]*e2[2]-d[2]*e2[1], d[2]*e2[0]-d[0]*e2[2], d[0]*e2[1]-d[1]*e2[0] };
-    float det = e1[0]*pv[0] + e1[1]*pv[1] + e1[2]*pv[2];
+    const double DET_EPS = 1e-24;
+    const double TE = 1e-7;            // barycentric tolerance (double; small sliver, still edge-leak-safe)
+    double e1[3] = { b[0]-a[0], b[1]-a[1], b[2]-a[2] };
+    double e2[3] = { c[0]-a[0], c[1]-a[1], c[2]-a[2] };
+    double pv[3] = { d[1]*e2[2]-d[2]*e2[1], d[2]*e2[0]-d[0]*e2[2], d[0]*e2[1]-d[1]*e2[0] };
+    double det = e1[0]*pv[0] + e1[1]*pv[1] + e1[2]*pv[2];
     if (det > -DET_EPS && det < DET_EPS) return false;
-    float inv = 1.0f/det;
-    float tv[3] = { O[0]-a[0], O[1]-a[1], O[2]-a[2] };
-    float u = (tv[0]*pv[0] + tv[1]*pv[1] + tv[2]*pv[2]) * inv;
-    if (u < -TE || u > 1.0f+TE) return false;
-    float qv[3] = { tv[1]*e1[2]-tv[2]*e1[1], tv[2]*e1[0]-tv[0]*e1[2], tv[0]*e1[1]-tv[1]*e1[0] };
-    float v = (d[0]*qv[0] + d[1]*qv[1] + d[2]*qv[2]) * inv;
-    if (v < -TE || u+v > 1.0f+TE) return false;
+    double inv = 1.0/det;
+    double tv[3] = { O[0]-a[0], O[1]-a[1], O[2]-a[2] };
+    double u = (tv[0]*pv[0] + tv[1]*pv[1] + tv[2]*pv[2]) * inv;
+    if (u < -TE || u > 1.0+TE) return false;
+    double qv[3] = { tv[1]*e1[2]-tv[2]*e1[1], tv[2]*e1[0]-tv[0]*e1[2], tv[0]*e1[1]-tv[1]*e1[0] };
+    double v = (d[0]*qv[0] + d[1]*qv[1] + d[2]*qv[2]) * inv;
+    if (v < -TE || u+v > 1.0+TE) return false;
     t = (e2[0]*qv[0] + e2[1]*qv[1] + e2[2]*qv[2]) * inv;
     return true;
 }
@@ -580,43 +584,47 @@ __device__ inline bool mtHit(const float O[3], const float d[3],
 //!    overlap, so at most one has odd parity, and it is the nearest crossing's owner.
 //! Two short marches of the row (find nearest; count that owner's parity) keep it
 //! register-only (no per-obstacle scratch), so it scales to many obstacles.
-__device__ inline int classifyMesh(const float P[3], const float* verts, const int* tris,
+__device__ inline int classifyMesh(const double P[3], const float* verts, const int* tris,
                                    const int* tri_obs,
-                                   const float gmin[3], const float ics[3], const int dim[3],
+                                   const double gmin[3], const double ics[3], const int dim[3],
                                    const int* cell_start, const int* cell_tri)
 {
-    int pcx = int(floorf((P[0]-gmin[0])*ics[0]));   // start cell x (clamped); ray goes +x
+    int pcx = int(floor((P[0]-gmin[0])*ics[0]));    // start cell x (clamped); ray goes +x
     if (pcx < 0) pcx = 0; else if (pcx > dim[0]-1) pcx = dim[0]-1;
-    int cy = int(floorf((P[1]-gmin[1])*ics[1]));
-    int cz = int(floorf((P[2]-gmin[2])*ics[2]));
+    int cy = int(floor((P[1]-gmin[1])*ics[1]));
+    int cz = int(floor((P[2]-gmin[2])*ics[2]));
     if (cy < 0 || cy >= dim[1] || cz < 0 || cz >= dim[2]) return -1;   // ray row outside grid
-    const float EPS = 1e-7f;
+    // Sub-nm forward-crossing cutoff. The old float32 EPS=1e-7 (=0.1um) skipped crossings
+    // within 0.1um ahead, so a walker near the inner wall of a ~1um object had its wall
+    // crossing dropped and was misclassified as extra (-> b0 loss + false leak flags). In
+    // double, EPS just excludes the crossing at the point itself.
+    const double EPS = 1e-12;
     const int   rowoff = dim[0]*(cy + dim[1]*cz);
 
     // March 1: nearest forward +x crossing (dedup: count only in the cell holding its x).
-    float best_t = 1e30f; int best_obs = -1;
+    double best_t = 1e30; int best_obs = -1;
     for (int cx = pcx; cx < dim[0]; ++cx) {
         int cell = cx + rowoff;
         for (int k = cell_start[cell]; k < cell_start[cell+1]; ++k) {
             int i = cell_tri[k];
             int i0 = tris[3*i+0], i1 = tris[3*i+1], i2 = tris[3*i+2];
-            float a[3]  = { verts[3*i0+0], verts[3*i0+1], verts[3*i0+2] };
-            float e1[3] = { verts[3*i1+0]-a[0], verts[3*i1+1]-a[1], verts[3*i1+2]-a[2] };
-            float e2[3] = { verts[3*i2+0]-a[0], verts[3*i2+1]-a[1], verts[3*i2+2]-a[2] };
+            double a[3]  = { verts[3*i0+0], verts[3*i0+1], verts[3*i0+2] };
+            double e1[3] = { verts[3*i1+0]-a[0], verts[3*i1+1]-a[1], verts[3*i1+2]-a[2] };
+            double e2[3] = { verts[3*i2+0]-a[0], verts[3*i2+1]-a[1], verts[3*i2+2]-a[2] };
             // ray-triangle for d=(1,0,0): t = signed x-distance to the triangle plane/bary.
-            float pvx = -e2[2], pvy = e2[1];                 // d x e2 = (0, -e2z, e2y)
-            float det = e1[1]*pvx + e1[2]*pvy;               // e1 . (d x e2)
-            if (det > -1e-20f && det < 1e-20f) continue;     // ray parallel to triangle
-            float inv = 1.0f/det;
-            float tv[3] = { P[0]-a[0], P[1]-a[1], P[2]-a[2] };
-            float u = (tv[1]*pvx + tv[2]*pvy) * inv;
-            if (u < -1e-5f || u > 1.0f+1e-5f) continue;
-            float qx = tv[1]*e1[2]-tv[2]*e1[1], qy = tv[2]*e1[0]-tv[0]*e1[2], qz = tv[0]*e1[1]-tv[1]*e1[0];
-            float v = qx * inv;                              // d . q = qx
-            if (v < -1e-5f || u+v > 1.0f+1e-5f) continue;
-            float t = (e2[0]*qx + e2[1]*qy + e2[2]*qz) * inv;
+            double pvx = -e2[2], pvy = e2[1];                // d x e2 = (0, -e2z, e2y)
+            double det = e1[1]*pvx + e1[2]*pvy;              // e1 . (d x e2)
+            if (det > -1e-40 && det < 1e-40) continue;       // ray parallel to triangle
+            double inv = 1.0/det;
+            double tv[3] = { P[0]-a[0], P[1]-a[1], P[2]-a[2] };
+            double u = (tv[1]*pvx + tv[2]*pvy) * inv;
+            if (u < -1e-7 || u > 1.0+1e-7) continue;
+            double qx = tv[1]*e1[2]-tv[2]*e1[1], qy = tv[2]*e1[0]-tv[0]*e1[2], qz = tv[0]*e1[1]-tv[1]*e1[0];
+            double v = qx * inv;                             // d . q = qx
+            if (v < -1e-7 || u+v > 1.0+1e-7) continue;
+            double t = (e2[0]*qx + e2[1]*qy + e2[2]*qz) * inv;
             if (t <= EPS) continue;                          // backward / on the point
-            int hitcx = int(floorf((P[0]+t-gmin[0])*ics[0]));
+            int hitcx = int(floor((P[0]+t-gmin[0])*ics[0]));
             if (hitcx != cx) continue;                       // dedup: count in its own cell only
             if (t < best_t) { best_t = t; best_obs = tri_obs[i]; }
         }
@@ -632,22 +640,22 @@ __device__ inline int classifyMesh(const float P[3], const float* verts, const i
             int i = cell_tri[k];
             if (tri_obs[i] != best_obs) continue;
             int i0 = tris[3*i+0], i1 = tris[3*i+1], i2 = tris[3*i+2];
-            float a[3]  = { verts[3*i0+0], verts[3*i0+1], verts[3*i0+2] };
-            float e1[3] = { verts[3*i1+0]-a[0], verts[3*i1+1]-a[1], verts[3*i1+2]-a[2] };
-            float e2[3] = { verts[3*i2+0]-a[0], verts[3*i2+1]-a[1], verts[3*i2+2]-a[2] };
-            float pvx = -e2[2], pvy = e2[1];
-            float det = e1[1]*pvx + e1[2]*pvy;
-            if (det > -1e-20f && det < 1e-20f) continue;
-            float inv = 1.0f/det;
-            float tv[3] = { P[0]-a[0], P[1]-a[1], P[2]-a[2] };
-            float u = (tv[1]*pvx + tv[2]*pvy) * inv;
-            if (u < -1e-5f || u > 1.0f+1e-5f) continue;
-            float qx = tv[1]*e1[2]-tv[2]*e1[1], qy = tv[2]*e1[0]-tv[0]*e1[2], qz = tv[0]*e1[1]-tv[1]*e1[0];
-            float v = qx * inv;
-            if (v < -1e-5f || u+v > 1.0f+1e-5f) continue;
-            float t = (e2[0]*qx + e2[1]*qy + e2[2]*qz) * inv;
+            double a[3]  = { verts[3*i0+0], verts[3*i0+1], verts[3*i0+2] };
+            double e1[3] = { verts[3*i1+0]-a[0], verts[3*i1+1]-a[1], verts[3*i1+2]-a[2] };
+            double e2[3] = { verts[3*i2+0]-a[0], verts[3*i2+1]-a[1], verts[3*i2+2]-a[2] };
+            double pvx = -e2[2], pvy = e2[1];
+            double det = e1[1]*pvx + e1[2]*pvy;
+            if (det > -1e-40 && det < 1e-40) continue;
+            double inv = 1.0/det;
+            double tv[3] = { P[0]-a[0], P[1]-a[1], P[2]-a[2] };
+            double u = (tv[1]*pvx + tv[2]*pvy) * inv;
+            if (u < -1e-7 || u > 1.0+1e-7) continue;
+            double qx = tv[1]*e1[2]-tv[2]*e1[1], qy = tv[2]*e1[0]-tv[0]*e1[2], qz = tv[0]*e1[1]-tv[1]*e1[0];
+            double v = qx * inv;
+            if (v < -1e-7 || u+v > 1.0+1e-7) continue;
+            double t = (e2[0]*qx + e2[1]*qy + e2[2]*qz) * inv;
             if (t <= EPS) continue;
-            int hitcx = int(floorf((P[0]+t-gmin[0])*ics[0]));
+            int hitcx = int(floor((P[0]+t-gmin[0])*ics[0]));
             if (hitcx != cx) continue;
             crossings++;
         }
@@ -668,11 +676,11 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
                            const int* tri_obs, const float* obs_T2, const float* obs_step,
                            const float* prob_ie, const float* prob_ei,
                            float vminx, float vminy, float vminz,
-                           float vmaxx, float vmaxy, float vmaxz, int periodic,
+                           float vmaxx, float vmaxy, float vmaxz, int periodic, int placement,
                            float sminx, float sminy, float sminz,
                            float smaxx, float smaxy, float smaxz,
-                           float gminx, float gminy, float gminz,
-                           float icsx, float icsy, float icsz,
+                           double gminx, double gminy, double gminz,
+                           double icsx, double icsy, double icsz,
                            int dimx, int dimy, int dimz,
                            const int* cell_start, const int* cell_tri,
                            float dt, float t2_extra, int* out_inobs, float* t2sum,
@@ -686,31 +694,37 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
     // how the N walkers are split into chunks (reproducible, chunk-size-independent).
     curand_init(seed, w_offset + w, 0, &st);
 
-    float vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
-    float smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
-    float gmin[3] = { gminx, gminy, gminz }, ics[3] = { icsx, icsy, icsz };
-    int   dim[3]  = { dimx, dimy, dimz };
-    // Float32 nudge floor. The off-surface push must be representable in float32 at the
-    // voxel scale, else the walker stays on the membrane and tunnels through (the CPU is
-    // double, so 1e-5*step is fine there; in float32, 1e-5*step can be < 1 ULP at positions
-    // ~1e-5..1e-3 m). Floor at ~1e-5 of the voxel extent (~100+ ULP, physically negligible
-    // vs the step). Constant for the whole walk.
-    float voxext = fmaxf(fmaxf(vmaxx-vminx, vmaxy-vminy), vmaxz-vminz);
-    float vox_eps = 1e-5f * voxext;
-    float pv[3] = { smin[0] + curand_uniform(&st)*(smax[0]-smin[0]),     // placement in the sampling area
-                    smin[1] + curand_uniform(&st)*(smax[1]-smin[1]),
-                    smin[2] + curand_uniform(&st)*(smax[2]-smin[2]) };
-    float pr[3] = { pv[0], pv[1], pv[2] };
+    double vmin[3] = { vminx, vminy, vminz }, vmax[3] = { vmaxx, vmaxy, vmaxz };
+    double smin[3] = { sminx, sminy, sminz }, smax[3] = { smaxx, smaxy, smaxz };
+    double gmin[3] = { gminx, gminy, gminz }, ics[3] = { icsx, icsy, icsz };
+    int    dim[3]  = { dimx, dimy, dimz };
+    // Geometry in DOUBLE (matches the CPU and the sphere/cylinder kernels): the reflect lands
+    // exactly on the triangle, so NO off-surface nudge is needed. voxext scales the tiny EPS
+    // that skips the ~0 root of the face the walker rests on.
+    double voxext = fmax(fmax(vmax[0]-vmin[0], vmax[1]-vmin[1]), vmax[2]-vmin[2]);
+    // Placement honoring ini_walkers_pos (CPU parity): rejection-sample in the sampling area
+    // until the requested compartment is hit -- intra (1) = inside any mesh obstacle, extra
+    // (2) = outside all; uniform (0) accepts the first sample. Without this the mesh kernel
+    // seeded UNIFORMLY in the voxel regardless of the flag, so an "intra" run started only the
+    // area-fraction of walkers inside the mesh (the rest free-diffused) -> the reported
+    // analytic-vs-PLY mismatch. classifyMesh gives the membership (-1 = extra). in_obs then
+    // selects the per-compartment step length / T2 and follows permeable crossings mid-walk.
+    double pv[3]; int in_obs = -1;
+    for (int tries = 0; tries < 10000; ++tries) {
+        pv[0] = smin[0] + (double)curand_uniform(&st)*(smax[0]-smin[0]);
+        pv[1] = smin[1] + (double)curand_uniform(&st)*(smax[1]-smin[1]);
+        pv[2] = smin[2] + (double)curand_uniform(&st)*(smax[2]-smin[2]);
+        in_obs = classifyMesh(pv, verts, tris, tri_obs, gmin, ics, dim, cell_start, cell_tri);
+        if (placement == 0) break;                    // uniform: accept any position
+        if (placement == 1 && in_obs >= 0) break;     // intra: inside a mesh obstacle
+        if (placement == 2 && in_obs <  0) break;     // extra: outside all obstacles
+    }
+    double pr[3] = { pv[0], pv[1], pv[2] };
     // Per-axis mirror sign (CPU walker.boundary_mirror). pos_v moves by dir (voxel frame,
     // reflects/wraps at faces); pos_r moves by dir*bmir (real frame). A mirror face flips
     // BOTH dir[a] and bmir[a] -> their product is unchanged, so pos_r continues straight
     // (free, unbounded -> correct MSD) while pos_v reflects back in. Periodic keeps bmir=+1.
-    float bmir[3] = { 1.0f, 1.0f, 1.0f };
-
-    // Phase 3b: classify the start position into the owning mesh obstacle (-1 = extra).
-    // in_obs selects the per-compartment step length (multi-D) and T2 (multi-T2); under
-    // permeability (Phase 6) it changes mid-walk when the walker crosses a membrane.
-    int in_obs = classifyMesh(pv, verts, tris, tri_obs, gmin, ics, dim, cell_start, cell_tri);
+    double bmir[3] = { 1.0, 1.0, 1.0 };
 
     float* tr = traj + (size_t)w * (T + 1) * 3;
     tr[0] = pr[0]; tr[1] = pr[1]; tr[2] = pr[2];
@@ -719,30 +733,29 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
     for (unsigned t = 1; t <= T; ++t) {
         // per-timestep step length from the CURRENT compartment (permeable crossings may
         // have changed in_obs).
-        float step_length = (in_obs >= 0) ? obs_step[in_obs] : step_extra;
-        // NUDGE = float32-safe off-surface push (>= vox_eps so it never rounds to 0);
-        // EPS = re-hit / intersection threshold, kept BELOW the nudge so that a step heading
-        // back toward a surface the walker sits NUDGE off of is still detected (tc ~ NUDGE > EPS),
-        // never skipped -> no tunnelling.
-        float NUDGE = fmaxf(1e-5f * step_length, vox_eps);
-        float EPS   = 0.25f * NUDGE;
-        float gx = curand_normal(&st), gy = curand_normal(&st), gz = curand_normal(&st);
-        float inv = rsqrtf(gx*gx + gy*gy + gz*gz + 1e-30f);
-        float dir[3] = { gx*inv, gy*inv, gz*inv };
-        float remaining = step_length;
+        double step_length = (in_obs >= 0) ? obs_step[in_obs] : step_extra;
+        // EPS just skips the ~0 root of the surface we currently rest on. Triangles are
+        // single-root, so a blanket tc>EPS never tunnels to a "far root" (unlike a sphere);
+        // it simply ignores the face the walker is sitting on (and any face sharing that
+        // exact point, e.g. across a shared edge). Double-clean, << any real triangle gap.
+        double EPS = 1e-9 * voxext;
+        double gx = curand_normal(&st), gy = curand_normal(&st), gz = curand_normal(&st);
+        double inv = 1.0 / sqrt(gx*gx + gy*gy + gz*gz + 1e-300);
+        double dir[3] = { gx*inv, gy*inv, gz*inv };
+        double remaining = step_length;
 
-        for (int b = 0; b < 24 && remaining > 0.0f; ++b) {
-            float O[3] = { pv[0], pv[1], pv[2] };
-            float E[3] = { pv[0]+remaining*dir[0], pv[1]+remaining*dir[1], pv[2]+remaining*dir[2] };
+        for (int b = 0; b < 24 && remaining > EPS; ++b) {
+            double O[3] = { pv[0], pv[1], pv[2] };
+            double E[3] = { pv[0]+remaining*dir[0], pv[1]+remaining*dir[1], pv[2]+remaining*dir[2] };
             // grid cell range overlapping the step segment's AABB (clamped to the grid)
             int cmn[3], cmx[3];
             for (int a = 0; a < 3; ++a) {
-                float lo = fminf(O[a], E[a]) - gmin[a], hi = fmaxf(O[a], E[a]) - gmin[a];
-                int clo = int(floorf(lo*ics[a])), chi = int(floorf(hi*ics[a]));
+                double lo = fmin(O[a], E[a]) - gmin[a], hi = fmax(O[a], E[a]) - gmin[a];
+                int clo = int(floor(lo*ics[a])), chi = int(floor(hi*ics[a]));
                 cmn[a] = clo < 0 ? 0 : (clo > dim[a]-1 ? dim[a]-1 : clo);
                 cmx[a] = chi < 0 ? 0 : (chi > dim[a]-1 ? dim[a]-1 : chi);
             }
-            float best_t = remaining; int best_tri = -1, best_axis = -1;
+            double best_t = remaining; int best_tri = -1, best_axis = -1;
             for (int cz = cmn[2]; cz <= cmx[2]; ++cz)
             for (int cy = cmn[1]; cy <= cmx[1]; ++cy)
             for (int cx = cmn[0]; cx <= cmx[0]; ++cx) {
@@ -750,17 +763,17 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
                 for (int k = cell_start[cell]; k < cell_start[cell+1]; ++k) {
                     int i = cell_tri[k];
                     int i0 = tris[3*i+0], i1 = tris[3*i+1], i2 = tris[3*i+2];
-                    float a[3] = { verts[3*i0+0], verts[3*i0+1], verts[3*i0+2] };
-                    float bb[3]= { verts[3*i1+0], verts[3*i1+1], verts[3*i1+2] };
-                    float cc[3]= { verts[3*i2+0], verts[3*i2+1], verts[3*i2+2] };
-                    float tc;
+                    double a[3] = { verts[3*i0+0], verts[3*i0+1], verts[3*i0+2] };
+                    double bb[3]= { verts[3*i1+0], verts[3*i1+1], verts[3*i1+2] };
+                    double cc[3]= { verts[3*i2+0], verts[3*i2+1], verts[3*i2+2] };
+                    double tc;
                     if (mtHit(O, dir, a, bb, cc, tc) && tc > EPS && tc < best_t) { best_t = tc; best_tri = i; best_axis = -1; }
                 }
             }
             for (int i = 0; i < 3; ++i) {               // voxel faces (in pv)
-                float tw = -1.0f;
-                if (dir[i] >  1e-20f) tw = (vmax[i]-pv[i])/dir[i];
-                else if (dir[i] < -1e-20f) tw = (vmin[i]-pv[i])/dir[i];
+                double tw = -1.0;
+                if (dir[i] >  1e-30) tw = (vmax[i]-pv[i])/dir[i];
+                else if (dir[i] < -1e-30) tw = (vmin[i]-pv[i])/dir[i];
                 if (tw > EPS && tw < best_t) { best_t = tw; best_axis = i; best_tri = -1; }
             }
             for (int i = 0; i < 3; ++i) { pr[i] += best_t*dir[i]*bmir[i]; pv[i] += best_t*dir[i]; }
@@ -773,32 +786,30 @@ __global__ void meshKernel(float* traj, unsigned N, unsigned T, float step_extra
                     // PERMEATE (CPU model): the membrane is transparent -- finish the step
                     // straight through (ignore further membranes) and re-classify at landing.
                     for (int i = 0; i < 3; ++i) { pr[i] += remaining*dir[i]*bmir[i]; pv[i] += remaining*dir[i]; }
-                    remaining = 0.0f;
+                    remaining = 0.0;
                     in_obs = classifyMesh(pv, verts, tris, tri_obs, gmin, ics, dim, cell_start, cell_tri);
-                } else {                                  // reflect off the triangle
+                } else {                                  // reflect off the triangle (double => lands exactly on the surface; no nudge)
                     int i0 = tris[3*best_tri+0], i1 = tris[3*best_tri+1], i2 = tris[3*best_tri+2];
-                    float e1[3] = { verts[3*i1+0]-verts[3*i0+0], verts[3*i1+1]-verts[3*i0+1], verts[3*i1+2]-verts[3*i0+2] };
-                    float e2[3] = { verts[3*i2+0]-verts[3*i0+0], verts[3*i2+1]-verts[3*i0+1], verts[3*i2+2]-verts[3*i0+2] };
-                    float n[3] = { e1[1]*e2[2]-e1[2]*e2[1], e1[2]*e2[0]-e1[0]*e2[2], e1[0]*e2[1]-e1[1]*e2[0] };
-                    float nn = rsqrtf(n[0]*n[0] + n[1]*n[1] + n[2]*n[2] + 1e-30f);
+                    double e1[3] = { verts[3*i1+0]-verts[3*i0+0], verts[3*i1+1]-verts[3*i0+1], verts[3*i1+2]-verts[3*i0+2] };
+                    double e2[3] = { verts[3*i2+0]-verts[3*i0+0], verts[3*i2+1]-verts[3*i0+1], verts[3*i2+2]-verts[3*i0+2] };
+                    double n[3] = { e1[1]*e2[2]-e1[2]*e2[1], e1[2]*e2[0]-e1[0]*e2[2], e1[0]*e2[1]-e1[1]*e2[0] };
+                    double nn = 1.0 / sqrt(n[0]*n[0] + n[1]*n[1] + n[2]*n[2] + 1e-300);
                     n[0]*=nn; n[1]*=nn; n[2]*=nn;
-                    reflectDir(dir, n);
-                    for (int i = 0; i < 3; ++i) { pr[i] += NUDGE*dir[i]*bmir[i]; pv[i] += NUDGE*dir[i]; }
+                    double dn = dir[0]*n[0] + dir[1]*n[1] + dir[2]*n[2];
+                    dir[0] -= 2.0*dn*n[0]; dir[1] -= 2.0*dn*n[1]; dir[2] -= 2.0*dn*n[2];
                 }
             } else if (best_axis >= 0) {                 // voxel face
                 if (periodic) {
-                    pv[best_axis] = (dir[best_axis] > 0.0f) ? vmin[best_axis] : vmax[best_axis];
+                    pv[best_axis] = (dir[best_axis] > 0.0) ? vmin[best_axis] : vmax[best_axis];
                     // pr is NOT wrapped (continuous); bmir stays +1 -> pr already advanced straight.
                 } else {
                     // MIRROR: flip dir AND bmir on this axis. pv reflects back into the voxel;
                     // pr's per-axis product dir*bmir is unchanged -> it keeps going straight (free).
                     dir[best_axis]  = -dir[best_axis];
                     bmir[best_axis] = -bmir[best_axis];
-                    pv[best_axis] += NUDGE*dir[best_axis];
-                    pr[best_axis] += NUDGE*dir[best_axis]*bmir[best_axis];
                 }
             } else {
-                remaining = 0.0f;
+                remaining = 0.0;
             }
         }
         float T2c = (in_obs >= 0) ? obs_T2[in_obs] : t2_extra;  // T2 of the END-of-step compartment
@@ -1387,7 +1398,7 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
         int gs = int((cn + bs - 1) / bs);
         meshKernel<<<gs, bs>>>(d_traj, cn, p.T, p.step_extra, d_verts, d_tris, n_tris,
                                d_tobs, d_oT2, d_ostep, d_pie, d_pei,
-                               vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.periodic,
+                               vmin[0], vmin[1], vmin[2], vmax[0], vmax[1], vmax[2], p.periodic, p.placement,
                                p.smin[0], p.smin[1], p.smin[2], p.smax[0], p.smax[1], p.smax[2],
                                gmin[0], gmin[1], gmin[2], ics[0], ics[1], ics[2],
                                dim[0], dim[1], dim[2], d_cstart, d_ctri,
@@ -1417,7 +1428,6 @@ int runGpuMesh(const GpuSimParams& p, const float* verts, unsigned n_verts,
     if (rc == 0) {
         CUDA_CHECK(cudaMemcpy(out_DWI, d_dwi, dwi_count * sizeof(double), cudaMemcpyDeviceToHost));
     }
-
     cudaFree(d_traj); cudaFree(d_t2sum); cudaFree(d_inobs);
     cudaFree(d_scheme); cudaFree(d_dwi); if (d_subdiv) cudaFree(d_subdiv);
     cudaFree(d_verts); cudaFree(d_tris); cudaFree(d_tobs);

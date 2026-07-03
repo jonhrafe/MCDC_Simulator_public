@@ -75,8 +75,8 @@ DynamicsSimulation::DynamicsSimulation() {
     aux_walker_index = 0;
 
     // Initialize particle position tracking arrays
-    global_particle_positions.resize(params.num_steps, 0);
-    walker_particle_positions.resize(params.num_steps, 0);
+    global_particle_positions.resize(params.num_steps + 1, 0);  // +1: indexed by timestep t = 1..num_steps
+    walker_particle_positions.resize(params.num_steps + 1, 0);  // (size num_steps overflowed at t==num_steps -> heap corruption for some small T)
 }
 
 /**
@@ -102,8 +102,8 @@ DynamicsSimulation::DynamicsSimulation(std::string conf_file) {
     aux_walker_index = 0;
 
     // Initialize particle position tracking arrays
-    global_particle_positions.resize(params.num_steps, 0);
-    walker_particle_positions.resize(params.num_steps, 0);
+    global_particle_positions.resize(params.num_steps + 1, 0);  // +1: indexed by timestep t = 1..num_steps
+    walker_particle_positions.resize(params.num_steps + 1, 0);  // (size num_steps overflowed at t==num_steps -> heap corruption for some small T)
 }
 
 /**
@@ -129,8 +129,8 @@ DynamicsSimulation::DynamicsSimulation(Parameters& params_) {
     aux_walker_index = 0;
 
     // Initialize particle position tracking arrays
-    global_particle_positions.resize(params.num_steps, 0);
-    walker_particle_positions.resize(params.num_steps, 0);
+    global_particle_positions.resize(params.num_steps + 1, 0);  // +1: indexed by timestep t = 1..num_steps
+    walker_particle_positions.resize(params.num_steps + 1, 0);  // (size num_steps overflowed at t==num_steps -> heap corruption for some small T)
 }
 
 void DynamicsSimulation::initObstacleInformation(){

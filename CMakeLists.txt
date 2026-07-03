@@ -304,6 +304,16 @@ if(Python3_Interpreter_FOUND)
                 "${CMAKE_SOURCE_DIR}/tests/accuracy/mesh_restricted.conf")
     set_tests_properties(gpu_mesh_sphere PROPERTIES LABELS "gpu" TIMEOUT 300)
 
+    # GPU mesh on a PACKED substrate: builds a gamma sphere packing, tessellates it
+    # (icospheres, incl. periodic images) into one PLY, and asserts GPU-mesh == CPU-mesh
+    # intra-only within MC noise + walker retention. Guards the mesh-kernel intra
+    # placement (was seeded uniformly, collapsing the restricted signal) and the
+    # double-precision collision (float32+nudge leaked through walls). Self-contained.
+    add_test(
+        NAME gpu_gamma_mesh
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_gpu_gamma_mesh.py")
+    set_tests_properties(gpu_gamma_mesh PROPERTIES LABELS "gpu" TIMEOUT 600)
+
     # GPU Phase 2e: voxel PERIODIC boundary conditions (free diffusion, tight box).
     # The walker wraps (pos_v) while the real position (pos_r) stays unwrapped; GPU
     # must reproduce the CPU periodic-medium signal. (Mirror BC is not yet matched

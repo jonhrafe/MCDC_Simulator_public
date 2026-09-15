@@ -26,6 +26,10 @@ public:
 
     std::vector<Sphere> spheres;                    /*!< Spheres vector                                                             */
 
+    std::vector<double> preset_radii;               /*!< if non-empty, pack THESE radii (internal mm) instead of sampling a
+                                                         gamma. Original gamma behaviour is used when empty.                          */
+    std::vector<int>    preset_labels;              /*!< per-radius population label, aligned with preset_radii (optional).   */
+
     /*!
      *  \param P_ Sphere origin
      *  \param radius_ sphere's radius

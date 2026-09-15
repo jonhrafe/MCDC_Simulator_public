@@ -826,7 +826,8 @@ void ParallelMCSimulation::specialInitializations()
         for(unsigned i = 0; i < spheres_list.size(); i++){
 
             out << spheres_list[i].center[0]*1e3 << " " << spheres_list[i].center[1]*1e3 << " " << spheres_list[i].center[2]*1e3 << " "
-                << spheres_list[i].radius*1e3 << " " << spheres_list[i].percolation << " " << spheres_list[i].T2 << endl;
+                << spheres_list[i].radius*1e3 << " " << spheres_list[i].percolation << " " << spheres_list[i].T2
+                << " " << spheres_list[i].population_label << " " << (spheres_list[i].is_replica ? 1 : 0) << endl;
         }
         out.close();
     }
@@ -1105,6 +1106,25 @@ void ParallelMCSimulation::addObstacleConfigurations()
         SphereGammaDistribution gamma_dist(params.gamma_num_obstacles,params.gamma_packing_alpha, params.gamma_packing_beta,params.gamma_icvf
                                              ,params.min_limits, params.max_limits,params.min_obstacle_radii);
         gamma_dist.seed = params.seed;   // reproducible substrate from the user seed
+
+        // inject an explicit radii list (packs THESE radii instead of sampling a
+        // gamma). File rows: "radius_um  population_label" (um -> internal mm via *1e-3).
+        if(params.gamma_radii_file != ""){
+            std::ifstream rin(params.gamma_radii_file);
+            if(!rin){
+                SimErrno::error("Sphere gamma packing: radii_file could not be opened: "
+                                + params.gamma_radii_file, cout);
+                std::exit(EXIT_FAILURE);
+            }
+            double r_um; int lab;
+            while(rin >> r_um >> lab){
+                gamma_dist.preset_radii.push_back(r_um * 1e-3);   // um -> internal mm
+                gamma_dist.preset_labels.push_back(lab);
+            }
+            rin.close();
+            SimErrno::info("Injected " + std::to_string(gamma_dist.preset_radii.size())
+                           + " radii from " + params.gamma_radii_file + "\n", cout);
+        }
 
         gamma_dist.displayGammaDistribution();
 

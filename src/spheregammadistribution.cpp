@@ -50,6 +50,9 @@ void SphereGammaDistribution::createGammaSubstrate()
         std::random_device rd;
         rng.seed((uint64_t(rd()) << 32) ^ uint64_t(rd()));
     }
+    // when an explicit radii list is injected, it fully determines the count.
+    if(!preset_radii.empty())
+        num_obstacles = preset_radii.size();
     // Guard: 0 obstacles (e.g. num_spheres unset / mistyped keyword) -> empty radiis ->
     // radiis[radiis.size()-1] underflow in computeMinimalSize. Fail clearly instead of crashing.
     if(num_obstacles == 0){
@@ -66,36 +69,48 @@ void SphereGammaDistribution::createGammaSubstrate()
     min_limits = {0.,0.,0.};
 
     std::vector<double> radiis(num_obstacles,0);
+    std::vector<int>    labels(num_obstacles,-1);   // per-radius population tag (aligned with radiis)
 
     bool achieved = false;
 
-
-    int tried = 0;
-
-    for (unsigned i=0; i< num_obstacles; ++i) {
-
-        if(tried > 10000){
-            string message = " Radii distribution cannot be sampled [Min. radius Error]\n";
-            SimErrno::error(message,cout);
-            assert(0);
-        }
-        double jkr =  distribution(rng.generator());
-
-        if(jkr< this->min_radius){
-            i--;
-            tried++;
-            continue;
-        }
-        tried=0;
-
-        radiis[i] = jkr; // beta (gamma scale) + min_radius are already internal mm (SI-homogenized in Parameters)
+    if(!preset_radii.empty()){
+        // Injected-radii path: pack the supplied list instead of sampling a gamma.
+        // Sort (radius,label) pairs jointly (descending radius) so labels stay aligned.
+        std::vector<std::pair<double,int>> rl(num_obstacles);
+        for(unsigned i = 0; i < num_obstacles; ++i)
+            rl[i] = { preset_radii[i], preset_labels.empty() ? -1 : preset_labels[i] };
+        std::sort(rl.begin(), rl.end(),
+                  [](const std::pair<double,int>& a, const std::pair<double,int>& b){ return a.first > b.first; });
+        for(unsigned i = 0; i < num_obstacles; ++i){ radiis[i] = rl[i].first; labels[i] = rl[i].second; }
     }
+    else{
+        // ORIGINAL gamma sampling (unchanged).
+        int tried = 0;
+        for (unsigned i=0; i< num_obstacles; ++i) {
 
-    // using a lambda function:
-    std::sort(radiis.begin(),radiis.end(),[](const double a, double  b) -> bool
-    {
-        return a> b;
-    });
+            if(tried > 10000){
+                string message = " Radii distribution cannot be sampled [Min. radius Error]\n";
+                SimErrno::error(message,cout);
+                assert(0);
+            }
+            double jkr =  distribution(rng.generator());
+
+            if(jkr< this->min_radius){
+                i--;
+                tried++;
+                continue;
+            }
+            tried=0;
+
+            radiis[i] = jkr; // beta (gamma scale) + min_radius are already internal mm (SI-homogenized in Parameters)
+        }
+
+        // using a lambda function:
+        std::sort(radiis.begin(),radiis.end(),[](const double a, double  b) -> bool
+        {
+            return a> b;
+        });
+    }
 
 
     uint adjustments = 0;
@@ -124,6 +139,8 @@ void SphereGammaDistribution::createGammaSubstrate()
 
                     Eigen::Vector3d P = {x,y,z};
                     Sphere sph(P,radiis[i]);
+                    sph.population_label = labels[i];   // -1 for gamma; population tag for injected radii
+                    sph.is_replica = false;             // this is the physical original
 
 
                     double min_distance;
@@ -351,6 +368,12 @@ void SphereGammaDistribution::checkBoundaryConditions(Sphere sph, std::vector<Sp
         }
     }
 
+
+    // to_add[0] is the physical original (its is_replica was set false by the
+    // caller); every later entry is a periodic boundary copy. Mark them so ground-truth
+    // statistics can exclude replicas without relying on radius-equality heuristics.
+    for(unsigned i = 1 ; i < to_add.size(); ++i)
+        to_add[i].is_replica = true;
 
     for(unsigned i = 0 ; i < to_add.size(); i++)
     {

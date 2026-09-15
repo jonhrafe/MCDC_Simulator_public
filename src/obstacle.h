@@ -34,6 +34,11 @@ public:
     double prob_cross_e_i;         /*!< Probability of crossing from the the exterior                               */
     double prob_cross_i_e;         /*!< Probability of crossing to   the the interior                               */
 
+    int  population_label = -1;     /*!< population tag for injected-radii packings (-1 = unlabelled/gamma).
+                                         Propagates through the Sphere copy-ctor to boundary replicas.               */
+    bool is_replica = false;        /*!< true for periodic boundary-condition copies; false for the one
+                                         physical original. Lets ground-truth stats exclude replicas robustly.       */
+
     /*! \fn  Obstacle
      *  \brief Default constructor. Does nothing.
      */

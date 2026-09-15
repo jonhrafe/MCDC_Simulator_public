@@ -85,6 +85,8 @@ public:
     double      gamma_output_configuration;
     unsigned    gamma_num_obstacles;
     float       min_obstacle_radii;                 /*!< Minimum radii (in um) to be sampled                                        */
+    std::string gamma_radii_file = "";              /*!< if set, pack the radii listed in this file instead of sampling a
+                                                         gamma. File lines: "radius_um [population_label]". Empty = gamma (default). */
 
     bool subdivision_flag           = false;        /*!< flag to check if we have several voxel subdivision to compute the signal   */
     bool subdivision_at_te          = false;        /*!< if true, bin each acquisition's subvoxel signal at its own echo time (TE)  */

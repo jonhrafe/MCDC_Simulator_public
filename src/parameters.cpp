@@ -783,6 +783,9 @@ void Parameters::readGammaParams(ifstream &in)
         else if(str_dist(tmp,"min_radius") <= 1){
             in >> min_obstacle_radii;
         }
+        else if(str_dist(tmp,"radii_file") <= 1){
+            in >> gamma_radii_file;   // CEDDI: explicit radii-list injection (path not lowercased)
+        }
         else if(str_dist(tmp,"") == 0){
             in.clear();
             //in.ignore();

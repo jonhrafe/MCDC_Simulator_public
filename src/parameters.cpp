@@ -246,6 +246,12 @@ void Parameters::readSchemeFile(std::string conf_file_path)
            this->separate_signals = true;
            this->computeVolume = true;
         }
+        else if( str_dist(tmp,"crossed_filter") <= 1 )
+        {
+           in >> this->crossed_filter;   // 0=all(legacy), 1=crossed-only, 2=uncrossed-only
+           this->separate_signals = true;
+           this->computeVolume = true;
+        }
         else if( str_dist(tmp,"log_phase_shift") <= 2 )
         {
            this->log_phase_shift = true;

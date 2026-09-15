@@ -398,6 +398,7 @@ bool PLYObstacle::updateWalkerStatusAndHandleBouncing(Walker &walker, Eigen::Vec
                     count_perc_crossings++;
                     if(from_intra) count_cross_i_e++; else count_cross_e_i++;
                     walker.perm_crossed_flag = true;
+                    walker.ever_crossed = true;   // history split: persistent crossing marker
                     colision.bounced_direction = step;
                     //colision.type = Collision::null;
                     return false;

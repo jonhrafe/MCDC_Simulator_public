@@ -441,6 +441,8 @@ void DynamicsSimulation::iniWalkerPosition()
     walker.in_ply_index = walker.in_cyl_index = walker.in_sph_index = -1;
     walker.intra_extra_consensus = walker.intra_coll_count = walker.extra_coll_count=walker.rejection_count=0;
     walker.perm_crossed_flag = false;
+    walker.ever_crossed = false;                  // history split: persistent crossing marker
+    walker.seed_location = Walker::unknown;       // history split: captured once below
     walker.t2_log[0] =1.0;
     walker.boundary_mirror = Vector3d(1.0,1.0,1.0);
 
@@ -468,12 +470,14 @@ void DynamicsSimulation::iniWalkerPosition()
         walker.setInitialPosition(intra_pos);
         walker.intra_extra_consensus--;
         walker.initial_location = Walker::intra;
+        walker.seed_location    = Walker::intra;   // history split: true seed
     }
     else if(params.ini_walker_flag.compare("extra")== 0){
         Vector3d extra_pos;
         getAnExtraCellularPosition(extra_pos);
         walker.setInitialPosition(extra_pos);
         walker.initial_location = Walker::extra;
+        walker.seed_location    = Walker::extra;   // history split: true seed
         walker.intra_extra_consensus++;
     }
     else if(voxels_list.size() > 0 or params.custom_sampling_area){
@@ -1312,6 +1316,9 @@ bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced
         if(walker.initial_location == Walker::unknown){
             walker.initial_location = walker.location;
         }
+        if(walker.seed_location == Walker::unknown){   // history split: capture true seed once
+            walker.seed_location = walker.location;
+        }
 
         //We update the position.
         if (!params.periodic_boundaries) {
@@ -1378,6 +1385,9 @@ void DynamicsSimulation::updateStepLength(){
 
         if(walker.initial_location == Walker::unknown){
             walker.initial_location = (isIntra)?Walker::intra:Walker::extra;
+        }
+        if(walker.seed_location == Walker::unknown){   // history split: capture true seed once
+            walker.seed_location = (isIntra)?Walker::intra:Walker::extra;
         }
 
         if(isIntra){

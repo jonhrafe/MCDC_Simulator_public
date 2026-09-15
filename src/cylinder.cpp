@@ -147,6 +147,7 @@ inline bool Cylinder::handleCollition(Walker& walker, Collision &colision, Vecto
             count_perc_crossings++;
             if(from_intra) count_cross_i_e++; else count_cross_e_i++;
             walker.perm_crossed_flag = true;
+            walker.ever_crossed = true;   // history split: persistent crossing marker
             // PERMEABLE CROSSING: the membrane is transparent, so the walker continues
             // STRAIGHT through. colision.type was already set to hit (above), and the
             // bouncing handler reads colision.bounced_direction -- which the reflection

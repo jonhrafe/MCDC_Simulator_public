@@ -108,6 +108,9 @@ public:
     bool custom_sampling_area;                      /*!< True if a custom sampling area is defined (voxel for default)              */
     bool computeVolume;                             /*!< Forces the volumen computation (slower) even without custom sampling       */
     bool separate_signals;                          /*!< Separate the signals into intra and extra (compute_volume on)              */
+    int  crossed_filter = 0;                        /*!< 4-population dynamical-history filter: 0=all(final-loc split, legacy),
+                                                          1=crossed-only, 2=uncrossed-only; when !=0 the intra/extra split is by
+                                                          INITIAL compartment -> (init x crossed) = imp/i->e/e->i/hindered          */
     bool img_signal;                                /*!< True to save the img part of the dwi signal (false by default)             */
 
     bool update_step;                               /*!< True to update the step size in the simulation (false by default)          */

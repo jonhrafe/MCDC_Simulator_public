@@ -53,6 +53,7 @@ MCSimulation::MCSimulation(std::string config_file)
     }
 
     dataSynth->separate_signal = params.separate_signals;
+    dataSynth->crossed_filter  = params.crossed_filter;
 
     dynamicsEngine->id = count;
     id = count;
@@ -85,6 +86,7 @@ MCSimulation::MCSimulation(Parameters& params_)
 
     dataSynth->setNumberOfSteps(dynamicsEngine->params.num_steps);
     dataSynth->separate_signal = params.separate_signals;
+    dataSynth->crossed_filter  = params.crossed_filter;
 
     if(params.subdivision_flag){
         dataSynth->subdivision_flag = true;

@@ -360,15 +360,31 @@ void PGSESequence::update_DWI_signal(Walker& walker, double dt)
 
 
         if(this->separate_signal){
-
-            if(walker.location == Walker::RelativeLocation::intra){
-                DWI_intra[s]+=cos_phase_shift_T2;
-            }
-            else if(walker.location == Walker::RelativeLocation::extra){
-                DWI_extra[s]+=cos_phase_shift_T2;
+            if(this->crossed_filter == 0){
+                // legacy behaviour: split by FINAL location, all walkers
+                if(walker.location == Walker::RelativeLocation::intra){
+                    DWI_intra[s]+=cos_phase_shift_T2;
+                }
+                else if(walker.location == Walker::RelativeLocation::extra){
+                    DWI_extra[s]+=cos_phase_shift_T2;
+                }
+                else{
+                    cout << walker.location << endl;
+                }
             }
             else{
-                cout << walker.location << endl;
+                // 4-population dynamical-history split: keep only walkers matching the
+                // crossing filter, and split by INITIAL compartment. Two runs give:
+                //   crossed_filter=2 -> DWI_intra=intra-never, DWI_extra=hindered-extra
+                //   crossed_filter=1 -> DWI_intra=intra->extra (efflux), DWI_extra=extra->intra (influx)
+                bool keep = (this->crossed_filter == 1) ?  walker.ever_crossed
+                                                        : !walker.ever_crossed;
+                if(keep){
+                    if(walker.seed_location == Walker::RelativeLocation::intra)
+                        DWI_intra[s]+=cos_phase_shift_T2;
+                    else if(walker.seed_location == Walker::RelativeLocation::extra)
+                        DWI_extra[s]+=cos_phase_shift_T2;
+                }
             }
         }
 

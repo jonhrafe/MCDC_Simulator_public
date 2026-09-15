@@ -55,6 +55,8 @@ public:
 
     bool separate_signal            = false;    /*!< flag to check if we will separate the signal in intra and extra            */
 
+    int  crossed_filter             = 0;        /*!< 4-population history filter (0=all/legacy,1=crossed,2=uncrossed); see parameters.h */
+
     bool img_signal                 = false;    /*!< flag to check if the img part will be computed or not (false default       */
 
     std::vector<Subdivision> subdivisions;      /*!< saves the actual positions of the subdivision to compute the signal        */

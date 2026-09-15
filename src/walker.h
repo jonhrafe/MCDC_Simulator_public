@@ -91,6 +91,11 @@ public:
 
     bool perm_crossed_flag;                                         /*!< Flag to check if the particle crossed a permeable barrier        */
 
+    bool ever_crossed = false;                                      /*!< PERSISTENT: true if the walker EVER crossed a permeable barrier
+                                                                         (never reset by the sentinel; for 4-population history split)      */
+    RelativeLocation seed_location = unknown;                       /*!< PERSISTENT: the TRUE seeding compartment, captured once and never
+                                                                         rebaselined (initial_location is rebaselined on crossings)         */
+
     Eigen::Vector3d boundary_mirror;                                /*!< Tracks boundary mirroring state*/
 
     RandomEngine rng;                                               /*!< Per-walker seeded RNG (membrane percolation draw, P0.1)          */

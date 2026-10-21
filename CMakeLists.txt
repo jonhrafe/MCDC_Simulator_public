@@ -203,6 +203,12 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_permeability_list.py")
     set_tests_properties(permeability_list PROPERTIES LABELS "permeability" TIMEOUT 300)
 
+    # Unit check: the T2 column of spheres_list / cylinders_list is in SECONDS (SI .conf).
+    add_test(
+        NAME list_units
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_list_units.py")
+    set_tests_properties(list_units PROPERTIES LABELS "validation" TIMEOUT 120)
+
     # Permeable-membrane equilibrium (volume preservation) with D_intra != D_extra: the intra
     # density of a uniformly seeded permeable sphere must stay at its volume fraction, with no
     # walkers discarded as illegal crossings. `_mesh` repeats it on a triangulated PLY sphere and

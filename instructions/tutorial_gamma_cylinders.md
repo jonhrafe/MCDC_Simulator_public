@@ -54,7 +54,7 @@ The log reports the achieved ICVF (close to the 0.70 target).
 | file | contents |
 |---|---|
 | `cylinder_gamma_packing_test_DWI.txt` | real part of the DW signal (123 acquisitions) |
-| `cylinder_gamma_packing_test_gamma_distributed_cylinder_list.txt` | the packed cylinders: first line is the file→mm scale, then `x y z r perc T2` per cylinder |
+| `cylinder_gamma_packing_test_gamma_distributed_cylinder_list.txt` | the packed cylinders: first line is the file→mm scale, then `x y z r perc T2` per cylinder (T2 in the .conf's unit: seconds by default) |
 | `cylinder_gamma_packing_test_0.traj.txt` | per-spin trajectories (`N·(T+1)·3` values) |
 | `cylinder_gamma_packing_test_simulation_info.txt` | run parameters and warnings |
 

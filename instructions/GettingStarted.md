@@ -91,3 +91,47 @@ This example diffuses 1,000 spins for 100 ms in 1,000 steps (one step every 0.1 
 computed with the PGSE scheme `PGSE_sample_scheme.scheme`. Walkers are seeded in an arbitrary cubic
 voxel from (0, 0, 0) to (0.5, 0.5, 0.5) mm (written as `0.5e-3` m in SI), and the run uses a single
 CPU thread.
+
+## Advanced options
+
+Commented, runnable examples for each option are in [`docs/conf_file_examples/`](../docs/conf_file_examples/).
+
+### Dynamical-history signal split (`crossed_filter`)
+
+For substrates with permeable membranes, each spin remembers whether it ever crossed a membrane and
+which compartment it was seeded in. `crossed_filter` selects which spins contribute to the separated
+signals (it implies `separate_signals`):
+
+| value | spins kept | `_DWI_intra` / `_DWI_extra` hold |
+|---|---|---|
+| `0` (default) | all | the legacy split by **final** position |
+| `1` | spins that crossed at least once | **intra→extra** (efflux) / **extra→intra** (influx) |
+| `2` | spins that never crossed | **intra-never** / **hindered** (extra-never) |
+
+Run the same configuration twice (same `seed` and `num_process`), once with `crossed_filter 1` and
+once with `2`, to obtain the four channels; together they add up to the total signal. With no
+permeability the crossed channels are empty. Example:
+[`permeablePopulationHistory.conf`](../docs/conf_file_examples/permeablePopulationHistory.conf).
+
+### Sphere packing from a list of radii (`radii_file`)
+
+Inside `<sphere_gamma_packing>`, the optional key `radii_file <path>` packs exactly the radii listed
+in the file instead of sampling a gamma distribution. The file has one sphere per line,
+`radius[um] population_label` (`#` comments allowed); the number of lines is the number of spheres,
+and `icvf` still sets the voxel size (`alpha`, `beta` and `num_spheres` are not needed). The file is
+validated at start-up: a non-numeric or non-positive radius, a negative or non-integer label, extra
+columns or an empty list abort the run with the offending line number. The emitted
+`<exp_prefix>_gamma_distributed_sphere_list.txt` gains two trailing columns, `population_label` and
+`is_replica` (1 for periodic copies at the voxel walls, which ground-truth statistics should exclude).
+If the list cannot fit at the requested `icvf`, spheres are dropped and the log reports the
+"Percentage of spheres selected": lower `icvf` until all fit. Example:
+[`gammaSpheresInjectedRadii.conf`](../docs/conf_file_examples/gammaSpheresInjectedRadii.conf).
+
+### Permeable membranes
+
+`permeability` is the membrane permeability κ in **m/s**; per-obstacle values can be set in the
+geometry lists. As of v2.3.0 permeable crossings preserve the compartment volume fractions when
+`diff_intra` ≠ `diff_extra` (earlier versions drifted and discarded exchanging spins as illegal
+crossings). For exchange studies keep the extracellular step length `sqrt(6·D_extra·dt)` below
+about 1% of the obstacle radius.
+

@@ -24,7 +24,7 @@
 </p>
 
 > [!IMPORTANT]
-> **This is MC/DC `v2.2.0` — the current stable release**, now on the default branch (`mcdc2_dev`): SI units, the modernized PGSE protocol, multi-compartment substrates, four tutorials, `pip install`, and cross-platform binaries on the [Releases page](https://github.com/jonhrafe/MCDC_Simulator_public/releases/latest).
+> **This is MC/DC `v2.3.0` — the current stable release**, now on the default branch (`mcdc2_dev`): permeable-membrane crossing fix (compartment volume fractions are preserved when D_intra ≠ D_extra), dynamical-history signal split, explicit sphere-radii injection, SI units, the modernized PGSE protocol, multi-compartment substrates, four tutorials, `pip install`, and cross-platform binaries on the [Releases page](https://github.com/jonhrafe/MCDC_Simulator_public/releases/latest).
 > **Looking for the previous stable version?** It remains available on the [**`master`**](https://github.com/jonhrafe/MCDC_Simulator_public/tree/master) branch.
 
 ## Table of contents
@@ -99,7 +99,10 @@ signal. It supports:
   waveforms**, read from a scheme file.
 - **Outputs:** the complex DW-MRI signal (real / imaginary), per-compartment **separated signals**,
   optional **voxel-subdivision** volumetric signal (for parametric maps / movies), per-spin
-  **trajectories**, and the diffusion **propagator**.
+  **trajectories**, and the diffusion **propagator**. For permeable substrates the signal can also be
+  split by each spin's **dynamical history** (never crossed / efflux / influx / hindered), and a
+  sphere packing can be built from an **explicit list of radii** with population labels (see
+  [Advanced options](instructions/GettingStarted.md#advanced-options)).
 - **Reproducible & tested:** a single seeded RNG makes runs reproducible, and a CTest suite guards
   the physics against golden references.
 

@@ -771,7 +771,7 @@ bool DynamicsSimulation::isInIntra(Vector3d &position, int& cyl_id,  int& ply_id
 {
     bool isIntra = false;
     if(cylinders_list->size()>0){
-        isIntra|= this->isInsideCylinders(position,cyl_id,barrier_tickness);
+        isIntra|= this->isInsideCylinders(position,cyl_id,0.0);   // no 1-nm 'intra' band outside the wall
     }
 
     if(plyObstacles_list->size()>0){
@@ -779,7 +779,7 @@ bool DynamicsSimulation::isInIntra(Vector3d &position, int& cyl_id,  int& ply_id
     }
 
     if(spheres_list->size()>0){
-        isIntra|=this->isInsideSpheres(position,sph_id,barrier_tickness);
+        isIntra|=this->isInsideSpheres(position,sph_id,0.0);      // no 1-nm 'intra' band outside the wall
     }
     return isIntra;
 }
@@ -1506,6 +1506,14 @@ bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced
         }
 
         walker.status = Walker::bouncing;
+
+        // Permeable crossing: a transit leaves colision.bounced_direction equal to the incoming
+        // direction (no reflection). Overshoot the membrane by 2*barrier_tickness, UNCAPPED by
+        // the remaining step, so the walker can never end a step on (or within round-off of)
+        // the membrane, where the intra/extra classification is ambiguous.
+        if( walker.perm_crossed_flag && (colision.bounced_direction - bounced_step).norm() < 1e-9 ){
+            displ += 2.0*barrier_tickness;
+        }
         tmax -= displ;
 
         // Labels the walker w/r it's orientation.

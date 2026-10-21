@@ -63,7 +63,7 @@ inline bool Sphere::handleCollition(Walker& walker, Collision &colision, Vector3
 
 
     //if we are completely sure that no collision happened
-    if( ( (t1 < 0.0) || (t1 > step_length+barrier_tickness) ) && ( (t2 < 0.0) || (t2 > step_length+barrier_tickness)) ){
+    if( ( (t1 < 0.0) || (t1 > step_length) ) && ( (t2 < 0.0) || (t2 > step_length)) ){
         colision.type = Collision::null;
         return false;
     }
@@ -73,7 +73,7 @@ inline bool Sphere::handleCollition(Walker& walker, Collision &colision, Vector3
     if(walker.status == Walker::bouncing){
 
         //if the collision are too close or negative.
-        if( ( (t1 < EPS_VAL) || (t1 > step_length+barrier_tickness)) && (( t2 < EPS_VAL) || (t2 > step_length+barrier_tickness)) ){
+        if( ( (t1 < EPS_VAL) || (t1 > step_length)) && (( t2 < EPS_VAL) || (t2 > step_length)) ){
             colision.type = Collision::null;
             return false;
         }

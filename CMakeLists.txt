@@ -223,6 +223,26 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_permeability_list.py")
     set_tests_properties(permeability_list PROPERTIES LABELS "permeability" TIMEOUT 300)
 
+    # Permeable-membrane equilibrium (volume preservation) with D_intra != D_extra: the intra
+    # density of a uniformly seeded permeable sphere must stay at its volume fraction, with no
+    # walkers discarded as illegal crossings. `_mesh` repeats it on a triangulated PLY sphere and
+    # additionally checks that an all-intra start relaxes like the analytic sphere.
+    add_test(
+        NAME permeability_equilibrium
+        COMMAND ${Python3_EXECUTABLE}
+                "${CMAKE_SOURCE_DIR}/tests/test_permeability_equilibrium.py"
+                --bin $<TARGET_FILE:MC-DC_Simulator>
+                --scheme "${CMAKE_SOURCE_DIR}/tests/accuracy/PGSE_sample_scheme.scheme")
+    set_tests_properties(permeability_equilibrium PROPERTIES LABELS "permeability" TIMEOUT 600)
+    add_test(
+        NAME permeability_equilibrium_mesh
+        COMMAND ${Python3_EXECUTABLE}
+                "${CMAKE_SOURCE_DIR}/tests/test_permeability_equilibrium.py"
+                --substrate mesh
+                --bin $<TARGET_FILE:MC-DC_Simulator>
+                --scheme "${CMAKE_SOURCE_DIR}/tests/accuracy/PGSE_sample_scheme.scheme")
+    set_tests_properties(permeability_equilibrium_mesh PROPERTIES LABELS "permeability" TIMEOUT 1500)
+
     # CEDDI features (CPU, self-contained): the four-population dynamical-history split
     # (`crossed_filter` partitions the walkers; crossed channels empty without permeability)
     # and explicit radii injection (`radii_file`: originals == injected list, replicas flagged).

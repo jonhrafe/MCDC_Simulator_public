@@ -202,6 +202,14 @@ if(Python3_Interpreter_FOUND)
         NAME permeability_list
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_permeability_list.py")
     set_tests_properties(permeability_list PROPERTIES LABELS "permeability" TIMEOUT 300)
+
+    # Population-history features (CPU, self-contained): the four-population dynamical-history split
+    # (`crossed_filter` partitions the walkers; crossed channels empty without permeability)
+    # and explicit radii injection (`radii_file`: originals == injected list, replicas flagged).
+    add_test(
+        NAME population_history
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_population_history.py")
+    set_tests_properties(population_history PROPERTIES LABELS "population" TIMEOUT 300)
     # Per-obstacle property tracking: distinct Di/T2/kappa per mesh, permeable, with
     # `debug` on. Asserts each compartment maps to a single correct (Di,T2) across
     # all steps (no cross-contamination), crossings occur, and per-obstacle kappa is

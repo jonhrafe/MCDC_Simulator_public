@@ -813,11 +813,12 @@ void ParallelMCSimulation::specialInitializations()
         string file = params.output_base_name + "_gamma_distributed_cylinder_list.txt";
 
         ofstream out(file);
+        const double t2_out = params.use_mm_ms ? 1.0 : 1e-3;    // T2 in the .conf's units (s in SI)
         out << 1e-3 << endl;
         for(unsigned i = 0; i < cylinders_list.size(); i++){
 
         out << cylinders_list[i].P[0]*1e3 << " " << cylinders_list[i].P[1]*1e3 << " " << cylinders_list[i].P[2]*1e3 << " "
-                << cylinders_list[i].radius*1e3 << " " << cylinders_list[i].percolation << " " << cylinders_list[i].T2 << endl;
+                << cylinders_list[i].radius*1e3 << " " << cylinders_list[i].percolation << " " << cylinders_list[i].T2*t2_out << endl;
         }
         out.close();
     }
@@ -825,11 +826,12 @@ void ParallelMCSimulation::specialInitializations()
         string file = params.output_base_name + "_gamma_distributed_sphere_list.txt";
 
         ofstream out(file);
+        const double t2_out = params.use_mm_ms ? 1.0 : 1e-3;    // T2 in the .conf's units (s in SI)
         out << 1e-3 << endl;
         for(unsigned i = 0; i < spheres_list.size(); i++){
 
             out << spheres_list[i].center[0]*1e3 << " " << spheres_list[i].center[1]*1e3 << " " << spheres_list[i].center[2]*1e3 << " "
-                << spheres_list[i].radius*1e3 << " " << spheres_list[i].percolation << " " << spheres_list[i].T2
+                << spheres_list[i].radius*1e3 << " " << spheres_list[i].percolation << " " << spheres_list[i].T2*t2_out
                 << " " << spheres_list[i].population_label << " " << (spheres_list[i].is_replica ? 1 : 0) << endl;
         }
         out.close();
@@ -952,7 +954,7 @@ void ParallelMCSimulation::addObstaclesFromFiles()
             {
                 Cylinder cylinder(Eigen::Vector3d(x,y,z),Eigen::Vector3d(x,y,z+0.01),r,scale);
                 cylinder.percolation = p;
-                cylinder.T2 = t2;
+                cylinder.T2 = params.use_mm_ms ? t2 : t2*1e3;   // SI: list T2 in seconds -> internal ms
                 cylinders_list.push_back(cylinder);
             }
             in.close();
@@ -983,7 +985,7 @@ void ParallelMCSimulation::addObstaclesFromFiles()
         {
             Sphere sphere(Eigen::Vector3d(x,y,z),r,scale);
             sphere.percolation = p;
-            sphere.T2 = t2;
+            sphere.T2 = params.use_mm_ms ? t2 : t2*1e3;     // SI: list T2 in seconds -> internal ms
             spheres_list.push_back(sphere);
         }
         in.close();

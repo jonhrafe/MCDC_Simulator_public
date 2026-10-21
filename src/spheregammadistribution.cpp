@@ -258,15 +258,13 @@ double SphereGammaDistribution::computeICVF(std::vector<Sphere>& spheres, Vector
         return a.radius > b.radius;
     });
 
-    double rad_holder = -1;
     num_no_repeat = 0;
     for (uint i = 0; i < spheres.size(); i++){
 
-        if( fabs(rad_holder - spheres[i].radius) < 1e-15 ){
+        // Periodic boundary copies are flagged explicitly (is_replica), so spheres that merely
+        // share a radius (e.g. an injected radii list with repeated values) are all counted.
+        if( spheres[i].is_replica ){
             continue;
-        }
-        else{
-            rad_holder = spheres[i].radius;
         }
 
         double rad = spheres[i].radius;

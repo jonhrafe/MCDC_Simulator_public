@@ -222,6 +222,14 @@ if(Python3_Interpreter_FOUND)
         NAME permeability_list
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_permeability_list.py")
     set_tests_properties(permeability_list PROPERTIES LABELS "permeability" TIMEOUT 300)
+
+    # CEDDI features (CPU, self-contained): the four-population dynamical-history split
+    # (`crossed_filter` partitions the walkers; crossed channels empty without permeability)
+    # and explicit radii injection (`radii_file`: originals == injected list, replicas flagged).
+    add_test(
+        NAME ceddi_features
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_ceddi_features.py")
+    set_tests_properties(ceddi_features PROPERTIES LABELS "ceddi" TIMEOUT 300)
     # Per-obstacle property tracking: distinct Di/T2/kappa per mesh, permeable, with
     # `debug` on. Asserts each compartment maps to a single correct (Di,T2) across
     # all steps (no cross-contamination), crossings occur, and per-obstacle kappa is

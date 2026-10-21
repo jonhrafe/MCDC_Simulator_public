@@ -156,7 +156,7 @@ def radii_injection(work, scheme):
     injected = [(1.5, 1), (1.5, 1), (1.5, 1), (1.0, 2), (1.0, 2), (1.0, 2),
                 (0.8, 3), (0.8, 3), (0.8, 3), (0.6, 4), (0.6, 4), (0.6, 4)]
     rfile = os.path.join(work, "radii.txt")
-    open(rfile, "w").write("".join("%g %d\n" % rl for rl in injected))
+    open(rfile, "w").write("# radius_um label\n" + "".join("%g %d   # sphere\n" % rl for rl in injected) + "\n")
     prefix = os.path.join(work, "inj")
     gamma_conf(prefix + ".conf", prefix, scheme, rfile)
     run(prefix + ".conf")
@@ -184,14 +184,65 @@ def radii_injection(work, scheme):
     return ok
 
 
+def run_expect_failure(conf, needle):
+    """The simulator must abort (non-zero exit) with `needle` in its output."""
+    res = subprocess.run([BIN, "--conf", conf], cwd=REPO, stdout=subprocess.PIPE,
+                         stderr=subprocess.STDOUT, text=True, timeout=120)
+    out = res.stdout.replace("\x1b", "")
+    return res.returncode != 0 and needle in out, out
+
+
+def input_validation(work, scheme):
+    """simerrno must reject malformed radii files / geometry lists with a clear message."""
+    ok = True
+    bad_radii = {
+        "negative radius": ("1.0 1\n-0.5 2\n", "radius must be positive"),
+        "zero radius": ("1.0 1\n0 2\n", "radius must be positive"),
+        "non-numeric radius": ("1.0 1\nabc 2\n", "not a number"),
+        "negative label": ("1.0 1\n0.8 -3\n", "label must be >= 0"),
+        "non-integer label": ("1.0 1\n0.8 x\n", "label must be an integer"),
+        "extra column": ("1.0 1 7\n", "extra text"),
+        "empty list": ("# nothing here\n\n", "no radii"),
+    }
+    for i, (name, (body, needle)) in enumerate(bad_radii.items()):
+        rf = os.path.join(work, "bad_radii_%d.txt" % i)
+        open(rf, "w").write(body)
+        prefix = os.path.join(work, "bad_r%d" % i)
+        gamma_conf(prefix + ".conf", prefix, scheme, rf)
+        good, out = run_expect_failure(prefix + ".conf", needle)
+        print("[validation/radii_file] %-18s -> %s" % (name, "rejected" if good else "NOT rejected"))
+        if not good:
+            ok = False
+    # sphere list with a negative radius
+    lst = os.path.join(work, "neg.list")
+    open(lst, "w").write("1e-06\n0 0 0 -4 0 1000000000\n")
+    prefix = os.path.join(work, "neg_sph")
+    sphere_conf(prefix + ".conf", prefix, scheme, lst, None)
+    good, out = run_expect_failure(prefix + ".conf", "radius must be positive")
+    print("[validation/spheres_list] negative radius  -> %s" % ("rejected" if good else "NOT rejected"))
+    ok &= good
+    # the 8-column list written by the packer (population_label is_replica) is a valid input again
+    lst8 = os.path.join(work, "eight.list")
+    open(lst8, "w").write("1e-06\n0 0 0 4 0 1000000000 2 0\n")
+    prefix = os.path.join(work, "eight_sph")
+    sphere_conf(prefix + ".conf", prefix, scheme, lst8, None)
+    try:
+        run(prefix + ".conf")
+        print("[validation/spheres_list] 8-column list    -> accepted")
+    except RuntimeError:
+        print("[validation/spheres_list] 8-column list    -> REJECTED"); ok = False
+    return ok
+
+
 def main():
     work = tempfile.mkdtemp(prefix="mcdc_pophist_")
     try:
         scheme = os.path.join(work, "pgse.scheme"); write_scheme(scheme)
         ok_a = four_population(work, scheme)
         ok_b = radii_injection(work, scheme)
-        if ok_a and ok_b:
-            print("PASS: four-population split and radii injection behave as specified.")
+        ok_c = input_validation(work, scheme)
+        if ok_a and ok_b and ok_c:
+            print("PASS: four-population split, radii injection and input validation behave as specified.")
             return 0
         return 1
     finally:

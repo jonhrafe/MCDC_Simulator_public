@@ -2,6 +2,8 @@
 #include "iostream"
 #include "constants.h"
 #include <limits>
+#include <cmath>
+#include <algorithm>
 #include <cstdlib>
 #include <thread>
 #include <iostream>
@@ -117,9 +119,9 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
         checkCylindersListFile(params);
         info("Done...",cout);
     }
-    if(params.cylinders_files.size()>0){
+    if(params.spheres_files.size()>0){
         info("Checking Sphere list format...",cout);
-        checkCylindersListFile(params);
+        checkSphereListFile(params);
         info("Done...",cout);
     }
 
@@ -202,8 +204,14 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
 
     }
 
-    if(params.gamma_cyl_packing){
+    if(params.gamma_cyl_packing || params.gamma_sph_packing){
         checkGammaDistributionParamaters(params);
+    }
+
+    if(params.gamma_sph_packing && !params.gamma_radii_file.empty()){
+        info("Checking injected radii list format...",cout);
+        checkRadiiFile(params);
+        info("Done...",cout);
     }
 
     if(params.subdivision_flag){
@@ -616,6 +624,12 @@ bool SimErrno::checkCylindersListFile(Parameters &params)
             in >> scale;
             while (in >> x >> y >> z >> r >> p >> t2)
             {
+                if (!std::isfinite(r) || r <= 0.0){
+                    error( "Cylinder radius must be positive, found: " + to_string(r) ,cout);
+                    in.close();
+                    std::exit(EXIT_FAILURE);
+                    return true;
+                }
                 if ((t2) < 0.0){
                     error( "T2 value incorrectly assigned ",cout);
                     in.close();
@@ -624,6 +638,21 @@ bool SimErrno::checkCylindersListFile(Parameters &params)
                 }
                 if ((p) < 0.0 || (p) > 1.0){
                     error( "Permeability value incorrectly assigned ",cout);
+                    in.close();
+                    std::exit(EXIT_FAILURE);
+                    return true;
+                }
+            }
+            in.close();
+        }
+        else{
+            // 4-column variant (x y z r): same radius check
+            double x,y,z,r,scale;
+            in >> scale;
+            while (in >> x >> y >> z >> r)
+            {
+                if (!std::isfinite(r) || r <= 0.0){
+                    error( "Cylinder radius must be positive, found: " + to_string(r) ,cout);
                     in.close();
                     std::exit(EXIT_FAILURE);
                     return true;
@@ -640,7 +669,7 @@ bool SimErrno::checkCylindersListFile(Parameters &params)
 bool SimErrno::checkSphereListFile(Parameters &params)
 {
     for(unsigned i = 0; i < params.spheres_files.size(); i++){
-        ifstream in(params.cylinders_files[i]);
+        ifstream in(params.spheres_files[i]);
 
         if(!in){
             error( "Spheres list file cannot be open." ,cout);
@@ -665,7 +694,9 @@ bool SimErrno::checkSphereListFile(Parameters &params)
 
             std::vector<std::string> jkr = split_(line,' ');
 
-            if(jkr.size() != 6){
+            // 6 columns (x y z r p t2); lists written by the gamma packer carry two extra
+            // trailing columns (population_label is_replica), which are accepted and ignored.
+            if(jkr.size() != 6 && jkr.size() != 8){
                 error( "Sphere list file is not in the correct format (x,y,z,r,p,t2)." ,cout);
                 in.close();
                 std::exit(EXIT_FAILURE);
@@ -674,12 +705,20 @@ bool SimErrno::checkSphereListFile(Parameters &params)
         }
         in.close();
 
-        in.open(params.cylinders_files[i]);
+        in.open(params.spheres_files[i]);
         double x,y,z,r,p,t2;
         double scale;
         in >> scale;
+        std::string rest;
         while (in >> x >> y >> z >> r >> p >> t2)
         {
+            std::getline(in, rest);   // skip the optional trailing columns
+            if (!std::isfinite(r) || r <= 0.0){
+                error( "Sphere radius must be positive, found: " + to_string(r) ,cout);
+                in.close();
+                std::exit(EXIT_FAILURE);
+                return true;
+            }
             if ((t2) < 0.0){
                 error( "T2 value incorrectly assigned ",cout);
                 in.close();
@@ -1181,8 +1220,93 @@ void SimErrno::checkOuputPrefixAndWriteInfo(Parameters &params)
     info("Done...",cout);
 }
 
+bool SimErrno::checkRadiiFile(Parameters &params)
+{
+    // Lines: "radius[um] [population_label]"; '#' starts a comment; blank lines are ignored.
+    ifstream in(params.gamma_radii_file);
+    if(!in){
+        error("radii_file cannot be opened: " + params.gamma_radii_file, cout);
+        std::exit(EXIT_FAILURE);
+        return false;
+    }
+
+    unsigned count = 0, lineno = 0;
+    double rmin = std::numeric_limits<double>::max(), rmax = 0.0;
+    for(std::string line; getline(in, line); ){
+        lineno++;
+        size_t hash = line.find('#');
+        if(hash != std::string::npos) line.erase(hash);
+        std::istringstream ss(line);
+        std::string tok_r, tok_l, extra;
+        if(!(ss >> tok_r)) continue;                       // blank / comment-only line
+        ss >> tok_l;
+        if(ss >> extra){
+            error("radii_file line " + to_string(lineno) + ": expected \"radius [label]\", found extra text: '" + extra + "'", cout);
+            std::exit(EXIT_FAILURE);
+            return false;
+        }
+
+        char *end = nullptr;
+        double r = std::strtod(tok_r.c_str(), &end);
+        if(*end != '\0' || !std::isfinite(r)){
+            error("radii_file line " + to_string(lineno) + ": radius is not a number: '" + tok_r + "'", cout);
+            std::exit(EXIT_FAILURE);
+            return false;
+        }
+        if(r <= 0.0){
+            error("radii_file line " + to_string(lineno) + ": radius must be positive (found " + tok_r + " um)", cout);
+            std::exit(EXIT_FAILURE);
+            return false;
+        }
+        if(!tok_l.empty()){
+            char *lend = nullptr;
+            long lab = std::strtol(tok_l.c_str(), &lend, 10);
+            if(*lend != '\0'){
+                error("radii_file line " + to_string(lineno) + ": population label must be an integer: '" + tok_l + "'", cout);
+                std::exit(EXIT_FAILURE);
+                return false;
+            }
+            if(lab < 0){
+                error("radii_file line " + to_string(lineno) + ": population label must be >= 0 (-1 is reserved for unlabelled gamma packings)", cout);
+                std::exit(EXIT_FAILURE);
+                return false;
+            }
+        }
+        count++;
+        rmin = std::min(rmin, r);
+        rmax = std::max(rmax, r);
+    }
+    in.close();
+
+    if(count == 0){
+        error("radii_file contains no radii: " + params.gamma_radii_file, cout);
+        std::exit(EXIT_FAILURE);
+        return false;
+    }
+    if(count >= 1000000){
+        warning("radii_file lists a very large number of spheres (" + to_string(count) + "); packing may be extremely slow.", cout);
+    }
+    if(rmax > 1000.0 || rmin < 1e-3){
+        warning("radii_file radii are expected in micrometres; found the range [" + to_string(rmin) + ", " + to_string(rmax) + "] um.", cout);
+    }
+    if(params.gamma_num_obstacles != 0 && params.gamma_num_obstacles != count){
+        warning("num_spheres (" + to_string(params.gamma_num_obstacles) + ") is ignored: radii_file defines " + to_string(count) + " spheres.", cout);
+    }
+    if(params.min_obstacle_radii > 0){
+        warning("min_radius is ignored when radii_file is given.", cout);
+    }
+    return true;
+}
+
 bool SimErrno::checkGammaDistributionParamaters(Parameters &params)
 {
+    if(params.gamma_sph_packing && !params.gamma_radii_file.empty()){
+        // The radii come from the file: alpha/beta are never sampled, but the distribution object is
+        // still constructed, so give unset values a harmless default instead of requiring them.
+        if(params.gamma_packing_alpha <= 0) params.gamma_packing_alpha = 1.0;
+        if(params.gamma_packing_beta  <= 0) params.gamma_packing_beta  = 1e-3;   // internal mm (1 um)
+    }
+
     if( params.gamma_packing_alpha <= 0 || params.gamma_packing_beta <=0){
         error("Gamma distribution parameters are not on the supported range",cout,true);
         std::exit(EXIT_FAILURE);

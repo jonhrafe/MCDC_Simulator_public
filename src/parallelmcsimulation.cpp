@@ -1,3 +1,4 @@
+#include <sstream>
 #include "parallelmcsimulation.h"
 #include <iomanip>
 #include <vector>
@@ -1116,12 +1117,23 @@ void ParallelMCSimulation::addObstacleConfigurations()
                                 + params.gamma_radii_file, cout);
                 std::exit(EXIT_FAILURE);
             }
-            double r_um; int lab;
-            while(rin >> r_um >> lab){
+            std::string rline;
+            while(std::getline(rin, rline)){
+                size_t hash = rline.find('#');                     // '#' starts a comment
+                if(hash != std::string::npos) rline.erase(hash);
+                std::istringstream rs(rline);
+                double r_um; int lab = -1;
+                if(!(rs >> r_um)) continue;                        // blank / comment-only line
+                rs >> lab;                                         // label is optional
                 gamma_dist.preset_radii.push_back(r_um * 1e-3);   // um -> internal mm
                 gamma_dist.preset_labels.push_back(lab);
             }
             rin.close();
+            if(gamma_dist.preset_radii.empty()){
+                SimErrno::error("Sphere gamma packing: radii_file contains no radii: "
+                                + params.gamma_radii_file, cout);
+                std::exit(EXIT_FAILURE);
+            }
             SimErrno::info("Injected " + std::to_string(gamma_dist.preset_radii.size())
                            + " radii from " + params.gamma_radii_file + "\n", cout);
         }

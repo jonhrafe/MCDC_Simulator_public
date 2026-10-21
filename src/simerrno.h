@@ -110,6 +110,12 @@ public:
     */
     static bool checkGammaDistributionParamaters(Parameters &params);
 
+    //! \fn checks the explicit radii list of a sphere gamma packing (radii_file)
+    /*! \param parameter instance
+     *  \brief Aborts on a missing/unreadable file, non-numeric or non-positive radii, bad labels or an empty list
+    */
+    static bool checkRadiiFile(Parameters &params);
+
     //! \fn prints a warning message to console or a file.
     //! \param message to be displayed or written
     /*! \param iostream where to print

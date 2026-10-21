@@ -24,7 +24,9 @@
 </p>
 
 > [!IMPORTANT]
-> **This is MC/DC `v2.3.0` — the current stable release**, on the default branch (`master`): permeable-membrane crossing fix (compartment volume fractions are preserved when D_intra ≠ D_extra), dynamical-history signal split, explicit sphere-radii injection, SI units, the modernized PGSE protocol, multi-compartment substrates, four tutorials, `pip install`, and cross-platform binaries on the [Releases page](https://github.com/jonhrafe/MCDC_Simulator_public/releases/latest).
+> **This is MC/DC `v2.3.1` — the current stable release**, on the default branch (`master`): permeable-membrane crossing fix (compartment volume fractions are preserved when D_intra ≠ D_extra), dynamical-history signal split, explicit sphere-radii injection, SI units, the modernized PGSE protocol, multi-compartment substrates, four tutorials, `pip install`, and cross-platform binaries on the [Releases page](https://github.com/jonhrafe/MCDC_Simulator_public/releases/latest).
+>
+> **v2.3.1 is a hotfix to ensure SI units in all files:** the T2 column of `spheres_list` / `cylinders_list` is now read in seconds like every other file quantity (it was previously taken as milliseconds). Lists with a finite T2 written in ms must be converted to seconds.
 > **Looking for an earlier version?** Every release is tagged — e.g. [`v2.2.0`](https://github.com/jonhrafe/MCDC_Simulator_public/releases/tag/v2.2.0), or `1.5.1` for the last 1.x — and the binaries are on the [Releases page](https://github.com/jonhrafe/MCDC_Simulator_public/releases).
 
 ## Table of contents

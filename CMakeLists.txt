@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(MCDC_Simulator LANGUAGES CXX VERSION 2.3.0)
+project(MCDC_Simulator LANGUAGES CXX VERSION 2.3.1)
 
 # ---------------------------------------------------------------------------
 # Mirrors compile.sh:

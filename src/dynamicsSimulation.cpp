@@ -1300,11 +1300,13 @@ bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced
         walker.status = Walker::bouncing;
 
         // Permeable crossing: a transit leaves colision.bounced_direction equal to the incoming
-        // direction (no reflection). Overshoot the membrane by 2*barrier_tickness, UNCAPPED by
-        // the remaining step, so the walker can never end a step on (or within round-off of)
-        // the membrane, where the intra/extra classification is ambiguous.
+        // direction (no reflection). Advance 2*barrier_tickness past the membrane so the walker
+        // cannot restart on it (the same face would be hit again at t~0), but never farther than
+        // the remaining step: an overshoot beyond the step end lengthens the step, pushing every
+        // crossing into its destination compartment -- an end-of-step bias that drained the intra
+        // population of a uniform (equilibrium) PLY mesh by ~0.4 % in 20 ms.
         if( walker.perm_crossed_flag && (colision.bounced_direction - bounced_step).norm() < 1e-9 ){
-            displ += 2.0*barrier_tickness;
+            displ += std::min(2.0*barrier_tickness, std::max(0.0, tmax - displ));
         }
         tmax -= displ;
 

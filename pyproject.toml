@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mcdc-simulator"
-version = "2.3.1"
+version = "2.3.2"
 description = "MC/DC: a Monte-Carlo Diffusion and Collision simulator for diffusion-weighted MRI"
 readme = "README.md"
 requires-python = ">=3.8"

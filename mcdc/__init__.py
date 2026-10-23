@@ -4,4 +4,4 @@ The simulator itself is a C++/CMake program (`MC-DC_Simulator`). This thin packa
 builds it during `pip install` and exposes it as the `mcdc` console command, so it
 can be installed and run the way Python tools are.
 """
-__version__ = "2.3.1"
+__version__ = "2.3.2"

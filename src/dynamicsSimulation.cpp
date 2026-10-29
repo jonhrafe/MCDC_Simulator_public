@@ -677,90 +677,65 @@ bool DynamicsSimulation::isInsideCylinders(Vector3d &position, int& cyl_id,doubl
     return false;
 }
 
-bool DynamicsSimulation::isInsidePLY(Vector3d &position, int &ply_id,double distance_to_be_inside)
+bool DynamicsSimulation::isInsidePLY(Vector3d &position, int &ply_id,double /*distance_to_be_inside*/)
 {
-    ply_id= -1;
-    Walker tmp;
-    tmp.setInitialPosition(position);
+    // Point-in-mesh by ray-casting parity: a point is inside a closed mesh iff a ray from it crosses
+    // the surface an odd number of times. Unlike the side of the nearest triangle, parity does not
+    // depend on which triangle is picked, so it stays correct on dense, thin or imperfect meshes.
+    // The ray leaves along the axis with the shortest way out of the mesh grid, slightly tilted so
+    // it is never parallel to axis-aligned walls nor hits shared edges/vertices exactly.
+    ply_id = -1;
+    for (int i = 0; i < int(plyObstacles_list->size()); i++){
+        PLYObstacle& ply = (*plyObstacles_list)[i];
+        const AABBFixedGrid& grid = ply.AABBgrid;
+        Vector3d lo = grid.min_bounds, hi = grid.max_bounds;
+        if( (position.array() < lo.array()).any() || (position.array() > hi.array()).any() )
+            continue;
 
-    // 0) We create an small ABB around the position of interest and find a triangle visible from the position
-    double t,min_t = 1e6;
-    unsigned min_j_index = 0;
-    int min_i_index = -1;
-    std::vector<uint> collision_candidates;
-    double small_step = min_cell_size_um*0.001; //min size of an AABB;
-    do{
-        Vector3d step = Vector3d(1.0,1.0,1.0);
-
-        Vector3d abb_min = position - small_step*step;
-        Vector3d abb_max = position + small_step*step;
-        AABB dynamic_ray_abb(abb_min.cwiseMin(abb_max),abb_min.cwiseMax(abb_max));
-
-        for (int i = 0 ; i < plyObstacles_list->size(); i++){
-            collision_candidates = (*plyObstacles_list)[i].AABBgrid.getAABBsInCells(dynamic_ray_abb);
-            if(collision_candidates.size() > 0){
-                t = (position - (*plyObstacles_list)[i].faces[collision_candidates[0]].center).squaredNorm();
-                min_i_index = i;
-                min_j_index = collision_candidates[0];
-                small_step = 1;
-            }
+        // 1) shortest exit direction (axis k, sign sg), tilted
+        int k = 0; double sg = 1.0, exit_d = INFINITY_VALUE;
+        for (int a = 0; a < 3; a++){
+            if (hi[a] - position[a] < exit_d){ exit_d = hi[a] - position[a]; k = a; sg =  1.0; }
+            if (position[a] - lo[a] < exit_d){ exit_d = position[a] - lo[a]; k = a; sg = -1.0; }
         }
-        small_step+=small_step;
-    }while(small_step < 1e-1);
+        Vector3d dir(0.0123456789, 0.0234567891, 0.0345678912);
+        dir[k] = sg;
+        dir.normalize();
+        double cs = grid.cell_size;
+        double L  = exit_d/fabs(dir[k]) + cs;
 
-    //1) If we failed we find the closest triangle to the position
-    if(min_i_index < 0){
-        cout << "FAILED " << endl;
-        for (unsigned i=0; i < (*plyObstacles_list).size(); i++){
-            for (unsigned j=0; j < (*plyObstacles_list)[i].face_number; j++){
-                t = (position - (*plyObstacles_list)[i].faces[j].center).squaredNorm();
-                // cout << t<< endl;
-                if(t< min_t){
-                    min_i_index = i;
-                    min_j_index = j;
-                    min_t = t;
-                }
-            }
+        // 2) candidate triangles: grid cells along the ray, one cell-long segment at a time
+        parity_buf.clear();
+        for (double s = 0.0; s < L; s += cs){
+            Vector3d p0 = position + s*dir, p1 = position + std::min(s + cs, L)*dir;
+            grid.getAABBsInCells(AABB(p0.cwiseMin(p1), p0.cwiseMax(p1)), aabb_query_buf);
+            parity_buf.insert(parity_buf.end(), aabb_query_buf.begin(), aabb_query_buf.end());
         }
-    }
+        std::sort(parity_buf.begin(), parity_buf.end());
+        parity_buf.erase(std::unique(parity_buf.begin(), parity_buf.end()), parity_buf.end());
 
-    //2) We corroborate by casting an infinite ray and checking collisions
-    //Small step in a fixed direction
-    Vector3d min_center = (*plyObstacles_list)[min_i_index].faces[min_j_index].center;
-    // Make an small step in the direction of the step
-    AABB ray_aabb(position.cwiseMin(min_center), position.cwiseMax(min_center));
-
-    Eigen::Vector3d ray = (-position + (*plyObstacles_list)[min_i_index].faces[min_j_index].center).normalized();
-    Collision colision_temp;
-
-    double new_min_t = 1e6;
-
-    for (unsigned i=0; i < (*plyObstacles_list).size(); i++){
-        std::vector<uint> vector_with_triangles_in_cell = (*plyObstacles_list)[i].AABBgrid.getAABBsInCells(ray_aabb); 
-
-        for (auto index :vector_with_triangles_in_cell){
-            (*plyObstacles_list)[i].faces[index].stepIntersects_MT(tmp,ray,1e8,colision_temp);
-
-            if(colision_temp.type == Collision::hit and new_min_t > colision_temp.t){
-                new_min_t = colision_temp.t;
-                min_i_index = i;
-                min_j_index = index;
-            }
+        // 3) count the crossings (Moller-Trumbore, t > 0)
+        unsigned crossings = 0;
+        Vector3d va, vb, vc;
+        for (auto j : parity_buf){
+            ply.faces[j].getVertex(0,va); ply.faces[j].getVertex(1,vb); ply.faces[j].getVertex(2,vc);
+            Vector3d e1 = vb - va, e2 = vc - va, pvec = dir.cross(e2);
+            double det = e1.dot(pvec);
+            if (det == 0.0) continue;
+            double inv = 1.0/det;
+            Vector3d tvec = position - va;
+            double u = tvec.dot(pvec)*inv;
+            if (u < 0.0 || u > 1.0) continue;
+            Vector3d qvec = tvec.cross(e1);
+            double v = dir.dot(qvec)*inv;
+            if (v < 0.0 || u + v > 1.0) continue;
+            if (e2.dot(qvec)*inv > 0.0) crossings++;
         }
-    }
-
-    //3) Finally we check the sign of the closest collision. The sign indicates either intra or extra.
-    if(min_i_index >= 0){
-        Eigen::Vector3d normal;
-        (*plyObstacles_list)[min_i_index].faces[min_j_index].getNormal(normal);
-        //Orientation respect the triangle
-        double dot = ((position - (*plyObstacles_list)[min_i_index].faces[min_j_index].center).normalized()).dot(normal);
-        if (dot < distance_to_be_inside){
-            ply_id = min_i_index;
+        if (crossings & 1u){
+            ply_id = i;
             return true;
         }
     }
-
     return false;
 }
 
@@ -1322,6 +1297,17 @@ bool DynamicsSimulation::updateWalkerPositionAndHandleBouncing(Vector3d &bounced
             walker.location = Walker::extra;
             walker.extra_coll_count++;
             walker.col_obj_id = colision.obstacle_id;
+        }
+        // A mesh hit labels the walker by the side of that one triangle, which is wrong where the
+        // mesh overlaps itself or is not watertight. Before a mesh hit changes the compartment
+        // (which the sentinel deports as an illegal crossing), confirm it with the parity test.
+        if( colision.triangle_ind >= 0 && !walker.perm_crossed_flag
+            && walker.initial_location != Walker::unknown && walker.location != walker.initial_location ){
+            int c_id, p_id, s_id;
+            bool really_intra = isInIntra(walker.pos_v, c_id, p_id, s_id, 0);
+            if( (really_intra ? Walker::intra : Walker::extra) == walker.initial_location ){
+                walker.location = walker.initial_location;
+            }
         }
         if(walker.initial_location == Walker::unknown){
             walker.initial_location = walker.location;

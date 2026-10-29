@@ -59,6 +59,7 @@ public:
     AABBFixedGrid* spheresAABBGrid;                 /*!< Pointer to the AABB grid for the spheres                                   */
     AABBFixedGrid* cylindersAABBGrid;               /*!< Pointer to the AABB grid for the cylinders                                 */
     std::vector<uint> aabb_query_buf;               /*!< Reused scratch buffer for grid queries (perf B1; one per sim => per thread) */
+    std::vector<uint> parity_buf;                   /*!< Candidate triangles of the point-in-mesh parity ray (one per sim => per thread) */
     unsigned intra_particles, total_tries;              /*!< Helper variables to compute the estimated ICVF                             */
 
     /******   Auxiliar variables   ********/
@@ -159,6 +160,7 @@ public:
 
     bool isInsideCylinders(Eigen::Vector3d& position,int& cyl_id,double distance_to_be_inside=1e-6);
 
+    /*! \brief Point-in-mesh test by ray-casting parity; distance_to_be_inside is ignored (kept for the interface). */
     bool isInsidePLY(Eigen::Vector3d& position,int& ply_id,double distance_to_be_inside=1e-6);
 
     bool isInsideSpheres(Eigen::Vector3d &position, int& sph_id,double distance_to_be_inside);

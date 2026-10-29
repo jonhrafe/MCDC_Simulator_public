@@ -72,6 +72,9 @@ simulator is launched from.
 - **`write_bin`** [0,1]: write binary output (full float32 precision, **recommended**).
 - **`write_traj_file`** [0,1]: write the per-particle trajectories (**warning: very large files**),
   in text or binary depending on the flags above.
+  All output and logging options (trajectories, `<log>` positions/propagator, phase-shift histogram,
+  per-process signals, volume estimate), their file layout and units, a runnable example and common
+  mistakes: see [`output_options.md`](output_options.md).
 - **`<voxel> … </voxel>`**: the simulation voxel, in **metres** (SI). Three numbers for the minimum
   corner (x_min, y_min, z_min), then three for the maximum corner (x_max, y_max, z_max).
 - **`num_process`** [int]: number of CPU threads to use.

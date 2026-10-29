@@ -261,6 +261,15 @@ if(Python3_Interpreter_FOUND)
         COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_waveform.py")
     set_tests_properties(waveform_protocol PROPERTIES LABELS "waveform" TIMEOUT 300)
 
+    # Logging / extra-output options (write_bin, trajectories, <log> positions/propagator,
+    # log_phase_shift, log_opp, separate_signals, compute_volume), each checked against a known
+    # answer in an SI .conf.
+    add_test(
+        NAME log_outputs
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_log_outputs.py"
+                --bin $<TARGET_FILE:MC-DC_Simulator>)
+    set_tests_properties(log_outputs PROPERTIES LABELS "validation" TIMEOUT 300)
+
     # GAMMA-distributed packings (seeded -> reproducible substrate): golden DWI for a gamma sphere
     # and a gamma cylinder packing. Guards the gamma generator + the SI unit homogenization
     # (beta/min_radius in metres).

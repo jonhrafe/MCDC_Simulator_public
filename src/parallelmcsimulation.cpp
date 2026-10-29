@@ -36,6 +36,9 @@ ParallelMCSimulation::ParallelMCSimulation(std::string config_file)
 
     total_sim_particles = 0;
 
+    icvf = 0;              // accumulated in jointResults(); was left uninitialised on this path
+    aprox_volumen = 0;
+
     SimErrno::checkConfigurationFile(config_file.c_str());
 
     params.readSchemeFile(config_file);
@@ -58,6 +61,7 @@ ParallelMCSimulation::ParallelMCSimulation(Parameters &params)
     initializeUnitSimulations();
     SimErrno::printSimulatinInfo(params,std::cout);
     icvf=0;
+    aprox_volumen = 0;
 }
 
 ParallelMCSimulation::~ParallelMCSimulation()

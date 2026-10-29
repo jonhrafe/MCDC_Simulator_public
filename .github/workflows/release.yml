@@ -2,8 +2,9 @@ name: release
 
 # Publishes the MC/DC binaries as assets on the GitHub Release for the pushed
 # version tag (e.g. v2.2.0). The release is created first, then each platform
-# uploads its own binary independently -- so a slow/unavailable runner (notably
-# the scarce Intel-Mac `macos-13` pool) never blocks publishing the others.
+# uploads its own binary independently -- so a slow/unavailable runner never blocks
+# publishing the others. No Intel-Mac (macos-x64) build: the `macos-13` runner pool was
+# retired and its job only waited in the queue until the 24 h limit.
 on:
   push:
     tags:
@@ -34,7 +35,6 @@ jobs:
       matrix:
         include:
           - { os: ubuntu-latest,  target: linux-x64 }
-          - { os: macos-13,       target: macos-x64 }    # Intel (scarce runners -- may lag)
           - { os: macos-latest,   target: macos-arm64 }  # Apple Silicon
           - { os: windows-latest, target: windows-x64 }
     runs-on: ${{ matrix.os }}

@@ -270,6 +270,14 @@ if(Python3_Interpreter_FOUND)
                 --bin $<TARGET_FILE:MC-DC_Simulator>)
     set_tests_properties(log_outputs PROPERTIES LABELS "validation" TIMEOUT 300)
 
+    # Walker-initialisation options (<delta>, ini_walkers_file, <regular_sampling>, <spawning_area>,
+    # intra/extra on spheres and on a concave mesh) and the rejected combinations.
+    add_test(
+        NAME init_options
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_init_options.py"
+                --bin $<TARGET_FILE:MC-DC_Simulator>)
+    set_tests_properties(init_options PROPERTIES LABELS "validation" TIMEOUT 300)
+
     # GAMMA-distributed packings (seeded -> reproducible substrate): golden DWI for a gamma sphere
     # and a gamma cylinder packing. Guards the gamma generator + the SI unit homogenization
     # (beta/min_radius in metres).

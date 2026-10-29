@@ -62,6 +62,8 @@ Parameters::Parameters()
     //max limits of doble
     t2_extra = t2_intra = 1.0e10;
     regular_sampling = false;
+    walker_offset = 0;
+    total_walkers = 0;
     ini_walker_flag = "";
     periodic_boundaries = true;
     bounding_box = false;

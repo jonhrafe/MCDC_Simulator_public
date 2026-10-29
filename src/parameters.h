@@ -43,6 +43,8 @@ public:
     std::string output_base_name;                   /*!< output files base name (path + sufix)                                      */
     std::string ini_walkers_file;                   /*!< initial walker position file (if any)                                      */
     unsigned ini_walkers_file_count;                /*!< number of walker positions initialize in the configuration file            */
+    unsigned walker_offset;                         /*!< global index of this process's first walker (0 for one process)              */
+    unsigned total_walkers;                         /*!< N over all processes (0 = this process's num_walkers)                        */
     std::string ini_walker_flag;                    /*!< where to initialize the walkers                                            */
     bool regular_sampling;                          /*!< flag, true if the walkers are initialized in a regular grid                */
     std::string scheme_file;                        /*!< signal adquisition scheme file (if any)                                    */

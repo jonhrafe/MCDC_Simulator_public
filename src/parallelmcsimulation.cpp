@@ -203,6 +203,8 @@ void ParallelMCSimulation::initializeUnitSimulations()
         //Parameters for each simulation simulation
         Parameters params_temp       = params;
         params_temp.num_walkers      = N_per_sim;
+        params_temp.walker_offset    = N_per_sim*i;          // global index of this process's first walker
+        params_temp.total_walkers    = params.num_walkers;
         params_temp.output_base_name+= "_"+std::to_string(i);
         // Offset the seed per worker so parallel fixed-seed runs draw
         // independent ensembles instead of duplicating one.
@@ -228,6 +230,8 @@ void ParallelMCSimulation::initializeUnitSimulations()
     //Parameters for each simulation simulation
     Parameters params_temp = params;
     params_temp.num_walkers = params.num_walkers - N_per_sim *(params.num_proc-1);
+    params_temp.walker_offset = N_per_sim*(params.num_proc-1);
+    params_temp.total_walkers = params.num_walkers;
     params_temp.output_base_name+= "_"+std::to_string(params.num_proc-1);
     // Offset the seed for the last worker too (see loop above).
     if(params.seed > 0)

@@ -319,7 +319,7 @@ void DynamicsSimulation::initSimulation()
     if(params.ini_walkers_file.length() > 3){
         try {
             iniPos.open(params.ini_walkers_file);
-            ini_pos_file_ini_index = (uint(id)*params.num_walkers)%params.ini_walkers_file_count;
+            ini_pos_file_ini_index = params.walker_offset%params.ini_walkers_file_count;   // global index of the first walker
 
             //We move the file start until we reach the initial position (MULTICORE SUPPPORT)
             for(unsigned i=0; i < ini_pos_file_ini_index; i++){
@@ -450,7 +450,10 @@ void DynamicsSimulation::iniWalkerPosition()
         double x,y,z;
 
         iniPos >> x; iniPos >> y; iniPos >> z;
-        walker.setInitialPosition(x,y,z);
+        // Positions are in metres in a standard-units (SI) .conf, like every other file quantity;
+        // already in mm with use_mm_ms.
+        const double s = params.use_mm_ms ? 1.0 : m_to_mm;
+        walker.setInitialPosition(x*s,y*s,z*s);
 
         if(++ini_pos_file_ini_index >= params.ini_walkers_file_count ){
             iniPos.clear();
@@ -482,7 +485,9 @@ void DynamicsSimulation::iniWalkerPosition()
     }
     else if(voxels_list.size() > 0 or params.custom_sampling_area){
         if(params.regular_sampling) {
-            walker.setRegularGridPosition(params.min_sampling_area, params.max_sampling_area, walker.index, params.num_walkers);
+            const unsigned total = params.total_walkers ? params.total_walkers : params.num_walkers;
+            walker.setRegularGridPosition(params.min_sampling_area, params.max_sampling_area,
+                                          params.walker_offset + walker.index, total);
         } else {
             walker.setRandomInitialPosition(params.min_sampling_area, params.max_sampling_area);
         }

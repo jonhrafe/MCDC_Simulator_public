@@ -271,6 +271,25 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
         warning(" Flag: 'compute_volume' ignored, no voxel."  ,cout);
     }
 
+    // ini_walkers_pos delta places the walkers at the <delta> point; without it the walkers would
+    // silently start uniform in the voxel.
+    if(params.ini_walker_flag.compare("delta") == 0 && params.ini_delta_pos.size() == 0){
+        error(" ini_walkers_pos delta needs a <delta> block with the starting point (x y z).",cout);
+        std::exit(EXIT_FAILURE);
+    }
+    // <delta> and ini_walkers_file fix the start positions; intra/extra placement would be ignored.
+    if((params.ini_delta_pos.size() > 0 || params.ini_walkers_file.size() > 2)
+        && (params.ini_walker_flag.compare("intra") == 0 || params.ini_walker_flag.compare("extra") == 0)){
+        error(" ini_walkers_pos " + params.ini_walker_flag + " cannot be combined with <delta> or ini_walkers_file.",cout);
+        std::exit(EXIT_FAILURE);
+    }
+
+    // Only one fixed-start source: a positions file, a <delta> point or a regular grid.
+    if(int(params.ini_delta_pos.size() > 0) + int(params.ini_walkers_file.size() > 2) + int(params.regular_sampling) > 1){
+        error(" Only one of <delta>, ini_walkers_file and <regular_sampling> can set the start positions.",cout);
+        std::exit(EXIT_FAILURE);
+    }
+
     if(params.regular_sampling == true and params.ini_walker_flag.compare("") != 0){
         error(" Regular sampling and custom initial walker position cannot be used at the same time.",cout);
         std::exit(EXIT_FAILURE);
@@ -759,7 +778,8 @@ bool SimErrno::checkInitWalkerFile(Parameters &params)
     while(in >> temp){
         count++;
         if(params.voxels_list.size()>0){
-            if(temp <= params.voxels_list[0].first[limit_index] || temp >= params.voxels_list[0].second[limit_index]){
+            const double pos_mm = temp*(params.use_mm_ms ? 1.0 : m_to_mm);   // file in metres in an SI .conf
+            if(pos_mm <= params.voxels_list[0].first[limit_index] || pos_mm >= params.voxels_list[0].second[limit_index]){
                 error( "At least one walker initial position is not inside the defined voxel. "+ to_string(temp) ,cout);
                 std::exit(EXIT_FAILURE);
             }

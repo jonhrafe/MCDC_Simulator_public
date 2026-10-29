@@ -211,28 +211,23 @@ void Walker::setRegularGridPosition(const Eigen::Vector3d &min, const Eigen::Vec
 {
     steps_count = 0;
 
-    // Calculate grid dimensions based on total number of walkers
-    // We'll try to make it as cubic as possible
-    unsigned int grid_size = std::ceil(std::cbrt(total_walkers));
-    unsigned int grid_size_squared = grid_size * grid_size;
-    
-    // Calculate grid indices
-    unsigned int z = index % grid_size;
-    unsigned int y = (index / grid_size) % grid_size;
-    unsigned int x = index / grid_size_squared;
-    
-    // Calculate position with small offset to avoid edges
-    double offset = 0.01; // 1% offset from edges
-    double dx = (max[0] - min[0]) * (1 - 2*offset) / (grid_size - 1);
-    double dy = (max[1] - min[1]) * (1 - 2*offset) / (grid_size - 1);
-    double dz = (max[2] - min[2]) * (1 - 2*offset) / (grid_size - 1);
-    
-    pos_r[0] = min[0] + offset * (max[0] - min[0]) + x * dx;
-    pos_r[1] = min[1] + offset * (max[1] - min[1]) + y * dy;
-    pos_r[2] = min[2] + offset * (max[2] - min[2]) + z * dz;
+    // Regular grid of n^3 cells (n = ceil(cbrt(N))) over the sampling box; each walker sits at the
+    // centre of one cell. `index` is the walker's global index over all processes, so processes
+    // never share a cell. When N < n^3 the walkers are spread evenly over all cells (cell k =
+    // floor(index n^3 / N)) instead of filling the first layers only.
+    unsigned int n = std::max(1u, (unsigned int)std::ceil(std::cbrt(double(total_walkers)) - 1e-9));
+    unsigned long long cells = (unsigned long long)n*n*n;
+    unsigned long long k = (unsigned long long)index*cells/std::max(1u, total_walkers);
+
+    unsigned int z = (unsigned int)(k % n);
+    unsigned int y = (unsigned int)((k / n) % n);
+    unsigned int x = (unsigned int)(k / ((unsigned long long)n*n));
+
+    pos_r[0] = min[0] + (x + 0.5)*(max[0] - min[0])/n;
+    pos_r[1] = min[1] + (y + 0.5)*(max[1] - min[1])/n;
+    pos_r[2] = min[2] + (z + 0.5)*(max[2] - min[2])/n;
 
     last_pos_r = last_pos_v = pos_v = ini_pos = pos_r;
-    last_pos_r = last_pos_v = pos_r;
 }
 
 

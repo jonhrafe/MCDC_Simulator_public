@@ -75,6 +75,8 @@ simulator is launched from.
   All output and logging options (trajectories, `<log>` positions/propagator, phase-shift histogram,
   per-process signals, volume estimate), their file layout and units, a runnable example and common
   mistakes: see [`output_options.md`](output_options.md).
+  Where the walkers start (uniform, `<spawning_area>`, intra/extra, `<delta>`, positions file,
+  regular grid): see [`initialization_options.md`](initialization_options.md).
 - **`<voxel> … </voxel>`**: the simulation voxel, in **metres** (SI). Three numbers for the minimum
   corner (x_min, y_min, z_min), then three for the maximum corner (x_max, y_max, z_max).
 - **`num_process`** [int]: number of CPU threads to use.

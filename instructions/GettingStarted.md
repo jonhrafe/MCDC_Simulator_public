@@ -77,6 +77,8 @@ simulator is launched from.
   mistakes: see [`output_options.md`](output_options.md).
   Where the walkers start (uniform, `<spawning_area>`, intra/extra, `<delta>`, positions file,
   regular grid): see [`initialization_options.md`](initialization_options.md).
+  Obstacle lists, PLY lists, units (SI or `use_mm_ms`), boundary conditions, `max_sim_time`,
+  `verbatim`: see [`substrate_options.md`](substrate_options.md).
 - **`<voxel> … </voxel>`**: the simulation voxel, in **metres** (SI). Three numbers for the minimum
   corner (x_min, y_min, z_min), then three for the maximum corner (x_max, y_max, z_max).
 - **`num_process`** [int]: number of CPU threads to use.

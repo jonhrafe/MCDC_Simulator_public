@@ -1194,7 +1194,12 @@ void DynamicsSimulation::handleCollisions(Collision &colision, Collision &colisi
 
 void DynamicsSimulation::mapWalkerIntoVoxel(Eigen::Vector3d& bounced_step, Collision &colision,double barrier_thicknes)
 {
-    walker.setRealPosition(walker.pos_r + colision.t*bounced_step);
+    // Symmetric boundaries: the real (unfolded) position moves along the mirrored step, as in
+    // every other position update; without it the part of a step up to the wall went the wrong way.
+    if(params.periodic_boundaries)
+        walker.setRealPosition(walker.pos_r + colision.t*bounced_step);
+    else
+        walker.setRealPosition(walker.pos_r + colision.t*bounced_step.cwiseProduct(walker.boundary_mirror));
 
     Eigen::Vector3d voxel_pos = walker.pos_v + (colision.t)*bounced_step;
 

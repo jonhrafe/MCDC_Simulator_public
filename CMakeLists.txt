@@ -278,6 +278,15 @@ if(Python3_Interpreter_FOUND)
                 --bin $<TARGET_FILE:MC-DC_Simulator>)
     set_tests_properties(init_options PROPERTIES LABELS "validation" TIMEOUT 300)
 
+    # Substrate and run-control options: SI vs use_mm_ms equivalence (lists, PLY lists, positions
+    # file), ply / ply_file_list / ply_file_list_scale_permeability, periodic and symmetric
+    # boundaries, oriented_cylinders_list, max_sim_time, verbatim, coll_sphere_dist.
+    add_test(
+        NAME substrate_options
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_substrate_options.py"
+                --bin $<TARGET_FILE:MC-DC_Simulator>)
+    set_tests_properties(substrate_options PROPERTIES LABELS "validation" TIMEOUT 300)
+
     # GAMMA-distributed packings (seeded -> reproducible substrate): golden DWI for a gamma sphere
     # and a gamma cylinder packing. Guards the gamma generator + the SI unit homogenization
     # (beta/min_radius in metres).

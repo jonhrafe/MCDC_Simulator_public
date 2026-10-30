@@ -1,0 +1,7 @@
+# ply_file_list_scale_permeability: one mesh per line.
+# <ply>  <scale [m per file unit]>  <permeability [m/s]>
+# The meshes are unit spheres (radius 1 in file units): scale 5e-6 makes them r = 5 um.
+# Diffusivity and T2 inside come from the global diffusivity / t2_intra.
+instructions/meshes/three_spheres/sphere_a.ply 5e-06 0
+instructions/meshes/three_spheres/sphere_b.ply 5e-06 1e-5
+instructions/meshes/three_spheres/sphere_c.ply 5e-06 5e-5

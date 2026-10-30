@@ -226,6 +226,7 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         else if( str_dist(tmp,"coll_sphere_dist") <= 2 || str_dist(tmp,"colision_dist") <= 2 || str_dist(tmp,"sphere_size") <= 2)
         {
             in >> collision_sphere_distance;
+            SimErrno::warning("coll_sphere_dist has no effect (the collision search no longer uses a collision sphere); it is ignored.",cout);
         }
         else if( str_dist(tmp,"verbatim") <= 2 )
         {
@@ -262,7 +263,7 @@ void Parameters::readSchemeFile(std::string conf_file_path)
             in >> max_simulation_time;
 
             if(max_simulation_time<=0){
-                SimErrno::error("Max simulation time must be greater than 1 second. ",cout);
+                SimErrno::error("max_sim_time must be a positive number of seconds (wall-clock time). ",cout);
                 std::exit(EXIT_FAILURE);
             }
         }

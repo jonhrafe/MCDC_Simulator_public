@@ -620,8 +620,15 @@ bool SimErrno::checkCylindersListFile(Parameters &params)
 
             std::vector<std::string> jkr = split_(line,' ');
 
+            if(jkr.size() == 7){
+                error( "Cylinder list " + params.cylinders_files[i] + ": 7 columns (x1 y1 z1 x2 y2 z2 r, oriented cylinders) are not supported; "
+                       "every cylinder is along z. Use 'x y z r' or 'x y z r permeability T2' per line." ,cout);
+                in.close();
+                std::exit(EXIT_FAILURE);
+                return true;
+            }
             if(jkr.size() != 6 && jkr.size() != 4){
-                error( "Cylinder list file is not in the correct format." ,cout);
+                error( "Cylinder list file is not in the correct format: each line must be 'x y z r' or 'x y z r permeability T2'." ,cout);
                 in.close();
                 std::exit(EXIT_FAILURE);
                 return true;

@@ -14,6 +14,8 @@ read from the trajectory file (write_traj_file 1, <log><positions> 0 t; position
   M  intra / extra starts on a concave triangle mesh (a torus written by this test): every start agrees
      with a brute-force ray-parity inside test; a uniform start fills the mesh in proportion to its
      volume.
+  P  the docs example walkerPositionsSpheres.conf (positions file among three spheres with different T2):
+     the b = 0 intra / extra signals equal their exact values; also on the GPU in a GPU build.
   E  rejected configurations: ini_walkers_pos delta without <delta>; intra with <delta>; a file
      position outside the voxel.
 
@@ -195,6 +197,30 @@ def case_mesh(b, w):
     check(abs(frac - ref) < 4 * se, "M uniform: fraction of starts inside %.4f vs mesh volume fraction %.4f (4 SE %.4f)" % (frac, ref, 4 * se))
 
 
+
+def case_file_example(b, w):
+    """Runs docs/conf_file_examples/walkerPositionsSpheres.conf: 4 file rows (3 sphere centres with
+    T2 0.05/0.10/0.20 s, 1 point outside), N = 1001 -> 251/250/250/250 walkers per row. Impermeable
+    spheres, so the b = 0 intra and extra signals are known exactly. Also with gpu 1 in a GPU build."""
+    print("P: positions file among spheres (docs example), CPU and GPU")
+    import math
+    want_i = 251 * math.exp(-0.045 / 0.05) + 250 * math.exp(-0.045 / 0.10) + 250 * math.exp(-0.045 / 0.20)
+    ex = open(os.path.join(REPO, "docs", "conf_file_examples", "walkerPositionsSpheres.conf")).read()
+    for dev in ("CPU", "GPU"):
+        name = "p_" + dev.lower()
+        body = ex.replace("exp_prefix instructions/demos/output/walker_positions_spheres", "exp_prefix @PREFIX@")
+        if dev == "GPU": body = body.replace("# gpu 1", "gpu 1")
+        prefix = os.path.join(w, name)
+        c = prefix + ".conf"; open(c, "w").write(body.replace("@PREFIX@", prefix))
+        r = subprocess.run([b, "--conf", c], cwd=REPO, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        if dev == "GPU" and "GPU path" not in r.stdout:
+            print("  [SKIP] GPU: not a GPU build"); continue
+        if r.returncode != 0 or "[ERROR]" in r.stdout:
+            sys.stdout.write(r.stdout[-1500:]); check(False, "P %s: example run failed" % dev); continue
+        si = float(np.loadtxt(prefix + "_DWI_intra.txt")[0]); se = float(np.loadtxt(prefix + "_DWI_extra.txt")[0])
+        check(abs(si - want_i) < 1e-3 * want_i and abs(se - 250) < 1e-3,
+              "P %s: b=0 intra %.3f (expected %.3f), extra %.3f (expected 250)" % (dev, si, want_i, se))
+
 def case_errors(b, w):
     print("E: rejected configurations")
     _, failed, out = run(b, w, "e1", conf("@PREFIX@", 10, 1, "ini_walkers_pos delta"), expect_fail=True)
@@ -218,7 +244,7 @@ def main():
     a = ap.parse_args()
     work = tempfile.mkdtemp(prefix="mcdc_init_")
     try:
-        for c in (case_delta, case_file, case_regular, case_spawn, case_mesh, case_errors):
+        for c in (case_delta, case_file, case_file_example, case_regular, case_spawn, case_mesh, case_errors):
             c(os.path.abspath(a.bin), work)
     finally:
         if a.keep: print("outputs kept in " + work)

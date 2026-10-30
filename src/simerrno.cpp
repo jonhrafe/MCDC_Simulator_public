@@ -575,10 +575,12 @@ bool SimErrno::checkPLYFiles(Parameters &params)
 //* Auxiliare method to split words in a line using the spaces*//
 template<typename Out>
 void split__(const std::string &s, char delim, Out result) {
-    std::stringstream ss;
-    ss.str(s);
+    // Columns are separated by any run of whitespace (spaces, tabs, a trailing \r): aligned
+    // columns or a file saved on Windows must not count as extra, empty columns.
+    (void)delim;
+    std::istringstream ss(s);
     std::string item;
-    while (std::getline(ss, item, delim)) {
+    while (ss >> item) {
         *(result++) = item;
     }
 }

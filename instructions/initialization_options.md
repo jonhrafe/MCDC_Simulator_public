@@ -84,6 +84,11 @@ metres; a position outside the voxel is rejected.
 Example: [`docs/conf_file_examples/walkerPositionsFile.conf`](../docs/conf_file_examples/walkerPositionsFile.conf)
 with [`walker_positions.txt`](../docs/conf_file_examples/walker_positions.txt).
 
+A second example, [`walkerPositionsSpheres.conf`](../docs/conf_file_examples/walkerPositionsSpheres.conf)
+with [`walker_positions_spheres.txt`](../docs/conf_file_examples/walker_positions_spheres.txt), puts
+the walkers at the centres of three impermeable spheres with different T2 and at one point outside;
+its comments give the exact b = 0 intra and extra signals to expect (checked by the test).
+
 ## `<regular_sampling>`
 
 A flag (no value). Places the walkers on a regular grid instead of at random: the voxel (or the

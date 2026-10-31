@@ -229,6 +229,16 @@ if(Python3_Interpreter_FOUND)
                 --scheme "${CMAKE_SOURCE_DIR}/tests/accuracy/PGSE_sample_scheme.scheme")
     set_tests_properties(permeability_equilibrium_mesh PROPERTIES LABELS "permeability" TIMEOUT 1500)
 
+    # The same equilibrium with steps comparable to the obstacle (r = 1 um, steps 0.77 / 0.39 um):
+    # a walker that crossed the membrane can meet it again in the same step and must again cross
+    # or reflect. Sphere, z-cylinder and PLY sphere; the inside fraction must stay at the volume
+    # fraction at 10 and 50 ms.
+    add_test(
+        NAME permeability_coarse_step
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_permeability_coarse_step.py"
+                --bin $<TARGET_FILE:MC-DC_Simulator>)
+    set_tests_properties(permeability_coarse_step PROPERTIES LABELS "validation;permeability" TIMEOUT 900)
+
     # Population-history features (CPU, self-contained): the four-population dynamical-history split
     # (`crossed_filter` partitions the walkers; crossed channels empty without permeability)
     # and explicit radii injection (`radii_file`: originals == injected list, replicas flagged).

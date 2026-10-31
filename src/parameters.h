@@ -28,6 +28,8 @@ public:
     double diffusivity;                             /*!< D, diffusivity constant                                                    */
     double diff_intra;                              /*!< Intra diffusivity constant                                                 */
     double diff_extra;                              /*!< Extra diffusivity constant                                                 */
+    bool diff_intra_given = false;                  /*!< d_intra was set explicitly (then `diffusivity` does not overwrite it)     */
+    bool diff_extra_given = false;                  /*!< d_extra was set explicitly (then `diffusivity` does not overwrite it)     */
     double sim_duration;                            /*!< simulation total time                                                      */
     bool write_traj;                                /*!< flag, write a traj file or not, binary format only                         */
     bool write_txt;                                 /*!< flag, writes DWI output signals in .txt if True                            */

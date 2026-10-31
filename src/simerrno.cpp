@@ -58,6 +58,11 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
                 "If the .conf is in standard units, duration must be in seconds; if it is already in ms, set use_mm_ms 1.", cout);
     }
 
+    if(params.t2_intra <= 0.0 || params.t2_extra <= 0.0){
+        error( "t2_intra and t2_extra must be positive (leave them out for no T2 decay).",cout);
+        std::exit(EXIT_FAILURE);
+    }
+
     if(params.sim_duration <= 0.0){
         error( " Simulation duration wrongly initialized.",cout);
         std::exit(EXIT_FAILURE);
@@ -75,15 +80,12 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
         info( " Particles dynamic step computation enabled",cout);
     }
 
-    if(params.diff_extra <=0 || params.diff_extra <=0){
-        if(params.diffusivity <= 0.0){
-            error( " Intra and extra diffusivities wrongly initialized.",cout);
-            std::exit(EXIT_FAILURE);
-            return true;
-        }
-        params.diff_intra = params.diffusivity;
-        params.diff_extra = params.diffusivity;
-        params.update_step = false;
+    // `diffusivity` fills whichever of d_intra / d_extra was not given, so a value <= 0 here was
+    // written explicitly.
+    if(params.diff_intra <= 0.0 || params.diff_extra <= 0.0){
+        error( " d_intra and d_extra must be positive.",cout);
+        std::exit(EXIT_FAILURE);
+        return true;
     }
 
     if (params.num_proc == 0){
@@ -659,7 +661,7 @@ bool SimErrno::checkCylindersListFile(Parameters &params)
                     return true;
                 }
                 if ((t2) < 0.0){
-                    error( "T2 value incorrectly assigned ",cout);
+                    error( "T2 must be >= 0 in the list (seconds; mm/ms files: ms). 0 means: use t2_intra.",cout);
                     in.close();
                     std::exit(EXIT_FAILURE);
                     return true;
@@ -748,7 +750,7 @@ bool SimErrno::checkSphereListFile(Parameters &params)
                 return true;
             }
             if ((t2) < 0.0){
-                error( "T2 value incorrectly assigned ",cout);
+                error( "T2 must be >= 0 in the list (seconds; mm/ms files: ms). 0 means: use t2_intra.",cout);
                 in.close();
                 std::exit(EXIT_FAILURE);
                 return true;
@@ -1017,14 +1019,14 @@ void SimErrno::printSimulatinInfo(Parameters &params, ostream &out,bool color)
         infoMenu(" Extra diffusivity:      ------",  to_string(params.diff_extra*1e6)+"e-9 m^2/s",out, color,35);
     }
 
-    if( params.t2_intra < 10000){
-        infoMenu(" T2 intra:              ------",  to_string(params.t2_intra) + " s",out, color,35);
+    if( params.t2_intra < 1e9){
+        infoMenu(" T2 intra:              ------",  to_string(params.t2_intra) + " ms",out, color,35);
     }
     else{
         infoMenu(" T2 intra:              ------",   "inf s",out, color,35);
     }
-    if(params.t2_extra < 10000 ){
-        infoMenu(" T2 extra:              ------",  to_string(params.t2_extra) + " s",out, color,35);
+    if(params.t2_extra < 1e9 ){
+        infoMenu(" T2 extra:              ------",  to_string(params.t2_extra) + " ms",out, color,35);
     }
     else{
         infoMenu(" T2 extra:              ------",   "inf s",out, color,35);

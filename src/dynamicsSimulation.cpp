@@ -143,10 +143,6 @@ void DynamicsSimulation::initObstacleInformation(){
     //Cylinders list of index initialization
     for(unsigned i= 0 ; i < (*cylinders_list).size();i++){
         cylinders_deque.push_back(i);
-
-        if(params.obstacle_permeability > 0.0){
-            (*cylinders_list)[i].percolation = params.obstacle_permeability;
-        }
     }
 
     // walker.cylinders_collision_sphere.collision_list        = &cylinders_deque;
@@ -156,10 +152,6 @@ void DynamicsSimulation::initObstacleInformation(){
     //Spheres list of index initialization
     for(unsigned i= 0 ; i < spheres_list->size();i++){
         spheres_deque.push_back(i);
-
-        if(params.obstacle_permeability > 0.0){
-            (*spheres_list)[i].percolation = params.obstacle_permeability;
-        }
     }
 
     // walker.spheres_collision_sphere .collision_list        = &spheres_deque;
@@ -171,10 +163,6 @@ void DynamicsSimulation::initObstacleInformation(){
         std::vector<unsigned> jkr;
         for(unsigned t =0; t < (*plyObstacles_list)[i].face_number;t++){
             jkr.push_back(t);
-        }
-
-        if(params.obstacle_permeability > 0.0){
-            (*plyObstacles_list)[i].percolation = params.obstacle_permeability;
         }
 
         ply_deque.push_back(jkr);

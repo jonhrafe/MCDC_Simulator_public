@@ -725,7 +725,9 @@ void ParallelMCSimulation::specialInitializations()
     for (auto& cyl: cylinders_list){
         cyl.id = unique_index++;
 
-        if(cyl.T2 > 1e5){
+        // T2 0 or above 1e5 ms (no T2 column: 1e50; written lists: the global t2_intra) = not
+        // given -> the global t2_intra.
+        if(cyl.T2 <= 0 || cyl.T2 > 1e5){
             cyl.T2= params.t2_intra;
         }
         if(cyl.d_intra<0)
@@ -755,7 +757,9 @@ void ParallelMCSimulation::specialInitializations()
 
     for (auto& sph: spheres_list){
         sph.id = unique_index++;
-        if(sph.T2 > 1e5){
+        // T2 0 or above 1e5 ms (no T2 column: 1e50; written lists: the global t2_intra) = not
+        // given -> the global t2_intra.
+        if(sph.T2 <= 0 || sph.T2 > 1e5){
             sph.T2= params.t2_intra;
         }
         if(sph.d_intra<0)
@@ -849,20 +853,17 @@ void ParallelMCSimulation::specialInitializations()
     if(params.bounding_box) {
         if(cylinders_list.size() > 0) {
             SimErrno::error("Bounding box initialization is not supported when cylinders are present. Please remove cylinders or disable bounding box initialization.", cout);
-            assert(false);
-            return;
+            std::exit(EXIT_FAILURE);   // reject in release builds too (assert() is a no-op under -DNDEBUG)
         }
 
         if(params.gamma_sph_packing || params.gamma_cyl_packing){
             SimErrno::error("Bounding box initialization is not supported when gamma distributions are present. Please remove gamma distributions or disable bounding box initialization.", cout);
-            assert(false);
-            return;
+            std::exit(EXIT_FAILURE);   // reject in release builds too (assert() is a no-op under -DNDEBUG)
         }
 
         if(spheres_list.size() == 0 && plyObstacles_list.size() == 0){
             SimErrno::error("No obstacles present. Please add obstacles or disable bounding box initialization.", cout);
-            assert(false);
-            return;
+            std::exit(EXIT_FAILURE);   // reject in release builds too (assert() is a no-op under -DNDEBUG)
         }
 
 

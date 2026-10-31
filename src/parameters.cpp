@@ -21,6 +21,7 @@ static inline bool is_comment_token(const std::string& tok){
 Parameters::Parameters()
 {
     //Dummy initial values;
+    diffusivity = diff_intra = diff_extra = 0.0;   // 0 = not given (checked in SimErrno::checkSimulationParameters)
     use_mm_ms           = false;   // default: .conf is in standard units (m, s, T); scale silently to mm/ms internally
     seed                = -1;
     save_phase_shift    = false;
@@ -80,7 +81,9 @@ void Parameters::readSchemeFile(std::string conf_file_path)
     }
 
     string tmp="";
+    string last_option="";
     while((in >> tmp) && (str_dist(tmp,"<END>") >= 2) ){
+        last_option = tmp;
 
         // '#' starts a comment: ignore the rest of the line (works for whole-line
         // comments and for trailing comments after a directive).
@@ -105,13 +108,17 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         }
         else if(str_dist(tmp,"diffusivity") <= 1){
             in >> diffusivity;
-            diff_intra = diff_extra = diffusivity;
+            // Default for both compartments; an explicit d_intra / d_extra wins whatever the order.
+            if(!diff_intra_given) diff_intra = diffusivity;
+            if(!diff_extra_given) diff_extra = diffusivity;
         }
         else if ((str_dist(tmp,"diff_intra")<=0) || (str_dist(tmp,"dintra")<=0) || (str_dist(tmp,"d_intra")<=0)){
             in >> diff_intra;
+            diff_intra_given = true;
         }
         else if ( (str_dist(tmp,"diff_extra")<=0) || (str_dist(tmp,"dextra")<=0)|| (str_dist(tmp,"d_extra")<=0)){
             in >> diff_extra;
+            diff_extra_given = true;
         }
         else if ( (str_dist(tmp,"t2_intra")<=0) || (str_dist(tmp,"t2intra")<=0)){
             in >> t2_intra;
@@ -294,6 +301,13 @@ void Parameters::readSchemeFile(std::string conf_file_path)
             if( str_dist(tmp.substr(0,2),"</") > 0 )
                 SimErrno::warning("Parameter: " + tmp + " Unknown",cout);
         }
+    }
+    // A value that could not be read (missing, or not a number) puts the stream in a failed state
+    // and ends the loop above: the rest of the .conf would be silently ignored.
+    if(in.fail() && !in.eof()){
+        SimErrno::error("Could not read the value of '" + last_option + "' in " + conf_file_path +
+                        " (missing or not a number). Every option except the presence flags takes a value.", cout);
+        std::exit(EXIT_FAILURE);
     }
 
     // By default the .conf is in standard units (m, s, T); scale silently to the

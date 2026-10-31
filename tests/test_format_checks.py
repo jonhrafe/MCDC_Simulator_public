@@ -5,9 +5,11 @@ Negative tests for the configuration-format fail-checks.
 Feeds deliberately malformed .conf files to the simulator and asserts each one is
 REJECTED (non-zero exit AND an "[ERROR]"/assertion message), while valid/benign
 variants are ACCEPTED (exit 0). This guards the input validators (tag balance,
-parameter ranges, PLY-list column counts, PLY property-vector alignment) and the
-P0.4 fix that makes validation enforce in release builds (errors used to be
-emitted via assert(), a no-op under -DNDEBUG, so bad configs slipped through).
+parameter ranges, PLY-list column counts, PLY property-vector alignment, and the
+<bounding_box> obstacle-type restriction -- auto-voxel is only valid with
+spheres/PLY, so cylinders or gamma packings must be rejected) and the P0.4 fix
+that makes validation enforce in release builds (errors used to be emitted via
+assert(), a no-op under -DNDEBUG, so bad configs slipped through).
 
 Also: options whose value is missing or not a number (the parse used to stop silently), the
 diffusivity checks (none given, explicit d_intra 0, t2_intra 0) and the d_intra / d_extra precedence
@@ -28,6 +30,7 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BIN = os.path.join(REPO, "MC-DC_Simulator")
 MESH = "tests/accuracy/meshes/unitMesh.ply"
 SCHEME = "tests/accuracy/PGSE_sample_scheme.scheme"
+CYL = "tests/accuracy/single_cylinder.list"
 
 # A minimal VALID config (relative paths resolve from the repo root / workdir).
 BASE = """N 4
@@ -45,6 +48,42 @@ ply_scale 1
  1.1e-6  1.1e-6  1.1e-6
 </voxels>
 ini_walkers_pos intra
+num_process 1
+<END>
+"""
+
+# <bounding_box> auto-derives the voxel from obstacle extents, but is only
+# supported for spheres / PLY meshes -- it is REJECTED (hard error) when CYLINDERS
+# or GAMMA packings are present. These two configs must each be rejected.
+BBOX_CYL = """N 4
+T 4
+duration 0.05
+diffusivity 0.6e-9
+exp_prefix {prefix}
+scheme_file {scheme}
+<obstacle>
+cylinders_list {cyl}
+</obstacle>
+<bounding_box>
+num_process 1
+<END>
+"""
+
+BBOX_GAMMA = """N 4
+T 4
+duration 0.05
+diffusivity 0.6e-9
+exp_prefix {prefix}
+scheme_file {scheme}
+<obstacle>
+<sphere_gamma_packing>
+alpha 1.5
+beta 0.5e-6
+icvf 0.40
+num_spheres 20
+</sphere_gamma_packing>
+</obstacle>
+<bounding_box>
 num_process 1
 <END>
 """
@@ -108,6 +147,10 @@ def main():
             ("ply_file_list missing scale",
                 base.replace(obstacle_block("ply " + MESH + "\nply_scale 1"),
                              obstacle_block("ply_file_list " + fl1)), True),
+            ("bounding_box + cylinder",
+                BBOX_CYL.format(prefix=os.path.join(work, "o"), scheme=SCHEME, cyl=CYL), True),
+            ("bounding_box + gamma packing",
+                BBOX_GAMMA.format(prefix=os.path.join(work, "o"), scheme=SCHEME), True),
             # values: a missing or non-numeric value used to end the parse silently (the rest of
             # the .conf, voxel included, was ignored and the placement loop never returned)
             ("option without a value",     base.replace("<obstacle>", "deportation\n<obstacle>"), True),

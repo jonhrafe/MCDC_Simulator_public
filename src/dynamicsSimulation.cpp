@@ -504,11 +504,11 @@ void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos,int &cyl
     if(cylinders_list->size() <=0 and plyObstacles_list->size() <= 0 and spheres_list->size() <=0){
         SimErrno::error("Cannot initialize intra-axonal walkers within the given substrate.",cout);
         SimErrno::error("There's no defined intra-axonal compartment (missing obstacles?)",cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);   // assert() is a no-op in release builds
     }
     if(voxels_list.size()<=0){
         SimErrno::error("Cannot initialize intra-cellular walkers within the given substrate, no voxel.",cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
     }
 
     unsigned count = 0;
@@ -516,8 +516,8 @@ void DynamicsSimulation::getAnIntraCellularPosition(Vector3d &intra_pos,int &cyl
 
         if(count > 100000){
             SimErrno::error("Cannot initialize intra-axonal walkers within the given substrate",cout);
-            SimErrno::error("Max. number of tries to find an intra-celular compartment reached",cout);
-            assert(0);
+            SimErrno::error("Max. number of tries to find an intra-celular compartment reached (does the spawning area overlap the obstacles?)",cout);
+            std::exit(EXIT_FAILURE);   // assert() is a no-op in release builds: the loop would never end
         }
 
         double x = rng.uniform();
@@ -546,7 +546,7 @@ void DynamicsSimulation::getAnExtraCellularPosition(Vector3d &extra_pos)
     int dummy_a,dummy_b,dummy_c;
     if(voxels_list.size()<=0){
         SimErrno::error("Cannot initialize extra-cellular walkers within the given substrate, no voxel.",cout);
-        assert(0);
+        std::exit(EXIT_FAILURE);
     }
 
     unsigned count = 0;
@@ -555,8 +555,8 @@ void DynamicsSimulation::getAnExtraCellularPosition(Vector3d &extra_pos)
 
         if(count > 10000){
             SimErrno::error("Cannot initialize extra-cellular walkers within the given substrate",cout);
-            SimErrno::error("Max. number of tries to find an extra-celular compartment reached",cout);
-            assert(0);
+            SimErrno::error("Max. number of tries to find an extra-celular compartment reached (is the spawning area entirely inside the obstacles?)",cout);
+            std::exit(EXIT_FAILURE);   // assert() is a no-op in release builds: the loop would never end
         }
 
         double x = rng.uniform();

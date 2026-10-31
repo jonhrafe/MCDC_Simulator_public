@@ -65,11 +65,18 @@ simulator is launched from.
 - **`T`** [int]: number of time steps over the experiment duration.
 - **`duration`** [float]: total diffusion time in **seconds** (SI) — at least as long as the longest
   echo time (TE) in the scheme.
-- **`diffusivity`** [float]: diffusion coefficient of the medium in **m²/s** (SI).
+- **`diffusivity`** [float]: diffusion coefficient of the medium in **m²/s** (SI). `d_intra` /
+  `d_extra` set the two compartments separately and win over `diffusivity` whatever the order in
+  the file; `diffusivity` fills whichever of the two was not given. At least one of them is
+  required, and all must be positive. `t2_intra` / `t2_extra` (seconds) are optional and must be
+  positive when given.
 - **`exp_prefix`** [string]: output path and filename prefix for the experiment.
 - **`scheme_file`** [path]: the acquisition protocol (PGSE or general waveform).
 - **`write_txt`** [0,1]: write text output (reduced numerical precision).
 - **`write_bin`** [0,1]: write binary output (full float32 precision, **recommended**).
+
+Every option except the flags (words written alone, such as `separate_signals` or `verbatim`) takes
+a value. A missing or non-numeric value stops the run with an error naming the option.
 - **`write_traj_file`** [0,1]: write the per-particle trajectories (**warning: very large files**),
   in text or binary depending on the flags above.
   All output and logging options (trajectories, `<log>` positions/propagator, phase-shift histogram,

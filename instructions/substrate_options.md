@@ -73,8 +73,10 @@ There are four ways to give meshes, all inside the `<obstacle>` block:
 In a list file, lines starting with `#` are comments. Scale is in metres per file unit (mm per file
 unit with `use_mm_ms 1`), permeability in m/s (0 = impermeable).
 
-A global `obstacle_permeability` greater than 0 **overrides** every per-obstacle permeability, from a
-sphere/cylinder list or a PLY list alike.
+Precedence: a per-obstacle permeability greater than 0 (sphere/cylinder list, PLY list) is used
+as given; an obstacle whose list value is 0 takes the global `obstacle_permeability` (0 if it is not
+set). So `obstacle_permeability` is the default for the obstacles without their own value, not an
+override.
 
 *Checked:* `ply + ply_scale`, `ply_file_list` and `ply_file_list_scale_permeability` with permeability
 0 give identical signals for the same mesh; a per-mesh permeability of 3e-5 m/s gives the identical
@@ -102,6 +104,13 @@ matches exp(-b D) within Monte Carlo noise for both (123 measurements, max |z| <
 This check found a bug, now fixed: with `symmetric`, the part of a step up to the face moved the real
 position the wrong way after an odd number of reflections, which lowered the signal (up to 0.06 below
 exp(-b D) in this test).
+
+## `<bounding_box>`
+
+A flag (no value). Sets the voxel to the bounding box of the obstacles (spheres and PLY meshes,
+including all their vertices) and, unless a `<spawning_area>` is given, the sampling area to the
+same box. A `<voxels>` block in the `.conf` is replaced. Rejected with cylinders, with gamma
+packings, and when there is no sphere or mesh at all.
 
 ## `max_sim_time`
 
@@ -138,8 +147,14 @@ No longer has an effect; it is accepted with a warning so that old `.conf` files
   first line is `0.001` (the coordinates are in µm and the scale is mm per µm); change it to `1e-6`
   before using it as a `spheres_list` / `cylinders_list` in an SI `.conf`, or use it with
   `use_mm_ms 1` (then also give T2 in ms).
-- **Setting `obstacle_permeability` and per-obstacle permeabilities.** The global value replaces
-  all of them; leave it out (or 0) to keep the per-obstacle values.
+- **Expecting `obstacle_permeability` to override the list values.** It only fills in the obstacles
+  whose list permeability is 0; a per-obstacle value greater than 0 is kept. To make a listed
+  obstacle impermeable while the global value is set, there is no way around editing the list.
+- **A T2 of 0 in a sphere/cylinder list.** It means "no own T2": the obstacle takes `t2_intra`
+  (as does a list without a T2 column). A negative T2 is rejected.
+- **`deportation` and `discard_stucks` written alone, like the flags.** They take a value (`0`/`1`).
+  A missing or non-numeric value after any option stops the run with an error naming
+  the option (it used to end the parse silently, leaving the rest of the `.conf` unread).
 - **T2 in a list file in ms with an SI `.conf`.** T2 in a list is in seconds like every other time.
 - **A 7-column cylinder list (two points per cylinder).** Rejected: cylinders are along z.
 - **Dividing a `max_sim_time` signal by N.** Divide by the number of simulated walkers reported in

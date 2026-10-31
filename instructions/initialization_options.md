@@ -44,7 +44,10 @@ The walkers still diffuse in the whole voxel; only the start is restricted.
 
 Starts every walker inside an obstacle (`intra`) or outside all obstacles (`extra`), uniformly within
 that compartment (and within the `<spawning_area>` if given). A random position is drawn and redrawn
-until it falls in the requested compartment; the rejected draws are not counted as walkers.
+until it falls in the requested compartment; the rejected draws are not counted as walkers. If no
+position is found after 100000 draws (`intra`) or 10000 (`extra`) the run stops with an error: the
+sampling area does not reach the requested compartment (or reaches very little of it; make the
+`<spawning_area>` fit the obstacles).
 
 - For spheres and cylinders the inside test is exact.
 - For PLY meshes the inside test counts how many times a ray from the point crosses the mesh
@@ -139,5 +142,9 @@ There is one `_<p>.traj` file per process.
   voxel) or in the wrong place.
 - **Expecting the `<spawning_area>` to confine the walkers.** It only sets where they start; they then
   diffuse in the whole voxel.
+- **A `<spawning_area>` (or voxel) that misses the obstacles with `ini_walkers_pos intra`, or lies
+  entirely inside them with `extra`.** The run stops with "Max. number of tries to find an
+  intra-celular / extra-celular compartment reached" (earlier release builds looped forever
+  printing it).
 - **Reading `compute_volume` with `intra` / `extra` starts.** The ICVF estimate is meaningful only
   with a uniform start (see [output_options.md](output_options.md)).

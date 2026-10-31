@@ -23,9 +23,13 @@ __pycache__/
 mcdc/_bin/*
 !mcdc/_bin/.gitkeep
 
-# Dev-only (kept locally, excluded from the release): test suite + the legacy Makefile.
-# A clean clone has no tests/, so the CMake ctest block is guarded by if(EXISTS tests/).
-/tests/
+# Test suite: tracked (tests/*.py, tests/accuracy with its golden references). Only the
+# outputs the tests write and the dev benchmark tree (large outputs, machine-specific paths)
+# stay local.
+/tests/accuracy/output/
+/tests/output/
+/tests/benchmark/
+# Legacy Makefile (dev only)
 /src/Makefile
 # Generated API docs (regenerate from Doxyfile)
 /docs/html/

@@ -97,9 +97,9 @@ endif()
 set_target_properties(MC-DC_Simulator dataSynth PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")
 
-# --- Tests (development tree only) ------------------------------------------
-# The test suite under tests/ ships with the development sources and is excluded
-# from release clones. When it is present it is wired up for CTest:
+# --- Tests -------------------------------------------------------------------
+# The test suite under tests/ (Python scripts + tests/accuracy references) is part of the
+# repository and is wired up for CTest:
 #   ctest --test-dir build --output-on-failure
 if(EXISTS "${CMAKE_SOURCE_DIR}/tests")
 enable_testing()

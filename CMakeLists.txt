@@ -317,6 +317,41 @@ if(Python3_Interpreter_FOUND)
                 --golden-dir "${CMAKE_SOURCE_DIR}/tests/accuracy/golden"
                 --workdir "${CMAKE_SOURCE_DIR}")
     set_tests_properties(accuracy_golden_gamma_cylinder PROPERTIES LABELS "accuracy" TIMEOUT 600)
+    # Analytic validation tier (tests/validation): converged-N runs against analytical oracles
+    # (free exp(-bD), van Gelderen / Neuman GPA, Karger exchange, T2 closed form, packings, a
+    # real cell mesh, diffusion-time dependence, the bounding box). Part of the default suite.
+    # Standalone scripts (numpy only); --gpu 0 is the CPU path. Same list as the GPU line.
+    foreach(vcase bounding_box cross_representation cylinder_vangelderen free_exp karger_exchange
+                  mesh_cell packing_exchange packing_restricted sphere_neuman t2_decay time_dependence)
+        add_test(
+            NAME validation_${vcase}
+            COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/validation/test_${vcase}.py"
+                    --bin $<TARGET_FILE:MC-DC_Simulator> --gpu 0
+            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+        set_tests_properties(validation_${vcase} PROPERTIES LABELS "validation_analytic;tier3_analytic" TIMEOUT 1200)
+    endforeach()
+
+    # Gamma packing generator: achieved ICVF, radius distribution, non-overlap, auto voxel, determinism.
+    add_test(
+        NAME validation_gamma_packing
+        COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/validation/test_gamma_packing.py"
+                --bin $<TARGET_FILE:MC-DC_Simulator>
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+    set_tests_properties(validation_gamma_packing PROPERTIES LABELS "validation_analytic;tier3_analytic" TIMEOUT 600)
+
+    # Cross-version tier: the current build must reproduce an untouched historical release
+    # (v1.5 / v2.0 built from this repo's own history by tests/tools/build_old_version.py and
+    # cached under tests/crossversion/old_binaries/) on the same experiment, within Monte Carlo
+    # noise. The first run compiles the old release (a few minutes); later runs reuse the cache.
+    foreach(xv v1.5 v2.0)
+        add_test(
+            NAME crossversion_free_diffusion_${xv}
+            COMMAND ${Python3_EXECUTABLE} "${CMAKE_SOURCE_DIR}/tests/test_crossversion.py"
+                    --bin $<TARGET_FILE:MC-DC_Simulator> --version ${xv} --case free_diffusion
+            WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+        set_tests_properties(crossversion_free_diffusion_${xv} PROPERTIES
+            LABELS "crossversion;tier4_crossversion" TIMEOUT 1800 RUN_SERIAL TRUE)
+    endforeach()
 else()
     message(WARNING "Python3 not found: skipping the rng_reproducibility and accuracy_golden tests.")
 endif()

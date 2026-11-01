@@ -29,6 +29,9 @@ mcdc/_bin/*
 /tests/accuracy/output/
 /tests/output/
 /tests/benchmark/
+# Old-release binaries built from this repo's history for the cross-version tests (machine-local)
+/tests/crossversion/old_binaries/
+/build_old/
 # Legacy Makefile (dev only)
 /src/Makefile
 # Generated API docs (regenerate from Doxyfile)

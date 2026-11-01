@@ -1,0 +1,55 @@
+# =============================================================================
+#  Cross-version validation -- registry of previous-version simulator binaries.
+#
+#  `[versions.<name>]` -> { path, argstyle, note, expected_commit, ... }. The
+#  Phase-C tools (gen_reference.py / compare_versions.py) read this to locate
+#  each historical build.
+#
+#  Parse with the python 3.11+ STDLIB `tomllib` (no third-party dep needed):
+#      import tomllib
+#      versions = tomllib.load(open("binaries.toml", "rb"))["versions"]
+#
+#  The old binaries are built locally from this repository's own history
+#  (tests/tools/build_old_version.py) and cached under a gitignored path. A
+#  runner that lacks a binary simply omits that version: the current build +
+#  the frozen `tests/accuracy/reference_xv/` signals + the analytic oracle are
+#  always enough to produce a report.
+#
+#  `argstyle` = how the binary takes its config:
+#     "conf"       -> `BIN --conf FILE`   (v1.5 and the current build)
+#     "positional" -> `BIN FILE`          (the `mcdc` pip wrapper)
+#
+#  DETERMINISM: a run is reproducible only for a fixed POSITIVE `seed` AND a
+#  fixed `num_process`; results are NOT bit-exact across versions (different
+#  RNGs). Cross-version comparison is statistical (per-shell means), never
+#  equality -- see tests/crossversion/README.md.
+# =============================================================================
+
+[versions.current]
+# The build in THIS repo. Resolved via mcdc_testkit.paths.binary_path()
+# ($MCDC_BIN override honoured); the path here is relative to the repo root.
+path            = "MC-DC_Simulator"
+argstyle        = "conf"
+in_git_repo     = true
+note            = "The current build (the manifest pins the git commit; the version string is secondary). Runs the SI config tests/accuracy/free_diffusion.conf directly."
+
+[versions."v1.5"]
+# Built LOCALLY from this repo's own git history -- no external clone needed.
+# tests/tools/build_old_version.py checks out this commit into a scratch
+# `git worktree`, compiles it with the historical compile.sh, and caches the
+# binary here. gen_reference.py builds it automatically the first time it is
+# needed (see build_old_version.ensure_binary) and reuses the cache after
+# that; `--force` rebuilds. Path is gitignored (machine-local artifact).
+path            = "tests/crossversion/old_binaries/v1.5/MC-DC_Simulator"
+argstyle        = "conf"
+in_git_repo     = true
+expected_commit = "fc3607cd0326d510a51eb137799b95f3cbe0b5fc"
+note            = "Commit fc3607c, VERSION_ID \"1.50.000\" -- found by bisecting src/constants.h (git log --all --follow -- src/constants.h). Uses --conf (verified: src/main.cpp at this commit accepts both --conf and positional). NEEDS A PER-VERSION CONFIG: scale_from_stu 1 (diffusivity/duration given in SI get auto-converted to the internal mm/ms units); voxel bounds are ALWAYS in mm regardless of scale_from_stu. See tests/crossversion/confs/v1.5/ and its README."
+
+[versions."v2.0"]
+# Same mechanism as v1.5 -- built locally from this repo's history.
+path            = "tests/crossversion/old_binaries/v2.0/MC-DC_Simulator"
+argstyle        = "conf"
+in_git_repo     = true
+expected_commit = "db833fbaa9462532c3c894fd8f609e8eba31063d"
+note            = "Commit db833fb, VERSION_ID \"2.0.3.beta\" -- same bisection as v1.5. Uses --conf (verified at this commit). Per-version config: tests/crossversion/confs/v2.0/ (same scale_from_stu / mm-voxel convention as v1.5 -- unit handling didn't change between these two releases)."

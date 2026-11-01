@@ -108,7 +108,8 @@ signal. It supports:
   sphere packing can be built from an **explicit list of radii** with population labels (see
   [Advanced options](instructions/GettingStarted.md#advanced-options)).
 - **Reproducible & tested:** a single seeded RNG makes runs reproducible, and a CTest suite guards
-  the physics against golden references.
+  the physics against golden references, closed-form signals (free, van Gelderen, Neuman, Kärger, T2)
+  and the v1.5 / v2.0 releases rebuilt from this repository's history (see [tests/README.md](tests/README.md)).
 
 ## Bugs and feature requests
 

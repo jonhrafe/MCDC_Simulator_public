@@ -58,12 +58,6 @@ int main(int argn, char* argv[])
         return -1;
     }
 
-    #ifdef __linux__
-
-        string command = "notify-send -i emblem-default \"MC/DC\" \"Simulation Finished\"";
-        system (command.c_str());
-    #endif
-
     return 0;
 
 }  

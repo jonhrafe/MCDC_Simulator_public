@@ -35,6 +35,7 @@ public:
     bool write_txt;                                 /*!< flag, writes DWI output signals in .txt if True                            */
     bool write_bin;                                 /*!< flag, writes the output signal in binary format (True by default)          */
     bool use_mm_ms;                                 /*!< flag, if true the .conf is already in internal units (mm, ms); default false = standard units (m, s, T) scaled silently */
+    bool gpu = false;                               /*!< 'gpu 1' selects the CUDA path of the GPU build; this CPU build rejects it with an error ('gpu 0' is accepted so .conf files of the GPU line run unchanged) */
     bool deprecated_scale_from_stu = false;         /*!< set true if the deprecated 'scale_from_stu' keyword was used; checked in SimErrno for a deprecation notice */
     bool save_phase_shift;                          /*!< flag, saves the phase shift distribution for all particles                 */
     long seed;                                      /*!< Initial seed for the random generator                                      */

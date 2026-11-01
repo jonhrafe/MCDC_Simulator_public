@@ -142,6 +142,9 @@ void Parameters::readSchemeFile(std::string conf_file_path)
         else if(str_dist(tmp,"write_traj_file") <= 2){
             in >> write_traj;
         }
+        else if(str_dist(tmp,"gpu") == 0){
+            in >> gpu;
+        }
         else if(str_dist(tmp,"use_mm_ms") <= 1){
             in >> use_mm_ms;
         }

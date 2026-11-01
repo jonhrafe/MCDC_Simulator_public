@@ -28,6 +28,12 @@ bool SimErrno::checkSimulationParameters(Parameters &params)
                 "Note: unlike the old flag, lengths (voxel, sampling area, radii, ...) are now scaled too.", cout);
     }
 
+    if(params.gpu){
+        error( "This binary was built WITHOUT CUDA; the 'gpu' flag is unavailable. Remove 'gpu 1' (or set 'gpu 0') to use the CPU path.",cout);
+        std::exit(EXIT_FAILURE);
+        return true;
+    }
+
     if(params.num_walkers > 1e9){
         error( " Maximum number of particles is fixed to 1e9.",cout);
         std::exit(EXIT_FAILURE);
